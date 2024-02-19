@@ -35,7 +35,7 @@
 
 #import "ORKFaceDetectionStepContentView.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ORKSkin.h>
@@ -142,7 +142,7 @@ static const NSInteger MaxRecalibrationViewPresentations = 4;
     _recordingLabel = [UILabel new];
     [_recordingLabel setFont:[self recordingLabelFont]];
     [_recordingLabel setTextColor:[UIColor whiteColor]];
-    [_recordingLabel setText:AAPLLocalizedString(@"AV_JOURNALING_STEP_RECORDING_LABEL_TEXT", nil)];
+    [_recordingLabel setText:ORKILocalizedString(@"AV_JOURNALING_STEP_RECORDING_LABEL_TEXT", nil)];
     [_recordingView addSubview:_recordingLabel];
     
     UIImage *videoImage = [UIImage systemImageNamed:@"video.fill"];
@@ -387,7 +387,7 @@ static const NSInteger MaxRecalibrationViewPresentations = 4;
         [UIView animateWithDuration:0.8
                          animations:^{
             
-            [_countDownLabel setText:[NSString stringWithFormat:AAPLLocalizedString(@"AV_JOURNALING_STEP_NEXT_QUESTION_MESSAGE", nil), [self formattedTimeFromSeconds:_countDownStartTime]]];
+            [_countDownLabel setText:[NSString stringWithFormat:ORKILocalizedString(@"AV_JOURNALING_STEP_NEXT_QUESTION_MESSAGE", nil), [self formattedTimeFromSeconds:_countDownStartTime]]];
             
             _countDownLabel.layer.opacity = 1.0;
             
@@ -407,7 +407,7 @@ static const NSInteger MaxRecalibrationViewPresentations = 4;
 }
 
 - (void)updateCountDownLabelWithTime:(NSString *)time {
-    [_countDownLabel setText:[NSString stringWithFormat:AAPLLocalizedString(@"AV_JOURNALING_STEP_NEXT_QUESTION_MESSAGE", nil), time]];
+    [_countDownLabel setText:[NSString stringWithFormat:ORKILocalizedString(@"AV_JOURNALING_STEP_NEXT_QUESTION_MESSAGE", nil), time]];
 }
 
 - (void)stopAndSubmitVideo {

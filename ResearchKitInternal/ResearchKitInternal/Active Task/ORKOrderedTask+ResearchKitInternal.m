@@ -33,8 +33,8 @@
 @import ResearchKit_Private;
 @import ResearchKitActiveTask;
 
-#import "AAPLdBHLToneAudiometryStep.h"
-#import "AAPLUtils.h"
+#import "ORKIdBHLToneAudiometryStep.h"
+#import "ORKIUtils.h"
 #import "ORKOrderedTask+ResearchKitInternal.h"
 #import "ResearchKitInternal.h"
 #import "ResearchKitInternal_Private.h"
@@ -86,18 +86,18 @@ NSString *const ORKdBHLToneAudiometryStep2Identifier = @"dBHL2.tone.audiometry";
 
     {
         ORKHeadphoneDetectStep *step = [[ORKHeadphoneDetectStep alloc] initWithIdentifier:ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier headphoneTypes:ORKHeadphoneTypesSupported];
-        step.title = AAPLLocalizedString(@"HEADPHONE_DETECT_TITLE", nil);
-        step.detailText = AAPLLocalizedString(@"HEADPHONE_DETECT_TEXT", nil);
+        step.title = ORKILocalizedString(@"HEADPHONE_DETECT_TITLE", nil);
+        step.detailText = ORKILocalizedString(@"HEADPHONE_DETECT_TEXT", nil);
         [steps addObject:step];
     }
     
     if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
         {
             ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction1StepIdentifier];
-            step.title = AAPLLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE", nil);
-            step.text = AAPLLocalizedString(@"dBHL_TONE_AUDIOMETRY_INTRO_TEXT", nil);
+            step.title = ORKILocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE", nil);
+            step.text = ORKILocalizedString(@"dBHL_TONE_AUDIOMETRY_INTRO_TEXT", nil);
             if (UIAccessibilityIsVoiceOverRunning()) {
-                step.text = [NSString stringWithFormat:AAPLLocalizedString(@"AX_dBHL_TONE_AUDIOMETRY_INTRO_TEXT", nil), step.text];
+                step.text = [NSString stringWithFormat:ORKILocalizedString(@"AX_dBHL_TONE_AUDIOMETRY_INTRO_TEXT", nil), step.text];
             }
             step.image = [UIImage imageNamed:@"audiometry" inBundle:ORKBundle() compatibleWithTraitCollection:nil];
             step.imageContentMode = UIViewContentModeCenter;
@@ -112,23 +112,23 @@ NSString *const ORKdBHLToneAudiometryStep2Identifier = @"dBHL2.tone.audiometry";
         ORKEnvironmentSPLMeterStep *step = [[ORKEnvironmentSPLMeterStep alloc] initWithIdentifier:@"splMeter"];
         step.requiredContiguousSamples = 5;
         step.thresholdValue = 45;
-        step.title = AAPLLocalizedString(@"ENVIRONMENTSPL_TITLE_2", nil);
-        step.text = AAPLLocalizedString(@"ENVIRONMENTSPL_INTRO_TEXT_2", nil);
+        step.title = ORKILocalizedString(@"ENVIRONMENTSPL_TITLE_2", nil);
+        step.text = ORKILocalizedString(@"ENVIRONMENTSPL_INTRO_TEXT_2", nil);
         
         ORKStepArrayAddStep(steps, step);
     }
     
     {
         ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction2StepIdentifier];
-        step.title = AAPLLocalizedString(@"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR", nil);
+        step.title = ORKILocalizedString(@"dBHL_TONE_AUDIOMETRY_STEP_TITLE_RIGHT_EAR", nil);
         step.shouldTintImages = YES;
         
         ORKStepArrayAddStep(steps, step);
     }
     
     {
-        AAPLdBHLToneAudiometryStep *step = [[AAPLdBHLToneAudiometryStep alloc] initWithIdentifier:ORKdBHLToneAudiometryStep1Identifier];
-        step.title = AAPLLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2", nil);
+        ORKIdBHLToneAudiometryStep *step = [[ORKIdBHLToneAudiometryStep alloc] initWithIdentifier:ORKdBHLToneAudiometryStep1Identifier];
+        step.title = ORKILocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2", nil);
         step.stepDuration = CGFLOAT_MAX;
         step.algorithm = 1;
         step.headphoneType = ORKHeadphoneTypeIdentifierAirPodsGen1;
@@ -138,13 +138,13 @@ NSString *const ORKdBHLToneAudiometryStep2Identifier = @"dBHL2.tone.audiometry";
     
     {
         ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction3StepIdentifier];
-        step.title = AAPLLocalizedString(@"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR", nil);
+        step.title = ORKILocalizedString(@"dBHL_TONE_AUDIOMETRY_STEP_TITLE_LEFT_EAR", nil);
         ORKStepArrayAddStep(steps, step);
     }
     
     {
-        AAPLdBHLToneAudiometryStep *step = [[AAPLdBHLToneAudiometryStep alloc] initWithIdentifier:ORKdBHLToneAudiometryStep2Identifier];
-        step.title = AAPLLocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2", nil);
+        ORKIdBHLToneAudiometryStep *step = [[ORKIdBHLToneAudiometryStep alloc] initWithIdentifier:ORKdBHLToneAudiometryStep2Identifier];
+        step.title = ORKILocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2", nil);
         step.stepDuration = CGFLOAT_MAX;
         step.algorithm = 1;
         step.earPreference = ORKAudioChannelLeft;

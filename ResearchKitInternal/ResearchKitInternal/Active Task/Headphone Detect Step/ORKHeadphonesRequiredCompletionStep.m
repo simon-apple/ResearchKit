@@ -31,7 +31,7 @@
 
 #import "ORKHeadphonesRequiredCompletionStep.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #import <ResearchKit/ORKHelpers_Internal.h>
 
@@ -44,12 +44,12 @@
         
         switch (self.requiredHeadphoneTypes) {
             case ORKHeadphoneTypesAny:
-                self.title = AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TITLE", nil);
-                self.text = AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TEXT", nil);
+                self.title = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TITLE", nil);
+                self.text = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TEXT", nil);
                 break;
             case ORKHeadphoneTypesSupported:
-                self.title = AAPLLocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TITLE", nil);
-                self.text = AAPLLocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT", nil);
+                self.title = ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TITLE", nil);
+                self.text = ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT", nil);
                 break;
         }
     }

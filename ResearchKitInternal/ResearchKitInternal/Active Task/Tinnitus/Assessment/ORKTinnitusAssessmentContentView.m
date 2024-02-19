@@ -31,7 +31,7 @@
 #import "ORKTinnitusAssessmentContentView.h"
 #import "ORKTinnitusTypes.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #import <ResearchKitInternal/UIColor+Custom.h>
 
@@ -174,7 +174,7 @@ static int const ORKTinnitusAssessmentMargin = 16;
          self.accessibilityHint = nil;
          return UIAccessibilityTraitSelected;
      } else {
-         self.accessibilityHint = AAPLLocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_HINT", nil);
+         self.accessibilityHint = ORKILocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_HINT", nil);
          return UIAccessibilityTraitNone;
      }
  }
@@ -216,7 +216,7 @@ static int const ORKTinnitusAssessmentMargin = 16;
     self = [super init];
     if (self) {
         _isTinnitusAssessment = YES;
-        self.buttonTitle = AAPLLocalizedString(@"TINNITUS_ASSESSMENT_SOUND_NAME", nil);
+        self.buttonTitle = ORKILocalizedString(@"TINNITUS_ASSESSMENT_SOUND_NAME", nil);
         [self commonInit];
     }
     return self;
@@ -348,7 +348,7 @@ static int const ORKTinnitusAssessmentMargin = 16;
             ORKTinnitusAssessmentAnswerNoneOfTheAbove: @"TINNITUS_ASSESSMENT_ANSWER_NOTA"
         };
     }
-    return AAPLLocalizedString(_buttonTitles[value], nil);
+    return ORKILocalizedString(_buttonTitles[value], nil);
 }
 
 - (ORKTinnitusAssessmentButtonView *)addButtonForValue:(NSString *)value topView:(UIView *)topView isLastButton:(BOOL)isLast {

@@ -38,13 +38,12 @@
 #import "ORKAVJournalingStep.h"
 #import "ORKContext.h"
 #import "ORKFaceDetectionStep.h"
-#import "AAPLCompletionStep.h"
+#import "ORKICompletionStep.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #import <ResearchKit/ORKAnswerFormat.h>
 #import <ResearchKit/ORKBodyItem.h>
-#import <ResearchKit/ORKCompletionStep.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ORKLearnMoreItem.h>
 #import <ResearchKit/ORKLearnMoreInstructionStep.h>
@@ -80,9 +79,9 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
         // Add a navigation rule to end the current task.
         ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
         
-        ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierMaxLimitHitCompletion];
-        step.title = AAPLLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TITLE", nil);
-        step.text = AAPLLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil);
+        ORKICompletionStep *step = [[ORKICompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierMaxLimitHitCompletion];
+        step.title = ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TITLE", nil);
+        step.text = ORKILocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil);
         step.optional = NO;
         step.reasonForCompletion = ORKTaskFinishReasonDiscarded;
         [currentTask addStep:step];
@@ -99,9 +98,9 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
         // Add a navigation rule to end the current task.
         ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
         
-        ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierFinishLaterCompletion];
-        step.title = AAPLLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TITLE", nil);
-        step.text = AAPLLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil);
+        ORKICompletionStep *step = [[ORKICompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierFinishLaterCompletion];
+        step.title = ORKILocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TITLE", nil);
+        step.text = ORKILocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil);
         step.optional = NO;
         step.reasonForCompletion = ORKTaskFinishReasonDiscarded;
         [currentTask addStep:step];
@@ -117,14 +116,14 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
     // Add a navigation rule to end the current task.
     ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
     
-    ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion];
-    completionStep.title = AAPLLocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TITLE", nil);
-    completionStep.text = AAPLLocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TEXT", nil);
+    ORKICompletionStep *completionStep = [[ORKICompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion];
+    completionStep.title = ORKILocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TITLE", nil);
+    completionStep.text = ORKILocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TEXT", nil);
     completionStep.reasonForCompletion = ORKTaskFinishReasonDiscarded;
     completionStep.iconImage = [UIImage systemImageNamed:@"video.slash"];
     
     ORKLearnMoreInstructionStep *learnMoreInstructionStep = [[ORKLearnMoreInstructionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierInstructionStepPlaceHolderVideoAudioAccessDenied];
-    ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc] initWithText:AAPLLocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_SETTINGS_LINK_TEXT", nil)
+    ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc] initWithText:ORKILocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_SETTINGS_LINK_TEXT", nil)
                                                     learnMoreInstructionStep:learnMoreInstructionStep];
     learnMoreItem.delegate = self;
     
@@ -267,9 +266,9 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
             if (availableBytes < MinByteLimitForTask) {
                 lowMemoryDetected = YES;
                 
-                ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierLowMemoryCompletion];
-                completionStep.title = AAPLLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TITLE", nil);
-                completionStep.text = AAPLLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TEXT", nil);
+                ORKICompletionStep *completionStep = [[ORKICompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierLowMemoryCompletion];
+                completionStep.title = ORKILocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TITLE", nil);
+                completionStep.text = ORKILocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TEXT", nil);
                 completionStep.reasonForCompletion = ORKTaskFinishReasonDiscarded;
                 completionStep.iconImage = [UIImage systemImageNamed:@"bin.xmark"];
                 
@@ -278,7 +277,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
                                                                                      sensitiveURLString:@ORKAVJournalingPredefinedTaskContextSensitiveURLString
                                                                                      applicationString:@ORKAVJournalingPredefinedTaskContextApplicationString];
                 ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc]
-                                                   initWithText:AAPLLocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_SETTINGS_LINK_TEXT", nil)
+                                                   initWithText:ORKILocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_SETTINGS_LINK_TEXT", nil)
                                                    learnMoreInstructionStep:learnMoreInstructionStep];
                 
                 ORKBodyItem *settingsLinkBodyItem = [[ORKBodyItem alloc] initWithText:nil
@@ -319,7 +318,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
         //Face Detection Step
         ORKAVJournalingPredfinedTaskContext *avJournalingPredefinedContext = [[ORKAVJournalingPredfinedTaskContext alloc] init];
         ORKFaceDetectionStep *faceDetectionStep = [[ORKFaceDetectionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierFaceDetection];
-        faceDetectionStep.title = AAPLLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_FACE_DETECTION_STEP_TITLE", nil);
+        faceDetectionStep.title = ORKILocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_FACE_DETECTION_STEP_TITLE", nil);
         faceDetectionStep.context = avJournalingPredefinedContext;
         
         [steps addObject:faceDetectionStep];
@@ -335,9 +334,9 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
         }
         
         //Completion Step
-        ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierCompletion];
-        completionStep.title = AAPLLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TITLE", nil);
-        completionStep.text = AAPLLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TEXT", nil);
+        ORKICompletionStep *completionStep = [[ORKICompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierCompletion];
+        completionStep.title = ORKILocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TITLE", nil);
+        completionStep.text = ORKILocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TEXT", nil);
         
         [steps addObject:completionStep];
     }
@@ -404,7 +403,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
         
         if (avJournalStepIdentifier && avJournalStepQuestion && [obj objectForKey:ManifestJSONKeyMaxRecordingTime] && [obj objectForKey:ManifestJSONKeySaveDepthDataIfAvailable]) {
             ORKAVJournalingStep *avJournalingStep = [[ORKAVJournalingStep alloc] initWithIdentifier:avJournalStepIdentifier];
-            avJournalingStep.title = [NSString stringWithFormat:AAPLLocalizedString(@"AV_JOURNALING_STEP_QUESTION_NUMBER_TEXT", nil), avJournalingSteps.count + 1, manifest.count];
+            avJournalingStep.title = [NSString stringWithFormat:ORKILocalizedString(@"AV_JOURNALING_STEP_QUESTION_NUMBER_TEXT", nil), avJournalingSteps.count + 1, manifest.count];
             avJournalingStep.text = avJournalStepQuestion;
             avJournalingStep.maximumRecordingLimit = maxRecordingtime;
             avJournalingStep.countDownStartTime = countDownStartTime;

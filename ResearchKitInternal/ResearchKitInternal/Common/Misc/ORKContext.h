@@ -30,7 +30,7 @@
 
 @import Foundation;
 
-#import <ResearchKitInternal/AAPLTypes.h>
+#import <ResearchKitInternal/ORKITypes.h>
 
 #import <ResearchKitUI/ORKTaskViewController.h>
 

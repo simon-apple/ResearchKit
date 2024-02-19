@@ -29,7 +29,7 @@
  */
 // apple-internal
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 #import "AVAudioMixerNode+Fade.h"
 #import "ORKContext.h"
 #import "ORKTinnitusAudioSample.h"
@@ -134,7 +134,7 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
     BOOL success = [notification.userInfo[UIAccessibilityAnnouncementKeyWasSuccessful] boolValue];
     if (success) {
         if ([notification.userInfo[UIAccessibilityAnnouncementKeyStringValue] isEqualToString:self.tinnitusTypeStep.title]) {
-            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, AAPLLocalizedString(@"TINNITUS_TYPE_ACCESSIBILITY_ANNOUNCEMENT", nil));
+            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, ORKILocalizedString(@"TINNITUS_TYPE_ACCESSIBILITY_ANNOUNCEMENT", nil));
         } else {
             [[NSNotificationCenter defaultCenter] removeObserver:self name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
             [self performSelector:@selector(startAutomaticPlay) withObject:nil afterDelay:PLAY_DELAY];
@@ -143,7 +143,7 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
 }
 
 - (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem {
-    [skipButtonItem setTitle:AAPLLocalizedString(@"TINNITUS_TYPE_SKIP_BUTTON_TITLE", nil)];
+    [skipButtonItem setTitle:ORKILocalizedString(@"TINNITUS_TYPE_SKIP_BUTTON_TITLE", nil)];
     skipButtonItem.target = self;
     skipButtonItem.action = @selector(skipTaskAction);
     

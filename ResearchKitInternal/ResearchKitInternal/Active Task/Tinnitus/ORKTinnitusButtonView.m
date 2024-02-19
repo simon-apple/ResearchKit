@@ -30,7 +30,7 @@
 
 #import "ORKTinnitusButtonView.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #import <ResearchKitInternal/UIColor+Custom.h>
 
@@ -198,14 +198,14 @@ static const CGFloat ORKTinnitusButtonViewBarLevelsWidth = 30.0;
     [self setSelected:NO];
     
     self.accessibilityLabel = _titleText;
-    self.accessibilityHint = AAPLLocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_HINT", nil);
+    self.accessibilityHint = ORKILocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_HINT", nil);
 }
 
 
 - (void)enableAccessibilityAnnouncements:(BOOL)shouldAnnouce {
     if (shouldAnnouce) {
         self.accessibilityLabel = _titleText;
-        self.accessibilityHint = !_selected ? AAPLLocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_HINT", nil) : nil;
+        self.accessibilityHint = !_selected ? ORKILocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_HINT", nil) : nil;
     } else {
         self.accessibilityLabel = nil;
         self.accessibilityHint = nil;
@@ -225,7 +225,7 @@ static const CGFloat ORKTinnitusButtonViewBarLevelsWidth = 30.0;
         return UIAccessibilityTraitSelected;
     } else {
         if (_announceEnabled) {
-            self.accessibilityHint = AAPLLocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_HINT", nil);
+            self.accessibilityHint = ORKILocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_HINT", nil);
         }
         return UIAccessibilityTraitNone;
     }
@@ -244,7 +244,7 @@ static const CGFloat ORKTinnitusButtonViewBarLevelsWidth = 30.0;
             _playView.highlighted = YES;
             _barLevelsView.hidden = NO;
             if (_simulatedTap) {
-                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, [NSString stringWithFormat:AAPLLocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_ANNOUNCEMENT", nil), _titleText]);
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, [NSString stringWithFormat:ORKILocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_ANNOUNCEMENT", nil), _titleText]);
             }
         } else {
             _playView.highlighted = !_playView.highlighted;

@@ -46,12 +46,7 @@
 
 BOOL ORKIsResearchKitClass(Class class) {
     NSString *name = NSStringFromClass(class);
-    
-#if RK_APPLE_INTERNAL
-    return [name hasPrefix:@"ORK"] || [name hasPrefix:@"AAPL"];
-#else
     return [name hasPrefix:@"ORK"];
-#endif
 }
 
 
@@ -323,7 +318,7 @@ ORK_MAKE_TEST_INIT(ORKFaceDetectionStep, ^{
 #if RK_APPLE_INTERNAL
 ORK_MAKE_TEST_INIT(ORKAgeAnswerFormat, ^{return [self initWithMinimumAge:0 maximumAge:80 minimumAgeCustomText:nil maximumAgeCustomText:nil showYear:NO useYearForResult:NO treatMinAgeAsRange:false treatMaxAgeAsRange:false defaultValue:0];});
 
-ORK_MAKE_TEST_INIT(AAPLSpeechRecognitionStep, ^ {
+ORK_MAKE_TEST_INIT(ORKISpeechRecognitionStep, ^ {
     return [self initWithIdentifier:[NSUUID UUID].UUIDString image:nil text:@"test1"];
 });
 
@@ -1535,7 +1530,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
                                        @"ORKWebViewStepResult.html",
                                        @"ORKWebViewStepResult.htmlWithSignature",
 #if RK_APPLE_INTERNAL
-                                       @"AAPLSpeechRecognitionStep.shouldHideTranscript",
+                                       @"ORKISpeechRecognitionStep.shouldHideTranscript",
                                        @"ORKAgeAnswerFormat.minimumAge",
                                        @"ORKAgeAnswerFormat.maximumAge",
                                        @"ORKAgeAnswerFormat.relativeYear",

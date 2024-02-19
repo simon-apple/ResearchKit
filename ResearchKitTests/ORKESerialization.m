@@ -1162,46 +1162,46 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
                     })),
 #if RK_APPLE_INTERNAL
-           ENTRY(AAPLdBHLToneAudiometryResult,
+           ENTRY(ORKIdBHLToneAudiometryResult,
                  nil,
                  (@{
                     PROPERTY(discreteUnits, ORKdBHLToneAudiometryFrequencySample, NSArray, NO, nil, nil),
                     PROPERTY(fitMatrix, NSDictionary, NSObject, NO, nil, nil),
                     PROPERTY(algorithmVersion, NSNumber, NSObject, NO, nil, nil),
                     })),
-           ENTRY(AAPLCompletionStep,
+           ENTRY(ORKICompletionStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[AAPLCompletionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                     return [[ORKICompletionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
                  },
                  (@{})),
-           ENTRY(AAPLInstructionStep,
+           ENTRY(ORKIInstructionStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[AAPLInstructionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                     return [[ORKIInstructionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
                  },
                  (@{})),
-           ENTRY(AAPLQuestionStep,
+           ENTRY(ORKIQuestionStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[AAPLQuestionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                     return [[ORKIQuestionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
                  },
                  (@{})),
-           ENTRY(AAPLSpeechInNoiseStep,
+           ENTRY(ORKISpeechInNoiseStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[AAPLSpeechInNoiseStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                     return [[ORKISpeechInNoiseStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
                  },
                  ((@{}))),
-           ENTRY(AAPLEnvironmentSPLMeterStep,
+           ENTRY(ORKIEnvironmentSPLMeterStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[AAPLEnvironmentSPLMeterStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                     return [[ORKIEnvironmentSPLMeterStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
                  },
                  (@{})),
-           ENTRY(AAPLSpeechRecognitionStep,
+           ENTRY(ORKISpeechRecognitionStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[AAPLSpeechRecognitionStep alloc] initWithIdentifier:GETPROP(dict, identifier) image:nil text:GETPROP(dict, speechRecognitionText)];
+                     return [[ORKISpeechRecognitionStep alloc] initWithIdentifier:GETPROP(dict, identifier) image:nil text:GETPROP(dict, speechRecognitionText)];
                  },
                  (@{})),
-           ENTRY(AAPLdBHLToneAudiometryStep,
+           ENTRY(ORKIdBHLToneAudiometryStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[AAPLdBHLToneAudiometryStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                     return [[ORKIdBHLToneAudiometryStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
                  },
                  (@{
                     PROPERTY(algorithm, NSNumber, NSObject, YES, nil, nil),

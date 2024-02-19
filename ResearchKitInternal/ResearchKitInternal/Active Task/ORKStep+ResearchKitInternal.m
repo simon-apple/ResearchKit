@@ -33,10 +33,10 @@
 #import <ResearchKitInternal/ResearchKitInternal.h>
 #import <ResearchKitInternal/ResearchKitInternal_Private.h>
 
-@implementation AAPLdBHLToneAudiometryStep (ViewControllerProviding)
+@implementation ORKIdBHLToneAudiometryStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[AAPLdBHLToneAudiometryStepViewController alloc] initWithStep:self result:result];
+    return [[ORKIdBHLToneAudiometryStepViewController alloc] initWithStep:self result:result];
 }
 
 @end
@@ -129,34 +129,34 @@
 
 @end
 
-@implementation AAPLSpeechInNoiseStep (ViewControllerProviding)
+@implementation ORKISpeechInNoiseStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[AAPLSpeechInNoiseStepViewController alloc] initWithStep:self result:result];
+    return [[ORKISpeechInNoiseStepViewController alloc] initWithStep:self result:result];
 }
 
 @end
 
-@implementation AAPLSpeechRecognitionStep (ViewControllerProviding)
+@implementation ORKISpeechRecognitionStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[AAPLSpeechRecognitionStepViewController alloc] initWithStep:self result:result];
+    return [[ORKISpeechRecognitionStepViewController alloc] initWithStep:self result:result];
 }
 
 @end
 
-@implementation AAPLInstructionStep (ViewControllerProviding)
+@implementation ORKIInstructionStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[AAPLInstructionStepViewController alloc] initWithStep:self result:result];
+    return [[ORKIInstructionStepViewController alloc] initWithStep:self result:result];
 }
 
 @end
 
-@implementation AAPLCompletionStep (ViewControllerProviding)
+@implementation ORKICompletionStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[AAPLCompletionStepViewController alloc] initWithStep:self result:result];
+    return [[ORKICompletionStepViewController alloc] initWithStep:self result:result];
 }
 
 @end
@@ -164,7 +164,7 @@
 @implementation ORKSensitiveURLLearnMoreInstructionStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[AAPLInstructionStepViewController alloc] initWithStep:self result:result];
+    return [[ORKIInstructionStepViewController alloc] initWithStep:self result:result];
 }
 
 @end
@@ -177,10 +177,10 @@
 
 @end
 
-@implementation AAPLQuestionStep (ViewControllerProviding)
+@implementation ORKIQuestionStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[AAPLQuestionStepViewController alloc] initWithStep:self result:result];
+    return [[ORKIQuestionStepViewController alloc] initWithStep:self result:result];
 }
 
 @end

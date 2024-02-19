@@ -33,7 +33,7 @@
 #import "ORKTypingStep.h"
 #import "ORKTypingResult.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #import <ResearchKit/ORKCollectionResult.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
@@ -87,7 +87,7 @@
     
     self.textField = UITextField.new;
     self.textField.font = [UIFont systemFontOfSize:18.0 weight:UIFontWeightRegular];
-    self.textField.placeholder = AAPLLocalizedString(@"Type the above text here", nil);
+    self.textField.placeholder = ORKILocalizedString(@"Type the above text here", nil);
     self.textField.returnKeyType = UIReturnKeyDone;
     self.textField.borderStyle = UITextBorderStyleRoundedRect;
     self.textField.autocorrectionType = UITextAutocorrectionTypeNo;

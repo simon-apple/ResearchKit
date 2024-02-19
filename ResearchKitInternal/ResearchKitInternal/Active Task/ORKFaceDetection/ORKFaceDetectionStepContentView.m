@@ -32,7 +32,7 @@
 
 #import "ORKFaceDetectionStepContentView.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #if ORK_FEATURE_AV_JOURNALING
 
@@ -137,9 +137,9 @@ static const CGFloat StopFaceDetectionTimeLimit = 10.0;
     _faceDetectionTitleLabel.font = [self titleLabelFont];
     _faceDetectionTitleLabel.textAlignment = NSTextAlignmentCenter;
     if (!_showingForRecalibration) {
-        [_faceDetectionTitleLabel setText:AAPLLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE", nil)];
+        [_faceDetectionTitleLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE", nil)];
     } else {
-        [_faceDetectionTitleLabel setText:AAPLLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE_RECALIBRATION", nil)];
+        [_faceDetectionTitleLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE_RECALIBRATION", nil)];
     }
     
     [_bottomContentView addSubview:_faceDetectionTitleLabel];
@@ -151,9 +151,9 @@ static const CGFloat StopFaceDetectionTimeLimit = 10.0;
     _faceDetectionDetailLabel.lineBreakMode = NSLineBreakByWordWrapping;
 
     if (!_showingForRecalibration) {
-        [_faceDetectionDetailLabel setText:AAPLLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT", nil)];
+        [_faceDetectionDetailLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT", nil)];
     } else {
-        [_faceDetectionDetailLabel setText:AAPLLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT_RECALIBRATION", nil)];
+        [_faceDetectionDetailLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT_RECALIBRATION", nil)];
     }
     
     [_bottomContentView addSubview:_faceDetectionDetailLabel];
@@ -254,7 +254,7 @@ static const CGFloat StopFaceDetectionTimeLimit = 10.0;
         if (detected && [self isFacePositionCircleWithinBox:faceRect originalSize:originalSize]) {
         
             [self updateDetectionTitleLabelAttributedText];
-            [_faceDetectionDetailLabel setText:AAPLLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TEXT", nil)];
+            [_faceDetectionDetailLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TEXT", nil)];
             [_calibrationBoxImageView setTintColor:[UIColor greenColor]];
           
             _faceDetected = YES;
@@ -272,11 +272,11 @@ static const CGFloat StopFaceDetectionTimeLimit = 10.0;
             
             _faceDetectionTitleLabel.attributedText = nil;
             if (!_showingForRecalibration) {
-                [_faceDetectionTitleLabel setText:AAPLLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE", nil)];
-                [_faceDetectionDetailLabel setText:AAPLLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT", nil)];
+                [_faceDetectionTitleLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE", nil)];
+                [_faceDetectionDetailLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT", nil)];
             } else {
-                [_faceDetectionTitleLabel setText:AAPLLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE_RECALIBRATION", nil)];
-                [_faceDetectionDetailLabel setText:AAPLLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT_RECALIBRATION", nil)];
+                [_faceDetectionTitleLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE_RECALIBRATION", nil)];
+                [_faceDetectionDetailLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT_RECALIBRATION", nil)];
             }
             [_calibrationBoxImageView setTintColor:[UIColor systemGrayColor]];
             
@@ -296,7 +296,7 @@ static const CGFloat StopFaceDetectionTimeLimit = 10.0;
 
 - (void)updateDetectionTitleLabelAttributedText {
     NSString *separatorString = @":";
-    NSString *stringtoParse =  !_showingForRecalibration ? AAPLLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TITLE", nil) : AAPLLocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TITLE_RECALIBRATION", nil);
+    NSString *stringtoParse =  !_showingForRecalibration ? ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TITLE", nil) : ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TITLE_RECALIBRATION", nil);
     NSString *parsedString = [stringtoParse componentsSeparatedByString:separatorString].firstObject;
     
     NSString *titleMesssage = [NSString stringWithFormat:@" %@", parsedString];

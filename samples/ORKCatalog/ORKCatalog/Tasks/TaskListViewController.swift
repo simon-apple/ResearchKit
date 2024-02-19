@@ -141,7 +141,7 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
             return
         }
         
-        // display internal tasks with AAPLTaskViewController
+        // display internal tasks with ORKITaskViewController
         if indexPath.section == 6 {
             displayInternalTaskViewController(taskListRow: taskListRow)
             return
@@ -216,11 +216,11 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
          Passing `nil` for the `taskRunUUID` lets the task view controller
          generate an identifier for this run of the task.
          */
-        let taskViewController = AAPLTaskViewController(task: task, taskRun: nil)
+        let taskViewController = ORKITaskViewController(task: task, taskRun: nil)
         
         // Make sure we receive events from `taskViewController`.
         taskViewController.delegate = self
-        taskViewController.aaplDelegate = self
+        taskViewController.internalDelegate = self
         
         // Assign a directory to store `taskViewController` output.
         taskViewController.outputDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -357,7 +357,7 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
 }
 
 #if RK_APPLE_INTERNAL
-extension TaskListViewController: AAPLTaskViewControllerDelegate {
+extension TaskListViewController: ORKITaskViewControllerDelegate {
     // Refers to rdar://85344999 (Remove the learnmore workaround current present in customized completion steps to reduce inter-dependent approach with the Research App)
     func taskViewController(_ taskViewController: ORKTaskViewController, sensitiveURLLearnMoreButtonPressedWith sensitiveURLLearnMoreStep: ORKSensitiveURLLearnMoreInstructionStep, for stepViewController: ORKStepViewController) {
         UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)

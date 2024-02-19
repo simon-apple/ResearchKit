@@ -32,7 +32,7 @@
 #import "ORKCelestialSoftLink.h"
 #import "ORKHeadphoneDetector.h"
 
-#import <ResearchKitInternal/AAPLTypes.h>
+#import <ResearchKitInternal/ORKITypes.h>
 
 #import <MediaPlayer/MediaPlayer.h>
 #import <ResearchKit/ORKHelpers_Internal.h>

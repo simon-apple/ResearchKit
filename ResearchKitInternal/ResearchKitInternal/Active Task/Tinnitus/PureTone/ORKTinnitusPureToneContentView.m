@@ -32,7 +32,7 @@
 #import "ORKTinnitusButtonView.h"
 #import "ORKTinnitusPureToneContentView.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ORKSkin.h>
@@ -86,48 +86,48 @@ static const CGFloat ORKTinnitusStandardSpacing = 12.0;
     _buttonsStage = PureToneButtonsStageOne;
     
     _firstAButtonView = [[ORKTinnitusButtonView alloc]
-                         initWithTitle:AAPLLocalizedString(@"TINNITUS_BUTTON_A_TITLE", nil)
-                         detail:AAPLLocalizedString(@"TINNITUS_BUTTON_A_DETAIL", nil)];
+                         initWithTitle:ORKILocalizedString(@"TINNITUS_BUTTON_A_TITLE", nil)
+                         detail:ORKILocalizedString(@"TINNITUS_BUTTON_A_DETAIL", nil)];
     _firstAButtonView.translatesAutoresizingMaskIntoConstraints = NO;
     [self setDidFinishLayoutBlockFor:_firstAButtonView];
     
     _secondAButtonView = [[ORKTinnitusButtonView alloc]
-                          initWithTitle:AAPLLocalizedString(@"TINNITUS_BUTTON_UPPERPITCH_TITLE", nil)
+                          initWithTitle:ORKILocalizedString(@"TINNITUS_BUTTON_UPPERPITCH_TITLE", nil)
                           detail:nil];
     _secondAButtonView.translatesAutoresizingMaskIntoConstraints = NO;
     _secondAButtonView.alpha = 0.0;
     [self setDidFinishLayoutBlockFor:_secondAButtonView];
     
     _thirdAButtonView = [[ORKTinnitusButtonView alloc]
-                         initWithTitle:AAPLLocalizedString(@"TINNITUS_BUTTON_UPPERPITCH_TITLE", nil)
+                         initWithTitle:ORKILocalizedString(@"TINNITUS_BUTTON_UPPERPITCH_TITLE", nil)
                          detail:nil];
     _thirdAButtonView.translatesAutoresizingMaskIntoConstraints = NO;
     _thirdAButtonView.alpha = 0.0;
     [self setDidFinishLayoutBlockFor:_thirdAButtonView];
     
     _firstBButtonView = [[ORKTinnitusButtonView alloc]
-                         initWithTitle:AAPLLocalizedString(@"TINNITUS_BUTTON_B_TITLE", nil)
-                         detail:AAPLLocalizedString(@"TINNITUS_BUTTON_B_DETAIL", nil)];
+                         initWithTitle:ORKILocalizedString(@"TINNITUS_BUTTON_B_TITLE", nil)
+                         detail:ORKILocalizedString(@"TINNITUS_BUTTON_B_DETAIL", nil)];
     _firstBButtonView.translatesAutoresizingMaskIntoConstraints = NO;
     [self setDidFinishLayoutBlockFor:_firstBButtonView];
     
     _secondBButtonView = [[ORKTinnitusButtonView alloc]
-                          initWithTitle:AAPLLocalizedString(@"TINNITUS_BUTTON_LOWERPITCH_TITLE", nil)
+                          initWithTitle:ORKILocalizedString(@"TINNITUS_BUTTON_LOWERPITCH_TITLE", nil)
                           detail:nil];
     _secondBButtonView.translatesAutoresizingMaskIntoConstraints = NO;
     _secondBButtonView.alpha = 0.0;
     [self setDidFinishLayoutBlockFor:_secondBButtonView];
     
     _thirdBButtonView = [[ORKTinnitusButtonView alloc]
-                         initWithTitle:AAPLLocalizedString(@"TINNITUS_BUTTON_LOWERPITCH_TITLE", nil)
+                         initWithTitle:ORKILocalizedString(@"TINNITUS_BUTTON_LOWERPITCH_TITLE", nil)
                          detail:nil];
     _thirdBButtonView.translatesAutoresizingMaskIntoConstraints = NO;
     _thirdBButtonView.alpha = 0.0;
     [self setDidFinishLayoutBlockFor:_thirdBButtonView];
     
     _cButtonView = [[ORKTinnitusButtonView alloc]
-                    initWithTitle:AAPLLocalizedString(@"TINNITUS_BUTTON_C_TITLE", nil)
-                    detail:AAPLLocalizedString(@"TINNITUS_BUTTON_C_DETAIL", nil)];
+                    initWithTitle:ORKILocalizedString(@"TINNITUS_BUTTON_C_TITLE", nil)
+                    detail:ORKILocalizedString(@"TINNITUS_BUTTON_C_DETAIL", nil)];
     _cButtonView.translatesAutoresizingMaskIntoConstraints = NO;
     [self setDidFinishLayoutBlockFor:_cButtonView];
     

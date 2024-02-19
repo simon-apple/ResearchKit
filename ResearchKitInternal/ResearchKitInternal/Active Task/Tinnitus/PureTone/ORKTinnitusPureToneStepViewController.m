@@ -40,7 +40,7 @@
 #import "ORKTinnitusPureToneStepViewController.h"
 #import "ORKTinnitusPureToneStepViewController_Private.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #import <MediaPlayer/MPVolumeView.h>
 
@@ -127,7 +127,7 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 
 - (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem
 {
-    [skipButtonItem setTitle:AAPLLocalizedString(@"TINNITUS_PURETONE_SKIP", nil)];
+    [skipButtonItem setTitle:ORKILocalizedString(@"TINNITUS_PURETONE_SKIP", nil)];
     skipButtonItem.target = self;
     skipButtonItem.action = @selector(skipButtonTapped:);
     
@@ -254,15 +254,15 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 }
 
 - (void)skipButtonTapped:(id)sender {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:AAPLLocalizedString(@"TINNITUS_PURETONE_SKIP_ALERT_TITLE", nil)
-                                                                             message:AAPLLocalizedString(@"TINNITUS_PURETONE_SKIP_ALERT_DETAIL", nil)
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:ORKILocalizedString(@"TINNITUS_PURETONE_SKIP_ALERT_TITLE", nil)
+                                                                             message:ORKILocalizedString(@"TINNITUS_PURETONE_SKIP_ALERT_DETAIL", nil)
                                                                       preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *continueAction = [UIAlertAction actionWithTitle:AAPLLocalizedString(@"TINNITUS_PURETONE_SKIP_ALERT_CANCEL", nil)
+    UIAlertAction *continueAction = [UIAlertAction actionWithTitle:ORKILocalizedString(@"TINNITUS_PURETONE_SKIP_ALERT_CANCEL", nil)
                                                              style:UIAlertActionStyleDefault handler:nil];
     [alertController addAction:continueAction];
     
-    [alertController addAction:[UIAlertAction actionWithTitle:AAPLLocalizedString(@"TINNITUS_PURETONE_SKIP_ALERT_SKIP", nil)
+    [alertController addAction:[UIAlertAction actionWithTitle:ORKILocalizedString(@"TINNITUS_PURETONE_SKIP_ALERT_SKIP", nil)
                                                         style:UIAlertActionStyleDestructive
                                                       handler:^(UIAlertAction *action) {
         self.wasSkipped = YES;
@@ -295,7 +295,7 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = [NSString stringWithFormat:AAPLLocalizedString(@"TINNITUS_PURETONE_BAR_TITLE1", nil), self.tinnitusPuretoneStep.roundNumber];
+    self.navigationItem.title = [NSString stringWithFormat:ORKILocalizedString(@"TINNITUS_PURETONE_BAR_TITLE1", nil), self.tinnitusPuretoneStep.roundNumber];
     
     [self setNavigationFooterView];
     [self setupButtons];
@@ -349,7 +349,7 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     BOOL success = [notification.userInfo[UIAccessibilityAnnouncementKeyWasSuccessful] boolValue];
     if (success) {
         if ([notification.userInfo[UIAccessibilityAnnouncementKeyStringValue] isEqualToString:self.tinnitusPuretoneStep.title]) {
-            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, AAPLLocalizedString(@"TINNITUS_TYPE_ACCESSIBILITY_ANNOUNCEMENT", nil));
+            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, ORKILocalizedString(@"TINNITUS_TYPE_ACCESSIBILITY_ANNOUNCEMENT", nil));
         } else {
             [[NSNotificationCenter defaultCenter] removeObserver:self name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
             [self performSelector:@selector(startAutomaticPlay) withObject:nil afterDelay:PLAY_DELAY];
@@ -537,7 +537,7 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
         [_tinnitusContentView resetButtons];
         [_tinnitusContentView animateButtons];
 
-        self.navigationItem.title = [NSString stringWithFormat:AAPLLocalizedString(@"TINNITUS_PURETONE_BAR_TITLE2", nil), _iteractionCounter];
+        self.navigationItem.title = [NSString stringWithFormat:ORKILocalizedString(@"TINNITUS_PURETONE_BAR_TITLE2", nil), _iteractionCounter];
     }
     self.activeStepView.navigationFooterView.continueEnabled = [self canEnableFineTune];
     self.activeStepView.navigationFooterView.skipEnabled = [self canEnableFineTune];    

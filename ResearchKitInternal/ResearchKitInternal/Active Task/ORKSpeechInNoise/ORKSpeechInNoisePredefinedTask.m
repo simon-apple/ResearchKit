@@ -34,11 +34,11 @@
 #import "ORKSpeechInNoisePredefinedTask.h"
 #import "ORKVolumeCalibrationStep.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
-#import <ResearchKitInternal/AAPLCompletionStep.h>
-#import <ResearchKitInternal/AAPLSpeechRecognitionStep.h>
-#import <ResearchKitInternal/AAPLSpeechInNoiseStep.h>
+#import <ResearchKitInternal/ORKICompletionStep.h>
+#import <ResearchKitInternal/ORKISpeechRecognitionStep.h>
+#import <ResearchKitInternal/ORKISpeechInNoiseStep.h>
 
 #import <ResearchKit/ORKAnswerFormat.h>
 #import <ResearchKit/ORKBodyItem.h>
@@ -52,7 +52,7 @@
 
 #import <ResearchKitActiveTask/ORKSpeechRecognitionStep.h>
 
-#import <ResearchKitInternal/AAPLEnvironmentSPLMeterStep.h>
+#import <ResearchKitInternal/ORKIEnvironmentSPLMeterStep.h>
 
 #import <Speech/SFSpeechRecognizer.h>
 
@@ -87,8 +87,8 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
             [currentTask removeSkipNavigationRuleForStepIdentifier:self.headphoneRequiredIdentifier];
         } else {
             completionStep = [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:self.headphoneRequiredIdentifier requiredHeadphoneTypes: ORKHeadphoneTypesAny];
-            completionStep.title = AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TITLE", nil);
-            completionStep.text = AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TEXT", nil);
+            completionStep.title = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TITLE", nil);
+            completionStep.text = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TEXT", nil);
             completionStep.optional = NO;
             completionStep.reasonForCompletion = ORKTaskFinishReasonDiscarded;
             [currentTask insertStep:completionStep atIndex:[currentTask indexOfStep:step]+1];
@@ -324,7 +324,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
         ORKSpeechInNoisePredefinedTaskContext *context = [[ORKSpeechInNoisePredefinedTaskContext alloc] init];
         ORKHeadphoneDetectStep *step = [[ORKHeadphoneDetectStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierHeadphoneDetectStep headphoneTypes:ORKHeadphoneTypesAny];
         step.context = context;
-        step.title = AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_TITLE", nil);
+        step.title = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_TITLE", nil);
         step.optional = NO;
         [steps addObject:step];
     }
@@ -333,8 +333,8 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
 #if !HIDE_VOLUME_CALIBRATION_STEP
     {
         ORKVolumeCalibrationStep *step = [[ORKVolumeCalibrationStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierVolumeCalibrationStep];
-        step.title = AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_VOLUME_CALIBRATION_TITLE", nil);
-        step.detailText = AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_VOLUME_CALIBRATION_TEXT", nil);
+        step.title = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_VOLUME_CALIBRATION_TITLE", nil);
+        step.detailText = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_VOLUME_CALIBRATION_TEXT", nil);
         step.optional = NO;
         [steps addObject:step];
     }
@@ -342,9 +342,9 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
     
 #if !HIDE_ENVIRONMENT_SPL_STEP
     {
-        AAPLEnvironmentSPLMeterStep *step = [[AAPLEnvironmentSPLMeterStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierEnvironmentSPLStep];
-        step.title = AAPLLocalizedString(@"ENVIRONMENTSPL_TITLE_2", nil);
-        step.text = AAPLLocalizedString(@"ENVIRONMENTSPL_INTRO_TEXT_2", nil);
+        ORKIEnvironmentSPLMeterStep *step = [[ORKIEnvironmentSPLMeterStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierEnvironmentSPLStep];
+        step.title = ORKILocalizedString(@"ENVIRONMENTSPL_TITLE_2", nil);
+        step.text = ORKILocalizedString(@"ENVIRONMENTSPL_INTRO_TEXT_2", nil);
         step.thresholdValue = 45;
         step.requiredContiguousSamples = 5;
         step.samplingInterval = 1;
@@ -388,16 +388,16 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
         // Speech In Noise
         {
             ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.lowercaseString, ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep];
-            AAPLSpeechInNoiseStep *step = [[AAPLSpeechInNoiseStep alloc] initWithIdentifier:stepIdentifier];
+            ORKISpeechInNoiseStep *step = [[ORKISpeechInNoiseStep alloc] initWithIdentifier:stepIdentifier];
             step.context = context;
             step.speechFilePath = obj.path;
             step.targetSentence = obj.transcript;
             step.gainAppliedToNoise = isPractice ? [gainValues[1] doubleValue] : [gainValues[idx] doubleValue];
-            step.title = AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TITLE", nil);
-            step.text = AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TEXT", nil);
+            step.title = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TITLE", nil);
+            step.text = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_TEXT", nil);
             if (!isPractice)
             {
-                step.detailText = [NSString stringWithFormat:AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_SENTENCE_X_OF_Y", nil), idx + 1, audioSamples.count];
+                step.detailText = [NSString stringWithFormat:ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_LISTEN_SENTENCE_X_OF_Y", nil), idx + 1, audioSamples.count];
             }
             
             step.optional = NO;
@@ -414,12 +414,12 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
         if ( [SFSpeechRecognizer authorizationStatus] != SFSpeechRecognizerAuthorizationStatusDenied ) {
             ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.lowercaseString, ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep];
             ORKAudioStreamerConfiguration *config = [[ORKAudioStreamerConfiguration alloc] initWithIdentifier:@"streamingAudio"];
-            AAPLSpeechRecognitionStep *step = [[AAPLSpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:nil];
+            ORKISpeechRecognitionStep *step = [[ORKISpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:nil];
             step.shouldHideTranscript = YES;
             step.context = context;
             step.recorderConfigurations = @[config];
             step.speechRecognizerLocale = @"en-US";
-            step.title = AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REPEAT_TITLE", nil);
+            step.title = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REPEAT_TITLE", nil);
             step.optional = NO;
             [steps addObject:step];
         } else {
@@ -438,11 +438,11 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
             
             ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.lowercaseString, ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep];
             ORKQuestionStep *step = [ORKQuestionStep questionStepWithIdentifier:stepIdentifier
-                                                                              title:AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TITLE", nil)
+                                                                              title:ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TITLE", nil)
                                                                            question:nil
                                                                              answer:answerFormat];
             step.context = context;
-            step.text = AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TEXT", nil);
+            step.text = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TEXT", nil);
             step.optional = NO;
             [steps addObject:step];
         }
@@ -458,9 +458,9 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
     {
         // Completion (Practice)
         {
-            AAPLCompletionStep *step = [[AAPLCompletionStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierPracticeCompletionStep];
+            ORKICompletionStep *step = [[ORKICompletionStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierPracticeCompletionStep];
             step.context = context;
-            step.title = AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_PRACTICE_COMPLETION_TITLE", nil);
+            step.title = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_PRACTICE_COMPLETION_TITLE", nil);
             step.optional = YES;
             [steps addObject:step];
         }

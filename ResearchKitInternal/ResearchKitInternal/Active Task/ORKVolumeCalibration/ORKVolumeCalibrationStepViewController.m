@@ -31,7 +31,7 @@
 
 #import "ORKVolumeCalibrationStepViewController.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 #import "AVAudioMixerNode+Fade.h"
 #import "ORKVolumeCalibrationStep.h"
 #import "ORKVolumeCalibrationContentView.h"
@@ -39,7 +39,7 @@
 #import "ORKTinnitusVolumeResult.h"
 #import "ORKTinnitusAudioSample.h"
 #import "ORKTinnitusHeadphoneTable.h"
-#import "AAPLTaskViewController.h"
+#import "ORKITaskViewController.h"
 
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKitActiveTask/ORKActiveStepView.h>
@@ -317,7 +317,7 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
         
     } else if ([self isTinnitusSoundCalibration]) {
         if (context.predominantFrequency > 0.0) {
-            sampleTitle = AAPLLocalizedString(@"TINNITUS_FINAL_CALIBRATION_BUTTON_TITLE", nil);
+            sampleTitle = ORKILocalizedString(@"TINNITUS_FINAL_CALIBRATION_BUTTON_TITLE", nil);
             
 #if (TARGET_IPHONE_SIMULATOR)
             self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithHeadphoneType:ORKHeadphoneTypeIdentifierAirPodsMax];
@@ -379,12 +379,12 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
     
     [self setupAudioEngine];
     
-    AAPLTaskViewController *aaplTaskViewController = (AAPLTaskViewController *)self.taskViewController;
-    if (aaplTaskViewController != nil && [aaplTaskViewController isKindOfClass:[AAPLTaskViewController class]]) {
-        [aaplTaskViewController saveVolume];
+    ORKITaskViewController *internalTaskViewController = (ORKITaskViewController *)self.taskViewController;
+    if (internalTaskViewController != nil && [internalTaskViewController isKindOfClass:[ORKITaskViewController class]]) {
+        [internalTaskViewController saveVolume];
     } else {
-        // rdar://107531448 (all internal classes should throw error if parent is AAPLTaskViewController)
-        // TODO: THROW IF PARENT VIEW CONTROLLER ISN'T OF TYPE AAPLTaskViewController
+        // rdar://107531448 (all internal classes should throw error if parent is ORKITaskViewController)
+        // TODO: THROW IF PARENT VIEW CONTROLLER ISN'T OF TYPE ORKITaskViewController
     }
     
     [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:UIAccessibilityIsVoiceOverRunning() ? 0.2 : 0];

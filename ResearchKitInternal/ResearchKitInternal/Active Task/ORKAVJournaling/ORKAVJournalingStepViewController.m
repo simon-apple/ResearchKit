@@ -40,7 +40,7 @@
 #import "ORKAVJournalingSessionHelper.h"
 #import "ORKContext.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #import <ResearchKit/ORKResult_Private.h>
 #import <ResearchKit/ORKCollectionResult_Private.h>
@@ -213,7 +213,7 @@ static const CGFloat FramesToSkipTotal = 5.0;
 
 - (void)updateNavFooterText {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
-        [_navigationFooterView.skipButton setTitle:AAPLLocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_BUTTON_TEXT", nil) forState:UIControlStateNormal];
+        [_navigationFooterView.skipButton setTitle:ORKILocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_BUTTON_TEXT", nil) forState:UIControlStateNormal];
         
         [_navigationFooterView.continueButton removeTarget:nil
                                                     action:NULL
@@ -291,19 +291,19 @@ static const CGFloat FramesToSkipTotal = 5.0;
 
 - (void)finishLaterButtonPressed {
     UIAlertController * alert = [UIAlertController
-                                 alertControllerWithTitle:AAPLLocalizedString(@"AV_JOURNALING_STEP_ALERT_TITLE", nil)
-                                 message:AAPLLocalizedString(@"AV_JOURNALING_STEP_ALERT_MESSAGE", nil)
+                                 alertControllerWithTitle:ORKILocalizedString(@"AV_JOURNALING_STEP_ALERT_TITLE", nil)
+                                 message:ORKILocalizedString(@"AV_JOURNALING_STEP_ALERT_MESSAGE", nil)
                                  preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction* finishLaterButton = [UIAlertAction
-                                        actionWithTitle:AAPLLocalizedString(@"AV_JOURNALING_STEP_ALERT_FINISH_LATER_BUTTON_TEXT", nil)
+                                        actionWithTitle:ORKILocalizedString(@"AV_JOURNALING_STEP_ALERT_FINISH_LATER_BUTTON_TEXT", nil)
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction * action) {
         [self invokeFinishLaterContext];
     }];
     
     UIAlertAction* cancelButton = [UIAlertAction
-                                   actionWithTitle:AAPLLocalizedString(@"AV_JOURNALING_STEP_ALERT_CANCEL_BUTTON_TEXT", nil)
+                                   actionWithTitle:ORKILocalizedString(@"AV_JOURNALING_STEP_ALERT_CANCEL_BUTTON_TEXT", nil)
                                    style:UIAlertActionStyleDefault
                                    handler:nil];
     

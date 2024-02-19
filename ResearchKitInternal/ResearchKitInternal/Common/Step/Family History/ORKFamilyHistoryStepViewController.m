@@ -45,7 +45,7 @@
 #import "ORKFamilyHistoryTableFooterView.h"
 #import "ORKFamilyHistoryTableHeaderView.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #import <ResearchKit/ORKAnswerFormat.h>
 #import <ResearchKit/ORKAnswerFormat_Internal.h>

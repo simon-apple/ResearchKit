@@ -31,7 +31,7 @@
 
 #import "ORKAVJournalingSessionHelper.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #if ORK_FEATURE_AV_JOURNALING
 
@@ -483,13 +483,13 @@ typedef struct __attribute__((__packed__)) DepthPacket {
                 [_captureSession setSessionPreset: _sessionPreset];
             } else {
                 if (error != NULL) {
-                    *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:AAPLLocalizedString(@"AV_JOURNALING_STEP_CAMERA_ERROR", nil)}];
+                    *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKILocalizedString(@"AV_JOURNALING_STEP_CAMERA_ERROR", nil)}];
                 }
                 return NO;
             }
         } else {
             if (error != NULL) {
-                *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:AAPLLocalizedString(@"AV_JOURNALING_STEP_CAMERA_ERROR", nil)}];
+                *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKILocalizedString(@"AV_JOURNALING_STEP_CAMERA_ERROR", nil)}];
             }
             return NO;
         }
@@ -528,7 +528,7 @@ typedef struct __attribute__((__packed__)) DepthPacket {
         [_captureSession addInput: audioInput];
     } else {
         if (error != NULL) {
-            *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:AAPLLocalizedString(@"AV_JOURNALING_STEP_AUDIO_ERROR", nil)}];
+            *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKILocalizedString(@"AV_JOURNALING_STEP_AUDIO_ERROR", nil)}];
         }
         return NO;
     }
@@ -543,7 +543,7 @@ typedef struct __attribute__((__packed__)) DepthPacket {
             [_captureSession  addOutput:_audioDataOutput];
         } else {
             if (error != NULL) {
-                *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:AAPLLocalizedString(@"AV_JOURNALING_STEP_AUDIO_ERROR", nil)}];
+                *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKILocalizedString(@"AV_JOURNALING_STEP_AUDIO_ERROR", nil)}];
             }
             return NO;
         }
@@ -561,7 +561,7 @@ typedef struct __attribute__((__packed__)) DepthPacket {
             [_captureSession addOutput:_videoDataOutput];
         } else {
             if (error != NULL) {
-                *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:AAPLLocalizedString(@"AV_JOURNALING_STEP_CAMERA_ERROR", nil)}];
+                *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFeatureUnsupportedError userInfo:@{NSLocalizedDescriptionKey:ORKILocalizedString(@"AV_JOURNALING_STEP_CAMERA_ERROR", nil)}];
             }
             return NO;
         }

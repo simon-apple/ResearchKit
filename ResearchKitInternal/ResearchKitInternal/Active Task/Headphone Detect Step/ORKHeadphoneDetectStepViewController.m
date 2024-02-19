@@ -35,7 +35,7 @@
 #import "ORKHeadphoneDetectStep.h"
 #import "ORKHeadphoneDetector.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #import <ResearchKit/ORKSkin.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
@@ -232,16 +232,16 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         case ORKHeadphoneDetectedAirpodsGen1:
         case ORKHeadphoneDetectedAirpodsGen2:
         case ORKHeadphoneDetectedAirpodsGen3:
-            return AAPLLocalizedString(@"AIRPODS", nil);
+            return ORKILocalizedString(@"AIRPODS", nil);
         case ORKHeadphoneDetectedAirpodsPro:
         case ORKHeadphoneDetectedAirpodsProGen2:
-            return AAPLLocalizedString(@"AIRPODSPRO", nil);
+            return ORKILocalizedString(@"AIRPODSPRO", nil);
         case ORKHeadphoneDetectedAirpodsMax:
-            return AAPLLocalizedString(@"AIRPODSMAX", nil);
+            return ORKILocalizedString(@"AIRPODSMAX", nil);
         case ORKHeadphoneDetectedEarpods:
-            return AAPLLocalizedString(@"EARPODS", nil);
+            return ORKILocalizedString(@"EARPODS", nil);
         default:
-            return AAPLLocalizedString(@"HEADPHONES", nil);
+            return ORKILocalizedString(@"HEADPHONES", nil);
     }
 }
 
@@ -251,29 +251,29 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         case ORKHeadphoneDetectedAirpodsGen2:
         case ORKHeadphoneDetectedAirpodsGen3:
             if (_headphoneCellType == ORKHeadphoneDetectedUnknown) {
-                return _selected ? AAPLLocalizedString(@"HEADPHONE_CONNECTED_AIRPODS", nil) : AAPLLocalizedString(@"HEADPHONES_NONE", nil);
+                return _selected ? ORKILocalizedString(@"HEADPHONE_CONNECTED_AIRPODS", nil) : ORKILocalizedString(@"HEADPHONES_NONE", nil);
             }
-            return _selected ? AAPLLocalizedString(@"AIRPODS_CONNECTED", nil) :  AAPLLocalizedString(@"AIRPODS_NOT_CONNECTED", nil);
+            return _selected ? ORKILocalizedString(@"AIRPODS_CONNECTED", nil) :  ORKILocalizedString(@"AIRPODS_NOT_CONNECTED", nil);
         case ORKHeadphoneDetectedAirpodsPro:
         case ORKHeadphoneDetectedAirpodsProGen2:
             if (_headphoneCellType == ORKHeadphoneDetectedUnknown) {
-                return _selected ? AAPLLocalizedString(@"HEADPHONE_CONNECTED_AIRPODSPRO", nil) : AAPLLocalizedString(@"HEADPHONES_NONE", nil);
+                return _selected ? ORKILocalizedString(@"HEADPHONE_CONNECTED_AIRPODSPRO", nil) : ORKILocalizedString(@"HEADPHONES_NONE", nil);
             }
-            return _selected ? AAPLLocalizedString(@"AIRPODSPRO_CONNECTED", nil) :  AAPLLocalizedString(@"AIRPODSPRO_NOT_CONNECTED", nil);
+            return _selected ? ORKILocalizedString(@"AIRPODSPRO_CONNECTED", nil) :  ORKILocalizedString(@"AIRPODSPRO_NOT_CONNECTED", nil);
         case ORKHeadphoneDetectedAirpodsMax:
             if (_headphoneCellType == ORKHeadphoneDetectedUnknown) {
-                return _selected ? AAPLLocalizedString(@"HEADPHONE_CONNECTED_AIRPODSMAX", nil) : AAPLLocalizedString(@"HEADPHONES_NONE", nil);
+                return _selected ? ORKILocalizedString(@"HEADPHONE_CONNECTED_AIRPODSMAX", nil) : ORKILocalizedString(@"HEADPHONES_NONE", nil);
             }
-            return _selected ? AAPLLocalizedString(@"AIRPODSMAX_CONNECTED", nil) :  AAPLLocalizedString(@"AIRPODSMAX_NOT_CONNECTED", nil);
+            return _selected ? ORKILocalizedString(@"AIRPODSMAX_CONNECTED", nil) :  ORKILocalizedString(@"AIRPODSMAX_NOT_CONNECTED", nil);
         case ORKHeadphoneDetectedEarpods:
             if (_headphoneCellType == ORKHeadphoneDetectedUnknown) {
-                return _selected ? AAPLLocalizedString(@"HEADPHONE_CONNECTED_EARPODS", nil) : AAPLLocalizedString(@"HEADPHONES_NONE", nil);
+                return _selected ? ORKILocalizedString(@"HEADPHONE_CONNECTED_EARPODS", nil) : ORKILocalizedString(@"HEADPHONES_NONE", nil);
             }
-            return _selected ? AAPLLocalizedString(@"EARPODS_CONNECTED", nil) :  AAPLLocalizedString(@"EARPODS_NOT_CONNECTED", nil);
+            return _selected ? ORKILocalizedString(@"EARPODS_CONNECTED", nil) :  ORKILocalizedString(@"EARPODS_NOT_CONNECTED", nil);
         case ORKHeadphoneDetectedNone:
-            return AAPLLocalizedString(@"HEADPHONES_NONE", nil);
+            return ORKILocalizedString(@"HEADPHONES_NONE", nil);
         case ORKHeadphoneDetectedUnknown:
-            return AAPLLocalizedString(@"HEADPHONES", nil);
+            return ORKILocalizedString(@"HEADPHONES", nil);
     }
 }
 
@@ -326,7 +326,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _orangeLabelImage.tintColor = UIColor.systemOrangeColor;
     [_orangeLabelImage sizeToFit];
     _orangeLabelImage.translatesAutoresizingMaskIntoConstraints = NO;
-    _orangeLabel.text = AAPLLocalizedString(@"NOISE_CANCELLATION_REQUIRED", nil);
+    _orangeLabel.text = ORKILocalizedString(@"NOISE_CANCELLATION_REQUIRED", nil);
     _orangeLabel.numberOfLines = 0;
     _orangeLabel.textColor = UIColor.systemOrangeColor;
     _orangeLabel.font = [self subheadlineFontBold];
@@ -626,7 +626,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 - (NSAttributedString *)getSharedAudioMessage {
     NSMutableAttributedString *sharedAudioString = [NSMutableAttributedString new];
     
-    NSArray<NSString *> *stringElements = [AAPLLocalizedString(@"SHARED_AUDIO_ALERT", nil) componentsSeparatedByString:@"%@"];
+    NSArray<NSString *> *stringElements = [ORKILocalizedString(@"SHARED_AUDIO_ALERT", nil) componentsSeparatedByString:@"%@"];
 
     if (stringElements.count == 4) {
         NSString *title = stringElements[0];
@@ -881,7 +881,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
     if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]]) {
-        continueButtonItem.title = AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_CONTINUE", nil);
+        continueButtonItem.title = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_CONTINUE", nil);
     }
     
     continueButtonItem.target = self;
@@ -905,14 +905,14 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
     {
-        [skipButtonItem setTitle:AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_SKIP", nil)];
+        [skipButtonItem setTitle:ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_SKIP", nil)];
         skipButtonItem.target = self;
         skipButtonItem.action = @selector(noHeadphonesButtonPressed:);
     } else if ([self isDetectingAppleHeadphones]) {
         if (!self.step.context) {
             self.step.context = [[ORKdBHLTaskContext alloc] init];
         }
-        [skipButtonItem setTitle:AAPLLocalizedString(@"DBHL_HEADPHONES_DETECT_SKIP", nil)];
+        [skipButtonItem setTitle:ORKILocalizedString(@"DBHL_HEADPHONES_DETECT_SKIP", nil)];
         skipButtonItem.target = self;
         skipButtonItem.action = @selector(noHeadphonesButtonPressed:);
     }
@@ -1018,18 +1018,18 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _headphoneDetector.delegate = nil;
     dispatch_async(dispatch_get_main_queue(), ^{
         UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:AAPLLocalizedString(@"HEADPHONES_LOW_BATTERY_TITLE", nil)
-                                              message:AAPLLocalizedString(@"HEADPHONES_LOW_BATTERY_TEXT", nil)
+                                              alertControllerWithTitle:ORKILocalizedString(@"HEADPHONES_LOW_BATTERY_TITLE", nil)
+                                              message:ORKILocalizedString(@"HEADPHONES_LOW_BATTERY_TEXT", nil)
                                               preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *startOver = [UIAlertAction
-                                    actionWithTitle:AAPLLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
+                                    actionWithTitle:ORKILocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
                                     style:UIAlertActionStyleDefault
                                     handler:^(UIAlertAction *action) {
             [[self taskViewController] restartTask];
         }];
         [alertController addAction:startOver];
         [alertController addAction:[UIAlertAction
-                                    actionWithTitle:AAPLLocalizedString(@"dBHL_ALERT_TITLE_CANCEL_TEST", nil)
+                                    actionWithTitle:ORKILocalizedString(@"dBHL_ALERT_TITLE_CANCEL_TEST", nil)
                                     style:UIAlertActionStyleDefault
                                     handler:^(UIAlertAction *action) {
             ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;

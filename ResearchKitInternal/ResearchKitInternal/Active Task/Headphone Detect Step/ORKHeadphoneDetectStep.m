@@ -30,7 +30,7 @@
 
 #import "ORKHeadphoneDetectStep.h"
 
-#import <ResearchKitInternal/AAPLTypes.h>
+#import <ResearchKitInternal/ORKITypes.h>
 
 #import <ResearchKit/ORKStep_Private.h>
 #import <ResearchKit/ORKHelpers_Internal.h>

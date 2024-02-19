@@ -28,15 +28,16 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitInternal/AAPLHelpers_Internal.h>
-#import <ResearchKitInternal/AAPLSpeechRecognitionStep.h>
-#import <ResearchKitInternal/AAPLSpeechRecognitionStepViewController.h>
 #import <ResearchKitInternal/ORKAVJournalingPredefinedTask.h>
 #import <ResearchKitInternal/ORKAVJournalingStep.h>
-#import <ResearchKitInternal/ORKSensitiveURLLearnMoreInstructionStep.h>
 #import <ResearchKitInternal/ORKBLEScanPeripheralsStep.h>
 #import <ResearchKitInternal/ORKFaceDetectionStep.h>
+#import <ResearchKitInternal/ORKFamilyHistoryStepViewController_Private.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectStep.h>
+#import <ResearchKitInternal/ORKIHelpers_Internal.h>
+#import <ResearchKitInternal/ORKISpeechRecognitionStep.h>
+#import <ResearchKitInternal/ORKISpeechRecognitionStepViewController.h>
+#import <ResearchKitInternal/ORKSensitiveURLLearnMoreInstructionStep.h>
 #import <ResearchKitInternal/ORKSpeechInNoisePredefinedTask.h>
 #import <ResearchKitInternal/ORKTinnitusMaskingSoundStep.h>
 #import <ResearchKitInternal/ORKTinnitusOverallAssessmentStep.h>
@@ -46,4 +47,3 @@
 #import <ResearchKitInternal/ORKTinnitusTypeStep.h>
 #import <ResearchKitInternal/ORKVolumeCalibrationStep.h>
 #import <ResearchKitInternal/UIColor+Custom.h>
-#import <ResearchKitInternal/ORKFamilyHistoryStepViewController_Private.h>
