@@ -1798,7 +1798,7 @@ L30:
             }
         }
         /* Computing MAX */
-        d__1 = *sbgnrm, d__2 = fabs(gi);
+        (void)(d__1 = *sbgnrm), d__2 = fabs(gi);
         *sbgnrm = fmax(d__1,d__2);
         /* L15: */
     }
@@ -2110,7 +2110,7 @@ L30:
             if (nbd[k] == 1) {
                 /* lower bounds only */
                 /* Computing MAX */
-                d__1 = l[k], d__2 = xk + dk;
+                (void)(d__1 = l[k]), d__2 = xk + dk;
                 x[k] = fmax(d__1,d__2);
                 if (x[k] == l[k]) {
                     *iword = 1;
@@ -2120,7 +2120,7 @@ L30:
                 if (nbd[k] == 2) {
                     /* upper and lower bounds */
                     /* Computing MAX */
-                    d__1 = l[k], d__2 = xk + dk;
+                    (void)(d__1 = l[k]), d__2 = xk + dk;
                     xk = fmax(d__1,d__2);
                     /* Computing MIN */
                     d__1 = u[k];
@@ -2133,7 +2133,7 @@ L30:
                     if (nbd[k] == 3) {
                         /* upper bounds only */
                         /* Computing MIN */
-                        d__1 = u[k], d__2 = xk + dk;
+                        (void)(d__1 = u[k]), d__2 = xk + dk;
                         x[k] = fmin(d__1,d__2);
                         if (x[k] == u[k]) {
                             *iword = 1;

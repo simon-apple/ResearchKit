@@ -387,7 +387,6 @@ static const NSInteger MaxRecalibrationViewPresentations = 4;
         [UIView animateWithDuration:0.8
                          animations:^{
             [self->_countDownLabel setText:[NSString stringWithFormat:ORKILocalizedString(@"AV_JOURNALING_STEP_NEXT_QUESTION_MESSAGE", nil), [self formattedTimeFromSeconds:self->_countDownStartTime]]];
-            
             self->_countDownLabel.layer.opacity = 1.0;
             
             [self->_questionNumberLabelTopConstraint setActive:NO];
