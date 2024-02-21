@@ -30,7 +30,7 @@
 
 
 @import UIKit;
-#import "ORKScaleRangeLabel.h"
+#import <ResearchKitUI/ORKScaleRangeLabel.h>
 
 
 NS_ASSUME_NONNULL_BEGIN

@@ -371,10 +371,10 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
         _rampUp = NO;
         int nodeInput = (_lastNodeInput % 2) + 1;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_fadeInDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            if (_mGraph) {
+            if (self->_mGraph) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    AUGraphDisconnectNodeInput(_mGraph, _mixerNode, nodeInput);
-                    AUGraphUpdate(_mGraph, NULL);
+                    AUGraphDisconnectNodeInput(self->_mGraph, self->_mixerNode, nodeInput);
+                    AUGraphUpdate(self->_mGraph, NULL);
                 }); 
             }
         });

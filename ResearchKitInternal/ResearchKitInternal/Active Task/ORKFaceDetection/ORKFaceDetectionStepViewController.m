@@ -412,16 +412,16 @@
         dispatch_async(dispatch_get_main_queue(), ^(void) {
             BOOL isFaceDetected = (CGRectGetHeight(updatedFaceRect) > 0 && CGRectGetWidth(updatedFaceRect) > 0);
             
-            [_contentView setFaceDetected:isFaceDetected faceRect:updatedFaceRect originalSize:updatedSize];
+            [self->_contentView setFaceDetected:isFaceDetected faceRect:updatedFaceRect originalSize:updatedSize];
             
             if (isFaceDetected) {
-                [_contentView updateFacePositionCircleWithCGRect:updatedFaceRect originalSize:updatedSize];
+                [self->_contentView updateFacePositionCircleWithCGRect:updatedFaceRect originalSize:updatedSize];
             }
             
-            if (isFaceDetected && [_contentView isFacePositionCircleWithinBox:updatedFaceRect originalSize:updatedSize]) {
-                [_navigationFooterView setContinueEnabled:YES];
+            if (isFaceDetected && [self->_contentView isFacePositionCircleWithinBox:updatedFaceRect originalSize:updatedSize]) {
+                [self->_navigationFooterView setContinueEnabled:YES];
             } else {
-                [_navigationFooterView setContinueEnabled:NO];
+                [self->_navigationFooterView setContinueEnabled:NO];
             }
         });
     }

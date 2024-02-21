@@ -223,11 +223,11 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
     if (self.tinnitusPredefinedTaskContext != nil) {
         [self stopAutomaticPlay];
         [self stopSample:^{
-            [_tinnitusTypeContentView enableButtons:YES];
+            [self->_tinnitusTypeContentView enableButtons:YES];
         }];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_tinnitusTypeContentView.buttonsViewArray makeObjectsPerformSelector:@selector(restoreButton)];
+            [self->_tinnitusTypeContentView.buttonsViewArray makeObjectsPerformSelector:@selector(restoreButton)];
         });
     }
 }
@@ -269,7 +269,7 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
     [_playerNode play];
 
     [_mixerNode fadeInWithDuration:ORKTinnitusTypeFadeDuration stepInterval:ORKTinnitusTypeFadeStep completion:^{
-        [_tinnitusTypeContentView enableButtons:YES];
+        [self->_tinnitusTypeContentView enableButtons:YES];
     }];
 }
 
@@ -283,7 +283,7 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
     [_tinnitusTypeContentView enableButtons:NO];
 
     [_mixerNode fadeOutWithDuration:ORKTinnitusTypeFadeDuration stepInterval:ORKTinnitusTypeFadeStep completion:^{
-        [_playerNode stop];
+        [self->_playerNode stop];
         if (completion) {
             completion();
         }
@@ -332,7 +332,7 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
         }];
     } else {
         [self stopSample:^{
-            [_tinnitusTypeContentView enableButtons:YES];
+            [self->_tinnitusTypeContentView enableButtons:YES];
         }];
     }
     

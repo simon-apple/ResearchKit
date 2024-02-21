@@ -120,7 +120,7 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
         }];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_tinnitusContentView restoreButtons];
+            [self->_tinnitusContentView restoreButtons];
         });
     }
 }
@@ -481,17 +481,17 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     }
     
     void (^playNext)(void) = ^{
-        NSUInteger frequencyIndex = _aFrequencyIndex;
+        NSUInteger frequencyIndex = self->_aFrequencyIndex;
         if (newPosition == ORKTinnitusSelectedPureTonePositionB) {
-            frequencyIndex = _bFrequencyIndex;
+            frequencyIndex = self->_bFrequencyIndex;
         } else if (newPosition == ORKTinnitusSelectedPureTonePositionC) {
-            frequencyIndex = _cFrequencyIndex;
+            frequencyIndex = self->_cFrequencyIndex;
         }
 
         if (isCurrentAutomaticStageButtonSelected && autoPlayIsStoped && isSimulatedTap) {
-            [_tinnitusContentView restoreButtons];
+            [self->_tinnitusContentView restoreButtons];
         } else {
-            [self playSoundAt:[_frequencies[frequencyIndex] doubleValue]];
+            [self playSoundAt:[self->_frequencies[frequencyIndex] doubleValue]];
         }
         
         self.activeStepView.navigationFooterView.continueEnabled = [self canEnableFineTune];
@@ -515,7 +515,7 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     self.shouldHideVolumeHUD = NO;
     if (UIAccessibilityIsVoiceOverRunning()) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((PLAY_DELAY - 0.05) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, _tinnitusContentView);
+            UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, self->_tinnitusContentView);
         });
     }
     [self performSelector:@selector(startAutomaticPlay) withObject:nil afterDelay:PLAY_DELAY];

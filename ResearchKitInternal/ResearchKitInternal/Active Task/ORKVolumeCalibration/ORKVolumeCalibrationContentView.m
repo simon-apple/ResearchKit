@@ -138,8 +138,7 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
     UIImageView *sliderFull = [[UIImageView alloc] initWithImage:sliderFullImage];
     UIImageView *sliderEmpty = [[UIImageView alloc] initWithImage:sliderEmptyImage];
 
-    UIColor *tintColor = [UIColor grayColor];
-    tintColor = [UIColor secondaryLabelColor];
+    UIColor *tintColor = [UIColor secondaryLabelColor];
         
     sliderFull.tintColor = tintColor;
     sliderEmpty.tintColor = tintColor;
@@ -259,12 +258,12 @@ static int const ORKVolumeCalibrationStepPlaybackButtonSize = 36;
 
     if ([reason isEqualToString:@"ExplicitVolumeChange"]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (!_volumeSlider.isTracking) {
-                [_volumeSlider setValue:volume.doubleValue];
+            if (!self->_volumeSlider.isTracking) {
+                [self->_volumeSlider setValue:volume.doubleValue];
             }
             
-            if (volume.doubleValue > 0 && _barLevelsView.isHidden) {
-                [self playbackButtonPressed:_playbackButton];
+            if (volume.doubleValue > 0 && self->_barLevelsView.isHidden) {
+                [self playbackButtonPressed:self->_playbackButton];
             }
             
             if ([self.delegate respondsToSelector:@selector(contentView:shouldEnableContinue:)]) {

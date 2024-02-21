@@ -30,8 +30,9 @@
 
 
 @import UIKit;
-#import "ORKCustomStepView_Internal.h"
-#import "ORKTouchAbilityTouchTracker.h"
+
+#import <ResearchKitUI/ORKCustomStepView_Internal.h>
+#import <ResearchKitActiveTask/ORKTouchAbilityTouchTracker.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -33,7 +33,7 @@
 @import Foundation;
 @import UIKit;
 
-#import "ORKTextChoiceCellGroup.h"
+#import <ResearchKitUI/ORKTextChoiceCellGroup.h>
 
 #import <ResearchKit/ORKQuestionStep_Private.h>
 

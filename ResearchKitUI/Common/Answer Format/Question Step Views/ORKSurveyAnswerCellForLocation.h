@@ -32,7 +32,7 @@
 
 
 @import UIKit;
-#import "ORKSurveyAnswerCell.h"
+#import <ResearchKitUI/ORKSurveyAnswerCell.h>
 
 
 NS_ASSUME_NONNULL_BEGIN

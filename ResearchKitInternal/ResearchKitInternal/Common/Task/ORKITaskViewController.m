@@ -155,10 +155,10 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
             NSDictionary *userInfo = note.userInfo;
             NSNumber *volume = userInfo[getAVSystemController_AudioVolumeNotificationParameter()];
             
-            if (volume.floatValue != _lockedVolume) {
+            if (volume.floatValue != self->_lockedVolume) {
                 NSString *reason = userInfo[getAVSystemController_AudioVolumeChangeReasonNotificationParameter()];
                 if ([reason isEqualToString:@"ExplicitVolumeChange"]) {
-                    [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_lockedVolume];
+                    [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:self->_lockedVolume];
                 };
             }
         }

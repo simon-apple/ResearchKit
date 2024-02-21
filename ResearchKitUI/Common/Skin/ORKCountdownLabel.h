@@ -30,7 +30,7 @@
 
 
 @import UIKit;
-#import "ORKLabel.h"
+#import <ResearchKitUI/ORKLabel.h>
 
 
 NS_ASSUME_NONNULL_BEGIN

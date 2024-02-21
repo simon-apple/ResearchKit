@@ -31,7 +31,7 @@
 #import "ORKIHelpers_Internal.h"
 #import "ORKICompletionStepViewController.h"
 
-NSBundle *ORKInternalBundle() {
+NSBundle *ORKInternalBundle(void) {
     static NSBundle *bundle;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

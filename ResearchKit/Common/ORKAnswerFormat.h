@@ -1726,8 +1726,9 @@ ORK_CLASS_AVAILABLE
 
 #if RK_APPLE_INTERNAL
 /**
- Sets the scrubber names on the text answer
- @param scrubberNames   The PIIScrubber names to be used on this textAnswerFormat
+ Sets the scrubber names on the text answer.
+ 
+ The PIIScrubber names to be used on this textAnswerFormat
  */
 @property (nonatomic, copy, nullable) NSArray<NSString *> *scrubberNames;
 #endif

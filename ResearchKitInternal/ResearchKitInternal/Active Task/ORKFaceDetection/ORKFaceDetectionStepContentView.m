@@ -254,40 +254,39 @@ static const CGFloat StopFaceDetectionTimeLimit = 10.0;
         if (detected && [self isFacePositionCircleWithinBox:faceRect originalSize:originalSize]) {
         
             [self updateDetectionTitleLabelAttributedText];
-            [_faceDetectionDetailLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TEXT", nil)];
-            [_calibrationBoxImageView setTintColor:[UIColor greenColor]];
+            [self->_faceDetectionDetailLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_FACE_DETECTED_TEXT", nil)];
+            [self->_calibrationBoxImageView setTintColor:[UIColor greenColor]];
           
-            _faceDetected = YES;
-            _noFaceDetectedYet = NO;
+            self->_faceDetected = YES;
+            self->_noFaceDetectedYet = NO;
             
-            if (!_faceIconIsShowing) {
+            if (!self->_faceIconIsShowing) {
                 [self animateInFaceIcon];
             }
             
-            if (_animateFaceOutTimer) {
-                [_animateFaceOutTimer invalidate];
-                _animateFaceOutTimer = nil;
+            if (self->_animateFaceOutTimer) {
+                [self->_animateFaceOutTimer invalidate];
+                self->_animateFaceOutTimer = nil;
             }
-        } else if (!_noFaceDetectedYet) {
-            
-            _faceDetectionTitleLabel.attributedText = nil;
-            if (!_showingForRecalibration) {
-                [_faceDetectionTitleLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE", nil)];
-                [_faceDetectionDetailLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT", nil)];
+        } else if (!self->_noFaceDetectedYet) {
+            self->_faceDetectionTitleLabel.attributedText = nil;
+            if (!self->_showingForRecalibration) {
+                [self->_faceDetectionTitleLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE", nil)];
+                [self->_faceDetectionDetailLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT", nil)];
             } else {
-                [_faceDetectionTitleLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE_RECALIBRATION", nil)];
-                [_faceDetectionDetailLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT_RECALIBRATION", nil)];
+                [self->_faceDetectionTitleLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TITLE_RECALIBRATION", nil)];
+                [self->_faceDetectionDetailLabel setText:ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_NO_FACE_DETECTED_TEXT_RECALIBRATION", nil)];
             }
-            [_calibrationBoxImageView setTintColor:[UIColor systemGrayColor]];
+            [self->_calibrationBoxImageView setTintColor:[UIColor systemGrayColor]];
             
-            _faceDetected = NO;
+            self->_faceDetected = NO;
             
-            if (_faceIconIsShowing && !_animateFaceOutTimer) {
-                _animateFaceOutTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                                                        target:self
-                                                                      selector:@selector(animateOutFaceIcon)
-                                                                      userInfo:nil
-                                                                       repeats:NO];
+            if (self->_faceIconIsShowing && !self->_animateFaceOutTimer) {
+                self->_animateFaceOutTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                                              target:self
+                                                                            selector:@selector(animateOutFaceIcon)
+                                                                            userInfo:nil
+                                                                             repeats:NO];
 
             }
         }
@@ -323,23 +322,23 @@ static const CGFloat StopFaceDetectionTimeLimit = 10.0;
         UIViewPropertyAnimator *propertyAnimatorForOpacity = [[UIViewPropertyAnimator alloc] initWithDuration:0.8 timingParameters:springTimingParametersForOpacity];
 
         [propertyAnimatorForOpacity addAnimations:^{
-            [_facePositionImageView.layer setOpacity:1.0];
+            [self->_facePositionImageView.layer setOpacity:1.0];
         }];
 
         UISpringTimingParameters *springTimingParametersForSize = [[UISpringTimingParameters alloc] initWithMass:2.0 stiffness:300 damping:20 initialVelocity:CGVectorMake(0, 0)];
         UIViewPropertyAnimator *propertyAnimatorForSize = [[UIViewPropertyAnimator alloc] initWithDuration:1.2 timingParameters:springTimingParametersForSize];
 
         [propertyAnimatorForSize addAnimations:^{
-            CGRect currentFrame = _facePositionImageView.layer.frame;
-            currentFrame.size.height = _facePositionImageHeightWidth;
-            currentFrame.size.width = _facePositionImageHeightWidth;
+            CGRect currentFrame = self->_facePositionImageView.layer.frame;
+            currentFrame.size.height = self->_facePositionImageHeightWidth;
+            currentFrame.size.width = self->_facePositionImageHeightWidth;
 
-            [_facePositionImageView.layer setFrame:currentFrame];
+            [self->_facePositionImageView.layer setFrame:currentFrame];
         }];
 
         [propertyAnimatorForOpacity startAnimation];
         [propertyAnimatorForSize startAnimation];
-        _faceIconIsShowing = YES;
+        self->_faceIconIsShowing = YES;
     });
 }
 
@@ -350,24 +349,24 @@ static const CGFloat StopFaceDetectionTimeLimit = 10.0;
         UIViewPropertyAnimator *propertyAnimatorForOpacity = [[UIViewPropertyAnimator alloc] initWithDuration:0.8 timingParameters:springTimingParametersForOpacity];
 
         [propertyAnimatorForOpacity addAnimations:^{
-            [_facePositionImageView.layer setOpacity:0.0];
+            [self->_facePositionImageView.layer setOpacity:0.0];
         }];
 
         UISpringTimingParameters *springTimingParametersForSize = [[UISpringTimingParameters alloc] initWithMass:2.0 stiffness:300 damping:50 initialVelocity:CGVectorMake(0, 0)];
         UIViewPropertyAnimator *propertyAnimatorForSize = [[UIViewPropertyAnimator alloc] initWithDuration:0.8 timingParameters:springTimingParametersForSize];
 
         [propertyAnimatorForSize addAnimations:^{
-            CGRect currentFrame = _facePositionImageView.layer.frame;
-            currentFrame.size.height = _facePositionImageSmallerHeightWidth;
-            currentFrame.size.width = _facePositionImageSmallerHeightWidth;
+            CGRect currentFrame = self->_facePositionImageView.layer.frame;
+            currentFrame.size.height = self->_facePositionImageSmallerHeightWidth;
+            currentFrame.size.width = self->_facePositionImageSmallerHeightWidth;
 
-            [_facePositionImageView.layer setFrame:currentFrame];
+            [self->_facePositionImageView.layer setFrame:currentFrame];
         }];
 
         [propertyAnimatorForOpacity startAnimation];
         [propertyAnimatorForSize startAnimation];
-        _faceIconIsShowing = NO;
-        _animateFaceOutTimer = nil;
+        self->_faceIconIsShowing = NO;
+        self->_animateFaceOutTimer = nil;
     });
 }
 
@@ -377,7 +376,7 @@ static const CGFloat StopFaceDetectionTimeLimit = 10.0;
         
         [UIView animateWithDuration:0.4
                          animations:^{
-            [_facePositionImageView.layer setPosition:[self getFaceCirclePositionWithFaceRect:rect originalSize:originalSize]];
+            [self->_facePositionImageView.layer setPosition:[self getFaceCirclePositionWithFaceRect:rect originalSize:originalSize]];
             [self setNeedsLayout];
         }];
     });

@@ -69,12 +69,15 @@
 #import <ResearchKitActiveTask/ORKTappingIntervalStep.h>
 #import <ResearchKitActiveTask/ORKTimedWalkStep.h>
 #import <ResearchKitActiveTask/ORKToneAudiometryStep.h>
+#import <ResearchKitActiveTask/ORKTouchAbilityContentView.h>
 #import <ResearchKitActiveTask/ORKTouchAbilityLongPressStep.h>
 #import <ResearchKitActiveTask/ORKTouchAbilityPinchStep.h>
 #import <ResearchKitActiveTask/ORKTouchAbilityRotationStep.h>
+#import <ResearchKitActiveTask/ORKTouchAbilityScrollContentView.h>
 #import <ResearchKitActiveTask/ORKTouchAbilityScrollStep.h>
 #import <ResearchKitActiveTask/ORKTouchAbilitySwipeStep.h>
 #import <ResearchKitActiveTask/ORKTouchAbilityTapStep.h>
+#import <ResearchKitActiveTask/ORKTouchAbilityTouchTracker.h>
 #import <ResearchKitActiveTask/ORKTouchRecorder.h>
 #import <ResearchKitActiveTask/ORKTowerOfHanoiStep.h>
 #import <ResearchKitActiveTask/ORKTrailmakingStep.h>

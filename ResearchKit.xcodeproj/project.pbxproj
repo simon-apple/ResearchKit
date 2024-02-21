@@ -87,9 +87,9 @@
 		5139A559266EDA3300537192 /* ORKFeatureFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = 5139A553266ED9BB00537192 /* ORKFeatureFlags.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5156C9C52B7E426900983535 /* ORKTouchAbilityArrowView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5156C9C12B7E426900983535 /* ORKTouchAbilityArrowView.h */; };
 		5156C9C62B7E426900983535 /* ORKTouchAbilityContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5156C9C22B7E426900983535 /* ORKTouchAbilityContentView.m */; };
-		5156C9C72B7E426900983535 /* ORKTouchAbilityContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5156C9C32B7E426900983535 /* ORKTouchAbilityContentView.h */; };
+		5156C9C72B7E426900983535 /* ORKTouchAbilityContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5156C9C32B7E426900983535 /* ORKTouchAbilityContentView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5156C9C82B7E426900983535 /* ORKTouchAbilityArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5156C9C42B7E426900983535 /* ORKTouchAbilityArrowView.m */; };
-		5156C9D62B7E42C200983535 /* ORKTouchAbilityTouchTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 5156C9CA2B7E42C100983535 /* ORKTouchAbilityTouchTracker.h */; };
+		5156C9D62B7E42C200983535 /* ORKTouchAbilityTouchTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 5156C9CA2B7E42C100983535 /* ORKTouchAbilityTouchTracker.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5156C9D72B7E42C200983535 /* ORKTouchAbilityTrack_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5156C9CB2B7E42C100983535 /* ORKTouchAbilityTrack_Internal.h */; };
 		5156C9D82B7E42C200983535 /* ORKTouchAbilityGestureRecoginzerEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5156C9CC2B7E42C100983535 /* ORKTouchAbilityGestureRecoginzerEvent.m */; };
 		5156C9D92B7E42C200983535 /* ORKTouchAbilityTouch.h in Headers */ = {isa = PBXBuildFile; fileRef = 5156C9CD2B7E42C100983535 /* ORKTouchAbilityTouch.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -747,7 +747,7 @@
 		CAA20E0E288B3E8200EDC764 /* ORKPasscodeStepView.h in Headers */ = {isa = PBXBuildFile; fileRef = 24A4DA0E1B8D0F21009C797A /* ORKPasscodeStepView.h */; };
 		CAA20E0F288B3E8200EDC764 /* ORKReviewStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF91559A1BDE8D7D007FA459 /* ORKReviewStepViewController.m */; };
 		CAA20E10288B3E8200EDC764 /* ORKCustomSignatureFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7EC216524787338000C1F46 /* ORKCustomSignatureFooterView.m */; };
-		CAA20E11288B3E8200EDC764 /* ORKCustomStepView_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B791A8D7C5C00081FAC /* ORKCustomStepView_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		CAA20E11288B3E8200EDC764 /* ORKCustomStepView_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B791A8D7C5C00081FAC /* ORKCustomStepView_Internal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAA20E12288B3E8200EDC764 /* ORKPasscodeStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = 24A4DA0F1B8D0F21009C797A /* ORKPasscodeStepView.m */; };
 		CAA20E13288B3E8200EDC764 /* ORKWebViewStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8419D6701FB73EC60088D7E5 /* ORKWebViewStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAA20E14288B3E8200EDC764 /* ORKInstructionStepContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = BADA2F25225DA54B005D2255 /* ORKInstructionStepContainerView.m */; };
@@ -769,7 +769,7 @@
 		CAA20E26288B3E8200EDC764 /* ORKPageStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = FF5E3CC91D23444400ECE4B7 /* ORKPageStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAA20E27288B3E8200EDC764 /* ORKWaitStepView.h in Headers */ = {isa = PBXBuildFile; fileRef = BF9155A31BDE8DA9007FA459 /* ORKWaitStepView.h */; };
 		CAA20E28288B3E8200EDC764 /* ORKImageCaptureStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = D442397B1AF17F7600559D96 /* ORKImageCaptureStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CAA20E29288B3E8200EDC764 /* ORKCustomStepView.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B771A8D7C5C00081FAC /* ORKCustomStepView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		CAA20E29288B3E8200EDC764 /* ORKCustomStepView.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B771A8D7C5C00081FAC /* ORKCustomStepView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAA20E2A288B3E8200EDC764 /* ORKStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD65E4A2284EFF9008A5DCE /* ORKStepView.m */; };
 		CAA20E2B288B3E8200EDC764 /* ORKInstructionStepContainerView.h in Headers */ = {isa = PBXBuildFile; fileRef = BADA2F24225DA54B005D2255 /* ORKInstructionStepContainerView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CAA20E2C288B3E8200EDC764 /* ORKFormStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = BC37323522B76DC70021F665 /* ORKFormStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };

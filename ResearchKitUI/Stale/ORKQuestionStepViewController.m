@@ -1091,6 +1091,10 @@ static NSString *const _ORKOriginalAnswerRestoreKey = @"originalAnswer";
     [_choiceCellGroup textViewDidResignResponderForCellAtIndexPath:indexPath];
 }
 
+- (void)textChoiceOtherCellDidChangeText:(NSString *)text choiceOtherCell:(ORKChoiceOtherViewCell *)choiceOtherViewCell {
+    // Satisfies protocol conformance
+}
+
 #pragma mark - ORKLearnViewDelegate
 
 - (void)learnMoreButtonPressedWithStep:(ORKLearnMoreInstructionStep *)learnMoreStep {

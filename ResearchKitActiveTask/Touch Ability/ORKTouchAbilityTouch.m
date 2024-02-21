@@ -86,7 +86,7 @@
     
     ORK_ENCODE_DOUBLE(aCoder, altitudeAngle);
     
-    if (self.estimationUpdateIndex) {
+    if (self.estimationUpdateIndex != nil) {
         ORK_ENCODE_OBJ(aCoder, estimationUpdateIndex);
     }
     

@@ -336,57 +336,57 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
                           format:_inputNodeOutputFormat
                            block:^(AVAudioPCMBuffer * _Nonnull buffer, AVAudioTime * _Nonnull when) {
                                if ([AVAudioSession sharedInstance].recordPermission == AVAudioSessionRecordPermissionGranted) {
-                                   if (buffer.frameLength != _bufferSize) {
-                                       _bufferSize = buffer.frameLength;
+                                   if (buffer.frameLength != self->_bufferSize) {
+                                       self->_bufferSize = buffer.frameLength;
                                    }
-                                   int sampleCount = _samplingInterval * _countToFetch;
+                                   int sampleCount = self->_samplingInterval * self->_countToFetch;
                                    float rms = 0.0;
                                    for (int i = 0; i < buffer.frameLength; i++) {
                                        float value = [@(buffer.floatChannelData[0][i]) floatValue];
                                        rms +=  value * value;
                                    }
                                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                                       [_rmsBuffer addObject:@(rms)];
+                                       [self->_rmsBuffer addObject:@(rms)];
                                        
                                        // perform averaging based on capture interval
-                                       if (_rmsBuffer.count >= sampleCount + 1) {
+                                       if (self->_rmsBuffer.count >= sampleCount + 1) {
                                            float rmsSum = 0.0;
                                            int i = sampleCount;
-                                           NSUInteger j = _rmsBuffer.count - 1;
+                                           NSUInteger j = self->_rmsBuffer.count - 1;
                                            while (i>0) {
-                                               rmsSum += [_rmsBuffer[j] floatValue];
+                                               rmsSum += [self->_rmsBuffer[j] floatValue];
                                                i --;
                                                j --;
                                            }
-                                           _rmsData = rmsSum/_samplingInterval;
-                                           float calValue = _sensitivityOffset;
-                                           _spl = (20 * log10f(sqrtf(_rmsData/(float)_sampleRate))) - calValue + 94;
-                                           [_recordedSamples addObject:[NSNumber numberWithFloat:_spl]];
+                                           self->_rmsData = rmsSum/self->_samplingInterval;
+                                           float calValue = self->_sensitivityOffset;
+                                           self->_spl = (20 * log10f(sqrtf(self->_rmsData/(float)self->_sampleRate))) - calValue + 94;
+                                           [self->_recordedSamples addObject:[NSNumber numberWithFloat:self->_spl]];
                                            dispatch_async(dispatch_get_main_queue(), ^{
-                                               [self.environmentSPLMeterContentView setProgressCircle:(_spl/_thresholdValue)];
+                                               [self.environmentSPLMeterContentView setProgressCircle:(self->_spl/self->_thresholdValue)];
                                            });
-                                           [self evaluateThreshold:_spl];
-                                           [_rmsBuffer removeAllObjects];
+                                           [self evaluateThreshold:self->_spl];
+                                           [self->_rmsBuffer removeAllObjects];
                                        } else {
-                                           if (rms > 0.0 && _sampleRate > 0.0) {
-                                               float spl = (20 * log10f(sqrtf(rms/(float)_sampleRate))) - _sensitivityOffset + 96;
+                                           if (rms > 0.0 && self->_sampleRate > 0.0) {
+                                               float spl = (20 * log10f(sqrtf(rms/(float)self->_sampleRate))) - self->_sensitivityOffset + 96;
                                                dispatch_async(dispatch_get_main_queue(), ^{
-                                                   [self.environmentSPLMeterContentView setProgressBar:(spl/_thresholdValue)];
+                                                   [self.environmentSPLMeterContentView setProgressBar:(spl/self->_thresholdValue)];
                                                });
                                            } else {
                                                dispatch_async(dispatch_get_main_queue(), ^{
-                                                   [self.environmentSPLMeterContentView setProgressBar:(_spl/_thresholdValue)];
+                                                   [self.environmentSPLMeterContentView setProgressBar:(self->_spl/self->_thresholdValue)];
                                                });
                                            }
                                        }
-                                       dispatch_semaphore_signal(_semaphoreRms);
+                                       dispatch_semaphore_signal(self->_semaphoreRms);
                                    });
-                                   dispatch_semaphore_wait(_semaphoreRms, DISPATCH_TIME_FOREVER);
+                                   dispatch_semaphore_wait(self->_semaphoreRms, DISPATCH_TIME_FOREVER);
                                } else if ([AVAudioSession sharedInstance].recordPermission == AVAudioSessionRecordPermissionDenied) {
                                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                                       [_eqUnit removeTapOnBus:0];
-                                       [_audioEngine stop];
-                                       [_rmsBuffer removeAllObjects];
+                                       [self->_eqUnit removeTapOnBus:0];
+                                       [self->_audioEngine stop];
+                                       [self->_rmsBuffer removeAllObjects];
                                    });
                                }
                            }];
@@ -434,9 +434,9 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
     if ([_audioEngine isRunning]) {
         dispatch_semaphore_signal(_semaphoreRms);
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [_eqUnit removeTapOnBus:0];
-            [_audioEngine stop];
-            [_rmsBuffer removeAllObjects];
+            [self->_eqUnit removeTapOnBus:0];
+            [self->_audioEngine stop];
+            [self->_rmsBuffer removeAllObjects];
         });
     }
 }
@@ -480,8 +480,8 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
 - (void)sendHapticEvent:(UINotificationFeedbackType)eventType
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_notificationFeedbackGenerator notificationOccurred:eventType];
-        [_notificationFeedbackGenerator prepare];
+        [self->_notificationFeedbackGenerator notificationOccurred:eventType];
+        [self->_notificationFeedbackGenerator prepare];
     });
 }
 

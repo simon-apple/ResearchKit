@@ -33,7 +33,6 @@
 #import "ORKSkin.h"
 #import "ORKAccessibilityFunctions.h"
 
-static const CGFloat CheckmarkViewBorderWidth = 2.0;
 
 @implementation ORKCheckmarkView {
     CGFloat _dimension;

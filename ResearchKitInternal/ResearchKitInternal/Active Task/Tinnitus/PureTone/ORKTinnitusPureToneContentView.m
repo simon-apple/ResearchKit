@@ -238,26 +238,26 @@ static const CGFloat ORKTinnitusStandardSpacing = 12.0;
               initialSpringVelocity:0.0
                             options:UIViewAnimationOptionCurveEaseIn|UIViewAnimationOptionAllowUserInteraction
                          animations:^{
-            _firstALeadingConstraint.constant = -firstAWidth;
-            _firstBLeadingConstraint.constant = -firstAWidth;
-            _cLeadingConstraint.constant = -firstAWidth;
-            _firstAButtonView.alpha = 0;
-            _firstBButtonView.alpha = 0;
-            _cButtonView.alpha = 0;
-            _secondALeadingConstraint.constant = 0;
-            _secondBLeadingConstraint.constant = 0;
-            _secondAButtonView.alpha = 1.0;
-            _secondBButtonView.alpha = 1.0;
+            self->_firstALeadingConstraint.constant = -firstAWidth;
+            self->_firstBLeadingConstraint.constant = -firstAWidth;
+            self->_cLeadingConstraint.constant = -firstAWidth;
+            self->_firstAButtonView.alpha = 0;
+            self->_firstBButtonView.alpha = 0;
+            self->_cButtonView.alpha = 0;
+            self->_secondALeadingConstraint.constant = 0;
+            self->_secondBLeadingConstraint.constant = 0;
+            self->_secondAButtonView.alpha = 1.0;
+            self->_secondBButtonView.alpha = 1.0;
 
             [self layoutIfNeeded];
         } completion:^(BOOL finished) {
-            _cButtonView.hidden = YES;
-            _firstAButtonView.hidden = YES;
-            _firstBButtonView.hidden = YES;
-            if (_delegate && [_delegate respondsToSelector:@selector(animationFinishedForStage:)]) {
-                [_delegate animationFinishedForStage:_buttonsStage];
+            self->_cButtonView.hidden = YES;
+            self->_firstAButtonView.hidden = YES;
+            self->_firstBButtonView.hidden = YES;
+            if (self->_delegate && [self->_delegate respondsToSelector:@selector(animationFinishedForStage:)]) {
+                [self->_delegate animationFinishedForStage:self->_buttonsStage];
             }
-            _buttonsStage = PureToneButtonsStageTwo;
+            self->_buttonsStage = PureToneButtonsStageTwo;
         }];
     } else {
         BOOL isStageTwo = (_buttonsStage == PureToneButtonsStageTwo);
@@ -297,10 +297,10 @@ static const CGFloat ORKTinnitusStandardSpacing = 12.0;
         } completion:^(BOOL finished) {
             showedAButtonView.hidden = YES;
             showedBButtonView.hidden = YES;
-            if (_delegate && [_delegate respondsToSelector:@selector(animationFinishedForStage:)]) {
-                [_delegate animationFinishedForStage:_buttonsStage];
+            if (self->_delegate && [self->_delegate respondsToSelector:@selector(animationFinishedForStage:)]) {
+                [self->_delegate animationFinishedForStage:self->_buttonsStage];
             }
-            _buttonsStage = (_buttonsStage == PureToneButtonsStageTwo) ? PureToneButtonsStageThree : PureToneButtonsStageTwo;
+            self->_buttonsStage = (self->_buttonsStage == PureToneButtonsStageTwo) ? PureToneButtonsStageThree : PureToneButtonsStageTwo;
             // repositioning the buttons after animation
             showedALeadingConstraint.constant = aButtonViewWidth;
             showedBLeadingConstraint.constant = aButtonViewWidth;

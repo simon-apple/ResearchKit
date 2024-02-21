@@ -220,13 +220,13 @@
                     if (value && ![value isKindOfClass:[ORKDontKnowAnswer class]]) {
                         
                         if ([value isEqual:_ageAnswerFormat.minimumAgeCustomText] && _ageAnswerFormat.treatMinAgeAsRange) {
-                            return [NSNumber numberWithInt:[self currentYear]];
+                            return [NSNumber numberWithInteger:[self currentYear]];
                         } else if ([value isEqual:_ageAnswerFormat.maximumAgeCustomText] && _ageAnswerFormat.treatMaxAgeAsRange) {
-                            return [NSNumber numberWithInt:_ageAnswerFormat.relativeYear - _ageAnswerFormat.maximumAge];
+                            return [NSNumber numberWithInteger:_ageAnswerFormat.relativeYear - _ageAnswerFormat.maximumAge];
                         }
-                        
-                        int intValue = [value integerValue];
-                        return intValue == [ORKAgeAnswerFormat minimumAgeSentinelValue] ? [NSNumber numberWithInt:[self currentYear]] : [NSNumber numberWithInt:intValue];
+
+                        NSInteger intValue = [value integerValue];
+                        return intValue == [ORKAgeAnswerFormat minimumAgeSentinelValue] ? [NSNumber numberWithInteger:[self currentYear]] : [NSNumber numberWithInteger:intValue];
                     }
                     break;
                 }

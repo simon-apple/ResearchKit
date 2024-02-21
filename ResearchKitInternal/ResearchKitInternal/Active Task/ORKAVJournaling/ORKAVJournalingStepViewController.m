@@ -213,24 +213,24 @@ static const CGFloat FramesToSkipTotal = 5.0;
 
 - (void)updateNavFooterText {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
-        [_navigationFooterView.skipButton setTitle:ORKILocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_BUTTON_TEXT", nil) forState:UIControlStateNormal];
+        [self->_navigationFooterView.skipButton setTitle:ORKILocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_BUTTON_TEXT", nil) forState:UIControlStateNormal];
         
-        [_navigationFooterView.continueButton removeTarget:nil
-                                                    action:NULL
-                                          forControlEvents:UIControlEventAllEvents];
+        [self->_navigationFooterView.continueButton removeTarget:nil
+                                                          action:NULL
+                                                forControlEvents:UIControlEventAllEvents];
         
-        [_navigationFooterView.skipButton removeTarget:nil
-                                                action:NULL
-                                      forControlEvents:UIControlEventAllEvents];
+        [self->_navigationFooterView.skipButton removeTarget:nil
+                                                      action:NULL
+                                            forControlEvents:UIControlEventAllEvents];
         
         
-        [_navigationFooterView.continueButton addTarget:self
-                                                 action:@selector(nextButtonPressed)
-                                       forControlEvents:UIControlEventTouchUpInside];
+        [self->_navigationFooterView.continueButton addTarget:self
+                                                       action:@selector(nextButtonPressed)
+                                             forControlEvents:UIControlEventTouchUpInside];
         
-        [_navigationFooterView.skipButton addTarget:self
-                                             action:@selector(finishLaterButtonPressed)
-                                   forControlEvents:UIControlEventTouchUpInside];
+        [self->_navigationFooterView.skipButton addTarget:self
+                                                   action:@selector(finishLaterButtonPressed)
+                                         forControlEvents:UIControlEventTouchUpInside];
     });
 }
 
@@ -410,7 +410,7 @@ static const CGFloat FramesToSkipTotal = 5.0;
     if (_contentView) {
         if (_skippedFrameTotal > FramesToSkipTotal) {
             dispatch_async(dispatch_get_main_queue(), ^(void) {
-                [_contentView setFaceDetected:faceDetected faceBound:faceBounds originalSize:originalSize];
+                [self->_contentView setFaceDetected:faceDetected faceBound:faceBounds originalSize:originalSize];
             });
         } else {
             _skippedFrameTotal += 1;

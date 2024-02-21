@@ -152,31 +152,31 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
                                                actionWithTitle:ORKILocalizedString(@"TINNITUS_ALERT_BUTTON_CANCEL", nil)
                                                style:UIAlertActionStyleDefault
                                                handler:^(UIAlertAction *action) {
-                    _showingAlert = NO;
-                    _continueAction = nil;
-                    ORKStrongTypeOf(_taskViewController.delegate) strongDelegate = _taskViewController.delegate;
+                    self->_showingAlert = NO;
+                    self->_continueAction = nil;
+                    ORKStrongTypeOf(self->_taskViewController.delegate) strongDelegate = self->_taskViewController.delegate;
                     if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
-                        [strongDelegate taskViewController:_taskViewController didFinishWithReason:ORKTaskFinishReasonDiscarded error:nil];
+                        [strongDelegate taskViewController:self->_taskViewController didFinishWithReason:ORKTaskFinishReasonDiscarded error:nil];
                     }
                 }];
                 UIAlertController *alertController = [UIAlertController
                                                       alertControllerWithTitle:ORKILocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
                                                       message:[self getInterruptMessage]
                                                       preferredStyle:UIAlertControllerStyleAlert];
-                _continueAction = [UIAlertAction
+                self->_continueAction = [UIAlertAction
                                    actionWithTitle:ORKILocalizedString(@"TINNITUS_ALERT_BUTTON_CONTINUE", nil)
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction *action) {
-                    _showingAlert = NO;
-                    _continueAction = nil;
+                    self->_showingAlert = NO;
+                    self->_continueAction = nil;
                 }];
-                [alertController addAction:_continueAction];
-                [_continueAction setEnabled:NO];
+                [alertController addAction:self->_continueAction];
+                [self->_continueAction setEnabled:NO];
                 
                 [alertController addAction:cancelAction];
                 alertController.preferredAction = cancelAction;
                 
-                [_taskViewController presentViewController:alertController animated:YES completion:nil];
+                [self->_taskViewController presentViewController:alertController animated:YES completion:nil];
             });
         } else {
             [_continueAction setEnabled:NO];
@@ -203,7 +203,7 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 - (void)startMonitoringHeadphoneChanges {
     if (_headphoneDetector == nil) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
+            self->_headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
                                                  supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
         });
     }
@@ -566,7 +566,7 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 }
 
 - (ORKStep *)apendedStepAfterStep:(ORKStep *)step {
-    if (_appendSteps) {
+    if (_appendSteps && step != nil) {
         NSUInteger currentApendedStepIndex = [_appendSteps indexOfObject:step];
 
         if (currentApendedStepIndex == NSNotFound) {
@@ -709,11 +709,13 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 }
 
 - (nullable ORKStep *)nextMaskingStepForIdentifier:(NSString *)identifier {
-    NSUInteger currentMaskingStepIndex = [_maskingIdentifiers indexOfObject:identifier];
-    
-    if (currentMaskingStepIndex != NSNotFound && currentMaskingStepIndex+1 < [_maskingIdentifiers count]) {
-        NSString *nextIdentifier = [_maskingIdentifiers objectAtIndex:currentMaskingStepIndex+1];
-        return [self stepWithIdentifier:nextIdentifier];
+    if (identifier != nil) {
+        NSUInteger currentMaskingStepIndex = [_maskingIdentifiers indexOfObject:identifier];
+        
+        if (currentMaskingStepIndex != NSNotFound && currentMaskingStepIndex+1 < [_maskingIdentifiers count]) {
+            NSString *nextIdentifier = [_maskingIdentifiers objectAtIndex:currentMaskingStepIndex+1];
+            return [self stepWithIdentifier:nextIdentifier];
+        }
     }
     
     return nil;
@@ -758,8 +760,8 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
         }
     }
     
-    _context.predominantFrequency = predominantFrequency ? [predominantFrequency doubleValue] : 0.0;
-    return predominantFrequency ? [predominantFrequency doubleValue] : 0.0;
+    _context.predominantFrequency = predominantFrequency != nil ? [predominantFrequency doubleValue] : 0.0;
+    return predominantFrequency != nil ? [predominantFrequency doubleValue] : 0.0;
 }
 
 // Explicitly hide progress indication for all steps in this dynamic task.

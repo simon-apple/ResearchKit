@@ -30,7 +30,9 @@
 
 
 @import UIKit;
+
 #import <ResearchKitUI/ResearchKitUI_Private.h>
+#import <ResearchKitUI/ORKCustomStepView_Internal.h>
 
 
 NS_ASSUME_NONNULL_BEGIN

@@ -97,15 +97,15 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 #endif
         NSError *playerError = nil;
         NSURL *path = [[NSBundle bundleForClass:[self class]] URLForResource:@"VolumeCalibration" withExtension:@"wav"];
-        _workaroundPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:path
+        self->_workaroundPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:path
                                                                    error:&playerError];
         if (playerError != nil) {
             ORK_Log_Error("Error fetching audio: %@", playerError.localizedFailureReason);
         }
 
-        _workaroundPlayer.numberOfLoops = -1;
-        _workaroundPlayer.volume = 0.0;
-        [_workaroundPlayer prepareToPlay];  // returns TRUE when it's ready to play
+        self->_workaroundPlayer.numberOfLoops = -1;
+        self->_workaroundPlayer.volume = 0.0;
+        [self->_workaroundPlayer prepareToPlay];  // returns TRUE when it's ready to play
 
         AVAudioSession * session = [AVAudioSession sharedInstance];
         NSError *sessionCategoryError = nil;
@@ -121,7 +121,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             ORK_Log_Error("Error setting audio session active %@", sessionActiveError);
         }
 
-        [_workaroundPlayer play];
+        [self->_workaroundPlayer play];
     });
 }
 
@@ -419,7 +419,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
         ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
         if (strongDelegate &&
             [strongDelegate respondsToSelector:@selector(headphoneTypeDetected: vendorID: productID: deviceSubType: isSupported:)]) {
-            [strongDelegate headphoneTypeDetected:_lastDetectedDevice vendorID:_vendorID productID:_productID deviceSubType:_deviceSubType isSupported:routeIsSupported];
+            [strongDelegate headphoneTypeDetected:self->_lastDetectedDevice vendorID:self->_vendorID productID:self->_productID deviceSubType:self->_deviceSubType isSupported:routeIsSupported];
         }
     });
 }
@@ -466,9 +466,9 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             });
         }
         NSUInteger numberOfDevices = [[AVOutputContextSoft sharedSystemAudioContext] outputDevices].count;
-        if (_wirelessSplitterNumberOfDevices != numberOfDevices) {
-            _wirelessSplitterNumberOfDevices = numberOfDevices;
-            if (_lastDetectedDevice != nil && strongDelegate &&
+        if (self->_wirelessSplitterNumberOfDevices != numberOfDevices) {
+            self->_wirelessSplitterNumberOfDevices = numberOfDevices;
+            if (self->_lastDetectedDevice != nil && strongDelegate &&
                 [strongDelegate respondsToSelector:@selector(wirelessSplitterMoreThanOneDeviceDetected:)]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [strongDelegate wirelessSplitterMoreThanOneDeviceDetected:(numberOfDevices > 1)];

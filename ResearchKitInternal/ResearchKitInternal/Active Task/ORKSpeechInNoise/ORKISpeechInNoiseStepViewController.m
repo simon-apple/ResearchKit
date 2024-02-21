@@ -100,7 +100,7 @@ static const NSTimeInterval ORKSpeechInNoiseStepFinishDelay = 0.75;
     [super tapButtonPressed];
 }
 
-- (NSString *)filename {
+- (nullable NSString *)filename {
     NSObject<ORKContext> *context = [self predefinedSpeechInNoiseContext];
     
     if (context) {

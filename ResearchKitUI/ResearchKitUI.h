@@ -42,7 +42,9 @@
 #import <ResearchKitUI/ORKConsentSharingStepViewController.h>
 #import <ResearchKitUI/ORKContinueButton.h>
 #import <ResearchKitUI/ORKCountdownLabel.h>
+#import <ResearchKitUI/ORKCustomStepView.h>
 #import <ResearchKitUI/ORKCustomStepViewController.h>
+#import <ResearchKitUI/ORKCustomStepView_Internal.h>
 #import <ResearchKitUI/ORKDateTimePicker.h>
 #import <ResearchKitUI/ORKDefaultFont.h>
 #import <ResearchKitUI/ORKDontKnowButton.h>

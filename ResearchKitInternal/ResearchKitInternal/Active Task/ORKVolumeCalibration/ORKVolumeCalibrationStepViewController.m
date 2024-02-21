@@ -304,11 +304,9 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
     [super viewDidLoad];
     [self setupVolumeView];
     
-    NSString *sampleTitle = @"Sample";
     ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
     
     if ([self isMaskingSound]) {
-        sampleTitle = self.volumeCalibrationStep.maskingSoundName;
         
         NSError *error;
         if (![self setupAudioEngineForMaskingSound:self.volumeCalibrationStep.maskingSoundIdentifier error:&error]) {
@@ -317,7 +315,6 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
         
     } else if ([self isTinnitusSoundCalibration]) {
         if (context.predominantFrequency > 0.0) {
-            sampleTitle = ORKILocalizedString(@"TINNITUS_FINAL_CALIBRATION_BUTTON_TITLE", nil);
             
 #if (TARGET_IPHONE_SIMULATOR)
             self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithHeadphoneType:ORKHeadphoneTypeIdentifierAirPodsMax];

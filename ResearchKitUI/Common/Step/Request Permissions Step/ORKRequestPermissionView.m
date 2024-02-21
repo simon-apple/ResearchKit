@@ -35,7 +35,6 @@
 ORKRequestPermissionsNotification const ORKRequestPermissionsNotificationCardViewStatusChanged = @"ORKRequestPermissionsNotificationCardViewStatusChanged";
 
 static const CGFloat StandardPadding = 15.0;
-static const CGFloat IconImageViewWidthHeight = 40.0;
 static const CGFloat IconImageViewBottomPadding = 10.0;
 static const CGFloat TitleTextLabelBottomPadding = 6.0;
 static const CGFloat DetailTextLabelBottomPadding = 12;

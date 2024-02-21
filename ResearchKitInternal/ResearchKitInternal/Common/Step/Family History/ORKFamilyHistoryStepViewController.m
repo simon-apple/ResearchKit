@@ -371,7 +371,7 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
                                               formStepIdentifier:formStepIdentifier
                                    vitalStatusFormItemIdentifier:relativeVitalStatusFormItemIdentifier
                                     ageOfDeathFormItemIdentifier:relativeAgeOfDeathFormItemIdentifier
-                                     birthYearFormItemIdentifier:relativeBirthYearFormItemIdentifier]) {
+                                     birthYearFormItemIdentifier:relativeBirthYearFormItemIdentifier] && minorFormItemIdentifier != nil) {
             // create bool formItem that appears above conditions list formItem
             ORKBooleanAnswerFormat *boolAnswerFormat = [ORKAnswerFormat booleanAnswerFormat];
             ORKFormItem *checkForMinorConditionsFormItem = [[ORKFormItem alloc] initWithIdentifier:minorFormItemIdentifier
@@ -550,7 +550,7 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
     NSMutableArray<ORKRelatedPerson *> *relatedPersonsNoAge = [NSMutableArray new];
     NSArray<ORKFormStep *> *formSteps = [relativeGroup.formSteps copy];
     
-    int index = relatedPersons.count;
+    NSInteger index = relatedPersons.count;
     
     while (index > 0) {
         for (int tempIndex = 0; tempIndex < index - 1; tempIndex++) {
@@ -624,7 +624,7 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
     
     for (ORKFormStep *formStep in relativeGroup.formSteps) {
         // check for formStep identifier
-        if ([formStep.identifier isEqualToString:formStepIdentifier]) {
+        if (formStepIdentifier != nil && [formStep.identifier isEqualToString:formStepIdentifier]) {
             for (ORKFormItem *formItem in formStep.formItems) {
                 // check for vitality formItem identifier
                 if ([formItem.identifier isEqualToString:vitalStatusFormItemIdentifier]) {
@@ -812,8 +812,8 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
                 break;
         }
         
-        _editingPreviousTask = NO;
-        _relativeForPresentedTask = nil;
+        self->_editingPreviousTask = NO;
+        self->_relativeForPresentedTask = nil;
     }];
 }
 
@@ -858,9 +858,9 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
                 UIAlertAction* unfollowAction = [UIAlertAction actionWithTitle:ORKLocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY", "")
                                                                          style:UIAlertActionStyleDestructive
                                                                        handler:^(UIAlertAction * action) {
-                    [_relatedPersons[currentRelatedPerson.groupIdentifier] removeObject:currentRelatedPerson];
+                    [self->_relatedPersons[currentRelatedPerson.groupIdentifier] removeObject:currentRelatedPerson];
                     NSIndexSet *section = [NSIndexSet indexSetWithIndex:indexPath.section];
-                    [_tableView reloadSections:section withRowAnimation:UITableViewRowAnimationAutomatic];
+                    [self->_tableView reloadSections:section withRowAnimation:UITableViewRowAnimationAutomatic];
                     [self resultUpdated];
                 }];
                 

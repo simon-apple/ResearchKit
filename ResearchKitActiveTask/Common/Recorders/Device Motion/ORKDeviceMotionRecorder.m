@@ -106,7 +106,7 @@
     [self.motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue mainQueue] withHandler:^(CMDeviceMotion *data, NSError *error) {
          BOOL success = NO;
          if (data) {
-             success = [_logger append:[data ork_JSONDictionary] error:&error];
+             success = [self->_logger append:[data ork_JSONDictionary] error:&error];
              id delegate = self.delegate;
              if ([delegate respondsToSelector:@selector(deviceMotionRecorderDidUpdateWithMotion:)]) {
                  [delegate deviceMotionRecorderDidUpdateWithMotion:data];

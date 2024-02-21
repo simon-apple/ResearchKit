@@ -111,10 +111,6 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
         
     case is ORKTimeOfDayQuestionResult:
         providerType = TimeOfDayQuestionResultTableViewProvider.self
-
-    // Consent
-    case is ORKConsentSignatureResult:
-        providerType = ConsentSignatureResultTableViewProvider.self
         
     // Active Tasks
     case is ORKAmslerGridResult:
@@ -593,52 +589,6 @@ class TimeOfDayQuestionResultTableViewProvider: ResultTableViewProvider {
             // String summarizing the date components the user entered.
             ResultRow(text: "dateComponentsAnswer", detail: dateComponentsAnswerText)
         ]
-    }
-}
-
-/// Table view provider specific to an `ORKConsentSignatureResult` instance.
-class ConsentSignatureResultTableViewProvider: ResultTableViewProvider {
-    // MARK: ResultTableViewProvider
-    
-    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
-        let signatureResult = result as! ORKConsentSignatureResult
-        let signature = signatureResult.signature!
-        
-        return super.resultRowsForSection(section) + [
-            /*
-            The identifier for the signature, identifying which one it is in
-            the document.
-            */
-            ResultRow(text: "identifier", detail: signature.identifier),
-            
-            /*
-            The title of the signatory, displayed under the line. For
-            example, "Participant".
-            */
-            ResultRow(text: "title", detail: signature.title),
-            
-            // The given name of the signatory.
-            ResultRow(text: "givenName", detail: signature.givenName),
-            
-            // The family name of the signatory.
-            ResultRow(text: "familyName", detail: signature.familyName),
-            
-            // The date the signature was obtained.
-            ResultRow(text: "date", detail: signature.signatureDate),
-            
-            // The captured image.
-            .textImage("signature", image: signature.signatureImage)
-        ]
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
-        let lastRow = self.tableView(tableView, numberOfRowsInSection: (indexPath as NSIndexPath).section) - 1
-        
-        if (indexPath as NSIndexPath).row == lastRow {
-            return 200
-        }
-        
-        return UITableView.automaticDimension
     }
 }
 

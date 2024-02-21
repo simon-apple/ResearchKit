@@ -201,7 +201,7 @@ const NSTimeInterval ORKTinnitusMaskingSoundFadeStep = 0.01;
 
 - (void)stopSample {
     [_mixerNode fadeOutWithDuration:ORKTinnitusMaskingSoundFadeDuration stepInterval:ORKTinnitusMaskingSoundFadeStep completion:^{
-        [_playerNode pause];
+        [self->_playerNode pause];
     }];
 }
 

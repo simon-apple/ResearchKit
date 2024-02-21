@@ -200,11 +200,11 @@
             
             vDSP_maxmgv(channelData[0], 1 , &avgValue, nFrames);
             float lvlLowPassTrig = 0.3;
-            _peakPower = lvlLowPassTrig * ((avgValue == 0)? -100 : 20* log10(avgValue)) + (1 - lvlLowPassTrig) * _peakPower;
-            float clampedValue = MAX(_peakPower / 60.0, -1) + 1;
+            self->_peakPower = lvlLowPassTrig * ((avgValue == 0)? -100 : 20* log10(avgValue)) + (1 - lvlLowPassTrig) * self->_peakPower;
+            float clampedValue = MAX(self->_peakPower / 60.0, -1) + 1;
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [_speechInNoiseContentView addSample:@(clampedValue)];
+                [self->_speechInNoiseContentView addSample:@(clampedValue)];
             });
         }
     }];
@@ -233,8 +233,8 @@
             [_speechInNoiseContentView.playButton setEnabled:NO];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_toneDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
-                [_playerNode stop];
-                [_mixerNode removeTapOnBus:0];
+                [self->_playerNode stop];
+                [self->_mixerNode removeTapOnBus:0];
                 
                 if (![self shouldBlockFinishOfStep]) {
                     [strongSelf finish];
@@ -248,7 +248,7 @@
     return (ORKSpeechInNoiseStep *)self.step;
 }
 
-- (NSString *)filename {
+- (nullable NSString *)filename {
     NSString *filename = nil;
     
     BOOL (^validate)(NSString * _Nullable) = ^BOOL(NSString * _Nullable str) { return str && str.length > 0; };

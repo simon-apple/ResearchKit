@@ -98,8 +98,10 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     ORKHeadphoneDetectedAirpodsMax,
     
     /** Earpods */
-    ORKHeadphoneDetectedEarpods
-
+    ORKHeadphoneDetectedEarpods,
+    
+    /** 3rd Party */
+    ORKHeadphoneDetectedThirdParty
     
 } ORK_ENUM_AVAILABLE;
 
@@ -114,7 +116,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 @property (nonatomic, assign) ORKHeadphoneDetected headphoneCellType;
 
 - (instancetype)initWithHeadphoneType:(ORKHeadphoneDetected)detectedHeadphone;
-- (void)setHeadphoneDetected:(ORKHeadphoneDetected * _Nullable)headphoneDetected;
+- (void)setHeadphoneDetected:(ORKHeadphoneDetected)headphoneDetected;
 
 @end
 
@@ -274,6 +276,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             return ORKILocalizedString(@"HEADPHONES_NONE", nil);
         case ORKHeadphoneDetectedUnknown:
             return ORKILocalizedString(@"HEADPHONES", nil);
+        case ORKHeadphoneDetectedThirdParty:
+            return ORKILocalizedString(@"THIRD_PARTY_HEADPHONES_CONNECTED", nil);
     }
 }
 
@@ -303,6 +307,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         case ORKHeadphoneDetectedEarpods:
         case ORKHeadphoneDetectedNone:
         case ORKHeadphoneDetectedUnknown:
+        case ORKHeadphoneDetectedThirdParty:
             result = nil;
             break;            
     }
@@ -456,9 +461,9 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     [self updateAccessibilityElements];
 }
 
-- (void)setHeadphoneDetected:(ORKHeadphoneDetected * _Nullable)headphone {
+- (void)setHeadphoneDetected:(ORKHeadphoneDetected)headphone {
     if (!_textLabel) { return; }
-    if (headphone) {
+    if (headphone && headphone != ORKHeadphoneDetectedThirdParty) {
         UIImage *headphoneglyph = [self headphoneImage:headphone];
         NSString *headphoneName = [self getTextLabelForHeadphoneType:headphone];
         [_textLabel setText:headphoneName];
@@ -688,7 +693,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
 - (void)hideBottomAlert:(BOOL)isHidden {
     [UIView animateWithDuration: ORKHeadphoneCellAnimationDuration animations:^{
-        [_bottomAlertLabel setHidden:isHidden];
+        [self->_bottomAlertLabel setHidden:isHidden];
         [self layoutIfNeeded];
     }];
 }
@@ -803,7 +808,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             switch (_headphoneDetected) {
                 case ORKHeadphoneDetectedUnknown:
                     _anyHeadphoneView.selected = YES;
-                    [_anyHeadphoneView setHeadphoneDetected:nil];
+                    [_anyHeadphoneView setHeadphoneDetected:ORKHeadphoneDetectedThirdParty];
                     break;
                 case ORKHeadphoneDetectedNone:
                     _anyHeadphoneView.selected = NO;
@@ -820,16 +825,16 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
 - (void)setAirpodProCellExpanded:(BOOL)expanded {
     [UIView animateWithDuration: ORKHeadphoneCellAnimationDuration animations:^{
-        [_airpodProSupportView setExtraLabelsAlpha: expanded ? 1.0 : 0.0];
-        _airpodsProCellHeightConstraint.constant = expanded ? [_airpodProSupportView extraLabelsContentSize] : ORKHeadphoneDetectCellStepSize;
+        [self->_airpodProSupportView setExtraLabelsAlpha: expanded ? 1.0 : 0.0];
+        self->_airpodsProCellHeightConstraint.constant = expanded ? [self->_airpodProSupportView extraLabelsContentSize] : ORKHeadphoneDetectCellStepSize;
         [self.superview layoutIfNeeded];
     }];
 }
 
 - (void)setAirpodMaxCellExpanded:(BOOL)expanded {
     [UIView animateWithDuration: ORKHeadphoneCellAnimationDuration animations:^{
-        [_airpodMaxSupportView setExtraLabelsAlpha: expanded ? 1.0 : 0.0];
-        _airpodsMaxCellHeightConstraint.constant = expanded ? [_airpodMaxSupportView extraLabelsContentSize] : ORKHeadphoneDetectCellStepSize;
+        [self->_airpodMaxSupportView setExtraLabelsAlpha: expanded ? 1.0 : 0.0];
+        self->_airpodsMaxCellHeightConstraint.constant = expanded ? [self->_airpodMaxSupportView extraLabelsContentSize] : ORKHeadphoneDetectCellStepSize;
         [self.superview layoutIfNeeded];
     }];
 }
@@ -1044,7 +1049,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
 - (void)wirelessSplitterMoreThanOneDeviceDetected:(BOOL)moreThanOne {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_headphoneDetectStepView hideBottomAlert:!moreThanOne];
+        [self->_headphoneDetectStepView hideBottomAlert:!moreThanOne];
     });
 }
 

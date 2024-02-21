@@ -30,7 +30,7 @@
 
 
 @import UIKit;
-#import "ORKTableViewCell.h"
+#import <ResearchKitUI/ORKTableViewCell.h>
 
 
 NS_ASSUME_NONNULL_BEGIN

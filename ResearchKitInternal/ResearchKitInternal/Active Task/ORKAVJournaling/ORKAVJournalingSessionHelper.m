@@ -221,17 +221,17 @@ typedef struct __attribute__((__packed__)) DepthPacket {
         
         NSError *error = nil;
         
-        _videoAssetWriter = [AVAssetWriter assetWriterWithURL:_outputURL fileType:AVFileTypeQuickTimeMovie error:&error];
+        self->_videoAssetWriter = [AVAssetWriter assetWriterWithURL:self->_outputURL fileType:AVFileTypeQuickTimeMovie error:&error];
         
         //create video asset writer input
-        _videoAssetWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo
-                                                                    outputSettings:[_videoDataOutput
+        self->_videoAssetWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo
+                                                                    outputSettings:[self->_videoDataOutput
                                                                                     recommendedVideoSettingsForAssetWriterWithOutputFileType:AVFileTypeQuickTimeMovie]];
         
-        [_videoAssetWriterInput setExpectsMediaDataInRealTime:YES];
+        [self->_videoAssetWriterInput setExpectsMediaDataInRealTime:YES];
         
-        if ([_videoAssetWriter canAddInput:_videoAssetWriterInput]) {
-            [_videoAssetWriter addInput:_videoAssetWriterInput];
+        if ([self->_videoAssetWriter canAddInput:self->_videoAssetWriterInput]) {
+            [self->_videoAssetWriter addInput:self->_videoAssetWriterInput];
         }
         
         //create audio asset writer input
@@ -240,12 +240,12 @@ typedef struct __attribute__((__packed__)) DepthPacket {
                                                                         channels:1
                                                                      interleaved:YES];
         
-        _audioAssetWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio
+        self->_audioAssetWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio
                                                                     outputSettings:audioFormat.settings];
-        [_audioAssetWriterInput setExpectsMediaDataInRealTime:YES];
+        [self->_audioAssetWriterInput setExpectsMediaDataInRealTime:YES];
         
-        if ([_videoAssetWriter canAddInput:_audioAssetWriterInput]) {
-            [_videoAssetWriter addInput:_audioAssetWriterInput];
+        if ([self->_videoAssetWriter canAddInput:self->_audioAssetWriterInput]) {
+            [self->_videoAssetWriter addInput:self->_audioAssetWriterInput];
         }
 
 #if ORK_FEATURE_AV_JOURNALING_DEPTH_DATA_COLLECTION
@@ -260,25 +260,25 @@ typedef struct __attribute__((__packed__)) DepthPacket {
         [self setupAssetWriterInputVideoMetadata];
 #endif
 
-        _capturing = YES;
+        self->_capturing = YES;
     });
 }
 
 - (void)stopCapturing {
     [self stopCaptureTaskWithCompletion:^{
-        if (_sessionHelperDelegate) {
-            [_sessionHelperDelegate capturingEndedWithURL:_outputURL];
+        if (self->_sessionHelperDelegate) {
+            [self->_sessionHelperDelegate capturingEndedWithURL:self->_outputURL];
         }
     }];
 }
 
 - (void)stopCaptureTaskWithCompletion:(void (^)(void))completion {
-    if (captureSessionFinishedWriting == nil && _capturing) {
+    if (captureSessionFinishedWriting == nil && self->_capturing) {
         // save the block parameter to be called when file write is complete in AVCaptureVideoDataOutputSampleBufferDelegate
         captureSessionFinishedWriting = completion;
         
         dispatch_async(_dataOutputQueue, ^{
-            _capturing = NO;
+            self->_capturing = NO;
         });
     }
 }
@@ -664,7 +664,7 @@ typedef struct __attribute__((__packed__)) DepthPacket {
             
             [_videoAssetWriter finishWritingWithCompletionHandler:^{
                 [self capturedFileHasFinishedWriting];
-                _videoAssetWriter = nil;
+                self->_videoAssetWriter = nil;
             }];
         }
     }
@@ -768,12 +768,15 @@ typedef struct __attribute__((__packed__)) DepthPacket {
     
     //Use CIContext to create a CGImageRef
     CVPixelBufferRef newBuffer = NULL;
-    CVPixelBufferPoolCreatePixelBuffer(NULL, _bufferPool, &newBuffer);
     
-    if (combinedImage) {
-        [_context render:combinedImage toCVPixelBuffer:newBuffer];
-    } else {
-        [_context render:imageWithFilter toCVPixelBuffer:newBuffer];
+    if (_bufferPool != NULL) {
+        CVPixelBufferPoolCreatePixelBuffer(NULL, _bufferPool, &newBuffer);
+        
+        if (combinedImage != NULL) {
+            [_context render:combinedImage toCVPixelBuffer:newBuffer];
+        } else {
+            [_context render:imageWithFilter toCVPixelBuffer:newBuffer];
+        }
     }
     
     return newBuffer;
@@ -879,9 +882,9 @@ bail:
     _readyToRecord = YES;
     dispatch_async(dispatch_get_main_queue(), ^{
         @autoreleasepool {
-            if (captureSessionFinishedWriting) {
-                captureSessionFinishedWriting();
-                captureSessionFinishedWriting = nil;
+            if (self->captureSessionFinishedWriting) {
+                self->captureSessionFinishedWriting();
+                self->captureSessionFinishedWriting = nil;
             }
         }
     });

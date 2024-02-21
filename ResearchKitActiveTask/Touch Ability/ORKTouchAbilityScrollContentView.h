@@ -30,12 +30,14 @@
 
 
 @import UIKit;
-#import "ORKTouchAbilityContentView.h"
-#import "ORKTouchAbilityScrollTrial.h"
+
+#import <ResearchKitActiveTask/ORKTouchAbilityScrollTrial.h>
+#import <ResearchKitActiveTask/ORKTouchAbilityContentView.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class ORKTouchAbilityScrollContentView;
+
 @protocol ORKTouchAbilityScrollContentViewDataSource <NSObject>
 
 @required
