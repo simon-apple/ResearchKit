@@ -2817,7 +2817,7 @@ static id objectForJsonObject(id input,
                               ORKESerializationJSONToObjectBlock converterBlock,
                               ORKESerializationContext *context) {
     id output = nil;
-    
+    // not sure what this converter block is for
     if (converterBlock != nil) {
         input = converterBlock(input, context);
         if (input == nil) {
@@ -2828,13 +2828,25 @@ static id objectForJsonObject(id input,
     
     id<ORKESerializationLocalizer> localizer = context.localizer;
     id<ORKESerializationStringInterpolator> stringInterpolator = context.stringInterpolator;
-
+    
+#if RK_APPLE_INTERNAL && ORK_FEATURE_INTERNAL_CLASS_MAPPER
+    if (expectedClass != nil) {
+        expectedClass = [ORKESerializer _getInternalVersionForClass:expectedClass] ?: expectedClass;
+    }
+#endif
+    
+    // not sure where and how this expected class is used. Maybe if this is called recursively or something
+    // might need to convert expected class to internal version here.
     if (expectedClass != nil && [input isKindOfClass:expectedClass]) {
         // Input is already of the expected class, do nothing
         output = input;
     } else if ([input isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dict = (NSDictionary *)input;
-        NSString *className = input[_ClassKey];
+        NSString *className = input[_ClassKey]; // todo: might be a spot to convert class
+        
+#if RK_APPLE_INTERNAL && ORK_FEATURE_INTERNAL_CLASS_MAPPER
+        className = [ORKESerializer _getInternalVersionStringForClass:className] ?: className;
+#endif
         
         ORKESerializationPropertyInjector *propertyInjector = context.propertyInjector;
         if (propertyInjector != nil) {
@@ -2896,6 +2908,36 @@ static id objectForJsonObject(id input,
     }
     return output;
 }
+
+#if RK_APPLE_INTERNAL
++ (nullable Class)_getInternalVersionForClass:(Class)class {
+    NSDictionary<NSString *, Class> *dict = @{
+        NSStringFromClass([ORKInstructionStep class]) : [ORKIInstructionStep class],
+        NSStringFromClass([ORKQuestionStep class]) : [ORKIQuestionStep class],
+        NSStringFromClass([ORKdBHLToneAudiometryStep class]) : [ORKIdBHLToneAudiometryStep class],
+        NSStringFromClass([ORKdBHLToneAudiometryResult class]) : [ORKIdBHLToneAudiometryResult class],
+        NSStringFromClass([ORKSpeechInNoiseStep class]) : [ORKISpeechInNoiseStep class],
+        NSStringFromClass([ORKEnvironmentSPLMeterStep class]) : [ORKIEnvironmentSPLMeterStep class],
+        NSStringFromClass([ORKSpeechRecognitionStep class]) : [ORKISpeechRecognitionStep class]
+    };
+    
+    return [dict valueForKey:NSStringFromClass(class)];
+}
+
++ (nullable NSString *)_getInternalVersionStringForClass:(NSString *)class {
+    NSDictionary<NSString *, NSString *> *dict = @{
+        NSStringFromClass([ORKInstructionStep class]) : NSStringFromClass([ORKIInstructionStep class]),
+        NSStringFromClass([ORKQuestionStep class]) : NSStringFromClass([ORKIQuestionStep class]),
+        NSStringFromClass([ORKdBHLToneAudiometryStep class]) : NSStringFromClass([ORKIdBHLToneAudiometryStep class]),
+        NSStringFromClass([ORKdBHLToneAudiometryResult class]) : NSStringFromClass([ORKIdBHLToneAudiometryResult class]),
+        NSStringFromClass([ORKSpeechInNoiseStep class]) : NSStringFromClass([ORKISpeechInNoiseStep class]),
+        NSStringFromClass([ORKEnvironmentSPLMeterStep class]) : NSStringFromClass([ORKIEnvironmentSPLMeterStep class]),
+        NSStringFromClass([ORKSpeechRecognitionStep class]) : NSStringFromClass([ORKISpeechRecognitionStep class])
+    };
+    
+    return [dict valueForKey:class];
+}
+#endif
 
 static BOOL isValid(id object) {
     return [NSJSONSerialization isValidJSONObject:object] || [object isKindOfClass:[NSNumber class]] || [object isKindOfClass:[NSString class]] || [object isKindOfClass:[NSNull class]] || [object isKindOfClass:[ORKNoAnswer class]];
