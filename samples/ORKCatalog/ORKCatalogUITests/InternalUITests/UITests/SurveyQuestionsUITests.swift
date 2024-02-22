@@ -40,7 +40,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.booleanQuestion.description)
         
-        let questionStep = FormStep()
+        let questionStep = FormStepScreen()
         let itemId = "booleanFormItem"
         let expectedNumberOfChoices = 2
         
@@ -71,7 +71,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.customBooleanQuestion.description)
         
-        let questionStep = FormStep()
+        let questionStep = FormStepScreen()
         let itemId = "booleanFormItem"
         let yesString = "Agree"
         let noString = "Disagree"
@@ -101,7 +101,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.dateQuestion.description)
         
-        let formStep = FormStep()
+        let formStep = FormStepScreen()
         let itemId = "dateQuestionFormItem"
         formStep
             .verify(.title)
@@ -126,7 +126,7 @@ final class SurveyQuestionsUITests: BaseUITest {
     func testTimeIntervalQuestion() {
         tasksList
             .selectTaskByName(Task.timeIntervalQuestion.description)
-        let formStep = FormStep()
+        let formStep = FormStepScreen()
         let itemId = "timeIntervalFormItem"
         formStep
             .verify(.title)
@@ -156,7 +156,7 @@ final class SurveyQuestionsUITests: BaseUITest {
             .selectTaskByName(Task.textChoiceQuestion.description)
 
         test("Step 1: Select an option") {
-            let formStep1 = FormStep(itemIds: ["formItem01"])
+            let formStep1 = FormStepScreen(itemIds: ["formItem01"])
             formStep1
                 .verify(.title)
                 .verify(.text)
@@ -172,7 +172,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         }
         
         test("Step 2: Select one or more options") {
-            let formStep2 = FormStep(itemIds: ["formItem02"])
+            let formStep2 = FormStepScreen(itemIds: ["formItem02"])
             let indicesToSelect1 = [0, 2]
             let exclusiveChoiceIndex = [3]
             formStep2
@@ -191,7 +191,7 @@ final class SurveyQuestionsUITests: BaseUITest {
                 .tap(.continueButton)
         }
         
-        let completionStep = InstructionStep()
+        let completionStep = InstructionStepScreen()
         completionStep
             .verify(.title)
             .verifyContinueButtonLabel(expectedLabel: .done)
@@ -209,7 +209,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         let formItemId = "formItem01"
         let otherTextChoiceIndex = 3
         
-        let formStep1 = FormStep()
+        let formStep1 = FormStepScreen()
         formStep1
             .answerSingleChoiceTextQuestion(withId: formItemId, atIndex: 0)
             .verifyTextBoxIsHidden(true, withId: formItemId, atIndex: otherTextChoiceIndex)
@@ -238,7 +238,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         let formItemId = "formItem01"
         let otherTextChoiceIndex = 3
         
-        let formStep1 = FormStep()
+        let formStep1 = FormStepScreen()
         formStep1
             .answerSingleChoiceTextQuestion(withId: formItemId, atIndex: 0)
             .verifyTextBoxIsHidden(true, withId: formItemId, atIndex: otherTextChoiceIndex)
@@ -257,7 +257,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         let textChoices = ["Poor", "Fair", "Good", "Above Average", "Excellent"]
         /// rdar://117821622 (Add localization support for UI Tests)
         
-        let questionStep = FormStep()
+        let questionStep = FormStepScreen()
         let id = "valuePickerChoiceFormItem"
         questionStep
             .verify(.title)
@@ -288,7 +288,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.platterUIQuestion.description)
         
-        let questionStep = FormStep()
+        let questionStep = FormStepScreen()
         let itemId = "platterQuestionStep"
         questionStep
             .verify(.title)
@@ -312,7 +312,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.textQuestion.description)
         
-        let questionStep = FormStep()
+        let questionStep = FormStepScreen()
         let itemId = "textQuestionFormItem"
         questionStep
             .verify(.title)
@@ -336,7 +336,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.textQuestion.description)
         
-        let questionStep = FormStep()
+        let questionStep = FormStepScreen()
         let itemId = "textQuestionFormItem"
    
         questionStep
@@ -353,7 +353,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.textQuestion.description)
         
-        let questionStep = FormStep()
+        let questionStep = FormStepScreen()
         let itemId = "textQuestionFormItem"
         questionStep
             .answerTextQuestionTextView(withId: itemId, text: TextAnswers.loremIpsumShortText, dismissKeyboard: false) // We don't dismiss keyboard to be able to continue editing
@@ -370,7 +370,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.textQuestion.description)
         
-        let questionStep = FormStep()
+        let questionStep = FormStepScreen()
         let itemId = "textQuestionFormItem"
 
         questionStep
@@ -390,7 +390,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.numericQuestion.description)
         
-        let questionStep = FormStep()
+        let questionStep = FormStepScreen()
         questionStep
             .verify(.title)
             .verify(.text)
@@ -436,7 +436,7 @@ final class SurveyQuestionsUITests: BaseUITest {
     func testNumericQuestionsEditing() {
         tasksList
             .selectTaskByName(Task.numericQuestion.description)
-        let questionStep = FormStep()
+        let questionStep = FormStepScreen()
         let formItemId = "numericFormItem"
         
         var randomValue = randomDecimal(withDecimalPlaces: 2)
@@ -474,7 +474,7 @@ final class SurveyQuestionsUITests: BaseUITest {
     func testPaddingBetweenContinueButtonAndLastCell() {
         tasksList
             .selectTaskByName(Task.textChoiceQuestion.description)
-        let formStep = FormStep()
+        let formStep = FormStepScreen()
         let formItemId = "formItem01"
         formStep
             .answerSingleChoiceTextQuestion(withId: formItemId, atIndex: 3)
@@ -489,7 +489,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.imageChoiceQuestion.description)
         
-        let questionStep = FormStep()
+        let questionStep = FormStepScreen()
         let formId = "imageChoiceFormItem"
         questionStep
             .verify(.title)
@@ -497,8 +497,8 @@ final class SurveyQuestionsUITests: BaseUITest {
             .verify(.skipButton, isEnabled: true)
             .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
         
-        let roundShape = FormStep.ImageButtonLabel.roundShape.rawValue
-        let squareShape = FormStep.ImageButtonLabel.squareShape.rawValue
+        let roundShape = FormStepScreen.ImageButtonLabel.roundShape.rawValue
+        let squareShape = FormStepScreen.ImageButtonLabel.squareShape.rawValue
         questionStep
             .answerImageChoiceQuestion(withId: formId, imageIndex: 1, expectedLabel: roundShape)
             .answerImageChoiceQuestion(withId: formId, imageIndex: 0, expectedLabel: squareShape)
@@ -523,7 +523,7 @@ final class SurveyQuestionsUITests: BaseUITest {
             .selectTaskByName(Task.validatedTextQuestion.description)
         
         // Email validation
-        let questionStep = FormStep()
+        let questionStep = FormStepScreen()
         let formItemId = "validatedTextFormItem"
         let username = "X"
         questionStep
@@ -563,7 +563,7 @@ final class SurveyQuestionsUITests: BaseUITest {
             .tap(.continueButton)
         
         // URL validation
-        let questionStep2 = FormStep()
+        let questionStep2 = FormStepScreen()
         let domainName = "apple.com"
         let secondLevelDomainName = String(domainName.split(separator: ".").first!)
         questionStep2
@@ -587,7 +587,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.scaleQuestion.description)
         
-        let questionStep = FormStep()
+        let questionStep = FormStepScreen()
         let formItemId = "scaleFormItem"
         
         // The first step is a scale control with 10 discrete ticks
@@ -695,7 +695,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.form.description)
         
-        let formStep = FormStep()
+        let formStep = FormStepScreen()
         
         let formItemIdSlider1 = "formItem03"
         let minValueSlider1 = 0

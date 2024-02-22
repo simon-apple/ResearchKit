@@ -1,4 +1,4 @@
-//  ActiveStep.swift
+//  ActiveStepScreen.swift
 //  ORKCatalogUITests
 //
 //  Created by Albina Kashapova on 2/7/24.
@@ -8,7 +8,7 @@
 import Foundation
 import XCTest
 
-final class ActiveStep: Step {
+final class ActiveStepScreen: Step {
     
     static var stepView: XCUIElement {
         app.otherElements[AccessibilityIdentifiers.ActiveStep.view].firstMatch
@@ -24,7 +24,7 @@ final class ActiveStep: Step {
         return self
     }
     
-    func isStepViewExists(timeout: TimeInterval = 60) -> Bool {
+    func stepViewExists(timeout: TimeInterval = 60) -> Bool {
         return Self.stepView.waitForExistence(timeout: timeout)
     }
     

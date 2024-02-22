@@ -1,4 +1,4 @@
-//  FormStep.swift
+//  FormStepScreen.swift
 //  ORKCatalogUITests
 //
 //  Created by Albina Kashapova on 10/25/23.
@@ -11,7 +11,7 @@ import OSLog
 
 /// This class corresponds to a single screen that displays questions or form items:`ORKFormStep`
 /// https://github.com/ResearchKit/ResearchKit/blob/main/docs/Survey/CreatingSurveys-template.markdown#form-step
-final class FormStep: Step {
+final class FormStepScreen: Step {
     
     /**
      - parameter Id: Step Identifier
@@ -33,7 +33,7 @@ final class FormStep: Step {
         return self
     }
     
-    func isStepViewExists(timeout: TimeInterval) -> Bool {
+    func stepViewExists(timeout: TimeInterval) -> Bool {
         return Self.stepView.waitForExistence(timeout: timeout)
     }
     
@@ -342,7 +342,7 @@ final class FormStep: Step {
     
     @discardableResult
     func answerTextChoiceOtherQuestion(withId formItemId: String, atIndex index: Int, text: String, dismissKeyboard: Bool = true) -> Self {
-        let formItem = FormStep().getFormItemCell(withId: formItemId, atIndex: index)
+        let formItem = FormStepScreen().getFormItemCell(withId: formItemId, atIndex: index)
        // let textView = formItem.textViews.firstMatch
         let textView = formItem.textViews.element(boundBy: 0)
         wait(for: textView)
@@ -352,7 +352,7 @@ final class FormStep: Step {
     
     @discardableResult
     func verifyTextBoxIsHidden(_ isHidden: Bool, withId formItemId: String, atIndex index: Int ) -> Self {
-        let formItem = FormStep().getFormItemCell(withId: formItemId, atIndex: index)
+        let formItem = FormStepScreen().getFormItemCell(withId: formItemId, atIndex: index)
         let textView = formItem.textViews.firstMatch
         if !isHidden {
             wait(for: textView, failureMessage: "TextBox for form item with id: \(formItemId) should not be hidden")
@@ -364,7 +364,7 @@ final class FormStep: Step {
     
     @discardableResult
     func verifyTextBoxValue(withId formItemId: String, atIndex index: Int, expectedValue: String, isPlaceholderExpected: Bool = false) -> Self {
-        let formItem = FormStep().getFormItemCell(withId: formItemId, atIndex: index)
+        let formItem = FormStepScreen().getFormItemCell(withId: formItemId, atIndex: index)
         let textView = formItem.textViews.firstMatch
         
         /// Verifies placeholder text instead of entered text
@@ -390,7 +390,7 @@ final class FormStep: Step {
     
     @discardableResult
     func answerTextQuestionTextView(withId formItemId: String, text inputText: String, dismissKeyboard: Bool = true) -> Self {
-        let textView = FormStep().getFormItemCell(withId: formItemId).textViews.firstMatch
+        let textView = FormStepScreen().getFormItemCell(withId: formItemId).textViews.firstMatch
         wait(for: textView)
         textView.typeText(inputText, clearIfNeeded: true, dismissKeyboard: dismissKeyboard)
         textView.verifyElementValue(expectedValue: inputText, failureMessage: "Textfield value is expected to be \(inputText)")
@@ -399,7 +399,7 @@ final class FormStep: Step {
     
     // Multiple verification test method
     func answerTextQuestionTextView(withId formItemId: String, text: String, dismissKeyboard: Bool = true, maximumLength: Int, expectedPlaceholderValue: String) -> Self {
-        let textView = FormStep().getFormItemCell(withId: formItemId).textViews.firstMatch
+        let textView = FormStepScreen().getFormItemCell(withId: formItemId).textViews.firstMatch
         wait(for: textView)
         // Verify character limiter indicator initial state
         var characterLimitIndicator = Self.stepView.staticTexts["0/\(maximumLength)"]
@@ -921,7 +921,7 @@ final class FormStep: Step {
         if imageIndex > 1 {
             XCTFail("Selected index out of range of actual choices")
         }
-        let imageButton = FormStep().getFormItemCell(withId: formItemId).buttons.element(boundBy: imageIndex)
+        let imageButton = FormStepScreen().getFormItemCell(withId: formItemId).buttons.element(boundBy: imageIndex)
         wait(for: imageButton)
         imageButton.tap()
         wait(for: imageButton, toBeSelected: true)
@@ -1004,10 +1004,7 @@ final class FormStep: Step {
         let slider = cell.sliders.firstMatch
         wait(for: slider)
         let normalizedValue = normalizeSliderValue(sliderValue: sliderValue, stepValue: stepValue, minValue: minValue, maxValue :maxValue)
-        if #available(iOS 14.0, *) {
-            let logger = Logger(subsystem: "ORKCatalogUITests", category: "ORKCatalogUIAutomation")
-            logger.debug("Normalized value: \(normalizedValue)")
-        }
+        UITestLogger.logDebugMessage("Normalized value: \(normalizedValue)")
         
         slider.adjust(toNormalizedSliderPosition: normalizedValue)
         let actualSliderValue = slider.value as? String ?? ""
@@ -1024,10 +1021,7 @@ final class FormStep: Step {
         let slider = cell.sliders.firstMatch
         wait(for: slider)
         let normalizedValue = normalizeSliderValue(sliderValue: sliderValue, stepValue: stepValue, minValue: minValue, maxValue :maxValue)
-        if #available(iOS 14.0, *) {
-            let logger = Logger(subsystem: "ORKCatalogUITests", category: "ORKCatalogUIAutomation")
-            logger.debug("Normalized value: \(normalizedValue)")
-        }
+        UITestLogger.logDebugMessage("Normalized value: \(normalizedValue)")
         
         slider.adjust(toNormalizedSliderPosition: normalizedValue)
         let actualSliderValue = slider.value as? String ?? ""
@@ -1156,9 +1150,9 @@ final class FormStep: Step {
     }
     
     func getLastCell(withId formItemId: String = "") -> XCUIElement {
-        let cellCount = FormStep.stepView.cells.beginning(with: formItemId).count
+        let cellCount = FormStepScreen.stepView.cells.beginning(with: formItemId).count
         let lastCell = cellCount - 1
-        let cell = FormStep().getFormItemCell(withId: formItemId, atIndex: lastCell)
+        let cell = FormStepScreen().getFormItemCell(withId: formItemId, atIndex: lastCell)
         return cell
     }
 }

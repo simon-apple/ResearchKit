@@ -1,4 +1,4 @@
-//  InstructionStep.swift
+//  InstructionStepScreen.swift
 //  ORKCatalogUITests
 //
 //  Created by Albina Kashapova on 10/25/23.
@@ -10,7 +10,7 @@ import XCTest
 
 /// This class corresponds to a single screen that introduces the survey or provide instructions (`ORKInstructionStep`). Same methods used for Completion Step
 ///  https://github.com/ResearchKit/ResearchKit/blob/main/docs/Survey/CreatingSurveys-template.markdown#instruction-step
-final class InstructionStep: Step {
+final class InstructionStepScreen: Step {
 
     static var stepView: XCUIElement {
         app.otherElements[AccessibilityIdentifiers.InstructionStep.view].firstMatch
@@ -23,7 +23,7 @@ final class InstructionStep: Step {
         return self
     }
     
-    func isStepViewExists(timeout: TimeInterval) -> Bool {
+    func stepViewExists(timeout: TimeInterval) -> Bool {
         return Self.stepView.waitForExistence(timeout: timeout)
     }
     

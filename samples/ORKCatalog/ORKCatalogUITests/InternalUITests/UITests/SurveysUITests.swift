@@ -36,7 +36,7 @@ final class SurveysUITests: BaseUITest {
         
         // Task Steps: QuestionStep, QuestionStep, QuestionStep, InstructionStep
         
-        let instructionStep = InstructionStep()
+        let instructionStep = InstructionStepScreen()
         instructionStep
             .verify(.title)
             .verify(.text)
@@ -47,7 +47,7 @@ final class SurveysUITests: BaseUITest {
         let dateQuestionId = "birthdayQuestionFormItem"
         let textChoiceOtherQuestionId = "textChoiceFormItem"
         
-        let questionSteps = [FormStep(id: booleanQuestionId), FormStep(id: dateQuestionId), FormStep(id: textChoiceOtherQuestionId)]
+        let questionSteps = [FormStepScreen(id: booleanQuestionId), FormStepScreen(id: dateQuestionId), FormStepScreen(id: textChoiceOtherQuestionId)]
         let totalProgress = questionSteps.count
         
         // Iterate though question steps
@@ -93,7 +93,7 @@ final class SurveysUITests: BaseUITest {
         
         XCTAssert(counter == totalProgress, "Unexpected number of steps. Expected count: \(totalProgress)")
         
-        let completionStep = InstructionStep()
+        let completionStep = InstructionStepScreen()
         completionStep
             .verify(.title)
             .verify(.text)
@@ -106,7 +106,7 @@ final class SurveysUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.form.description)
         
-        let formStep = FormStep(itemIds: ["appleFormItemIdentifier", "formItem03", "formItem04", "formItem01", "formItem02", "textChoiceFormItem", "imageChoiceItem", "freeTextItemIdentifier"])
+        let formStep = FormStepScreen(itemIds: ["appleFormItemIdentifier", "formItem03", "formItem04", "formItem01", "formItem02", "textChoiceFormItem", "imageChoiceItem", "freeTextItemIdentifier"])
         
         formStep
             .verifyQuestionTitleExists(atIndex: 0)
@@ -149,7 +149,7 @@ final class SurveysUITests: BaseUITest {
         formStep
             .tap(.continueButton)
         
-        let instructionStep = InstructionStep()
+        let instructionStep = InstructionStepScreen()
         instructionStep
             .verify(.title)
             .tap(.continueButton)
@@ -164,7 +164,7 @@ final class SurveysUITests: BaseUITest {
         
         // Task Steps: FormStep, FormStep
         
-        let formStep1 = FormStep(itemIds: ["formItem01", "formItem02"])
+        let formStep1 = FormStepScreen(itemIds: ["formItem01", "formItem02"])
         var indicesToSelect = [0, 1, 2, 5, 11, 46]
         let indexToSelect = 2
         formStep1
@@ -195,7 +195,7 @@ final class SurveysUITests: BaseUITest {
         formStep1
             .tap(.continueButton)
         
-        let formStep2 = FormStep(itemIds: ["formItem01"])
+        let formStep2 = FormStepScreen(itemIds: ["formItem01"])
         test("Step 2 Form Item 1: Single Choice Text Question") {
             formStep1
                 .verifySingleQuestionTitleExists()
@@ -212,7 +212,7 @@ final class SurveysUITests: BaseUITest {
         
        // Task Steps: FormStep, QuestionStep, QuestionStep, FormStep
         
-        let formStep = FormStep(itemIds: ["formItem01", "formItem02", "text-section-text-item-a", "text-section-text-item-b", "formItem03", "sesIdentifier"])
+        let formStep = FormStepScreen(itemIds: ["formItem01", "formItem02", "text-section-text-item-a", "text-section-text-item-b", "formItem03", "sesIdentifier"])
         formStep
             .verify(.title)
             .verify(.text)
@@ -248,7 +248,7 @@ final class SurveysUITests: BaseUITest {
         formStep
             .tap(.continueButton)
         
-        let formStep1 = FormStep(itemIds: ["booleanFormItem"])
+        let formStep1 = FormStepScreen(itemIds: ["booleanFormItem"])
         formStep1
             .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
             .verify(.skipButton,exists: true)
@@ -256,7 +256,7 @@ final class SurveysUITests: BaseUITest {
             .answerBooleanQuestion(withId: formStep1.itemIds[0], atIndex: 0)  // "Yes" answer triggers additional question in last form step
             .tap(.continueButton)
           
-        let formStep2 = FormStep(itemIds: ["birthdayQuestionFormItem"])
+        let formStep2 = FormStepScreen(itemIds: ["birthdayQuestionFormItem"])
         formStep2
             .verify(.continueButton, isEnabled: true)
             .verify(.skipButton,exists: true)
@@ -265,7 +265,7 @@ final class SurveysUITests: BaseUITest {
             .answerDateQuestion(year: "1960", month: "November", day: "1", dismissPicker: true)
             .tap(.continueButton)
         
-        let formStep3 = FormStep(itemIds: ["appleFormItemIdentifier", "newletterFormItemIdentifier"])
+        let formStep3 = FormStepScreen(itemIds: ["appleFormItemIdentifier", "newletterFormItemIdentifier"])
         formStep3
             .verifyStepView()
             .verify(.continueButton, isEnabled: true)
@@ -282,7 +282,7 @@ final class SurveysUITests: BaseUITest {
        func testPaddingBetweenContinueButtonAndLastCell() {
            tasksList
                .selectTaskByName(Task.booleanConditionalFormTask.description)
-           let formStep = FormStep()
+           let formStep = FormStepScreen()
            let formItemId1 = "childFormItem"
            let formItemId2 = "childConditions"
            formStep
@@ -300,14 +300,14 @@ final class SurveysUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.eligibilityTask.description)
         
-        let instructionStep = InstructionStep()
+        let instructionStep = InstructionStepScreen()
         instructionStep
             .verify(.title)
             .verify(.text)
             .verify(.detailText)
             .tap(.continueButton)
         
-        let formStep = FormStep(itemIds: ["eligibilityFormItem01", "eligibilityFormItem02", "eligibilityFormItem03"])
+        let formStep = FormStepScreen(itemIds: ["eligibilityFormItem01", "eligibilityFormItem02", "eligibilityFormItem03"])
         
         formStep
             .verify(.continueButton, isEnabled: false)
@@ -317,7 +317,7 @@ final class SurveysUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        let completionStep = InstructionStep()
+        let completionStep = InstructionStepScreen()
         // Eligible step
         completionStep
             .verify(.title)
@@ -344,11 +344,11 @@ final class SurveysUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.eligibilityTask.description)
         
-        let instructionStep = InstructionStep()
+        let instructionStep = InstructionStepScreen()
         instructionStep
             .tap(.continueButton)
         
-        let formStep = FormStep(itemIds: ["eligibilityFormItem01", "eligibilityFormItem02", "eligibilityFormItem03"])
+        let formStep = FormStepScreen(itemIds: ["eligibilityFormItem01", "eligibilityFormItem02", "eligibilityFormItem03"])
         
         formStep
             .answerSingleChoiceTextQuestion(withId: formStep.itemIds[0], atIndex: 0)
@@ -356,7 +356,7 @@ final class SurveysUITests: BaseUITest {
             .answerSingleChoiceTextQuestion(withId: formStep.itemIds[2], atIndex: 1)
             .tap(.continueButton)
         
-        let completionStep = InstructionStep()
+        let completionStep = InstructionStepScreen()
         // Eligible step
             .verifyImageLabel(expectedAXLabel: "Illustration of a check mark in a blue circle conveying success")
             .verifyLabel(.detailText, expectedLabel: "You are eligible to join the study")

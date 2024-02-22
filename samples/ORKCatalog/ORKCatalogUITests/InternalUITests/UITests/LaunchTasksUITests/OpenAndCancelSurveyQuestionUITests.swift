@@ -1,4 +1,4 @@
-//  OpenAndCancelSurveyQuestion.swift
+//  OpenAndCancelSurveyQuestionUITests.swift
 //  ORKCatalogUITests
 //
 //  Created by Albina Kashapova on 2/7/24.
@@ -8,7 +8,7 @@
 import Foundation
 import XCTest
 
-final class OpenAndCancelSurveyQuestion: OpenAndCancelBaseUITest {
+final class OpenAndCancelSurveyQuestionUITests: OpenAndCancelBaseUITest {
     
     func testLaunchSurveysQuestions() {
         let surveyQuestionsTask: [Task] = [
@@ -31,7 +31,7 @@ final class OpenAndCancelSurveyQuestion: OpenAndCancelBaseUITest {
         for task in surveyQuestionsTask {
             let taskLabel = task.description
             tasksList.selectTaskByName(taskLabel)
-            let step = FormStep()
+            let step = FormStepScreen()
             step
                 .verifyStepView()
                 .tapCancelButton()

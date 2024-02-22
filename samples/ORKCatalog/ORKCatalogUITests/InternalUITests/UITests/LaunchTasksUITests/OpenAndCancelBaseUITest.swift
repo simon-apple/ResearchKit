@@ -43,12 +43,12 @@ class OpenAndCancelBaseUITest: BaseUITest {
      - parameter isAudioAccessRequired: whether we need to handle permission alert to grant access to microphone
      - parameter ifExpectFormStep: whether we need to expect form step instead of active step
      */
-    func openAndCancelActiveTask(task: String, isHealthAccessRequired: Bool = false, isAudioAccessRequired: Bool = false, ifExpectFormStep: Bool = false, cancelTask: Bool = true) {
+    func openThenCancelActiveTask(task: String, isHealthAccessRequired: Bool = false, isAudioAccessRequired: Bool = false, ifExpectFormStep: Bool = false, cancelTask: Bool = true) {
         tasksList
             .selectTaskByName(task)
         
-        let instructionStep = InstructionStep()
-        while instructionStep.isStepViewExists(timeout: 3) {
+        let instructionStep = InstructionStepScreen()
+        while instructionStep.stepViewExists(timeout: 3) {
             instructionStep.tap(.continueButton)
             // Handle health access auth screens and alert
             if isHealthAccessRequired {
@@ -68,12 +68,12 @@ class OpenAndCancelBaseUITest: BaseUITest {
         }
         
         if ifExpectFormStep {
-            let formStep = FormStep()
+            let formStep = FormStepScreen()
             formStep
                 .verifyStepView()
                 .cancelTask()
         } else {
-            let activeStep = ActiveStep()
+            let activeStep = ActiveStepScreen()
             activeStep.verifyStepView(timeout: 60)
             guard cancelTask else {
                 return

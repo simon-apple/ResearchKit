@@ -1,4 +1,4 @@
-//  OpenAndCancelSurveys.swift
+//  OpenAndCancelSurveysUITests.swift
 //  ORKCatalogUITests
 //
 //  Created by Albina Kashapova on 2/7/24.
@@ -8,35 +8,35 @@
 import Foundation
 import XCTest
 
-final class OpenAndCancelSurveys: OpenAndCancelBaseUITest {
+final class OpenAndCancelSurveysUITests: OpenAndCancelBaseUITest {
     
     func testLaunchFormSurvey() {
         func testLaunchHolePegTask() {
-            openAndCancelActiveTask(task: Task.form.description, ifExpectFormStep: true)
+            openThenCancelActiveTask(task: Task.form.description, ifExpectFormStep: true)
         }
     }
     
     func testLaunchGroupedFormSurvey() {
         func testLaunchHolePegTask() {
-            openAndCancelActiveTask(task: Task.groupedForm.description, ifExpectFormStep: true)
+            openThenCancelActiveTask(task: Task.groupedForm.description, ifExpectFormStep: true)
         }
     }
     
     func testLaunchSimpleSurvey() {
         func testLaunchHolePegTask() {
-            openAndCancelActiveTask(task: Task.survey.description, ifExpectFormStep: true)
+            openThenCancelActiveTask(task: Task.survey.description, ifExpectFormStep: true)
         }
     }
     
     func testLaunchDontKnowSurvey() {
         func testLaunchHolePegTask() {
-            openAndCancelActiveTask(task: Task.dontknowSurvey.description, ifExpectFormStep: true)
+            openThenCancelActiveTask(task: Task.dontknowSurvey.description, ifExpectFormStep: true)
         }
     }
     
     func testLaunchSurveyWithMultipleOptions() {
         func testLaunchHolePegTask() {
-            openAndCancelActiveTask(task: Task.surveyWithMultipleOptions.description, ifExpectFormStep: true)
+            openThenCancelActiveTask(task: Task.surveyWithMultipleOptions.description, ifExpectFormStep: true)
         }
     }
 }
