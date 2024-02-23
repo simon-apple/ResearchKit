@@ -2831,7 +2831,7 @@ static id objectForJsonObject(id input,
     
 #if RK_APPLE_INTERNAL && ORK_FEATURE_INTERNAL_CLASS_MAPPER
     if (expectedClass != nil) {
-        expectedClass = [ORKESerializer _getInternalVersionForClass:expectedClass] ?: expectedClass;
+        expectedClass = [ORKESerializer getInternalVersionForClass:expectedClass] ?: expectedClass;
     }
 #endif
     
@@ -2845,7 +2845,7 @@ static id objectForJsonObject(id input,
         NSString *className = input[_ClassKey]; // todo: might be a spot to convert class
         
 #if RK_APPLE_INTERNAL && ORK_FEATURE_INTERNAL_CLASS_MAPPER
-        className = [ORKESerializer _getInternalVersionStringForClass:className] ?: className;
+        className = [ORKESerializer getInternalVersionStringForClass:className] ?: className;
 #endif
         
         ORKESerializationPropertyInjector *propertyInjector = context.propertyInjector;
@@ -2910,7 +2910,7 @@ static id objectForJsonObject(id input,
 }
 
 #if RK_APPLE_INTERNAL
-+ (nullable Class)_getInternalVersionForClass:(Class)class {
++ (nullable Class)getInternalVersionForClass:(Class)class {
     NSDictionary<NSString *, Class> *dict = @{
         NSStringFromClass([ORKInstructionStep class]) : [ORKIInstructionStep class],
         NSStringFromClass([ORKQuestionStep class]) : [ORKIQuestionStep class],
@@ -2924,7 +2924,7 @@ static id objectForJsonObject(id input,
     return [dict valueForKey:NSStringFromClass(class)];
 }
 
-+ (nullable NSString *)_getInternalVersionStringForClass:(NSString *)class {
++ (nullable NSString *)getInternalVersionStringForClass:(NSString *)class {
     NSDictionary<NSString *, NSString *> *dict = @{
         NSStringFromClass([ORKInstructionStep class]) : NSStringFromClass([ORKIInstructionStep class]),
         NSStringFromClass([ORKQuestionStep class]) : NSStringFromClass([ORKIQuestionStep class]),

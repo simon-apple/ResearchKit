@@ -1856,5 +1856,75 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
     XCTAssertEqual(scaleAnswerFormat.defaultValue, INT_MAX);
 }
 
+#if RK_APPLE_INTERNAL
+- (void)testInternalMapper {
+    NSString *bundlePath = [[NSBundle bundleForClass:[ORKJSONSerializationTests class]] pathForResource:@"samples" ofType:@"bundle"];
+    NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
+    NSArray<NSString *> *paths = [bundle pathsForResourcesOfType:@"json" inDirectory:nil forLocalization:nil];
+    
+    NSString *(^filenamePathToClassName)(NSString *) = ^NSString *(NSString *path) {
+        NSString *filename = [[path lastPathComponent] stringByDeletingPathExtension];
+        NSArray<NSString *> *filenameComponents = [filename componentsSeparatedByString:@"-"];
+        return filenameComponents.firstObject;
+    };
+    
+    //NSString *questionStepJSONFilePath = [bundle pathForResource:NSStringFromClass([ORKQuestionStep class]) ofType:@"json"];
+    //NSString *questionStepJSONFileName = filenamePathToClassName(questionStepJSONFilePath);
+    
+    // test questionStep mapping
+    Class questionStepClass = [ORKQuestionStep class];
+    Class internalQuestionStepClass = [ORKIQuestionStep class];
+    Class internalQuestionStep = [ORKESerializer getInternalVersionForClass:questionStepClass];
+    NSString *internalQuestionStepString = (NSString *)[ORKESerializer getInternalVersionStringForClass:NSStringFromClass(questionStepClass)];
+
+    XCTAssertTrue([internalQuestionStep isKindOfClass:internalQuestionStepClass], @"Failed to map %@ class to a %@", NSStringFromClass(questionStepClass), NSStringFromClass(internalQuestionStepClass));
+    XCTAssertTrue([internalQuestionStepString isEqualToString:NSStringFromClass(internalQuestionStepClass)], @"Failed to map %@ class string to a %@", NSStringFromClass(questionStepClass), NSStringFromClass(internalQuestionStepClass));
+    
+    // test instructionStep mapping
+    Class instructionStepClass = [ORKInstructionStep class];
+    Class internalInstructionStepClass = [ORKIInstructionStep class];
+    ORKIInstructionStep *internalInstructionStep = (ORKIInstructionStep *)[ORKESerializer getInternalVersionForClass:instructionStepClass];
+    NSString *internalInstructionStepString = (NSString *)[ORKESerializer getInternalVersionStringForClass:NSStringFromClass(instructionStepClass)];
+    
+    XCTAssertTrue([internalInstructionStep isKindOfClass:internalInstructionStepClass], @"Failed to map %@ class to a %@", NSStringFromClass(instructionStepClass), NSStringFromClass(internalInstructionStepClass));
+    XCTAssertTrue([internalInstructionStepString isEqualToString:NSStringFromClass(internalInstructionStepClass)], @"Failed to map %@ class string to a %@", NSStringFromClass(instructionStepClass), NSStringFromClass(internalInstructionStepClass));
+    
+    
+    
+    
+    for (NSString *path in paths) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path]
+                                                             options:0
+                                                               error:NULL];
+        NSString *className = filenamePathToClassName(path);
+        
+        NSArray<NSString *> *internalClasses = @[@"ORKQuestionStep",
+                                                 @"ORKInstructionStep",
+                                                 @"ORKdBHLToneAudiometryStep",
+                                                 @"ORKdBHLToneAudiometryResult",
+                                                 @"ORKEnvironmentSPLMeterStep",
+                                                 @"ORKSpeechInNoiseStep",
+                                                 @"ORKSpeechRecognitionStep",
+                                                 @"ORKCompletionStep"];
+        
+        if ([internalClasses containsObject:className]) {
+            
+            NSError *err;
+            id obj = [ORKESerializer objectFromJSONObject:dict error:&err];
+            
+            if (err == nil) {
+                NSLog(@"mapped class successfully");
+            } else {
+                NSLog(@"HIT ERROR");
+            }
+            
+        }
+        
+        
+    }
+    
+}
+#endif
+
 @end
 
