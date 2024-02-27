@@ -235,6 +235,9 @@
 		51E03D6424919711008F8406 /* ORKPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E03D6224919711008F8406 /* ORKPermissionType.m */; };
 		51E03D682491A601008F8406 /* ORKHealthKitPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 51E03D662491A601008F8406 /* ORKHealthKitPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51E03D692491A601008F8406 /* ORKHealthKitPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E03D672491A601008F8406 /* ORKHealthKitPermissionType.m */; };
+		51EB9A532B8408D50064A515 /* ORKInstructionStepHTMLFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 51EB9A512B8408D50064A515 /* ORKInstructionStepHTMLFormatter.h */; };
+		51EB9A542B8408D50064A515 /* ORKInstructionStepHTMLFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 51EB9A522B8408D50064A515 /* ORKInstructionStepHTMLFormatter.m */; };
+		51EB9A5E2B8D3BA70064A515 /* ORKInstructionStepHTMLFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 51EB9A5D2B8D3BA70064A515 /* ORKInstructionStepHTMLFormatterTests.m */; };
 		51F716C1297E288A00D8ACF7 /* ORKNormalizedReactionTimeStimulusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716B7297E288900D8ACF7 /* ORKNormalizedReactionTimeStimulusView.m */; };
 		51F716C2297E288A00D8ACF7 /* ORKNormalizedReactionTimeStimulusView.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716B8297E288900D8ACF7 /* ORKNormalizedReactionTimeStimulusView.h */; };
 		51F716C3297E288A00D8ACF7 /* ORKNormalizedReactionTimeContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716B9297E288900D8ACF7 /* ORKNormalizedReactionTimeContentView.m */; };
@@ -1429,6 +1432,9 @@
 		51E03D672491A601008F8406 /* ORKHealthKitPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKHealthKitPermissionType.m; sourceTree = "<group>"; };
 		51E03D6B2491B6DB008F8406 /* ORKRequestPermissionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKRequestPermissionView.h; sourceTree = "<group>"; };
 		51E03D6C2491B6DB008F8406 /* ORKRequestPermissionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKRequestPermissionView.m; sourceTree = "<group>"; };
+		51EB9A512B8408D50064A515 /* ORKInstructionStepHTMLFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKInstructionStepHTMLFormatter.h; sourceTree = "<group>"; };
+		51EB9A522B8408D50064A515 /* ORKInstructionStepHTMLFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKInstructionStepHTMLFormatter.m; sourceTree = "<group>"; };
+		51EB9A5D2B8D3BA70064A515 /* ORKInstructionStepHTMLFormatterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKInstructionStepHTMLFormatterTests.m; sourceTree = "<group>"; };
 		51F716B7297E288900D8ACF7 /* ORKNormalizedReactionTimeStimulusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORKNormalizedReactionTimeStimulusView.m; path = "ResearchKitActiveTask/Reaction Time/Normalized/ORKNormalizedReactionTimeStimulusView.m"; sourceTree = SOURCE_ROOT; };
 		51F716B8297E288900D8ACF7 /* ORKNormalizedReactionTimeStimulusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORKNormalizedReactionTimeStimulusView.h; path = "ResearchKitActiveTask/Reaction Time/Normalized/ORKNormalizedReactionTimeStimulusView.h"; sourceTree = SOURCE_ROOT; };
 		51F716B9297E288900D8ACF7 /* ORKNormalizedReactionTimeContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORKNormalizedReactionTimeContentView.m; path = "ResearchKitActiveTask/Reaction Time/Normalized/ORKNormalizedReactionTimeContentView.m"; sourceTree = SOURCE_ROOT; };
@@ -2695,6 +2701,14 @@
 			name = "HealthKit Permission Type";
 			sourceTree = "<group>";
 		};
+		51EB9A592B8D1CB80064A515 /* FormatterTests */ = {
+			isa = PBXGroup;
+			children = (
+				51EB9A5D2B8D3BA70064A515 /* ORKInstructionStepHTMLFormatterTests.m */,
+			);
+			name = FormatterTests;
+			sourceTree = "<group>";
+		};
 		5D000EC02620F27100E5442A /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -2844,7 +2858,7 @@
 				BC94EF2F1E962F7400143081 /* ORKDeprecated.h */,
 				BC94EF301E962F7400143081 /* ORKDeprecated.m */,
 				86C40B511A8D7C5B00081FAC /* Common */,
-				86C40BEB1A8D7C5C00081FAC /* Consent */,
+				FA7A9D2C1B083D90005A2BEA /* Formatters */,
 				2429D56D1BBB52E4003A512F /* Onboarding */,
 				B1C0F4E01A9BA65F0022C153 /* Localized */,
 				86C40C101A8D7C5C00081FAC /* Info.plist */,
@@ -2873,17 +2887,10 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		86C40BEB1A8D7C5C00081FAC /* Consent */ = {
-			isa = PBXGroup;
-			children = (
-				FA7A9D2C1B083D90005A2BEA /* Formatters */,
-			);
-			path = Consent;
-			sourceTree = "<group>";
-		};
 		86CC8EA61AC09383001CCD89 /* ResearchKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				51EB9A592B8D1CB80064A515 /* FormatterTests */,
 				51AF19512B583B5B00D3B399 /* ORKESerializationTests */,
 				51CB80D42AFEBE4800A1F410 /* ConditionalFormItems */,
 				22ED184428528FF50052406B /* ORKAudiometryTests */,
@@ -4554,8 +4561,11 @@
 			children = (
 				51AF1B132B67F30500D3B399 /* ORKSignatureFormatter.h */,
 				51AF1B142B67F30500D3B399 /* ORKSignatureFormatter.m */,
+				51EB9A512B8408D50064A515 /* ORKInstructionStepHTMLFormatter.h */,
+				51EB9A522B8408D50064A515 /* ORKInstructionStepHTMLFormatter.m */,
 			);
 			name = Formatters;
+			path = Consent;
 			sourceTree = "<group>";
 		};
 		FA7A9D351B09362D005A2BEA /* Consent */ = {
@@ -4733,6 +4743,7 @@
 				86C40D561A8D7C5C00081FAC /* ORKOrderedTask.h in Headers */,
 				FF5051F01D66908C0065E677 /* ORKNavigablePageStep.h in Headers */,
 				BC13CE401B0666FD0044153C /* ORKResultPredicate.h in Headers */,
+				51EB9A532B8408D50064A515 /* ORKInstructionStepHTMLFormatter.h in Headers */,
 				86C40E081A8D7C5C00081FAC /* ORKConsentReviewStep.h in Headers */,
 				CA6A0D83288B5B370048C1EF /* ORKHTMLPDFWriter.h in Headers */,
 				86C40DC61A8D7C5C00081FAC /* ORKTask.h in Headers */,
@@ -5495,6 +5506,7 @@
 				51CB80D62AFEBE7E00A1F410 /* ORKFormStepViewControllerConditionalFormItemsTests.swift in Sources */,
 				51AF19582B583BBA00D3B399 /* ORKDataCollectionTests.m in Sources */,
 				7141EA2222EFBC0C00650145 /* ORKLoggingTests.m in Sources */,
+				51EB9A5E2B8D3BA70064A515 /* ORKInstructionStepHTMLFormatterTests.m in Sources */,
 				1490DCF4224D3C20003FEEDA /* ORKPasscodeResultTests.swift in Sources */,
 				14BE7091220A201E005DEF07 /* ORKDataLoggerTests.m in Sources */,
 				148E58BD227B36DB00EEF915 /* ORKCompletionStepViewControllerTests.swift in Sources */,
@@ -5545,6 +5557,7 @@
 				51E03D6424919711008F8406 /* ORKPermissionType.m in Sources */,
 				0BCC4B9A28663895001E316F /* PIIScrubber.swift in Sources */,
 				FFDDD84A1D3555EA00446806 /* ORKPageStep.m in Sources */,
+				51EB9A542B8408D50064A515 /* ORKInstructionStepHTMLFormatter.m in Sources */,
 				CA2B901228A17D170025B773 /* ORKFileResult.m in Sources */,
 				866DA5241D63D04700C9AF3F /* ORKDataCollectionManager.m in Sources */,
 				86C40D421A8D7C5C00081FAC /* ORKInstructionStep.m in Sources */,

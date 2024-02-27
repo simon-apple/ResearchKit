@@ -1083,6 +1083,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  },
                  (@{
                     PROPERTY(html, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(instructionSteps, ORKInstructionStep, NSArray, YES, nil, nil),
                     PROPERTY(customCSS, NSString, NSObject, YES, nil, nil),
                     PROPERTY(showSignatureAfterContent, NSNumber, NSObject, YES, nil, nil)
                     })),
