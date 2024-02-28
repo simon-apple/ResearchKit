@@ -104,8 +104,7 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
 
     if (!css) {
         UIColor *backgroundColor = ORKColor(ORKBackgroundColorKey);
-        UIColor *textColor;
-        textColor = [UIColor labelColor];
+        UIColor *textColor = [UIColor labelColor];
 
         NSString *backgroundColorString = [self hexStringForColor:backgroundColor];
         NSString *textColorString = [self hexStringForColor:textColor];

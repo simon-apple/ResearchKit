@@ -630,7 +630,12 @@ enum TaskListRowSteps {
     }
     
     static var webViewStepExample: ORKWebViewStep {
-        let webViewStep = ORKWebViewStep(identifier: String(describing: Identifier.webViewStep), html: TaskListRowStrings.exampleHtml)
+        let instructionSteps = [
+            TaskListRowSteps.consentWelcomeStepExample,
+            TaskListRowSteps.informedConsentStepExample
+        ]
+        
+        let webViewStep = ORKWebViewStep(identifier: String(describing: Identifier.webViewStep), instructionSteps: instructionSteps)
         webViewStep.showSignatureAfterContent = true
         return webViewStep
     }
