@@ -1,6 +1,6 @@
 # Obtaining Consent
 
-Use the ResearchKit framework to seamlessly guide your participants through Informed Consent 
+Use the ResearchKit framework to guide your participants through Informed Consent 
 
 ## Overview
 
@@ -73,6 +73,22 @@ instructionStep.bodyItems = [
     signatureBodyItem,
     secureDataBodyItem
 ]
+```
+
+The instruction step are presented as shown in Figure 1.
+
+// todo: add images here
+
+
+## 2. Review consent with the ORKWebViewStep
+
+Users can review the consent content in the ORKWebViewStep as HTML. Depending on your signature requirements, users can also be asked to write a signature on the same screen.
+
+The content for consent review can either be produced by converting the previous instructions steps to HTML, or you can provide entirely separate review content as custom HTML in the web view step's html property.
+
+```swift
+
+
 ```
 
 
