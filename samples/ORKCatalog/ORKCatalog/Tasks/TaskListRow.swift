@@ -1131,6 +1131,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         let welcomeInstructionStep = TaskListRowSteps.consentWelcomeStepExample
         let informedConsentInstructionStep = TaskListRowSteps.informedConsentStepExample
         let webViewStep = TaskListRowSteps.webViewStepExample
+        let consentSharingFormStep = TaskListRowSteps.informedConsentSharingStepExample
         let requestPermissionStep = TaskListRowSteps.requestPermissionsStepExample
         let consentCompletionStep = TaskListRowSteps.consentCompletionStepExample
         
@@ -1138,6 +1139,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             welcomeInstructionStep,
             informedConsentInstructionStep,
             webViewStep,
+            consentSharingFormStep,
             requestPermissionStep,
             consentCompletionStep
         ]

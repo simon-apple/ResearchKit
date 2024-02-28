@@ -13,9 +13,10 @@ The ResearchKit framework makes obtaining consent easier by providing APIs to he
 - **Informing Participants** - `ORKInstructionStep`
 - **Reviewing Consent + Signature** - `ORKWebViewStep`
 - **Consent Sharing** - `ORKFormStep`
+- **PDF Viewing/Sharing** - `ORKPDFViewerStep`
 
 
-## 1. Informing Participants with the ORKInstructionStep
+## Informing Participants with the ORKInstructionStep
 
 When providing informed consent to prospective study participants, it is important to cover the necessary topics pertaining to your study. Common topics usually addressed during informed consent are: 
 
@@ -80,16 +81,75 @@ The instruction step are presented as shown in Figure 1.
 // todo: add images here
 
 
-## 2. Review consent with the ORKWebViewStep
+## Review consent with the ORKWebViewStep
 
 Users can review the consent content in the ORKWebViewStep as HTML. Depending on your signature requirements, users can also be asked to write a signature on the same screen.
 
 The content for consent review can either be produced by converting the previous instructions steps to HTML, or you can provide entirely separate review content as custom HTML in the web view step's html property.
 
 ```swift
+let instructionSteps = [welcomeStep, beforeYouJoinStep]
+        
+let webViewStep = ORKWebViewStep(identifier: "WebViewStepIdentifier", instructionSteps: instructionSteps)
+webViewStep.showSignatureAfterContent = true
+return webViewStep
+```
+The web view step is presented as shown in Figure 2.
+
+// todo: add images here
 
 
+## Consent sharing with the ORKFormStep
+
+Apps that use the ResearchKit framework primarily collect data for a specific study. But if you want to ask participants to share their data with other researchers, participants must be able to control that decision.
+
+A form step (ORKFormStep) can be used to explicitly obtain permission to share participants' data that you have collected for your study with other researchers, if allowed by your IRB or EC if applicable. To use a form step, include it in a task, perhaps just before a consent review step.
+
+```swift
+// construct text choices
+let textChoices: [ORKTextChoice] = [ORKTextChoice(text: "Institution and qualified researchers worldwide", value: 1 as NSNumber),
+                                            ORKTextChoice(text: "Only institution and its partners", value: 2 as NSNumber)]
+let textChoiceAnswerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: textChoices)
+        
+// construct form item for text choices
+let textChoiceFormItem = ORKFormItem(identifier: "TextChoiceFormItem", text: "Who would you like to share your data with?", answerFormat: textChoiceAnswerFormat)
+        
+// construct form step
+let formStepText = "Institution and its partners will receive your study data from your participation in this study. \n \n Sharing your coded study data more broadly (without information such as your name may benefit this and future research."    
+let formStep = ORKFormStep(identifier: "ConsentSharingFormStepIdentifier", title: "Sharing Options", text: formStepText)
+formStep.formItems = [textChoiceFormItem]
+        
+return formStep
 ```
 
+The form step is shown in Figure 3.
 
+// todo: add images here
+
+## Enhanced PDF Viewing
+
+Providing clear and concise material for the user to review is an important part of the data collection process. With ORKPDFViewerStep, the user can view a PDF in detail, perform text search, and mark up sections of the document. Other available features include viewing the pages of the PDF as thumbnails for quick perusal, printing, and saving the document.
+
+When the ORKTask is finished you can utilize the ORKHTMLPDFWriter to store the web view step's html as a PDF then view it later with the ORKPDFViewerStep.
+
+```swift
+guard let stepResult = taskViewController.result.result(forIdentifier: "WebViewStepIdentifier") as? ORKStepResult else {
+	return
+}
+        
+if let webViewStepResult = stepResult.results?.first as? ORKWebViewStepResult, let html = webViewStepResult.htmlWithSignature {
+	let htmlFormatter = ORKHTMLPDFWriter()
+            
+    htmlFormatter.writePDF(fromHTML: html) { data, error in
+       let pdfURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent("consentTask")
+            .appendingPathExtension("pdf")
+        try? data.write(to: pdfURL)
+    }
+}
+```
+
+The PDF viewer step is show in Figure 4.
+
+// todo: add images here
 
