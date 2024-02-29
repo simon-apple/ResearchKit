@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2023, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,23 +28,44 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if defined(__cplusplus)
-#  define ORK_EXTERN extern "C" __attribute__((visibility("default")))
+#import "CLLocationManager+ResearchKit.h"
+
+#import "ORKDefines.h"
+
+@implementation CLLocationManager (ResearchKit)
+
+- (BOOL)ork_requestWhenInUseAuthorization {
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+    [self requestWhenInUseAuthorization];
+    return YES;
 #else
-#  define ORK_EXTERN extern __attribute__((visibility("default")))
+    return NO;
 #endif
+}
 
-#define ORK_CLASS_AVAILABLE __attribute__((visibility("default")))
-#define ORK_ENUM_AVAILABLE
-#define ORK_AVAILABLE_DECL
-
-#define ORK_IOS_10_WATCHOS_3_AVAILABLE (NSClassFromString(@"HKWorkoutConfiguration") != nil)
-
-// Some CLLocationManager API calls would trigger authorization to use location. The presence of those
-// API calls in ResearchKit **at compile time** mean apps that link ResearchKit also need Info.plist entries
-// for NSLocationAlwaysAndWhenInUseUsageDescription and NSLocationWhenInUseUsageDescription.
-// If your app doesn't use ORKLocationRecorder and doesn't specify these Info.plist strings, disable
-// ResearchKit's CLLocationManager authorization
-#ifndef ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
-#define ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION 1
+- (BOOL)ork_requestAlwaysAuthorization {
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+    [self requestAlwaysAuthorization];
+    return YES;
+#else
+    return NO;
 #endif
+}
+
+- (void)ork_startUpdatingLocation {
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+    [self startUpdatingLocation];
+#else
+    // noop
+#endif
+}
+
+- (void)ork_stopUpdatingLocation {
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+    [self stopUpdatingLocation];
+#else
+    // noop
+#endif
+}
+
+@end

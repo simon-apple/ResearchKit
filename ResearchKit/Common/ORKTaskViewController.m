@@ -61,7 +61,8 @@
 
 @import AVFoundation;
 @import CoreMotion;
-#import <CoreLocation/CoreLocation.h>
+#import <CoreLocation/CLLocationManagerDelegate.h>
+#import <ResearchKit/CLLocationManager+ResearchKit.h>
 
 typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 
@@ -100,28 +101,22 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     }
     
     _started = YES;
-
-    NSString *allowedWhenInUse = (NSString *)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationWhenInUseUsageDescription"];
-    NSString *allowedAlways = (NSString *)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationAlwaysAndWhenInUseUsageDescription"];
+    NSString *whenInUseKey = (NSString *)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationWhenInUseUsageDescription"];
+    NSString *alwaysKey = (NSString *)[[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationAlwaysAndWhenInUseUsageDescription"];
     
-    if (_manager) {
-        CLAuthorizationStatus status = kCLAuthorizationStatusNotDetermined;
-        
-        if (@available(iOS 14.0, *)) {
-            status = _manager.authorizationStatus;
+    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+    if ((status == kCLAuthorizationStatusNotDetermined) && (whenInUseKey || alwaysKey)) {
+        BOOL requestWasDelivered = YES;
+        if (alwaysKey) {
+            requestWasDelivered = [_manager ork_requestAlwaysAuthorization];
         } else {
-            status = [CLLocationManager authorizationStatus];
+            requestWasDelivered = [_manager ork_requestWhenInUseAuthorization];
         }
-        
-        if ((status == kCLAuthorizationStatusNotDetermined) && (allowedWhenInUse || allowedAlways)) {
-            if (allowedAlways) {
-                [_manager requestAlwaysAuthorization];
-            } else {
-                [_manager requestWhenInUseAuthorization];
-            }
-        } else {
-            [self finishWithResult:(status != kCLAuthorizationStatusDenied)];
+        if (requestWasDelivered == NO) {
+            [self finishWithResult:NO];
         }
+    } else {
+        [self finishWithResult:(status != kCLAuthorizationStatusDenied)];
     }
 }
 
@@ -132,18 +127,10 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     }
 }
 
-- (void)locationManagerDidChangeAuthorization:(CLLocationManager *)manager {
-    CLAuthorizationStatus status = kCLAuthorizationStatusNotDetermined;
-    
-    if (@available(iOS 14.0, *)) {
-        status = manager.authorizationStatus;
-    } else {
-        status = [CLLocationManager authorizationStatus];
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    if (_handler && _started && status != kCLAuthorizationStatusNotDetermined) {
+        [self finishWithResult:(status != kCLAuthorizationStatusDenied)];
     }
-    
-    if (_started && status != kCLAuthorizationStatusNotDetermined) {
-       [self finishWithResult:(status != kCLAuthorizationStatusDenied)];
-   }
 }
 
 @end
