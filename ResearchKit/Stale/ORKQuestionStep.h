@@ -29,7 +29,7 @@
  */
 
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 #if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKStep.h>
@@ -64,7 +64,6 @@ NS_ASSUME_NONNULL_BEGIN
  (`ORKQuestionResult`).
  */
 ORK_CLASS_AVAILABLE
-ORK_TO_BE_DEPRECATED("Use the ORKFormStep instead")
 @interface ORKQuestionStep : ORKStep
 
 

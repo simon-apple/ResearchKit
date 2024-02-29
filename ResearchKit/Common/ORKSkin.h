@@ -29,7 +29,7 @@
  */
 
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 #if TARGET_OS_IOS
 #import <ResearchKit/ORKDefines.h>
 #endif

@@ -30,18 +30,18 @@
  */
 
 
-@import XCTest;
-@import ResearchKit_Private;
-@import ResearchKitActiveTask;
-@import ResearchKitActiveTask_Private;
+#import <Foundation/Foundation.h>
+#import <XCTest/XCTest.h>
+#import <ResearchKit/ResearchKit_Private.h>
+#import <ResearchKitActiveTask/ResearchKitActiveTask.h>
+#import <ResearchKitActiveTask/ResearchKitActiveTask_Private.h>
 #if RK_APPLE_INTERNAL
-@import ResearchKitInternal;
-@import ResearchKitInternal_Private;
+#import <ResearchKitInternal/ResearchKitInternal.h>
+#import <ResearchKitInternal/ResearchKitInternal_Private.h>
 #endif
-@import ResearchKitUI;
+#import <ResearchKitUI/ResearchKitUI.h>
 
 #import "ORKESerialization.h"
-
 #import <objc/runtime.h>
 
 BOOL ORKIsResearchKitClass(Class class) {

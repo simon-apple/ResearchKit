@@ -29,8 +29,6 @@
  */
 
 
-@import UIKit;
-
 #import <ResearchKitUI/ResearchKitUI_Private.h>
 #import <ResearchKitUI/ORKCustomStepView_Internal.h>
 

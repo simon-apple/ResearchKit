@@ -29,7 +29,7 @@
  */
 
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 #import <ResearchKitUI/ORKStepViewController.h>
 
 
@@ -51,7 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 
 ORK_CLASS_AVAILABLE
-ORK_TO_BE_DEPRECATED("Will be removed when ORKQuestionStep is deprecated")
 @interface ORKQuestionStepViewController : ORKStepViewController
 
 @end

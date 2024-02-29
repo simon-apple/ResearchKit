@@ -152,7 +152,12 @@ static NSMutableDictionary *colors(void) {
     dispatch_once(&onceToken, ^{
         colors = [@{
                     ORKSignatureColorKey: ORKRGB(0x000000),
+#if TARGET_OS_IOS
                     ORKBackgroundColorKey: [UIColor secondarySystemBackgroundColor],
+#endif
+#if TARGET_OS_WATCH
+                    ORKBackgroundColorKey: ORKRGB(0xffffff),
+#endif
                     ORKConsentBackgroundColorKey: ORKRGB(0xffffff),
                     ORKToolBarTintColorKey: ORKRGB(0xffffff),
                     ORKLightTintColorKey: ORKRGB(0xeeeeee),
@@ -164,7 +169,12 @@ static NSMutableDictionary *colors(void) {
                     ORKNavigationContainerShadowColorKey: [UIColor blackColor],
                     ORKProgressLabelColorKey: [UIColor colorWithRed:142.0/255.0 green:142.0/255.0 blue:142.0/255.0 alpha:1.0],
                     ORKiPadBackgroundViewColorKey: [UIColor colorWithRed:249.0 / 255.0 green:249.0 / 255.0 blue:251.0 / 255.0 alpha:1.0],
+#if TARGET_OS_IOS
                     ORKTopContentImageViewBackgroundColorKey: UIColor.quaternarySystemFillColor,
+#endif
+#if TARGET_OS_WATCH
+                    ORKBackgroundColorKey: ORKRGB(0xffffff),
+#endif
                     ORKBulletItemTextColorKey: [UIColor colorWithRed:0.56 green:0.56 blue:0.58 alpha:1.0]
                     } mutableCopy];
     });

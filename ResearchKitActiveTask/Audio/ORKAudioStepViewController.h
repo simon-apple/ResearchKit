@@ -30,7 +30,7 @@
 
 
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 #import <ResearchKit/ORKDefines.h>
 #import <ResearchKitActiveTask/ORKActiveStepViewController.h>
 

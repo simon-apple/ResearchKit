@@ -29,8 +29,8 @@
  */
 
 
-@import Foundation;
-@import UIKit;
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <ResearchKit/ORKQuestionStep_Private.h>
 
 NS_ASSUME_NONNULL_BEGIN

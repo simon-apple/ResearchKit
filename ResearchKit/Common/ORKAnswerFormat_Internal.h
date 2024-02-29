@@ -30,9 +30,14 @@
 
 
 @import HealthKit;
+#if TARGET_OS_IOS
 #import <ResearchKit/ORKAnswerFormat_Private.h>
 #import <ResearchKit/ORKChoiceAnswerFormatHelper.h>
-
+#endif
+#if TARGET_OS_WATCH
+#import <ResearchKitCore/ORKAnswerFormat_Private.h>
+#import <ResearchKitCore/ORKChoiceAnswerFormatHelper.h>
+#endif
 @class ORKChoiceAnswerFormatHelper;
 
 NS_ASSUME_NONNULL_BEGIN
