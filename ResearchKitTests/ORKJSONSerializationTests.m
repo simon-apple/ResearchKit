@@ -1944,49 +1944,78 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
     XCTAssertNotNil(questionStep);
     XCTAssertNotNil(mappedQuestionStep);
     XCTAssertTrue([NSStringFromClass([mappedQuestionStep class]) isEqualToString:NSStringFromClass([ORKIQuestionStep class])]);
+    
+    // ORKdBHLToneAudiometryStep casting
+    NSString *dBHLStepJSONFilePath = [bundle pathForResource:NSStringFromClass([ORKdBHLToneAudiometryStep class]) ofType:@"json"];
+    NSDictionary *dBHLStepStepDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:dBHLStepJSONFilePath] options:0 error:NULL];
+    
+    ORKdBHLToneAudiometryStep *dBHLStep = (ORKdBHLToneAudiometryStep *)[ORKESerializer objectFromJSONObject:dBHLStepStepDict error:&error];
+    ORKIdBHLToneAudiometryStep *mappeddBHLStep = [ORKInternalClassMapper getInternalInstanceForPublicClass:dBHLStep];
+    
+    XCTAssertNil(error);
+    XCTAssertNotNil(dBHLStep);
+    XCTAssertNotNil(mappeddBHLStep);
+    XCTAssertTrue([NSStringFromClass([mappeddBHLStep class]) isEqualToString:NSStringFromClass([ORKIdBHLToneAudiometryStep class])]);
+    
+    // ORKSpeechInNoiseStep casting
+    NSString *speechInNoiseJSONFilePath = [bundle pathForResource:NSStringFromClass([ORKSpeechInNoiseStep class]) ofType:@"json"];
+    NSDictionary *speechInNoiseStepDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:speechInNoiseJSONFilePath] options:0 error:NULL];
+    
+    ORKSpeechInNoiseStep *speechInNoiseStep = (ORKSpeechInNoiseStep *)[ORKESerializer objectFromJSONObject:speechInNoiseStepDict error:&error];
+    ORKISpeechRecognitionStep *mappedSpeechInNoiseStep = [ORKInternalClassMapper getInternalInstanceForPublicClass:speechInNoiseStep];
+    
+    XCTAssertNil(error);
+    XCTAssertNotNil(speechInNoiseStep);
+    XCTAssertNotNil(mappedSpeechInNoiseStep);
+    XCTAssertTrue([NSStringFromClass([mappedSpeechInNoiseStep class]) isEqualToString:NSStringFromClass([ORKISpeechInNoiseStep class])]);
+    
+    // ORKSpeechRecognitionStep casting
+    NSString *speechRecognitionJSONFilePath = [bundle pathForResource:NSStringFromClass([ORKSpeechRecognitionStep class]) ofType:@"json"];
+    NSDictionary *speechRecognitionStepDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:speechRecognitionJSONFilePath] options:0 error:NULL];
+    
+    ORKSpeechRecognitionStep *speechRecognitionStep = (ORKSpeechRecognitionStep *)[ORKESerializer objectFromJSONObject:speechRecognitionStepDict error:&error];
+    ORKISpeechRecognitionStep *mappedSpeechRecognitionStep = [ORKInternalClassMapper getInternalInstanceForPublicClass:speechRecognitionStep];
+    
+    XCTAssertNil(error);
+    XCTAssertNotNil(speechRecognitionStep);
+    XCTAssertNotNil(mappedSpeechRecognitionStep);
+    XCTAssertTrue([NSStringFromClass([mappedSpeechRecognitionStep class]) isEqualToString:NSStringFromClass([ORKISpeechRecognitionStep class])]);
+    
+    // ORKEnvironmentSPLMeterStep casting
+    NSString *environmentSPLMeterJSONFilePath = [bundle pathForResource:NSStringFromClass([ORKEnvironmentSPLMeterStep class]) ofType:@"json"];
+    NSDictionary *environmentSPLMeterStepDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:environmentSPLMeterJSONFilePath] options:0 error:NULL];
+    
+    ORKEnvironmentSPLMeterStep *environmentSPLMeterStep = (ORKEnvironmentSPLMeterStep *)[ORKESerializer objectFromJSONObject:environmentSPLMeterStepDict error:&error];
+    ORKIEnvironmentSPLMeterStep *mappedEnvironmentSPLMeterStep = [ORKInternalClassMapper getInternalInstanceForPublicClass:environmentSPLMeterStep];
+    
+    XCTAssertNil(error);
+    XCTAssertNotNil(environmentSPLMeterStep);
+    XCTAssertNotNil(mappedEnvironmentSPLMeterStep);
+    XCTAssertTrue([NSStringFromClass([mappedEnvironmentSPLMeterStep class]) isEqualToString:NSStringFromClass([ORKIEnvironmentSPLMeterStep class])]);
+    
+    // ORKCompletionStep casting
+    NSString *completionStepJSONFilePath = [bundle pathForResource:NSStringFromClass([ORKCompletionStep class]) ofType:@"json"];
+    NSDictionary *completionStepDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:completionStepJSONFilePath] options:0 error:NULL];
+    
+    ORKCompletionStep *completionStep = (ORKCompletionStep *)[ORKESerializer objectFromJSONObject:completionStepDict error:&error];
+    ORKICompletionStep *mappedCompletionStep = [ORKInternalClassMapper getInternalInstanceForPublicClass:completionStep];
+    
+    XCTAssertNil(error);
+    XCTAssertNotNil(completionStep);
+    XCTAssertNotNil(mappedCompletionStep);
+    XCTAssertTrue([NSStringFromClass([mappedCompletionStep class]) isEqualToString:NSStringFromClass([ORKICompletionStep class])]);
+    
+    // Testing that a class without a internal version will return nil when trying to cast
+    NSString *stroopStepJSONFilePath = [bundle pathForResource:NSStringFromClass([ORKStroopStep class]) ofType:@"json"];
+    NSDictionary *stroopStepDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:stroopStepJSONFilePath] options:0 error:NULL];
+    
+    ORKStroopStep *stroopStep = (ORKStroopStep *)[ORKESerializer objectFromJSONObject:stroopStepDict error:&error];
+    id internalInstance = [ORKInternalClassMapper getInternalInstanceForPublicClass:stroopStep];
+    
+    XCTAssertNil(error);
+    XCTAssertNotNil(stroopStep);
+    XCTAssertNil(internalInstance);
 }
-
-//NSArray<NSString *> *paths = [bundle pathsForResourcesOfType:@"json" inDirectory:nil forLocalization:nil];
-
-//    NSString *(^filenamePathToClassName)(NSString *) = ^NSString *(NSString *path) {
-//        NSString *filename = [[path lastPathComponent] stringByDeletingPathExtension];
-//        NSArray<NSString *> *filenameComponents = [filename componentsSeparatedByString:@"-"];
-//        return filenameComponents.firstObject;
-//    };
-
-//NSString *questionStepJSONFilePath = [bundle pathForResource:NSStringFromClass([ORKQuestionStep class]) ofType:@"json"];
-//NSString *questionStepJSONFileName = filenamePathToClassName(questionStepJSONFilePath);
-
-//    for (NSString *path in paths) {
-//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path]
-//                                                             options:0
-//                                                               error:NULL];
-//        NSString *className = filenamePathToClassName(path);
-//
-//        NSArray<NSString *> *internalClasses = @[@"ORKQuestionStep",
-//                                                 @"ORKInstructionStep",
-//                                                 @"ORKdBHLToneAudiometryStep",
-//                                                 @"ORKdBHLToneAudiometryResult",
-//                                                 @"ORKEnvironmentSPLMeterStep",
-//                                                 @"ORKSpeechInNoiseStep",
-//                                                 @"ORKSpeechRecognitionStep",
-//                                                 @"ORKCompletionStep"];
-//
-//        if ([internalClasses containsObject:className]) {
-//
-//            NSError *err;
-//            id obj = [ORKESerializer objectFromJSONObject:dict error:&err];
-//
-//            if (err == nil) {
-//                NSLog(@"mapped class successfully");
-//            } else {
-//                NSLog(@"HIT ERROR");
-//            }
-//
-//        }
-//
-//
-//    }
 
 #endif
 
