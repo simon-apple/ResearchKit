@@ -2831,7 +2831,7 @@ static id objectForJsonObject(id input,
     
 #if RK_APPLE_INTERNAL && ORK_FEATURE_INTERNAL_CLASS_MAPPER
     if (expectedClass != nil) {
-        expectedClass = [ORKESerializer getInternalVersionForClass:expectedClass] ?: expectedClass;
+        expectedClass = [ORKInternalClassMapper getInternalClassForPublicClass:expectedClass] ?: expectedClass;
     }
 #endif
     
@@ -2845,7 +2845,7 @@ static id objectForJsonObject(id input,
         NSString *className = input[_ClassKey]; // todo: might be a spot to convert class
         
 #if RK_APPLE_INTERNAL && ORK_FEATURE_INTERNAL_CLASS_MAPPER
-        className = [ORKESerializer getInternalVersionStringForClass:className] ?: className;
+        className = [ORKInternalClassMapper getInternalClassStringForPublicClass:className] ?: className;
 #endif
         
         ORKESerializationPropertyInjector *propertyInjector = context.propertyInjector;
@@ -2908,36 +2908,6 @@ static id objectForJsonObject(id input,
     }
     return output;
 }
-
-#if RK_APPLE_INTERNAL
-+ (nullable Class)getInternalVersionForClass:(Class)class {
-    NSDictionary<NSString *, Class> *dict = @{
-        NSStringFromClass([ORKInstructionStep class]) : [ORKIInstructionStep class],
-        NSStringFromClass([ORKQuestionStep class]) : [ORKIQuestionStep class],
-        NSStringFromClass([ORKdBHLToneAudiometryStep class]) : [ORKIdBHLToneAudiometryStep class],
-        NSStringFromClass([ORKdBHLToneAudiometryResult class]) : [ORKIdBHLToneAudiometryResult class],
-        NSStringFromClass([ORKSpeechInNoiseStep class]) : [ORKISpeechInNoiseStep class],
-        NSStringFromClass([ORKEnvironmentSPLMeterStep class]) : [ORKIEnvironmentSPLMeterStep class],
-        NSStringFromClass([ORKSpeechRecognitionStep class]) : [ORKISpeechRecognitionStep class]
-    };
-    
-    return [dict valueForKey:NSStringFromClass(class)];
-}
-
-+ (nullable NSString *)getInternalVersionStringForClass:(NSString *)class {
-    NSDictionary<NSString *, NSString *> *dict = @{
-        NSStringFromClass([ORKInstructionStep class]) : NSStringFromClass([ORKIInstructionStep class]),
-        NSStringFromClass([ORKQuestionStep class]) : NSStringFromClass([ORKIQuestionStep class]),
-        NSStringFromClass([ORKdBHLToneAudiometryStep class]) : NSStringFromClass([ORKIdBHLToneAudiometryStep class]),
-        NSStringFromClass([ORKdBHLToneAudiometryResult class]) : NSStringFromClass([ORKIdBHLToneAudiometryResult class]),
-        NSStringFromClass([ORKSpeechInNoiseStep class]) : NSStringFromClass([ORKISpeechInNoiseStep class]),
-        NSStringFromClass([ORKEnvironmentSPLMeterStep class]) : NSStringFromClass([ORKIEnvironmentSPLMeterStep class]),
-        NSStringFromClass([ORKSpeechRecognitionStep class]) : NSStringFromClass([ORKISpeechRecognitionStep class])
-    };
-    
-    return [dict valueForKey:class];
-}
-#endif
 
 static BOOL isValid(id object) {
     return [NSJSONSerialization isValidJSONObject:object] || [object isKindOfClass:[NSNumber class]] || [object isKindOfClass:[NSString class]] || [object isKindOfClass:[NSNull class]] || [object isKindOfClass:[ORKNoAnswer class]];

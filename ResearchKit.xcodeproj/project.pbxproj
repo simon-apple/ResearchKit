@@ -836,7 +836,7 @@
 		CAA20F3F288B3F6D00EDC764 /* ORKGraphChartAccessibilityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6146D0A21B84A91E0068491D /* ORKGraphChartAccessibilityElement.m */; };
 		CAA20F40288B3F6D00EDC764 /* UIView+ORKAccessibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 618DA04C1A93D0D600E63AA8 /* UIView+ORKAccessibility.m */; };
 		CAD0896A289DD747007B2A98 /* ResearchKitActiveTask.h in Headers */ = {isa = PBXBuildFile; fileRef = CAD08969289DD747007B2A98 /* ResearchKitActiveTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CAD089BA289DE347007B2A98 /* ORKSpeechInNoiseStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 7118AC7320BF6A7800D7A6BB /* ORKSpeechInNoiseStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		CAD089BA289DE347007B2A98 /* ORKSpeechInNoiseStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 7118AC7320BF6A7800D7A6BB /* ORKSpeechInNoiseStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAD089BB289DE34C007B2A98 /* ORKSpeechInNoiseStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118AC7220BF6A7800D7A6BB /* ORKSpeechInNoiseStep.m */; };
 		CAD089BC289DE351007B2A98 /* ORKSpeechInNoiseResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D5880372410394E005B3D91 /* ORKSpeechInNoiseResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAD089BD289DE356007B2A98 /* ORKSpeechInNoiseResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D5880382410394E005B3D91 /* ORKSpeechInNoiseResult.m */; };
@@ -858,7 +858,7 @@
 		CAD08A11289DE4F5007B2A98 /* ORKdBHLToneAudiometryResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 71769E2820880C4500A19914 /* ORKdBHLToneAudiometryResult.m */; };
 		CAD08A12289DE4F8007B2A98 /* ORKdBHLToneAudiometryOnboardingStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 71769E2B208824D100A19914 /* ORKdBHLToneAudiometryOnboardingStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CAD08A13289DE4FC007B2A98 /* ORKdBHLToneAudiometryOnboardingStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 71769E2C208824D100A19914 /* ORKdBHLToneAudiometryOnboardingStep.m */; };
-		CAD08A14289DE4FF007B2A98 /* ORKdBHLToneAudiometryStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 71769E3720882CED00A19914 /* ORKdBHLToneAudiometryStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		CAD08A14289DE4FF007B2A98 /* ORKdBHLToneAudiometryStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 71769E3720882CED00A19914 /* ORKdBHLToneAudiometryStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAD08A15289DE503007B2A98 /* ORKdBHLToneAudiometryStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 71769E3820882CED00A19914 /* ORKdBHLToneAudiometryStep.m */; };
 		CAD08A17289DE512007B2A98 /* ORKAmslerGridStep.h in Headers */ = {isa = PBXBuildFile; fileRef = BA95AA9420ACD07A00E7FF8E /* ORKAmslerGridStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CAD08A18289DE516007B2A98 /* ORKAmslerGridStep.m in Sources */ = {isa = PBXBuildFile; fileRef = BA95AA9520ACD07A00E7FF8E /* ORKAmslerGridStep.m */; };
@@ -911,7 +911,7 @@
 		CAD08A52289DE662007B2A98 /* ORKAudioStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40AFF1A8D7C5B00081FAC /* ORKAudioStep.m */; };
 		CAD08A53289DE665007B2A98 /* ORKAudioLevelNavigationRule.h in Headers */ = {isa = PBXBuildFile; fileRef = FF36A48B1D1A0ACA00DE8470 /* ORKAudioLevelNavigationRule.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CAD08A54289DE669007B2A98 /* ORKAudioLevelNavigationRule.m in Sources */ = {isa = PBXBuildFile; fileRef = FF36A48C1D1A0ACA00DE8470 /* ORKAudioLevelNavigationRule.m */; };
-		CAD08A55289DE66E007B2A98 /* ORKSpeechRecognitionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E8070F51FAD217400E4FC7F /* ORKSpeechRecognitionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		CAD08A55289DE66E007B2A98 /* ORKSpeechRecognitionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E8070F51FAD217400E4FC7F /* ORKSpeechRecognitionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAD08A56289DE672007B2A98 /* ORKSpeechRecognitionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8070F61FAD217400E4FC7F /* ORKSpeechRecognitionStep.m */; };
 		CAD08A57289DE675007B2A98 /* ORKSpeechRecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E8070F11FAD217400E4FC7F /* ORKSpeechRecognizer.h */; };
 		CAD08A58289DE678007B2A98 /* ORKSpeechRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8070F21FAD217400E4FC7F /* ORKSpeechRecognizer.m */; };

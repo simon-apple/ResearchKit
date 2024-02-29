@@ -58,6 +58,7 @@
 #import <ResearchKitInternal/ORKHeadphoneDetectStepViewController.h>
 #import <ResearchKitInternal/ORKHeadphonesRequiredCompletionStep.h>
 #import <ResearchKitInternal/ORKHeadphonesRequiredCompletionStepViewController.h>
+#import <ResearchKitInternal/ORKInternalClassMapper.h>
 #import <ResearchKitInternal/ORKNewAudiometryMinimizer.h>
 #import <ResearchKitInternal/ORKOrderedTask+ResearchKitInternal.h>
 #import <ResearchKitInternal/ORKTinnitusMaskingSoundResult.h>

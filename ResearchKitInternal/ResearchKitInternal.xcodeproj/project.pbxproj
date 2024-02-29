@@ -23,6 +23,8 @@
 		511E8D5F2995C01A00A384A5 /* ORKIEnvironmentSPLMeterStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511E8D5D2995C01A00A384A5 /* ORKIEnvironmentSPLMeterStepViewController.m */; };
 		511E8D682996FEC200A384A5 /* ORKITaskViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 511E8D662996FEC200A384A5 /* ORKITaskViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		511E8D692996FEC200A384A5 /* ORKITaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511E8D672996FEC200A384A5 /* ORKITaskViewController.m */; };
+		518100042B8FED800092A1C6 /* ORKInternalClassMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 518100022B8FED800092A1C6 /* ORKInternalClassMapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		518100052B8FED800092A1C6 /* ORKInternalClassMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 518100032B8FED800092A1C6 /* ORKInternalClassMapper.m */; };
 		5192BF0C2AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF062AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m */; };
 		5192BF0E2AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF082AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.h */; };
 		5192BF322AE04B16006E43FB /* ORKHealthCondition.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF212AE04B15006E43FB /* ORKHealthCondition.m */; };
@@ -288,6 +290,8 @@
 		511E8D5D2995C01A00A384A5 /* ORKIEnvironmentSPLMeterStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIEnvironmentSPLMeterStepViewController.m; sourceTree = "<group>"; };
 		511E8D662996FEC200A384A5 /* ORKITaskViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKITaskViewController.h; sourceTree = "<group>"; };
 		511E8D672996FEC200A384A5 /* ORKITaskViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKITaskViewController.m; sourceTree = "<group>"; };
+		518100022B8FED800092A1C6 /* ORKInternalClassMapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKInternalClassMapper.h; sourceTree = "<group>"; };
+		518100032B8FED800092A1C6 /* ORKInternalClassMapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKInternalClassMapper.m; sourceTree = "<group>"; };
 		5192BF062AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKFamilyHistoryRelatedPersonCell.m; sourceTree = "<group>"; };
 		5192BF082AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKFamilyHistoryRelatedPersonCell.h; sourceTree = "<group>"; };
 		5192BF212AE04B15006E43FB /* ORKHealthCondition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKHealthCondition.m; sourceTree = "<group>"; };
@@ -590,6 +594,15 @@
 				511E8D672996FEC200A384A5 /* ORKITaskViewController.m */,
 			);
 			path = Task;
+			sourceTree = "<group>";
+		};
+		518100012B8FED670092A1C6 /* Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				518100022B8FED800092A1C6 /* ORKInternalClassMapper.h */,
+				518100032B8FED800092A1C6 /* ORKInternalClassMapper.m */,
+			);
+			path = Mapper;
 			sourceTree = "<group>";
 		};
 		5192BEF02AE04594006E43FB /* Family History */ = {
@@ -1106,6 +1119,7 @@
 		CA77D23028AFF89200400292 /* ResearchKitInternal */ = {
 			isa = PBXGroup;
 			children = (
+				518100012B8FED670092A1C6 /* Mapper */,
 				5192BF4B2AE04C0F006E43FB /* ResearchKitInternal.h */,
 				CA3FF9DF28B56B0600A33B6B /* ResearchKitInternal_Private.h */,
 				CA58F8BB28B556A700761769 /* ResearchKitInternal.modulemap */,
@@ -1318,6 +1332,7 @@
 				CA5B6DA828BD27FC002C3BA4 /* ORKHeadphonesRequiredCompletionStep.h in Headers */,
 				5192BF472AE04B32006E43FB /* ORKFamilyHistoryTableFooterView.h in Headers */,
 				CA3FF9E028B56B0600A33B6B /* ResearchKitInternal_Private.h in Headers */,
+				518100042B8FED800092A1C6 /* ORKInternalClassMapper.h in Headers */,
 				CA3FF9D128B56A8300A33B6B /* ORKAVJournalingStepViewController.h in Headers */,
 				CA77D2A628AFFB4700400292 /* ORKFlamesViewLegacy.h in Headers */,
 				CA5B6D7928BD1F38002C3BA4 /* ORKTinnitusTypeResult.h in Headers */,
@@ -1497,6 +1512,7 @@
 				CA0AC56028BD432300E80040 /* ORKSpeechInNoisePredefinedTask.m in Sources */,
 				511BB0362994518400936EC0 /* ORKIEnvironmentSPLMeterStep.m in Sources */,
 				CA77D29B28AFFB4700400292 /* SiriUIFlamesShaders.metal in Sources */,
+				518100052B8FED800092A1C6 /* ORKInternalClassMapper.m in Sources */,
 				CA5B6D5D28BD1F38002C3BA4 /* ORKTinnitusMaskingSoundResult.m in Sources */,
 				51AEAABF2B7454A200F4D107 /* ORKIQuestionStepViewController.m in Sources */,
 				CA5B6DA128BD27FC002C3BA4 /* ORKHeadphonesRequiredCompletionStep.m in Sources */,

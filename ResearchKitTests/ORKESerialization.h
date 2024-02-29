@@ -143,12 +143,6 @@ typedef _Nullable id (^ORKESerializationJSONToObjectBlock)(id jsonObject, ORKESe
 
 + (NSArray<NSString *> *)serializedPropertiesForClass:(Class)c;
 
-#if RK_APPLE_INTERNAL
-+ (nullable Class)getInternalVersionForClass:(Class)class;
-
-+ (nullable NSString *)getInternalVersionStringForClass:(NSString *)class;
-#endif
-
 @end
 
 

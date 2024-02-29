@@ -1858,72 +1858,136 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
 
 #if RK_APPLE_INTERNAL
 - (void)testInternalMapper {
-    NSString *bundlePath = [[NSBundle bundleForClass:[ORKJSONSerializationTests class]] pathForResource:@"samples" ofType:@"bundle"];
-    NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
-    NSArray<NSString *> *paths = [bundle pathsForResourcesOfType:@"json" inDirectory:nil forLocalization:nil];
-    
-    NSString *(^filenamePathToClassName)(NSString *) = ^NSString *(NSString *path) {
-        NSString *filename = [[path lastPathComponent] stringByDeletingPathExtension];
-        NSArray<NSString *> *filenameComponents = [filename componentsSeparatedByString:@"-"];
-        return filenameComponents.firstObject;
-    };
-    
-    //NSString *questionStepJSONFilePath = [bundle pathForResource:NSStringFromClass([ORKQuestionStep class]) ofType:@"json"];
-    //NSString *questionStepJSONFileName = filenamePathToClassName(questionStepJSONFilePath);
-    
     // test questionStep mapping
-    Class questionStepClass = [ORKQuestionStep class];
-    Class internalQuestionStepClass = [ORKIQuestionStep class];
-    Class internalQuestionStep = [ORKESerializer getInternalVersionForClass:questionStepClass];
-    NSString *internalQuestionStepString = (NSString *)[ORKESerializer getInternalVersionStringForClass:NSStringFromClass(questionStepClass)];
+    Class mappedQuestionStep = [ORKInternalClassMapper getInternalClassForPublicClass:[ORKQuestionStep class]];
+    NSString *mappedQuestionStepString = (NSString *)[ORKInternalClassMapper getInternalClassStringForPublicClass:NSStringFromClass([ORKQuestionStep class])];
 
-    XCTAssertTrue([internalQuestionStep isKindOfClass:internalQuestionStepClass], @"Failed to map %@ class to a %@", NSStringFromClass(questionStepClass), NSStringFromClass(internalQuestionStepClass));
-    XCTAssertTrue([internalQuestionStepString isEqualToString:NSStringFromClass(internalQuestionStepClass)], @"Failed to map %@ class string to a %@", NSStringFromClass(questionStepClass), NSStringFromClass(internalQuestionStepClass));
+    XCTAssertTrue([NSStringFromClass(mappedQuestionStep) isEqualToString:NSStringFromClass([ORKIQuestionStep class])], @"Failed to map %@", NSStringFromClass([ORKQuestionStep class]));
+    XCTAssertTrue([mappedQuestionStepString isEqualToString:NSStringFromClass([ORKIQuestionStep class])], @"Failed to map %@", NSStringFromClass([ORKQuestionStep class]));
     
     // test instructionStep mapping
-    Class instructionStepClass = [ORKInstructionStep class];
-    Class internalInstructionStepClass = [ORKIInstructionStep class];
-    ORKIInstructionStep *internalInstructionStep = (ORKIInstructionStep *)[ORKESerializer getInternalVersionForClass:instructionStepClass];
-    NSString *internalInstructionStepString = (NSString *)[ORKESerializer getInternalVersionStringForClass:NSStringFromClass(instructionStepClass)];
+    Class mappedInstructionStep = [ORKInternalClassMapper getInternalClassForPublicClass:[ORKInstructionStep class]];
+    NSString *mappedInstructionStepString = (NSString *)[ORKInternalClassMapper getInternalClassStringForPublicClass:NSStringFromClass([ORKInstructionStep class])];
     
-    XCTAssertTrue([internalInstructionStep isKindOfClass:internalInstructionStepClass], @"Failed to map %@ class to a %@", NSStringFromClass(instructionStepClass), NSStringFromClass(internalInstructionStepClass));
-    XCTAssertTrue([internalInstructionStepString isEqualToString:NSStringFromClass(internalInstructionStepClass)], @"Failed to map %@ class string to a %@", NSStringFromClass(instructionStepClass), NSStringFromClass(internalInstructionStepClass));
+    XCTAssertTrue([NSStringFromClass(mappedInstructionStep) isEqualToString:NSStringFromClass([ORKIInstructionStep class])], @"Failed to map %@", NSStringFromClass([ORKInstructionStep class]));
+    XCTAssertTrue([mappedInstructionStepString isEqualToString:NSStringFromClass([ORKIInstructionStep class])], @"Failed to map %@", NSStringFromClass([ORKInstructionStep class]));
     
+    // test dBHLToneAudiometryStep mapping
+    Class mappeddBHLToneAudiometryStepClass = [ORKInternalClassMapper getInternalClassForPublicClass:[ORKdBHLToneAudiometryStep class]];
+    NSString *mappeddBHLToneAudiometryStepString = (NSString *)[ORKInternalClassMapper getInternalClassStringForPublicClass:NSStringFromClass([ORKdBHLToneAudiometryStep class])];
     
+    XCTAssertTrue([NSStringFromClass(mappeddBHLToneAudiometryStepClass) isEqualToString:NSStringFromClass([ORKIdBHLToneAudiometryStep class])], @"Failed to map %@", NSStringFromClass([ORKdBHLToneAudiometryStep class]));
+    XCTAssertTrue([mappeddBHLToneAudiometryStepString isEqualToString:NSStringFromClass([ORKIdBHLToneAudiometryStep class])], @"Failed to map %@", NSStringFromClass([ORKdBHLToneAudiometryStep class]));
     
+    // test dBHLToneAudiometryResult mapping
+    Class mappeddBHLToneAudiometryResultClass = [ORKInternalClassMapper getInternalClassForPublicClass:[ORKdBHLToneAudiometryResult class]];
+    NSString *mappeddBHLToneAudiometryResultString = (NSString *)[ORKInternalClassMapper getInternalClassStringForPublicClass:NSStringFromClass([ORKdBHLToneAudiometryResult class])];
     
-    for (NSString *path in paths) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path]
-                                                             options:0
-                                                               error:NULL];
-        NSString *className = filenamePathToClassName(path);
-        
-        NSArray<NSString *> *internalClasses = @[@"ORKQuestionStep",
-                                                 @"ORKInstructionStep",
-                                                 @"ORKdBHLToneAudiometryStep",
-                                                 @"ORKdBHLToneAudiometryResult",
-                                                 @"ORKEnvironmentSPLMeterStep",
-                                                 @"ORKSpeechInNoiseStep",
-                                                 @"ORKSpeechRecognitionStep",
-                                                 @"ORKCompletionStep"];
-        
-        if ([internalClasses containsObject:className]) {
-            
-            NSError *err;
-            id obj = [ORKESerializer objectFromJSONObject:dict error:&err];
-            
-            if (err == nil) {
-                NSLog(@"mapped class successfully");
-            } else {
-                NSLog(@"HIT ERROR");
-            }
-            
-        }
-        
-        
-    }
+    XCTAssertTrue([NSStringFromClass(mappeddBHLToneAudiometryResultClass) isEqualToString:NSStringFromClass([ORKIdBHLToneAudiometryResult class])], @"Failed to map %@", NSStringFromClass([ORKdBHLToneAudiometryResult class]));
+    XCTAssertTrue([mappeddBHLToneAudiometryResultString isEqualToString:NSStringFromClass([ORKIdBHLToneAudiometryResult class])], @"Failed to map %@", NSStringFromClass([ORKdBHLToneAudiometryResult class]));
     
+    // test speechInNoise mapping
+    Class mappeddSINClass = [ORKInternalClassMapper getInternalClassForPublicClass:[ORKSpeechInNoiseStep class]];
+    NSString *mappedSINString = (NSString *)[ORKInternalClassMapper getInternalClassStringForPublicClass:NSStringFromClass([ORKSpeechInNoiseStep class])];
+    
+    XCTAssertTrue([NSStringFromClass(mappeddSINClass) isEqualToString:NSStringFromClass([ORKISpeechInNoiseStep class])], @"Failed to map %@", NSStringFromClass([ORKSpeechInNoiseStep class]));
+    XCTAssertTrue([mappedSINString isEqualToString:NSStringFromClass([ORKISpeechInNoiseStep class])], @"Failed to map %@", NSStringFromClass([ORKSpeechInNoiseStep class]));
+    
+    // test environmentSPLMeterStep mapping
+    Class mappedEnvironmentSPLMeterStep = [ORKInternalClassMapper getInternalClassForPublicClass:[ORKEnvironmentSPLMeterStep class]];
+    NSString *mappedEnvironmentSPLMeterStepString = (NSString *)[ORKInternalClassMapper getInternalClassStringForPublicClass:NSStringFromClass([ORKEnvironmentSPLMeterStep class])];
+    
+    XCTAssertTrue([NSStringFromClass(mappedEnvironmentSPLMeterStep) isEqualToString:NSStringFromClass([ORKIEnvironmentSPLMeterStep class])], @"Failed to map %@", NSStringFromClass([ORKEnvironmentSPLMeterStep class]));
+    XCTAssertTrue([mappedEnvironmentSPLMeterStepString isEqualToString:NSStringFromClass([ORKIEnvironmentSPLMeterStep class])], @"Failed to map %@", NSStringFromClass([ORKEnvironmentSPLMeterStep class]));
+    
+    // test completionStep mapping
+    Class mappedCompletionStep = [ORKInternalClassMapper getInternalClassForPublicClass:[ORKCompletionStep class]];
+    NSString *mappedCompletionStepString = (NSString *)[ORKInternalClassMapper getInternalClassStringForPublicClass:NSStringFromClass([ORKCompletionStep class])];
+    
+    XCTAssertTrue([NSStringFromClass(mappedCompletionStep) isEqualToString:NSStringFromClass([ORKICompletionStep class])], @"Failed to map %@", NSStringFromClass([ORKCompletionStep class]));
+    XCTAssertTrue([mappedCompletionStepString isEqualToString:NSStringFromClass([ORKICompletionStep class])], @"Failed to map %@", NSStringFromClass([ORKCompletionStep class]));
+    
+    // test speechRecognitionStep mapping
+    Class mappedSpeechRecognitionStep = [ORKInternalClassMapper getInternalClassForPublicClass:[ORKSpeechRecognitionStep class]];
+    NSString *mappedSpeechRecognitionStepString = (NSString *)[ORKInternalClassMapper getInternalClassStringForPublicClass:NSStringFromClass([ORKSpeechRecognitionStep class])];
+    
+    XCTAssertTrue([NSStringFromClass(mappedSpeechRecognitionStep) isEqualToString:NSStringFromClass([ORKISpeechRecognitionStep class])], @"Failed to map %@", NSStringFromClass([ORKSpeechRecognitionStep class]));
+    XCTAssertTrue([mappedSpeechRecognitionStepString isEqualToString:NSStringFromClass([ORKISpeechRecognitionStep class])], @"Failed to map %@", NSStringFromClass([ORKSpeechRecognitionStep class]));
 }
+
+- (void)testCastingToInternalClasses {
+    NSString *bundlePath = [[NSBundle bundleForClass:[ORKJSONSerializationTests class]] pathForResource:@"samples" ofType:@"bundle"];
+    NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
+    
+    NSError *error;
+    
+    // test instructionStep casting
+    NSString *instructionStepJSONFilePath = [bundle pathForResource:NSStringFromClass([ORKInstructionStep class]) ofType:@"json"];
+    NSDictionary *instructionStepDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:instructionStepJSONFilePath] options:0 error:NULL];
+    
+    ORKInstructionStep *instructionStep = (ORKInstructionStep *)[ORKESerializer objectFromJSONObject:instructionStepDict error:&error];
+    ORKIInstructionStep *mappedInstructionStep = [ORKInternalClassMapper getInternalInstanceForPublicClass:instructionStep];
+    
+    XCTAssertNil(error);
+    XCTAssertNotNil(instructionStep);
+    XCTAssertNotNil(mappedInstructionStep);
+    XCTAssertTrue([NSStringFromClass([mappedInstructionStep class]) isEqualToString:NSStringFromClass([ORKIInstructionStep class])]);
+    
+    // test questionStep casting
+    NSString *questionStepJSONFilePath = [bundle pathForResource:NSStringFromClass([ORKQuestionStep class]) ofType:@"json"];
+    NSDictionary *questionStepDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:questionStepJSONFilePath] options:0 error:NULL];
+    
+    ORKQuestionStep *questionStep = (ORKQuestionStep *)[ORKESerializer objectFromJSONObject:questionStepDict error:&error];
+    ORKIQuestionStep *mappedQuestionStep = [ORKInternalClassMapper getInternalInstanceForPublicClass:questionStep];
+    
+    XCTAssertNil(error);
+    XCTAssertNotNil(questionStep);
+    XCTAssertNotNil(mappedQuestionStep);
+    XCTAssertTrue([NSStringFromClass([mappedQuestionStep class]) isEqualToString:NSStringFromClass([ORKIQuestionStep class])]);
+}
+
+//NSArray<NSString *> *paths = [bundle pathsForResourcesOfType:@"json" inDirectory:nil forLocalization:nil];
+
+//    NSString *(^filenamePathToClassName)(NSString *) = ^NSString *(NSString *path) {
+//        NSString *filename = [[path lastPathComponent] stringByDeletingPathExtension];
+//        NSArray<NSString *> *filenameComponents = [filename componentsSeparatedByString:@"-"];
+//        return filenameComponents.firstObject;
+//    };
+
+//NSString *questionStepJSONFilePath = [bundle pathForResource:NSStringFromClass([ORKQuestionStep class]) ofType:@"json"];
+//NSString *questionStepJSONFileName = filenamePathToClassName(questionStepJSONFilePath);
+
+//    for (NSString *path in paths) {
+//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:path]
+//                                                             options:0
+//                                                               error:NULL];
+//        NSString *className = filenamePathToClassName(path);
+//
+//        NSArray<NSString *> *internalClasses = @[@"ORKQuestionStep",
+//                                                 @"ORKInstructionStep",
+//                                                 @"ORKdBHLToneAudiometryStep",
+//                                                 @"ORKdBHLToneAudiometryResult",
+//                                                 @"ORKEnvironmentSPLMeterStep",
+//                                                 @"ORKSpeechInNoiseStep",
+//                                                 @"ORKSpeechRecognitionStep",
+//                                                 @"ORKCompletionStep"];
+//
+//        if ([internalClasses containsObject:className]) {
+//
+//            NSError *err;
+//            id obj = [ORKESerializer objectFromJSONObject:dict error:&err];
+//
+//            if (err == nil) {
+//                NSLog(@"mapped class successfully");
+//            } else {
+//                NSLog(@"HIT ERROR");
+//            }
+//
+//        }
+//
+//
+//    }
+
 #endif
 
 @end

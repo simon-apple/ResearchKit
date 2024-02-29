@@ -104,7 +104,7 @@ ORK_TO_BE_DEPRECATED("Use the ORKFormStep instead")
                                    tagText:(nullable NSString *)tagText
                                     answer:(nullable ORKAnswerFormat *)answerFormat
                              learnMoreItem:(nullable ORKLearnMoreItem *)learnMoreItem
-                               useCardView:(nullable NSNumber *)useCardView NS_DEPRECATED_IOS(8.0, 13.0, "Use ORKFormStep instead.");
+                               useCardView:(nullable NSNumber *)useCardView;
 
 /**
  The format of the answer.

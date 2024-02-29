@@ -1,6 +1,5 @@
-//
 /*
- Copyright (c) 2022, Apple Inc. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -30,15 +29,16 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <ResearchKitActiveTask/ORKdBHLToneAudiometryStep.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKIdBHLToneAudiometryStep : ORKdBHLToneAudiometryStep
+@interface ORKInternalClassMapper : NSObject
 
-@property (nonatomic, assign) NSInteger algorithm;
++ (nullable Class)getInternalClassForPublicClass:(Class)class;
 
-@property (nonatomic, assign) double dBHLMaximumThreshold;
++ (nullable NSString *)getInternalClassStringForPublicClass:(NSString *)class;
+
++ (nullable id)getInternalInstanceForPublicClass:(id)class;
 
 @end
 

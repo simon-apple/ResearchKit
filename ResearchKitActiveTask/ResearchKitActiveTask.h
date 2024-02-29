@@ -54,6 +54,7 @@ FOUNDATION_EXPORT const unsigned char ResearchKitActiveTaskVersionString[];
 #import <ResearchKitActiveTask/ORKCountdownStepViewController.h>
 #import <ResearchKitActiveTask/ORKdBHLToneAudiometryOnboardingStepViewController.h>
 #import <ResearchKitActiveTask/ORKdBHLToneAudiometryResult.h>
+#import <ResearchKitActiveTask/ORKdBHLToneAudiometryStep.h>
 #import <ResearchKitActiveTask/ORKdBHLToneAudiometryStepViewController.h>
 #import <ResearchKitActiveTask/ORKEnvironmentSPLMeterResult.h>
 #import <ResearchKitActiveTask/ORKEnvironmentSPLMeterStep.h>
@@ -75,8 +76,10 @@ FOUNDATION_EXPORT const unsigned char ResearchKitActiveTaskVersionString[];
 #import <ResearchKitActiveTask/ORKSpatialSpanMemoryResult.h>
 #import <ResearchKitActiveTask/ORKSpatialSpanMemoryStepViewController.h>
 #import <ResearchKitActiveTask/ORKSpeechInNoiseResult.h>
+#import <ResearchKitActiveTask/ORKSpeechInNoiseStep.h>
 #import <ResearchKitActiveTask/ORKSpeechInNoiseStepViewController.h>
 #import <ResearchKitActiveTask/ORKSpeechRecognitionResult.h>
+#import <ResearchKitActiveTask/ORKSpeechRecognitionStep.h>
 #import <ResearchKitActiveTask/ORKSpeechRecognitionStepViewController.h>
 #import <ResearchKitActiveTask/ORKStroopResult.h>
 #import <ResearchKitActiveTask/ORKStroopStepViewController.h>
