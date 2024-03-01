@@ -37,8 +37,7 @@
 #endif
 
 #import <CoreLocation/CLLocation.h>
-
-@import Contacts;
+#import <Contacts/Contacts.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

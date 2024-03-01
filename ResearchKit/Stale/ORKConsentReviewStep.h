@@ -29,7 +29,7 @@
  */
 
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 #import <ResearchKit/ORKStep.h>
 
 
@@ -60,7 +60,6 @@ NS_ASSUME_NONNULL_BEGIN
  present the task in a task view controller.
  */
 ORK_CLASS_AVAILABLE
-ORK_TO_BE_DEPRECATED("Visit the catalog app for the recommended informed consent flow")
 @interface ORKConsentReviewStep : ORKStep
 
 /// @name Initialization.

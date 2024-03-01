@@ -33,7 +33,7 @@
  */
 
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 
 #if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKTypes.h>

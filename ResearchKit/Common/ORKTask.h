@@ -29,8 +29,8 @@
  */
 
 
-@import Foundation;
-@import HealthKit;
+#import <Foundation/Foundation.h>
+#import <HealthKit/HealthKit.h>
 
 #if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKTypes.h>

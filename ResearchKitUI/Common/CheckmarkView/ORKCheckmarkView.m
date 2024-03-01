@@ -33,7 +33,6 @@
 #import "ORKSkin.h"
 #import "ORKAccessibilityFunctions.h"
 
-
 @implementation ORKCheckmarkView {
     CGFloat _dimension;
     BOOL _shouldShowCircle;

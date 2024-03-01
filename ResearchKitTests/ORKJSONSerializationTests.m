@@ -30,18 +30,18 @@
  */
 
 
-@import XCTest;
-@import ResearchKit_Private;
-@import ResearchKitActiveTask;
-@import ResearchKitActiveTask_Private;
+#import <Foundation/Foundation.h>
+#import <XCTest/XCTest.h>
+#import <ResearchKit/ResearchKit_Private.h>
+#import <ResearchKitActiveTask/ResearchKitActiveTask.h>
+#import <ResearchKitActiveTask/ResearchKitActiveTask_Private.h>
 #if RK_APPLE_INTERNAL
-@import ResearchKitInternal;
-@import ResearchKitInternal_Private;
+#import <ResearchKitInternal/ResearchKitInternal.h>
+#import <ResearchKitInternal/ResearchKitInternal_Private.h>
 #endif
-@import ResearchKitUI;
+#import <ResearchKitUI/ResearchKitUI.h>
 
 #import "ORKESerialization.h"
-
 #import <objc/runtime.h>
 
 BOOL ORKIsResearchKitClass(Class class) {
@@ -297,6 +297,10 @@ ORK_MAKE_TEST_INIT(ORKVerificationStep, ^{return [self initWithIdentifier:[NSUUI
 ORK_MAKE_TEST_INIT(ORKStep, ^{return [self initWithIdentifier:[NSUUID UUID].UUIDString];});
 ORK_MAKE_TEST_INIT(ORKReviewStep, ^{return [[self class] standaloneReviewStepWithIdentifier:[NSUUID UUID].UUIDString steps:@[] resultSource:[[ORKTaskResult alloc] orktest_init]];});
 ORK_MAKE_TEST_INIT(ORKOrderedTask, ^{return [self initWithIdentifier:@"test1" steps:nil];});
+ORK_MAKE_TEST_INIT(ORKWebViewStep, ^{
+    ORKWebViewStep *webViewStep = [ORKWebViewStep webViewStepWithIdentifier:@"test1" html:@""];
+    return webViewStep;
+});
 ORK_MAKE_TEST_INIT(ORK3DModelStep, ^{return [[self.class alloc] initWithIdentifier:NSUUID.UUID.UUIDString modelManager: [[ORK3DModelManager alloc] init]]; });
 
 #if RK_APPLE_INTERNAL && ORK_FEATURE_AV_JOURNALING

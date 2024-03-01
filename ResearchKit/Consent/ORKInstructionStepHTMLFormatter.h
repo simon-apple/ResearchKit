@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Apple Inc. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,19 +28,19 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-#import <UIKit/UIKit.h>
-#import <ResearchKit/ORKDefines.h>
-#import <ResearchKitUI/ORKStepViewController.h>
-
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class ORKInstructionStep;
 
-ORK_CLASS_AVAILABLE
-@interface ORKPDFViewerStepViewController : ORKStepViewController
+/**
+ A formatter object that converts a signature to HTML.
+ */
+@interface ORKInstructionStepHTMLFormatter : NSObject
+
+- (NSString *)HTMLForInstructionSteps:(NSArray<ORKInstructionStep *> *)instructionSteps;
 
 @end
 
 NS_ASSUME_NONNULL_END
-

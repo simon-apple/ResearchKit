@@ -33,17 +33,18 @@
 
 #import "ORKESerialization.h"
 
-@import ResearchKit;
-@import ResearchKit_Private;
-@import ResearchKitActiveTask;
-@import ResearchKitActiveTask_Private;
+#import <ResearchKit/ResearchKit.h>
+#import <ResearchKit/ResearchKit_Private.h>
+#import <ResearchKitActiveTask/ResearchKitActiveTask.h>
+#import <ResearchKitActiveTask/ResearchKitActiveTask_Private.h>
+
 #if RK_APPLE_INTERNAL
-@import ResearchKitInternal;
-@import ResearchKitInternal_Private;
+#import <ResearchKitInternal/ResearchKitInternal.h>
+#import <ResearchKitInternal/ResearchKitInternal_Private.h>
 #endif
 
-@import MapKit;
-@import Speech;
+#import <MapKit/MapKit.h>
+#import <Speech/Speech.h>
 
 ORKESerializationKey const ORKESerializationKeyImageName = @"imageName";
 
@@ -999,28 +1000,18 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(identifier, NSString, NSObject, NO, nil, nil),
                     })),
            ENTRY(ORKQuestionStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [ORKQuestionStep
-                             questionStepWithIdentifier:GETPROP(dict, identifier)
-                             text:GETPROP(dict, text)
-                             placeholder:GETPROP(dict, placeholder)
-                             title:GETPROP(dict, title)
-                             question:GETPROP(dict, question)
-                             presentationStyle:GETPROP(dict, presentationStyle)
-                             tagText:GETPROP(dict, tagText)
-                             answer: GETPROP(dict, answerFormat)
-                             learnMoreItem:GETPROP(dict, learnMoreItem)
-                             useCardView:GETPROP(dict, useCardView)];
-                 },
-                 (@{
-                    PROPERTY(answerFormat, ORKAnswerFormat, NSObject, YES, nil, nil),
-                    PROPERTY(placeholder, NSString, NSObject, YES, nil, nil),
-                    PROPERTY(question, NSString, NSObject, YES, nil, nil),
-                    PROPERTY(useCardView, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(learnMoreItem, ORKLearnMoreItem, NSObject, YES, nil, nil),
-                    PROPERTY(tagText, NSString, NSObject, YES, nil, nil),
-                    PROPERTY(presentationStyle, NSString, NSObject, YES, nil, nil)
-                    })),
+                   ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                       return [[ORKQuestionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                   },
+                   (@{
+                      PROPERTY(answerFormat, ORKAnswerFormat, NSObject, YES, nil, nil),
+                      PROPERTY(placeholder, NSString, NSObject, YES, nil, nil),
+                      PROPERTY(question, NSString, NSObject, YES, nil, nil),
+                      PROPERTY(useCardView, NSNumber, NSObject, YES, nil, nil),
+                      PROPERTY(learnMoreItem, ORKLearnMoreItem, NSObject, YES, nil, nil),
+                      PROPERTY(tagText, NSString, NSObject, YES, nil, nil),
+                      PROPERTY(presentationStyle, NSString, NSObject, YES, nil, nil)
+                      })),
            ENTRY(ORKInstructionStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKInstructionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
@@ -1083,6 +1074,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  },
                  (@{
                     PROPERTY(html, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(instructionSteps, ORKInstructionStep, NSArray, YES, nil, nil),
                     PROPERTY(customCSS, NSString, NSObject, YES, nil, nil),
                     PROPERTY(showSignatureAfterContent, NSNumber, NSObject, YES, nil, nil)
                     })),
