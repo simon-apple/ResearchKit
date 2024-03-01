@@ -34,10 +34,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKInternalClassMapper : NSObject
 
+/**
+ Maps and returns the internal subclass of the class passed in.
+ 
+ Returns nil if the class doesn't have an internal counterpart.
+ */
 + (nullable Class)getInternalClassForPublicClass:(Class)class;
 
+/**
+ Maps and returns the class string for internal subclass
+ of the class passed in.
+ 
+ Returns nil if the class doesn't have an internal counterpart.
+ */
 + (nullable NSString *)getInternalClassStringForPublicClass:(NSString *)class;
 
+/**
+ Maps and returns and instance for internal subclass
+ of the class passed in.
+ 
+ Returns nil if the class doesn't have an internal counterpart.
+ */
 + (nullable id)getInternalInstanceForPublicClass:(id)class;
 
 @end

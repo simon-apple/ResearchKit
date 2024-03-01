@@ -39,10 +39,10 @@
 #import "ORKISpeechInNoiseStep.h"
 #import "ORKISpeechRecognitionStep.h"
 
+@import ResearchKit_Private;
 #import <ResearchKit/ORKCompletionStep.h>
 #import <ResearchKit/ORKInstructionStep.h>
 #import <ResearchKit/ORKQuestionStep.h>
-@import ResearchKit_Private;
 
 #import <ResearchKitActiveTask/ORKdBHLToneAudiometryStep.h>
 #import <ResearchKitActiveTask/ORKdBHLToneAudiometryResult.h>
@@ -128,6 +128,8 @@
     
     return nil;
 }
+
+#pragma mark - Private Methods
 
 + (nullable id)_mapPublicInstructionStep:(id)class {
     ORKInstructionStep *instructionStep = (ORKInstructionStep *)class;
