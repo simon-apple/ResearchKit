@@ -50,6 +50,7 @@
 #import <ResearchKitActiveTask/ORKSpeechInNoiseStep.h>
 #import <ResearchKitActiveTask/ORKSpeechRecognitionStep.h>
 
+NSString * const ORKUseInternalClassMapperKey = @"ORKUseInternalClassMapperKey";
 
 @implementation ORKInternalClassMapper
 
@@ -363,6 +364,22 @@
     }
     
     return nil;
+}
+
++ (void)setUseInternalMapperUserDefaultsValue:(BOOL)value {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
+    [userDefaults setBool:value forKey:ORKUseInternalClassMapperKey];
+}
+
++ (BOOL)getUseInternalMapperUserDefaultsValue {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [userDefaults boolForKey:ORKUseInternalClassMapperKey];
+}
+
++ (void)removeUseInternalMapperUserDefaultsValue {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults removeObjectForKey:ORKUseInternalClassMapperKey];
 }
 
 @end

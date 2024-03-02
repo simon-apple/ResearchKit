@@ -2826,6 +2826,11 @@ static id objectForJsonObject(id input,
         expectedClass = [ORKInternalClassMapper getInternalClassForPublicClass:expectedClass] ?: expectedClass;
     }
 #endif
+#if RK_APPLE_INTERNAL
+    if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES && expectedClass != nil) {
+        expectedClass = [ORKInternalClassMapper getInternalClassForPublicClass:expectedClass] ?: expectedClass;
+    }
+#endif
     
     // not sure where and how this expected class is used. Maybe if this is called recursively or something
     // might need to convert expected class to internal version here.
@@ -2838,6 +2843,11 @@ static id objectForJsonObject(id input,
         
 #if RK_APPLE_INTERNAL && ORK_FEATURE_INTERNAL_CLASS_MAPPER
         className = [ORKInternalClassMapper getInternalClassStringForPublicClass:className] ?: className;
+#endif
+#if RK_APPLE_INTERNAL
+        if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES) {
+            className = [ORKInternalClassMapper getInternalClassStringForPublicClass:className] ?: className;
+        }
 #endif
         
         ORKESerializationPropertyInjector *propertyInjector = context.propertyInjector;

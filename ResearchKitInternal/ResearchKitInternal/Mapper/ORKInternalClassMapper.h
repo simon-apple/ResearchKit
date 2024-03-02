@@ -57,6 +57,21 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (nullable id)getInternalInstanceForPublicClass:(id)class;
 
+/**
+ Sets a value for the ORKUseInternalClassMapper key for user defautls.
+ */
++ (void)setUseInternalMapperUserDefaultsValue:(BOOL)value;
+
+/**
+ Boolean value for the ORKUseInternalClassMapper key for user defautls.
+ */
++ (BOOL)getUseInternalMapperUserDefaultsValue;
+
+/**
+ Removes ORKUseInternalClassMapper key from user defautls.
+ */
++ (void)removeUseInternalMapperUserDefaultsValue;
+
 @end
 
 NS_ASSUME_NONNULL_END
