@@ -295,7 +295,7 @@ enum Task {
             return NSLocalizedString("Tremor Test", comment: "")
             
         case .videoInstruction:
-            return NSLocalizedString("Video Instruction Task", comment: "")
+            return NSLocalizedString("Video Instruction", comment: "")
             
         case .kneeRangeOfMotion:
             return NSLocalizedString("Knee Range of Motion", comment: "")

@@ -70,7 +70,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
         let heightUSAnswerInches = 7
         
         // Task consists of following steps: localSystem, localSystemNonOptional, metricSystem, metricSystemNonOptional, USCSystem, USCSystemNonOptional, healthKitHeight
-        let questionStep = FormStep()
+        let questionStep = FormStepScreen()
         let formItemId = "heightQuestionFormItem1"
         // Local system Optional Question
         questionStep
@@ -264,7 +264,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
         let weightUSAnswerLb = 136
         let weightUSAnswerOz = 12
         
-        let questionStep = FormStep()
+        let questionStep = FormStepScreen()
         let formItemId = "heightQuestionFormItem1"
         // Local system Optional Question
         questionStep
@@ -566,7 +566,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.dateTimeQuestion.description)
         
-        let questionStep = FormStep()
+        let questionStep = FormStepScreen()
         questionStep
             .verify(.title)
             .verify(.text)
@@ -601,7 +601,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.date3DayLimitQuestionTask.description)
         
-        let questionStep = FormStep()
+        let questionStep = FormStepScreen()
         let formItemId = "dateQuestionFormItem"
         questionStep
             .verify(.title)
@@ -641,7 +641,7 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
     func testTimeOfDayQuestion() {
         tasksList
             .selectTaskByName(Task.timeOfDayQuestion.description)
-        let questionStep = FormStep()
+        let questionStep = FormStepScreen()
         questionStep
             .verify(.title)
             .verify(.text)

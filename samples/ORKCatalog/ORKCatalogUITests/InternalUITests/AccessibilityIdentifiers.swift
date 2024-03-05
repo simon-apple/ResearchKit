@@ -76,4 +76,8 @@ struct AccessibilityIdentifiers {
         static var permissionButtonLabelConnected = "ORKRequestPermissionButtonConnectedLabel"
         static var permissionButton = "ORKRequestPermissionButton"
     }
+    
+    struct ActiveStep {
+        static var view = "ORKActiveStepView"
+    }
 }
