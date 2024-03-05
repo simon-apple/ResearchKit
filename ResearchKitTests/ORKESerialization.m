@@ -647,7 +647,19 @@ static ORKESerializableProperty *imagePropertyObject(NSString *propertyName,
 @end
 
 static id propFromDict(NSDictionary *dict, NSString *propName, ORKESerializationContext *context) {
-    NSArray *classEncodings = classEncodingsForClass(NSClassFromString(dict[_ClassKey]));
+    Class class = NSClassFromString(dict[_ClassKey]);
+    
+#if RK_APPLE_INTERNAL && ORK_FEATURE_INTERNAL_CLASS_MAPPER
+    class = [ORKInternalClassMapper getInternalClassForPublicClass:class] ?: class;
+#endif
+#if RK_APPLE_INTERNAL
+        if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES) {
+            class = [ORKInternalClassMapper getInternalClassForPublicClass:class] ?: class;
+        }
+#endif
+    
+    
+    NSArray *classEncodings = classEncodingsForClass(class);
     ORKESerializableProperty *propertyEntry = nil;
     for (ORKESerializableTableEntry *classEncoding in classEncodings) {
         

@@ -83,6 +83,15 @@ BOOL ORKIsResearchKitClass(Class class) {
    classesToExclude = [classesToExclude arrayByAddingObjectsFromArray:blePeripheralsClasses];
 #endif
     
+#if RK_APPLE_INTERNAL
+    NSArray<NSString *> *excludedJSONFiles = @[
+        @"mapper_navigableTaskExample1",
+        @"mapper_ras_acute_environment"
+    ];
+   
+   classesToExclude = [classesToExclude arrayByAddingObjectsFromArray:excludedJSONFiles];
+#endif
+    
     return classesToExclude;
 }
 
@@ -2123,6 +2132,52 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
     [ORKInternalClassMapper setUseInternalMapperUserDefaultsValue:NO];
     XCTAssertFalse([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue]);
 }
+
+- (void)testJSONTaskInternalMapping {
+    [ORKInternalClassMapper setUseInternalMapperUserDefaultsValue:YES];
+    
+    NSString *bundlePath = [[NSBundle bundleForClass:[ORKJSONSerializationTests class]] pathForResource:@"samples" ofType:@"bundle"];
+    NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
+    NSError *error;
+    
+    // indigo: hormonal_symptoms_survey
+    // a971ba39-3d42-4223-b355-744d73cf2f44
+    NSString *hormonalSymptomsSurveyJSONFilePath = [bundle pathForResource:@"mapper_navigableTaskExample1" ofType:@"json"];
+    NSDictionary *hormonalSymptomsSurveyDictionary = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:hormonalSymptomsSurveyJSONFilePath] options:0 error:NULL];
+    
+    ORKNavigableOrderedTask *hormonalSymptomsSurveyTask = (ORKNavigableOrderedTask *)[ORKESerializer objectFromJSONObject:hormonalSymptomsSurveyDictionary error:&error];
+
+    XCTAssertNil(error);
+    XCTAssertNotNil(hormonalSymptomsSurveyTask);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIInstructionStep class] step:hormonalSymptomsSurveyTask.steps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIQuestionStep class] step:hormonalSymptomsSurveyTask.steps] == 3);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKICompletionStep class] step:hormonalSymptomsSurveyTask.steps] == 1);
+    
+    // Pacha: ras_acute_environment
+    // 7c9d9cce-5327-4a15-aecd-93aab0d6f78f
+    NSString *rasAcuteEnvironmentSurveyJSONFilePath = [bundle pathForResource:@"mapper_ras_acute_environment" ofType:@"json"];
+    NSDictionary *rasAcuteEnvironmentSurveyDictionary = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:rasAcuteEnvironmentSurveyJSONFilePath] options:0 error:NULL];
+    
+    ORKNavigableOrderedTask *rasAcuteEnvironmentSymptomsSurveyTask = (ORKNavigableOrderedTask *)[ORKESerializer objectFromJSONObject:rasAcuteEnvironmentSurveyDictionary error:&error];
+    
+    XCTAssertNil(error);
+    XCTAssertNotNil(rasAcuteEnvironmentSymptomsSurveyTask);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIInstructionStep class] step:rasAcuteEnvironmentSymptomsSurveyTask.steps] == 5);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIEnvironmentSPLMeterStep class] step:rasAcuteEnvironmentSymptomsSurveyTask.steps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIdBHLToneAudiometryStep class] step:rasAcuteEnvironmentSymptomsSurveyTask.steps] == 2);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKICompletionStep class] step:rasAcuteEnvironmentSymptomsSurveyTask.steps] == 2);
+}
+
+- (int)_totalMatchesInStepsForClass:(Class)class step:(NSArray<ORKStep *> *)steps {
+    int totalMatches = 0;
+    for (ORKStep *step in steps) {
+        if ([NSStringFromClass(class) isEqualToString:NSStringFromClass([step class])]) {
+            totalMatches += 1;
+        }
+    }
+    return totalMatches;
+}
+
 #endif
 
 @end
