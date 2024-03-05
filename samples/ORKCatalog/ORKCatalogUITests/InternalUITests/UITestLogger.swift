@@ -6,6 +6,7 @@
 //
 
 import os
+import os.log
 import Foundation
 
 struct UITestLogger {
@@ -13,6 +14,8 @@ struct UITestLogger {
         if #available(iOS 14.0, *) {
             let logger = Logger(subsystem: "ORKCatalogUITests", category: "ORKCatalogUIAutomation")
             logger.debug("\(message)")
+        } else {
+            os_log("%@", log: OSLog.default, type: .debug, message)
         }
     }
 }
