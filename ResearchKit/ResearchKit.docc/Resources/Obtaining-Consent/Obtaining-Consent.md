@@ -78,8 +78,9 @@ instructionStep.bodyItems = [
 
 The instruction step are presented in Figure 1.
 
-// todo: add images here
-
+|   |   |
+|---|---|
+| ![Welcome instruction step](obtaining-consent-welcome-step) | ![Before you join instruction step](obtaining-consent-before-you-join-step) |
 
 ## Review consent
 
@@ -96,8 +97,9 @@ return webViewStep
 ```
 The web view step is presented as shown in Figure 2.
 
-// todo: add images here
-
+|   |   |
+|---|---|
+| ![Review Consent](obtaining-consent-review-1) | ![Provide signature](obtaining-consent-review-2) |
 
 ## Consent sharing
 
@@ -124,7 +126,7 @@ return formStep
 
 The form step is in Figure 3.
 
-// todo: add images here
+![Consent sharing](obtaining-consent-sharing)
 
 ## Enhanced PDF Viewing
 
@@ -151,5 +153,6 @@ if let webViewStepResult = stepResult.results?.first as? ORKWebViewStepResult, l
 
 The PDF viewer step is in Figure 4.
 
-// todo: add images here
-
+|   |   |
+|---|---|
+| ![PDF page 1](obtaining-consent-pdf-1) | ![PDF page 2](obtaining-consent-pdf-2) |
