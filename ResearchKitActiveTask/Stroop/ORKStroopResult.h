@@ -68,5 +68,21 @@ ORK_CLASS_AVAILABLE
 
 @end
 
+
+// Option 2: Make another set of data models that are codable and map to existing JSON
+struct StroopResult : Codable {
+
+    func toORKStroopResult() -> ORKStroopResult {
+        var newVar = ORKStroopResult.init(with all the things)
+        return newVar
+        // do the conversion ?
+    }
+
+    var startTime: Date
+    var endTime: Date
+    var color: String
+    var text:
+}
+
 NS_ASSUME_NONNULL_END
 

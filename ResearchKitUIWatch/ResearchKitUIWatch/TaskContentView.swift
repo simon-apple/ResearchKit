@@ -132,6 +132,7 @@ internal struct TaskContentView<Content>: View where Content: View {
     // lazily, the wrapping NavigationView can find it, and trigger it when `goNext` is called.
     private var hiddenNavigationButton: some View {
         NavigationLink(isActive: $goNext, destination: {
+            // change navigation logic to use Task.stepAfterStep()
             TaskContentView(index: index + 1, content)
                 .environmentObject(taskManager)
         }, label: {

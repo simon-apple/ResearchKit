@@ -20,6 +20,9 @@
 		0B72136B2B4F3D1D00463E69 /* ResearchKitCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B72136A2B4F3D1D00463E69 /* ResearchKitCore.framework */; };
 		0B72136C2B4F3D1D00463E69 /* ResearchKitCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B72136A2B4F3D1D00463E69 /* ResearchKitCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */ = {isa = PBXBuildFile; fileRef = 0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */; };
+		E4DBF1B42B97C2980085D6A1 /* BooleanQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B32B97C2980085D6A1 /* BooleanQuestion.swift */; };
+		E4DBF1B62B97C2B30085D6A1 /* MultipleChoiceQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B52B97C2AC0085D6A1 /* MultipleChoiceQuestion.swift */; };
+		E4DBF1B92B97C3060085D6A1 /* TextChoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B82B97C3030085D6A1 /* TextChoiceCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -62,6 +65,9 @@
 		0B72136A2B4F3D1D00463E69 /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF86B1D2B4F360000E3790E /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ResearchKitUIWatch.docc; sourceTree = "<group>"; };
+		E4DBF1B32B97C2980085D6A1 /* BooleanQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanQuestion.swift; sourceTree = "<group>"; };
+		E4DBF1B52B97C2AC0085D6A1 /* MultipleChoiceQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleChoiceQuestion.swift; sourceTree = "<group>"; };
+		E4DBF1B82B97C3030085D6A1 /* TextChoiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextChoiceCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +105,7 @@
 		0B7213472B4F39A500463E69 /* Step Views */ = {
 			isa = PBXGroup;
 			children = (
+				E4DBF1B22B97C27E0085D6A1 /* Question Views */,
 				0B72132C2B4F368600463E69 /* DefaultStepView.swift */,
 				0B7213412B4F396B00463E69 /* CompletionStepView.swift */,
 				0B7213432B4F397A00463E69 /* InstructionStepView.swift */,
@@ -137,6 +144,24 @@
 				0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */,
 			);
 			path = ResearchKitUIWatch;
+			sourceTree = "<group>";
+		};
+		E4DBF1B22B97C27E0085D6A1 /* Question Views */ = {
+			isa = PBXGroup;
+			children = (
+				E4DBF1B72B97C2E80085D6A1 /* Supporting Views */,
+				E4DBF1B52B97C2AC0085D6A1 /* MultipleChoiceQuestion.swift */,
+				E4DBF1B32B97C2980085D6A1 /* BooleanQuestion.swift */,
+			);
+			path = "Question Views";
+			sourceTree = "<group>";
+		};
+		E4DBF1B72B97C2E80085D6A1 /* Supporting Views */ = {
+			isa = PBXGroup;
+			children = (
+				E4DBF1B82B97C3030085D6A1 /* TextChoiceCell.swift */,
+			);
+			path = "Supporting Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -222,10 +247,13 @@
 				0B7213522B4F39CC00463E69 /* ORKScrollViewReader.swift in Sources */,
 				0B7213462B4F398500463E69 /* QuestionStepView.swift in Sources */,
 				0B7213532B4F39CC00463E69 /* View+OnChange.swift in Sources */,
+				E4DBF1B62B97C2B30085D6A1 /* MultipleChoiceQuestion.swift in Sources */,
+				E4DBF1B92B97C3060085D6A1 /* TextChoiceCell.swift in Sources */,
 				0B7213442B4F397A00463E69 /* InstructionStepView.swift in Sources */,
 				0B7213512B4F39CC00463E69 /* TaskView.swift in Sources */,
 				0B7213422B4F396B00463E69 /* CompletionStepView.swift in Sources */,
 				0B72134F2B4F39CC00463E69 /* View+Task.swift in Sources */,
+				E4DBF1B42B97C2980085D6A1 /* BooleanQuestion.swift in Sources */,
 				0B7213402B4F395C00463E69 /* TaskManager.swift in Sources */,
 				0B72132D2B4F368600463E69 /* DefaultStepView.swift in Sources */,
 				0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */,

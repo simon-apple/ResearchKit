@@ -33,51 +33,6 @@
 import ResearchKitCore
 import SwiftUI
 
-struct TextChoiceCell: View {
-    
-    private var selected = false
-    
-    var title: String
-    
-    var selection: (Bool) -> Void
-    
-    init(title: String, selected: Bool = false, selection: @escaping (Bool) -> Void) {
-        self.title = title
-        self.selection = selection
-        self.selected = selected
-    }
-    
-    @ViewBuilder
-    var body: some View {
-        Button(action: {
-            selection(!selected)
-        }) {
-            HStack {
-                Text(title)
-                    .fontWeight(.medium)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(.body)
-                Image(systemName: selected ? "checkmark.circle.fill" : "circle")
-                    .frame(alignment: .trailing)
-                    .imageScale(.large)
-                    .foregroundColor(selected ? .blue : .gray)
-                    .font(.body)
-            }
-        }.roundedRectangleButtonShape()
-    }
-}
-
-private extension Button {
-    @ViewBuilder
-    func roundedRectangleButtonShape() -> some View {
-        if #available(watchOSApplicationExtension 8.0, *) {
-            self.buttonBorderShape(.roundedRectangle)
-        } else {
-            self
-        }
-    }
-}
-
 class QuestionStepViewModel: ObservableObject {
     
     @ObservedObject
@@ -178,9 +133,8 @@ internal struct _QuestionStepView: View {
             let textChoices = viewModel.textChoiceAnswers
                 ForEach(textChoices, id: \.1) { index, textChoice in
                     
-                    TextChoiceCell(title: textChoice.text,
-                                   selected: index == viewModel.selectedIndex) { selected in
-                        
+                    TextChoiceCell(title: Text(textChoice.text), selected: index == viewModel.selectedIndex) { selected in
+
                         if selected {
                             
                             viewModel.selectedIndex = index
