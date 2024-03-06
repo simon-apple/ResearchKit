@@ -28,58 +28,24 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "ORKINavigableOrderedTask.h"
 
-@class ORKStep;
+#import "ORKInternalClassMapper.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation ORKINavigableOrderedTask
 
-@interface ORKInternalClassMapper : NSObject
-
-/**
- Maps and returns the internal subclass of the class passed in.
- 
- Returns nil if the class doesn't have an internal counterpart.
- */
-+ (nullable Class)getInternalClassForPublicClass:(Class)class;
-
-/**
- Maps and returns the class string for internal subclass
- of the class passed in.
- 
- Returns nil if the class doesn't have an internal counterpart.
- */
-+ (nullable NSString *)getInternalClassStringForPublicClass:(NSString *)class;
-
-/**
- Maps and returns and instance for internal subclass
- of the class passed in.
- 
- Returns nil if the class doesn't have an internal counterpart.
- */
-+ (nullable id)getInternalInstanceForPublicClass:(id)class;
-
-/**
- Sets a value for the ORKUseInternalClassMapper key for user defautls.
- */
-+ (void)setUseInternalMapperUserDefaultsValue:(BOOL)value;
-
-/**
- Boolean value for the ORKUseInternalClassMapper key for user defautls.
- */
-+ (BOOL)getUseInternalMapperUserDefaultsValue;
-
-/**
- Removes ORKUseInternalClassMapper key from user defautls.
- */
-+ (void)removeUseInternalMapperUserDefaultsValue;
-
-/**
- Returns an array of steps and replaces any public classes
- with its internal counterpart if it has one.
- */
-+ (NSArray<ORKStep *> *)sanitizeOrderedTaskSteps:(NSArray<ORKStep *> *)steps;
+- (instancetype)initWithIdentifier:(NSString *)identifier steps:(NSArray<ORKStep *> *)steps {
+#if RK_APPLE_INTERNAL && ORK_FEATURE_INTERNAL_CLASS_MAPPER
+    steps = [ORKInternalClassMapper sanitizeOrderedTaskSteps:steps];
+#endif
+#if RK_APPLE_INTERNAL
+        if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES) {
+            steps = [ORKInternalClassMapper sanitizeOrderedTaskSteps:steps];
+        }
+#endif
+    
+    self = [super initWithIdentifier:identifier steps:steps];
+    return self;
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

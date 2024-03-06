@@ -130,6 +130,16 @@ NSString * const ORKUseInternalClassMapperKey = @"ORKUseInternalClassMapperKey";
     return nil;
 }
 
++ (NSArray *)sanitizeOrderedTaskSteps:(NSArray *)steps {
+    NSMutableArray<ORKStep *> *sanitizedArray = [NSMutableArray new];
+    
+    for (ORKStep *step in steps) {
+        [sanitizedArray addObject:[ORKInternalClassMapper getInternalInstanceForPublicClass:step] ?: [step copy]];
+    }
+    
+    return sanitizedArray;
+}
+
 #pragma mark - Private Methods
 
 + (nullable id)_mapPublicInstructionStep:(id)class {

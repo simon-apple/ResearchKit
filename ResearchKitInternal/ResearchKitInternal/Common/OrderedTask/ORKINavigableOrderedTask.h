@@ -28,57 +28,11 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-
-@class ORKStep;
+#import <ResearchKit/ResearchKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKInternalClassMapper : NSObject
-
-/**
- Maps and returns the internal subclass of the class passed in.
- 
- Returns nil if the class doesn't have an internal counterpart.
- */
-+ (nullable Class)getInternalClassForPublicClass:(Class)class;
-
-/**
- Maps and returns the class string for internal subclass
- of the class passed in.
- 
- Returns nil if the class doesn't have an internal counterpart.
- */
-+ (nullable NSString *)getInternalClassStringForPublicClass:(NSString *)class;
-
-/**
- Maps and returns and instance for internal subclass
- of the class passed in.
- 
- Returns nil if the class doesn't have an internal counterpart.
- */
-+ (nullable id)getInternalInstanceForPublicClass:(id)class;
-
-/**
- Sets a value for the ORKUseInternalClassMapper key for user defautls.
- */
-+ (void)setUseInternalMapperUserDefaultsValue:(BOOL)value;
-
-/**
- Boolean value for the ORKUseInternalClassMapper key for user defautls.
- */
-+ (BOOL)getUseInternalMapperUserDefaultsValue;
-
-/**
- Removes ORKUseInternalClassMapper key from user defautls.
- */
-+ (void)removeUseInternalMapperUserDefaultsValue;
-
-/**
- Returns an array of steps and replaces any public classes
- with its internal counterpart if it has one.
- */
-+ (NSArray<ORKStep *> *)sanitizeOrderedTaskSteps:(NSArray<ORKStep *> *)steps;
+@interface ORKINavigableOrderedTask : ORKNavigableOrderedTask
 
 @end
 

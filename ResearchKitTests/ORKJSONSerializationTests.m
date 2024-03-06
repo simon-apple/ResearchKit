@@ -2133,6 +2133,61 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
     XCTAssertFalse([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue]);
 }
 
+- (void)testInternalStepsSanitizer {
+    [ORKInternalClassMapper setUseInternalMapperUserDefaultsValue:YES];
+    
+    ORKInstructionStep *instructionStep = [[ORKInstructionStep alloc] initWithIdentifier:@"InstructionStepIdentifier"];
+    ORKQuestionStep *questionStep = [[ORKQuestionStep alloc] initWithIdentifier:@"QuestionStepIdentifier"];
+    ORKEnvironmentSPLMeterStep *enviromentSPLMeterStep = [[ORKEnvironmentSPLMeterStep alloc] initWithIdentifier:@"EnvironmentSPLMeterStepIdentifier"];
+    ORKdBHLToneAudiometryStep *audiometryStep = [[ORKdBHLToneAudiometryStep alloc] initWithIdentifier:@"AudiometryStepIdentifier"];
+    ORKSpeechInNoiseStep *speechInNoiseStep = [[ORKSpeechInNoiseStep alloc] initWithIdentifier:@"SpeechInNoiseStepIdentifier"];
+    ORKSpeechRecognitionStep *speechRecognitionStep = [[ORKSpeechRecognitionStep alloc] initWithIdentifier:@"SpeechRecognitionStepIdentifier"];
+    ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:@"CompletionStepIdentifier"];
+    NSArray<ORKStep *> *taskSteps = @[instructionStep, questionStep, enviromentSPLMeterStep, audiometryStep, speechInNoiseStep, speechRecognitionStep, completionStep];
+    
+    // sanitzier used directly
+    NSArray<ORKStep *> *sanitizedSteps = [ORKInternalClassMapper sanitizeOrderedTaskSteps:taskSteps];
+    XCTAssertTrue(sanitizedSteps.count == taskSteps.count);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIInstructionStep class] step:sanitizedSteps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIQuestionStep class] step:sanitizedSteps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIEnvironmentSPLMeterStep class] step:sanitizedSteps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIdBHLToneAudiometryStep class] step:sanitizedSteps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKISpeechInNoiseStep class] step:sanitizedSteps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKISpeechRecognitionStep class] step:sanitizedSteps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKICompletionStep class] step:sanitizedSteps] == 1);
+    
+    // passing steps to internal ordered task
+    ORKIOrderedTask *orderedTask = [[ORKIOrderedTask alloc] initWithIdentifier:@"OrderedTaskIdentifier" steps:taskSteps];
+    XCTAssertTrue(orderedTask.steps.count == taskSteps.count);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIInstructionStep class] step:orderedTask.steps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIQuestionStep class] step:orderedTask.steps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIEnvironmentSPLMeterStep class] step:orderedTask.steps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIdBHLToneAudiometryStep class] step:orderedTask.steps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKISpeechInNoiseStep class] step:orderedTask.steps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKISpeechRecognitionStep class] step:orderedTask.steps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKICompletionStep class] step:orderedTask.steps] == 1);
+    
+    // passing steps to internal navigable ordered task
+    ORKIOrderedTask *navigableOrderedTask = [[ORKIOrderedTask alloc] initWithIdentifier:@"NavigableOrderedTask" steps:taskSteps];
+    XCTAssertTrue(orderedTask.steps.count == taskSteps.count);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIInstructionStep class] step:navigableOrderedTask.steps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIQuestionStep class] step:navigableOrderedTask.steps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIEnvironmentSPLMeterStep class] step:navigableOrderedTask.steps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIdBHLToneAudiometryStep class] step:navigableOrderedTask.steps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKISpeechInNoiseStep class] step:navigableOrderedTask.steps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKISpeechRecognitionStep class] step:navigableOrderedTask.steps] == 1);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKICompletionStep class] step:navigableOrderedTask.steps] == 1);
+    
+    // test that original array was not modified at all
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIInstructionStep class] step:taskSteps] == 0);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIQuestionStep class] step:taskSteps] == 0);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIEnvironmentSPLMeterStep class] step:taskSteps] == 0);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKIdBHLToneAudiometryStep class] step:taskSteps] == 0);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKISpeechInNoiseStep class] step:taskSteps] == 0);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKISpeechRecognitionStep class] step:taskSteps] == 0);
+    XCTAssertTrue([self _totalMatchesInStepsForClass:[ORKICompletionStep class] step:taskSteps] == 0);
+}
+
 - (void)testJSONTaskInternalMapping {
     [ORKInternalClassMapper setUseInternalMapperUserDefaultsValue:YES];
     
