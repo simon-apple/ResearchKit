@@ -23,6 +23,7 @@
 		E4DBF1B42B97C2980085D6A1 /* BooleanQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B32B97C2980085D6A1 /* BooleanQuestion.swift */; };
 		E4DBF1B62B97C2B30085D6A1 /* MultipleChoiceQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B52B97C2AC0085D6A1 /* MultipleChoiceQuestion.swift */; };
 		E4DBF1B92B97C3060085D6A1 /* TextChoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B82B97C3030085D6A1 /* TextChoiceCell.swift */; };
+		E4DBF1BB2B993B5C0085D6A1 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1BA2B993B5B0085D6A1 /* Card.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -68,6 +69,7 @@
 		E4DBF1B32B97C2980085D6A1 /* BooleanQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanQuestion.swift; sourceTree = "<group>"; };
 		E4DBF1B52B97C2AC0085D6A1 /* MultipleChoiceQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleChoiceQuestion.swift; sourceTree = "<group>"; };
 		E4DBF1B82B97C3030085D6A1 /* TextChoiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextChoiceCell.swift; sourceTree = "<group>"; };
+		E4DBF1BA2B993B5B0085D6A1 /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 		E4DBF1B72B97C2E80085D6A1 /* Supporting Views */ = {
 			isa = PBXGroup;
 			children = (
+				E4DBF1BA2B993B5B0085D6A1 /* Card.swift */,
 				E4DBF1B82B97C3030085D6A1 /* TextChoiceCell.swift */,
 			);
 			path = "Supporting Views";
@@ -250,6 +253,7 @@
 				E4DBF1B62B97C2B30085D6A1 /* MultipleChoiceQuestion.swift in Sources */,
 				E4DBF1B92B97C3060085D6A1 /* TextChoiceCell.swift in Sources */,
 				0B7213442B4F397A00463E69 /* InstructionStepView.swift in Sources */,
+				E4DBF1BB2B993B5C0085D6A1 /* Card.swift in Sources */,
 				0B7213512B4F39CC00463E69 /* TaskView.swift in Sources */,
 				0B7213422B4F396B00463E69 /* CompletionStepView.swift in Sources */,
 				0B72134F2B4F39CC00463E69 /* View+Task.swift in Sources */,
