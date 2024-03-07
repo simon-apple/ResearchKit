@@ -20,16 +20,17 @@ public struct BooleanQuestion: View { // TODO: Do we even need a Boolean type? i
         detail: Text,
         yesAnswerText: Text, // TODO: Look at ORKBooleanQuestionAnswerFormat to see naming convention for yes/no params
         noAnswerText: Text,
-        resultBinding: Binding<Bool>? // TODO: Discuss whether to name result parameters "resultBinding" in initializers?
+        resultBinding: Binding<Bool?> // TODO: Discuss whether to name result parameters "resultBinding" in initializers?
     ) {
         self.title = title
         self.detail = detail
         self.yesAnswerText = yesAnswerText
         self.noAnswerText = noAnswerText
-        self.result = resultBinding
+        _result = resultBinding
     }
 
-    public var result: Binding<Bool>?
+    @Binding
+    private var result: Bool?
 
     public var body: some View {
 
@@ -41,10 +42,10 @@ public struct BooleanQuestion: View { // TODO: Do we even need a Boolean type? i
                 .padding(.bottom, 12.0)
 
             TextChoiceCell(title: yesAnswerText, selected: isSelected(for: true)) { _ in
-                result?.wrappedValue = true
+                result = true
             }
             TextChoiceCell(title: noAnswerText, selected: isSelected(for: false)) { _ in
-                result?.wrappedValue = false
+                result = false
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -55,7 +56,7 @@ public struct BooleanQuestion: View { // TODO: Do we even need a Boolean type? i
         guard let result = result else {
             return false
         }
-        if result.wrappedValue == choice {
+        if result == choice {
             return true
         }
         return false
