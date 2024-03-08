@@ -35,6 +35,8 @@
 #import "ORKIdBHLToneAudiometryStep.h"
 #import "ORKIEnvironmentSPLMeterStep.h"
 #import "ORKIInstructionStep.h"
+#import "ORKINavigableOrderedTask.h"
+#import "ORKIOrderedTask.h"
 #import "ORKIQuestionStep.h"
 #import "ORKISpeechInNoiseStep.h"
 #import "ORKISpeechRecognitionStep.h"
@@ -51,22 +53,67 @@
 #import <ResearchKitActiveTask/ORKSpeechRecognitionStep.h>
 
 NSString * const ORKUseInternalClassMapperKey = @"ORKUseInternalClassMapperKey";
+NSString * const ORKUseInternalClassMapperThrowsKey = @"ORKUseInternalClassMapperThrowsKey";
 
 @implementation ORKInternalClassMapper
 
-+ (nullable Class)getInternalClassForPublicClass:(Class)class {
-    NSDictionary<NSString *, Class> *dict = @{
-        NSStringFromClass([ORKInstructionStep class]) : [ORKIInstructionStep class],
-        NSStringFromClass([ORKQuestionStep class]) : [ORKIQuestionStep class],
-        NSStringFromClass([ORKdBHLToneAudiometryStep class]) : [ORKIdBHLToneAudiometryStep class],
-        NSStringFromClass([ORKdBHLToneAudiometryResult class]) : [ORKIdBHLToneAudiometryResult class],
-        NSStringFromClass([ORKSpeechInNoiseStep class]) : [ORKISpeechInNoiseStep class],
-        NSStringFromClass([ORKEnvironmentSPLMeterStep class]) : [ORKIEnvironmentSPLMeterStep class],
-        NSStringFromClass([ORKSpeechRecognitionStep class]) : [ORKISpeechRecognitionStep class],
-        NSStringFromClass([ORKCompletionStep class]) : [ORKICompletionStep class]
-    };
++ (void)setUseInternalMapperUserDefaultsValue:(BOOL)value {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setBool:value forKey:ORKUseInternalClassMapperKey];
+}
+
++ (BOOL)getUseInternalMapperUserDefaultsValue {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [userDefaults boolForKey:ORKUseInternalClassMapperKey];
+}
+
++ (void)setUseInternalMapperThrowsUserDefaultsValue:(BOOL)value {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setBool:value forKey:ORKUseInternalClassMapperThrowsKey];
+}
+
++ (BOOL)getUseInternalMapperThrowsUserDefaultsValue {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [userDefaults boolForKey:ORKUseInternalClassMapperThrowsKey];
+}
+
++ (void)removeUseInternalMapperUserDefaultsValues {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults removeObjectForKey:ORKUseInternalClassMapperKey];
+    [userDefaults removeObjectForKey:ORKUseInternalClassMapperThrowsKey];
+}
+
++ (void)throwIfTaskIsNotSanitized:(id)task {
+
+    [ORKInternalClassMapper _throwIfInternalSubclassParent:task];
     
-    return [dict valueForKey:NSStringFromClass(class)];
+    NSArray<ORKStep *> *taskSteps = @[];
+    ORKIOrderedTask *internalOrderedTask = (ORKIOrderedTask *)task;
+    ORKINavigableOrderedTask *internalNavigableOrderedTask = (ORKINavigableOrderedTask *)task;
+    
+    if ([NSStringFromClass([internalOrderedTask class]) isEqualToString:NSStringFromClass([ORKIOrderedTask class])]) {
+        taskSteps = [internalOrderedTask.steps copy];
+    } else if ([NSStringFromClass([internalNavigableOrderedTask class]) isEqualToString:NSStringFromClass([ORKINavigableOrderedTask class])]) {
+        taskSteps = [internalOrderedTask.steps copy];
+    }
+    
+    for (ORKStep *step in taskSteps) {
+        [ORKInternalClassMapper _throwIfInternalSubclassParent:step];
+    }
+}
+
++ (void)_throwIfInternalSubclassParent:(id)parentClass {
+    NSDictionary<NSString *, Class> *mappedClassesWithInternalVersions = [ORKInternalClassMapper _getMappedClassesWithInternalVersions];
+    NSString *classString = NSStringFromClass([parentClass class]);
+    if ([mappedClassesWithInternalVersions valueForKey:classString]) {
+        NSString *reason = [NSString stringWithFormat:@"Use of %@ was detected. Please use %@ instead.", classString, [mappedClassesWithInternalVersions valueForKey:classString]];
+        @throw [NSException exceptionWithName:NSGenericException reason:reason userInfo:nil];
+    }
+}
+
++ (nullable Class)getInternalClassForPublicClass:(Class)class {
+    NSDictionary<NSString *, Class> *mappedClassesWithInternalVersions = [ORKInternalClassMapper _getMappedClassesWithInternalVersions];
+    return [mappedClassesWithInternalVersions valueForKey:NSStringFromClass(class)];
 }
 
 + (nullable NSString *)getInternalClassStringForPublicClass:(NSString *)class {
@@ -78,7 +125,9 @@ NSString * const ORKUseInternalClassMapperKey = @"ORKUseInternalClassMapperKey";
         NSStringFromClass([ORKSpeechInNoiseStep class]) : NSStringFromClass([ORKISpeechInNoiseStep class]),
         NSStringFromClass([ORKEnvironmentSPLMeterStep class]) : NSStringFromClass([ORKIEnvironmentSPLMeterStep class]),
         NSStringFromClass([ORKSpeechRecognitionStep class]) : NSStringFromClass([ORKISpeechRecognitionStep class]),
-        NSStringFromClass([ORKCompletionStep class]) : NSStringFromClass([ORKICompletionStep class])
+        NSStringFromClass([ORKCompletionStep class]) : NSStringFromClass([ORKICompletionStep class]),
+        NSStringFromClass([ORKOrderedTask class]) : NSStringFromClass([ORKIOrderedTask class]),
+        NSStringFromClass([ORKNavigableOrderedTask class]) : NSStringFromClass([ORKINavigableOrderedTask class])
     };
     
     return [dict valueForKey:class];
@@ -125,6 +174,18 @@ NSString * const ORKUseInternalClassMapperKey = @"ORKUseInternalClassMapperKey";
     ORKICompletionStep *internalCompletionStep = [ORKInternalClassMapper _mapPublicCompletionStep:class];
     if (internalCompletionStep != nil) {
         return internalCompletionStep;
+    }
+    
+    // attempt ordered task mapping
+    ORKIOrderedTask *internalOrderedTask = [ORKInternalClassMapper _mapPublicOrderedTask:class];
+    if (internalOrderedTask != nil) {
+        return internalOrderedTask;
+    }
+    
+    // attempt navigable ordered task mapping
+    ORKINavigableOrderedTask *internalNavigableOrderedTask = [ORKInternalClassMapper _mapPublicNavigableOrderedTask:class];
+    if (internalNavigableOrderedTask != nil) {
+        return internalNavigableOrderedTask;
     }
     
     return nil;
@@ -376,20 +437,69 @@ NSString * const ORKUseInternalClassMapperKey = @"ORKUseInternalClassMapperKey";
     return nil;
 }
 
-+ (void)setUseInternalMapperUserDefaultsValue:(BOOL)value {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-
-    [userDefaults setBool:value forKey:ORKUseInternalClassMapperKey];
++ (nullable id)_mapPublicOrderedTask:(id)class {
+    ORKOrderedTask *orderedTask = (ORKOrderedTask *)class;
+    
+    if ([NSStringFromClass([orderedTask class]) isEqualToString:NSStringFromClass([ORKOrderedTask class])]) {
+        NSArray<ORKStep *> *sanitizedSteps = [ORKInternalClassMapper sanitizeOrderedTaskSteps:[orderedTask.steps copy]];
+        ORKIOrderedTask *internalOrderedTask = [[ORKIOrderedTask alloc] initWithIdentifier:[orderedTask.identifier copy]
+                                                                                     steps:sanitizedSteps];
+        
+        // ORKOrderedTask properties
+        internalOrderedTask.progressLabelColor = [orderedTask.progressLabelColor copy];
+        
+        return internalOrderedTask;
+    }
+    
+    return nil;
 }
 
-+ (BOOL)getUseInternalMapperUserDefaultsValue {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [userDefaults boolForKey:ORKUseInternalClassMapperKey];
++ (nullable id)_mapPublicNavigableOrderedTask:(id)class {
+    ORKNavigableOrderedTask *navigableOrderedTask = (ORKNavigableOrderedTask *)class;
+    
+    if ([NSStringFromClass([navigableOrderedTask class]) isEqualToString:NSStringFromClass([ORKNavigableOrderedTask class])]) {
+        NSArray<ORKStep *> *sanitizedSteps = [ORKInternalClassMapper sanitizeOrderedTaskSteps:[navigableOrderedTask.steps copy]];
+        ORKINavigableOrderedTask *internalNavigableOrderedTask = [[ORKINavigableOrderedTask alloc] initWithIdentifier:[navigableOrderedTask.identifier copy]
+                                                                                                                steps:sanitizedSteps];
+        // ORKNavigableOrderedTask properties
+        [navigableOrderedTask.stepNavigationRules enumerateKeysAndObjectsUsingBlock:^(NSString* key, ORKStepNavigationRule* navigationRule, BOOL* stop) {
+            [internalNavigableOrderedTask setNavigationRule:navigationRule forTriggerStepIdentifier:key];
+        }];
+        
+        [navigableOrderedTask.skipStepNavigationRules enumerateKeysAndObjectsUsingBlock:^(NSString* key, ORKSkipStepNavigationRule* skipNavigationRule, BOOL* stop) {
+            [internalNavigableOrderedTask setSkipNavigationRule:skipNavigationRule forStepIdentifier:key];
+        }];
+        
+        [navigableOrderedTask.stepModifiers enumerateKeysAndObjectsUsingBlock:^(NSString* key, ORKStepModifier* stepModifier, BOOL* stop) {
+            [internalNavigableOrderedTask setStepModifier:stepModifier forStepIdentifier:key];
+        }];
+        
+        internalNavigableOrderedTask.shouldReportProgress = navigableOrderedTask.shouldReportProgress;
+        
+        // ORKOrderedTask properties
+        internalNavigableOrderedTask.progressLabelColor = [navigableOrderedTask.progressLabelColor copy];
+      
+        return internalNavigableOrderedTask;
+    }
+    
+    return nil;
 }
 
-+ (void)removeUseInternalMapperUserDefaultsValue {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults removeObjectForKey:ORKUseInternalClassMapperKey];
++ (NSDictionary<NSString *, Class> *)_getMappedClassesWithInternalVersions {
+    NSDictionary<NSString *, Class> *dict = @{
+        NSStringFromClass([ORKInstructionStep class]) : [ORKIInstructionStep class],
+        NSStringFromClass([ORKQuestionStep class]) : [ORKIQuestionStep class],
+        NSStringFromClass([ORKdBHLToneAudiometryStep class]) : [ORKIdBHLToneAudiometryStep class],
+        NSStringFromClass([ORKdBHLToneAudiometryResult class]) : [ORKIdBHLToneAudiometryResult class],
+        NSStringFromClass([ORKSpeechInNoiseStep class]) : [ORKISpeechInNoiseStep class],
+        NSStringFromClass([ORKEnvironmentSPLMeterStep class]) : [ORKIEnvironmentSPLMeterStep class],
+        NSStringFromClass([ORKSpeechRecognitionStep class]) : [ORKISpeechRecognitionStep class],
+        NSStringFromClass([ORKCompletionStep class]) : [ORKICompletionStep class],
+        NSStringFromClass([ORKOrderedTask class]) : [ORKIOrderedTask class],
+        NSStringFromClass([ORKNavigableOrderedTask class]) : [ORKINavigableOrderedTask class]
+    };
+    
+    return [dict copy];
 }
 
 @end

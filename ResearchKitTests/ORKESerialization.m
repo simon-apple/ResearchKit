@@ -1166,6 +1166,20 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
                     })),
 #if RK_APPLE_INTERNAL
+           ENTRY(ORKIOrderedTask,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                   ORKIOrderedTask *task = [[ORKIOrderedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
+                                                                                 steps:GETPROP(dict, steps)];
+                   return task;
+                 },
+                 (@{})),
+           ENTRY(ORKINavigableOrderedTask,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                   ORKINavigableOrderedTask *task = [[ORKINavigableOrderedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
+                                                                                                   steps:GETPROP(dict, steps)];
+                    return task;
+                 },
+                 (@{})),
            ENTRY(ORKIdBHLToneAudiometryResult,
                  nil,
                  (@{

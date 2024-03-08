@@ -60,6 +60,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable id)getInternalInstanceForPublicClass:(id)class;
 
 /**
+ Throws if a parent of an internal subclass is passed in.
+ 
+ Should only be used when testing.
+ */
++ (void)throwIfTaskIsNotSanitized:(id)task;
+
+/**
  Sets a value for the ORKUseInternalClassMapper key for user defautls.
  */
 + (void)setUseInternalMapperUserDefaultsValue:(BOOL)value;
@@ -70,9 +77,19 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)getUseInternalMapperUserDefaultsValue;
 
 /**
- Removes ORKUseInternalClassMapper key from user defautls.
+ Sets a value for the ORKUseInternalClassMapperThrows key for user defautls.
  */
-+ (void)removeUseInternalMapperUserDefaultsValue;
++ (void)setUseInternalMapperThrowsUserDefaultsValue:(BOOL)value;
+
+/**
+ Boolean value for the ORKUseInternalClassMapper key for user defautls.
+ */
++ (BOOL)getUseInternalMapperThrowsUserDefaultsValue;
+
+/**
+ Removes ORKUseInternalClassMapperThrows key from user defautls.
+ */
++ (void)removeUseInternalMapperUserDefaultsValues;
 
 /**
  Returns an array of steps and replaces any public classes
