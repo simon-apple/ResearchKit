@@ -83,34 +83,6 @@ NSString * const ORKUseInternalClassMapperThrowsKey = @"ORKUseInternalClassMappe
     [userDefaults removeObjectForKey:ORKUseInternalClassMapperThrowsKey];
 }
 
-+ (void)throwIfTaskIsNotSanitized:(id)task {
-
-    [ORKInternalClassMapper _throwIfInternalSubclassParent:task];
-    
-    NSArray<ORKStep *> *taskSteps = @[];
-    ORKIOrderedTask *internalOrderedTask = (ORKIOrderedTask *)task;
-    ORKINavigableOrderedTask *internalNavigableOrderedTask = (ORKINavigableOrderedTask *)task;
-    
-    if ([NSStringFromClass([internalOrderedTask class]) isEqualToString:NSStringFromClass([ORKIOrderedTask class])]) {
-        taskSteps = [internalOrderedTask.steps copy];
-    } else if ([NSStringFromClass([internalNavigableOrderedTask class]) isEqualToString:NSStringFromClass([ORKINavigableOrderedTask class])]) {
-        taskSteps = [internalOrderedTask.steps copy];
-    }
-    
-    for (ORKStep *step in taskSteps) {
-        [ORKInternalClassMapper _throwIfInternalSubclassParent:step];
-    }
-}
-
-+ (void)_throwIfInternalSubclassParent:(id)parentClass {
-    NSDictionary<NSString *, Class> *mappedClassesWithInternalVersions = [ORKInternalClassMapper _getMappedClassesWithInternalVersions];
-    NSString *classString = NSStringFromClass([parentClass class]);
-    if ([mappedClassesWithInternalVersions valueForKey:classString]) {
-        NSString *reason = [NSString stringWithFormat:@"Use of %@ was detected. Please use %@ instead.", classString, [mappedClassesWithInternalVersions valueForKey:classString]];
-        @throw [NSException exceptionWithName:NSGenericException reason:reason userInfo:nil];
-    }
-}
-
 + (nullable Class)getInternalClassForPublicClass:(Class)class {
     NSDictionary<NSString *, Class> *mappedClassesWithInternalVersions = [ORKInternalClassMapper _getMappedClassesWithInternalVersions];
     return [mappedClassesWithInternalVersions valueForKey:NSStringFromClass(class)];
@@ -199,6 +171,24 @@ NSString * const ORKUseInternalClassMapperThrowsKey = @"ORKUseInternalClassMappe
     }
     
     return sanitizedArray;
+}
+
++ (void)throwIfTaskIsNotSanitized:(id)task {
+    [ORKInternalClassMapper _throwIfInternalSubclassParent:task];
+    
+    NSArray<ORKStep *> *taskSteps = @[];
+    ORKIOrderedTask *internalOrderedTask = (ORKIOrderedTask *)task;
+    ORKINavigableOrderedTask *internalNavigableOrderedTask = (ORKINavigableOrderedTask *)task;
+    
+    if ([NSStringFromClass([internalOrderedTask class]) isEqualToString:NSStringFromClass([ORKIOrderedTask class])]) {
+        taskSteps = [internalOrderedTask.steps copy];
+    } else if ([NSStringFromClass([internalNavigableOrderedTask class]) isEqualToString:NSStringFromClass([ORKINavigableOrderedTask class])]) {
+        taskSteps = [internalOrderedTask.steps copy];
+    }
+    
+    for (ORKStep *step in taskSteps) {
+        [ORKInternalClassMapper _throwIfInternalSubclassParent:step];
+    }
 }
 
 #pragma mark - Private Methods
@@ -483,6 +473,15 @@ NSString * const ORKUseInternalClassMapperThrowsKey = @"ORKUseInternalClassMappe
     }
     
     return nil;
+}
+
++ (void)_throwIfInternalSubclassParent:(id)parentClass {
+    NSDictionary<NSString *, Class> *mappedClassesWithInternalVersions = [ORKInternalClassMapper _getMappedClassesWithInternalVersions];
+    NSString *classString = NSStringFromClass([parentClass class]);
+    if ([mappedClassesWithInternalVersions valueForKey:classString]) {
+        NSString *reason = [NSString stringWithFormat:@"Use of %@ was detected. Please use %@ instead.", classString, [mappedClassesWithInternalVersions valueForKey:classString]];
+        @throw [NSException exceptionWithName:NSGenericException reason:reason userInfo:nil];
+    }
 }
 
 + (NSDictionary<NSString *, Class> *)_getMappedClassesWithInternalVersions {
