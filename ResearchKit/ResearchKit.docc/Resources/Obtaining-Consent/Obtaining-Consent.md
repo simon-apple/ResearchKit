@@ -20,14 +20,14 @@ The ResearchKit framework makes obtaining consent easier by providing APIs to he
 
 When providing informed consent to prospective study participants, it's important to cover the necessary topics pertaining to your study. Here are some common topics usually addressed during informed consent.
 
-* **Overview** - A brief, concise description of the purpose and goal of the study.
-* **Data gathering** - The types of data gathered, where it will be stored, and who will have access to it.
-* **Privacy** - How your study ensures privacy is maintained while participating.
-* **Data use** - How you intend to use the data collected during this study. 
-* **Time commitment** - The estimated amount of time a participant should expect to dedicate to your study.
-* **Surveys** - The types of surveys and questions you present to the participants.
-* **Tasks** - The tasks the participant must complete for the study.
-* **Withdrawal** - Information about withdrawal from the study and what happens to the participant's data.  
+- **Overview** - A brief, concise description of the purpose and goal of the study.
+- **Data gathering** - The types of data gathered, where it will be stored, and who will have access to it.
+- **Privacy** - How your study ensures privacy is maintained while participating.
+- **Data use** - How you intend to use the data collected during this study. 
+- **Time commitment** - The estimated amount of time a participant should expect to dedicate to your study.
+- **Surveys** - The types of surveys and questions you present to the participants.
+- **Tasks** - The tasks the participant must complete for the study.
+- **Withdrawal** - Information about withdrawal from the study and what happens to the participant's data.  
 
 
 Create two instruction steps to present both a 'Welcome' & 'Before You Join' page.
@@ -117,7 +117,7 @@ let textChoiceAnswerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, tex
 let textChoiceFormItem = ORKFormItem(identifier: "TextChoiceFormItem", text: "Who would you like to share your data with?", answerFormat: textChoiceAnswerFormat)
         
 //Construct the form step
-let formStepText = "Institution and its partners will receive your study data from your participation in this study. \n \n Sharing your coded study data more broadly (without information such as your name may benefit this and future research."    
+let formStepText = "Institution and its partners will receive your study data from your participation in this study.\n \nSharing your coded study data more broadly (without information such as your name) may benefit this and future research."    
 let formStep = ORKFormStep(identifier: "ConsentSharingFormStepIdentifier", title: "Sharing Options", text: formStepText)
 formStep.formItems = [textChoiceFormItem]
         

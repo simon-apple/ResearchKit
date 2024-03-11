@@ -639,7 +639,7 @@ enum TaskListRowSteps {
         let textChoiceFormItem = ORKFormItem(identifier: "TextChoiceFormItem", text: "Who would you like to share your data with?", answerFormat: textChoiceAnswerFormat)
         
         // Construct the form step
-        let formStepText = "Institution and its partners will receive your study data from your participation in this study. \n \n Sharing your coded study data more broadly (without information such as your name may benefit this and future research."
+        let formStepText = "Institution and its partners will receive your study data from your participation in this study.\n \nSharing your coded study data more broadly (without information such as your name) may benefit this and future research."
         
         let formStep = ORKFormStep(identifier: "ConsentSharingFormStepIdentifier", title: "Sharing Options", text: formStepText)
         formStep.formItems = [textChoiceFormItem]
