@@ -75,10 +75,9 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
 }
 
 - (instancetype)initWithTask:(id<ORKTask>)task taskRunUUID:(NSUUID *)taskRunUUID {
-#if RK_APPLE_INTERNAL && ORK_FEATURE_INTERNAL_CLASS_MAPPER_THROWS
+#if ORK_FEATURE_INTERNAL_CLASS_MAPPER_THROWS
     [ORKInternalClassMapper throwIfTaskIsNotSanitized:task];
-#endif
-#if RK_APPLE_INTERNAL
+#else
     if ([ORKInternalClassMapper getUseInternalMapperThrowsUserDefaultsValue] == YES) {
         [ORKInternalClassMapper throwIfTaskIsNotSanitized:task];
     }
@@ -87,10 +86,9 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
 }
 
 - (void)setTask:(id<ORKTask>)task {
-#if RK_APPLE_INTERNAL && ORK_FEATURE_INTERNAL_CLASS_MAPPER
+#if ORK_FEATURE_INTERNAL_CLASS_MAPPER
     task = [ORKInternalClassMapper getInternalInstanceForPublicClass:task] ?: task;
-#endif
-#if RK_APPLE_INTERNAL
+#else
     if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES) {
         task = [ORKInternalClassMapper getInternalInstanceForPublicClass:task] ?: task;
     }

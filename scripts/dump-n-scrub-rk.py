@@ -71,8 +71,11 @@ class File(object):
         
     def remove_watch_os_flag(self):
         self.remove_internal_flag_with("#if TARGET_OS_WATCH")
+        
+    def remove_class_mapper_flag(self):
+        self.remove_internal_flag_with("#if ORK_FEATURE_INTERNAL_CLASS_MAPPER")
     
-    def remove_internal_flag_with(self, start_delimeter):
+    def remove_internal_flag_with(self, start_delimeter, keep_else_content=True):
         mid_delimiter = "#else"
         end_delimeter = "#endif"
 
@@ -95,7 +98,7 @@ class File(object):
                         new_content.append(line)
 
                     # if mid_delimiter is found begin collecting lines until end_delimeter is hit
-                    if mid_delimiter in line:
+                    if mid_delimiter in line && keep_else_content:
                         is_else_block_content = True
 
                     if end_delimeter in line:

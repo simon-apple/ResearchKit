@@ -35,15 +35,13 @@
 @implementation ORKINavigableOrderedTask
 
 - (instancetype)initWithIdentifier:(NSString *)identifier steps:(NSArray<ORKStep *> *)steps {
-#if RK_APPLE_INTERNAL && ORK_FEATURE_INTERNAL_CLASS_MAPPER
+#if ORK_FEATURE_INTERNAL_CLASS_MAPPER
     steps = [ORKInternalClassMapper sanitizeOrderedTaskSteps:steps];
+#else
+    if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES) {
+        steps = [ORKInternalClassMapper sanitizeOrderedTaskSteps:steps];
+    }
 #endif
-#if RK_APPLE_INTERNAL
-        if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES) {
-            steps = [ORKInternalClassMapper sanitizeOrderedTaskSteps:steps];
-        }
-#endif
-    
     self = [super initWithIdentifier:identifier steps:steps];
     return self;
 }
