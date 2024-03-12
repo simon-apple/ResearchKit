@@ -73,7 +73,9 @@ class File(object):
         self.remove_internal_flag_with("#if TARGET_OS_WATCH")
         
     def remove_class_mapper_flag(self):
-        self.remove_internal_flag_with("#if ORK_FEATURE_INTERNAL_CLASS_MAPPER")
+        # This call should also remove references to the ORK_FEATURE_INTERNAL_CLASS_MAPPER_THROWS flag
+        self.remove_internal_flag_with("#if ORK_FEATURE_INTERNAL_CLASS_MAPPER", False)
+        
     
     def remove_internal_flag_with(self, start_delimeter, keep_else_content=True):
         mid_delimiter = "#else"
@@ -201,6 +203,7 @@ class FileHelper(object):
             f.remove_internal_code(start_delimeter=start_comment, end_delimeter=end_comment)
             f.remove_apple_internal_flag()
             f.remove_watch_os_flag()
+            f.remove_class_mapper_flag()
             f.remove_lines_containing("swiftlint")
             f.remove_lines_containing("// TODO:")
             f.remove_lines_containing("RDLS")
