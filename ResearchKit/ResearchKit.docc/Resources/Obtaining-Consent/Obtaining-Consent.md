@@ -4,7 +4,7 @@ Guide your participants through the Informed Consent process.
 
 ## Overview
 
-Research studies that involve human subjects typically require some form of ethics review. Depending on the country, an institutional review board (IRB) or by an ethics committee (EC) might perform this. Some studies may require informed consent to conduct a research study; the researcher must ensure that each participant is fully informed about the nature of the study, and must obtain a signed consent from each participant. Additionally, app review may require consent.
+Research studies that involve human subjects typically require some form of ethics review. Depending on the country, an institutional review board (IRB) or an ethics committee (EC) might perform this. Some studies may require informed consent to conduct a research study; the researcher must ensure that each participant is fully informed about the nature of the study, and must obtain a signed consent from each participant. Additionally, app review may require consent.
 
 The ResearchKit™ framework makes it easy to display your consent document and obtain a participant's signature. If the signature needs to be verifiable and irrevocable, you're responsible for producing a digital signature or generating a PDF to attest to the identity of the participant and the time they signed the form.
 
@@ -33,13 +33,13 @@ When providing informed consent to prospective study participants, it's importan
 Create two instruction steps to present both a 'Welcome' & 'Before You Join' page.
 
 ```swift
-//Welcome page
+// Welcome page.
 let welcomeStep = ORKInstructionStep(identifier: String(describing: Identifier.consentWelcomeInstructionStep))
 instructionStep.iconImage = UIImage(systemName: "hand.wave")
 instructionStep.title = "Welcome!"
 instructionStep.detailText = "Thank you for joining our study. Tap Next to learn more before signing up."
         
-//Before You Join page
+// Before You Join page.
 let beforeYouJoinStep = ORKInstructionStep(identifier: String(describing: Identifier.informedConsentInstructionStep))
 instructionStep.iconImage = UIImage(systemName: "doc.text.magnifyingglass")
 instructionStep.title = "Before You Join"
@@ -76,7 +76,7 @@ instructionStep.bodyItems = [
 ]
 ```
 
-The instruction step are presented in Figure 1.
+The instruction steps are presented in Figure 1.
 
 |   |   |
 |---|---|
@@ -84,7 +84,7 @@ The instruction step are presented in Figure 1.
 
 ## Review consent
 
-Participants can review the consent in the ORKWebViewStep as HTML. Depending on your signature requirements, you can also ask participants to write a signature on the same screen.
+Participants can review the consent in the ``ORKWebViewStep`` as HTML. Depending on your signature requirements, you can also ask participants to write their signature on the same screen.
 
 Produce the content for consent review by converting the previous instructions steps to HTML, or provide entirely separate review content as custom HTML in the web view step's html property.
 
@@ -95,7 +95,7 @@ let webViewStep = ORKWebViewStep(identifier: "WebViewStepIdentifier", instructio
 webViewStep.showSignatureAfterContent = true
 return webViewStep
 ```
-The web view step is presented as shown in Figure 2.
+The web view step appears as shown in Figure 2.
 
 |   |   |
 |---|---|
@@ -105,18 +105,18 @@ The web view step is presented as shown in Figure 2.
 
 Apps that use the ResearchKit framework primarily collect data for a specific study. If you want to ask participants to share their data with other researchers, participants must be able to control that decision.
 
-Use an ORKFormStep to explicitly obtain permission to share participants' data that you collect for your study with other researchers, if allowed by your IRB or EC if applicable. To use a form step, include it in a task, just before a consent review step.
+Use ``ORKFormStep`` to explicitly obtain permission to share participants' data that you collect for your study with other researchers, if allowed by your IRB or EC. To use a form step, include it in a task, just before a consent review step.
 
 ```swift
-//Construct the text choices.
+// Construct the text choices.
 let textChoices: [ORKTextChoice] = [ORKTextChoice(text: "Institution and qualified researchers worldwide", value: 1 as NSNumber),
                                             ORKTextChoice(text: "Only institution and its partners", value: 2 as NSNumber)]
 let textChoiceAnswerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: textChoices)
         
-//Construct a form item for text choices
+// Construct a form item for text choices.
 let textChoiceFormItem = ORKFormItem(identifier: "TextChoiceFormItem", text: "Who would you like to share your data with?", answerFormat: textChoiceAnswerFormat)
         
-//Construct the form step
+// Construct the form step.
 let formStepText = "Institution and its partners will receive your study data from your participation in this study.\n \nSharing your coded study data more broadly (without information such as your name) may benefit this and future research."    
 let formStep = ORKFormStep(identifier: "ConsentSharingFormStepIdentifier", title: "Sharing Options", text: formStepText)
 formStep.formItems = [textChoiceFormItem]
@@ -130,9 +130,9 @@ The form step is in Figure 3.
 
 ## Enhanced PDF Viewing
 
-Providing clear and concise material for the user to review is an important part of the data collection process. With ORKPDFViewerStep, the user can view a PDF in detail, perform text search, and mark up sections of the document. Other available features include viewing the pages of the PDF as thumbnails for quick perusal, printing, and saving the document.
+Providing clear and concise material for the user to review is an important part of the data collection process. With ``ORKPDFViewerStep``, the user can view a PDF in detail, perform text search, and mark up sections of the document. Other available features include viewing the pages of the PDF as thumbnails for quick perusal, printing, and saving the document.
 
-When the ORKTask is finished you can utilize the ORKHTMLPDFWriter to store the web view step's html as a PDF then view it later with the ORKPDFViewerStep.
+When the ``ORKTask`` is finished, use ``ORKHTMLPDFWriter`` to store the web view step's html as a PDF then view it later with the ``ORKPDFViewerStep``.
 
 ```swift
 guard let stepResult = taskViewController.result.result(forIdentifier: "WebViewStepIdentifier") as? ORKStepResult else {
