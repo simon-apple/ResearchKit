@@ -49,10 +49,8 @@ public struct TaskView<Content>: View where Content: View {
     }
 
     public var body: some View {
-        NavigationView {
-            TaskContentView(index: 0, content)
-                .environmentObject(self.taskManager)
-        }
+        TaskContentView(index: 0, content)
+            .environmentObject(self.taskManager)
     }
 }
 

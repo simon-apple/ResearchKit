@@ -69,7 +69,9 @@ internal struct TaskContentView<Content>: View where Content: View {
     
     // Style
     private let buttonTopPadding: CGFloat = 12
-    
+
+    @Environment(\.dismiss) var dismiss
+
     @EnvironmentObject
     private var taskManager: TaskManager
     
@@ -173,6 +175,7 @@ internal struct TaskContentView<Content>: View where Content: View {
                     }
                 } else {
                     Button {
+                        
                         taskManager.finishReason = .completed
                     } label: {
                         Text("Done").bold()

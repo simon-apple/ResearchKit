@@ -20,7 +20,7 @@ public struct MultipleChoiceOption<ID: Hashable>: Identifiable {
 public struct MultipleChoiceQuestion<OptionID: Hashable>: View {
 
     public var title: Text
-    public var detail: Text
+    public var detail: Text?
     public var options: [MultipleChoiceOption<OptionID>]
 
     @Binding
@@ -28,7 +28,7 @@ public struct MultipleChoiceQuestion<OptionID: Hashable>: View {
 
     public init(
         title: Text, // what does customizing this look like
-        detail: Text,
+        detail: Text? = nil,
         options: [MultipleChoiceOption<OptionID>],
         result: Binding<MultipleChoiceOption<OptionID>>
     ) {
@@ -57,23 +57,20 @@ public struct MultipleChoiceQuestion<OptionID: Hashable>: View {
      */
 
     public var body: some View {
-
-//        QuestionCard {
-//
-//        }
-//        Header(title, detail)
-        title
-            .font(.title)
-        detail
-
-        VStack {
-            ForEach(options) { option in
-                TextChoiceCell(title: option.title, selected: result.id == option.id) { choiceSelected in
-                    if choiceSelected == true {
-                        result = option
+        CardView {
+            VStack(alignment: .leading) {
+                title
+                    .font(.title)
+                detail
+                ForEach(options) { option in
+                    TextChoiceCell(title: option.title, selected: result.id == option.id) { choiceSelected in
+                        if choiceSelected == true {
+                            result = option
+                        }
                     }
                 }
             }
+            .padding()
         }
     }
 }

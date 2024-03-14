@@ -12,7 +12,9 @@ public struct CardView<Content: View>: View {
     // MARK: - Properties
 
     private var stackedContent: some View {
-        VStack { content }
+        VStack(alignment: .leading, content: {
+            content
+        })
     }
 
     private let content: Content
@@ -39,10 +41,10 @@ private struct CardModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .clipShape(cardShape)
             .background(
                 cardShape
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.background)
             )
+            .clipShape(cardShape)
     }
 }

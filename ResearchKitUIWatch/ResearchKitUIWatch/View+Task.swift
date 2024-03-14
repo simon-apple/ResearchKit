@@ -39,38 +39,13 @@ public extension View {
     @ViewBuilder
     func task(isPresented: Binding<Bool>, taskManager: TaskManager) -> some View {
 
-        if #available(watchOS 7.0, *) {
             fullScreenCover(
                 isPresented: isPresented,
                 onDismiss: { setDiscardedIfNeeded(taskManager: taskManager) },
                 content: {
-                    if #available(watchOS 10.0, *) {
-                        TaskView(taskManager: taskManager)
-                    } else {
-                        TaskView(taskManager: taskManager).toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                // Replacement cancel button
-                                Button(
-                                    Bundle(for: TaskManager.self)
-                                        .localizedString(
-                                            forKey: "BUTTON_CANCEL",
-                                            value: nil,
-                                            table: "ResearchKitUI"
-                                        ), action: {
-                                            setDiscardedIfNeeded(taskManager: taskManager)
-                                        }
-                                )
-                                .font(.subheadline)
-                            }
-                        }
-                    }
+                    TaskView(taskManager: taskManager)
                 })
-        } else {
-            sheet(
-                isPresented: isPresented,
-                onDismiss: { setDiscardedIfNeeded(taskManager: taskManager) },
-                content: { TaskView(taskManager: taskManager) })
-        }
+
     }
 
     @ViewBuilder
