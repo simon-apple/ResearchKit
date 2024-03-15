@@ -287,6 +287,10 @@ enum Identifier {
     case webViewTask
     case webViewStep
     
+    // 3DModelStep tasks
+    case usdzModelStep
+    case usdzModelTask
+    
     #if RK_APPLE_INTERNAL
     case catalogAppVersionHistory
     case platterQuestionTask
