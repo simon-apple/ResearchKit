@@ -90,7 +90,7 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
     task = [ORKInternalClassMapper getInternalInstanceForPublicClass:task] ?: task;
 #else
     if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES) {
-        task = [ORKInternalClassMapper getInternalInstanceForPublicClass:task] ?: task;
+        task = [ORKInternalClassMapper getInternalInstanceForPublicInstance:task] ?: task;
     }
 #endif
     [super setTask: task];

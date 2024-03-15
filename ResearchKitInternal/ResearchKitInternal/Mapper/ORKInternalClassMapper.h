@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  Returns nil if the class doesn't have an internal counterpart.
  */
-+ (nullable id)getInternalInstanceForPublicClass:(id)class;
++ (nullable id)getInternalInstanceForPublicInstance:(id)class;
 
 /**
  Throws if a parent of an internal subclass is passed in.

@@ -105,7 +105,7 @@ NSString * const ORKUseInternalClassMapperThrowsKey = @"ORKUseInternalClassMappe
     return [dict valueForKey:class];
 }
 
-+ (nullable id)getInternalInstanceForPublicClass:(id)class {
++ (nullable id)getInternalInstanceForPublicInstance:(id)class {
     // attempt instruction step mapping
     ORKIInstructionStep *internalInstructionStep = [ORKInternalClassMapper _mapPublicInstructionStep:class];
     if (internalInstructionStep != nil) {
@@ -167,7 +167,7 @@ NSString * const ORKUseInternalClassMapperThrowsKey = @"ORKUseInternalClassMappe
     NSMutableArray<ORKStep *> *sanitizedArray = [NSMutableArray new];
     
     for (ORKStep *step in steps) {
-        [sanitizedArray addObject:[ORKInternalClassMapper getInternalInstanceForPublicClass:step] ?: [step copy]];
+        [sanitizedArray addObject:[ORKInternalClassMapper getInternalInstanceForPublicInstance:step] ?: [step copy]];
     }
     
     return sanitizedArray;
