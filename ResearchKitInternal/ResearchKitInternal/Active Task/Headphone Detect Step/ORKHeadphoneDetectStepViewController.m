@@ -148,14 +148,15 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         _headphoneCellType = headphoneType;
         self.axis = UILayoutConstraintAxisHorizontal;
         self.distribution = UIStackViewDistributionFill;
-        self.alignment = UIStackViewAlignmentTop;
+        self.alignment = UIStackViewAlignmentCenter;
         self.spacing = ORKHeadphoneDetectStepSpacing;
-        self.layoutMargins = UIEdgeInsetsMake(0.0, ORKStepContainerLeftRightPaddingForWindow(self.window), 0.0, ORKStepContainerLeftRightPaddingForWindow(self.window));
+        self.layoutMargins = UIEdgeInsetsMake(0.0, ORKStepContainerLeftRightPaddingForWindow(self.window), 0.0, -ORKStepContainerLeftRightPaddingForWindow(self.window));
         self.layoutMarginsRelativeArrangement = YES;
         [self setupImageView];
         [self setupLabelStackView];
         [self setupTitleLabel];
         [self setupTextLabel];
+        [self setupLabelContainerTopBottomConstraints];
         [self setupCheckView];
         
         NSString *explanation = [self getNoiseCancellationExplanationForHeadphoneType:headphoneType];
@@ -195,7 +196,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     }
     _labelContainerView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addArrangedSubview:_labelContainerView];
-    [[_labelContainerView.heightAnchor constraintEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
+    [[_labelContainerView.heightAnchor constraintGreaterThanOrEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
 }
 
 - (void)setupTitleLabel {
@@ -211,7 +212,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     [[_titleLabel.leadingAnchor constraintEqualToAnchor:_labelContainerView.leadingAnchor] setActive:YES];
     [[_titleLabel.bottomAnchor constraintEqualToAnchor:_labelContainerView.centerYAnchor] setActive:YES];
-
+    [[_titleLabel.trailingAnchor constraintEqualToAnchor:_labelContainerView.trailingAnchor] setActive:YES];
 }
 
 - (void)setupTextLabel {
@@ -221,12 +222,22 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _textLabel.text = [self getTextLabelForHeadphoneType:_headphoneCellType];
     _textLabel.textColor = UIColor.systemGrayColor;
     _textLabel.font = [self bodyTextFont];
+    _textLabel.numberOfLines = 0;
+    _textLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _textLabel.textAlignment = NSTextAlignmentLeft;
     _textLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_labelContainerView addSubview:_textLabel];
     
     [[_textLabel.leadingAnchor constraintEqualToAnchor:_labelContainerView.leadingAnchor] setActive:YES];
     [[_textLabel.topAnchor constraintEqualToAnchor:_labelContainerView.centerYAnchor] setActive:YES];
+    [[_textLabel.trailingAnchor constraintEqualToAnchor:_labelContainerView.trailingAnchor] setActive:YES];
+}
+
+- (void)setupLabelContainerTopBottomConstraints {
+    if (_titleLabel && _textLabel) {
+        [[_labelContainerView.topAnchor constraintEqualToAnchor:_titleLabel.topAnchor] setActive:YES];
+        [[_labelContainerView.bottomAnchor constraintEqualToAnchor:_textLabel.bottomAnchor] setActive:YES];
+    }
 }
 
 - (NSString *)getTitleLabelForHeadphoneType:(ORKHeadphoneDetected)headphoneType {
@@ -314,7 +325,6 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     return result;
 }
-
 
 - (void)setupOrangeLabel {
     if (!_extraLabelsContainerView) {
@@ -569,8 +579,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     if (_headphoneTypes == ORKHeadphoneTypesSupported) {
         [self addSupportedHeadphonesDetectedViews];
-    }
-    else {
+    } else {
         [self addAnyHeadphoneDetectedView];
     }
     
@@ -713,7 +722,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _airpodProSupportView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addArrangedSubview:_airpodProSupportView];
     [[_airpodProSupportView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
-    _airpodsProCellHeightConstraint = [_airpodProSupportView.heightAnchor constraintEqualToConstant: ORKHeadphoneDetectCellStepSize];
+    _airpodsProCellHeightConstraint = [_airpodProSupportView.heightAnchor constraintGreaterThanOrEqualToConstant: ORKHeadphoneDetectCellStepSize];
     [_airpodProSupportView addConstraint:_airpodsProCellHeightConstraint];
     _airpodsProCellHeightConstraint.active = YES;
 }
@@ -725,7 +734,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _airpodMaxSupportView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addArrangedSubview:_airpodMaxSupportView];
     [[_airpodMaxSupportView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
-    _airpodsMaxCellHeightConstraint = [_airpodMaxSupportView.heightAnchor constraintEqualToConstant: ORKHeadphoneDetectCellStepSize];
+    _airpodsMaxCellHeightConstraint = [_airpodMaxSupportView.heightAnchor constraintGreaterThanOrEqualToConstant: ORKHeadphoneDetectCellStepSize];
     [_airpodMaxSupportView addConstraint:_airpodsMaxCellHeightConstraint];
     _airpodsMaxCellHeightConstraint.active = YES;
 }
@@ -737,7 +746,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _airpodSupportView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addArrangedSubview:_airpodSupportView];
     [[_airpodSupportView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
-    [[_airpodSupportView.heightAnchor constraintEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
+    [[_airpodSupportView.heightAnchor constraintGreaterThanOrEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
 }
 
 - (void)setupEarpodView {
@@ -747,7 +756,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _earpodSupportView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addArrangedSubview:_earpodSupportView];
     [[_earpodSupportView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
-    [[_earpodSupportView.heightAnchor constraintEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
+    [[_earpodSupportView.heightAnchor constraintGreaterThanOrEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
 }
 
 - (void)setupAnyHeadphoneView {
@@ -757,7 +766,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _anyHeadphoneView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addArrangedSubview:_anyHeadphoneView];
     [[_anyHeadphoneView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
-    [[_anyHeadphoneView.heightAnchor constraintEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
+    [[_anyHeadphoneView.heightAnchor constraintGreaterThanOrEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
 }
 
 - (void)setHeadphoneDetected:(ORKHeadphoneDetected)headphoneDetected {
