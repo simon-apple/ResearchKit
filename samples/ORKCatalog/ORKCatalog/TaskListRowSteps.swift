@@ -629,6 +629,24 @@ enum TaskListRowSteps {
         return instructionStep
     }
     
+    static var informedConsentSharingStepExample: ORKFormStep {
+        // Construct the text choices.
+        let textChoices: [ORKTextChoice] = [ORKTextChoice(text: "Institution and qualified researchers worldwide", value: 1 as NSNumber),
+                                            ORKTextChoice(text: "Only institution and its partners", value: 2 as NSNumber)]
+        let textChoiceAnswerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: textChoices)
+        
+        // Construct the form item for text choices.
+        let textChoiceFormItem = ORKFormItem(identifier: "TextChoiceFormItem", text: "Who would you like to share your data with?", answerFormat: textChoiceAnswerFormat)
+        
+        // Construct the form step.
+        let formStepText = "Institution and its partners will receive your study data from your participation in this study.\n \nSharing your coded study data more broadly (without information such as your name) may benefit this and future research."
+        
+        let formStep = ORKFormStep(identifier: "ConsentSharingFormStepIdentifier", title: "Sharing Options", text: formStepText)
+        formStep.formItems = [textChoiceFormItem]
+        
+        return formStep
+    }
+    
     static var webViewStepExample: ORKWebViewStep {
         let instructionSteps = [
             TaskListRowSteps.consentWelcomeStepExample,
