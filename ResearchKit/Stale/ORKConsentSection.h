@@ -36,8 +36,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- `ORKConsentSectionType` enumerates the predefined visual consent sections
- available in the ResearchKit framework.
+ An enumeration that represents visual consent sections available in ResearchKit.
  
  Although the visuals are predefined, and default localized titles and Learn
  More button titles are provided, you need to provide in `ORKConsentSection` the summary strapline on each visual consent
@@ -133,8 +132,9 @@ typedef NS_ENUM(NSInteger, ORKConsentSectionType) {
 } ORK_ENUM_AVAILABLE;
 
 /**
- The `ORKConsentSection` class represents one section in a consent document. Each
- `ORKConsentSection` object (apart from those of type `ORKConsentSectionTypeOnlyInDocument`)
+ An object that represents one section in a consent document.
+ 
+ Each `ORKConsentSection` object (apart from those of type `ORKConsentSectionTypeOnlyInDocument`)
  corresponds to a page in a visual consent step, or a section in the document
  reviewed in consent review step.
  

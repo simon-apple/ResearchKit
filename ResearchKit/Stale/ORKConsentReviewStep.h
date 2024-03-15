@@ -39,7 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKConsentSignature;
 
 /**
- The `ORKConsentReviewStep` class is used to represent the consent review process.
+ A step that represents the consent review process.
+ 
  Typically, the consent review process consists of three main parts:
  
  1. Consent document review. In this part, you display the consent document for review. Users

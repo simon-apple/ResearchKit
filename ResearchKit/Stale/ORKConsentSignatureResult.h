@@ -38,8 +38,9 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKConsentDocument;
 
 /**
- The `ORKConsentSignatureResult` class represents a signature obtained during
- a consent review step (`ORKConsentReviewStep`). The consent signature result is usually found as a child result of the
+ A result object from the consent review step.
+
+ The consent signature result is typically found as a child result of the
  `ORKStepResult` object for the consent review step.
  
  You can apply the result to a document to facilitate the generation of a

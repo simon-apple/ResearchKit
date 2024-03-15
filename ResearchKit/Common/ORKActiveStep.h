@@ -39,9 +39,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- The `ORKActiveStep` class is the base class for steps in active tasks, which
- are steps that collect sensor data in a semi-controlled environment, as opposed
- to the purely passive data collection enabled by HealthKit, or the more subjective data
+ A base class for steps in an active task.
+ 
+ Active Steps collect sensor data in a semi-controlled environment, as opposed
+ to the passive data collection enabled by HealthKit, or the more subjective data
  collected when users fill in surveys.
  
  In addition to the behaviors of `ORKStep`, active steps have the concept of

@@ -283,7 +283,7 @@ typedef NS_OPTIONS(NSInteger, ORKPSATPresentationMode) {
 
 
 /**
- Identify the type of passcode authentication for `ORKPasscodeStepViewController`.
+ The type of passcode authentication for passcode view controller.
  */
 typedef NS_ENUM(NSInteger, ORKPasscodeType) {
     /// 4 digit pin entry
@@ -315,8 +315,7 @@ typedef NS_OPTIONS(NSUInteger, ORKPredefinedTaskHandOption) {
 
 
 /**
- The `ORKPredefinedTaskOption` flags let you exclude particular behaviors from the predefined active
- tasks in the predefined category of `ORKOrderedTask`.
+ Flags that exclude particular behaviors from the predefined active tasks.
  
  By default, all predefined tasks include instructions and conclusion steps, and may also include
  one or more data collection recorder configurations. Although not all predefined tasks include all
@@ -354,7 +353,7 @@ typedef NS_OPTIONS(NSUInteger, ORKPredefinedTaskOption) {
 
 
 /**
- Progress indicator type for `ORKWaitStep`.
+ A progress indicator type for the wait step.
  */
 typedef NS_ENUM(NSInteger, ORKProgressIndicatorType) {
     /// Spinner animation.
@@ -450,8 +449,7 @@ ORK_EXTERN ORKTrailMakingTypeIdentifier const ORKTrailMakingTypeIdentifierB;
 
 
 /**
- The `ORKTremorActiveTaskOption` flags let you exclude particular steps from the predefined active
- tasks in the predefined Tremor `ORKOrderedTask`.
+ Flags that let you exclude particular steps from the predefined tremor active task.
  
  By default, all predefined active tasks will be included. The tremor active task option flags can
  be used to explicitly specify that an active task is not to be included.
@@ -478,7 +476,7 @@ typedef NS_OPTIONS(NSUInteger, ORKTremorActiveTaskOption) {
 
 
 /**
- Enums to exclude options from `ORKPDFViewerStep`.
+ Enumerations that exclude options from the PDF viewer step.
  */
 typedef NS_OPTIONS(NSUInteger, ORKPDFViewerActionBarOption) {
     ORKPDFViewerActionBarOptionExcludeThumbnail = 1 << 0,
@@ -545,7 +543,7 @@ typedef NS_ENUM(NSInteger, ORKNavigationContainerButtonStyle) {
 } ORK_ENUM_AVAILABLE;
 
 /**
- An enumeration of the types of button styles for the ORKDontKnowButton.
+ An enumeration of the types of button styles for the "don't know" button.
  */
 typedef NS_ENUM(NSInteger, ORKDontKnowButtonStyle) {
     ORKDontKnowButtonStyleStandard = 0,
