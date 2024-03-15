@@ -1944,15 +1944,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
     
     private var usdzModel: ORKTask {
-        let modelManager = ORKUSDZModelManager(usdzFileName: "sphere_model")
-        modelManager.allowsSelection = true
-        modelManager.enableContinueAfterSelection = true
-        modelManager.highlightColor = .systemBlue
-        
-        let usdzModelStep = ORK3DModelStep(identifier: String(describing: Identifier.usdzModelStep), modelManager: modelManager)
-        usdzModelStep.title = "Example USDZ Model"
-        usdzModelStep.text = "Tap the model to continue"
-        
+        let usdzModelStep = TaskListRowSteps.usdzModelExample
         return ORKOrderedTask(identifier: String(describing: Identifier.usdzModelTask), steps: [usdzModelStep])
     }
 
