@@ -30,7 +30,7 @@
  */
 
 #import <Foundation/Foundation.h>
-@import ResearchKitActiveTask_Private;
+#import <ResearchKitActiveTask/ORKdBHLToneAudiometryStep.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

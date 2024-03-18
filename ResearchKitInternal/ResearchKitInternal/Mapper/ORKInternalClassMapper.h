@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Apple Inc. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,56 +28,74 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import <Foundation/Foundation.h>
 
-#import <ResearchKit/ORKDefines.h>
-#import <ResearchKit/ORKActiveStep.h>
+@class ORKStep;
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_CLASS_AVAILABLE
+@interface ORKInternalClassMapper : NSObject
+
 /**
- This active step programatically mixes the speech file with noise file and applies the filter.
+ Maps and returns the internal subclass of the class passed in.
+ 
+ Returns nil if the class doesn't have an internal counterpart.
  */
-@interface ORKSpeechInNoiseStep : ORKActiveStep
++ (nullable Class)getInternalClassForPublicClass:(Class)class;
 
 /**
- This property accepts the speech file Path.
-*/
-@property (nonatomic, copy, nullable) NSString *speechFilePath;
-
-/**
- This property acceopts the string representation of the speech to be played.
+ Maps and returns the class string for internal subclass
+ of the class passed in.
+ 
+ Returns nil if the class doesn't have an internal counterpart.
  */
-@property (nonatomic, copy, nullable) NSString *targetSentence;
++ (nullable NSString *)getInternalClassStringForPublicClass:(NSString *)class;
 
 /**
- This property accepts the speech file.
+ Maps and returns and instance for internal subclass
+ of the class passed in.
+ 
+ Returns nil if the class doesn't have an internal counterpart.
  */
-@property (nonatomic, copy, nullable) NSString *speechFileNameWithExtension;
++ (nullable id)getInternalInstanceForPublicInstance:(id)class;
 
 /**
- This property accepts the noise file.
+ Throws if a parent of an internal subclass is passed in.
+ 
+ Should only be used when testing.
  */
-@property (nonatomic, copy, nullable) NSString *noiseFileNameWithExtension;
++ (void)throwIfTaskIsNotSanitized:(id)task;
 
 /**
- This property accepts the filter file.
+ Sets a value for the ORKUseInternalClassMapper key for user defautls.
  */
-@property (nonatomic, copy, nullable) NSString *filterFileNameWithExtension;
++ (void)setUseInternalMapperUserDefaultsValue:(BOOL)value;
 
 /**
- The linear gain applied to the noise file before mixing it with the speech file.
+ Boolean value for the ORKUseInternalClassMapper key for user defautls.
  */
-@property (nonatomic, assign) double gainAppliedToNoise;
++ (BOOL)getUseInternalMapperUserDefaultsValue;
 
 /**
- This boolean determines the repetitions of the file.
+ Sets a value for the ORKUseInternalClassMapperThrows key for user defautls.
  */
-@property (nonatomic, assign) BOOL willAudioLoop;
++ (void)setUseInternalMapperThrowsUserDefaultsValue:(BOOL)value;
 
-@property (nonatomic) BOOL hideGraphView;
+/**
+ Boolean value for the ORKUseInternalClassMapper key for user defautls.
+ */
++ (BOOL)getUseInternalMapperThrowsUserDefaultsValue;
+
+/**
+ Removes ORKUseInternalClassMapperThrows key from user defautls.
+ */
++ (void)removeUseInternalMapperUserDefaultsValues;
+
+/**
+ Returns an array of steps and replaces any public classes
+ with its internal counterpart if it has one.
+ */
++ (NSArray<ORKStep *> *)sanitizeOrderedTaskSteps:(NSArray<ORKStep *> *)steps;
 
 @end
 

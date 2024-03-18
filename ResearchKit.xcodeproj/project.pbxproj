@@ -233,6 +233,7 @@
 		51BD8FD529D60FB60001D54E /* volume_curve_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E29189BA23855BA2001AFF0F /* volume_curve_AIRPODSPRO.plist */; };
 		51BD8FD629D60FB60001D54E /* retspl_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E29189BC23855BAE001AFF0F /* retspl_AIRPODSPRO.plist */; };
 		51BD8FD729D60FB60001D54E /* frequency_dBSPL_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = E29189B823855B96001AFF0F /* frequency_dBSPL_AIRPODSPRO.plist */; };
+		51C1732B2BA4C90F006604FB /* ORKIJSONSerializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 51C1732A2BA4C90F006604FB /* ORKIJSONSerializationTests.m */; };
 		51CB80D62AFEBE7E00A1F410 /* ORKFormStepViewControllerConditionalFormItemsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CB80D52AFEBE7E00A1F410 /* ORKFormStepViewControllerConditionalFormItemsTests.swift */; };
 		51CB80D82AFEBEC600A1F410 /* ORKPredicateFormItemVisibilityRuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CB80D72AFEBEC600A1F410 /* ORKPredicateFormItemVisibilityRuleTests.swift */; };
 		51CB80DA2AFEBF3800A1F410 /* ORKFormItemVisibilityRuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CB80D92AFEBF3800A1F410 /* ORKFormItemVisibilityRuleTests.swift */; };
@@ -844,7 +845,7 @@
 		CAA20F3F288B3F6D00EDC764 /* ORKGraphChartAccessibilityElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6146D0A21B84A91E0068491D /* ORKGraphChartAccessibilityElement.m */; };
 		CAA20F40288B3F6D00EDC764 /* UIView+ORKAccessibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 618DA04C1A93D0D600E63AA8 /* UIView+ORKAccessibility.m */; };
 		CAD0896A289DD747007B2A98 /* ResearchKitActiveTask.h in Headers */ = {isa = PBXBuildFile; fileRef = CAD08969289DD747007B2A98 /* ResearchKitActiveTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CAD089BA289DE347007B2A98 /* ORKSpeechInNoiseStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 7118AC7320BF6A7800D7A6BB /* ORKSpeechInNoiseStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		CAD089BA289DE347007B2A98 /* ORKSpeechInNoiseStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 7118AC7320BF6A7800D7A6BB /* ORKSpeechInNoiseStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAD089BB289DE34C007B2A98 /* ORKSpeechInNoiseStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118AC7220BF6A7800D7A6BB /* ORKSpeechInNoiseStep.m */; };
 		CAD089BC289DE351007B2A98 /* ORKSpeechInNoiseResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D5880372410394E005B3D91 /* ORKSpeechInNoiseResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAD089BD289DE356007B2A98 /* ORKSpeechInNoiseResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D5880382410394E005B3D91 /* ORKSpeechInNoiseResult.m */; };
@@ -866,7 +867,7 @@
 		CAD08A11289DE4F5007B2A98 /* ORKdBHLToneAudiometryResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 71769E2820880C4500A19914 /* ORKdBHLToneAudiometryResult.m */; };
 		CAD08A12289DE4F8007B2A98 /* ORKdBHLToneAudiometryOnboardingStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 71769E2B208824D100A19914 /* ORKdBHLToneAudiometryOnboardingStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CAD08A13289DE4FC007B2A98 /* ORKdBHLToneAudiometryOnboardingStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 71769E2C208824D100A19914 /* ORKdBHLToneAudiometryOnboardingStep.m */; };
-		CAD08A14289DE4FF007B2A98 /* ORKdBHLToneAudiometryStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 71769E3720882CED00A19914 /* ORKdBHLToneAudiometryStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		CAD08A14289DE4FF007B2A98 /* ORKdBHLToneAudiometryStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 71769E3720882CED00A19914 /* ORKdBHLToneAudiometryStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAD08A15289DE503007B2A98 /* ORKdBHLToneAudiometryStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 71769E3820882CED00A19914 /* ORKdBHLToneAudiometryStep.m */; };
 		CAD08A17289DE512007B2A98 /* ORKAmslerGridStep.h in Headers */ = {isa = PBXBuildFile; fileRef = BA95AA9420ACD07A00E7FF8E /* ORKAmslerGridStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CAD08A18289DE516007B2A98 /* ORKAmslerGridStep.m in Sources */ = {isa = PBXBuildFile; fileRef = BA95AA9520ACD07A00E7FF8E /* ORKAmslerGridStep.m */; };
@@ -919,7 +920,7 @@
 		CAD08A52289DE662007B2A98 /* ORKAudioStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40AFF1A8D7C5B00081FAC /* ORKAudioStep.m */; };
 		CAD08A53289DE665007B2A98 /* ORKAudioLevelNavigationRule.h in Headers */ = {isa = PBXBuildFile; fileRef = FF36A48B1D1A0ACA00DE8470 /* ORKAudioLevelNavigationRule.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CAD08A54289DE669007B2A98 /* ORKAudioLevelNavigationRule.m in Sources */ = {isa = PBXBuildFile; fileRef = FF36A48C1D1A0ACA00DE8470 /* ORKAudioLevelNavigationRule.m */; };
-		CAD08A55289DE66E007B2A98 /* ORKSpeechRecognitionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E8070F51FAD217400E4FC7F /* ORKSpeechRecognitionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		CAD08A55289DE66E007B2A98 /* ORKSpeechRecognitionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E8070F51FAD217400E4FC7F /* ORKSpeechRecognitionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAD08A56289DE672007B2A98 /* ORKSpeechRecognitionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8070F61FAD217400E4FC7F /* ORKSpeechRecognitionStep.m */; };
 		CAD08A57289DE675007B2A98 /* ORKSpeechRecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E8070F11FAD217400E4FC7F /* ORKSpeechRecognizer.h */; };
 		CAD08A58289DE678007B2A98 /* ORKSpeechRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8070F21FAD217400E4FC7F /* ORKSpeechRecognizer.m */; };
@@ -1425,6 +1426,7 @@
 		51B94DC62B3254FD0039B0E7 /* CLLocationManager+ResearchKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocationManager+ResearchKit.m"; sourceTree = "<group>"; };
 		51BF30BC247B330900E2E669 /* ORKIconButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIconButton.h; sourceTree = "<group>"; };
 		51BF30BD247B330900E2E669 /* ORKIconButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIconButton.m; sourceTree = "<group>"; };
+		51C1732A2BA4C90F006604FB /* ORKIJSONSerializationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIJSONSerializationTests.m; sourceTree = "<group>"; };
 		51CB80D52AFEBE7E00A1F410 /* ORKFormStepViewControllerConditionalFormItemsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ORKFormStepViewControllerConditionalFormItemsTests.swift; sourceTree = "<group>"; };
 		51CB80D72AFEBEC600A1F410 /* ORKPredicateFormItemVisibilityRuleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ORKPredicateFormItemVisibilityRuleTests.swift; sourceTree = "<group>"; };
 		51CB80D92AFEBF3800A1F410 /* ORKFormItemVisibilityRuleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ORKFormItemVisibilityRuleTests.swift; sourceTree = "<group>"; };
@@ -2649,6 +2651,7 @@
 				51AF19542B583BB900D3B399 /* samples.bundle */,
 				51AF19532B583BB900D3B399 /* ORKDataCollectionTests.m */,
 				51AF19562B583BBA00D3B399 /* ORKJSONSerializationTests.m */,
+				51C1732A2BA4C90F006604FB /* ORKIJSONSerializationTests.m */,
 			);
 			name = ORKESerializationTests;
 			sourceTree = "<group>";
@@ -5499,6 +5502,7 @@
 				1490DCF8224D4550003FEEDA /* ORKVideoInstructionStepResultTests.swift in Sources */,
 				86CC8EB41AC09383001CCD89 /* ORKChoiceAnswerFormatHelperTests.m in Sources */,
 				2EBFE1201AE1B74100CB8254 /* ORKVoiceEngineTests.m in Sources */,
+				51C1732B2BA4C90F006604FB /* ORKIJSONSerializationTests.m in Sources */,
 				51AF19662B583D0F00D3B399 /* ORKESerialization.m in Sources */,
 				BCAD50E81B0201EE0034806A /* ORKTaskTests.m in Sources */,
 				CA0AC56928BD4FAC00E80040 /* ORKStepViewControllerHelpers.swift in Sources */,

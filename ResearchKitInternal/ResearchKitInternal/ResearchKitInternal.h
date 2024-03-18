@@ -37,6 +37,8 @@
 #import <ResearchKitInternal/ORKIEnvironmentSPLMeterStep.h>
 #import <ResearchKitInternal/ORKIInstructionStep.h>
 #import <ResearchKitInternal/ORKIInstructionStepViewController.h>
+#import <ResearchKitInternal/ORKINavigableOrderedTask.h>
+#import <ResearchKitInternal/ORKIOrderedTask.h>
 #import <ResearchKitInternal/ORKIQuestionStep.h>
 #import <ResearchKitInternal/ORKIQuestionStepViewController.h>
 #import <ResearchKitInternal/ORKISpeechInNoiseStep.h>
@@ -58,6 +60,7 @@
 #import <ResearchKitInternal/ORKHeadphoneDetectStepViewController.h>
 #import <ResearchKitInternal/ORKHeadphonesRequiredCompletionStep.h>
 #import <ResearchKitInternal/ORKHeadphonesRequiredCompletionStepViewController.h>
+#import <ResearchKitInternal/ORKInternalClassMapper.h>
 #import <ResearchKitInternal/ORKNewAudiometryMinimizer.h>
 #import <ResearchKitInternal/ORKOrderedTask+ResearchKitInternal.h>
 #import <ResearchKitInternal/ORKTinnitusMaskingSoundResult.h>

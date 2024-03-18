@@ -647,7 +647,15 @@ static ORKESerializableProperty *imagePropertyObject(NSString *propertyName,
 @end
 
 static id propFromDict(NSDictionary *dict, NSString *propName, ORKESerializationContext *context) {
-    NSArray *classEncodings = classEncodingsForClass(NSClassFromString(dict[_ClassKey]));
+    Class class = NSClassFromString(dict[_ClassKey]);
+#if ORK_FEATURE_INTERNAL_CLASS_MAPPER
+    class = [ORKInternalClassMapper getInternalClassForPublicClass:class] ?: class;
+#else
+    if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES) {
+        class = [ORKInternalClassMapper getInternalClassForPublicClass:class] ?: class;
+    }
+#endif
+    NSArray *classEncodings = classEncodingsForClass(class);
     ORKESerializableProperty *propertyEntry = nil;
     for (ORKESerializableTableEntry *classEncoding in classEncodings) {
         
@@ -1154,6 +1162,20 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
                     })),
 #if RK_APPLE_INTERNAL
+           ENTRY(ORKIOrderedTask,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                   ORKIOrderedTask *task = [[ORKIOrderedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
+                                                                                 steps:GETPROP(dict, steps)];
+                   return task;
+                 },
+                 (@{})),
+           ENTRY(ORKINavigableOrderedTask,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                   ORKINavigableOrderedTask *task = [[ORKINavigableOrderedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
+                                                                                                   steps:GETPROP(dict, steps)];
+                    return task;
+                 },
+                 (@{})),
            ENTRY(ORKIdBHLToneAudiometryResult,
                  nil,
                  (@{
@@ -2809,7 +2831,7 @@ static id objectForJsonObject(id input,
                               ORKESerializationJSONToObjectBlock converterBlock,
                               ORKESerializationContext *context) {
     id output = nil;
-    
+    // not sure what this converter block is for
     if (converterBlock != nil) {
         input = converterBlock(input, context);
         if (input == nil) {
@@ -2820,13 +2842,32 @@ static id objectForJsonObject(id input,
     
     id<ORKESerializationLocalizer> localizer = context.localizer;
     id<ORKESerializationStringInterpolator> stringInterpolator = context.stringInterpolator;
-
+    
+#if ORK_FEATURE_INTERNAL_CLASS_MAPPER
+    if (expectedClass != nil) {
+        expectedClass = [ORKInternalClassMapper getInternalClassForPublicClass:expectedClass] ?: expectedClass;
+    }
+#else
+    if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES && expectedClass != nil) {
+        expectedClass = [ORKInternalClassMapper getInternalClassForPublicClass:expectedClass] ?: expectedClass;
+    }
+#endif
+    // not sure where and how this expected class is used. Maybe if this is called recursively or something
+    // might need to convert expected class to internal version here.
     if (expectedClass != nil && [input isKindOfClass:expectedClass]) {
         // Input is already of the expected class, do nothing
         output = input;
     } else if ([input isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dict = (NSDictionary *)input;
-        NSString *className = input[_ClassKey];
+        NSString *className = input[_ClassKey]; // todo: might be a spot to convert class
+        
+#if ORK_FEATURE_INTERNAL_CLASS_MAPPER
+        className = [ORKInternalClassMapper getInternalClassStringForPublicClass:className] ?: className;
+#else
+        if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES) {
+            className = [ORKInternalClassMapper getInternalClassStringForPublicClass:className] ?: className;
+        }
+#endif
         
         ORKESerializationPropertyInjector *propertyInjector = context.propertyInjector;
         if (propertyInjector != nil) {

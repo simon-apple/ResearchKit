@@ -1,5 +1,6 @@
+//
 /*
- Copyright (c) 2018, Apple Inc. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,36 +29,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-#import <Foundation/Foundation.h>
-
-#import <ResearchKit/ORKActiveStep.h>
-
+#import <ResearchKit/ResearchKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_CLASS_AVAILABLE
-@interface ORKSpeechRecognitionStep : ORKActiveStep
-
-/**
- The language for speech recognition
- 
- The default value of this property is @"en-US".
- */
-@property (nonatomic, copy) ORKSpeechRecognizerLocale speechRecognizerLocale;
-
-/**
- The property to hide transcription as the user speaks. 
- */
-@property (nonatomic) BOOL shouldHideTranscript;
-
-- (instancetype) initWithIdentifier:(NSString *)identifier image:(nullable UIImage *)image text:(nullable NSString *)text;
-
-- (nullable UIImage *)speechRecognitionImage;
-
-- (nullable NSString *)speechRecognitionText;
+@interface ORKIJSONSerializationTests : ORKOrderedTask
 
 @end
 
 NS_ASSUME_NONNULL_END
-

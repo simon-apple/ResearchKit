@@ -83,6 +83,15 @@ BOOL ORKIsResearchKitClass(Class class) {
    classesToExclude = [classesToExclude arrayByAddingObjectsFromArray:blePeripheralsClasses];
 #endif
     
+#if RK_APPLE_INTERNAL
+    NSArray<NSString *> *excludedJSONFiles = @[
+        @"mapper_navigableTaskExample1",
+        @"mapper_ras_acute_environment"
+    ];
+   
+   classesToExclude = [classesToExclude arrayByAddingObjectsFromArray:excludedJSONFiles];
+#endif
+    
     return classesToExclude;
 }
 

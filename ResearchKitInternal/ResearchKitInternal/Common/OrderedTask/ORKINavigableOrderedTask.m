@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2018, Apple Inc. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,36 +28,22 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "ORKINavigableOrderedTask.h"
 
-#import <Foundation/Foundation.h>
+#import "ORKInternalClassMapper.h"
 
-#import <ResearchKit/ORKActiveStep.h>
+@implementation ORKINavigableOrderedTask
 
-
-NS_ASSUME_NONNULL_BEGIN
-
-ORK_CLASS_AVAILABLE
-@interface ORKSpeechRecognitionStep : ORKActiveStep
-
-/**
- The language for speech recognition
- 
- The default value of this property is @"en-US".
- */
-@property (nonatomic, copy) ORKSpeechRecognizerLocale speechRecognizerLocale;
-
-/**
- The property to hide transcription as the user speaks. 
- */
-@property (nonatomic) BOOL shouldHideTranscript;
-
-- (instancetype) initWithIdentifier:(NSString *)identifier image:(nullable UIImage *)image text:(nullable NSString *)text;
-
-- (nullable UIImage *)speechRecognitionImage;
-
-- (nullable NSString *)speechRecognitionText;
+- (instancetype)initWithIdentifier:(NSString *)identifier steps:(NSArray<ORKStep *> *)steps {
+#if ORK_FEATURE_INTERNAL_CLASS_MAPPER
+    steps = [ORKInternalClassMapper sanitizeOrderedTaskSteps:steps];
+#else
+    if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES) {
+        steps = [ORKInternalClassMapper sanitizeOrderedTaskSteps:steps];
+    }
+#endif
+    self = [super initWithIdentifier:identifier steps:steps];
+    return self;
+}
 
 @end
-
-NS_ASSUME_NONNULL_END
-

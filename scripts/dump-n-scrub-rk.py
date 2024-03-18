@@ -71,8 +71,13 @@ class File(object):
         
     def remove_watch_os_flag(self):
         self.remove_internal_flag_with("#if TARGET_OS_WATCH")
+        
+    def remove_class_mapper_flag(self):
+        # This call should also remove references to the ORK_FEATURE_INTERNAL_CLASS_MAPPER_THROWS flag
+        self.remove_internal_flag_with("#if ORK_FEATURE_INTERNAL_CLASS_MAPPER", False)
+        
     
-    def remove_internal_flag_with(self, start_delimeter):
+    def remove_internal_flag_with(self, start_delimeter, keep_else_content=True):
         mid_delimiter = "#else"
         end_delimeter = "#endif"
 
@@ -95,7 +100,7 @@ class File(object):
                         new_content.append(line)
 
                     # if mid_delimiter is found begin collecting lines until end_delimeter is hit
-                    if mid_delimiter in line:
+                    if mid_delimiter in line && keep_else_content:
                         is_else_block_content = True
 
                     if end_delimeter in line:
@@ -198,6 +203,7 @@ class FileHelper(object):
             f.remove_internal_code(start_delimeter=start_comment, end_delimeter=end_comment)
             f.remove_apple_internal_flag()
             f.remove_watch_os_flag()
+            f.remove_class_mapper_flag()
             f.remove_lines_containing("swiftlint")
             f.remove_lines_containing("// TODO:")
             f.remove_lines_containing("RDLS")
@@ -279,7 +285,7 @@ class RKScrubber():
         self.project_file_path = "../ResearchKit.xcodeproj/project.pbxproj"
         self.folders_to_remove = ["PrivateHeaders", "Scrubbers", "ResearchKitCore", "ResearchKitCore-(watchOS)", "PredefinedTaskResources"]
         self.json_keys_to_remove = ["scrubberNames", "discreteUnits", "fitMatrix", "algorithmVersion"]
-        self.json_files_to_remove = ["ORKAVJournalingStep.json", "ORKAVJournalingResult.json", "ORKAVJournalingPredefinedTask.json", "ORKTinnitusPredefinedTask.json", "ORKTinnitusUnit.json", "ORKTinnitusTypeStep.json", "ORKTinnitusTypeResult.json", "ORKTinnitusVolumeResult.json", "ORKTinnitusPureToneStep.json", "ORKTinnitusPureToneResult.json", "ORKTinnitusMaskingSoundStep.json", "ORKTinnitusMaskingSoundResult.json", "ORKTinnitusOverallAssessmentStep.json", "ORKTinnitusOverallAssessmentResult.json", "ORKBLEScanPeripheralsStep.json", "ORKBLEScanPeripheralsStepResult.json", "ORKSpeechInNoisePredefinedTask.json", "ORKHeadphoneDetectStep.json", "ORKHeadphoneDetectResult.json", "ORKHeadphonesRequiredCompletionStep.json", "ORKFaceDetectionStep.json", "ORKVolumeCalibrationStep.json", "ORKdBHLToneAudiometryCompletionStep.json", "ORKColorChoice.json", "ORKColorChoiceAnswerFormat.json", "ORKFamilyHistoryResult.json", "ORKFamilyHistoryStep.json", "ORKRelativeGroup.json", "ORKHealthCondition.json", "ORKRelatedPerson.json", "ORKConditionStepConfiguration.json", "ORKIdBHLToneAudiometryStep.json", "ORKISpeechInNoiseStep.json","ORKIEnvironmentSPLMeterStep.json","ORKISpeechRecognitionStep.json","ORKICompletionStep.json","ORKIInstructionStep.json","ORKIdBHLToneAudiometryResult.json","ORKIQuestionStep.json","ORKTypingStep.json","ORKTypingResult.json","ORKAgeAnswerFormat.json"]
+        self.json_files_to_remove = ["ORKAVJournalingStep.json", "ORKAVJournalingResult.json", "ORKAVJournalingPredefinedTask.json", "ORKTinnitusPredefinedTask.json", "ORKTinnitusUnit.json", "ORKTinnitusTypeStep.json", "ORKTinnitusTypeResult.json", "ORKTinnitusVolumeResult.json", "ORKTinnitusPureToneStep.json", "ORKTinnitusPureToneResult.json", "ORKTinnitusMaskingSoundStep.json", "ORKTinnitusMaskingSoundResult.json", "ORKTinnitusOverallAssessmentStep.json", "ORKTinnitusOverallAssessmentResult.json", "ORKBLEScanPeripheralsStep.json", "ORKBLEScanPeripheralsStepResult.json", "ORKSpeechInNoisePredefinedTask.json", "ORKHeadphoneDetectStep.json", "ORKHeadphoneDetectResult.json", "ORKHeadphonesRequiredCompletionStep.json", "ORKFaceDetectionStep.json", "ORKVolumeCalibrationStep.json", "ORKdBHLToneAudiometryCompletionStep.json", "ORKColorChoice.json", "ORKColorChoiceAnswerFormat.json", "ORKFamilyHistoryResult.json", "ORKFamilyHistoryStep.json", "ORKRelativeGroup.json", "ORKHealthCondition.json", "ORKRelatedPerson.json", "ORKConditionStepConfiguration.json", "ORKIdBHLToneAudiometryStep.json", "ORKISpeechInNoiseStep.json","ORKIEnvironmentSPLMeterStep.json","ORKISpeechRecognitionStep.json","ORKICompletionStep.json","ORKIInstructionStep.json","ORKIdBHLToneAudiometryResult.json","ORKIQuestionStep.json","ORKTypingStep.json","ORKTypingResult.json","ORKAgeAnswerFormat.json","mapper_navigableTaskExample1.json", "mapper_ras_acute_environment.json", "ORKIOrderedTask.json", "ORKINavigableOrderedTask.json"]
 
     def scrub_project(self):
         # gather all files from project

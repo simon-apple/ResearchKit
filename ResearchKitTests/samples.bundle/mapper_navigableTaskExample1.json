@@ -1,0 +1,1835 @@
+{
+    "_class": "ORKNavigableOrderedTask",
+    "identifier": "a971ba39-3d42-4223-b355-744d73cf2f44",
+    "steps": [
+        {
+            "_class": "ORKInstructionStep",
+            "detailText": "",
+            "iconImage": {
+                "imageName": "EnrolledWomensHealth.png",
+                "imageSource": "bundle"
+            },
+            "identifier": "e2acf87f-d2c1-4525-ae6e-92bf83455f28",
+            "optional": 0,
+            "text": "Thank you for participating in the Apple Women\u2019s Health Study.\n\nMany things can influence your periods, including different hormones. This survey will ask about symptoms that may be related to your hormone levels. If you are taking medications that may change your body or cycles, like contraceptives or transgender hormone therapy, provide answers about your symptoms before you started these treatments.",
+            "title": "Hormonal Symptoms"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "52f802a2-9808-4558-b7d7-254f1a20908e-header",
+                    "showsProgress": true,
+                    "text": "What is your current height?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKHeightAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "showDontKnowButton": 1
+                    },
+                    "identifier": "52f802a2-9808-4558-b7d7-254f1a20908e",
+                    "optional": 0,
+                    "placeholder": "Add height",
+                    "showsProgress": true
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "9f7ae3d2-2f20-403d-a926-ba648ce15234-header",
+                    "showsProgress": true,
+                    "text": "What is your current weight?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKWeightAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "defaultValue": 185,
+                        "maximumValue": 800,
+                        "measurementSystem": 2,
+                        "minimumValue": 40,
+                        "showDontKnowButton": 1
+                    },
+                    "identifier": "9f7ae3d2-2f20-403d-a926-ba648ce15234",
+                    "optional": 0,
+                    "placeholder": "Add weight",
+                    "showsProgress": true
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "identifier": "5cbb5a49-809d-459a-8c6e-fa75301f2a6b-header",
+                    "showsProgress": true,
+                    "text": "In a typical year how many periods would you have?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I don\u2019t know / I prefer not to answer",
+                        "maximum": 24,
+                        "maximumFractionDigits": 0,
+                        "minimum": 0,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": ""
+                    },
+                    "identifier": "5cbb5a49-809d-459a-8c6e-fa75301f2a6b",
+                    "optional": 0,
+                    "placeholder": "18",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "dcdde215-27b8-4bab-b6cc-7d9ca5455d32",
+            "optional": 0,
+            "text": "",
+            "title": "Vitals"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKTextChoiceAnswerFormat",
+                        "style": "multipleChoice",
+                        "textChoices": [
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Upper lip",
+                                "value": "upper_lip"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Chin",
+                                "value": "chin"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Breasts",
+                                "value": "breasts"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Chest between the breasts",
+                                "value": "chest_between_breasts"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Back",
+                                "value": "back"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Abdomen",
+                                "value": "abdomen"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Upper arms",
+                                "value": "upper_arms"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Upper thighs",
+                                "value": "upper_thighs"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 1,
+                                "text": "None of the above",
+                                "value": "none-of_the_above"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 1,
+                                "text": "I don\u2019t know",
+                                "value": "don\u2019t_know"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 1,
+                                "text": "I prefer not to answer",
+                                "value": "prefer_not_to_answer"
+                            }
+                        ]
+                    },
+                    "identifier": "e8bc4a36-cf2e-4781-92a7-94238553f519",
+                    "optional": 0,
+                    "showsProgress": true,
+                    "text": "Do you typically grow thick, coarse, and dark hair on any of these parts of your body?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKTextChoiceAnswerFormat",
+                        "style": "singleChoice",
+                        "textChoices": [
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "More hair",
+                                "value": "more_hair"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Less hair",
+                                "value": "less_hair"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "About the same",
+                                "value": "same_hair"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "I don\u2019t know",
+                                "value": "don\u2019t_know"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "I prefer not to answer",
+                                "value": "prefer_not_to_answer"
+                            }
+                        ]
+                    },
+                    "identifier": "0d888011-c963-46c7-ad00-b23469fbbbfd",
+                    "optional": 0,
+                    "showsProgress": true,
+                    "text": "How much hair do you have on your body compared to females in your family?"
+                }
+            ],
+            "identifier": "c1c43e17-b861-49e2-8e04-575bf6daf74d",
+            "optional": 0,
+            "text": "",
+            "title": "Hair Growth"
+        },
+        {
+            "_class": "ORKQuestionStep",
+            "answerFormat": {
+                "_class": "ORKTextChoiceAnswerFormat",
+                "style": "singleChoice",
+                "textChoices": [
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "None",
+                        "value": "none"
+                    },
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "A few",
+                        "value": "a_few"
+                    },
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "Several",
+                        "value": "several"
+                    },
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "A lot",
+                        "value": "a_lot"
+                    },
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "I prefer not to answer",
+                        "value": "prefer_not_to_answer"
+                    }
+                ]
+            },
+            "detailText": "",
+            "identifier": "266f3264-5b14-410f-8203-ec15c1b1a15f",
+            "optional": 0,
+            "question": "How much coarse or thick hair do you have on your upper lip?",
+            "title": "Hair Growth Upper Lip"
+        },
+        {
+            "_class": "ORKQuestionStep",
+            "answerFormat": {
+                "_class": "ORKTextChoiceAnswerFormat",
+                "style": "singleChoice",
+                "textChoices": [
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "None",
+                        "value": "none"
+                    },
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "A few",
+                        "value": "a_few"
+                    },
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "Several",
+                        "value": "several"
+                    },
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "A lot",
+                        "value": "a_lot"
+                    },
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "I prefer not to answer",
+                        "value": "prefer_not_to_answer"
+                    }
+                ]
+            },
+            "detailText": "",
+            "identifier": "cd7d1c46-a538-41d6-b4c7-7b3874d3654f",
+            "optional": 0,
+            "question": "How much coarse or thick hair do you have on your chin?",
+            "title": "Hair Growth Chin"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKTextChoiceAnswerFormat",
+                        "style": "singleChoice",
+                        "textChoices": [
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Daily",
+                                "value": "daily"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Weekly",
+                                "value": "weekly"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "A few times a month",
+                                "value": "few_times_a_month"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Monthly",
+                                "value": "monthly"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Every few months",
+                                "value": "every_few_months"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Never",
+                                "value": "never"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "I don\u2019t know",
+                                "value": "don\u2019t_know"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "I prefer not to answer",
+                                "value": "prefer_not_to_answer"
+                            }
+                        ]
+                    },
+                    "identifier": "97d07636-3089-4339-b8fa-c6329ef29d08",
+                    "optional": 0,
+                    "showsProgress": true,
+                    "text": "How frequently do you remove hair from these parts of your body?"
+                }
+            ],
+            "identifier": "b97c6421-780f-4a2a-9cef-91fec4381eb8",
+            "optional": 0,
+            "text": "These questions are about hair growth on your upper lip, chin, breasts, chest, back, abdomen, upper arms, or upper thighs. These questions are not about your eyebrows, under arms, or pubic hair.",
+            "title": "Hair Growth"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKTextChoiceAnswerFormat",
+                        "style": "multipleChoice",
+                        "textChoices": [
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Temples or sides of my forehead",
+                                "value": "temple_sides_forehead"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Top of my head",
+                                "value": "top_my_head"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Hairline",
+                                "value": "hairline"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Random, small patches across my head",
+                                "value": "random_patches"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Across my whole head",
+                                "value": "whole_head"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 1,
+                                "text": "None of the above",
+                                "value": "none_of_the_above"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 1,
+                                "text": "I don\u2019t know",
+                                "value": "don\u2019t_know"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 1,
+                                "text": "I prefer not to answer",
+                                "value": "prefer_not_to_answer"
+                            }
+                        ]
+                    },
+                    "identifier": "c1d5f593-053c-4f8b-a5e0-0ad0af72a1cc",
+                    "optional": 0,
+                    "showsProgress": true,
+                    "text": "Do you experience hair loss from any of these parts of your head?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKTextChoiceAnswerFormat",
+                        "style": "singleChoice",
+                        "textChoices": [
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "More hair loss",
+                                "value": "more_hair_loss"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Less hair loss",
+                                "value": "less_hair_loss"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "About the same",
+                                "value": "about_same"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "I don\u2019t know",
+                                "value": "don\u2019t_know"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "I prefer not to answer",
+                                "value": "prefer_not_to_answer"
+                            }
+                        ]
+                    },
+                    "identifier": "432ab281-d4d4-4e73-b163-2fa4c7526753",
+                    "optional": 0,
+                    "showsProgress": true,
+                    "text": "How much hair loss do you experience compared to females your age?"
+                }
+            ],
+            "identifier": "f6dc6b9f-0416-4cd2-814f-64daa697a427",
+            "optional": 0,
+            "text": "",
+            "title": "Hair Loss"
+        },
+        {
+            "_class": "ORKQuestionStep",
+            "answerFormat": {
+                "_class": "ORKTextChoiceAnswerFormat",
+                "style": "singleChoice",
+                "textChoices": [
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "Thick",
+                        "value": "thick"
+                    },
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "Thin hair with widening part",
+                        "value": "thin_hair_widening_part"
+                    },
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "Thin hair with widening part and some scalp showing",
+                        "value": "thin_hair_wide_part_scalp"
+                    },
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "Significantly reduced hair and more scalp showing",
+                        "value": "significant_reduce_hair_more_scalp"
+                    },
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "Scalp mostly visible",
+                        "value": "scalp_mostly_visible"
+                    },
+                    {
+                        "_class": "ORKTextChoice",
+                        "exclusive": 0,
+                        "text": "I prefer not to answer",
+                        "value": "prefer_not_to_answer"
+                    }
+                ]
+            },
+            "detailText": "",
+            "identifier": "6071b538-8da9-4803-8f52-ae87c5f9323e",
+            "optional": 0,
+            "question": "How would you describe the thickness of your hair on top of your head?",
+            "title": "Hair Loss"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKTextChoiceAnswerFormat",
+                        "style": "singleChoice",
+                        "textChoices": [
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Yes",
+                                "value": "yes"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "No",
+                                "value": "no"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "I don\u2019t know",
+                                "value": "don\u2019t_know"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "I prefer not to answer",
+                                "value": "prefer_not_to_answer"
+                            }
+                        ]
+                    },
+                    "identifier": "6e95cc2e-78d3-4b0a-983f-d51a8a8d966e",
+                    "optional": 0,
+                    "showsProgress": true,
+                    "text": "Do you experience acne as an adult?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKTextChoiceAnswerFormat",
+                        "style": "singleChoice",
+                        "textChoices": [
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "More acne",
+                                "value": "more_acne"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Less acne",
+                                "value": "less_acne"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "About the same",
+                                "value": "same"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "I don\u2019t know",
+                                "value": "don\u2019t_know"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "I prefer not to answer",
+                                "value": "prefer_not_to_answer"
+                            }
+                        ]
+                    },
+                    "identifier": "2c6317bd-fe17-4b97-9f4f-f06e51930009",
+                    "optional": 0,
+                    "showsProgress": true,
+                    "text": "How much acne do you experience compared to females your age?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKTextChoiceAnswerFormat",
+                        "style": "multipleChoice",
+                        "textChoices": [
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 1,
+                                "text": "No acne",
+                                "value": "no_acne"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Small, raised pimples",
+                                "value": "small_raised_pimples"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Red, irritated pimples",
+                                "value": "red_irritated_pimples"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Pimples that have pus",
+                                "value": "pimples_have_pus"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Scars from acne",
+                                "value": "scars_from_acne"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 1,
+                                "text": "I don\u2019t know",
+                                "value": "don\u2019t_know"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 1,
+                                "text": "I prefer not to answer",
+                                "value": "prefer_not_to_answer"
+                            }
+                        ]
+                    },
+                    "identifier": "3f8e4207-8579-45d8-81f0-85e9c9f7f7d5",
+                    "learnMoreItem": {
+                        "_class": "ORKLearnMoreItem",
+                        "learnMoreInstructionStep": {
+                            "_class": "ORKLearnMoreInstructionStep",
+                            "detailText": "",
+                            "identifier": "c2b7c812-83f2-4e93-b03f-ed6ee8777541",
+                            "text": "Acne, which is also called pimples or zits, is a skin condition that occurs when follicles are plugged with oil, bacteria, or dead skin cells.",
+                            "title": "What is acne?"
+                        }
+                    },
+                    "optional": 0,
+                    "showsProgress": true,
+                    "text": "Thinking about your face or back, how would you describe your skin?"
+                }
+            ],
+            "identifier": "ed8fa3d8-ee68-41aa-85ee-b0651aec9d25",
+            "optional": 0,
+            "text": "",
+            "title": "Acne"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKTextChoiceAnswerFormat",
+                        "style": "singleChoice",
+                        "textChoices": [
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Yes",
+                                "value": "yes"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "No",
+                                "value": "no"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "I don\u2019t know",
+                                "value": "don\u2019t_know"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "I prefer not to answer",
+                                "value": "prefer_not_to_answer"
+                            }
+                        ]
+                    },
+                    "identifier": "2e5b9451-11f1-4d89-9a6c-eaa2a96d760e",
+                    "optional": 0,
+                    "showsProgress": true,
+                    "text": "Have you experienced milky or white discharge from one or both nipples at a time when you were not pregnant or lactating?"
+                }
+            ],
+            "identifier": "2f08e90c-522b-49f4-af85-446c276d3f68",
+            "optional": 0,
+            "text": "",
+            "title": "Nipple Discharge"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKTextChoiceAnswerFormat",
+                        "style": "multipleChoice",
+                        "textChoices": [
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Being over your ideal weight",
+                                "value": "over_ideal_weight"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Growth of thick, course, and dark hair on parts of your body",
+                                "value": "course_dark_thick_hair"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Hair loss on your head",
+                                "value": "hair_loss_head"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Acne",
+                                "value": "acne"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Nipple discharge",
+                                "value": "nipple_discharge"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Unpredictable periods",
+                                "value": "unpredictable_periods"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Difficulty detecting ovulation",
+                                "value": "difficult_detect_ovulation"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 1,
+                                "text": "None of the above",
+                                "value": "none_of_the_above"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 1,
+                                "text": "I don\u2019t know",
+                                "value": "don\u2019t_know"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 1,
+                                "text": "I prefer not to answer",
+                                "value": "prefer_not_to_answer"
+                            }
+                        ]
+                    },
+                    "identifier": "26bbc761-e7e2-40ab-aca2-24e1796a8f71",
+                    "optional": 0,
+                    "showsProgress": true,
+                    "text": "Are you troubled by any of the following symptoms?"
+                }
+            ],
+            "identifier": "051d3318-9765-4d95-afe2-fcffced9f31c",
+            "optional": 0,
+            "text": "",
+            "title": "Quality of Life"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKTextChoiceAnswerFormat",
+                        "style": "multipleChoice",
+                        "textChoices": [
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Hyperprolactinemia (high prolactin levels)",
+                                "value": "Hyperprolactinemia"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Hyperthyroidism (high thyroid levels)",
+                                "value": "Hyperthyroidism"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Hypothyroidism (low thyroid levels)",
+                                "value": "Hypothyroidism"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Prediabetes",
+                                "value": "Prediabetes"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Type 1 diabetes",
+                                "value": "Type 1 diabetes"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Type 2 diabetes",
+                                "value": "Type 2 diabetes"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Vitamin D deficiency",
+                                "value": "Vitamin D deficiency"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 1,
+                                "text": "None of the above",
+                                "value": "None of the above"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 1,
+                                "text": "I prefer not to answer",
+                                "value": "Prefer not to answer"
+                            }
+                        ]
+                    },
+                    "detailText": "",
+                    "identifier": "df940dc0-dc0f-44ff-a4de-2ae849bc64de",
+                    "optional": 0,
+                    "showsProgress": true,
+                    "text": "Have you ever been diagnosed with any of the following by a doctor or other care provider?"
+                }
+            ],
+            "identifier": "cf4d0a29-a30c-4427-91b2-547eaf319edb",
+            "optional": 0,
+            "text": "",
+            "title": "Endocrine Conditions"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "236a3171-de00-40a9-964c-08ed3828e35f-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "236a3171-de00-40a9-964c-08ed3828e35f",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "f05f80af-3d60-435e-849e-a49827ab9c19",
+            "optional": 0,
+            "text": "",
+            "title": "Hyperprolactinemia (High Prolactin Levels)"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "0861e42f-863d-40b6-afb4-a5f4900d32f9-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "0861e42f-863d-40b6-afb4-a5f4900d32f9",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "7d3a65f3-9441-4e35-8a43-75a30405244d",
+            "optional": 0,
+            "text": "",
+            "title": "Hyperthyroidism (High Thyroid Levels)"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "6fa4def5-7ef1-4720-b099-09b8ab361343-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "6fa4def5-7ef1-4720-b099-09b8ab361343",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "d25bdc64-5e44-49f2-92af-4fd061dac746",
+            "optional": 0,
+            "text": "",
+            "title": "Hypothyroidism (Low Thyroid Levels)"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "6bf9939e-3712-4a80-bde0-4177de0d456a-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "6bf9939e-3712-4a80-bde0-4177de0d456a",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "4192c7ac-182f-4042-841e-65a520eea6f3",
+            "optional": 0,
+            "text": "",
+            "title": "Prediabetes"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "c59a6d1a-74a9-4302-8f2d-6244f4b0a93b-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "c59a6d1a-74a9-4302-8f2d-6244f4b0a93b",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "7b8eae89-68ce-4531-b5d5-3d60f4a5cdd0",
+            "optional": 0,
+            "text": "",
+            "title": "Type 1 Diabetes"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "bdc0faaa-37c9-46fd-9748-2914ab5e4e5d-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "bdc0faaa-37c9-46fd-9748-2914ab5e4e5d",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "0a443eb0-47b5-4795-ad35-91be4ae52224",
+            "optional": 0,
+            "text": "",
+            "title": "Type 2 Diabetes"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "9736a884-4736-4650-8453-59c684b6b3a8-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "9736a884-4736-4650-8453-59c684b6b3a8",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "9aed2b04-c6cd-4fe4-a03b-e93ffdeab962",
+            "optional": 0,
+            "text": "",
+            "title": "Vitamin D Deficiency"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKTextChoiceAnswerFormat",
+                        "style": "multipleChoice",
+                        "textChoices": [
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Arrhythmia, such as atrial fibrillation (AFib) or atrial flutter",
+                                "value": "Arrhythmia, such as atrial fibrillation (AFib) or atrial flutter"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Congenital heart disease",
+                                "value": "Congenital heart disease"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Congestive heart failure",
+                                "value": "Congestive heart failure"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Coronary artery disease (CAD)",
+                                "value": "Coronary artery disease (CAD)"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Heart attack",
+                                "value": "Heart attack"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Heart valve disease",
+                                "value": "Heart valve disease"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "High cholesterol",
+                                "value": "High cholesterol"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Hypertension (high blood pressure)",
+                                "value": "Hypertension (high blood pressure)"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Stroke",
+                                "value": "Stroke"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Transient ischemic attack (mini-stroke)",
+                                "value": "Transient ischemic attack (mini-stroke)"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 1,
+                                "text": "None of the above",
+                                "value": "None of the above"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 1,
+                                "text": "I prefer not to answer",
+                                "value": "Prefer not to answer"
+                            }
+                        ]
+                    },
+                    "detailText": "",
+                    "identifier": "1e659f9b-101b-4f2a-824f-fb51bc7ba2d4",
+                    "optional": 0,
+                    "showsProgress": true,
+                    "text": "Have you ever been diagnosed with any of the following by a doctor or other care provider?"
+                }
+            ],
+            "identifier": "3faa1d0c-d90d-41d4-b0b0-94b43db24299",
+            "optional": 0,
+            "text": "",
+            "title": "Heart Conditions"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "7a8d712e-d6b5-45a0-89f5-98136b157fd3-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "7a8d712e-d6b5-45a0-89f5-98136b157fd3",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "d6f86653-038d-4c7b-9268-245756126ecb",
+            "optional": 0,
+            "text": "",
+            "title": "Arrhythmia, such as Atrial Fibrillation (AFib) or Atrial Flutter"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "170997b6-cd36-4ac8-95f9-835361b7c829-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "170997b6-cd36-4ac8-95f9-835361b7c829",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "8d950e4b-3308-4353-a598-4ab732fa97bb",
+            "optional": 0,
+            "text": "",
+            "title": "Congenital Heart Disease"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "7a96a5b5-7e81-4d34-9884-79dae63123f9-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "7a96a5b5-7e81-4d34-9884-79dae63123f9",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "1e427a32-7794-40ce-9cec-aa181b0f689e",
+            "optional": 0,
+            "text": "",
+            "title": "Congestive Heart Failure"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "f4aa1ad2-56fa-4fee-a315-23891f4f7b6a-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "f4aa1ad2-56fa-4fee-a315-23891f4f7b6a",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "9064a5ff-248b-4d2f-9207-1428ac9e9f77",
+            "optional": 0,
+            "text": "",
+            "title": "Coronary Artery Disease (CAD)"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "0f851959-5c4e-4992-9c9f-80a259bb4463-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "0f851959-5c4e-4992-9c9f-80a259bb4463",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "cb862eab-3392-4840-8c0a-5827ca6846bd",
+            "optional": 0,
+            "text": "",
+            "title": "Heart Attack"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "d2444614-d40a-434c-9353-ce4bfb84d54d-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "d2444614-d40a-434c-9353-ce4bfb84d54d",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "da4276c2-737d-4101-b16e-d1574d526686",
+            "optional": 0,
+            "text": "",
+            "title": "Heart Valve Disease"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "64cb6289-2453-4344-8af1-c4f3ad462da6-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "64cb6289-2453-4344-8af1-c4f3ad462da6",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "ccc645bc-14c5-437f-b627-ec48fae085d0",
+            "optional": 0,
+            "text": "",
+            "title": "High Cholesterol"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "b268fe9f-ad78-4edc-9619-f4534c773ae3-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "b268fe9f-ad78-4edc-9619-f4534c773ae3",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "427a6e20-2add-49c7-b1be-7fc8a8252f90",
+            "optional": 0,
+            "text": "",
+            "title": "Hypertension (High Blood Pressure)"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "a713f816-3a17-43ba-9502-97b428095338-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "a713f816-3a17-43ba-9502-97b428095338",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "4c085a6b-9223-4186-90d8-448c0c42c52e",
+            "optional": 0,
+            "text": "",
+            "title": "Stroke"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "37bdbecb-3505-445c-9457-942d3e900109-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "37bdbecb-3505-445c-9457-942d3e900109",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "70ba05db-fb93-4002-baba-803d864871e4",
+            "optional": 0,
+            "text": "",
+            "title": "Transient Ischemic Attack (Mini-stroke)"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKTextChoiceAnswerFormat",
+                        "style": "multipleChoice",
+                        "textChoices": [
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Anemia (low blood count)",
+                                "value": "Anemia (low blood count)"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Deep vein thrombosis (blood clots in the veins of the legs)",
+                                "value": "Deep vein thrombosis (blood clots in the veins of the legs)"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Hemophilia (easy bleeding and bruising)",
+                                "value": "Hemophilia (easy bleeding and bruising)"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Pulmonary embolism (blood clots in the veins of the lungs)",
+                                "value": "Pulmonary embolism (blood clots in the veins of the lungs)"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Sickle cell anemia",
+                                "value": "Sickle cell anemia"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 0,
+                                "text": "Thrombophilia (frequent blood clots)",
+                                "value": "Thrombophilia (frequent blood clots)"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 1,
+                                "text": "None of the above",
+                                "value": "None of the above"
+                            },
+                            {
+                                "_class": "ORKTextChoice",
+                                "exclusive": 1,
+                                "text": "I prefer not to answer",
+                                "value": "Prefer not to answer"
+                            }
+                        ]
+                    },
+                    "detailText": "",
+                    "identifier": "645856c6-1b68-4776-9a5d-12adf3a61609",
+                    "optional": 0,
+                    "showsProgress": true,
+                    "text": "Have you ever been diagnosed with any of the following by a doctor or other care provider?"
+                }
+            ],
+            "identifier": "5a6d92fc-f7a0-4833-aa52-c182a8c9b31e",
+            "optional": 0,
+            "text": "",
+            "title": "Blood Conditions"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "82e6ffac-7489-4ca8-beda-b40a43602940-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "82e6ffac-7489-4ca8-beda-b40a43602940",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "ec0e5e3e-c7b1-4eb6-bbeb-b8856eb9bfbd",
+            "optional": 0,
+            "text": "",
+            "title": "Anemia (Low Blood Count)"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "1b7af42c-0a05-459e-a183-956d404bbcbd-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "1b7af42c-0a05-459e-a183-956d404bbcbd",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "25954616-a935-48dd-8c01-4e73a6db6b92",
+            "optional": 0,
+            "text": "",
+            "title": "Deep Vein Thrombosis (Blood Clots in the Veins of the Legs)"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "5e3a7025-a520-471b-90ab-1d71250ad75d-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "5e3a7025-a520-471b-90ab-1d71250ad75d",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "71852794-e1d4-4660-8c47-349cb22ecc60",
+            "optional": 0,
+            "text": "",
+            "title": "Hemophilia (Easy Bleeding and Bruising)"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "c101926a-d037-4c7f-bcea-268001c0864f-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "c101926a-d037-4c7f-bcea-268001c0864f",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "14f24f18-db18-4a80-a061-481b1619c2aa",
+            "optional": 0,
+            "text": "",
+            "title": "Pulmonary Embolism (Blood Clots in Veins of the Lungs)"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "8d178b0c-0d46-4c44-9244-178e31a7bb0a-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "8d178b0c-0d46-4c44-9244-178e31a7bb0a",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "2b2a54c4-41b9-424e-88f5-f8ea7f1a5bfc",
+            "optional": 0,
+            "text": "",
+            "title": "Sickle Cell Anemia"
+        },
+        {
+            "_class": "ORKFormStep",
+            "formItems": [
+                {
+                    "_class": "ORKFormItem",
+                    "detailText": "It\u2019s okay to estimate.",
+                    "identifier": "61109c1a-f798-48e0-99bf-6d1053d6fa41-header",
+                    "showsProgress": true,
+                    "text": "How old were you when you were diagnosed with this condition?"
+                },
+                {
+                    "_class": "ORKFormItem",
+                    "answerFormat": {
+                        "_class": "ORKNumericAnswerFormat",
+                        "customDontKnowButtonText": "I prefer not to answer",
+                        "maximum": 99,
+                        "maximumFractionDigits": 0,
+                        "minimum": 1,
+                        "showDontKnowButton": 1,
+                        "style": "integer",
+                        "unit": "years old"
+                    },
+                    "identifier": "61109c1a-f798-48e0-99bf-6d1053d6fa41",
+                    "optional": 0,
+                    "placeholder": "2",
+                    "showsProgress": true
+                }
+            ],
+            "identifier": "da49a6ac-b702-4a03-9e23-2a1784f60b99",
+            "optional": 0,
+            "text": "",
+            "title": "Thrombophilia (Frequent Blood Clots)"
+        },
+        {
+            "_class": "ORKCompletionStep",
+            "identifier": "2686a538-9231-47d6-8bbc-83c8c12a0d14",
+            "optional": 0,
+            "text": "Thanks again for the vital role you play in the Apple Women\u2019s Health Study.\n\nThis information will help researchers gain valuable insights into menstrual cycles and health.",
+            "title": "Survey Complete"
+        }
+    ]
+}

@@ -1,0 +1,519 @@
+{
+   "_class": "ORKNavigableOrderedTask",
+   "identifier": "7c9d9cce-5327-4a15-aecd-93aab0d6f78f",
+   "steps": [
+       {
+           "_class": "ORKInstructionStep",
+           "detailText": "",
+           "iconImage": {
+               "imageName": "EnrolledHearingHealth.png",
+               "imageSource": "bundle"
+           },
+           "identifier": "9491274f-e8d3-4b60-b6d1-3a322f597841",
+           "optional": 0,
+           "text": "You\u2019re receiving this survey because it appears you were in a loud environment. Please provide some information about where you were and the possible effect on your hearing.",
+           "title": "Introduction"
+       },
+       {
+           "_class": "ORKFormStep",
+           "formItems": [
+               {
+                   "_class": "ORKFormItem",
+                   "answerFormat": {
+                       "_class": "ORKTextChoiceAnswerFormat",
+                       "style": "multipleChoice",
+                       "textChoices": [
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Concert, theater, or performance",
+                               "value": "concert"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Sporting event",
+                               "value": "sportingEvent"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Bar, restaurant, or caf\u00e9",
+                               "value": "bar"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Dance club",
+                               "value": "danceClub"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Fitness class",
+                               "value": "fitness"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Noisy vehicle",
+                               "value": "noiseyVehicle"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Hunting or shooting",
+                               "value": "huntingShooting"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Bicycle or motorcycle ride",
+                               "value": "bikeMoto"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "My workplace",
+                               "value": "workplace"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Wind blowing across watch",
+                               "value": "wind"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Water on watch (rain, shower, pool, etc.)",
+                               "value": "water"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "It was not a loud environment",
+                               "value": "notLoud"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Other",
+                               "value": "other"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 1,
+                               "text": "I don\u2018t know",
+                               "value": "dontKnow"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 1,
+                               "text": "I prefer not to answer",
+                               "value": "ptna"
+                           }
+                       ]
+                   },
+                   "identifier": "53243ec9-669c-4996-acb6-657110408f42",
+                   "optional": 0,
+                   "showsProgress": true,
+                   "text": "How would you describe the environment where the loud sound was detected?"
+               }
+           ],
+           "identifier": "c3d2a80a-bd4e-41f1-b076-5a181820e9c5",
+           "optional": 0,
+           "text": "",
+           "title": "Environment"
+       },
+       {
+           "_class": "ORKFormStep",
+           "formItems": [
+               {
+                   "_class": "ORKFormItem",
+                   "answerFormat": {
+                       "_class": "ORKTextChoiceAnswerFormat",
+                       "style": "singleChoice",
+                       "textChoices": [
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Yes",
+                               "value": "yes"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "No",
+                               "value": "no"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "I prefer not to answer",
+                               "value": "pnta"
+                           }
+                       ]
+                   },
+                   "identifier": "9bcd39e1-94e1-4a92-b8f1-7c0410cf2973",
+                   "optional": 0,
+                   "showsProgress": true,
+                   "text": "Did you wear hearing protection?"
+               }
+           ],
+           "identifier": "0db15fd9-efd5-4145-808d-b0724c784ed1",
+           "optional": 0,
+           "text": "",
+           "title": "Hearing Protection"
+       },
+       {
+           "_class": "ORKFormStep",
+           "formItems": [
+               {
+                   "_class": "ORKFormItem",
+                   "answerFormat": {
+                       "_class": "ORKTextChoiceAnswerFormat",
+                       "style": "singleChoice",
+                       "textChoices": [
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Yes",
+                               "value": "yes"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "No",
+                               "value": "no"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "I don\u2018t know",
+                               "value": "dontKnow"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "I prefer not to answer",
+                               "value": "pnta"
+                           }
+                       ]
+                   },
+                   "detailText": "Tinnitus can sound like ringing, whistling, buzzing, or roaring in your ears.",
+                   "identifier": "498a3787-0d6f-4fda-91e1-9e03cd0b8c1c",
+                   "optional": 0,
+                   "showsProgress": true,
+                   "text": "Did you experience any tinnitus?"
+               }
+           ],
+           "identifier": "10e0bebd-7d84-459a-84f7-0f0a4d1d50aa",
+           "optional": 0,
+           "text": "",
+           "title": "Tinnitus"
+       },
+       {
+           "_class": "ORKFormStep",
+           "formItems": [
+               {
+                   "_class": "ORKFormItem",
+                   "answerFormat": {
+                       "_class": "ORKTextChoiceAnswerFormat",
+                       "style": "singleChoice",
+                       "textChoices": [
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Less than a few seconds",
+                               "value": "lessFewSec"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "A few seconds to a minute",
+                               "value": "fewSecMic"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "A few minutes to an hour",
+                               "value": "fewMinHour"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "A few hours",
+                               "value": "hoursDays"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "It is constant",
+                               "value": "constant"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "I prefer not to answer",
+                               "value": "pnta"
+                           }
+                       ]
+                   },
+                   "detailText": "",
+                   "identifier": "82b72996-5f1d-4f17-a813-57397fd81027",
+                   "optional": 0,
+                   "showsProgress": true,
+                   "text": "How long did the tinnitus last?"
+               }
+           ],
+           "identifier": "a809dc63-adb4-43c2-bd3f-ea415c30d3f8",
+           "optional": 0,
+           "text": "",
+           "title": "Tinnitus"
+       },
+       {
+           "_class": "ORKFormStep",
+           "formItems": [
+               {
+                   "_class": "ORKFormItem",
+                   "answerFormat": {
+                       "_class": "ORKTextChoiceAnswerFormat",
+                       "style": "singleChoice",
+                       "textChoices": [
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Extremely loud",
+                               "value": "extremelyLoud"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Very loud",
+                               "value": "veryLoud"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Moderately loud",
+                               "value": "moderatelyLoud"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Not very loud",
+                               "value": "notVeryLoud"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Barely noticeable",
+                               "value": "barelyNoticed"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "I prefer not to answer",
+                               "value": "pnta"
+                           }
+                       ]
+                   },
+                   "detailText": "",
+                   "identifier": "528fa7fe-5124-4b74-befd-322712f6f6d9",
+                   "optional": 0,
+                   "showsProgress": true,
+                   "text": "How loud was the tinnitus?"
+               }
+           ],
+           "identifier": "b17d4244-aa8e-41d7-9287-cc12338a8809",
+           "optional": 0,
+           "text": "",
+           "title": "Tinnitus"
+       },
+       {
+           "_class": "ORKFormStep",
+           "formItems": [
+               {
+                   "_class": "ORKFormItem",
+                   "answerFormat": {
+                       "_class": "ORKTextChoiceAnswerFormat",
+                       "style": "singleChoice",
+                       "textChoices": [
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "Yes",
+                               "value": "yes"
+                           },
+                           {
+                               "_class": "ORKTextChoice",
+                               "exclusive": 0,
+                               "text": "No",
+                               "value": "no"
+                           }
+                       ]
+                   },
+                   "detailText": "This is a shortened tone exercise that plays two different tones in each ear.",
+                   "identifier": "9cde954f-55d0-49ba-8095-a9131d6efd3a",
+                   "optional": 0,
+                   "showsProgress": true,
+                   "text": "Are you willing to complete a two minute tone listening exercise?"
+               }
+           ],
+           "identifier": "a0423eb9-c1eb-4289-80b4-85d3e3bebe54",
+           "optional": 0,
+           "text": "",
+           "title": "Tone Exercise"
+       },
+       {
+           "_class": "ORKInstructionStep",
+           "bodyItems": [
+               {
+                   "_class": "ORKBodyItem",
+                   "bodyItemStyle": 2,
+                   "detailText": "",
+                   "image": {
+                       "imageName": "tuningfork",
+                       "imageSource": "bundle"
+                   },
+                   "text": "You will hear a series of tones.",
+                   "useSecondaryColor": 0
+               },
+               {
+                   "_class": "ORKBodyItem",
+                   "bodyItemStyle": 2,
+                   "detailText": "",
+                   "image": {
+                       "imageName": "largecircle.fill.circle",
+                       "imageSource": "bundle"
+                   },
+                   "text": "When you hear a tone, tap on the button.",
+                   "useSecondaryColor": 0
+               },
+               {
+                   "_class": "ORKBodyItem",
+                   "bodyItemStyle": 2,
+                   "detailText": "",
+                   "image": {
+                       "imageName": "speaker.2.fill",
+                       "imageSource": "bundle"
+                   },
+                   "text": "For this test, volume will be set to 50 percent.",
+                   "useSecondaryColor": 0
+               }
+           ],
+           "identifier": "id1",
+           "text": "This test identifies how loud a sound needs to be in order for you to hear it.",
+           "title": "Tone Exercise"
+       },
+       {
+           "_class": "ORKInstructionStep",
+           "bodyItems": [
+               {
+                   "_class": "ORKBodyItem",
+                   "bodyItemStyle": 2,
+                   "detailText": "",
+                   "image": {
+                       "imageName": "1.circle.fill",
+                       "imageSource": "bundle"
+                   },
+                   "text": "Connect Apple AirPods Max, AirPods Pro, AirPods or EarPods.",
+                   "useSecondaryColor": 0
+               },
+               {
+                   "_class": "ORKBodyItem",
+                   "bodyItemStyle": 2,
+                   "detailText": "",
+                   "image": {
+                       "imageName": "2.circle.fill",
+                       "imageSource": "bundle"
+                   },
+                   "text": "Look for a quiet environment before starting this test.",
+                   "useSecondaryColor": 0
+               }
+           ],
+           "identifier": "id2",
+           "text": "To take this test, you'll need to do the following:",
+           "title": "Before you start"
+       },
+       {
+           "_class": "ORKHeadphoneDetectStep",
+           "headphoneTypes": 0,
+           "identifier": "headphoneDetectStep",
+           "text": "To ensure accurate results, this task requires Apple AirPods Max, AirPods Pro, AirPods or EarPods.",
+           "title": "Connect your Headphones"
+       },
+       {
+           "_class": "ORKEnvironmentSPLMeterStep",
+           "identifier": "splStep",
+           "requiredContiguousSamples": 5,
+           "samplingInterval": 2.0,
+           "text": "To ensure accuracy, this test should be taken in a quiet environment.",
+           "thresholdValue": 45.0,
+           "title": "Find a quiet place"
+       },
+       {
+           "_class": "ORKInstructionStep",
+           "centerImageVertically": 1,
+           "identifier": "rightEarInstruction",
+           "image": {
+               "imageName": "tone-audiometry-right-ear.png",
+               "imageSource": "bundle"
+           },
+           "title": "Tones will play in your right ear first."
+       },
+       {
+           "_class": "ORKdBHLToneAudiometryStep",
+           "algorithm": 0,
+           "earPreference": 1,
+           "frequencyList": [
+               1000,
+               4000
+           ],
+           "identifier": "dbhl1",
+           "initialdBHLValue": 35.0,
+           "maxRandomPreStimulusDelay": 2.0,
+           "title": "Tap the button when you hear a tone.",
+           "toneDuration": 1.0
+       },
+       {
+           "_class": "ORKInstructionStep",
+           "centerImageVertically": 1,
+           "identifier": "leftEarInstruction",
+           "image": {
+               "imageName": "tone-audiometry-left-ear.png",
+               "imageSource": "bundle"
+           },
+           "title": "Tones will now play in your left ear."
+       },
+       {
+           "_class": "ORKdBHLToneAudiometryStep",
+           "algorithm": 0,
+           "earPreference": 0,
+           "frequencyList": [
+               1000,
+               4000
+           ],
+           "identifier": "dbhl2",
+           "initialdBHLValue": 35.0,
+           "maxRandomPreStimulusDelay": 2.0,
+           "title": "Tap the button when you hear a tone.",
+           "toneDuration": 1.0
+       },
+       {
+           "_class": "ORKCompletionStep",
+           "identifier": "dBHLCompletion",
+           "optional": 0,
+           "text": "Thanks again for the vital role you play in the Apple Hearing Study. \n\nThis information will help researchers gain valuable insights into the impact of sound levels on hearing.",
+           "title": "Task Complete"
+       },
+       {
+           "_class": "ORKCompletionStep",
+           "identifier": "e6db09ab-92fb-42ef-a57f-10ef360b8555",
+           "optional": 0,
+           "text": "Thanks again for the vital role you play in the Apple Hearing Study.\n\nThis information will help researchers gain valuable insights into the impact of sound levels on hearing.",
+           "title": "Survey Complete"
+       }
+   ]
+}

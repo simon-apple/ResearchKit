@@ -30,6 +30,7 @@
 
 #import "ORKITaskViewController.h"
 #import "ORKICompletionStep.h"
+#import "ORKInternalClassMapper.h"
 #import "ORKSensitiveURLLearnMoreInstructionStep.h"
 #import "ORKContext.h"
 #import "ORKSensitiveURLLearnMoreInstructionStep.h"
@@ -62,7 +63,6 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
     // restore saved volume
     if (_hasLockedVolume || (!_hasLockedVolume && _savedVolume > 0)) {
         [[NSNotificationCenter defaultCenter] removeObserver:self];
-        
         [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:_savedVolume];
     }
     
@@ -71,11 +71,28 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
 
 - (instancetype)commonInitWithTask:(nullable id<ORKTask>)task taskRunUUID:(nullable NSUUID *)taskRunUUID {
     _hasLockedVolume = NO;
-    
     return [super commonInitWithTask:task taskRunUUID:taskRunUUID];
 }
 
+- (instancetype)initWithTask:(id<ORKTask>)task taskRunUUID:(NSUUID *)taskRunUUID {
+#if ORK_FEATURE_INTERNAL_CLASS_MAPPER_THROWS
+    [ORKInternalClassMapper throwIfTaskIsNotSanitized:task];
+#else
+    if ([ORKInternalClassMapper getUseInternalMapperThrowsUserDefaultsValue] == YES) {
+        [ORKInternalClassMapper throwIfTaskIsNotSanitized:task];
+    }
+#endif
+    return [super initWithTask:task taskRunUUID:taskRunUUID];
+}
+
 - (void)setTask:(id<ORKTask>)task {
+#if ORK_FEATURE_INTERNAL_CLASS_MAPPER
+    task = [ORKInternalClassMapper getInternalInstanceForPublicClass:task] ?: task;
+#else
+    if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES) {
+        task = [ORKInternalClassMapper getInternalInstanceForPublicInstance:task] ?: task;
+    }
+#endif
     [super setTask: task];
     _hasMicrophoneAccess = NO;
 }

@@ -42,7 +42,6 @@
 #import <ResearchKitActiveTask/ORKCountdownStep.h>
 #import <ResearchKitActiveTask/ORKdBHLToneAudiometryAudioGenerator.h>
 #import <ResearchKitActiveTask/ORKdBHLToneAudiometryOnboardingStep.h>
-#import <ResearchKitActiveTask/ORKdBHLToneAudiometryStep.h>
 #import <ResearchKitActiveTask/ORKDeviceMotionRecorder.h>
 #import <ResearchKitActiveTask/ORKEnvironmentSPLMeterStepViewController_Private.h>
 #import <ResearchKitActiveTask/ORKFitnessStep.h>
@@ -59,10 +58,8 @@
 #import <ResearchKitActiveTask/ORKShoulderRangeOfMotionStep.h>
 #import <ResearchKitActiveTask/ORKSpatialSpanMemoryStep.h>
 #import <ResearchKitActiveTask/ORKSpeechInNoiseContentView.h>
-#import <ResearchKitActiveTask/ORKSpeechInNoiseStep.h>
 #import <ResearchKitActiveTask/ORKSpeechInNoiseStepViewController_Private.h>
 #import <ResearchKitActiveTask/ORKSpeechRecognitionContentView.h>
-#import <ResearchKitActiveTask/ORKSpeechRecognitionStep.h>
 #import <ResearchKitActiveTask/ORKSpeechRecognitionStepViewController_Private.h>
 #import <ResearchKitActiveTask/ORKStreamingAudioRecorder.h>
 #import <ResearchKitActiveTask/ORKStroopStep.h>
