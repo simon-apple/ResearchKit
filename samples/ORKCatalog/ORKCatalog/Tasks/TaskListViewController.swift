@@ -142,7 +142,7 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         }
         
         // display internal tasks with ORKITaskViewController
-        if indexPath.section == 6 {
+        if indexPath.section == 5 {
             displayInternalTaskViewController(taskListRow: taskListRow)
             return
         }
