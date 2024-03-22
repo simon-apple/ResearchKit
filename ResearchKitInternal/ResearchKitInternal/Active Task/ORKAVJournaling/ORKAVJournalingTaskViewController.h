@@ -34,13 +34,14 @@
 
 #if ORK_FEATURE_AV_JOURNALING
 
+#import <ResearchKitInternal/ORKITaskViewController.h>
 #import <ResearchKit/ResearchKit.h>
 #import <ResearchKitUI/ResearchKitUI.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
-@interface ORKAVJournalingTaskViewController : ORKTaskViewController
+@interface ORKAVJournalingTaskViewController : ORKITaskViewController
 
 @end
 
