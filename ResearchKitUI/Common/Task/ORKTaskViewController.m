@@ -1141,6 +1141,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     
     stepViewController.outputDirectory = self.outputDirectory;
+    stepViewController.delegate = self;
     
     if (!isPreviousViewController) {
         [self setManagedResult:stepViewController.result forKey:step.identifier];
@@ -1159,7 +1160,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 
     stepViewController.view.tintColor = tintColor;
 
-    stepViewController.delegate = self;
     return stepViewController;
 }
 
