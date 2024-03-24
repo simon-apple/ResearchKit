@@ -35,7 +35,7 @@
 #if ORK_FEATURE_AV_JOURNALING
 
 @import Foundation;
-#import <ResearchKit/ORKNavigableOrderedTask.h>
+#import <ResearchKitInternal/ORKINavigableOrderedTask.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -56,7 +56,7 @@ ORK_EXTERN ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVide
 ORK_EXTERN ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierLowStorageLearnMore;
 
 ORK_CLASS_AVAILABLE
-@interface ORKAVJournalingPredefinedTask : ORKNavigableOrderedTask
+@interface ORKAVJournalingPredefinedTask : ORKINavigableOrderedTask
 
 + (instancetype)new NS_UNAVAILABLE;
 

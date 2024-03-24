@@ -34,6 +34,8 @@
 #import "ORKHeadphoneDetector.h"
 #import "ORKHeadphoneDetectResult.h"
 #import "ORKHeadphonesRequiredCompletionStep.h"
+#import "ORKIEnvironmentSPLMeterStep.h"
+#import "ORKIInstructionStep.h"
 #import "ORKTinnitusAudioSample.h"
 #import "ORKTinnitusMaskingSoundStep.h"
 #import "ORKTinnitusOverallAssessmentStep.h"
@@ -56,7 +58,6 @@
 #import <ResearchKit/ResearchKit_Private.h>
 #import <ResearchKit/ORKTypes.h>
 
-#import <ResearchKitInternal/ORKIEnvironmentSPLMeterStep.h>
 
 NSString *const ORKHeadphoneNotificationSuspendActivity = @"ORKHeadphoneNotificationSuspendActivity";
 
@@ -818,8 +819,8 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
     return [whitenoiseLoudnessMatching copy];
 }
 
-+ (ORKInstructionStep *)pitchMatchingInstruction {
-    ORKInstructionStep *pitchMatchingInstruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKTinnitusPitchMatchingInstructionStepIdentifier];
++ (ORKIInstructionStep *)pitchMatchingInstruction {
+    ORKIInstructionStep *pitchMatchingInstruction = [[ORKIInstructionStep alloc] initWithIdentifier:ORKTinnitusPitchMatchingInstructionStepIdentifier];
     pitchMatchingInstruction.title = ORKILocalizedString(@"TINNITUS_FREQUENCY_MATCHING_TITLE", nil);
     pitchMatchingInstruction.text = ORKILocalizedString(@"TINNITUS_FREQUENCY_MATCHING_DETAIL", nil);
     
@@ -847,9 +848,9 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
     return [round copy];
 }
 
-+ (ORKInstructionStep *)getPureToneRoundComplete:(NSInteger)roundNumber {
++ (ORKIInstructionStep *)getPureToneRoundComplete:(NSInteger)roundNumber {
     NSString *identifier = [self getRoundSuccessIdentifierForNumber:roundNumber];
-    ORKInstructionStep *roundSuccessCompleted = [[ORKInstructionStep alloc] initWithIdentifier:identifier];
+    ORKIInstructionStep *roundSuccessCompleted = [[ORKIInstructionStep alloc] initWithIdentifier:identifier];
     roundSuccessCompleted.title = [NSString localizedStringWithFormat:ORKILocalizedString(@"TINNITUS_ROUND_COMPLETE_TITLE", nil),(long)roundNumber];
     roundSuccessCompleted.text = roundNumber == 1 ?  ORKILocalizedString(@"TINNITUS_ROUND_COMPLETE_TEXT", nil) : ORKILocalizedString(@"TINNITUS_FINAL_ROUND_COMPLETE_TEXT", nil) ;
     
@@ -873,8 +874,8 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 
 #pragma mark - Masking Sounds Steps
 
-+ (ORKInstructionStep *)maskingSoundInstructionStep {
-    ORKInstructionStep *maskingSoundInstructionStep = [[ORKInstructionStep alloc] initWithIdentifier:ORKTinnitusMaskingSoundInstructionStepIdentifier];
++ (ORKIInstructionStep *)maskingSoundInstructionStep {
+    ORKIInstructionStep *maskingSoundInstructionStep = [[ORKIInstructionStep alloc] initWithIdentifier:ORKTinnitusMaskingSoundInstructionStepIdentifier];
     maskingSoundInstructionStep.title = ORKILocalizedString(@"TINNITUS_MASKING_INSTRUCTION_TITLE", nil);
     maskingSoundInstructionStep.text = ORKILocalizedString(@"TINNITUS_MASKING_INSTRUCTION_TEXT", nil);
     

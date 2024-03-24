@@ -30,7 +30,7 @@
 // apple-internal
 
 @import Foundation;
-#import <ResearchKit/ORKNavigableOrderedTask.h>
+#import <ResearchKitInternal/ORKINavigableOrderedTask.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -39,7 +39,7 @@ ORK_EXTERN NSString *const ORKHeadphoneNotificationSuspendActivity;
 @class ORKStep;
 
 ORK_CLASS_AVAILABLE
-@interface ORKTinnitusPredefinedTask : ORKNavigableOrderedTask
+@interface ORKTinnitusPredefinedTask : ORKINavigableOrderedTask
 
 + (instancetype)new NS_UNAVAILABLE;
 
