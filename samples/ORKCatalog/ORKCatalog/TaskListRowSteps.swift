@@ -34,10 +34,23 @@ enum TaskListRowSteps {
     
     // MARK: - ORKFormStep Examples
     
+    static var birthdayExample: ORKFormStep {
+        let birthDayQuestionAnswerFormat = ORKAnswerFormat.dateAnswerFormat(withDefaultDate: nil, minimumDate: nil, maximumDate: Date(), calendar: nil)
+        let birthdayQuestion = NSLocalizedString("When is your birthday?", comment: "")
+        
+        let birthDayQuestionSectionHeader = ORKFormItem(sectionTitle: birthdayQuestion)
+        let birthdayQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.birthdayQuestionFormItem), text: nil, answerFormat: birthDayQuestionAnswerFormat)
+        birthdayQuestionFormItem.placeholder = "Select Date"
+        let birthdayQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.birthdayQuestion), title: "Questionnaire", text: TaskListRowStrings.exampleDetailText)
+        birthdayQuestionFormStep.formItems = [birthDayQuestionSectionHeader, birthdayQuestionFormItem]
+        
+        return birthdayQuestionFormStep
+    }
+    
     static var booleanExample: ORKFormStep {
         let booleanQuestionAnswerFormat = ORKBooleanAnswerFormat()
         let question1 = NSLocalizedString("Would you like to subscribe to our newsletter?", comment: "")
-
+        
         let booleanQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.booleanFormItem), text: question1, answerFormat: booleanQuestionAnswerFormat)
         booleanQuestionFormItem.learnMoreItem = self.learnMoreItemExample
         

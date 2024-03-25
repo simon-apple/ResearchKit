@@ -1055,15 +1055,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         let booleanQuestionFormStep = TaskListRowSteps.booleanExample
         
         //Add a question step with different layout format.
-        let birthDayQuestionAnswerFormat = ORKAnswerFormat.dateAnswerFormat(withDefaultDate: nil, minimumDate: nil, maximumDate: Date(), calendar: nil)
-    
-        let birthdayQuestion = NSLocalizedString("When is your birthday?", comment: "")
-        
-        let birthDayQuestionSectionHeader = ORKFormItem(sectionTitle: birthdayQuestion)
-        let birthdayQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.birthdayQuestionFormItem), text: nil, answerFormat: birthDayQuestionAnswerFormat)
-        birthdayQuestionFormItem.placeholder = "Select Date"
-        let birthdayQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.birthdayQuestion), title: "Questionnaire", text: TaskListRowStrings.exampleDetailText)
-        birthdayQuestionFormStep.formItems = [birthDayQuestionSectionHeader, birthdayQuestionFormItem]
+        let birthdayQuestionFormStep = TaskListRowSteps.birthdayExample
         
         let appleChoices: [ORKTextChoice] = [ORKTextChoice(text: "Granny Smith", value: 1 as NSNumber), ORKTextChoice(text: "Honeycrisp", value: 2 as NSNumber), ORKTextChoice(text: "Fuji", value: 3 as NSNumber), ORKTextChoice(text: "McIntosh", value: 10 as NSNumber), ORKTextChoice(text: "Kanzi", value: 5 as NSNumber)]
         
@@ -1102,15 +1094,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         let booleanQuestionFormStep = TaskListRowSteps.booleanExample
         
         //Add a question step with different layout format.
-        let birthDayQuestionAnswerFormat = ORKAnswerFormat.dateAnswerFormat(withDefaultDate: nil, minimumDate: nil, maximumDate: Date(), calendar: nil)
-    
-        let birthdayQuestion = NSLocalizedString("When is your birthday?", comment: "")
-        let datePickerCellText = "Tap here"
-        
-        let birthDayQuestionSectionHeader = ORKFormItem(sectionTitle: birthdayQuestion)
-        let birthdayQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.birthdayQuestionFormItem), text: datePickerCellText, answerFormat: birthDayQuestionAnswerFormat)
-        let birthdayQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.birthdayQuestion), title: "Questionnaire", text: TaskListRowStrings.exampleDetailText)
-        birthdayQuestionFormStep.formItems = [birthDayQuestionSectionHeader, birthdayQuestionFormItem]
+        let birthdayQuestionFormStep = TaskListRowSteps.birthdayExample
         
         let textChoiceFormStep = TaskListRowSteps.textChoiceExample
         
