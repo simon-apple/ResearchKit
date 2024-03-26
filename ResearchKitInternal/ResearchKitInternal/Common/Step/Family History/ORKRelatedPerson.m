@@ -29,7 +29,7 @@
  */
 
 #import "ORKRelatedPerson.h"
-
+#import "ORKIUtils.h"
 #import <ResearchKit/ORKAnswerFormat_Internal.h>
 #import <ResearchKit/ORKCollectionResult.h>
 #import <ResearchKit/ORKCollectionResult_Private.h>
@@ -154,7 +154,7 @@
         if ([self shouldSkipListValue:value]) {
             didSkipValue = YES;
         } else {
-            NSString *displayString = [[value lowercaseString] isEqual:@"none of the above"] ? ORKLocalizedString(@"FAMILY_HISTORY_NONE_SELECTED", "") : value;
+            NSString *displayString = [[value lowercaseString] isEqual:@"none of the above"] ? ORKILocalizedString(@"FAMILY_HISTORY_NONE_SELECTED", @"") : value;
             [conditionListDisplayValues addObject:displayString];
         }
     }

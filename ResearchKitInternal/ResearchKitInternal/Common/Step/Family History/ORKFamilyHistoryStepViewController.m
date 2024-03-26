@@ -334,7 +334,7 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
         
         ORKTextChoiceAnswerFormat *textChoiceAnswerFormat = [self makeConditionsTextChoiceAnswerFormat:[step.conditionStepConfiguration.conditions copy]];
         ORKFormItem *healthConditionsFormItem = [[ORKFormItem alloc] initWithIdentifier:step.conditionStepConfiguration.conditionsFormItemIdentifier
-                                                                                   text:ORKLocalizedString(@"FAMILY_HISTORY_CONDITIONS_FORM_ITEM_TEXT", "")
+                                                                                   text:ORKILocalizedString(@"FAMILY_HISTORY_CONDITIONS_FORM_ITEM_TEXT", @"")
                                                                            answerFormat:textChoiceAnswerFormat];
         
 #if RK_APPLE_INTERNAL
@@ -375,7 +375,7 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
             // create bool formItem that appears above conditions list formItem
             ORKBooleanAnswerFormat *boolAnswerFormat = [ORKAnswerFormat booleanAnswerFormat];
             ORKFormItem *checkForMinorConditionsFormItem = [[ORKFormItem alloc] initWithIdentifier:minorFormItemIdentifier
-                                                                                              text:ORKLocalizedString(@"FAMILY_HISTORY_PROVIDE_MINOR_CONDITION_INFO_QUESTION", "")
+                                                                                              text:ORKILocalizedString(@"FAMILY_HISTORY_PROVIDE_MINOR_CONDITION_INFO_QUESTION", @"")
                                                                                       answerFormat:boolAnswerFormat];
             
             // create predicate that will makes sure the bool formItem is only presented if 18 or younger is selected
@@ -408,8 +408,8 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
         [formItems addObjectsFromArray:step.conditionStepConfiguration.formItems];
         
         ORKFormStep *conditionFormStep = [[ORKFormStep alloc] initWithIdentifier:step.conditionStepConfiguration.stepIdentifier];
-        conditionFormStep.title = ORKLocalizedString(@"FAMILY_HISTORY_CONDITIONS_STEP_TITLE", "");
-        conditionFormStep.detailText = ORKLocalizedString(@"FAMILY_HISTORY_CONDITIONS_STEP_DESCRIPTION_TEMP", "");
+        conditionFormStep.title = ORKILocalizedString(@"FAMILY_HISTORY_CONDITIONS_STEP_TITLE", @"");
+        conditionFormStep.detailText = ORKILocalizedString(@"FAMILY_HISTORY_CONDITIONS_STEP_DESCRIPTION_TEMP", @"");
         conditionFormStep.optional = NO;
         conditionFormStep.formItems = [formItems copy];
         
@@ -444,17 +444,17 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
     
     _conditionsWithinCurrentTask = [conditionsWithinCurrentTask copy];
     
-    ORKTextChoice *noneOfTheAboveTextChoice = [[ORKTextChoice alloc] initWithText:ORKLocalizedString(@"FAMILY_HISTORY_NONE_OF_THE_ABOVE", "")
+    ORKTextChoice *noneOfTheAboveTextChoice = [[ORKTextChoice alloc] initWithText:ORKILocalizedString(@"FAMILY_HISTORY_NONE_OF_THE_ABOVE", @"")
                                                          detailText:nil
                                                               value:ORKHealthConditionNoneOfTheAboveChoiceValue
                                                           exclusive:YES];
     
-    ORKTextChoice *idkTextChoice = [[ORKTextChoice alloc] initWithText:ORKLocalizedString(@"FAMILY_HISTORY_I_DONT_KNOW", "")
+    ORKTextChoice *idkTextChoice = [[ORKTextChoice alloc] initWithText:ORKILocalizedString(@"FAMILY_HISTORY_I_DONT_KNOW", @"")
                                                          detailText:nil
                                                               value:ORKHealthConditionIDontKnowChoiceValue
                                                           exclusive:YES];
     
-    ORKTextChoice *preferNotToAnswerTextChoice = [[ORKTextChoice alloc] initWithText:ORKLocalizedString(@"FAMILY_HISTORY_PREFER_NOT_TO_ANSWER", "")
+    ORKTextChoice *preferNotToAnswerTextChoice = [[ORKTextChoice alloc] initWithText:ORKILocalizedString(@"FAMILY_HISTORY_PREFER_NOT_TO_ANSWER", @"")
                                                          detailText:nil
                                                               value:ORKHealthConditionPreferNotToAnswerChoiceValue
                                                           exclusive:YES];
@@ -851,11 +851,11 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
                 
             case ORKFamilyHistoryTooltipOptionDelete: {
                 // delete flow for ORKRelatedPerson
-                UIAlertController *deleteAlert = [UIAlertController alertControllerWithTitle:ORKLocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY_TITLE", "")
+                UIAlertController *deleteAlert = [UIAlertController alertControllerWithTitle:ORKILocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY_TITLE", @"")
                                                                                      message:nil
                                                                               preferredStyle:UIAlertControllerStyleActionSheet];
                 
-                UIAlertAction* unfollowAction = [UIAlertAction actionWithTitle:ORKLocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY", "")
+                UIAlertAction* unfollowAction = [UIAlertAction actionWithTitle:ORKILocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY", @"")
                                                                          style:UIAlertActionStyleDestructive
                                                                        handler:^(UIAlertAction * action) {
                     [self->_relatedPersons[currentRelatedPerson.groupIdentifier] removeObject:currentRelatedPerson];
@@ -864,7 +864,7 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
                     [self resultUpdated];
                 }];
                 
-                UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:ORKLocalizedString(@"FAMILY_HISTORY_CANCEL", "")
+                UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:ORKILocalizedString(@"FAMILY_HISTORY_CANCEL", @"")
                                                                        style:UIAlertActionStyleCancel
                                                                      handler:nil];
                 
@@ -1062,7 +1062,7 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
     ORKRelativeGroup *relativeGroup = _relativeGroups[section];
 
     if (footerView == nil) {
-        footerView = [[ORKFamilyHistoryTableFooterView alloc] initWithTitle:[NSString stringWithFormat:ORKLocalizedString(@"FAMILY_HISTORY_ADD", "") ,relativeGroup.name]
+        footerView = [[ORKFamilyHistoryTableFooterView alloc] initWithTitle:[NSString stringWithFormat:ORKILocalizedString(@"FAMILY_HISTORY_ADD", @"") ,relativeGroup.name]
                                                     relativeGroupIdentifier:[relativeGroup.identifier copy]
                                                                    delegate:self];
     }
