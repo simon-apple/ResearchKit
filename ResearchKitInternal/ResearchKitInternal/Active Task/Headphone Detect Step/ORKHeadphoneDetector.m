@@ -140,12 +140,12 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 }
 
 - (void)discard {
+    [self stopBTListeningModeCheckTimer];
     _lastDetectedDevice = nil;
     _delegate = nil;
     [_workaroundPlayer stop];
     _workaroundPlayer = nil;
     _tickQueue = nil;
-    [self stopBTListeningModeCheckTimer];
     [self removeObservers];
 }
 
@@ -444,6 +444,8 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             btMode = ORKBluetoothModeTransparency;
         } else if ([listeningMode isEqualToString:AVOutputDeviceBluetoothListeningModeActiveNoiseCancellation]) {
             btMode = ORKBluetoothModeNoiseCancellation;
+        } else if ([listeningMode isEqualToString:AVOutputDeviceBluetoothListeningModeAutomatic]) {
+            btMode = ORKBluetoothModeAutomatic;
         }
     }
     return btMode;
@@ -451,6 +453,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 
 - (void)checkTick:(NSNotification *)notification {
     ORKWeakTypeOf(self) weakSelf = self;
+    ORKWeakTypeOf(self.delegate) weakDelegate = self.delegate;
     
     if (!_tickQueue) {
         _tickQueue = dispatch_queue_create("HeadphoneDetectorTickQueue", DISPATCH_QUEUE_SERIAL);
@@ -458,7 +461,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 
     dispatch_async(_tickQueue, ^{
         ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
-        ORKStrongTypeOf(self.delegate) strongDelegate = self.delegate;
+        ORKStrongTypeOf(weakDelegate) strongDelegate = weakDelegate;
         if ([strongSelf checkLowBatteryLevelForPods] && strongDelegate &&
             [strongDelegate respondsToSelector:@selector(podLowBatteryLevelDetected)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -466,9 +469,9 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             });
         }
         NSUInteger numberOfDevices = [[AVOutputContextSoft sharedSystemAudioContext] outputDevices].count;
-        if (self->_wirelessSplitterNumberOfDevices != numberOfDevices) {
-            self->_wirelessSplitterNumberOfDevices = numberOfDevices;
-            if (self->_lastDetectedDevice != nil && strongDelegate &&
+        if (strongSelf->_wirelessSplitterNumberOfDevices != numberOfDevices) {
+            strongSelf->_wirelessSplitterNumberOfDevices = numberOfDevices;
+            if (strongSelf->_lastDetectedDevice != nil && strongDelegate &&
                 [strongDelegate respondsToSelector:@selector(wirelessSplitterMoreThanOneDeviceDetected:)]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [strongDelegate wirelessSplitterMoreThanOneDeviceDetected:(numberOfDevices > 1)];
@@ -480,7 +483,7 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             strongDelegate && [strongDelegate respondsToSelector:@selector(bluetoothModeChanged:)]) {
             
             NSString* listeningMode = [[[AVOutputContextSoft sharedSystemAudioContext] outputDevice] currentBluetoothListeningMode];
-            ORKBluetoothMode btMode = [self findBluetoothModeFromListeningMode:listeningMode];
+            ORKBluetoothMode btMode = [strongSelf findBluetoothModeFromListeningMode:listeningMode];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [strongDelegate bluetoothModeChanged:btMode];
             });

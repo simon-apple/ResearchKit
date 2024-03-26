@@ -69,7 +69,8 @@ typedef NS_ENUM(NSInteger, ORKBluetoothMode) {
     ORKBluetoothModeNone,
     ORKBluetoothModeNormal,
     ORKBluetoothModeTransparency,
-    ORKBluetoothModeNoiseCancellation
+    ORKBluetoothModeNoiseCancellation,
+    ORKBluetoothModeAutomatic
 } ORK_ENUM_AVAILABLE;
 
 NS_ASSUME_NONNULL_END
