@@ -915,15 +915,18 @@ enum TaskListRow: Int, CustomStringConvertible {
         formItem06.placeholder = formItem06Text
         
         
-        let appleChoices: [ORKTextChoice] = [ORKTextChoice(text: "Granny Smith", value: 1 as NSNumber), ORKTextChoice(text: "Honeycrisp", value: 2 as NSNumber), ORKTextChoice(text: "Fuji", value: 3 as NSNumber), ORKTextChoice(text: "McIntosh", value: 10 as NSNumber), ORKTextChoice(text: "Kanzi", value: 5 as NSNumber)]
+        let appleChoices: [ORKTextChoice] = [ORKTextChoice(text: "Granny Smith", value: 1 as NSNumber), 
+                                             ORKTextChoice(text: "Honeycrisp", value: 2 as NSNumber),
+                                             ORKTextChoice(text: "Fuji", value: 3 as NSNumber),
+                                             ORKTextChoice(text: "McIntosh", value: 10 as NSNumber),
+                                             ORKTextChoice(text: "Kanzi", value: 5 as NSNumber),
+                                             ORKTextChoice(text: NSLocalizedString("I don't know", comment: ""), value: NSString("dunno"))]
         
         let appleAnswerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: appleChoices)
         
         let appleFormItem = ORKFormItem(identifier: "appleFormItemIdentifier", text: "Which is your favorite apple?", answerFormat: appleAnswerFormat)
-        let appleFormItem2 = ORKFormItem(identifier: "appleFormItemIdentifier2", text: "Which is your least favorite apple?", answerFormat: appleAnswerFormat)
-        let appleFormItem3 = ORKFormItem(identifier: "appleFormItemIdentifier3", text: "Which is your most recent apple?", answerFormat: appleAnswerFormat)
 
-        appleFormItem3.visibilityRule = ORKPredicateFormItemVisibilityRule(predicate: predicateForAttitudeSelector)
+        appleFormItem.visibilityRule = ORKPredicateFormItemVisibilityRule(predicate: predicateForAttitudeSelector)
         formItem03Section.visibilityRule = ORKPredicateFormItemVisibilityRule(predicate: predicateForAttitudeSelector)
         formItem03.visibilityRule = ORKPredicateFormItemVisibilityRule(predicate: predicateForAttitudeSelector)
 
@@ -938,9 +941,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             formItem04,
             formItem05,
             formItem06,
-            appleFormItem,
-            appleFormItem2,
-            appleFormItem3
+            appleFormItem
         ]
         
         let fruitSizeStep = { step in
