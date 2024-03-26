@@ -990,6 +990,9 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         stepViewController = lastStepViewController;
         _currentStepViewController = lastStepViewController;
     }
+    
+    UIColor *tintColor = ORKViewTintColor(self.view);
+    stepViewController.view.tintColor = tintColor;
 
     [newViewControllers addObject:stepViewController];
 
@@ -1141,6 +1144,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     
     stepViewController.outputDirectory = self.outputDirectory;
+    stepViewController.delegate = self;
     
     if (!isPreviousViewController) {
         [self setManagedResult:stepViewController.result forKey:step.identifier];
@@ -1157,9 +1161,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         stepViewController.learnMoreButtonItem = [self defaultLearnMoreButtonItem];
     }
 
-    stepViewController.view.tintColor = tintColor;
-
-    stepViewController.delegate = self;
     return stepViewController;
 }
 

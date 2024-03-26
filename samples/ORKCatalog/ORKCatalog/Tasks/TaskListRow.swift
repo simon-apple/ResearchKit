@@ -1066,7 +1066,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         let conditionalFormItem = ORKFormItem(identifier: "newletterFormItemIdentifier", text: "Include apples with your newletter?", answerFormat: ORKBooleanAnswerFormat())
         conditionalFormItem.visibilityRule = ORKPredicateFormItemVisibilityRule(
             predicate: ORKResultPredicate.predicateForBooleanQuestionResult(
-                with: .init(stepIdentifier: booleanQuestionFormStep.identifier, resultIdentifier: booleanQuestionFormStep.identifier),
+                with: .init(stepIdentifier: booleanQuestionFormStep.identifier, resultIdentifier: String(describing: Identifier.booleanFormItem)),
                 expectedAnswer: true
             )
         )
