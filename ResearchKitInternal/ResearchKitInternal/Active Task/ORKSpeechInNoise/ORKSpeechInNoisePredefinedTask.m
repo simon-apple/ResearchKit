@@ -39,12 +39,12 @@
 #import <ResearchKitInternal/ORKICompletionStep.h>
 #import <ResearchKitInternal/ORKISpeechRecognitionStep.h>
 #import <ResearchKitInternal/ORKISpeechInNoiseStep.h>
+#import <ResearchKitInternal/ORKIQuestionStep.h>
 
 #import <ResearchKit/ORKAnswerFormat.h>
 #import <ResearchKit/ORKBodyItem.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ORKLearnMoreInstructionStep.h>
-#import <ResearchKit/ORKQuestionStep.h>
 #import <ResearchKit/ORKRecorder_Private.h>
 #import <ResearchKit/ORKStepNavigationRule.h>
 
@@ -437,10 +437,10 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
             answerFormat.hideCharacterCountLabel = YES;
             
             ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.lowercaseString, ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep];
-            ORKQuestionStep *step = [ORKQuestionStep questionStepWithIdentifier:stepIdentifier
-                                                                              title:ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TITLE", nil)
-                                                                           question:nil
-                                                                             answer:answerFormat];
+            ORKIQuestionStep *step = [ORKIQuestionStep questionStepWithIdentifier:stepIdentifier
+                                                                            title:ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TITLE", nil)
+                                                                         question:nil
+                                                                           answer:answerFormat];
             step.context = context;
             step.text = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TEXT", nil);
             step.optional = NO;
