@@ -190,7 +190,8 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
         [_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen2] ||
         [_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen3]) {
         return ORKILocalizedString(@"TINNITUS_ALERT_TEXT_AIRPODS", nil);
-    } else if ([_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
+    } else if ([_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
+               [_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2]) {
         return ORKILocalizedString(@"TINNITUS_ALERT_TEXT_AIRPODSPRO", nil);
     } else if ([_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
         return ORKILocalizedString(@"TINNITUS_ALERT_TEXT_AIRPODSMAX", nil);
@@ -236,7 +237,10 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
             // save bluetooth mode for the first time
             _bluetoothMode = bluetoothMode;
         } else {
-            if (bluetoothMode != ORKBluetoothModeNoiseCancellation && _bluetoothMode == ORKBluetoothModeNoiseCancellation) {
+             BOOL previousModeWasNoiseCancellingMode = (_bluetoothMode == ORKBluetoothModeNoiseCancellation);
+             BOOL newModeIsNoiseCancellingMode = (bluetoothMode == ORKBluetoothModeNoiseCancellation);
+
+             if (!newModeIsNoiseCancellingMode && previousModeWasNoiseCancellingMode) {
                 [self showAlert];
                 [[NSNotificationCenter defaultCenter]
                  postNotificationName:ORKHeadphoneNotificationSuspendActivity
