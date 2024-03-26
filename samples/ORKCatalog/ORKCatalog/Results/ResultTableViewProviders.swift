@@ -894,8 +894,12 @@ class ToneAudiometryResultTableViewProvider: ResultTableViewProvider {
             ]
         }
         
+        guard let samples = toneAudiometryResult.samples else {
+            return rows
+        }
+        
         // Add a `ResultRow` for each sample.
-        return rows + toneAudiometryResult.samples!.map { toneSample in
+        return rows + samples.map { toneSample in
             let text: String
             let detail: String
             
