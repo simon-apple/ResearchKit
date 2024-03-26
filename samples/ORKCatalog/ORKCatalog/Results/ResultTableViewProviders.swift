@@ -180,6 +180,9 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
         
     case is ORKdBHLToneAudiometryResult:
         providerType = dBHLToneAudiometryResultTableViewProvider.self
+        
+    case is ORKSignatureResult:
+        providerType = SignatureResultTableViewProvider.self
 
     #if RK_APPLE_INTERNAL
     case is ORKFamilyHistoryResult:
@@ -1444,6 +1447,39 @@ class SPLMeterStepResultTableViewProvider: ResultTableViewProvider {
         }
         
         return rows
+    }
+}
+
+class SignatureResultTableViewProvider: ResultTableViewProvider {
+    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
+        let signatureResult = result as! ORKSignatureResult
+        
+        let rows = super.resultRowsForSection(section)
+        
+        if let image = signatureResult.signatureImage {
+            return rows + [.image(image)]
+        }
+        
+        return rows
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
+        let resultRows = resultRowsForSection((indexPath as NSIndexPath).section)
+        
+        if !resultRows.isEmpty {
+            switch resultRows[(indexPath as NSIndexPath).row] {
+            case .image(.some(let image)):
+                // Keep the aspect ratio the same.
+                let imageAspectRatio = image.size.width / image.size.height
+                
+                return tableView.frame.size.width / imageAspectRatio
+                
+            default:
+                break
+            }
+        }
+        
+        return UITableView.automaticDimension
     }
 }
 
