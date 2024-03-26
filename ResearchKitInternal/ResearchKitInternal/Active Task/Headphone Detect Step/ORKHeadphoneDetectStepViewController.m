@@ -305,14 +305,14 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         case ORKHeadphoneDetectedAirpodsPro:
         case ORKHeadphoneDetectedAirpodsProGen2:
             result = [[UIDevice currentDevice] supportsFaceID]
-            ? ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODSPRO", nil)
-            : ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_BELOW_AIRPODSPRO", nil);
+            ? ORKILocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODSPRO", nil)
+            : ORKILocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_BELOW_AIRPODSPRO", nil);
             break;
 
         case ORKHeadphoneDetectedAirpodsMax:
             result = [[UIDevice currentDevice] supportsFaceID]
-            ? ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODSMAX", nil)
-            : ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_BELOW_AIRPODSMAX", nil);
+            ? ORKILocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODSMAX", nil)
+            : ORKILocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_BELOW_AIRPODSMAX", nil);
             break;
 
         case ORKHeadphoneDetectedEarpods:
@@ -479,7 +479,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         [_textLabel setText:headphoneName];
         _imageView.image = headphoneglyph;
     } else {
-        [_textLabel setText:ORKLocalizedString(@"THIRD_PARTY_HEADPHONES_CONNECTED", nil)];
+        [_textLabel setText:ORKILocalizedString(@"THIRD_PARTY_HEADPHONES_CONNECTED", nil)];
     }
     
     [self updateAccessibilityElements];
