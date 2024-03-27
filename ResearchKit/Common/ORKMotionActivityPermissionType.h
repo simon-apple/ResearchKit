@@ -32,6 +32,10 @@
 #import <ResearchKit/ORKPermissionType.h>
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ A permission type object that requests access for motion activity.
+ */
+
 ORK_CLASS_AVAILABLE
 @interface ORKMotionActivityPermissionType : ORKPermissionType
 

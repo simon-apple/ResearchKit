@@ -29,10 +29,12 @@
  */
 
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 #if TARGET_OS_IOS
 #import <ResearchKit/ORKDefines.h>
-#elif TARGET_OS_WATCH || TARGET_OS_VISION
+#endif
+
+#if TARGET_OS_WATCH || TARGET_OS_VISION
 #import <ResearchKitCore/ORKDefines.h>
 #endif
 

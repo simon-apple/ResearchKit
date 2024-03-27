@@ -424,7 +424,7 @@
         float clampedValue = MAX(_peakPower / 60.0, -1) + 1;
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_speechRecognitionContentView addSample:@(clampedValue)];
+            [self->_speechRecognitionContentView addSample:@(clampedValue)];
         });
     }
 }
@@ -465,7 +465,7 @@
     });
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_speechRecognitionContentView updateRecognitionText:[recognitionResult.bestTranscription formattedString]];
+        [self->_speechRecognitionContentView updateRecognitionText:[recognitionResult.bestTranscription formattedString]];
     });
 }
 
@@ -478,7 +478,7 @@
     });
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_speechRecognitionContentView updateRecognitionText:[transcription formattedString]];
+        [self->_speechRecognitionContentView updateRecognitionText:[transcription formattedString]];
     });
 }
 

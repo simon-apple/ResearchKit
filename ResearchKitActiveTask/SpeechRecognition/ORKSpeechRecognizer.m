@@ -123,13 +123,13 @@
 
 - (void)addAudio:(AVAudioPCMBuffer *)audioBuffer {
     dispatch_async(_requestQueue, ^{
-        [request appendAudioPCMBuffer:audioBuffer];
+        [self->request appendAudioPCMBuffer:audioBuffer];
     });
 }
 
 - (void)endAudio {
     dispatch_async(_requestQueue, ^{
-        [request endAudio];
+        [self->request endAudio];
     });
 }
 
@@ -144,8 +144,8 @@
 - (void)speechRecognizer:(SFSpeechRecognizer *)speechRecognizer availabilityDidChange:(BOOL)available {
     dispatch_async(_responseQueue, ^{
         ORK_Log_Debug("Availability did change = %d", available);
-        if (_responseDelegate && [_responseDelegate respondsToSelector:@selector(availabilityDidChange:)]) {
-            [_responseDelegate availabilityDidChange:available];
+        if (self->_responseDelegate && [self->_responseDelegate respondsToSelector:@selector(availabilityDidChange:)]) {
+            [self->_responseDelegate availabilityDidChange:available];
         }
     });
 }
@@ -156,13 +156,13 @@
     dispatch_async(_responseQueue, ^{
         ORK_Log_Debug("did produce final result %@", [[recognitionResult bestTranscription] formattedString]);
         if (@available(iOS 14.5, *)) {
-            if (_responseDelegate && [_responseDelegate respondsToSelector:@selector(didFinishRecognition:)]) {
-                [_responseDelegate didFinishRecognition:recognitionResult];
-            } else if (_responseDelegate && [_responseDelegate respondsToSelector:@selector(didHypothesizeTranscription:)]) {
-                [_responseDelegate didHypothesizeTranscription:recognitionResult.bestTranscription];
+            if (self->_responseDelegate && [self->_responseDelegate respondsToSelector:@selector(didFinishRecognition:)]) {
+                [self->_responseDelegate didFinishRecognition:recognitionResult];
+            } else if (self->_responseDelegate && [self->_responseDelegate respondsToSelector:@selector(didHypothesizeTranscription:)]) {
+                [self->_responseDelegate didHypothesizeTranscription:recognitionResult.bestTranscription];
             }
-        } else if (_responseDelegate && [_responseDelegate respondsToSelector:@selector(didHypothesizeTranscription:)]) {
-            [_responseDelegate didHypothesizeTranscription:recognitionResult.bestTranscription];
+        } else if (self->_responseDelegate && [self->_responseDelegate respondsToSelector:@selector(didHypothesizeTranscription:)]) {
+            [self->_responseDelegate didHypothesizeTranscription:recognitionResult.bestTranscription];
         }
     });
 }
@@ -170,16 +170,16 @@
     dispatch_async(_responseQueue, ^{
         // Produces transcription if shouldReportPartialResults is true
         ORK_Log_Debug("did produce partial results %@", [transcription formattedString]);
-        if (_responseDelegate && [_responseDelegate respondsToSelector:@selector(didHypothesizeTranscription:)]) {
-            [_responseDelegate didHypothesizeTranscription:transcription];
+        if (self->_responseDelegate && [self->_responseDelegate respondsToSelector:@selector(didHypothesizeTranscription:)]) {
+            [self->_responseDelegate didHypothesizeTranscription:transcription];
         }
     });
 }
 
 - (void)speechRecognitionTask:(SFSpeechRecognitionTask *)task didFinishSuccessfully:(BOOL)successfully {
     dispatch_async(_responseQueue, ^{
-        if (_responseDelegate && [_responseDelegate respondsToSelector:@selector(didFinishRecognitionWithError:)]) {
-            [_responseDelegate didFinishRecognitionWithError:successfully ? nil : task.error];
+        if (self->_responseDelegate && [self->_responseDelegate respondsToSelector:@selector(didFinishRecognitionWithError:)]) {
+            [self->_responseDelegate didFinishRecognitionWithError:successfully ? nil : task.error];
         }
     });
 }
@@ -187,8 +187,8 @@
 - (void)speechRecognitionTaskWasCancelled:(SFSpeechRecognitionTask *)task {
     dispatch_async(_responseQueue, ^{
         ORK_Log_Debug("Request cancelled");
-        if (_responseDelegate && [_responseDelegate respondsToSelector:@selector(didFinishRecognitionWithError:)]) {
-            [_responseDelegate didFinishRecognitionWithError:nil];
+        if (self->_responseDelegate && [self->_responseDelegate respondsToSelector:@selector(didFinishRecognitionWithError:)]) {
+            [self->_responseDelegate didFinishRecognitionWithError:nil];
         }
     });
 }

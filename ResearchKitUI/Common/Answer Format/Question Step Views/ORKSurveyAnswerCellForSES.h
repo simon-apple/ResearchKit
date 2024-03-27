@@ -28,7 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKSurveyAnswerCell.h"
+#import <ResearchKitUI/ORKSurveyAnswerCell.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

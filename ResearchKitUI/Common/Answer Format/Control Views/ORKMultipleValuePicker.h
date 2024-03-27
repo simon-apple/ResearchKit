@@ -29,8 +29,8 @@
  */
 
 
-@import UIKit;
-#import "ORKPicker.h"
+#import <UIKit/UIKit.h>
+#import <ResearchKitUI/ORKPicker.h>
 
 
 NS_ASSUME_NONNULL_BEGIN

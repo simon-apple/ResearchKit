@@ -189,15 +189,15 @@ static const CGFloat BarViewHeight = 50.0;
 
 - (void)updateInstructionForValue:(CGFloat)progress {
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *currentInstruction = [_DBInstructionLabel.text copy];
+        NSString *currentInstruction = [self->_DBInstructionLabel.text copy];
         BOOL isNoise = (progress >= ORKRingViewMaximumValue);
         NSString *newInstruction = isNoise ? ORKLocalizedString(@"ENVIRONMENTSPL_NOISE", nil) : ORKLocalizedString(@"ENVIRONMENTSPL_CALCULATING", nil);
-        _xmarkView.hidden = !isNoise;
+        self->_xmarkView.hidden = !isNoise;
 
         if (![newInstruction isEqualToString:currentInstruction]) {
-            _DBInstructionLabel.text = newInstruction;
+            self->_DBInstructionLabel.text = newInstruction;
             if (UIAccessibilityIsVoiceOverRunning() && [self.voiceOverDelegate respondsToSelector:@selector(contentView:shouldAnnounce:)]) {
-                [self.voiceOverDelegate contentView:self shouldAnnounce:_DBInstructionLabel.text];
+                [self.voiceOverDelegate contentView:self shouldAnnounce:self->_DBInstructionLabel.text];
             }
         }
     });

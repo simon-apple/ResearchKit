@@ -10,19 +10,25 @@
 		511BB0082989E0C700936EC0 /* Noise.wav in Resources */ = {isa = PBXBuildFile; fileRef = 511BB0062989E07F00936EC0 /* Noise.wav */; };
 		511BB0092989E0C700936EC0 /* VolumeCalibration.wav in Resources */ = {isa = PBXBuildFile; fileRef = 511BB0072989E07F00936EC0 /* VolumeCalibration.wav */; };
 		511BB00C2989E35300936EC0 /* Artwork.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 511BB00B2989E35300936EC0 /* Artwork.xcassets */; };
-		511BB010298B162400936EC0 /* AAPLHelpers_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 511BB00E298B162400936EC0 /* AAPLHelpers_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		511BB011298B162400936EC0 /* AAPLHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 511BB00F298B162400936EC0 /* AAPLHelpers.m */; };
+		511BB010298B162400936EC0 /* ORKIHelpers_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 511BB00E298B162400936EC0 /* ORKIHelpers_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		511BB011298B162400936EC0 /* ORKIHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 511BB00F298B162400936EC0 /* ORKIHelpers.m */; };
 		511BB013298B3BD300936EC0 /* Window.wav in Resources */ = {isa = PBXBuildFile; fileRef = 511BB012298B3BD300936EC0 /* Window.wav */; };
-		511BB01B298DC91000936EC0 /* AAPLSpeechRecognitionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 511BB019298DC91000936EC0 /* AAPLSpeechRecognitionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		511BB01C298DC91000936EC0 /* AAPLSpeechRecognitionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 511BB01A298DC91000936EC0 /* AAPLSpeechRecognitionStep.m */; };
-		511BB020298DC94400936EC0 /* AAPLSpeechRecognitionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 511BB01E298DC94400936EC0 /* AAPLSpeechRecognitionStepViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		511BB021298DC94400936EC0 /* AAPLSpeechRecognitionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511BB01F298DC94400936EC0 /* AAPLSpeechRecognitionStepViewController.m */; };
-		511BB0352994518400936EC0 /* AAPLEnvironmentSPLMeterStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 511BB0332994518400936EC0 /* AAPLEnvironmentSPLMeterStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		511BB0362994518400936EC0 /* AAPLEnvironmentSPLMeterStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 511BB0342994518400936EC0 /* AAPLEnvironmentSPLMeterStep.m */; };
-		511E8D5E2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 511E8D5C2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.h */; };
-		511E8D5F2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511E8D5D2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.m */; };
-		511E8D682996FEC200A384A5 /* AAPLTaskViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 511E8D662996FEC200A384A5 /* AAPLTaskViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		511E8D692996FEC200A384A5 /* AAPLTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511E8D672996FEC200A384A5 /* AAPLTaskViewController.m */; };
+		511BB01B298DC91000936EC0 /* ORKISpeechRecognitionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 511BB019298DC91000936EC0 /* ORKISpeechRecognitionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		511BB01C298DC91000936EC0 /* ORKISpeechRecognitionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 511BB01A298DC91000936EC0 /* ORKISpeechRecognitionStep.m */; };
+		511BB020298DC94400936EC0 /* ORKISpeechRecognitionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 511BB01E298DC94400936EC0 /* ORKISpeechRecognitionStepViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		511BB021298DC94400936EC0 /* ORKISpeechRecognitionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511BB01F298DC94400936EC0 /* ORKISpeechRecognitionStepViewController.m */; };
+		511BB0352994518400936EC0 /* ORKIEnvironmentSPLMeterStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 511BB0332994518400936EC0 /* ORKIEnvironmentSPLMeterStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		511BB0362994518400936EC0 /* ORKIEnvironmentSPLMeterStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 511BB0342994518400936EC0 /* ORKIEnvironmentSPLMeterStep.m */; };
+		511E8D5E2995C01A00A384A5 /* ORKIEnvironmentSPLMeterStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 511E8D5C2995C01A00A384A5 /* ORKIEnvironmentSPLMeterStepViewController.h */; };
+		511E8D5F2995C01A00A384A5 /* ORKIEnvironmentSPLMeterStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511E8D5D2995C01A00A384A5 /* ORKIEnvironmentSPLMeterStepViewController.m */; };
+		511E8D682996FEC200A384A5 /* ORKITaskViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 511E8D662996FEC200A384A5 /* ORKITaskViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		511E8D692996FEC200A384A5 /* ORKITaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511E8D672996FEC200A384A5 /* ORKITaskViewController.m */; };
+		51633F3C2B98DC71000168E9 /* ORKIOrderedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 51633F3A2B98DC71000168E9 /* ORKIOrderedTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51633F3D2B98DC71000168E9 /* ORKIOrderedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 51633F3B2B98DC71000168E9 /* ORKIOrderedTask.m */; };
+		51633F442B98E43F000168E9 /* ORKINavigableOrderedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 51633F422B98E43F000168E9 /* ORKINavigableOrderedTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51633F452B98E43F000168E9 /* ORKINavigableOrderedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 51633F432B98E43F000168E9 /* ORKINavigableOrderedTask.m */; };
+		518100042B8FED800092A1C6 /* ORKInternalClassMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 518100022B8FED800092A1C6 /* ORKInternalClassMapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		518100052B8FED800092A1C6 /* ORKInternalClassMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 518100032B8FED800092A1C6 /* ORKInternalClassMapper.m */; };
 		5192BF0C2AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF062AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m */; };
 		5192BF0E2AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF082AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.h */; };
 		5192BF322AE04B16006E43FB /* ORKHealthCondition.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF212AE04B15006E43FB /* ORKHealthCondition.m */; };
@@ -55,6 +61,10 @@
 		5192BF6D2AE19718006E43FB /* LoudnessEQ_AIRPODSMAX.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF692AE19718006E43FB /* LoudnessEQ_AIRPODSMAX.plist */; };
 		5192BF6E2AE19718006E43FB /* LoudnessEQ_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF6A2AE19718006E43FB /* LoudnessEQ_AIRPODSPRO.plist */; };
 		5192BF6F2AE19718006E43FB /* LoudnessEQ_EARPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF6B2AE19718006E43FB /* LoudnessEQ_EARPODS.plist */; };
+		51AEAABA2B7453D400F4D107 /* ORKIQuestionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51AEAAB82B7453D400F4D107 /* ORKIQuestionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51AEAABB2B7453D400F4D107 /* ORKIQuestionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AEAAB92B7453D400F4D107 /* ORKIQuestionStep.m */; };
+		51AEAABE2B7454A200F4D107 /* ORKIQuestionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51AEAABC2B7454A200F4D107 /* ORKIQuestionStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51AEAABF2B7454A200F4D107 /* ORKIQuestionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AEAABD2B7454A200F4D107 /* ORKIQuestionStepViewController.m */; };
 		51BD8FA529CD12FE0001D54E /* ORKContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD8FA429CD12FE0001D54E /* ORKContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51BD8FF429D88DDA0001D54E /* ORKSoftLinking.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD8FF129D88DDA0001D54E /* ORKSoftLinking.h */; };
 		51BD900129D88FD30001D54E /* AVOutputContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD8FF729D88FD30001D54E /* AVOutputContext.h */; };
@@ -65,37 +75,37 @@
 		51BD900629D88FD30001D54E /* AVFoundation_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD8FFC29D88FD30001D54E /* AVFoundation_Private.h */; };
 		51BD900729D88FD30001D54E /* AVSystemController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD8FFF29D88FD30001D54E /* AVSystemController.h */; };
 		51BD900829D88FD30001D54E /* Celestial_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD900029D88FD30001D54E /* Celestial_Private.h */; };
-		51BD901329DB92280001D54E /* AAPLdBHLToneAudiometryResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD901129DB92280001D54E /* AAPLdBHLToneAudiometryResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		51BD901429DB92280001D54E /* AAPLdBHLToneAudiometryResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BD901229DB92280001D54E /* AAPLdBHLToneAudiometryResult.m */; };
+		51BD901329DB92280001D54E /* ORKIdBHLToneAudiometryResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD901129DB92280001D54E /* ORKIdBHLToneAudiometryResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51BD901429DB92280001D54E /* ORKIdBHLToneAudiometryResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BD901229DB92280001D54E /* ORKIdBHLToneAudiometryResult.m */; };
 		51BD903329E8BE820001D54E /* ORKContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BD903229E8BE820001D54E /* ORKContext.m */; };
 		51BD906429F738780001D54E /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BD906229F738780001D54E /* UIColor+Custom.m */; };
 		51BD906529F738780001D54E /* UIColor+Custom.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD906329F738780001D54E /* UIColor+Custom.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		51BD906829F73BE80001D54E /* AAPLTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD906629F73BE80001D54E /* AAPLTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		51BD906929F73BE80001D54E /* AAPLTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BD906729F73BE80001D54E /* AAPLTypes.m */; };
+		51BD906829F73BE80001D54E /* ORKITypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 51BD906629F73BE80001D54E /* ORKITypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51BD906929F73BE80001D54E /* ORKITypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BD906729F73BE80001D54E /* ORKITypes.m */; };
 		51BD907329FB35DD0001D54E /* ORKActiveTaskResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51BD907229FB35DD0001D54E /* ORKActiveTaskResultTests.swift */; };
-		51CB6DA429C0F12800A85D79 /* AAPLInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51CB6DA229C0F12800A85D79 /* AAPLInstructionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		51CB6DA529C0F12800A85D79 /* AAPLInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CB6DA329C0F12800A85D79 /* AAPLInstructionStep.m */; };
-		51CB6DA829C0F36E00A85D79 /* AAPLInstructionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51CB6DA629C0F36E00A85D79 /* AAPLInstructionStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		51CB6DA929C0F36E00A85D79 /* AAPLInstructionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CB6DA729C0F36E00A85D79 /* AAPLInstructionStepViewController.m */; };
+		51CB6DA429C0F12800A85D79 /* ORKIInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51CB6DA229C0F12800A85D79 /* ORKIInstructionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51CB6DA529C0F12800A85D79 /* ORKIInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CB6DA329C0F12800A85D79 /* ORKIInstructionStep.m */; };
+		51CB6DA829C0F36E00A85D79 /* ORKIInstructionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51CB6DA629C0F36E00A85D79 /* ORKIInstructionStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51CB6DA929C0F36E00A85D79 /* ORKIInstructionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CB6DA729C0F36E00A85D79 /* ORKIInstructionStepViewController.m */; };
 		51CB6DB529C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51CB6DB329C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		51CB6DB629C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CB6DB429C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.m */; };
 		51D9B86F2B22950100927FDF /* ORKFamilyHistoryResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D9B86E2B22950100927FDF /* ORKFamilyHistoryResultTests.swift */; };
 		51F211312B5067AB0072B536 /* ORKAudioDictationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F2112F2B5067AA0072B536 /* ORKAudioDictationView.m */; };
 		51F211322B5067AB0072B536 /* ORKAudioDictationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F211302B5067AA0072B536 /* ORKAudioDictationView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		51F716D929808B8100D8ACF7 /* AAPLCompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716D829808B8100D8ACF7 /* AAPLCompletionStep.m */; };
-		51F716DB29808CF700D8ACF7 /* AAPLCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DA29808CDE00D8ACF7 /* AAPLCompletionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		51F716DE29808E0200D8ACF7 /* AAPLCompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DC29808E0200D8ACF7 /* AAPLCompletionStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		51F716DF29808E0200D8ACF7 /* AAPLCompletionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716DD29808E0200D8ACF7 /* AAPLCompletionStepViewController.m */; };
-		51F716EF2981DE0700D8ACF7 /* AAPLSpeechInNoiseStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716ED2981DE0700D8ACF7 /* AAPLSpeechInNoiseStep.m */; };
-		51F716F02981DE0700D8ACF7 /* AAPLSpeechInNoiseStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716EE2981DE0700D8ACF7 /* AAPLSpeechInNoiseStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		51F716F32981DE1B00D8ACF7 /* AAPLSpeechInNoiseStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716F12981DE1B00D8ACF7 /* AAPLSpeechInNoiseStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		51F716F42981DE1B00D8ACF7 /* AAPLSpeechInNoiseStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716F22981DE1B00D8ACF7 /* AAPLSpeechInNoiseStepViewController.m */; };
-		CA0748B428B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = CA0748B228B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.h */; };
-		CA0748B528B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0748B328B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.m */; };
-		CA0748B828B7F997001D8599 /* AAPLdBHLToneAudiometryStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = CA0748B628B7F997001D8599 /* AAPLdBHLToneAudiometryStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CA0748B928B7F997001D8599 /* AAPLdBHLToneAudiometryStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0748B728B7F997001D8599 /* AAPLdBHLToneAudiometryStepViewController.m */; };
-		CA0748BC28B8032E001D8599 /* AAPLdBHLToneAudiometryStep.h in Headers */ = {isa = PBXBuildFile; fileRef = CA0748BA28B8032E001D8599 /* AAPLdBHLToneAudiometryStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CA0748BD28B8032E001D8599 /* AAPLdBHLToneAudiometryStep.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0748BB28B8032E001D8599 /* AAPLdBHLToneAudiometryStep.m */; };
+		51F716D929808B8100D8ACF7 /* ORKICompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716D829808B8100D8ACF7 /* ORKICompletionStep.m */; };
+		51F716DB29808CF700D8ACF7 /* ORKICompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DA29808CDE00D8ACF7 /* ORKICompletionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51F716DE29808E0200D8ACF7 /* ORKICompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DC29808E0200D8ACF7 /* ORKICompletionStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51F716DF29808E0200D8ACF7 /* ORKICompletionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716DD29808E0200D8ACF7 /* ORKICompletionStepViewController.m */; };
+		51F716EF2981DE0700D8ACF7 /* ORKISpeechInNoiseStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716ED2981DE0700D8ACF7 /* ORKISpeechInNoiseStep.m */; };
+		51F716F02981DE0700D8ACF7 /* ORKISpeechInNoiseStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716EE2981DE0700D8ACF7 /* ORKISpeechInNoiseStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51F716F32981DE1B00D8ACF7 /* ORKISpeechInNoiseStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716F12981DE1B00D8ACF7 /* ORKISpeechInNoiseStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51F716F42981DE1B00D8ACF7 /* ORKISpeechInNoiseStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716F22981DE1B00D8ACF7 /* ORKISpeechInNoiseStepViewController.m */; };
+		CA0748B428B7F18B001D8599 /* ORKIdBHLToneAudiometryAudioGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = CA0748B228B7F18B001D8599 /* ORKIdBHLToneAudiometryAudioGenerator.h */; };
+		CA0748B528B7F18B001D8599 /* ORKIdBHLToneAudiometryAudioGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0748B328B7F18B001D8599 /* ORKIdBHLToneAudiometryAudioGenerator.m */; };
+		CA0748B828B7F997001D8599 /* ORKIdBHLToneAudiometryStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = CA0748B628B7F997001D8599 /* ORKIdBHLToneAudiometryStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CA0748B928B7F997001D8599 /* ORKIdBHLToneAudiometryStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0748B728B7F997001D8599 /* ORKIdBHLToneAudiometryStepViewController.m */; };
+		CA0748BC28B8032E001D8599 /* ORKIdBHLToneAudiometryStep.h in Headers */ = {isa = PBXBuildFile; fileRef = CA0748BA28B8032E001D8599 /* ORKIdBHLToneAudiometryStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CA0748BD28B8032E001D8599 /* ORKIdBHLToneAudiometryStep.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0748BB28B8032E001D8599 /* ORKIdBHLToneAudiometryStep.m */; };
 		CA0748C028B80935001D8599 /* ORKOrderedTask+ResearchKitInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = CA0748BE28B80935001D8599 /* ORKOrderedTask+ResearchKitInternal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA0748C128B80935001D8599 /* ORKOrderedTask+ResearchKitInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0748BF28B80935001D8599 /* ORKOrderedTask+ResearchKitInternal.m */; };
 		CA0AC55828BD42E800E80040 /* ORKBLEScanPeripheralsStepResult.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0AC55228BD42E800E80040 /* ORKBLEScanPeripheralsStepResult.m */; };
@@ -112,8 +122,8 @@
 		CA0AC56F28BFE47E00E80040 /* ResearchKitActiveTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA0AC56E28BFE47E00E80040 /* ResearchKitActiveTask.framework */; };
 		CA0AC57128BFE47E00E80040 /* ResearchKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA0AC57028BFE47E00E80040 /* ResearchKitUI.framework */; };
 		CA0AC57428BFF9CD00E80040 /* No-Localization.strings in Resources */ = {isa = PBXBuildFile; fileRef = CA0AC57328BFF9CD00E80040 /* No-Localization.strings */; };
-		CA0AC57728BFFAB700E80040 /* AAPLUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = CA0AC57528BFFAB700E80040 /* AAPLUtils.h */; };
-		CA0AC57828BFFAB700E80040 /* AAPLUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0AC57628BFFAB700E80040 /* AAPLUtils.m */; };
+		CA0AC57728BFFAB700E80040 /* ORKIUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = CA0AC57528BFFAB700E80040 /* ORKIUtils.h */; };
+		CA0AC57828BFFAB700E80040 /* ORKIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0AC57628BFFAB700E80040 /* ORKIUtils.m */; };
 		CA3FF9D028B56A8300A33B6B /* ORKAVJournalingPredefinedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = CA3FF9C128B56A8300A33B6B /* ORKAVJournalingPredefinedTask.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CA3FF9D128B56A8300A33B6B /* ORKAVJournalingStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = CA3FF9C228B56A8300A33B6B /* ORKAVJournalingStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA3FF9D228B56A8300A33B6B /* ORKAVJournalingResult.h in Headers */ = {isa = PBXBuildFile; fileRef = CA3FF9C328B56A8300A33B6B /* ORKAVJournalingResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -271,19 +281,25 @@
 		511BB0062989E07F00936EC0 /* Noise.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Noise.wav; sourceTree = "<group>"; };
 		511BB0072989E07F00936EC0 /* VolumeCalibration.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = VolumeCalibration.wav; sourceTree = "<group>"; };
 		511BB00B2989E35300936EC0 /* Artwork.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Artwork.xcassets; sourceTree = "<group>"; };
-		511BB00E298B162400936EC0 /* AAPLHelpers_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLHelpers_Internal.h; sourceTree = "<group>"; };
-		511BB00F298B162400936EC0 /* AAPLHelpers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLHelpers.m; sourceTree = "<group>"; };
+		511BB00E298B162400936EC0 /* ORKIHelpers_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIHelpers_Internal.h; sourceTree = "<group>"; };
+		511BB00F298B162400936EC0 /* ORKIHelpers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIHelpers.m; sourceTree = "<group>"; };
 		511BB012298B3BD300936EC0 /* Window.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Window.wav; sourceTree = "<group>"; };
-		511BB019298DC91000936EC0 /* AAPLSpeechRecognitionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLSpeechRecognitionStep.h; sourceTree = "<group>"; };
-		511BB01A298DC91000936EC0 /* AAPLSpeechRecognitionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLSpeechRecognitionStep.m; sourceTree = "<group>"; };
-		511BB01E298DC94400936EC0 /* AAPLSpeechRecognitionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLSpeechRecognitionStepViewController.h; sourceTree = "<group>"; };
-		511BB01F298DC94400936EC0 /* AAPLSpeechRecognitionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLSpeechRecognitionStepViewController.m; sourceTree = "<group>"; };
-		511BB0332994518400936EC0 /* AAPLEnvironmentSPLMeterStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLEnvironmentSPLMeterStep.h; sourceTree = "<group>"; };
-		511BB0342994518400936EC0 /* AAPLEnvironmentSPLMeterStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLEnvironmentSPLMeterStep.m; sourceTree = "<group>"; };
-		511E8D5C2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLEnvironmentSPLMeterStepViewController.h; sourceTree = "<group>"; };
-		511E8D5D2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLEnvironmentSPLMeterStepViewController.m; sourceTree = "<group>"; };
-		511E8D662996FEC200A384A5 /* AAPLTaskViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLTaskViewController.h; sourceTree = "<group>"; };
-		511E8D672996FEC200A384A5 /* AAPLTaskViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLTaskViewController.m; sourceTree = "<group>"; };
+		511BB019298DC91000936EC0 /* ORKISpeechRecognitionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKISpeechRecognitionStep.h; sourceTree = "<group>"; };
+		511BB01A298DC91000936EC0 /* ORKISpeechRecognitionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKISpeechRecognitionStep.m; sourceTree = "<group>"; };
+		511BB01E298DC94400936EC0 /* ORKISpeechRecognitionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKISpeechRecognitionStepViewController.h; sourceTree = "<group>"; };
+		511BB01F298DC94400936EC0 /* ORKISpeechRecognitionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKISpeechRecognitionStepViewController.m; sourceTree = "<group>"; };
+		511BB0332994518400936EC0 /* ORKIEnvironmentSPLMeterStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIEnvironmentSPLMeterStep.h; sourceTree = "<group>"; };
+		511BB0342994518400936EC0 /* ORKIEnvironmentSPLMeterStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIEnvironmentSPLMeterStep.m; sourceTree = "<group>"; };
+		511E8D5C2995C01A00A384A5 /* ORKIEnvironmentSPLMeterStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIEnvironmentSPLMeterStepViewController.h; sourceTree = "<group>"; };
+		511E8D5D2995C01A00A384A5 /* ORKIEnvironmentSPLMeterStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIEnvironmentSPLMeterStepViewController.m; sourceTree = "<group>"; };
+		511E8D662996FEC200A384A5 /* ORKITaskViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKITaskViewController.h; sourceTree = "<group>"; };
+		511E8D672996FEC200A384A5 /* ORKITaskViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKITaskViewController.m; sourceTree = "<group>"; };
+		51633F3A2B98DC71000168E9 /* ORKIOrderedTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIOrderedTask.h; sourceTree = "<group>"; };
+		51633F3B2B98DC71000168E9 /* ORKIOrderedTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIOrderedTask.m; sourceTree = "<group>"; };
+		51633F422B98E43F000168E9 /* ORKINavigableOrderedTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKINavigableOrderedTask.h; sourceTree = "<group>"; };
+		51633F432B98E43F000168E9 /* ORKINavigableOrderedTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKINavigableOrderedTask.m; sourceTree = "<group>"; };
+		518100022B8FED800092A1C6 /* ORKInternalClassMapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKInternalClassMapper.h; sourceTree = "<group>"; };
+		518100032B8FED800092A1C6 /* ORKInternalClassMapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKInternalClassMapper.m; sourceTree = "<group>"; };
 		5192BF062AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKFamilyHistoryRelatedPersonCell.m; sourceTree = "<group>"; };
 		5192BF082AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKFamilyHistoryRelatedPersonCell.h; sourceTree = "<group>"; };
 		5192BF212AE04B15006E43FB /* ORKHealthCondition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKHealthCondition.m; sourceTree = "<group>"; };
@@ -316,6 +332,10 @@
 		5192BF692AE19718006E43FB /* LoudnessEQ_AIRPODSMAX.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LoudnessEQ_AIRPODSMAX.plist; sourceTree = "<group>"; };
 		5192BF6A2AE19718006E43FB /* LoudnessEQ_AIRPODSPRO.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LoudnessEQ_AIRPODSPRO.plist; sourceTree = "<group>"; };
 		5192BF6B2AE19718006E43FB /* LoudnessEQ_EARPODS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LoudnessEQ_EARPODS.plist; sourceTree = "<group>"; };
+		51AEAAB82B7453D400F4D107 /* ORKIQuestionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIQuestionStep.h; sourceTree = "<group>"; };
+		51AEAAB92B7453D400F4D107 /* ORKIQuestionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIQuestionStep.m; sourceTree = "<group>"; };
+		51AEAABC2B7454A200F4D107 /* ORKIQuestionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIQuestionStepViewController.h; sourceTree = "<group>"; };
+		51AEAABD2B7454A200F4D107 /* ORKIQuestionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIQuestionStepViewController.m; sourceTree = "<group>"; };
 		51BD8FA429CD12FE0001D54E /* ORKContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKContext.h; sourceTree = "<group>"; };
 		51BD8FEF29D88DDA0001D54E /* ORKAVFoundationSoftLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKAVFoundationSoftLink.h; sourceTree = "<group>"; };
 		51BD8FF029D88DDA0001D54E /* ORKCelestialSoftLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKCelestialSoftLink.h; sourceTree = "<group>"; };
@@ -328,40 +348,40 @@
 		51BD8FFC29D88FD30001D54E /* AVFoundation_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVFoundation_Private.h; sourceTree = "<group>"; };
 		51BD8FFF29D88FD30001D54E /* AVSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVSystemController.h; sourceTree = "<group>"; };
 		51BD900029D88FD30001D54E /* Celestial_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Celestial_Private.h; sourceTree = "<group>"; };
-		51BD901129DB92280001D54E /* AAPLdBHLToneAudiometryResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLdBHLToneAudiometryResult.h; sourceTree = "<group>"; };
-		51BD901229DB92280001D54E /* AAPLdBHLToneAudiometryResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLdBHLToneAudiometryResult.m; sourceTree = "<group>"; };
+		51BD901129DB92280001D54E /* ORKIdBHLToneAudiometryResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIdBHLToneAudiometryResult.h; sourceTree = "<group>"; };
+		51BD901229DB92280001D54E /* ORKIdBHLToneAudiometryResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIdBHLToneAudiometryResult.m; sourceTree = "<group>"; };
 		51BD903229E8BE820001D54E /* ORKContext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKContext.m; sourceTree = "<group>"; };
 		51BD906229F738780001D54E /* UIColor+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Custom.m"; sourceTree = "<group>"; };
 		51BD906329F738780001D54E /* UIColor+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Custom.h"; sourceTree = "<group>"; };
-		51BD906629F73BE80001D54E /* AAPLTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLTypes.h; sourceTree = "<group>"; };
-		51BD906729F73BE80001D54E /* AAPLTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLTypes.m; sourceTree = "<group>"; };
+		51BD906629F73BE80001D54E /* ORKITypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKITypes.h; sourceTree = "<group>"; };
+		51BD906729F73BE80001D54E /* ORKITypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKITypes.m; sourceTree = "<group>"; };
 		51BD907229FB35DD0001D54E /* ORKActiveTaskResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKActiveTaskResultTests.swift; sourceTree = "<group>"; };
 		51BD907829FC4A470001D54E /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		51BD907A29FC4A470001D54E /* ResearchKitActiveTask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitActiveTask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		51BD907C29FC4A470001D54E /* ResearchKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		51CB6DA229C0F12800A85D79 /* AAPLInstructionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLInstructionStep.h; sourceTree = "<group>"; };
-		51CB6DA329C0F12800A85D79 /* AAPLInstructionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLInstructionStep.m; sourceTree = "<group>"; };
-		51CB6DA629C0F36E00A85D79 /* AAPLInstructionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLInstructionStepViewController.h; sourceTree = "<group>"; };
-		51CB6DA729C0F36E00A85D79 /* AAPLInstructionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLInstructionStepViewController.m; sourceTree = "<group>"; };
+		51CB6DA229C0F12800A85D79 /* ORKIInstructionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIInstructionStep.h; sourceTree = "<group>"; };
+		51CB6DA329C0F12800A85D79 /* ORKIInstructionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIInstructionStep.m; sourceTree = "<group>"; };
+		51CB6DA629C0F36E00A85D79 /* ORKIInstructionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIInstructionStepViewController.h; sourceTree = "<group>"; };
+		51CB6DA729C0F36E00A85D79 /* ORKIInstructionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIInstructionStepViewController.m; sourceTree = "<group>"; };
 		51CB6DB329C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSensitiveURLLearnMoreInstructionStep.h; sourceTree = "<group>"; };
 		51CB6DB429C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSensitiveURLLearnMoreInstructionStep.m; sourceTree = "<group>"; };
 		51D9B86E2B22950100927FDF /* ORKFamilyHistoryResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKFamilyHistoryResultTests.swift; sourceTree = "<group>"; };
 		51F2112F2B5067AA0072B536 /* ORKAudioDictationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKAudioDictationView.m; sourceTree = "<group>"; };
 		51F211302B5067AA0072B536 /* ORKAudioDictationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKAudioDictationView.h; sourceTree = "<group>"; };
-		51F716D829808B8100D8ACF7 /* AAPLCompletionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLCompletionStep.m; sourceTree = "<group>"; };
-		51F716DA29808CDE00D8ACF7 /* AAPLCompletionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLCompletionStep.h; sourceTree = "<group>"; };
-		51F716DC29808E0200D8ACF7 /* AAPLCompletionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLCompletionStepViewController.h; sourceTree = "<group>"; };
-		51F716DD29808E0200D8ACF7 /* AAPLCompletionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLCompletionStepViewController.m; sourceTree = "<group>"; };
-		51F716ED2981DE0700D8ACF7 /* AAPLSpeechInNoiseStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLSpeechInNoiseStep.m; sourceTree = "<group>"; };
-		51F716EE2981DE0700D8ACF7 /* AAPLSpeechInNoiseStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLSpeechInNoiseStep.h; sourceTree = "<group>"; };
-		51F716F12981DE1B00D8ACF7 /* AAPLSpeechInNoiseStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLSpeechInNoiseStepViewController.h; sourceTree = "<group>"; };
-		51F716F22981DE1B00D8ACF7 /* AAPLSpeechInNoiseStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLSpeechInNoiseStepViewController.m; sourceTree = "<group>"; };
-		CA0748B228B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLdBHLToneAudiometryAudioGenerator.h; sourceTree = "<group>"; };
-		CA0748B328B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLdBHLToneAudiometryAudioGenerator.m; sourceTree = "<group>"; };
-		CA0748B628B7F997001D8599 /* AAPLdBHLToneAudiometryStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLdBHLToneAudiometryStepViewController.h; sourceTree = "<group>"; };
-		CA0748B728B7F997001D8599 /* AAPLdBHLToneAudiometryStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLdBHLToneAudiometryStepViewController.m; sourceTree = "<group>"; };
-		CA0748BA28B8032E001D8599 /* AAPLdBHLToneAudiometryStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLdBHLToneAudiometryStep.h; sourceTree = "<group>"; };
-		CA0748BB28B8032E001D8599 /* AAPLdBHLToneAudiometryStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLdBHLToneAudiometryStep.m; sourceTree = "<group>"; };
+		51F716D829808B8100D8ACF7 /* ORKICompletionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKICompletionStep.m; sourceTree = "<group>"; };
+		51F716DA29808CDE00D8ACF7 /* ORKICompletionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKICompletionStep.h; sourceTree = "<group>"; };
+		51F716DC29808E0200D8ACF7 /* ORKICompletionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKICompletionStepViewController.h; sourceTree = "<group>"; };
+		51F716DD29808E0200D8ACF7 /* ORKICompletionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKICompletionStepViewController.m; sourceTree = "<group>"; };
+		51F716ED2981DE0700D8ACF7 /* ORKISpeechInNoiseStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKISpeechInNoiseStep.m; sourceTree = "<group>"; };
+		51F716EE2981DE0700D8ACF7 /* ORKISpeechInNoiseStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKISpeechInNoiseStep.h; sourceTree = "<group>"; };
+		51F716F12981DE1B00D8ACF7 /* ORKISpeechInNoiseStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKISpeechInNoiseStepViewController.h; sourceTree = "<group>"; };
+		51F716F22981DE1B00D8ACF7 /* ORKISpeechInNoiseStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKISpeechInNoiseStepViewController.m; sourceTree = "<group>"; };
+		CA0748B228B7F18B001D8599 /* ORKIdBHLToneAudiometryAudioGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIdBHLToneAudiometryAudioGenerator.h; sourceTree = "<group>"; };
+		CA0748B328B7F18B001D8599 /* ORKIdBHLToneAudiometryAudioGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIdBHLToneAudiometryAudioGenerator.m; sourceTree = "<group>"; };
+		CA0748B628B7F997001D8599 /* ORKIdBHLToneAudiometryStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIdBHLToneAudiometryStepViewController.h; sourceTree = "<group>"; };
+		CA0748B728B7F997001D8599 /* ORKIdBHLToneAudiometryStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIdBHLToneAudiometryStepViewController.m; sourceTree = "<group>"; };
+		CA0748BA28B8032E001D8599 /* ORKIdBHLToneAudiometryStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIdBHLToneAudiometryStep.h; sourceTree = "<group>"; };
+		CA0748BB28B8032E001D8599 /* ORKIdBHLToneAudiometryStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIdBHLToneAudiometryStep.m; sourceTree = "<group>"; };
 		CA0748BE28B80935001D8599 /* ORKOrderedTask+ResearchKitInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKOrderedTask+ResearchKitInternal.h"; sourceTree = "<group>"; };
 		CA0748BF28B80935001D8599 /* ORKOrderedTask+ResearchKitInternal.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ORKOrderedTask+ResearchKitInternal.m"; sourceTree = "<group>"; };
 		CA0AC55228BD42E800E80040 /* ORKBLEScanPeripheralsStepResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKBLEScanPeripheralsStepResult.m; sourceTree = "<group>"; };
@@ -378,8 +398,8 @@
 		CA0AC56E28BFE47E00E80040 /* ResearchKitActiveTask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitActiveTask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA0AC57028BFE47E00E80040 /* ResearchKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA0AC57328BFF9CD00E80040 /* No-Localization.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = "No-Localization.strings"; sourceTree = "<group>"; };
-		CA0AC57528BFFAB700E80040 /* AAPLUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLUtils.h; sourceTree = "<group>"; };
-		CA0AC57628BFFAB700E80040 /* AAPLUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLUtils.m; sourceTree = "<group>"; };
+		CA0AC57528BFFAB700E80040 /* ORKIUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIUtils.h; sourceTree = "<group>"; };
+		CA0AC57628BFFAB700E80040 /* ORKIUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIUtils.m; sourceTree = "<group>"; };
 		CA0AC57A28C0020300E80040 /* ResearchKitInternal-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKitInternal-Debug.xcconfig"; sourceTree = "<group>"; };
 		CA0AC57B28C002A700E80040 /* ResearchKitInternal-Skywagon-Stable.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKitInternal-Skywagon-Stable.xcconfig"; sourceTree = "<group>"; };
 		CA0AC58528C0036F00E80040 /* ResearchKitInternal-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKitInternal-Release.xcconfig"; sourceTree = "<group>"; };
@@ -556,10 +576,10 @@
 		511BB018298DC8AC00936EC0 /* SpeechRecognition */ = {
 			isa = PBXGroup;
 			children = (
-				511BB019298DC91000936EC0 /* AAPLSpeechRecognitionStep.h */,
-				511BB01A298DC91000936EC0 /* AAPLSpeechRecognitionStep.m */,
-				511BB01E298DC94400936EC0 /* AAPLSpeechRecognitionStepViewController.h */,
-				511BB01F298DC94400936EC0 /* AAPLSpeechRecognitionStepViewController.m */,
+				511BB019298DC91000936EC0 /* ORKISpeechRecognitionStep.h */,
+				511BB01A298DC91000936EC0 /* ORKISpeechRecognitionStep.m */,
+				511BB01E298DC94400936EC0 /* ORKISpeechRecognitionStepViewController.h */,
+				511BB01F298DC94400936EC0 /* ORKISpeechRecognitionStepViewController.m */,
 			);
 			path = SpeechRecognition;
 			sourceTree = "<group>";
@@ -567,10 +587,10 @@
 		511BB0322994513D00936EC0 /* EnvironmentSPLMeter */ = {
 			isa = PBXGroup;
 			children = (
-				511BB0332994518400936EC0 /* AAPLEnvironmentSPLMeterStep.h */,
-				511BB0342994518400936EC0 /* AAPLEnvironmentSPLMeterStep.m */,
-				511E8D5C2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.h */,
-				511E8D5D2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.m */,
+				511BB0332994518400936EC0 /* ORKIEnvironmentSPLMeterStep.h */,
+				511BB0342994518400936EC0 /* ORKIEnvironmentSPLMeterStep.m */,
+				511E8D5C2995C01A00A384A5 /* ORKIEnvironmentSPLMeterStepViewController.h */,
+				511E8D5D2995C01A00A384A5 /* ORKIEnvironmentSPLMeterStepViewController.m */,
 			);
 			path = EnvironmentSPLMeter;
 			sourceTree = "<group>";
@@ -578,10 +598,30 @@
 		511E8D652996FE7000A384A5 /* Task */ = {
 			isa = PBXGroup;
 			children = (
-				511E8D662996FEC200A384A5 /* AAPLTaskViewController.h */,
-				511E8D672996FEC200A384A5 /* AAPLTaskViewController.m */,
+				511E8D662996FEC200A384A5 /* ORKITaskViewController.h */,
+				511E8D672996FEC200A384A5 /* ORKITaskViewController.m */,
 			);
 			path = Task;
+			sourceTree = "<group>";
+		};
+		51633F392B98DC2A000168E9 /* OrderedTask */ = {
+			isa = PBXGroup;
+			children = (
+				51633F3A2B98DC71000168E9 /* ORKIOrderedTask.h */,
+				51633F3B2B98DC71000168E9 /* ORKIOrderedTask.m */,
+				51633F422B98E43F000168E9 /* ORKINavigableOrderedTask.h */,
+				51633F432B98E43F000168E9 /* ORKINavigableOrderedTask.m */,
+			);
+			path = OrderedTask;
+			sourceTree = "<group>";
+		};
+		518100012B8FED670092A1C6 /* Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				518100022B8FED800092A1C6 /* ORKInternalClassMapper.h */,
+				518100032B8FED800092A1C6 /* ORKInternalClassMapper.m */,
+			);
+			path = Mapper;
 			sourceTree = "<group>";
 		};
 		5192BEF02AE04594006E43FB /* Family History */ = {
@@ -628,6 +668,17 @@
 				5192BF062AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m */,
 			);
 			path = "TableView Cells";
+			sourceTree = "<group>";
+		};
+		51AEAAB72B7453AE00F4D107 /* Question Step */ = {
+			isa = PBXGroup;
+			children = (
+				51AEAAB82B7453D400F4D107 /* ORKIQuestionStep.h */,
+				51AEAAB92B7453D400F4D107 /* ORKIQuestionStep.m */,
+				51AEAABC2B7454A200F4D107 /* ORKIQuestionStepViewController.h */,
+				51AEAABD2B7454A200F4D107 /* ORKIQuestionStepViewController.m */,
+			);
+			path = "Question Step";
 			sourceTree = "<group>";
 		};
 		51BD8FA329CD128D0001D54E /* Misc */ = {
@@ -689,8 +740,10 @@
 		51F716D529808B0000D8ACF7 /* Step */ = {
 			isa = PBXGroup;
 			children = (
+				51F716D729808B5600D8ACF7 /* Completion Step */,
 				5192BEF02AE04594006E43FB /* Family History */,
 				51F716D629808B0E00D8ACF7 /* Instruction Step */,
+				51AEAAB72B7453AE00F4D107 /* Question Step */,
 			);
 			path = Step;
 			sourceTree = "<group>";
@@ -699,11 +752,10 @@
 			isa = PBXGroup;
 			children = (
 				51CB6DAE29C112F100A85D79 /* SensitiveURLStep */,
-				51CB6DA229C0F12800A85D79 /* AAPLInstructionStep.h */,
-				51CB6DA329C0F12800A85D79 /* AAPLInstructionStep.m */,
-				51CB6DA629C0F36E00A85D79 /* AAPLInstructionStepViewController.h */,
-				51CB6DA729C0F36E00A85D79 /* AAPLInstructionStepViewController.m */,
-				51F716D729808B5600D8ACF7 /* Completion Step */,
+				51CB6DA229C0F12800A85D79 /* ORKIInstructionStep.h */,
+				51CB6DA329C0F12800A85D79 /* ORKIInstructionStep.m */,
+				51CB6DA629C0F36E00A85D79 /* ORKIInstructionStepViewController.h */,
+				51CB6DA729C0F36E00A85D79 /* ORKIInstructionStepViewController.m */,
 			);
 			path = "Instruction Step";
 			sourceTree = "<group>";
@@ -711,10 +763,10 @@
 		51F716D729808B5600D8ACF7 /* Completion Step */ = {
 			isa = PBXGroup;
 			children = (
-				51F716D829808B8100D8ACF7 /* AAPLCompletionStep.m */,
-				51F716DA29808CDE00D8ACF7 /* AAPLCompletionStep.h */,
-				51F716DC29808E0200D8ACF7 /* AAPLCompletionStepViewController.h */,
-				51F716DD29808E0200D8ACF7 /* AAPLCompletionStepViewController.m */,
+				51F716DA29808CDE00D8ACF7 /* ORKICompletionStep.h */,
+				51F716D829808B8100D8ACF7 /* ORKICompletionStep.m */,
+				51F716DC29808E0200D8ACF7 /* ORKICompletionStepViewController.h */,
+				51F716DD29808E0200D8ACF7 /* ORKICompletionStepViewController.m */,
 			);
 			path = "Completion Step";
 			sourceTree = "<group>";
@@ -722,14 +774,15 @@
 		CA0AC54828BD382600E80040 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				51633F392B98DC2A000168E9 /* OrderedTask */,
 				51BD906329F738780001D54E /* UIColor+Custom.h */,
 				51BD906229F738780001D54E /* UIColor+Custom.m */,
 				51BD8FA329CD128D0001D54E /* Misc */,
 				511E8D652996FE7000A384A5 /* Task */,
 				51F716D529808B0000D8ACF7 /* Step */,
 				CA0AC54928BD382D00E80040 /* Utilities */,
-				CA0AC57528BFFAB700E80040 /* AAPLUtils.h */,
-				CA0AC57628BFFAB700E80040 /* AAPLUtils.m */,
+				CA0AC57528BFFAB700E80040 /* ORKIUtils.h */,
+				CA0AC57628BFFAB700E80040 /* ORKIUtils.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -740,10 +793,10 @@
 				51BD8FEF29D88DDA0001D54E /* ORKAVFoundationSoftLink.h */,
 				51BD8FF029D88DDA0001D54E /* ORKCelestialSoftLink.h */,
 				51BD8FF129D88DDA0001D54E /* ORKSoftLinking.h */,
-				511BB00E298B162400936EC0 /* AAPLHelpers_Internal.h */,
-				511BB00F298B162400936EC0 /* AAPLHelpers.m */,
-				51BD906629F73BE80001D54E /* AAPLTypes.h */,
-				51BD906729F73BE80001D54E /* AAPLTypes.m */,
+				511BB00E298B162400936EC0 /* ORKIHelpers_Internal.h */,
+				511BB00F298B162400936EC0 /* ORKIHelpers.m */,
+				51BD906629F73BE80001D54E /* ORKITypes.h */,
+				51BD906729F73BE80001D54E /* ORKITypes.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -753,10 +806,10 @@
 			children = (
 				CA0AC55F28BD432300E80040 /* ORKSpeechInNoisePredefinedTask.h */,
 				CA0AC55E28BD432300E80040 /* ORKSpeechInNoisePredefinedTask.m */,
-				51F716EE2981DE0700D8ACF7 /* AAPLSpeechInNoiseStep.h */,
-				51F716ED2981DE0700D8ACF7 /* AAPLSpeechInNoiseStep.m */,
-				51F716F12981DE1B00D8ACF7 /* AAPLSpeechInNoiseStepViewController.h */,
-				51F716F22981DE1B00D8ACF7 /* AAPLSpeechInNoiseStepViewController.m */,
+				51F716EE2981DE0700D8ACF7 /* ORKISpeechInNoiseStep.h */,
+				51F716ED2981DE0700D8ACF7 /* ORKISpeechInNoiseStep.m */,
+				51F716F12981DE1B00D8ACF7 /* ORKISpeechInNoiseStepViewController.h */,
+				51F716F22981DE1B00D8ACF7 /* ORKISpeechInNoiseStepViewController.m */,
 				511BB0072989E07F00936EC0 /* VolumeCalibration.wav */,
 				511BB0062989E07F00936EC0 /* Noise.wav */,
 				511BB012298B3BD300936EC0 /* Window.wav */,
@@ -851,8 +904,8 @@
 			children = (
 				CA5B6DAD28BD29AA002C3BA4 /* ORKdBHLTaskContext.m */,
 				CA58F88928B5330D00761769 /* ORKAudiometry */,
-				51BD901129DB92280001D54E /* AAPLdBHLToneAudiometryResult.h */,
-				51BD901229DB92280001D54E /* AAPLdBHLToneAudiometryResult.m */,
+				51BD901129DB92280001D54E /* ORKIdBHLToneAudiometryResult.h */,
+				51BD901229DB92280001D54E /* ORKIdBHLToneAudiometryResult.m */,
 			);
 			path = "dBHL Tone Audiometry";
 			sourceTree = "<group>";
@@ -862,12 +915,12 @@
 			children = (
 				CA58F88A28B5330D00761769 /* MathUtilities */,
 				CA58F8AF28B534A800761769 /* ORKNewAudiometry.swift */,
-				CA0748B228B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.h */,
-				CA0748B328B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.m */,
-				CA0748B628B7F997001D8599 /* AAPLdBHLToneAudiometryStepViewController.h */,
-				CA0748B728B7F997001D8599 /* AAPLdBHLToneAudiometryStepViewController.m */,
-				CA0748BA28B8032E001D8599 /* AAPLdBHLToneAudiometryStep.h */,
-				CA0748BB28B8032E001D8599 /* AAPLdBHLToneAudiometryStep.m */,
+				CA0748B228B7F18B001D8599 /* ORKIdBHLToneAudiometryAudioGenerator.h */,
+				CA0748B328B7F18B001D8599 /* ORKIdBHLToneAudiometryAudioGenerator.m */,
+				CA0748B628B7F997001D8599 /* ORKIdBHLToneAudiometryStepViewController.h */,
+				CA0748B728B7F997001D8599 /* ORKIdBHLToneAudiometryStepViewController.m */,
+				CA0748BA28B8032E001D8599 /* ORKIdBHLToneAudiometryStep.h */,
+				CA0748BB28B8032E001D8599 /* ORKIdBHLToneAudiometryStep.m */,
 			);
 			path = ORKAudiometry;
 			sourceTree = "<group>";
@@ -1086,6 +1139,7 @@
 		CA77D23028AFF89200400292 /* ResearchKitInternal */ = {
 			isa = PBXGroup;
 			children = (
+				518100012B8FED670092A1C6 /* Mapper */,
 				5192BF4B2AE04C0F006E43FB /* ResearchKitInternal.h */,
 				CA3FF9DF28B56B0600A33B6B /* ResearchKitInternal_Private.h */,
 				CA58F8BB28B556A700761769 /* ResearchKitInternal.modulemap */,
@@ -1195,7 +1249,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				511BB010298B162400936EC0 /* AAPLHelpers_Internal.h in Headers */,
+				511BB010298B162400936EC0 /* ORKIHelpers_Internal.h in Headers */,
+				51AEAABA2B7453D400F4D107 /* ORKIQuestionStep.h in Headers */,
 				CA5B6D8A28BD1F38002C3BA4 /* ORKTinnitusVolumeResult.h in Headers */,
 				CA77D29928AFFB4700400292 /* ORKFlamesView.h in Headers */,
 				5192BF422AE04B16006E43FB /* ORKFamilyHistoryReviewController.h in Headers */,
@@ -1207,20 +1262,21 @@
 				CA5B6D5628BD1F38002C3BA4 /* ORKTinnitusAssessmentContentView.h in Headers */,
 				5192BF492AE04B32006E43FB /* ORKFamilyHistoryTableHeaderView.h in Headers */,
 				51CB6DB529C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.h in Headers */,
-				511E8D5E2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.h in Headers */,
+				511E8D5E2995C01A00A384A5 /* ORKIEnvironmentSPLMeterStepViewController.h in Headers */,
 				CA58F89F28B5330D00761769 /* ORKNewAudiometryMinimizer.h in Headers */,
 				CA5B6DA928BD27FC002C3BA4 /* ORKHeadphonesRequiredCompletionStepViewController.h in Headers */,
-				51CB6DA829C0F36E00A85D79 /* AAPLInstructionStepViewController.h in Headers */,
+				51CB6DA829C0F36E00A85D79 /* ORKIInstructionStepViewController.h in Headers */,
 				5192BF412AE04B16006E43FB /* ORKFamilyHistoryResult.h in Headers */,
 				51F211322B5067AB0072B536 /* ORKAudioDictationView.h in Headers */,
 				51BD900729D88FD30001D54E /* AVSystemController.h in Headers */,
+				51633F3C2B98DC71000168E9 /* ORKIOrderedTask.h in Headers */,
 				5192BF352AE04B16006E43FB /* ORKFamilyHistoryStep.h in Headers */,
 				51BD900529D88FD30001D54E /* AVOutputContext_Private.h in Headers */,
 				CA77D2A728AFFB4700400292 /* ORKFlamesViewTypes.h in Headers */,
-				511BB01B298DC91000936EC0 /* AAPLSpeechRecognitionStep.h in Headers */,
+				511BB01B298DC91000936EC0 /* ORKISpeechRecognitionStep.h in Headers */,
 				CA3FF9DB28B56A8300A33B6B /* ORKAVJournalingSessionHelper.h in Headers */,
 				CA77D29A28AFFB4700400292 /* ORKFlamesViewMetal.h in Headers */,
-				CA0748B428B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.h in Headers */,
+				CA0748B428B7F18B001D8599 /* ORKIdBHLToneAudiometryAudioGenerator.h in Headers */,
 				CA5B6DA628BD27FC002C3BA4 /* ORKHeadphoneDetectStepViewController.h in Headers */,
 				CA5B6D5828BD1F38002C3BA4 /* ORKTinnitusOverallAssessmentStepViewController.h in Headers */,
 				CA5B6D5928BD1F38002C3BA4 /* ORKTinnitusOverallAssessmentResult.h in Headers */,
@@ -1229,9 +1285,10 @@
 				51BD900429D88FD30001D54E /* AVOutputDevice.h in Headers */,
 				CA5B6D5F28BD1F38002C3BA4 /* ORKTinnitusMaskingSoundStepViewController.h in Headers */,
 				5192BF372AE04B16006E43FB /* ORKHealthCondition.h in Headers */,
-				511BB0352994518400936EC0 /* AAPLEnvironmentSPLMeterStep.h in Headers */,
+				511BB0352994518400936EC0 /* ORKIEnvironmentSPLMeterStep.h in Headers */,
 				CA77D2A828AFFB4700400292 /* ORKAudioLevelSmoother.h in Headers */,
 				CA3FF9DD28B56A8300A33B6B /* ORKAVJournalingStepContentView.h in Headers */,
+				51AEAABE2B7454A200F4D107 /* ORKIQuestionStepViewController.h in Headers */,
 				CA77D2A328AFFB4700400292 /* ORKIndexCacheEntry.h in Headers */,
 				CA0AC56128BD432300E80040 /* ORKSpeechInNoisePredefinedTask.h in Headers */,
 				CA5B6D5E28BD1F38002C3BA4 /* ORKTinnitusMaskingSoundStep.h in Headers */,
@@ -1242,41 +1299,42 @@
 				5192BF0E2AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.h in Headers */,
 				CA5B6D5728BD1F38002C3BA4 /* ORKTinnitusOverallAssessmentStep.h in Headers */,
 				CA3FF9DE28B56A8300A33B6B /* ORKAVJournalingStep.h in Headers */,
-				51BD901329DB92280001D54E /* AAPLdBHLToneAudiometryResult.h in Headers */,
+				51BD901329DB92280001D54E /* ORKIdBHLToneAudiometryResult.h in Headers */,
 				CA5B6D6028BD1F38002C3BA4 /* ORKTinnitusMaskingSoundResult.h in Headers */,
 				5192BF362AE04B16006E43FB /* ORKFamilyHistoryStepViewController_Private.h in Headers */,
+				51633F442B98E43F000168E9 /* ORKINavigableOrderedTask.h in Headers */,
 				CA5B6D6D28BD1F38002C3BA4 /* ORKTinnitusPureToneStepViewController_Private.h in Headers */,
 				CA5B6D8B28BD1F38002C3BA4 /* ORKTinnitusAudioSample.h in Headers */,
-				51F716DB29808CF700D8ACF7 /* AAPLCompletionStep.h in Headers */,
+				51F716DB29808CF700D8ACF7 /* ORKICompletionStep.h in Headers */,
 				CA5B6D1128BD1C5C002C3BA4 /* ORKTypingResult.h in Headers */,
-				51CB6DA429C0F12800A85D79 /* AAPLInstructionStep.h in Headers */,
+				51CB6DA429C0F12800A85D79 /* ORKIInstructionStep.h in Headers */,
 				CA5B6DA728BD27FC002C3BA4 /* ORKHeadphoneDetector.h in Headers */,
-				511BB020298DC94400936EC0 /* AAPLSpeechRecognitionStepViewController.h in Headers */,
+				511BB020298DC94400936EC0 /* ORKISpeechRecognitionStepViewController.h in Headers */,
 				CA3FF9D228B56A8300A33B6B /* ORKAVJournalingResult.h in Headers */,
 				CA0748C028B80935001D8599 /* ORKOrderedTask+ResearchKitInternal.h in Headers */,
 				51BD906529F738780001D54E /* UIColor+Custom.h in Headers */,
-				51BD906829F73BE80001D54E /* AAPLTypes.h in Headers */,
+				51BD906829F73BE80001D54E /* ORKITypes.h in Headers */,
 				CA5B6D6328BD1F38002C3BA4 /* ORKTinnitusHeadphoneTable.h in Headers */,
 				5192BF4C2AE04C0F006E43FB /* ResearchKitInternal.h in Headers */,
 				5192BF332AE04B16006E43FB /* ORKFamilyHistoryStepViewController.h in Headers */,
 				51BD900229D88FD30001D54E /* AVOutputDeviceDiscoverySession.h in Headers */,
 				CA3FF9D028B56A8300A33B6B /* ORKAVJournalingPredefinedTask.h in Headers */,
-				511E8D682996FEC200A384A5 /* AAPLTaskViewController.h in Headers */,
+				511E8D682996FEC200A384A5 /* ORKITaskViewController.h in Headers */,
 				CA5B6D7828BD1F38002C3BA4 /* ORKTinnitusTypeStepViewController.h in Headers */,
 				CA3FF9EA28B5705300A33B6B /* ORKFaceDetectionStep.h in Headers */,
 				CA5B6D6728BD1F38002C3BA4 /* ORKTinnitusPureToneResult.h in Headers */,
 				51BD8FF429D88DDA0001D54E /* ORKSoftLinking.h in Headers */,
-				51F716F32981DE1B00D8ACF7 /* AAPLSpeechInNoiseStepViewController.h in Headers */,
-				CA0AC57728BFFAB700E80040 /* AAPLUtils.h in Headers */,
+				51F716F32981DE1B00D8ACF7 /* ORKISpeechInNoiseStepViewController.h in Headers */,
+				CA0AC57728BFFAB700E80040 /* ORKIUtils.h in Headers */,
 				51BD900629D88FD30001D54E /* AVFoundation_Private.h in Headers */,
-				CA0748B828B7F997001D8599 /* AAPLdBHLToneAudiometryStepViewController.h in Headers */,
+				CA0748B828B7F997001D8599 /* ORKIdBHLToneAudiometryStepViewController.h in Headers */,
 				CA3FF9EC28B5705300A33B6B /* ORKFaceDetectionStepViewController.h in Headers */,
 				CA3FF9EE28B5705300A33B6B /* ORKFaceDetectionStepContentView.h in Headers */,
 				CA5B6D7C28BD1F38002C3BA4 /* ORKTinnitusPredefinedTask.h in Headers */,
 				CA5B6D0E28BD1C5C002C3BA4 /* ORKTypingStep.h in Headers */,
-				CA0748BC28B8032E001D8599 /* AAPLdBHLToneAudiometryStep.h in Headers */,
+				CA0748BC28B8032E001D8599 /* ORKIdBHLToneAudiometryStep.h in Headers */,
 				CA5B6D0F28BD1C5C002C3BA4 /* ORKTypingStepViewController.h in Headers */,
-				51F716DE29808E0200D8ACF7 /* AAPLCompletionStepViewController.h in Headers */,
+				51F716DE29808E0200D8ACF7 /* ORKICompletionStepViewController.h in Headers */,
 				5192BF3A2AE04B16006E43FB /* ORKRelatedPerson.h in Headers */,
 				51BD900129D88FD30001D54E /* AVOutputContext.h in Headers */,
 				CA77D2A128AFFB4700400292 /* ORKFlamesShaderTypes.h in Headers */,
@@ -1289,13 +1347,14 @@
 				CA5B6DA428BD27FC002C3BA4 /* ORKHeadphoneDetectStep.h in Headers */,
 				5192BF3E2AE04B16006E43FB /* ORKConditionStepConfiguration.h in Headers */,
 				CA3FF9DA28B56A8300A33B6B /* ORKAVJournalingPredefinedTask_Internal.h in Headers */,
-				51F716F02981DE0700D8ACF7 /* AAPLSpeechInNoiseStep.h in Headers */,
+				51F716F02981DE0700D8ACF7 /* ORKISpeechInNoiseStep.h in Headers */,
 				CA0AC55D28BD42E800E80040 /* ORKBLEScanPeripheralsStep.h in Headers */,
 				CA0AC55C28BD42E800E80040 /* ORKBLEScanPeripheralsStepResult.h in Headers */,
 				CA77D29E28AFFB4700400292 /* ORKFlamesViewProviding.h in Headers */,
 				CA5B6DA828BD27FC002C3BA4 /* ORKHeadphonesRequiredCompletionStep.h in Headers */,
 				5192BF472AE04B32006E43FB /* ORKFamilyHistoryTableFooterView.h in Headers */,
 				CA3FF9E028B56B0600A33B6B /* ResearchKitInternal_Private.h in Headers */,
+				518100042B8FED800092A1C6 /* ORKInternalClassMapper.h in Headers */,
 				CA3FF9D128B56A8300A33B6B /* ORKAVJournalingStepViewController.h in Headers */,
 				CA77D2A628AFFB4700400292 /* ORKFlamesViewLegacy.h in Headers */,
 				CA5B6D7928BD1F38002C3BA4 /* ORKTinnitusTypeResult.h in Headers */,
@@ -1429,11 +1488,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA5B6D1028BD1C5C002C3BA4 /* ORKTypingStepViewController.m in Sources */,
+				51AEAABB2B7453D400F4D107 /* ORKIQuestionStep.m in Sources */,
 				CA5B6DAC28BD27FC002C3BA4 /* ORKHeadphoneDetectStepViewController.m in Sources */,
 				CA5B6DAB28BD27FC002C3BA4 /* ORKHeadphoneDetectResult.m in Sources */,
-				CA0748BD28B8032E001D8599 /* AAPLdBHLToneAudiometryStep.m in Sources */,
+				CA0748BD28B8032E001D8599 /* ORKIdBHLToneAudiometryStep.m in Sources */,
 				5192BF3C2AE04B16006E43FB /* ORKRelativeGroup.m in Sources */,
-				51F716D929808B8100D8ACF7 /* AAPLCompletionStep.m in Sources */,
+				51F716D929808B8100D8ACF7 /* ORKICompletionStep.m in Sources */,
 				5192BF482AE04B32006E43FB /* ORKFamilyHistoryTableFooterView.m in Sources */,
 				CA58F8A428B5330D00761769 /* Matrix.swift in Sources */,
 				CA5B6DAE28BD29AA002C3BA4 /* ORKdBHLTaskContext.m in Sources */,
@@ -1447,8 +1507,8 @@
 				5192BF3F2AE04B16006E43FB /* ORKFamilyHistoryReviewController.m in Sources */,
 				CA58F8A928B5330E00761769 /* print.c in Sources */,
 				5192BF382AE04B16006E43FB /* ORKFamilyHistoryStep.m in Sources */,
-				511E8D692996FEC200A384A5 /* AAPLTaskViewController.m in Sources */,
-				51BD906929F73BE80001D54E /* AAPLTypes.m in Sources */,
+				511E8D692996FEC200A384A5 /* ORKITaskViewController.m in Sources */,
+				51BD906929F73BE80001D54E /* ORKITypes.m in Sources */,
 				CA0748C128B80935001D8599 /* ORKOrderedTask+ResearchKitInternal.m in Sources */,
 				CA5B6D6F28BD1F38002C3BA4 /* ORKTinnitusTypes.m in Sources */,
 				51BD903329E8BE820001D54E /* ORKContext.m in Sources */,
@@ -1456,15 +1516,16 @@
 				5192BF4A2AE04B32006E43FB /* ORKFamilyHistoryTableHeaderView.m in Sources */,
 				CA58F8A728B5330E00761769 /* timer.c in Sources */,
 				5192BF392AE04B16006E43FB /* ORKFamilyHistoryStepViewController.m in Sources */,
-				511E8D5F2995C01A00A384A5 /* AAPLEnvironmentSPLMeterStepViewController.m in Sources */,
+				511E8D5F2995C01A00A384A5 /* ORKIEnvironmentSPLMeterStepViewController.m in Sources */,
 				CA5B6DA528BD27FC002C3BA4 /* ORKHeadphonesRequiredCompletionStepViewController.m in Sources */,
+				51633F452B98E43F000168E9 /* ORKINavigableOrderedTask.m in Sources */,
 				CA5B6D6628BD1F38002C3BA4 /* ORKTinnitusPureToneContentView.m in Sources */,
 				CA5B6D7628BD1F38002C3BA4 /* ORKTinnitusTypeStep.m in Sources */,
 				CA5B6D5A28BD1F38002C3BA4 /* ORKTinnitusOverallAssessmentStepViewController.m in Sources */,
 				CA5B6D7128BD1F38002C3BA4 /* ORKTinnitusHeadphoneTable.m in Sources */,
 				CA5B6D5B28BD1F38002C3BA4 /* ORKTinnitusOverallAssessmentStep.m in Sources */,
 				CA0AC55928BD42E800E80040 /* ORKBLEScanPeripheralsStepViewController.m in Sources */,
-				CA0748B928B7F997001D8599 /* AAPLdBHLToneAudiometryStepViewController.m in Sources */,
+				CA0748B928B7F997001D8599 /* ORKIdBHLToneAudiometryStepViewController.m in Sources */,
 				CA0AC55828BD42E800E80040 /* ORKBLEScanPeripheralsStepResult.m in Sources */,
 				CA5B6D5428BD1F38002C3BA4 /* ORKTinnitusVolumeResult.m in Sources */,
 				CA0AC55A28BD42E800E80040 /* ORKBLEScanPeripheralsStep.m in Sources */,
@@ -1472,20 +1533,22 @@
 				CA77D2A428AFFB4700400292 /* ORKFlamesViewMetal.m in Sources */,
 				CA5B6D8928BD1F38002C3BA4 /* ORKTinnitusAudioGenerator.m in Sources */,
 				CA0AC56028BD432300E80040 /* ORKSpeechInNoisePredefinedTask.m in Sources */,
-				511BB0362994518400936EC0 /* AAPLEnvironmentSPLMeterStep.m in Sources */,
+				511BB0362994518400936EC0 /* ORKIEnvironmentSPLMeterStep.m in Sources */,
 				CA77D29B28AFFB4700400292 /* SiriUIFlamesShaders.metal in Sources */,
+				518100052B8FED800092A1C6 /* ORKInternalClassMapper.m in Sources */,
 				CA5B6D5D28BD1F38002C3BA4 /* ORKTinnitusMaskingSoundResult.m in Sources */,
+				51AEAABF2B7454A200F4D107 /* ORKIQuestionStepViewController.m in Sources */,
 				CA5B6DA128BD27FC002C3BA4 /* ORKHeadphonesRequiredCompletionStep.m in Sources */,
 				CA5B6D6B28BD1F38002C3BA4 /* ORKTinnitusPureToneResult.m in Sources */,
 				CA5B6D6E28BD1F38002C3BA4 /* ORKTinnitusPureToneStep.m in Sources */,
 				CA5B6D6128BD1F38002C3BA4 /* ORKTinnitusMaskingSoundStep.m in Sources */,
-				511BB01C298DC91000936EC0 /* AAPLSpeechRecognitionStep.m in Sources */,
+				511BB01C298DC91000936EC0 /* ORKISpeechRecognitionStep.m in Sources */,
 				51BD906429F738780001D54E /* UIColor+Custom.m in Sources */,
 				CA5B6D0C28BD1C5C002C3BA4 /* ORKTypingResult.m in Sources */,
 				CA58F8A328B5330D00761769 /* Vector.swift in Sources */,
 				CA3FF9D828B56A8300A33B6B /* ORKAVJournalingStepViewController.m in Sources */,
 				CA58F8A128B5330D00761769 /* MatrixAxis.swift in Sources */,
-				51F716F42981DE1B00D8ACF7 /* AAPLSpeechInNoiseStepViewController.m in Sources */,
+				51F716F42981DE1B00D8ACF7 /* ORKISpeechInNoiseStepViewController.m in Sources */,
 				CA3FF9D628B56A8300A33B6B /* ORKAVJournalingStepContentView.m in Sources */,
 				CA58F8AC28B5330E00761769 /* ORKNewAudiometryMinimizer.m in Sources */,
 				CA47EAF328BD334B00D91C0E /* ORKVolumeCalibrationStep.m in Sources */,
@@ -1493,20 +1556,21 @@
 				CA5B6D6C28BD1F38002C3BA4 /* ORKTinnitusPureToneStepViewController.m in Sources */,
 				CA5B6D8E28BD1F38002C3BA4 /* AVAudioMixerNode+Fade.m in Sources */,
 				CA5B6D0D28BD1C5C002C3BA4 /* ORKTypingStep.m in Sources */,
-				51CB6DA929C0F36E00A85D79 /* AAPLInstructionStepViewController.m in Sources */,
+				51CB6DA929C0F36E00A85D79 /* ORKIInstructionStepViewController.m in Sources */,
 				CA3FF9D928B56A8300A33B6B /* ORKAVJournalingPredefinedTask.m in Sources */,
 				CA47EAF428BD334B00D91C0E /* ORKVolumeCalibrationContentView.m in Sources */,
-				CA0AC57828BFFAB700E80040 /* AAPLUtils.m in Sources */,
+				CA0AC57828BFFAB700E80040 /* ORKIUtils.m in Sources */,
 				CA5B6D7028BD1F38002C3BA4 /* ORKTinnitusAudioSample.m in Sources */,
-				51CB6DA529C0F12800A85D79 /* AAPLInstructionStep.m in Sources */,
+				51633F3D2B98DC71000168E9 /* ORKIOrderedTask.m in Sources */,
+				51CB6DA529C0F12800A85D79 /* ORKIInstructionStep.m in Sources */,
 				5192BF322AE04B16006E43FB /* ORKHealthCondition.m in Sources */,
 				51CB6DB629C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.m in Sources */,
 				CA58F8A828B5330E00761769 /* lbfgsb.c in Sources */,
 				51F211312B5067AB0072B536 /* ORKAudioDictationView.m in Sources */,
-				51F716EF2981DE0700D8ACF7 /* AAPLSpeechInNoiseStep.m in Sources */,
+				51F716EF2981DE0700D8ACF7 /* ORKISpeechInNoiseStep.m in Sources */,
 				CA5B6D6228BD1F38002C3BA4 /* ORKTinnitusMaskingSoundStepViewController.m in Sources */,
 				5192BF3D2AE04B16006E43FB /* ORKConditionStepConfiguration.m in Sources */,
-				51F716DF29808E0200D8ACF7 /* AAPLCompletionStepViewController.m in Sources */,
+				51F716DF29808E0200D8ACF7 /* ORKICompletionStepViewController.m in Sources */,
 				CA58F8AE28B5330E00761769 /* AccelerateCBLAS.c in Sources */,
 				CA3FF9D428B56A8300A33B6B /* ORKAVJournalingSessionHelper.m in Sources */,
 				CA5B6D7428BD1F38002C3BA4 /* ORKTinnitusTypeContentView.m in Sources */,
@@ -1516,7 +1580,7 @@
 				CA58F8B028B534A800761769 /* ORKNewAudiometry.swift in Sources */,
 				CA5B6D7328BD1F38002C3BA4 /* ORKTinnitusTypeStepViewController.m in Sources */,
 				CA47EAF528BD334B00D91C0E /* ORKVolumeCalibrationStepViewController.m in Sources */,
-				511BB011298B162400936EC0 /* AAPLHelpers.m in Sources */,
+				511BB011298B162400936EC0 /* ORKIHelpers.m in Sources */,
 				CA5B6D7B28BD1F38002C3BA4 /* ORKTinnitusButtonView.m in Sources */,
 				CA77D29C28AFFB4700400292 /* ORKIndexCacheEntry.m in Sources */,
 				CA5B6DAA28BD27FC002C3BA4 /* ORKHeadphoneDetectStep.m in Sources */,
@@ -1532,10 +1596,10 @@
 				CA3FF9E228B56C0200A33B6B /* ORKStep+ResearchKitInternal.m in Sources */,
 				5192BF402AE04B16006E43FB /* ORKRelatedPerson.m in Sources */,
 				CA58F8AA28B5330E00761769 /* linesearch.c in Sources */,
-				CA0748B528B7F18B001D8599 /* AAPLdBHLToneAudiometryAudioGenerator.m in Sources */,
-				511BB021298DC94400936EC0 /* AAPLSpeechRecognitionStepViewController.m in Sources */,
+				CA0748B528B7F18B001D8599 /* ORKIdBHLToneAudiometryAudioGenerator.m in Sources */,
+				511BB021298DC94400936EC0 /* ORKISpeechRecognitionStepViewController.m in Sources */,
 				CA3FF9D528B56A8300A33B6B /* ORKAVJournalingStep.m in Sources */,
-				51BD901429DB92280001D54E /* AAPLdBHLToneAudiometryResult.m in Sources */,
+				51BD901429DB92280001D54E /* ORKIdBHLToneAudiometryResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1569,6 +1633,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
 					"$(inherited)",
@@ -1587,6 +1652,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				ONLY_ACTIVE_ARCH = YES;
+				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
@@ -1612,6 +1678,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
+				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 			};
@@ -1624,6 +1691,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
 					"$(inherited)",
@@ -1641,6 +1709,7 @@
 			buildSettings = {
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
+				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
@@ -1665,6 +1734,7 @@
 					"@loader_path/Frameworks",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
+				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 			};
@@ -1677,6 +1747,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
 					"$(inherited)",
@@ -1694,6 +1765,7 @@
 			buildSettings = {
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
+				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
@@ -1718,6 +1790,7 @@
 					"@loader_path/Frameworks",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
+				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 			};
@@ -1773,6 +1846,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
@@ -1833,6 +1907,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
@@ -1863,6 +1938,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				ONLY_ACTIVE_ARCH = NO;
+				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
@@ -1886,6 +1962,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
+				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/ResearchKitInternal/PrivateHeaders",
@@ -1924,6 +2001,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitInternalTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1952,6 +2030,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitInternalTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;

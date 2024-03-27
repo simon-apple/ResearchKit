@@ -9,18 +9,12 @@ Present a specific question and collect an answer.
 - ``ORKAnswerFormat``
 - ``ORKNumericPrecision``
 
-### Age, height, and weight
+### height, and weight
 
-- ``ORKAgeAnswerFormat``
 - ``ORKHeightAnswerFormat``
 - ``ORKWeightAnswerFormat``
 - ``ORKDoubleDefaultValue``
 - ``ORKMeasurementSystem``
-
-### Color
-
-- ``ORKColorChoice``
-- ``ORKColorChoiceAnswerFormat``
 
 ### Date and time
 
@@ -57,7 +51,6 @@ Present a specific question and collect an answer.
 - ``ORKTextScaleAnswerFormat``
 - ``ORKTextChoice``
 - ``ORKTextChoiceOther``
-- ``PIIScrubber``
 - ``ORKChoiceAnswerStyle``
 - ``ORKQuestionType``
 

@@ -144,7 +144,7 @@ static const CGFloat TapCountLabelTopPadding = 10.0;
     
     CGFloat previousAlpha = _progressView.alpha;
     [UIView animateWithDuration:animated ? 0.2 : 0 animations:^{
-        [_progressView setAlpha:(progress == 0) ? 0 : 1];
+        [self->_progressView setAlpha:(progress == 0) ? 0 : 1];
     }];
     
     if (UIAccessibilityIsVoiceOverRunning() && previousAlpha != _progressView.alpha) {

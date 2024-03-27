@@ -29,18 +29,22 @@
  */
 
 #import "ORKWebViewStepViewController.h"
-#import "ORKStepViewController_Internal.h"
-#import "ORKWebViewStep.h"
 
-#import "ORKResult_Private.h"
 #import "ORKCollectionResult_Private.h"
-#import "ORKWebViewStepResult.h"
-#import "ORKNavigationContainerView_Internal.h"
-#import "ORKSkin.h"
-#import "ORKHelpers_Internal.h"
-#import "ORKSignatureResult_Private.h"
 #import "ORKCustomSignatureFooterView_Private.h"
+#import "ORKHelpers_Internal.h"
+#import "ORKNavigationContainerView_Internal.h"
+#import "ORKResult_Private.h"
+#import "ORKSignatureFormatter.h"
+#import "ORKSignatureResult_Private.h"
+#import "ORKSkin.h"
+#import "ORKStepViewController_Internal.h"
 #import "ORKTaskViewController_Internal.h"
+#import "ORKWebViewStep.h"
+#import "ORKWebViewStepResult.h"
+#import "ORKWebViewStepResult_Private.h"
+
+
 
 static const CGFloat ORKSignatureTopPadding = 37.0;
 
@@ -100,8 +104,7 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
 
     if (!css) {
         UIColor *backgroundColor = ORKColor(ORKBackgroundColorKey);
-        UIColor *textColor;
-        textColor = [UIColor labelColor];
+        UIColor *textColor = [UIColor labelColor];
 
         NSString *backgroundColorString = [self hexStringForColor:backgroundColor];
         NSString *textColorString = [self hexStringForColor:textColor];
@@ -128,7 +131,6 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
     // Kick off loading the HTML. Once it's completed, make sure to call `didFinishLoadingHTML`.
     [_webView loadHTMLString:[self webViewStep].html baseURL:nil];
 }
-
 
 - (CGFloat)horizontalPadding {
     return self.step.useExtendedPadding ?
@@ -467,13 +469,18 @@ static const CGFloat ORKSignatureTopPadding = 37.0;
         ORKWebViewStepResult *webViewResult = [[ORKWebViewStepResult alloc] initWithIdentifier:webViewResultIdentifier];
         webViewResult.result = _receivedMessageBody;
         webViewResult.endDate = stepResult.endDate;
-        webViewResult.userInfo = @{@"html": [self webViewStep].html};
         stepResult.results = [stepResult.results arrayByAddingObject:webViewResult] ? : @[webViewResult];
         
         if ([[self webViewStep] showSignatureAfterContent] && [_signatureFooterView isComplete]) {
             NSString *signatureResultIdentifier = @"Signature";
             ORKSignatureResult *signatureResult = [_signatureFooterView resultWithIdentifier: signatureResultIdentifier];
             stepResult.results = [stepResult.results arrayByAddingObject:signatureResult] ? : @[signatureResult];
+            
+            ORKSignatureFormatter *signatureFormatter = [ORKSignatureFormatter new];
+            NSString *htmlWithSignature = [signatureFormatter appendSignatureToHTML:[self webViewStep].html signatureResult:signatureResult];
+            webViewResult.userInfo = @{[ORKWebViewStepResult getHTMLKey]: [self webViewStep].html, [ORKWebViewStepResult getHTMLWithDictionaryKey]: htmlWithSignature};
+        } else {
+            webViewResult.userInfo = @{[ORKWebViewStepResult getHTMLKey]: [self webViewStep].html};
         }
     }
     return stepResult;

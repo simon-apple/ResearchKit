@@ -38,7 +38,7 @@
 #import "ORKBLEScanPeripheralsStep.h"
 #import "ORKBLEScanPeripheralsStepResult.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #import <ResearchKitUI/ORKInstructionStepViewController_Internal.h>
 #import <ResearchKitUI/ORKInstructionStepContainerView.h>
@@ -88,17 +88,17 @@ API_AVAILABLE(ios(13.0))
     
     switch (_phase) {
         case ORKBLEScanPeripheralsStepPhaseInvalidCentralManager:
-            [self setStepTitle:AAPLLocalizedString(@"BLE_UNABLE_TO_SCAN_TITLE", nil) stepDetailText:AAPLLocalizedString(@"BLE_UNABLE_TO_SCAN_MSG", nil)];
+            [self setStepTitle:ORKILocalizedString(@"BLE_UNABLE_TO_SCAN_TITLE", nil) stepDetailText:ORKILocalizedString(@"BLE_UNABLE_TO_SCAN_MSG", nil)];
             break;
         case ORKBLEScanPeripheralsStepPhaseIdle:
         case ORKBLEScanPeripheralsStepPhaseScanning:
-            [self setStepTitle:AAPLLocalizedString(@"BLE_SCANNING_TITLE", nil) stepDetailText:AAPLLocalizedString(@"BLE_SCANNING_MSG", nil)];
+            [self setStepTitle:ORKILocalizedString(@"BLE_SCANNING_TITLE", nil) stepDetailText:ORKILocalizedString(@"BLE_SCANNING_MSG", nil)];
             break;
         case ORKBLEScanPeripheralsStepPhaseDevicesAvailable:
-            [self setStepTitle:AAPLLocalizedString(@"BLE_DEVICES_AVAILABLE_TITLE", nil) stepDetailText:AAPLLocalizedString(@"BLE_DEVICES_AVAILABLE_MSG", nil)];
+            [self setStepTitle:ORKILocalizedString(@"BLE_DEVICES_AVAILABLE_TITLE", nil) stepDetailText:ORKILocalizedString(@"BLE_DEVICES_AVAILABLE_MSG", nil)];
             break;
         case ORKBLEScanPeripheralsStepPhaseNoDevicesFound:
-            [self setStepTitle:AAPLLocalizedString(@"BLE_NO_DEVICES_TITLE", nil) stepDetailText:AAPLLocalizedString(@"BLE_NO_DEVICES_MSG", nil)];
+            [self setStepTitle:ORKILocalizedString(@"BLE_NO_DEVICES_TITLE", nil) stepDetailText:ORKILocalizedString(@"BLE_NO_DEVICES_MSG", nil)];
             break;
     }
 }
@@ -339,8 +339,8 @@ API_AVAILABLE(ios(13.0))
         [self setContinueButtonEnabled:[self shouldAllowContinue]];
     });
     
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:AAPLLocalizedString(@"BLE_NOT_CONNECTED_TITLE", nil) message:AAPLLocalizedString(@"BLE_NOT_CONNECTED_MSG", nil) preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:AAPLLocalizedString(@"BUTTON_OK", nil) style:UIAlertActionStyleDefault handler:nil];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:ORKILocalizedString(@"BLE_NOT_CONNECTED_TITLE", nil) message:ORKILocalizedString(@"BLE_NOT_CONNECTED_MSG", nil) preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:ORKILocalizedString(@"BUTTON_OK", nil) style:UIAlertActionStyleDefault handler:nil];
     [alert addAction:ok];
     
     [self presentViewController:alert animated:YES completion:^{
@@ -470,7 +470,7 @@ API_AVAILABLE(ios(13.0))
 - (UISwipeActionsConfiguration *)tableView:(UITableView *)tableView leadingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UIContextualAction *disconnectAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive
-                                                                                   title:AAPLLocalizedString(@"BLE_DISCONNECT", nil)
+                                                                                   title:ORKILocalizedString(@"BLE_DISCONNECT", nil)
                                                                                  handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL)) {
         CBPeripheral *peripheral = [[self.peripherals allKeys] objectAtIndex:(NSUInteger)indexPath.row];
         ORKBLEPeripheralState state = [[self.peripherals objectForKey:peripheral] unsignedIntegerValue];

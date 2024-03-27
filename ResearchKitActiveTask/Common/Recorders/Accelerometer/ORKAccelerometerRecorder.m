@@ -115,11 +115,11 @@
     [self.motionManager startAccelerometerUpdatesToQueue:[[NSOperationQueue alloc] init] withHandler:^(CMAccelerometerData *data, NSError *error) {
          BOOL success = NO;
          if (data) {
-             success = [_logger append:[data ork_JSONDictionary] error:&error];
+             success = [self->_logger append:[data ork_JSONDictionary] error:&error];
          }
          if (!success) {
              dispatch_async(dispatch_get_main_queue(), ^{
-                 _recordingError = error;
+                 self->_recordingError = error;
                  [self stop];
              });
          }

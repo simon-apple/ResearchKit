@@ -33,12 +33,13 @@
  */
 
 
-@import UIKit;
-
+#import <UIKit/UIKit.h>
 
 #if TARGET_OS_WATCH || TARGET_OS_VISION
 #import <ResearchKitCore/ORKTypes.h>
-#elif TARGET_OS_IOS
+#endif
+
+#if TARGET_OS_IOS
 #import <ResearchKit/ORKTypes.h>
 
 @class ORKScaleAnswerFormat;
@@ -1725,8 +1726,9 @@ ORK_CLASS_AVAILABLE
 
 #if RK_APPLE_INTERNAL
 /**
- Sets the scrubber names on the text answer
- @param scrubberNames   The PIIScrubber names to be used on this textAnswerFormat
+ Sets the scrubber names on the text answer.
+ 
+ The PIIScrubber names to be used on this textAnswerFormat
  */
 @property (nonatomic, copy, nullable) NSArray<NSString *> *scrubberNames;
 #endif
@@ -2089,6 +2091,8 @@ ORK_CLASS_AVAILABLE
 
 @end
 
+// start-omit-internal-code
+
 /**
  The `ORKAgeAnswerFormat` class represents the answer format for questions that require users
  to enter a weight.
@@ -2217,6 +2221,7 @@ ORK_CLASS_AVAILABLE
 
 @end
 
+// end-omit-internal-code
 
 /**
  The `ORKLocationAnswerFormat` class represents the answer format for questions that collect a location response

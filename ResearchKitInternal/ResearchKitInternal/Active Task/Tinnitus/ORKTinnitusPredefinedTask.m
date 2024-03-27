@@ -34,6 +34,8 @@
 #import "ORKHeadphoneDetector.h"
 #import "ORKHeadphoneDetectResult.h"
 #import "ORKHeadphonesRequiredCompletionStep.h"
+#import "ORKIEnvironmentSPLMeterStep.h"
+#import "ORKIInstructionStep.h"
 #import "ORKTinnitusAudioSample.h"
 #import "ORKTinnitusMaskingSoundStep.h"
 #import "ORKTinnitusOverallAssessmentStep.h"
@@ -44,7 +46,7 @@
 #import "ORKTinnitusTypeStep.h"
 #import "ORKVolumeCalibrationStep.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #import <ResearchKitUI/ORKTaskViewController.h>
 
@@ -56,7 +58,6 @@
 #import <ResearchKit/ResearchKit_Private.h>
 #import <ResearchKit/ORKTypes.h>
 
-#import <ResearchKitInternal/AAPLEnvironmentSPLMeterStep.h>
 
 NSString *const ORKHeadphoneNotificationSuspendActivity = @"ORKHeadphoneNotificationSuspendActivity";
 
@@ -149,34 +150,34 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
             _showingAlert = YES;
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIAlertAction *cancelAction = [UIAlertAction
-                                               actionWithTitle:AAPLLocalizedString(@"TINNITUS_ALERT_BUTTON_CANCEL", nil)
+                                               actionWithTitle:ORKILocalizedString(@"TINNITUS_ALERT_BUTTON_CANCEL", nil)
                                                style:UIAlertActionStyleDefault
                                                handler:^(UIAlertAction *action) {
-                    _showingAlert = NO;
-                    _continueAction = nil;
-                    ORKStrongTypeOf(_taskViewController.delegate) strongDelegate = _taskViewController.delegate;
+                    self->_showingAlert = NO;
+                    self->_continueAction = nil;
+                    ORKStrongTypeOf(self->_taskViewController.delegate) strongDelegate = self->_taskViewController.delegate;
                     if ([strongDelegate respondsToSelector:@selector(taskViewController:didFinishWithReason:error:)]) {
-                        [strongDelegate taskViewController:_taskViewController didFinishWithReason:ORKTaskFinishReasonDiscarded error:nil];
+                        [strongDelegate taskViewController:self->_taskViewController didFinishWithReason:ORKTaskFinishReasonDiscarded error:nil];
                     }
                 }];
                 UIAlertController *alertController = [UIAlertController
-                                                      alertControllerWithTitle:AAPLLocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
+                                                      alertControllerWithTitle:ORKILocalizedString(@"PACHA_ALERT_TITLE_TASK_INTERRUPTED", nil)
                                                       message:[self getInterruptMessage]
                                                       preferredStyle:UIAlertControllerStyleAlert];
-                _continueAction = [UIAlertAction
-                                   actionWithTitle:AAPLLocalizedString(@"TINNITUS_ALERT_BUTTON_CONTINUE", nil)
+                self->_continueAction = [UIAlertAction
+                                   actionWithTitle:ORKILocalizedString(@"TINNITUS_ALERT_BUTTON_CONTINUE", nil)
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction *action) {
-                    _showingAlert = NO;
-                    _continueAction = nil;
+                    self->_showingAlert = NO;
+                    self->_continueAction = nil;
                 }];
-                [alertController addAction:_continueAction];
-                [_continueAction setEnabled:NO];
+                [alertController addAction:self->_continueAction];
+                [self->_continueAction setEnabled:NO];
                 
                 [alertController addAction:cancelAction];
                 alertController.preferredAction = cancelAction;
                 
-                [_taskViewController presentViewController:alertController animated:YES completion:nil];
+                [self->_taskViewController presentViewController:alertController animated:YES completion:nil];
             });
         } else {
             [_continueAction setEnabled:NO];
@@ -188,13 +189,14 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
     if ([_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen1] ||
         [_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen2] ||
         [_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen3]) {
-        return AAPLLocalizedString(@"TINNITUS_ALERT_TEXT_AIRPODS", nil);
-    } else if ([_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
-        return AAPLLocalizedString(@"TINNITUS_ALERT_TEXT_AIRPODSPRO", nil);
+        return ORKILocalizedString(@"TINNITUS_ALERT_TEXT_AIRPODS", nil);
+    } else if ([_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
+               [_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2]) {
+        return ORKILocalizedString(@"TINNITUS_ALERT_TEXT_AIRPODSPRO", nil);
     } else if ([_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
-        return AAPLLocalizedString(@"TINNITUS_ALERT_TEXT_AIRPODSMAX", nil);
+        return ORKILocalizedString(@"TINNITUS_ALERT_TEXT_AIRPODSMAX", nil);
     } else {
-        return AAPLLocalizedString(@"TINNITUS_ALERT_TEXT_EARPODS", nil);
+        return ORKILocalizedString(@"TINNITUS_ALERT_TEXT_EARPODS", nil);
     }
 }
 
@@ -203,7 +205,7 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 - (void)startMonitoringHeadphoneChanges {
     if (_headphoneDetector == nil) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
+            self->_headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
                                                  supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
         });
     }
@@ -235,7 +237,10 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
             // save bluetooth mode for the first time
             _bluetoothMode = bluetoothMode;
         } else {
-            if (bluetoothMode != ORKBluetoothModeNoiseCancellation && _bluetoothMode == ORKBluetoothModeNoiseCancellation) {
+             BOOL previousModeWasNoiseCancellingMode = (_bluetoothMode == ORKBluetoothModeNoiseCancellation);
+             BOOL newModeIsNoiseCancellingMode = (bluetoothMode == ORKBluetoothModeNoiseCancellation);
+
+             if (!newModeIsNoiseCancellingMode && previousModeWasNoiseCancellingMode) {
                 [self showAlert];
                 [[NSNotificationCenter defaultCenter]
                  postNotificationName:ORKHeadphoneNotificationSuspendActivity
@@ -566,7 +571,7 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 }
 
 - (ORKStep *)apendedStepAfterStep:(ORKStep *)step {
-    if (_appendSteps) {
+    if (_appendSteps && step != nil) {
         NSUInteger currentApendedStepIndex = [_appendSteps indexOfObject:step];
 
         if (currentApendedStepIndex == NSNotFound) {
@@ -709,11 +714,13 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 }
 
 - (nullable ORKStep *)nextMaskingStepForIdentifier:(NSString *)identifier {
-    NSUInteger currentMaskingStepIndex = [_maskingIdentifiers indexOfObject:identifier];
-    
-    if (currentMaskingStepIndex != NSNotFound && currentMaskingStepIndex+1 < [_maskingIdentifiers count]) {
-        NSString *nextIdentifier = [_maskingIdentifiers objectAtIndex:currentMaskingStepIndex+1];
-        return [self stepWithIdentifier:nextIdentifier];
+    if (identifier != nil) {
+        NSUInteger currentMaskingStepIndex = [_maskingIdentifiers indexOfObject:identifier];
+        
+        if (currentMaskingStepIndex != NSNotFound && currentMaskingStepIndex+1 < [_maskingIdentifiers count]) {
+            NSString *nextIdentifier = [_maskingIdentifiers objectAtIndex:currentMaskingStepIndex+1];
+            return [self stepWithIdentifier:nextIdentifier];
+        }
     }
     
     return nil;
@@ -758,8 +765,8 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
         }
     }
     
-    _context.predominantFrequency = predominantFrequency ? [predominantFrequency doubleValue] : 0.0;
-    return predominantFrequency ? [predominantFrequency doubleValue] : 0.0;
+    _context.predominantFrequency = predominantFrequency != nil ? [predominantFrequency doubleValue] : 0.0;
+    return predominantFrequency != nil ? [predominantFrequency doubleValue] : 0.0;
 }
 
 // Explicitly hide progress indication for all steps in this dynamic task.
@@ -771,58 +778,58 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 
 + (ORKHeadphoneDetectStep *)headphone {
     ORKHeadphoneDetectStep *headphone = [[ORKHeadphoneDetectStep alloc] initWithIdentifier:ORKTinnitusHeadphoneDetectStepIdentifier headphoneTypes:ORKHeadphoneTypesSupported];
-    headphone.title = AAPLLocalizedString(@"HEADPHONE_DETECT_TITLE", nil);
-    headphone.detailText = AAPLLocalizedString(@"HEADPHONE_DETECT_TEXT", nil);
+    headphone.title = ORKILocalizedString(@"HEADPHONE_DETECT_TITLE", nil);
+    headphone.detailText = ORKILocalizedString(@"HEADPHONE_DETECT_TEXT", nil);
     
     return [headphone copy];
 }
 
-+ (AAPLEnvironmentSPLMeterStep *)splmeter {
-    AAPLEnvironmentSPLMeterStep *splmeter = [[AAPLEnvironmentSPLMeterStep alloc] initWithIdentifier:ORKTinnitusSPLMeterStepIdentifier];
++ (ORKIEnvironmentSPLMeterStep *)splmeter {
+    ORKIEnvironmentSPLMeterStep *splmeter = [[ORKIEnvironmentSPLMeterStep alloc] initWithIdentifier:ORKTinnitusSPLMeterStepIdentifier];
     splmeter.requiredContiguousSamples = 5;
     splmeter.thresholdValue = 55;
-    splmeter.title = AAPLLocalizedString(@"ENVIRONMENTSPL_TITLE_2", nil);
-    splmeter.text = AAPLLocalizedString(@"ENVIRONMENTSPL_INTRO_TEXT_2", nil);
+    splmeter.title = ORKILocalizedString(@"ENVIRONMENTSPL_TITLE_2", nil);
+    splmeter.text = ORKILocalizedString(@"ENVIRONMENTSPL_INTRO_TEXT_2", nil);
     
     return [splmeter copy];
 }
 
 + (ORKTinnitusTypeStep *)tinnitusType {
     ORKTinnitusTypeStep *tinnitusType = [[ORKTinnitusTypeStep alloc] initWithIdentifier:ORKTinnitusTypeStepIdentifier];
-    tinnitusType.title = AAPLLocalizedString(@"TINNITUS_TYPE_TITLE", nil);
-    tinnitusType.text = AAPLLocalizedString(@"TINNITUS_TYPE_DETAIL", nil);
+    tinnitusType.title = ORKILocalizedString(@"TINNITUS_TYPE_TITLE", nil);
+    tinnitusType.text = ORKILocalizedString(@"TINNITUS_TYPE_DETAIL", nil);
     tinnitusType.optional = NO;
     return [tinnitusType copy];
 }
 
 + (ORKVolumeCalibrationStep *)calibration {
     ORKVolumeCalibrationStep *calibration = [[ORKVolumeCalibrationStep alloc] initWithIdentifier:ORKTinnitusVolumeCalibrationStepIdentifier];
-    calibration.title = AAPLLocalizedString(@"TINNITUS_CALIBRATION_TITLE", nil);
-    calibration.text = AAPLLocalizedString(@"TINNITUS_CALIBRATION_TEXT", nil);
+    calibration.title = ORKILocalizedString(@"TINNITUS_CALIBRATION_TITLE", nil);
+    calibration.text = ORKILocalizedString(@"TINNITUS_CALIBRATION_TEXT", nil);
     return [calibration copy];
 }
 
 + (ORKVolumeCalibrationStep *)puretoneLoudnessMatching {
     ORKVolumeCalibrationStep *puretoneLoudnessMatching = [[ORKVolumeCalibrationStep alloc] initWithIdentifier:ORKTinnitusPuretoneLoudnessMatchingStepIdentifier];
-    puretoneLoudnessMatching.title = AAPLLocalizedString(@"TINNITUS_FINAL_CALIBRATION_TITLE", nil);
-    puretoneLoudnessMatching.text = AAPLLocalizedString(@"TINNITUS_FINAL_CALIBRATION_TEXT", nil);
+    puretoneLoudnessMatching.title = ORKILocalizedString(@"TINNITUS_FINAL_CALIBRATION_TITLE", nil);
+    puretoneLoudnessMatching.text = ORKILocalizedString(@"TINNITUS_FINAL_CALIBRATION_TEXT", nil);
     return [puretoneLoudnessMatching copy];
 }
 
 + (ORKVolumeCalibrationStep *)whitenoiseLoudnessMatching {
     ORKVolumeCalibrationStep *whitenoiseLoudnessMatching = [[ORKVolumeCalibrationStep alloc] initWithIdentifier:ORKTinnitusWhitenoiseLoudnessMatchingStepIdentifier];
-    whitenoiseLoudnessMatching.title = AAPLLocalizedString(@"TINNITUS_FINAL_CALIBRATION_TITLE", nil);
-    whitenoiseLoudnessMatching.text = AAPLLocalizedString(@"TINNITUS_FINAL_CALIBRATION_TEXT", nil);
+    whitenoiseLoudnessMatching.title = ORKILocalizedString(@"TINNITUS_FINAL_CALIBRATION_TITLE", nil);
+    whitenoiseLoudnessMatching.text = ORKILocalizedString(@"TINNITUS_FINAL_CALIBRATION_TEXT", nil);
     return [whitenoiseLoudnessMatching copy];
 }
 
-+ (ORKInstructionStep *)pitchMatchingInstruction {
-    ORKInstructionStep *pitchMatchingInstruction = [[ORKInstructionStep alloc] initWithIdentifier:ORKTinnitusPitchMatchingInstructionStepIdentifier];
-    pitchMatchingInstruction.title = AAPLLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_TITLE", nil);
-    pitchMatchingInstruction.text = AAPLLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_DETAIL", nil);
++ (ORKIInstructionStep *)pitchMatchingInstruction {
+    ORKIInstructionStep *pitchMatchingInstruction = [[ORKIInstructionStep alloc] initWithIdentifier:ORKTinnitusPitchMatchingInstructionStepIdentifier];
+    pitchMatchingInstruction.title = ORKILocalizedString(@"TINNITUS_FREQUENCY_MATCHING_TITLE", nil);
+    pitchMatchingInstruction.text = ORKILocalizedString(@"TINNITUS_FREQUENCY_MATCHING_DETAIL", nil);
     
-    ORKBodyItem *item = [[ORKBodyItem alloc] initWithText:AAPLLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_INSTRUCTION_BODY1", nil) detailText:nil image:[UIImage systemImageNamed:@"ear"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-    ORKBodyItem *item2 = [[ORKBodyItem alloc] initWithText:AAPLLocalizedString(@"TINNITUS_FREQUENCY_MATCHING_INSTRUCTION_BODY2", nil) detailText:nil image:[UIImage systemImageNamed:@"timer"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+    ORKBodyItem *item = [[ORKBodyItem alloc] initWithText:ORKILocalizedString(@"TINNITUS_FREQUENCY_MATCHING_INSTRUCTION_BODY1", nil) detailText:nil image:[UIImage systemImageNamed:@"ear"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+    ORKBodyItem *item2 = [[ORKBodyItem alloc] initWithText:ORKILocalizedString(@"TINNITUS_FREQUENCY_MATCHING_INSTRUCTION_BODY2", nil) detailText:nil image:[UIImage systemImageNamed:@"timer"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
     pitchMatchingInstruction.bodyItems = @[item,item2];
     
     return [pitchMatchingInstruction copy];
@@ -839,17 +846,17 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 + (ORKTinnitusPureToneStep *)getPureToneRound:(NSInteger)roundNumber {
     NSString *identifier = [self getRoundIdentifierForNumber:roundNumber];
     ORKTinnitusPureToneStep *round = [[ORKTinnitusPureToneStep alloc] initWithIdentifier:identifier];
-    round.title = AAPLLocalizedString(@"TINNITUS_PURETONE_TITLE", nil);
-    round.detailText = AAPLLocalizedString(@"TINNITUS_PURETONE_TEXT", nil);
+    round.title = ORKILocalizedString(@"TINNITUS_PURETONE_TITLE", nil);
+    round.detailText = ORKILocalizedString(@"TINNITUS_PURETONE_TEXT", nil);
     round.roundNumber = roundNumber;
     return [round copy];
 }
 
-+ (ORKInstructionStep *)getPureToneRoundComplete:(NSInteger)roundNumber {
++ (ORKIInstructionStep *)getPureToneRoundComplete:(NSInteger)roundNumber {
     NSString *identifier = [self getRoundSuccessIdentifierForNumber:roundNumber];
-    ORKInstructionStep *roundSuccessCompleted = [[ORKInstructionStep alloc] initWithIdentifier:identifier];
-    roundSuccessCompleted.title = [NSString localizedStringWithFormat:AAPLLocalizedString(@"TINNITUS_ROUND_COMPLETE_TITLE", nil),(long)roundNumber];
-    roundSuccessCompleted.text = roundNumber == 1 ?  AAPLLocalizedString(@"TINNITUS_ROUND_COMPLETE_TEXT", nil) : AAPLLocalizedString(@"TINNITUS_FINAL_ROUND_COMPLETE_TEXT", nil) ;
+    ORKIInstructionStep *roundSuccessCompleted = [[ORKIInstructionStep alloc] initWithIdentifier:identifier];
+    roundSuccessCompleted.title = [NSString localizedStringWithFormat:ORKILocalizedString(@"TINNITUS_ROUND_COMPLETE_TITLE", nil),(long)roundNumber];
+    roundSuccessCompleted.text = roundNumber == 1 ?  ORKILocalizedString(@"TINNITUS_ROUND_COMPLETE_TEXT", nil) : ORKILocalizedString(@"TINNITUS_FINAL_ROUND_COMPLETE_TEXT", nil) ;
     
     UIImage *iconImage;
     UIImageConfiguration *configuration = [UIImageSymbolConfiguration configurationWithFont:[UIFont preferredFontForTextStyle:UIFontTextStyleBody] scale:UIImageSymbolScaleLarge];
@@ -863,21 +870,21 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 
 + (ORKTinnitusOverallAssessmentStep *)overallAssessmentStep {
     ORKTinnitusOverallAssessmentStep *tinnitusAssessmentStep = [[ORKTinnitusOverallAssessmentStep alloc] initWithIdentifier:ORKTinnitusOverallAssessmentStepIdentifier];
-    tinnitusAssessmentStep.title = AAPLLocalizedString(@"TINNITUS_ASSESSMENT_TITLE", nil);
-    tinnitusAssessmentStep.text = AAPLLocalizedString(@"TINNITUS_ASSESSMENT_TEXT", nil);
+    tinnitusAssessmentStep.title = ORKILocalizedString(@"TINNITUS_ASSESSMENT_TITLE", nil);
+    tinnitusAssessmentStep.text = ORKILocalizedString(@"TINNITUS_ASSESSMENT_TEXT", nil);
     tinnitusAssessmentStep.shouldTintImages = YES;
     return [tinnitusAssessmentStep copy];
 }
 
 #pragma mark - Masking Sounds Steps
 
-+ (ORKInstructionStep *)maskingSoundInstructionStep {
-    ORKInstructionStep *maskingSoundInstructionStep = [[ORKInstructionStep alloc] initWithIdentifier:ORKTinnitusMaskingSoundInstructionStepIdentifier];
-    maskingSoundInstructionStep.title = AAPLLocalizedString(@"TINNITUS_MASKING_INSTRUCTION_TITLE", nil);
-    maskingSoundInstructionStep.text = AAPLLocalizedString(@"TINNITUS_MASKING_INSTRUCTION_TEXT", nil);
++ (ORKIInstructionStep *)maskingSoundInstructionStep {
+    ORKIInstructionStep *maskingSoundInstructionStep = [[ORKIInstructionStep alloc] initWithIdentifier:ORKTinnitusMaskingSoundInstructionStepIdentifier];
+    maskingSoundInstructionStep.title = ORKILocalizedString(@"TINNITUS_MASKING_INSTRUCTION_TITLE", nil);
+    maskingSoundInstructionStep.text = ORKILocalizedString(@"TINNITUS_MASKING_INSTRUCTION_TEXT", nil);
     
-    ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:AAPLLocalizedString(@"TINNITUS_MASKING_INSTRUCTION_BODY1", nil) detailText:nil image:[UIImage systemImageNamed:@"ear.badge.checkmark"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
-    ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithText:AAPLLocalizedString(@"TINNITUS_MASKING_INSTRUCTION_BODY2", nil) detailText:nil image:[UIImage systemImageNamed:@"timer"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+    ORKBodyItem * item1 = [[ORKBodyItem alloc] initWithText:ORKILocalizedString(@"TINNITUS_MASKING_INSTRUCTION_BODY1", nil) detailText:nil image:[UIImage systemImageNamed:@"ear.badge.checkmark"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
+    ORKBodyItem * item2 = [[ORKBodyItem alloc] initWithText:ORKILocalizedString(@"TINNITUS_MASKING_INSTRUCTION_BODY2", nil) detailText:nil image:[UIImage systemImageNamed:@"timer"] learnMoreItem:nil bodyItemStyle:ORKBodyItemStyleImage];
     maskingSoundInstructionStep.bodyItems = @[item1, item2];
     
     return [maskingSoundInstructionStep copy];
@@ -898,8 +905,8 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
     ORKVolumeCalibrationStep *maskingSoundCalibrationStep = [[ORKVolumeCalibrationStep alloc] initWithIdentifier:identifier
                                                                                                 maskingSoundName:sample.name
                                                                                           maskingSoundIdentifier:sample.identifier];
-    maskingSoundCalibrationStep.title = AAPLLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
-    maskingSoundCalibrationStep.text = AAPLLocalizedString(@"TINNITUS_MASKING_VOLUME_CALIBRATION_TEXT", nil);
+    maskingSoundCalibrationStep.title = ORKILocalizedString(@"TINNITUS_MASKING_TITLE", nil);
+    maskingSoundCalibrationStep.text = ORKILocalizedString(@"TINNITUS_MASKING_VOLUME_CALIBRATION_TEXT", nil);
     maskingSoundCalibrationStep.shouldTintImages = YES;
     return [maskingSoundCalibrationStep copy];
 }
@@ -909,8 +916,8 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
     ORKTinnitusMaskingSoundStep *maskingSoundStep = [[ORKTinnitusMaskingSoundStep alloc] initWithIdentifier:identifier
                                                                                                        name:sample.name
                                                                                             soundIdentifier:sample.identifier];
-    maskingSoundStep.title = AAPLLocalizedString(@"TINNITUS_MASKING_TITLE", nil);
-    maskingSoundStep.text = AAPLLocalizedString(@"TINNITUS_MASKING_TEXT", nil);
+    maskingSoundStep.title = ORKILocalizedString(@"TINNITUS_MASKING_TITLE", nil);
+    maskingSoundStep.text = ORKILocalizedString(@"TINNITUS_MASKING_TEXT", nil);
     maskingSoundStep.shouldTintImages = YES;
     return [maskingSoundStep copy];
 }

@@ -379,11 +379,11 @@ static OSStatus ORKTinnitusAudioGeneratorZeroTone(void *inRefCon,
         _rampUp = NO;
         int nodeInput = (_lastNodeInput % 2) + 1;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_fadeDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            if (_mGraph) {
+            if (self->_mGraph) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    AUGraphDisconnectNodeInput(_mGraph, _mixerNode, nodeInput);
-                    AUGraphUpdate(_mGraph, NULL);
-                    _playing = NO;
+                    AUGraphDisconnectNodeInput(self->_mGraph, self->_mixerNode, nodeInput);
+                    AUGraphUpdate(self->_mGraph, NULL);
+                    self->_playing = NO;
                 });
             }
         });
@@ -498,6 +498,10 @@ static OSStatus ORKTinnitusAudioGeneratorZeroTone(void *inRefCon,
 
 - (void)adjustBufferAmplitude:(double) newAmplitude {
     _bufferAmplitude = MIN(MAX(newAmplitude, 0), 1);
+}
+
+- (void)stop:(void (^ _Nonnull __strong)(void))didStopPlaying {
+    // Intentionally left blank
 }
 
 @end

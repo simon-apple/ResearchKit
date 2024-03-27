@@ -32,7 +32,7 @@
 @import AVFoundation;
 
 #import <ResearchKit/ORKTypes.h>
-#import <ResearchKitInternal/AAPLTypes.h>
+#import <ResearchKitInternal/ORKITypes.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

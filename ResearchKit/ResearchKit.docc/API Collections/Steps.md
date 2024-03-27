@@ -24,12 +24,6 @@ Using ResearchKit, you can build apps that obtain consent, give instructions, pr
 - ``ORKEnvironmentSPLMeterStep``
 - ``ORKBodySagittal``
 
-### Audio and Bluetooth steps
-
-- ``ORKHeadphoneDetectStep``
-- ``ORKHeadphoneTypes``
-- ``ORKBluetoothMode``
-
 ### Authentication and consent steps
 
 - ``ORKLoginStep``
@@ -65,16 +59,6 @@ Using ResearchKit, you can build apps that obtain consent, give instructions, pr
 
 - ``ORKCustomStep``
 - ``ORKCustomStepViewController``
-
-### Family history steps
-
-- ``ORKFamilyHistoryStep``
-- ``ORKFamilyHistoryStepViewController``
-- ``ORKFamilyHistoryReviewController``
-- ``ORKFamilyHistoryReviewControllerDelegate``
-- ``ORKHealthCondition``
-- ``ORKRelatedPerson``
-- ``ORKRelativeGroup``
 
 ### Form steps
 
@@ -160,11 +144,6 @@ Using ResearchKit, you can build apps that obtain consent, give instructions, pr
 - ``ORKTableStep``
 - ``ORKTableStepViewController``
 - ``ORKTableStepSource``
-
-### Typing steps
-
-- ``ORKTypingStep``
-- ``ORKTypingStepViewController``
 
 ### Video steps
 

@@ -150,16 +150,14 @@ static NSMutableDictionary *colors(void) {
     static NSMutableDictionary *colors = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        UIColor *backgroundColor = [UIColor colorWithRed:239.0 / 255.0 green:239.0 / 255.0 blue:244.0 / 255.0 alpha:1.0];
-        UIColor *fillColor = ORKRGB(0xD7D7D7);
-#if TARGET_OS_IOS
-        backgroundColor = [UIColor secondarySystemBackgroundColor];
-        fillColor = UIColor.quaternarySystemFillColor;
-#endif
-
         colors = [@{
                     ORKSignatureColorKey: ORKRGB(0x000000),
-                    ORKBackgroundColorKey: backgroundColor,
+#if TARGET_OS_IOS
+                    ORKBackgroundColorKey: [UIColor secondarySystemBackgroundColor],
+#endif
+#if TARGET_OS_WATCH
+                    ORKBackgroundColorKey: ORKRGB(0xffffff),
+#endif
                     ORKConsentBackgroundColorKey: ORKRGB(0xffffff),
                     ORKToolBarTintColorKey: ORKRGB(0xffffff),
                     ORKLightTintColorKey: ORKRGB(0xeeeeee),
@@ -171,7 +169,12 @@ static NSMutableDictionary *colors(void) {
                     ORKNavigationContainerShadowColorKey: [UIColor blackColor],
                     ORKProgressLabelColorKey: [UIColor colorWithRed:142.0/255.0 green:142.0/255.0 blue:142.0/255.0 alpha:1.0],
                     ORKiPadBackgroundViewColorKey: [UIColor colorWithRed:249.0 / 255.0 green:249.0 / 255.0 blue:251.0 / 255.0 alpha:1.0],
-                    ORKTopContentImageViewBackgroundColorKey: fillColor,
+#if TARGET_OS_IOS
+                    ORKTopContentImageViewBackgroundColorKey: UIColor.quaternarySystemFillColor,
+#endif
+#if TARGET_OS_WATCH
+                    ORKBackgroundColorKey: ORKRGB(0xffffff),
+#endif
                     ORKBulletItemTextColorKey: [UIColor colorWithRed:0.56 green:0.56 blue:0.58 alpha:1.0]
                     } mutableCopy];
     });
@@ -364,7 +367,7 @@ CGFloat ORKStandardLeftMarginForTableViewCell(UITableViewCell *cell) {
 
 static CGFloat ORKStandardHorizontalAdaptiveSizeMarginForiPadWidth(CGFloat screenSizeWidth, UIWindow *window) {
     // Use adaptive side margin, if window is wider than iPhone6 Plus.
-    // Min Marign = ORKLayoutMarginWidthThinBezelRegular, Max Marign = ORKLayoutMarginWidthiPad or iPad12_9
+    // Min Margin = ORKLayoutMarginWidthThinBezelRegular, Max Margin = ORKLayoutMarginWidthiPad or iPad12_9
     
     CGFloat ratio =  (window.bounds.size.width - ORKiPhone6PlusScreenSize.width) / (screenSizeWidth - ORKiPhone6PlusScreenSize.width);
     ratio = MIN(1.0, ratio);

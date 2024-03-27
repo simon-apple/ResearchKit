@@ -36,11 +36,14 @@
 #import <ResearchKit/ORKTypes.h>
 #import <ResearchKit/ORKHelpers_Private.h>
 #import <ResearchKit/ORKErrors.h>
-#elif TARGET_OS_WATCH || TARGET_OS_VISION
+#endif
+
+#if TARGET_OS_WATCH || TARGET_OS_VISION
 #import <ResearchKitCore/ORKTypes.h>
 #import <ResearchKitCore/ORKHelpers_Private.h>
 #import <ResearchKitCore/ORKErrors.h>
 #endif
+
 #import <Foundation/Foundation.h>
 #import <os/log.h>
 

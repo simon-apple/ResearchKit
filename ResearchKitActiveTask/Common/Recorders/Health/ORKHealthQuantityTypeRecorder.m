@@ -124,14 +124,14 @@ static const NSInteger _HealthAnchoredQueryLimit = 100;
         [self updateMostRecentSample:results.lastObject];
         
         NSError *error = nil;
-        if (![_logger appendObjects:dictionaries error:&error]) {
+        if (![self->_logger appendObjects:dictionaries error:&error]) {
             // Logger writes are unrecoverable
             [self finishRecordingWithError:error];
             return;
         }
         
-        _anchor = newAnchor;
-        _anchorValue = anchorValue;
+        self->_anchor = newAnchor;
+        self->_anchorValue = anchorValue;
         
         if (resultCount == _HealthAnchoredQueryLimit) {
             // Do another fetch immediately rather than wait for an observation

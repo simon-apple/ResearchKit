@@ -29,8 +29,8 @@
  */
 
 
-@import UIKit;
-#import "ORKScaleRangeLabel.h"
+#import <UIKit/UIKit.h>
+#import <ResearchKitUI/ORKScaleRangeLabel.h>
 
 
 NS_ASSUME_NONNULL_BEGIN

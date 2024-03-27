@@ -30,7 +30,7 @@
 
 #import "ORKTinnitusButtonView.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #import <ResearchKitInternal/UIColor+Custom.h>
 
@@ -198,14 +198,14 @@ static const CGFloat ORKTinnitusButtonViewBarLevelsWidth = 30.0;
     [self setSelected:NO];
     
     self.accessibilityLabel = _titleText;
-    self.accessibilityHint = AAPLLocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_HINT", nil);
+    self.accessibilityHint = ORKILocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_HINT", nil);
 }
 
 
 - (void)enableAccessibilityAnnouncements:(BOOL)shouldAnnouce {
     if (shouldAnnouce) {
         self.accessibilityLabel = _titleText;
-        self.accessibilityHint = !_selected ? AAPLLocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_HINT", nil) : nil;
+        self.accessibilityHint = !_selected ? ORKILocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_HINT", nil) : nil;
     } else {
         self.accessibilityLabel = nil;
         self.accessibilityHint = nil;
@@ -225,7 +225,7 @@ static const CGFloat ORKTinnitusButtonViewBarLevelsWidth = 30.0;
         return UIAccessibilityTraitSelected;
     } else {
         if (_announceEnabled) {
-            self.accessibilityHint = AAPLLocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_HINT", nil);
+            self.accessibilityHint = ORKILocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_HINT", nil);
         }
         return UIAccessibilityTraitNone;
     }
@@ -237,23 +237,22 @@ static const CGFloat ORKTinnitusButtonViewBarLevelsWidth = 30.0;
 
 - (void)tapAction:(UITapGestureRecognizer *)recognizer {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_hapticFeedback impactOccurred];
-        _simulatedTap = (recognizer == nil);
-        if (!_selected) {
-            [self setSelected:!_selected];
-            _playView.highlighted = YES;
-            _barLevelsView.hidden = NO;
-            if (_simulatedTap) {
-                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, [NSString stringWithFormat:AAPLLocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_ANNOUNCEMENT", nil), _titleText]);
+        [self->_hapticFeedback impactOccurred];
+        self->_simulatedTap = (recognizer == nil);
+        if (!self->_selected) {
+            [self setSelected:!self->_selected];
+            self->_playView.highlighted = YES;
+            self->_barLevelsView.hidden = NO;
+            if (self->_simulatedTap) {
+                UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, [NSString stringWithFormat:ORKILocalizedString(@"TINNITUS_BUTTON_ACCESSIBILITY_ANNOUNCEMENT", nil), self->_titleText]);
             }
         } else {
-            _playView.highlighted = !_playView.highlighted;
-            _barLevelsView.hidden = !_barLevelsView.hidden;
-            
+            self->_playView.highlighted = !self->_playView.highlighted;
+            self->_barLevelsView.hidden = !self->_barLevelsView.hidden;
         }
-        _playedOnce = YES;
-        if (_delegate && [_delegate respondsToSelector:@selector(tinnitusButtonViewPressed:)]) {
-            [_delegate tinnitusButtonViewPressed:self];
+        self->_playedOnce = YES;
+        if (self->_delegate && [self->_delegate respondsToSelector:@selector(tinnitusButtonViewPressed:)]) {
+            [self->_delegate tinnitusButtonViewPressed:self];
         }
     });
 }
@@ -270,8 +269,8 @@ static const CGFloat ORKTinnitusButtonViewBarLevelsWidth = 30.0;
 
 - (void)togglePlayButton {
     dispatch_async(dispatch_get_main_queue(), ^{
-        _playView.highlighted = !_playView.highlighted;
-        _barLevelsView.hidden = !_barLevelsView.hidden;
+        self->_playView.highlighted = !self->_playView.highlighted;
+        self->_barLevelsView.hidden = !self->_barLevelsView.hidden;
     });
 }
 

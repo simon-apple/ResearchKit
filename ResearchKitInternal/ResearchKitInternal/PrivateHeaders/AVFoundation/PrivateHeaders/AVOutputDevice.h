@@ -458,7 +458,7 @@ AVF_EXPORT NSNotificationName const AVOutputDeviceCanSetVolumeDidChangeNotificat
 /*!
  @method		setSecondDisplayEnabled:
  @abstract		Enables second display on the output device.
- @param			secondDisplayEnabled
+
 	BOOL indicating whether to enable/disable second display on the output device.
  @discussion
 	*** PLEASE contact Core Media Engineering before using this method. ***

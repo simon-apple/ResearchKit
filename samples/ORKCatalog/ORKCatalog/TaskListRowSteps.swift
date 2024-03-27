@@ -34,10 +34,23 @@ enum TaskListRowSteps {
     
     // MARK: - ORKFormStep Examples
     
+    static var birthdayExample: ORKFormStep {
+        let birthDayQuestionAnswerFormat = ORKAnswerFormat.dateAnswerFormat(withDefaultDate: nil, minimumDate: nil, maximumDate: Date(), calendar: nil)
+        let birthdayQuestion = NSLocalizedString("When is your birthday?", comment: "")
+        
+        let birthDayQuestionSectionHeader = ORKFormItem(sectionTitle: birthdayQuestion)
+        let birthdayQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.birthdayQuestionFormItem), text: nil, answerFormat: birthDayQuestionAnswerFormat)
+        birthdayQuestionFormItem.placeholder = "Select Date"
+        let birthdayQuestionFormStep = ORKFormStep(identifier: String(describing: Identifier.birthdayQuestion), title: "Questionnaire", text: TaskListRowStrings.exampleDetailText)
+        birthdayQuestionFormStep.formItems = [birthDayQuestionSectionHeader, birthdayQuestionFormItem]
+        
+        return birthdayQuestionFormStep
+    }
+    
     static var booleanExample: ORKFormStep {
         let booleanQuestionAnswerFormat = ORKBooleanAnswerFormat()
         let question1 = NSLocalizedString("Would you like to subscribe to our newsletter?", comment: "")
-
+        
         let booleanQuestionFormItem = ORKFormItem(identifier: String(describing: Identifier.booleanFormItem), text: question1, answerFormat: booleanQuestionAnswerFormat)
         booleanQuestionFormItem.learnMoreItem = self.learnMoreItemExample
         
@@ -577,6 +590,112 @@ enum TaskListRowSteps {
         let formStep = self.heightWeightFormStepExample(identifier:stepIdentifier, answerFormat:weightAnswerFormat, title:title, text:stepText)
         
         return formStep
+    }
+    
+    // MARK: - Steps for consent
+    
+    static var consentWelcomeStepExample: ORKInstructionStep {
+        let instructionStep = ORKInstructionStep(identifier: String(describing: Identifier.consentWelcomeInstructionStep))
+        instructionStep.iconImage = UIImage(systemName: "hand.wave")
+        instructionStep.title = "Welcome!"
+        instructionStep.detailText = "Thank you for joining our study. Tap Next to learn more before signing up."
+        
+        return instructionStep
+    }
+    
+    static var informedConsentStepExample: ORKInstructionStep {
+        let instructionStep = ORKInstructionStep(identifier: String(describing: Identifier.informedConsentInstructionStep))
+        instructionStep.iconImage = UIImage(systemName: "doc.text.magnifyingglass")
+        instructionStep.title = "Before You Join"
+        
+        let sharingHealthDataBodyItem = ORKBodyItem(text: "The study will ask you to share some of your Health data.",
+                                                    detailText: nil,
+                                                    image: UIImage(systemName: "heart.fill"),
+                                                    learnMoreItem: nil,
+                                                    bodyItemStyle: .image)
+        
+        let completingTasksBodyItem = ORKBodyItem(text: "You will be asked to complete various tasks over the duration of the study.",
+                                                  detailText: nil,
+                                                  image: UIImage(systemName: "checkmark.circle.fill"),
+                                                  learnMoreItem: nil,
+                                                  bodyItemStyle: .image)
+        
+        let signatureBodyItem = ORKBodyItem(text: "Before joining, we will ask you to sign an informed consent document.",
+                                            detailText: nil,
+                                            image: UIImage(systemName: "signature"),
+                                            learnMoreItem: nil,
+                                            bodyItemStyle: .image)
+        
+        let secureDataBodyItem = ORKBodyItem(text: "Your data is kept private and secure.",
+                                             detailText: nil,
+                                             image: UIImage(systemName: "lock.fill"),
+                                             learnMoreItem: nil,
+                                             bodyItemStyle: .image)
+        
+        instructionStep.bodyItems = [
+            sharingHealthDataBodyItem,
+            completingTasksBodyItem,
+            signatureBodyItem,
+            secureDataBodyItem
+        ]
+        
+        return instructionStep
+    }
+    
+    static var informedConsentSharingStepExample: ORKFormStep {
+        // Construct the text choices.
+        let textChoices: [ORKTextChoice] = [ORKTextChoice(text: "Institution and qualified researchers worldwide", value: 1 as NSNumber),
+                                            ORKTextChoice(text: "Only institution and its partners", value: 2 as NSNumber)]
+        let textChoiceAnswerFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: textChoices)
+        
+        // Construct the form item for text choices.
+        let textChoiceFormItem = ORKFormItem(identifier: "TextChoiceFormItem", text: "Who would you like to share your data with?", answerFormat: textChoiceAnswerFormat)
+        
+        // Construct the form step.
+        let formStepText = "Institution and its partners will receive your study data from your participation in this study.\n \nSharing your coded study data more broadly (without information such as your name) may benefit this and future research."
+        
+        let formStep = ORKFormStep(identifier: "ConsentSharingFormStepIdentifier", title: "Sharing Options", text: formStepText)
+        formStep.formItems = [textChoiceFormItem]
+        
+        return formStep
+    }
+    
+    static var webViewStepExample: ORKWebViewStep {
+        let instructionSteps = [
+            TaskListRowSteps.consentWelcomeStepExample,
+            TaskListRowSteps.informedConsentStepExample
+        ]
+        
+        let webViewStep = ORKWebViewStep(identifier: String(describing: Identifier.webViewStep), instructionSteps: instructionSteps)
+        webViewStep.showSignatureAfterContent = true
+        return webViewStep
+    }
+    
+    static var requestPermissionsStepExample: ORKRequestPermissionsStep {
+        let healthKitTypesToWrite: Set<HKSampleType> = [
+            HKObjectType.quantityType(forIdentifier: .bodyMassIndex)!,
+            HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
+            HKObjectType.workoutType()]
+        
+        let healthKitTypesToRead: Set<HKObjectType> = [
+            HKObjectType.characteristicType(forIdentifier: .dateOfBirth)!,
+            HKObjectType.characteristicType(forIdentifier: .bloodType)!,
+            HKObjectType.workoutType()]
+        
+        let healthKitPermissionType = ORKHealthKitPermissionType(sampleTypesToWrite: healthKitTypesToWrite, objectTypesToRead: healthKitTypesToRead)
+        
+        let requestPermissionsStep = ORKRequestPermissionsStep(identifier: String(describing: Identifier.requestPermissionsStep), permissionTypes: [healthKitPermissionType])
+        requestPermissionsStep.title = "Health Data Request"
+        requestPermissionsStep.text = "Please review the health data types below and enable sharing to contribute to the study."
+        
+        return requestPermissionsStep
+    }
+    
+    static var consentCompletionStepExample: ORKCompletionStep {
+        let completionStep = ORKCompletionStep(identifier: "completionId")
+        completionStep.title = "Enrollment Complete"
+        completionStep.text = "Thank you for enrolling in this study. Your participation will contribute to meaningful research!"
+        return completionStep
     }
     
     // MARK: - ORKReviewStep

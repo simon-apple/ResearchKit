@@ -1863,12 +1863,19 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
           [answerFormat isKindOfClass:[ORKTimeIntervalAnswerFormat class]] ||
           [answerFormat isKindOfClass:[ORKValuePickerAnswerFormat class]] ||
           [answerFormat isKindOfClass:[ORKMultipleValuePickerAnswerFormat class]] ||
+          // start-omit-internal-code
+          [answerFormat isKindOfClass:[ORKAgeAnswerFormat class]] ||
+          // end-omit-internal-code
           [answerFormat isKindOfClass:[ORKHeightAnswerFormat class]] ||
-          [answerFormat isKindOfClass:[ORKWeightAnswerFormat class]] ||
-          [answerFormat isKindOfClass:[ORKAgeAnswerFormat class]])) {
-        @throw [NSException exceptionWithName:NSGenericException reason:@"formItem.answerFormat should be an ORKDateAnswerFormat, ORKTimeOfDayAnswerFormat, ORKTimeIntervalAnswerFormat, ORKValuePicker, ORKMultipleValuePickerAnswerFormat, ORKHeightAnswerFormat, or ORKWeightAnswerFormat instance" userInfo:nil];
+          [answerFormat isKindOfClass:[ORKWeightAnswerFormat class]])) {
+        [self throwPickerTypeException];
     }
+    
     [super setFormItem:formItem];
+}
+
+- (void)throwPickerTypeException {
+    @throw [NSException exceptionWithName:NSGenericException reason:@"formItem.answerFormat should be an ORKDateAnswerFormat, ORKTimeOfDayAnswerFormat, ORKTimeIntervalAnswerFormat, ORKValuePicker, ORKMultipleValuePickerAnswerFormat, ORKHeightAnswerFormat, or ORKWeightAnswerFormat instance" userInfo:nil];
 }
 
 - (void)setDefaultAnswer:(id)defaultAnswer {

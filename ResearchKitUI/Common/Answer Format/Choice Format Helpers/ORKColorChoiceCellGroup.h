@@ -30,10 +30,10 @@
 
 // apple-internal
 
-@import Foundation;
-@import UIKit;
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-#import "ORKTextChoiceCellGroup.h"
+#import <ResearchKitUI/ORKTextChoiceCellGroup.h>
 
 #import <ResearchKit/ORKQuestionStep_Private.h>
 

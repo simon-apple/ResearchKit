@@ -28,29 +28,31 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitInternal/ORKContext.h>
 
-#import <ResearchKitInternal/UIColor+Custom.h>
-#import <ResearchKitInternal/AAPLTypes.h>
+#import <ResearchKitInternal/ORKICompletionStep.h>
+#import <ResearchKitInternal/ORKICompletionStepViewController.h>
+#import <ResearchKitInternal/ORKIdBHLToneAudiometryStep.h>
+#import <ResearchKitInternal/ORKIdBHLToneAudiometryStepViewController.h>
+#import <ResearchKitInternal/ORKIdBHLToneAudiometryResult.h>
+#import <ResearchKitInternal/ORKIEnvironmentSPLMeterStep.h>
+#import <ResearchKitInternal/ORKIInstructionStep.h>
+#import <ResearchKitInternal/ORKIInstructionStepViewController.h>
+#import <ResearchKitInternal/ORKINavigableOrderedTask.h>
+#import <ResearchKitInternal/ORKIOrderedTask.h>
+#import <ResearchKitInternal/ORKIQuestionStep.h>
+#import <ResearchKitInternal/ORKIQuestionStepViewController.h>
+#import <ResearchKitInternal/ORKISpeechInNoiseStep.h>
+#import <ResearchKitInternal/ORKISpeechInNoiseStepViewController.h>
+#import <ResearchKitInternal/ORKITaskViewController.h>
+#import <ResearchKitInternal/ORKITypes.h>
 
-#import <ResearchKitInternal/AAPLTaskViewController.h>
-#import <ResearchKitInternal/AAPLInstructionStep.h>
-#import <ResearchKitInternal/AAPLInstructionStepViewController.h>
-#import <ResearchKitInternal/AAPLdBHLToneAudiometryStep.h>
-#import <ResearchKitInternal/AAPLdBHLToneAudiometryStepViewController.h>
-#import <ResearchKitInternal/AAPLdBHLToneAudiometryResult.h>
-#import <ResearchKitInternal/AAPLSpeechInNoiseStep.h>
-#import <ResearchKitInternal/AAPLSpeechInNoiseStepViewController.h>
-#import <ResearchKitInternal/AAPLEnvironmentSPLMeterStep.h>
-
-#import <ResearchKitInternal/AAPLCompletionStep.h>
-#import <ResearchKitInternal/AAPLCompletionStepViewController.h>
 #import <ResearchKitInternal/ORKAudioDictationView.h>
 #import <ResearchKitInternal/ORKAVJournalingResult.h>
 #import <ResearchKitInternal/ORKAVJournalingStepViewController.h>
 #import <ResearchKitInternal/ORKAVJournalingTaskViewController.h>
 #import <ResearchKitInternal/ORKBLEScanPeripheralsStepResult.h>
 #import <ResearchKitInternal/ORKBLEScanPeripheralsStepViewController.h>
+#import <ResearchKitInternal/ORKContext.h>
 #import <ResearchKitInternal/ORKFaceDetectionStepViewController.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectResult.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectStep.h>
@@ -58,6 +60,7 @@
 #import <ResearchKitInternal/ORKHeadphoneDetectStepViewController.h>
 #import <ResearchKitInternal/ORKHeadphonesRequiredCompletionStep.h>
 #import <ResearchKitInternal/ORKHeadphonesRequiredCompletionStepViewController.h>
+#import <ResearchKitInternal/ORKInternalClassMapper.h>
 #import <ResearchKitInternal/ORKNewAudiometryMinimizer.h>
 #import <ResearchKitInternal/ORKOrderedTask+ResearchKitInternal.h>
 #import <ResearchKitInternal/ORKTinnitusMaskingSoundResult.h>
@@ -73,6 +76,7 @@
 #import <ResearchKitInternal/ORKTypingStep.h>
 #import <ResearchKitInternal/ORKTypingStepViewController.h>
 #import <ResearchKitInternal/ORKVolumeCalibrationStepViewController.h>
+#import <ResearchKitInternal/UIColor+Custom.h>
 
 // Family History
 #import <ResearchKitInternal/ORKRelativeGroup.h>

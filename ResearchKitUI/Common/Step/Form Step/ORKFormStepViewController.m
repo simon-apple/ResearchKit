@@ -1121,12 +1121,7 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
 
 #pragma mark Helpers
 
-- (ORKFormStep *)formStep {
-    ORKQuestionStep *questionStep = ORKDynamicCast(self.step, ORKQuestionStep);
-    if (questionStep) {
-        return questionStep.formStep;
-    }
-    
+- (ORKFormStep *)formStep { 
     NSAssert(!self.step || [self.step isKindOfClass:[ORKFormStep class]], nil);
     return (ORKFormStep *)self.step;
 }
@@ -2322,8 +2317,8 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
         });
     }
 }
-
-- (void)textChoiceOtherCellDidResignFirstResponder:(ORKChoiceOtherViewCell *)choiceOtherViewCell {
+    
+- (void)updateTextChoiceOtherWithText:(NSString *)text choiceOtherCell:(ORKChoiceOtherViewCell *)choiceOtherViewCell {
     if (_currentFirstResponderCell == choiceOtherViewCell) {
         _currentFirstResponderCell = nil;
     }
@@ -2336,11 +2331,11 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
     ORKFormItem *formItem = [self _formItemForFormItemIdentifier:itemIdentifier.formItemIdentifier];
     ORKTextChoiceOther *textChoice = [[[formItem answerFormat] choices] objectAtIndex:itemIdentifier.choiceIndex];
     
-    ORK_Log_Debug("[FORMSTEP] textChoiceOtherCellDidResignFirstResponder found textChoice %@", textChoice);
+    ORK_Log_Debug("[FORMSTEP] textChoiceOtherCellDidResignFirstResponder found textChoice %@ with value of %@", textChoice, textChoice.textViewText);
     
     id answer;
-    if (choiceOtherViewCell.textView.text.length > 0) {
-        textChoice.textViewText = choiceOtherViewCell.textView.text;
+    if (text.length > 0) {
+        textChoice.textViewText = text;
         [self didSelectChoiceOtherViewCellWithItemIdentifier:itemIdentifier choiceOtherViewCell:choiceOtherViewCell];
         answer = @[textChoice.textViewText];
     } else {
@@ -2361,6 +2356,14 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
     }
     
     [self resizeORKChoiceOtherViewCell:choiceOtherViewCell withTextChoice:textChoice];
+}
+
+- (void)textChoiceOtherCellDidChangeText:(NSString *)text choiceOtherCell:(ORKChoiceOtherViewCell *)choiceOtherViewCell {
+    [self updateTextChoiceOtherWithText:text choiceOtherCell:choiceOtherViewCell];
+}
+
+- (void)textChoiceOtherCellDidResignFirstResponder:(ORKChoiceOtherViewCell *)choiceOtherViewCell {
+    [self updateTextChoiceOtherWithText:choiceOtherViewCell.textView.text choiceOtherCell:choiceOtherViewCell];
 }
 
 - (void)saveTextChoiceAnswer:(id)answer

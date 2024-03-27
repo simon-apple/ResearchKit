@@ -593,9 +593,9 @@ typedef void (^_ORKStateHandler)(ORKState *fromState, ORKState *_toState, id con
     [self.activeStepView updateTitle:ORKLocalizedString(@"MEMORY_GAME_COMPLETE_TITLE", nil) text:ORKLocalizedString(@"MEMORY_GAME_COMPLETE_MESSAGE", nil)];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        _contentView.buttonItem = [ORKBorderedButton new];
-        [_contentView.buttonItem setTitle:ORKLocalizedString(@"BUTTON_NEXT", nil) forState:UIControlStateNormal];
-        [_contentView.buttonItem addTarget:self action:@selector(continueAction) forControlEvents:UIControlEventTouchUpInside];
+        self->_contentView.buttonItem = [ORKBorderedButton new];
+        [self->_contentView.buttonItem setTitle:ORKLocalizedString(@"BUTTON_NEXT", nil) forState:UIControlStateNormal];
+        [self->_contentView.buttonItem addTarget:self action:@selector(continueAction) forControlEvents:UIControlEventTouchUpInside];
     });
 }
 
@@ -653,9 +653,9 @@ typedef void (^_ORKStateHandler)(ORKState *fromState, ORKState *_toState, id con
     [self.activeStepView updateTitle:ORKLocalizedString(@"MEMORY_GAME_COMPLETE_TITLE", nil) text:nil];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        _contentView.buttonItem = [ORKBorderedButton new];
-        [_contentView.buttonItem setTitle:ORKLocalizedString(@"BUTTON_NEXT", nil) forState:UIControlStateNormal];
-        [_contentView.buttonItem addTarget:self action:@selector(continueAction) forControlEvents:UIControlEventTouchUpInside];
+        self->_contentView.buttonItem = [ORKBorderedButton new];
+        [self->_contentView.buttonItem setTitle:ORKLocalizedString(@"BUTTON_NEXT", nil) forState:UIControlStateNormal];
+        [self->_contentView.buttonItem addTarget:self action:@selector(continueAction) forControlEvents:UIControlEventTouchUpInside];
     });
 }
 
@@ -675,7 +675,7 @@ typedef void (^_ORKStateHandler)(ORKState *fromState, ORKState *_toState, id con
     [self resetForNewGame];
     dispatch_async(dispatch_get_main_queue(), ^{
         // Dispatch, so we don't do this in the middle of a state transition
-        if (_state.state == ORKSpatialSpanStepStateRestart) {
+        if (self->_state.state == ORKSpatialSpanStepStateRestart) {
             [self transitionToState:ORKSpatialSpanStepStatePlayback];
         }
     });

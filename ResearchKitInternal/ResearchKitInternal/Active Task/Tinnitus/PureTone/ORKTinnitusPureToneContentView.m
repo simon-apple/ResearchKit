@@ -32,7 +32,7 @@
 #import "ORKTinnitusButtonView.h"
 #import "ORKTinnitusPureToneContentView.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ORKSkin.h>
@@ -86,48 +86,48 @@ static const CGFloat ORKTinnitusStandardSpacing = 12.0;
     _buttonsStage = PureToneButtonsStageOne;
     
     _firstAButtonView = [[ORKTinnitusButtonView alloc]
-                         initWithTitle:AAPLLocalizedString(@"TINNITUS_BUTTON_A_TITLE", nil)
-                         detail:AAPLLocalizedString(@"TINNITUS_BUTTON_A_DETAIL", nil)];
+                         initWithTitle:ORKILocalizedString(@"TINNITUS_BUTTON_A_TITLE", nil)
+                         detail:ORKILocalizedString(@"TINNITUS_BUTTON_A_DETAIL", nil)];
     _firstAButtonView.translatesAutoresizingMaskIntoConstraints = NO;
     [self setDidFinishLayoutBlockFor:_firstAButtonView];
     
     _secondAButtonView = [[ORKTinnitusButtonView alloc]
-                          initWithTitle:AAPLLocalizedString(@"TINNITUS_BUTTON_UPPERPITCH_TITLE", nil)
+                          initWithTitle:ORKILocalizedString(@"TINNITUS_BUTTON_UPPERPITCH_TITLE", nil)
                           detail:nil];
     _secondAButtonView.translatesAutoresizingMaskIntoConstraints = NO;
     _secondAButtonView.alpha = 0.0;
     [self setDidFinishLayoutBlockFor:_secondAButtonView];
     
     _thirdAButtonView = [[ORKTinnitusButtonView alloc]
-                         initWithTitle:AAPLLocalizedString(@"TINNITUS_BUTTON_UPPERPITCH_TITLE", nil)
+                         initWithTitle:ORKILocalizedString(@"TINNITUS_BUTTON_UPPERPITCH_TITLE", nil)
                          detail:nil];
     _thirdAButtonView.translatesAutoresizingMaskIntoConstraints = NO;
     _thirdAButtonView.alpha = 0.0;
     [self setDidFinishLayoutBlockFor:_thirdAButtonView];
     
     _firstBButtonView = [[ORKTinnitusButtonView alloc]
-                         initWithTitle:AAPLLocalizedString(@"TINNITUS_BUTTON_B_TITLE", nil)
-                         detail:AAPLLocalizedString(@"TINNITUS_BUTTON_B_DETAIL", nil)];
+                         initWithTitle:ORKILocalizedString(@"TINNITUS_BUTTON_B_TITLE", nil)
+                         detail:ORKILocalizedString(@"TINNITUS_BUTTON_B_DETAIL", nil)];
     _firstBButtonView.translatesAutoresizingMaskIntoConstraints = NO;
     [self setDidFinishLayoutBlockFor:_firstBButtonView];
     
     _secondBButtonView = [[ORKTinnitusButtonView alloc]
-                          initWithTitle:AAPLLocalizedString(@"TINNITUS_BUTTON_LOWERPITCH_TITLE", nil)
+                          initWithTitle:ORKILocalizedString(@"TINNITUS_BUTTON_LOWERPITCH_TITLE", nil)
                           detail:nil];
     _secondBButtonView.translatesAutoresizingMaskIntoConstraints = NO;
     _secondBButtonView.alpha = 0.0;
     [self setDidFinishLayoutBlockFor:_secondBButtonView];
     
     _thirdBButtonView = [[ORKTinnitusButtonView alloc]
-                         initWithTitle:AAPLLocalizedString(@"TINNITUS_BUTTON_LOWERPITCH_TITLE", nil)
+                         initWithTitle:ORKILocalizedString(@"TINNITUS_BUTTON_LOWERPITCH_TITLE", nil)
                          detail:nil];
     _thirdBButtonView.translatesAutoresizingMaskIntoConstraints = NO;
     _thirdBButtonView.alpha = 0.0;
     [self setDidFinishLayoutBlockFor:_thirdBButtonView];
     
     _cButtonView = [[ORKTinnitusButtonView alloc]
-                    initWithTitle:AAPLLocalizedString(@"TINNITUS_BUTTON_C_TITLE", nil)
-                    detail:AAPLLocalizedString(@"TINNITUS_BUTTON_C_DETAIL", nil)];
+                    initWithTitle:ORKILocalizedString(@"TINNITUS_BUTTON_C_TITLE", nil)
+                    detail:ORKILocalizedString(@"TINNITUS_BUTTON_C_DETAIL", nil)];
     _cButtonView.translatesAutoresizingMaskIntoConstraints = NO;
     [self setDidFinishLayoutBlockFor:_cButtonView];
     
@@ -238,26 +238,26 @@ static const CGFloat ORKTinnitusStandardSpacing = 12.0;
               initialSpringVelocity:0.0
                             options:UIViewAnimationOptionCurveEaseIn|UIViewAnimationOptionAllowUserInteraction
                          animations:^{
-            _firstALeadingConstraint.constant = -firstAWidth;
-            _firstBLeadingConstraint.constant = -firstAWidth;
-            _cLeadingConstraint.constant = -firstAWidth;
-            _firstAButtonView.alpha = 0;
-            _firstBButtonView.alpha = 0;
-            _cButtonView.alpha = 0;
-            _secondALeadingConstraint.constant = 0;
-            _secondBLeadingConstraint.constant = 0;
-            _secondAButtonView.alpha = 1.0;
-            _secondBButtonView.alpha = 1.0;
+            self->_firstALeadingConstraint.constant = -firstAWidth;
+            self->_firstBLeadingConstraint.constant = -firstAWidth;
+            self->_cLeadingConstraint.constant = -firstAWidth;
+            self->_firstAButtonView.alpha = 0;
+            self->_firstBButtonView.alpha = 0;
+            self->_cButtonView.alpha = 0;
+            self->_secondALeadingConstraint.constant = 0;
+            self->_secondBLeadingConstraint.constant = 0;
+            self->_secondAButtonView.alpha = 1.0;
+            self->_secondBButtonView.alpha = 1.0;
 
             [self layoutIfNeeded];
         } completion:^(BOOL finished) {
-            _cButtonView.hidden = YES;
-            _firstAButtonView.hidden = YES;
-            _firstBButtonView.hidden = YES;
-            if (_delegate && [_delegate respondsToSelector:@selector(animationFinishedForStage:)]) {
-                [_delegate animationFinishedForStage:_buttonsStage];
+            self->_cButtonView.hidden = YES;
+            self->_firstAButtonView.hidden = YES;
+            self->_firstBButtonView.hidden = YES;
+            if (self->_delegate && [self->_delegate respondsToSelector:@selector(animationFinishedForStage:)]) {
+                [self->_delegate animationFinishedForStage:self->_buttonsStage];
             }
-            _buttonsStage = PureToneButtonsStageTwo;
+            self->_buttonsStage = PureToneButtonsStageTwo;
         }];
     } else {
         BOOL isStageTwo = (_buttonsStage == PureToneButtonsStageTwo);
@@ -297,10 +297,10 @@ static const CGFloat ORKTinnitusStandardSpacing = 12.0;
         } completion:^(BOOL finished) {
             showedAButtonView.hidden = YES;
             showedBButtonView.hidden = YES;
-            if (_delegate && [_delegate respondsToSelector:@selector(animationFinishedForStage:)]) {
-                [_delegate animationFinishedForStage:_buttonsStage];
+            if (self->_delegate && [self->_delegate respondsToSelector:@selector(animationFinishedForStage:)]) {
+                [self->_delegate animationFinishedForStage:self->_buttonsStage];
             }
-            _buttonsStage = (_buttonsStage == PureToneButtonsStageTwo) ? PureToneButtonsStageThree : PureToneButtonsStageTwo;
+            self->_buttonsStage = (self->_buttonsStage == PureToneButtonsStageTwo) ? PureToneButtonsStageThree : PureToneButtonsStageTwo;
             // repositioning the buttons after animation
             showedALeadingConstraint.constant = aButtonViewWidth;
             showedBLeadingConstraint.constant = aButtonViewWidth;

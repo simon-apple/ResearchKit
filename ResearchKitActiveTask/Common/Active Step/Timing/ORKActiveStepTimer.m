@@ -131,7 +131,7 @@ static NSTimeInterval timeIntervalFromMachTime(uint64_t delta) {
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        _handler(self, finished);
+        self->_handler(self, finished);
     });
 }
 

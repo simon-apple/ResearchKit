@@ -829,6 +829,12 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
     return YES;
 }
 
+- (void)textViewDidChange:(UITextView *)textView {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(textChoiceOtherCellDidChangeText:choiceOtherCell:)]) {
+        [self.delegate textChoiceOtherCellDidChangeText:textView.text choiceOtherCell:self];
+    }
+}
+
 - (void)textViewDidEndEditing:(UITextView *)textView {
     if (self.delegate && [self.delegate respondsToSelector:@selector(textChoiceOtherCellDidResignFirstResponder:)]) {
         [self.delegate textChoiceOtherCellDidResignFirstResponder:self];

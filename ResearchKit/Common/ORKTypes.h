@@ -28,12 +28,14 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-@import UIKit;
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 #if TARGET_OS_WATCH || TARGET_OS_VISION
 #import <ResearchKitCore/ORKDefines.h>
-#elif TARGET_OS_IOS
+#endif
+
+#if TARGET_OS_IOS
 #import <ResearchKit/ORKDefines.h>
 #endif
 
@@ -132,6 +134,7 @@ typedef NS_ENUM(NSInteger, ORKQuestionType) {
      */
     ORKQuestionTypeSES,
     
+    // start-omit-internal-code
     /**
      In an age question, the participant can enter an age by using an age picker.
      */
@@ -141,6 +144,7 @@ typedef NS_ENUM(NSInteger, ORKQuestionType) {
      In an age question, the participant can enter an age by using an age picker. ORKQuestionTypeYear will be used if the useYearForResult property of the question's ORKAgeAnswerFormat is set to true.
      */
     ORKQuestionTypeYear
+    // end-omit-internal-code
 } ORK_ENUM_AVAILABLE;
 
 
@@ -279,7 +283,7 @@ typedef NS_OPTIONS(NSInteger, ORKPSATPresentationMode) {
 
 
 /**
- Identify the type of passcode authentication for `ORKPasscodeStepViewController`.
+ The type of passcode authentication for passcode view controller.
  */
 typedef NS_ENUM(NSInteger, ORKPasscodeType) {
     /// 4 digit pin entry
@@ -311,8 +315,7 @@ typedef NS_OPTIONS(NSUInteger, ORKPredefinedTaskHandOption) {
 
 
 /**
- The `ORKPredefinedTaskOption` flags let you exclude particular behaviors from the predefined active
- tasks in the predefined category of `ORKOrderedTask`.
+ Flags that exclude particular behaviors from the predefined active tasks.
  
  By default, all predefined tasks include instructions and conclusion steps, and may also include
  one or more data collection recorder configurations. Although not all predefined tasks include all
@@ -350,7 +353,7 @@ typedef NS_OPTIONS(NSUInteger, ORKPredefinedTaskOption) {
 
 
 /**
- Progress indicator type for `ORKWaitStep`.
+ A progress indicator type for the wait step.
  */
 typedef NS_ENUM(NSInteger, ORKProgressIndicatorType) {
     /// Spinner animation.
@@ -409,7 +412,10 @@ ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierEarPods;
 /// Other vendors or even apple ones but not mapped.
 ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierUnknown;
 
-
+/**
+ A base class object that you subclass to represent
+ results that aren't actual answers.
+ */
 ORK_CLASS_AVAILABLE
 @interface ORKNoAnswer : NSObject<NSCopying, NSSecureCoding>
 
@@ -418,6 +424,10 @@ ORK_CLASS_AVAILABLE
 
 @end
 
+/**
+ An Answer object attached to results when a
+ person selects the Don't Know Button for an answer.
+ */
 ORK_CLASS_AVAILABLE
 @interface ORKDontKnowAnswer : ORKNoAnswer
 
@@ -439,8 +449,7 @@ ORK_EXTERN ORKTrailMakingTypeIdentifier const ORKTrailMakingTypeIdentifierB;
 
 
 /**
- The `ORKTremorActiveTaskOption` flags let you exclude particular steps from the predefined active
- tasks in the predefined Tremor `ORKOrderedTask`.
+ Flags that let you exclude particular steps from the predefined tremor active task.
  
  By default, all predefined active tasks will be included. The tremor active task option flags can
  be used to explicitly specify that an active task is not to be included.
@@ -467,7 +476,7 @@ typedef NS_OPTIONS(NSUInteger, ORKTremorActiveTaskOption) {
 
 
 /**
- Enums to exclude options from `ORKPDFViewerStep`.
+ Enumerations that exclude options from the PDF viewer step.
  */
 typedef NS_OPTIONS(NSUInteger, ORKPDFViewerActionBarOption) {
     ORKPDFViewerActionBarOptionExcludeThumbnail = 1 << 0,
@@ -534,7 +543,7 @@ typedef NS_ENUM(NSInteger, ORKNavigationContainerButtonStyle) {
 } ORK_ENUM_AVAILABLE;
 
 /**
- An enumeration of the types of button styles for the ORKDontKnowButton.
+ An enumeration of the types of button styles for the "don't know" button.
  */
 typedef NS_ENUM(NSInteger, ORKDontKnowButtonStyle) {
     ORKDontKnowButtonStyleStandard = 0,

@@ -28,8 +28,8 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-@import UIKit;
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 #import <ResearchKit/ORKDefines.h>
 
@@ -51,6 +51,10 @@ typedef NS_ENUM(NSInteger, ORKRequestPermissionsState) {
 
 typedef NS_OPTIONS(NSUInteger, UNAuthorizationOptions);
 typedef NSString * SRSensor NS_TYPED_ENUM API_AVAILABLE(ios(14.0));
+
+/**
+ An abstract class that all permission types subclass from.
+ */
 
 ORK_CLASS_AVAILABLE
 @interface ORKPermissionType : NSObject

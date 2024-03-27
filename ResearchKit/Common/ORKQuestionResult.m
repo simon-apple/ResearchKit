@@ -30,15 +30,22 @@
 
 
 #import "ORKQuestionResult_Private.h"
-
 #import "ORKResult_Private.h"
 
-#import "ORKAnswerFormat_Internal.h"
-#import "ORKFormStep.h"
+#if TARGET_OS_WATCH
+#import <ResearchKitCore/ORKAnswerFormat_Internal.h>
+#import <ResearchKitCore/ORKQuestionStep_Private.h>
+#import <ResearchKitCore/ORKAnswerFormat_Private.h>
+#import <ResearchKitCore/ORKStep_Private.h>
+#import <ResearchKitCore/ORKQuestionStep.h>
+#import <ResearchKitCore/ORKHelpers_Internal.h>
+#endif
+
+#if TARGET_OS_IOS
 #import "ORKQuestionStep.h"
-
 #import "ORKHelpers_Internal.h"
-
+#import "ORKAnswerFormat_Internal.h"
+#endif
 
 @implementation ORKQuestionResult {
     @protected

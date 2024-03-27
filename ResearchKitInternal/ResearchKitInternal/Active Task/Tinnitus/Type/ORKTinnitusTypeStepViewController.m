@@ -29,7 +29,7 @@
  */
 // apple-internal
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 #import "AVAudioMixerNode+Fade.h"
 #import "ORKContext.h"
 #import "ORKTinnitusAudioSample.h"
@@ -134,7 +134,7 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
     BOOL success = [notification.userInfo[UIAccessibilityAnnouncementKeyWasSuccessful] boolValue];
     if (success) {
         if ([notification.userInfo[UIAccessibilityAnnouncementKeyStringValue] isEqualToString:self.tinnitusTypeStep.title]) {
-            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, AAPLLocalizedString(@"TINNITUS_TYPE_ACCESSIBILITY_ANNOUNCEMENT", nil));
+            UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, ORKILocalizedString(@"TINNITUS_TYPE_ACCESSIBILITY_ANNOUNCEMENT", nil));
         } else {
             [[NSNotificationCenter defaultCenter] removeObserver:self name:UIAccessibilityAnnouncementDidFinishNotification object:nil];
             [self performSelector:@selector(startAutomaticPlay) withObject:nil afterDelay:PLAY_DELAY];
@@ -143,7 +143,7 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
 }
 
 - (void)setSkipButtonItem:(UIBarButtonItem *)skipButtonItem {
-    [skipButtonItem setTitle:AAPLLocalizedString(@"TINNITUS_TYPE_SKIP_BUTTON_TITLE", nil)];
+    [skipButtonItem setTitle:ORKILocalizedString(@"TINNITUS_TYPE_SKIP_BUTTON_TITLE", nil)];
     skipButtonItem.target = self;
     skipButtonItem.action = @selector(skipTaskAction);
     
@@ -223,11 +223,11 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
     if (self.tinnitusPredefinedTaskContext != nil) {
         [self stopAutomaticPlay];
         [self stopSample:^{
-            [_tinnitusTypeContentView enableButtons:YES];
+            [self->_tinnitusTypeContentView enableButtons:YES];
         }];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_tinnitusTypeContentView.buttonsViewArray makeObjectsPerformSelector:@selector(restoreButton)];
+            [self->_tinnitusTypeContentView.buttonsViewArray makeObjectsPerformSelector:@selector(restoreButton)];
         });
     }
 }
@@ -269,7 +269,7 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
     [_playerNode play];
 
     [_mixerNode fadeInWithDuration:ORKTinnitusTypeFadeDuration stepInterval:ORKTinnitusTypeFadeStep completion:^{
-        [_tinnitusTypeContentView enableButtons:YES];
+        [self->_tinnitusTypeContentView enableButtons:YES];
     }];
 }
 
@@ -283,7 +283,7 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
     [_tinnitusTypeContentView enableButtons:NO];
 
     [_mixerNode fadeOutWithDuration:ORKTinnitusTypeFadeDuration stepInterval:ORKTinnitusTypeFadeStep completion:^{
-        [_playerNode stop];
+        [self->_playerNode stop];
         if (completion) {
             completion();
         }
@@ -332,7 +332,7 @@ const NSTimeInterval ORKTinnitusTypeFadeStep = 0.01;
         }];
     } else {
         [self stopSample:^{
-            [_tinnitusTypeContentView enableButtons:YES];
+            [self->_tinnitusTypeContentView enableButtons:YES];
         }];
     }
     

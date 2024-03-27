@@ -8,8 +8,6 @@ ResearchKit is open source software for developers and researchers that
 leverages iPhone sensors and capabilities to track movement, take measurements, and
 record data. People can perform activities and generate data from anywhere.
 
-FILE AN ART REQUEST RADAR FOR A GORGEOUS HERO IMAGE HERE
-
 There are three customizable components that address
 common elements of research: *consent*, *surveys*, and *active tasks*. You can use these components as they
 are, build on them, and even create completely new components of your own. Whether your app is obtaining consent, giving instructions, or presenting a
@@ -31,7 +29,9 @@ capabilities of frameworks such as HealthKit and CoreMotion.
 
 ### Essentials
 
-- <doc:StepsTasksResults>
+- <doc:Setting-up-Your-Project-to-Use-ResearchKit>
+- <doc:Obtaining-Consent>
+- <doc:Steps-Tasks-Results>
 - <doc:Configurations>
 
 ### Research components
@@ -39,12 +39,3 @@ capabilities of frameworks such as HealthKit and CoreMotion.
 - <doc:Consent>
 - <doc:Surveys>
 - <doc:ActiveTasks>
-
-### Internal
-
-- <doc:Internal>
-- <doc:Charts>
-
-### Deprecated
-
-- <doc:DeprecatedSymbols>

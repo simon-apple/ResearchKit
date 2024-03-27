@@ -272,7 +272,9 @@
     } else if (UIAccessibilityIsSwitchControlRunning()) {
         _enabledAssistiveTechnology = [UIAccessibilityNotificationSwitchControlIdentifier copy];
     }
-#elif TARGET_OS_WATCH
+#endif
+    
+#if TARGET_OS_WATCH
     if (WKAccessibilityIsVoiceOverRunning()) {
         _enabledAssistiveTechnology = @"WKAccessibilityNotificationVoiceOverIdentifier";
     }

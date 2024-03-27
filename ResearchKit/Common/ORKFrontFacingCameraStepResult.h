@@ -33,6 +33,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ The result object that the front facing camera step generates.
+ */
+
 ORK_CLASS_AVAILABLE
 @interface ORKFrontFacingCameraStepResult : ORKFileResult
 

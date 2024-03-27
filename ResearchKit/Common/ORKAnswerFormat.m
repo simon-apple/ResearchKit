@@ -81,8 +81,10 @@ NSString *ORKQuestionTypeString(ORKQuestionType questionType) {
             SQT_CASE(Weight);
             SQT_CASE(Location);
             SQT_CASE(SES);
+            // start-omit-internal-code
             SQT_CASE(Age);
             SQT_CASE(Year);
+            // end-omit-internal-code
     }
 #undef SQT_CASE
 }
@@ -3827,6 +3829,7 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 
 @end
 
+// start-omit-internal-code
 #pragma mark - ORKAgeAnswerFormat
 
 static const NSInteger ORKAgeAnswerDefaultMinAge = 1;
@@ -4056,7 +4059,7 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
     return YES;
 }
 @end
-
+// end-omit-internal-code
 
 #pragma mark - ORKLocationAnswerFormat
 @implementation ORKLocationAnswerFormat

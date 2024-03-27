@@ -141,19 +141,15 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
             return
         }
         
-        // display internal tasks with AAPLTaskViewController
-        if indexPath.section == 6 {
+        // display internal tasks with ORKITaskViewController
+        if indexPath.section == 5 {
             displayInternalTaskViewController(taskListRow: taskListRow)
             return
         }
         
         #endif
         
-        
-        
-        
         displayTaskViewController(taskListRow: taskListRow)
-
     }
     
     func displayTaskViewController(taskListRow: TaskListRow) {
@@ -220,11 +216,11 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
          Passing `nil` for the `taskRunUUID` lets the task view controller
          generate an identifier for this run of the task.
          */
-        let taskViewController = AAPLTaskViewController(task: task, taskRun: nil)
+        let taskViewController = ORKITaskViewController(task: task, taskRun: nil)
         
         // Make sure we receive events from `taskViewController`.
         taskViewController.delegate = self
-        taskViewController.aaplDelegate = self
+        taskViewController.internalDelegate = self
         
         // Assign a directory to store `taskViewController` output.
         taskViewController.outputDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -265,6 +261,27 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
     }
 #endif
     
+    func storePDFIfConsentTaskDetectedIn(taskViewController: ORKTaskViewController) {
+        guard taskViewController.task?.identifier == String(describing: Identifier.consentTask) else {
+            return
+        }
+        
+        guard let stepResult = taskViewController.result.result(forIdentifier: String(describing: Identifier.webViewStep)) as? ORKStepResult else {
+            return
+        }
+        
+        if let webViewStepResult = stepResult.results?.first as? ORKWebViewStepResult, let html = webViewStepResult.htmlWithSignature {
+            let htmlFormatter = ORKHTMLPDFWriter()
+            
+            htmlFormatter.writePDF(fromHTML: html) { data, error in
+               let pdfURL = FileManager.default.temporaryDirectory
+                    .appendingPathComponent("consentTask")
+                    .appendingPathExtension("pdf")
+                try? data.write(to: pdfURL)
+            }
+        }
+    }
+    
     // MARK: ORKTaskViewControllerDelegate
     
     func taskViewController(_ taskViewController: ORKTaskViewController, didFinishWith reason: ORKTaskFinishReason, error: Error?) {
@@ -276,6 +293,8 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
             The actual result of the task is on the `result` property of the task
             view controller.
         */
+        
+        storePDFIfConsentTaskDetectedIn(taskViewController: taskViewController)
         taskResultFinishedCompletionHandler?(taskViewController.result)
         
         taskViewController.dismiss(animated: true, completion: nil)
@@ -338,7 +357,7 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
 }
 
 #if RK_APPLE_INTERNAL
-extension TaskListViewController: AAPLTaskViewControllerDelegate {
+extension TaskListViewController: ORKITaskViewControllerDelegate {
     // Refers to rdar://85344999 (Remove the learnmore workaround current present in customized completion steps to reduce inter-dependent approach with the Research App)
     func taskViewController(_ taskViewController: ORKTaskViewController, sensitiveURLLearnMoreButtonPressedWith sensitiveURLLearnMoreStep: ORKSensitiveURLLearnMoreInstructionStep, for stepViewController: ORKStepViewController) {
         UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)

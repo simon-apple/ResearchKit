@@ -29,6 +29,7 @@
  */
 
 #import "ORKFamilyHistoryRelatedPersonCell.h"
+#import "ORKIUtils.h"
 
 #import <ResearchKit/ORKHelpers_Internal.h>
 
@@ -187,7 +188,7 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     [_backgroundView addSubview:_dividerView];
     
     _conditionsLabel = [self _primaryLabel];
-    _conditionsLabel.text = ORKLocalizedString(@"FAMILY_HISTORY_CONDITIONS", "");
+    _conditionsLabel.text = ORKILocalizedString(@"FAMILY_HISTORY_CONDITIONS", @"");
     [_backgroundView addSubview:_conditionsLabel];
     
     [self updateViewColors];

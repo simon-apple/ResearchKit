@@ -29,15 +29,22 @@
  */
 
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 #if TARGET_OS_WATCH || TARGET_OS_VISION
 #import <ResearchKitCore/ORKStep.h>
 #import <ResearchKitCore/ORKDefines.h>
-#elif TARGET_OS_IOS
+#endif
+
+#if TARGET_OS_IOS
 #import <ResearchKit/ORKStep.h>
 #import <ResearchKit/ORKDefines.h>
 #endif
+
+/**
+ Values that determine the style
+ of form cells.
+ */
 
 typedef NS_ENUM(NSInteger, ORKCardViewStyle) {
     ORKCardViewStyleDefault,
@@ -51,8 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKLearnMoreItem;
 @class ORKFormItemVisibilityRule;
 /**
- The `ORKFormStep` class is a concrete subclass of `ORKStep`, used for presenting multiple questions
- on a single scrollable page.
+ A step used for presenting multiple questions on a single scrollable page.
  
  To use `ORKFormStep`, instantiate the object, fill in its properties, and include it
  in a task. Next, create a task view controller for the task and present it.
@@ -261,7 +267,7 @@ ORK_CLASS_AVAILABLE
  
  The rule will apply its predicates based on the results specified, and determine if the form item is visible
  
- @param visibilityRule      The  formItem visibility rule to be used when determining if the item should display.
+ The  formItem visibility rule to be used when determining if the item should display.
 
  A copy to the rule is kept by the formItem.
  */

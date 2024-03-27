@@ -34,9 +34,12 @@
 
 #if TARGET_OS_IOS
 #import <UIKit/UIDevice.h>
-#elif TARGET_OS_WATCH
+#endif
+
+#if TARGET_OS_WATCH
 #import <WatchKit/WKInterfaceDevice.h>
 #endif
+
 #import <sys/types.h>
 #import <sys/sysctl.h>
 #import <errno.h>
@@ -131,7 +134,9 @@ static NSString * ORK_SYSCTL_DEBUG_STRING(int tl, int sl) {
 #if TARGET_OS_IOS
     self->_platform = [[UIDevice currentDevice] systemName];
     self->_osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)version.majorVersion, (long)version.minorVersion, (long)version.patchVersion];
-#elif TARGET_OS_WATCH
+#endif
+    
+#if TARGET_OS_WATCH
     self->_platform = [[WKInterfaceDevice currentDevice] systemName];
     self->_osVersion = [NSString stringWithFormat:@"%d.%d.%d", (int)version.majorVersion, (int)version.minorVersion, (int)version.patchVersion];
 #endif

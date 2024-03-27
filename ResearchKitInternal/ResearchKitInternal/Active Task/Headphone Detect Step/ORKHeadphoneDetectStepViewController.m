@@ -35,7 +35,7 @@
 #import "ORKHeadphoneDetectStep.h"
 #import "ORKHeadphoneDetector.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #import <ResearchKit/ORKSkin.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
@@ -98,8 +98,10 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     ORKHeadphoneDetectedAirpodsMax,
     
     /** Earpods */
-    ORKHeadphoneDetectedEarpods
-
+    ORKHeadphoneDetectedEarpods,
+    
+    /** 3rd Party */
+    ORKHeadphoneDetectedThirdParty
     
 } ORK_ENUM_AVAILABLE;
 
@@ -114,7 +116,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 @property (nonatomic, assign) ORKHeadphoneDetected headphoneCellType;
 
 - (instancetype)initWithHeadphoneType:(ORKHeadphoneDetected)detectedHeadphone;
-- (void)setHeadphoneDetected:(ORKHeadphoneDetected * _Nullable)headphoneDetected;
+- (void)setHeadphoneDetected:(ORKHeadphoneDetected)headphoneDetected;
 
 @end
 
@@ -146,14 +148,15 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         _headphoneCellType = headphoneType;
         self.axis = UILayoutConstraintAxisHorizontal;
         self.distribution = UIStackViewDistributionFill;
-        self.alignment = UIStackViewAlignmentTop;
+        self.alignment = UIStackViewAlignmentCenter;
         self.spacing = ORKHeadphoneDetectStepSpacing;
-        self.layoutMargins = UIEdgeInsetsMake(0.0, ORKStepContainerLeftRightPaddingForWindow(self.window), 0.0, ORKStepContainerLeftRightPaddingForWindow(self.window));
+        self.layoutMargins = UIEdgeInsetsMake(0.0, ORKStepContainerLeftRightPaddingForWindow(self.window), 0.0, -ORKStepContainerLeftRightPaddingForWindow(self.window));
         self.layoutMarginsRelativeArrangement = YES;
         [self setupImageView];
         [self setupLabelStackView];
         [self setupTitleLabel];
         [self setupTextLabel];
+        [self setupLabelContainerTopBottomConstraints];
         [self setupCheckView];
         
         NSString *explanation = [self getNoiseCancellationExplanationForHeadphoneType:headphoneType];
@@ -193,7 +196,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     }
     _labelContainerView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addArrangedSubview:_labelContainerView];
-    [[_labelContainerView.heightAnchor constraintEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
+    [[_labelContainerView.heightAnchor constraintGreaterThanOrEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
 }
 
 - (void)setupTitleLabel {
@@ -209,7 +212,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     [[_titleLabel.leadingAnchor constraintEqualToAnchor:_labelContainerView.leadingAnchor] setActive:YES];
     [[_titleLabel.bottomAnchor constraintEqualToAnchor:_labelContainerView.centerYAnchor] setActive:YES];
-
+    [[_titleLabel.trailingAnchor constraintEqualToAnchor:_labelContainerView.trailingAnchor] setActive:YES];
 }
 
 - (void)setupTextLabel {
@@ -219,12 +222,22 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _textLabel.text = [self getTextLabelForHeadphoneType:_headphoneCellType];
     _textLabel.textColor = UIColor.systemGrayColor;
     _textLabel.font = [self bodyTextFont];
+    _textLabel.numberOfLines = 0;
+    _textLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _textLabel.textAlignment = NSTextAlignmentLeft;
     _textLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_labelContainerView addSubview:_textLabel];
     
     [[_textLabel.leadingAnchor constraintEqualToAnchor:_labelContainerView.leadingAnchor] setActive:YES];
     [[_textLabel.topAnchor constraintEqualToAnchor:_labelContainerView.centerYAnchor] setActive:YES];
+    [[_textLabel.trailingAnchor constraintEqualToAnchor:_labelContainerView.trailingAnchor] setActive:YES];
+}
+
+- (void)setupLabelContainerTopBottomConstraints {
+    if (_titleLabel && _textLabel) {
+        [[_labelContainerView.topAnchor constraintEqualToAnchor:_titleLabel.topAnchor] setActive:YES];
+        [[_labelContainerView.bottomAnchor constraintEqualToAnchor:_textLabel.bottomAnchor] setActive:YES];
+    }
 }
 
 - (NSString *)getTitleLabelForHeadphoneType:(ORKHeadphoneDetected)headphoneType {
@@ -232,16 +245,16 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         case ORKHeadphoneDetectedAirpodsGen1:
         case ORKHeadphoneDetectedAirpodsGen2:
         case ORKHeadphoneDetectedAirpodsGen3:
-            return AAPLLocalizedString(@"AIRPODS", nil);
+            return ORKILocalizedString(@"AIRPODS", nil);
         case ORKHeadphoneDetectedAirpodsPro:
         case ORKHeadphoneDetectedAirpodsProGen2:
-            return AAPLLocalizedString(@"AIRPODSPRO", nil);
+            return ORKILocalizedString(@"AIRPODSPRO", nil);
         case ORKHeadphoneDetectedAirpodsMax:
-            return AAPLLocalizedString(@"AIRPODSMAX", nil);
+            return ORKILocalizedString(@"AIRPODSMAX", nil);
         case ORKHeadphoneDetectedEarpods:
-            return AAPLLocalizedString(@"EARPODS", nil);
+            return ORKILocalizedString(@"EARPODS", nil);
         default:
-            return AAPLLocalizedString(@"HEADPHONES", nil);
+            return ORKILocalizedString(@"HEADPHONES", nil);
     }
 }
 
@@ -251,29 +264,31 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         case ORKHeadphoneDetectedAirpodsGen2:
         case ORKHeadphoneDetectedAirpodsGen3:
             if (_headphoneCellType == ORKHeadphoneDetectedUnknown) {
-                return _selected ? AAPLLocalizedString(@"HEADPHONE_CONNECTED_AIRPODS", nil) : AAPLLocalizedString(@"HEADPHONES_NONE", nil);
+                return _selected ? ORKILocalizedString(@"HEADPHONE_CONNECTED_AIRPODS", nil) : ORKILocalizedString(@"HEADPHONES_NONE", nil);
             }
-            return _selected ? AAPLLocalizedString(@"AIRPODS_CONNECTED", nil) :  AAPLLocalizedString(@"AIRPODS_NOT_CONNECTED", nil);
+            return _selected ? ORKILocalizedString(@"AIRPODS_CONNECTED", nil) :  ORKILocalizedString(@"AIRPODS_NOT_CONNECTED", nil);
         case ORKHeadphoneDetectedAirpodsPro:
         case ORKHeadphoneDetectedAirpodsProGen2:
             if (_headphoneCellType == ORKHeadphoneDetectedUnknown) {
-                return _selected ? AAPLLocalizedString(@"HEADPHONE_CONNECTED_AIRPODSPRO", nil) : AAPLLocalizedString(@"HEADPHONES_NONE", nil);
+                return _selected ? ORKILocalizedString(@"HEADPHONE_CONNECTED_AIRPODSPRO", nil) : ORKILocalizedString(@"HEADPHONES_NONE", nil);
             }
-            return _selected ? AAPLLocalizedString(@"AIRPODSPRO_CONNECTED", nil) :  AAPLLocalizedString(@"AIRPODSPRO_NOT_CONNECTED", nil);
+            return _selected ? ORKILocalizedString(@"AIRPODSPRO_CONNECTED", nil) :  ORKILocalizedString(@"AIRPODSPRO_NOT_CONNECTED", nil);
         case ORKHeadphoneDetectedAirpodsMax:
             if (_headphoneCellType == ORKHeadphoneDetectedUnknown) {
-                return _selected ? AAPLLocalizedString(@"HEADPHONE_CONNECTED_AIRPODSMAX", nil) : AAPLLocalizedString(@"HEADPHONES_NONE", nil);
+                return _selected ? ORKILocalizedString(@"HEADPHONE_CONNECTED_AIRPODSMAX", nil) : ORKILocalizedString(@"HEADPHONES_NONE", nil);
             }
-            return _selected ? AAPLLocalizedString(@"AIRPODSMAX_CONNECTED", nil) :  AAPLLocalizedString(@"AIRPODSMAX_NOT_CONNECTED", nil);
+            return _selected ? ORKILocalizedString(@"AIRPODSMAX_CONNECTED", nil) :  ORKILocalizedString(@"AIRPODSMAX_NOT_CONNECTED", nil);
         case ORKHeadphoneDetectedEarpods:
             if (_headphoneCellType == ORKHeadphoneDetectedUnknown) {
-                return _selected ? AAPLLocalizedString(@"HEADPHONE_CONNECTED_EARPODS", nil) : AAPLLocalizedString(@"HEADPHONES_NONE", nil);
+                return _selected ? ORKILocalizedString(@"HEADPHONE_CONNECTED_EARPODS", nil) : ORKILocalizedString(@"HEADPHONES_NONE", nil);
             }
-            return _selected ? AAPLLocalizedString(@"EARPODS_CONNECTED", nil) :  AAPLLocalizedString(@"EARPODS_NOT_CONNECTED", nil);
+            return _selected ? ORKILocalizedString(@"EARPODS_CONNECTED", nil) :  ORKILocalizedString(@"EARPODS_NOT_CONNECTED", nil);
         case ORKHeadphoneDetectedNone:
-            return AAPLLocalizedString(@"HEADPHONES_NONE", nil);
+            return ORKILocalizedString(@"HEADPHONES_NONE", nil);
         case ORKHeadphoneDetectedUnknown:
-            return AAPLLocalizedString(@"HEADPHONES", nil);
+            return ORKILocalizedString(@"HEADPHONES", nil);
+        case ORKHeadphoneDetectedThirdParty:
+            return ORKILocalizedString(@"THIRD_PARTY_HEADPHONES_CONNECTED", nil);
     }
 }
 
@@ -290,26 +305,26 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         case ORKHeadphoneDetectedAirpodsPro:
         case ORKHeadphoneDetectedAirpodsProGen2:
             result = [[UIDevice currentDevice] supportsFaceID]
-            ? ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODSPRO", nil)
-            : ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_BELOW_AIRPODSPRO", nil);
+            ? ORKILocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODSPRO", nil)
+            : ORKILocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_BELOW_AIRPODSPRO", nil);
             break;
 
         case ORKHeadphoneDetectedAirpodsMax:
             result = [[UIDevice currentDevice] supportsFaceID]
-            ? ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODSMAX", nil)
-            : ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_BELOW_AIRPODSMAX", nil);
+            ? ORKILocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODSMAX", nil)
+            : ORKILocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_BELOW_AIRPODSMAX", nil);
             break;
 
         case ORKHeadphoneDetectedEarpods:
         case ORKHeadphoneDetectedNone:
         case ORKHeadphoneDetectedUnknown:
+        case ORKHeadphoneDetectedThirdParty:
             result = nil;
             break;            
     }
     
     return result;
 }
-
 
 - (void)setupOrangeLabel {
     if (!_extraLabelsContainerView) {
@@ -326,7 +341,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _orangeLabelImage.tintColor = UIColor.systemOrangeColor;
     [_orangeLabelImage sizeToFit];
     _orangeLabelImage.translatesAutoresizingMaskIntoConstraints = NO;
-    _orangeLabel.text = AAPLLocalizedString(@"NOISE_CANCELLATION_REQUIRED", nil);
+    _orangeLabel.text = ORKILocalizedString(@"NOISE_CANCELLATION_REQUIRED", nil);
     _orangeLabel.numberOfLines = 0;
     _orangeLabel.textColor = UIColor.systemOrangeColor;
     _orangeLabel.font = [self subheadlineFontBold];
@@ -456,15 +471,15 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     [self updateAccessibilityElements];
 }
 
-- (void)setHeadphoneDetected:(ORKHeadphoneDetected * _Nullable)headphone {
+- (void)setHeadphoneDetected:(ORKHeadphoneDetected)headphone {
     if (!_textLabel) { return; }
-    if (headphone) {
+    if (headphone && headphone != ORKHeadphoneDetectedThirdParty) {
         UIImage *headphoneglyph = [self headphoneImage:headphone];
         NSString *headphoneName = [self getTextLabelForHeadphoneType:headphone];
         [_textLabel setText:headphoneName];
         _imageView.image = headphoneglyph;
     } else {
-        [_textLabel setText:ORKLocalizedString(@"THIRD_PARTY_HEADPHONES_CONNECTED", nil)];
+        [_textLabel setText:ORKILocalizedString(@"THIRD_PARTY_HEADPHONES_CONNECTED", nil)];
     }
     
     [self updateAccessibilityElements];
@@ -564,8 +579,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     if (_headphoneTypes == ORKHeadphoneTypesSupported) {
         [self addSupportedHeadphonesDetectedViews];
-    }
-    else {
+    } else {
         [self addAnyHeadphoneDetectedView];
     }
     
@@ -626,7 +640,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 - (NSAttributedString *)getSharedAudioMessage {
     NSMutableAttributedString *sharedAudioString = [NSMutableAttributedString new];
     
-    NSArray<NSString *> *stringElements = [AAPLLocalizedString(@"SHARED_AUDIO_ALERT", nil) componentsSeparatedByString:@"%@"];
+    NSArray<NSString *> *stringElements = [ORKILocalizedString(@"SHARED_AUDIO_ALERT", nil) componentsSeparatedByString:@"%@"];
 
     if (stringElements.count == 4) {
         NSString *title = stringElements[0];
@@ -688,7 +702,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
 - (void)hideBottomAlert:(BOOL)isHidden {
     [UIView animateWithDuration: ORKHeadphoneCellAnimationDuration animations:^{
-        [_bottomAlertLabel setHidden:isHidden];
+        [self->_bottomAlertLabel setHidden:isHidden];
         [self layoutIfNeeded];
     }];
 }
@@ -708,7 +722,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _airpodProSupportView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addArrangedSubview:_airpodProSupportView];
     [[_airpodProSupportView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
-    _airpodsProCellHeightConstraint = [_airpodProSupportView.heightAnchor constraintEqualToConstant: ORKHeadphoneDetectCellStepSize];
+    _airpodsProCellHeightConstraint = [_airpodProSupportView.heightAnchor constraintGreaterThanOrEqualToConstant: ORKHeadphoneDetectCellStepSize];
     [_airpodProSupportView addConstraint:_airpodsProCellHeightConstraint];
     _airpodsProCellHeightConstraint.active = YES;
 }
@@ -720,7 +734,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _airpodMaxSupportView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addArrangedSubview:_airpodMaxSupportView];
     [[_airpodMaxSupportView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
-    _airpodsMaxCellHeightConstraint = [_airpodMaxSupportView.heightAnchor constraintEqualToConstant: ORKHeadphoneDetectCellStepSize];
+    _airpodsMaxCellHeightConstraint = [_airpodMaxSupportView.heightAnchor constraintGreaterThanOrEqualToConstant: ORKHeadphoneDetectCellStepSize];
     [_airpodMaxSupportView addConstraint:_airpodsMaxCellHeightConstraint];
     _airpodsMaxCellHeightConstraint.active = YES;
 }
@@ -732,7 +746,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _airpodSupportView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addArrangedSubview:_airpodSupportView];
     [[_airpodSupportView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
-    [[_airpodSupportView.heightAnchor constraintEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
+    [[_airpodSupportView.heightAnchor constraintGreaterThanOrEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
 }
 
 - (void)setupEarpodView {
@@ -742,7 +756,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _earpodSupportView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addArrangedSubview:_earpodSupportView];
     [[_earpodSupportView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
-    [[_earpodSupportView.heightAnchor constraintEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
+    [[_earpodSupportView.heightAnchor constraintGreaterThanOrEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
 }
 
 - (void)setupAnyHeadphoneView {
@@ -752,7 +766,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _anyHeadphoneView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addArrangedSubview:_anyHeadphoneView];
     [[_anyHeadphoneView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor] setActive:YES];
-    [[_anyHeadphoneView.heightAnchor constraintEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
+    [[_anyHeadphoneView.heightAnchor constraintGreaterThanOrEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
 }
 
 - (void)setHeadphoneDetected:(ORKHeadphoneDetected)headphoneDetected {
@@ -803,7 +817,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             switch (_headphoneDetected) {
                 case ORKHeadphoneDetectedUnknown:
                     _anyHeadphoneView.selected = YES;
-                    [_anyHeadphoneView setHeadphoneDetected:nil];
+                    [_anyHeadphoneView setHeadphoneDetected:ORKHeadphoneDetectedThirdParty];
                     break;
                 case ORKHeadphoneDetectedNone:
                     _anyHeadphoneView.selected = NO;
@@ -820,16 +834,16 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
 - (void)setAirpodProCellExpanded:(BOOL)expanded {
     [UIView animateWithDuration: ORKHeadphoneCellAnimationDuration animations:^{
-        [_airpodProSupportView setExtraLabelsAlpha: expanded ? 1.0 : 0.0];
-        _airpodsProCellHeightConstraint.constant = expanded ? [_airpodProSupportView extraLabelsContentSize] : ORKHeadphoneDetectCellStepSize;
+        [self->_airpodProSupportView setExtraLabelsAlpha: expanded ? 1.0 : 0.0];
+        self->_airpodsProCellHeightConstraint.constant = expanded ? [self->_airpodProSupportView extraLabelsContentSize] : ORKHeadphoneDetectCellStepSize;
         [self.superview layoutIfNeeded];
     }];
 }
 
 - (void)setAirpodMaxCellExpanded:(BOOL)expanded {
     [UIView animateWithDuration: ORKHeadphoneCellAnimationDuration animations:^{
-        [_airpodMaxSupportView setExtraLabelsAlpha: expanded ? 1.0 : 0.0];
-        _airpodsMaxCellHeightConstraint.constant = expanded ? [_airpodMaxSupportView extraLabelsContentSize] : ORKHeadphoneDetectCellStepSize;
+        [self->_airpodMaxSupportView setExtraLabelsAlpha: expanded ? 1.0 : 0.0];
+        self->_airpodsMaxCellHeightConstraint.constant = expanded ? [self->_airpodMaxSupportView extraLabelsContentSize] : ORKHeadphoneDetectCellStepSize;
         [self.superview layoutIfNeeded];
     }];
 }
@@ -881,7 +895,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
     if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]]) {
-        continueButtonItem.title = AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_CONTINUE", nil);
+        continueButtonItem.title = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_CONTINUE", nil);
     }
     
     continueButtonItem.target = self;
@@ -905,14 +919,14 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     if ([self.step.context isKindOfClass:[ORKSpeechInNoisePredefinedTaskContext class]])
     {
-        [skipButtonItem setTitle:AAPLLocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_SKIP", nil)];
+        [skipButtonItem setTitle:ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_DETECT_SKIP", nil)];
         skipButtonItem.target = self;
         skipButtonItem.action = @selector(noHeadphonesButtonPressed:);
     } else if ([self isDetectingAppleHeadphones]) {
         if (!self.step.context) {
             self.step.context = [[ORKdBHLTaskContext alloc] init];
         }
-        [skipButtonItem setTitle:AAPLLocalizedString(@"DBHL_HEADPHONES_DETECT_SKIP", nil)];
+        [skipButtonItem setTitle:ORKILocalizedString(@"DBHL_HEADPHONES_DETECT_SKIP", nil)];
         skipButtonItem.target = self;
         skipButtonItem.action = @selector(noHeadphonesButtonPressed:);
     }
@@ -1018,18 +1032,18 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _headphoneDetector.delegate = nil;
     dispatch_async(dispatch_get_main_queue(), ^{
         UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:AAPLLocalizedString(@"HEADPHONES_LOW_BATTERY_TITLE", nil)
-                                              message:AAPLLocalizedString(@"HEADPHONES_LOW_BATTERY_TEXT", nil)
+                                              alertControllerWithTitle:ORKILocalizedString(@"HEADPHONES_LOW_BATTERY_TITLE", nil)
+                                              message:ORKILocalizedString(@"HEADPHONES_LOW_BATTERY_TEXT", nil)
                                               preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *startOver = [UIAlertAction
-                                    actionWithTitle:AAPLLocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
+                                    actionWithTitle:ORKILocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
                                     style:UIAlertActionStyleDefault
                                     handler:^(UIAlertAction *action) {
             [[self taskViewController] restartTask];
         }];
         [alertController addAction:startOver];
         [alertController addAction:[UIAlertAction
-                                    actionWithTitle:AAPLLocalizedString(@"dBHL_ALERT_TITLE_CANCEL_TEST", nil)
+                                    actionWithTitle:ORKILocalizedString(@"dBHL_ALERT_TITLE_CANCEL_TEST", nil)
                                     style:UIAlertActionStyleDefault
                                     handler:^(UIAlertAction *action) {
             ORKStrongTypeOf(self.taskViewController.delegate) strongDelegate = self.taskViewController.delegate;
@@ -1044,7 +1058,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
 - (void)wirelessSplitterMoreThanOneDeviceDetected:(BOOL)moreThanOne {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_headphoneDetectStepView hideBottomAlert:!moreThanOne];
+        [self->_headphoneDetectStepView hideBottomAlert:!moreThanOne];
     });
 }
 

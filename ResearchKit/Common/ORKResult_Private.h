@@ -30,7 +30,9 @@
 
 #if TARGET_OS_IOS
 #import <ResearchKit/ORKResult.h>
-#elif TARGET_OS_WATCH || TARGET_OS_VISION
+#endif
+
+#if TARGET_OS_WATCH || TARGET_OS_VISION
 #import <ResearchKitCore/ORKResult.h>
 #endif
 

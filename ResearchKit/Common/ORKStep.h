@@ -30,12 +30,14 @@
 
 #if TARGET_OS_WATCH || TARGET_OS_VISION
 #import <ResearchKitCore/ORKTypes.h>
-#elif TARGET_OS_IOS
+#endif
+
+#if TARGET_OS_IOS
 #import <ResearchKit/ORKTypes.h>
 #endif
 
-@import Foundation;
-@import UIKit;
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @class HKObjectType;
 @class ORKResult;
@@ -311,16 +313,18 @@ API_AVAILABLE(ios(11))
 @property (nonatomic) UIViewContentMode imageContentMode API_AVAILABLE(ios(11)) API_UNAVAILABLE(watchos);
 
 @end
+#endif
 
-#elif TARGET_OS_WATCH || TARGET_OS_VISION
 
 #pragma mark - watchOS / VisionOS
+
+#if TARGET_OS_WATCH || TARGET_OS_VISION
+#pragma mark - watchOS
 
 API_AVAILABLE(watchos(6.0))
 @interface ORKStep ()
 
 @end
-
 #endif
 
 NS_ASSUME_NONNULL_END

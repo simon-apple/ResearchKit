@@ -108,7 +108,7 @@
                                                           [sampleResults enumerateObjectsUsingBlock:^(HKClinicalRecord *clinicalRecord, NSUInteger idx, BOOL *stop) {
                                                               
                                                               NSError *logError = nil;
-                                                              [_logger append:clinicalRecord.FHIRResource.data error:&logError];
+                                                              [self->_logger append:clinicalRecord.FHIRResource.data error:&logError];
                                                               if (logError) {
                                                                   ORK_Log_Error("Failed to add health records object to the logger with error: %@", logError);
                                                                   return;

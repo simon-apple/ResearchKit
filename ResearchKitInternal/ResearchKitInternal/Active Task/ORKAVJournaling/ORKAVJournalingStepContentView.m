@@ -35,7 +35,7 @@
 
 #import "ORKFaceDetectionStepContentView.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ORKSkin.h>
@@ -142,7 +142,7 @@ static const NSInteger MaxRecalibrationViewPresentations = 4;
     _recordingLabel = [UILabel new];
     [_recordingLabel setFont:[self recordingLabelFont]];
     [_recordingLabel setTextColor:[UIColor whiteColor]];
-    [_recordingLabel setText:AAPLLocalizedString(@"AV_JOURNALING_STEP_RECORDING_LABEL_TEXT", nil)];
+    [_recordingLabel setText:ORKILocalizedString(@"AV_JOURNALING_STEP_RECORDING_LABEL_TEXT", nil)];
     [_recordingView addSubview:_recordingLabel];
     
     UIImage *videoImage = [UIImage systemImageNamed:@"video.fill"];
@@ -331,14 +331,14 @@ static const NSInteger MaxRecalibrationViewPresentations = 4;
          
          [UIView animateWithDuration:1.0
                           animations:^{
-             if (_badgeIsSystemRed) {
-                 [_recordingView setBackgroundColor:[UIColor colorWithRed:188/255.0 green:59/255.0 blue:52/255.0 alpha:1.0]];
+             if (self->_badgeIsSystemRed) {
+                 [self->_recordingView setBackgroundColor:[UIColor colorWithRed:188/255.0 green:59/255.0 blue:52/255.0 alpha:1.0]];
                  
              } else {
-                 [_recordingView setBackgroundColor:[UIColor systemRedColor]];
+                 [self->_recordingView setBackgroundColor:[UIColor systemRedColor]];
              }
              
-             _badgeIsSystemRed = !_badgeIsSystemRed;
+             self->_badgeIsSystemRed = !self->_badgeIsSystemRed;
              
              [self setNeedsLayout];
          } completion:^(BOOL finished) {
@@ -386,19 +386,17 @@ static const NSInteger MaxRecalibrationViewPresentations = 4;
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [UIView animateWithDuration:0.8
                          animations:^{
+            [self->_countDownLabel setText:[NSString stringWithFormat:ORKILocalizedString(@"AV_JOURNALING_STEP_NEXT_QUESTION_MESSAGE", nil), [self formattedTimeFromSeconds:self->_countDownStartTime]]];
+            self->_countDownLabel.layer.opacity = 1.0;
             
-            [_countDownLabel setText:[NSString stringWithFormat:AAPLLocalizedString(@"AV_JOURNALING_STEP_NEXT_QUESTION_MESSAGE", nil), [self formattedTimeFromSeconds:_countDownStartTime]]];
+            [self->_questionNumberLabelTopConstraint setActive:NO];
+            self->_questionNumberLabelTopConstraint = [self->_questionNumberLabel.topAnchor constraintEqualToAnchor:self->_countDownLabel.bottomAnchor constant:QuestionNumberLabelTopPadding];
+            [self->_questionNumberLabelTopConstraint setActive:YES];
             
-            _countDownLabel.layer.opacity = 1.0;
-            
-            [_questionNumberLabelTopConstraint setActive:NO];
-            _questionNumberLabelTopConstraint = [_questionNumberLabel.topAnchor constraintEqualToAnchor:_countDownLabel.bottomAnchor constant:QuestionNumberLabelTopPadding];
-            [_questionNumberLabelTopConstraint setActive:YES];
-            
-            if (_recalibrationViewPresented) {
-                [_recalibrationViewTopConstraint setActive:NO];
-                _recalibrationViewTopConstraint = [_faceDetectionContentView.topAnchor constraintEqualToAnchor:_countDownLabel.bottomAnchor];
-                [_recalibrationViewTopConstraint setActive:YES];
+            if (self->_recalibrationViewPresented) {
+                [self->_recalibrationViewTopConstraint setActive:NO];
+                self->_recalibrationViewTopConstraint = [self->_faceDetectionContentView.topAnchor constraintEqualToAnchor:self->_countDownLabel.bottomAnchor];
+                [self->_recalibrationViewTopConstraint setActive:YES];
             }
             
             [self layoutIfNeeded];
@@ -407,7 +405,7 @@ static const NSInteger MaxRecalibrationViewPresentations = 4;
 }
 
 - (void)updateCountDownLabelWithTime:(NSString *)time {
-    [_countDownLabel setText:[NSString stringWithFormat:AAPLLocalizedString(@"AV_JOURNALING_STEP_NEXT_QUESTION_MESSAGE", nil), time]];
+    [_countDownLabel setText:[NSString stringWithFormat:ORKILocalizedString(@"AV_JOURNALING_STEP_NEXT_QUESTION_MESSAGE", nil), time]];
 }
 
 - (void)stopAndSubmitVideo {
@@ -462,19 +460,19 @@ static const NSInteger MaxRecalibrationViewPresentations = 4;
         [UIView animateWithDuration:0.5
                          animations:^{
             
-            _questionNumberLabel.layer.opacity = 0;
-            _questionLabel.layer.opacity = 0;
-            _faceDetectionContentView.layer.opacity = 1.0;
+            self->_questionNumberLabel.layer.opacity = 0;
+            self->_questionLabel.layer.opacity = 0;
+            self->_faceDetectionContentView.layer.opacity = 1.0;
             
             [self setNeedsLayout];
         } completion:^(BOOL finished) {            
             NSDateFormatter *dfm = ORKResultDateTimeFormatter();
-            _currentStartRecalibrationTimeStamp = [dfm stringFromDate:[NSDate date]];
+            self->_currentStartRecalibrationTimeStamp = [dfm stringFromDate:[NSDate date]];
             
-            [_faceDetectionContentView layoutSubviews];
+            [self->_faceDetectionContentView layoutSubviews];
             
             //next button should say disabled while recalibration view is presented
-            if (!_stopFaceDetectionExit){
+            if (!self->_stopFaceDetectionExit){
                 [self invokeViewEventHandlerWithEvent:ORKAVJournalingStepContentViewEventDisableContinueButton];
             }
         }];
@@ -492,25 +490,25 @@ static const NSInteger MaxRecalibrationViewPresentations = 4;
             [UIView animateWithDuration:0.5
                              animations:^{
 
-                _questionNumberLabel.layer.opacity = 1;
-                _questionLabel.layer.opacity = 1;
-                _faceDetectionContentView.layer.opacity = 0;
+                self->_questionNumberLabel.layer.opacity = 1;
+                self->_questionLabel.layer.opacity = 1;
+                self->_faceDetectionContentView.layer.opacity = 0;
 
                 [self setNeedsLayout];
             } completion:^(BOOL finished) {
                 NSDateFormatter *dfm = ORKResultDateTimeFormatter();
-                _currentEndRecalibrationTimeStamp = [dfm stringFromDate:[NSDate date]];
+                self->_currentEndRecalibrationTimeStamp = [dfm stringFromDate:[NSDate date]];
                 
                 [self storeRecalibrationTimeStamps];
 
-                [_faceDetectionContentView cleanUpView];
-                [_faceDetectionContentView removeFromSuperview];
-                _faceDetectionContentView = nil;
+                [self->_faceDetectionContentView cleanUpView];
+                [self->_faceDetectionContentView removeFromSuperview];
+                self->_faceDetectionContentView = nil;
                 
                 //next button should say disabled while recalibration view is presented
                 [self invokeViewEventHandlerWithEvent:ORKAVJournalingStepContentViewEventEnableContinueButton];
                 
-                if (_stepTimerEndedDuringRecalibration) {
+                if (self->_stepTimerEndedDuringRecalibration) {
                     [self stopAndSubmitVideo];
                 }
             }];

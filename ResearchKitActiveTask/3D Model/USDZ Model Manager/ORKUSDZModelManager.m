@@ -152,29 +152,29 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             MDLAsset *mdlAsset = [[MDLAsset alloc] initWithURL:url];
             [mdlAsset loadTextures];
-            _usdzModelManagerScene = [[ORKUSDZModelManagerScene alloc] initWithMDLAsset:mdlAsset
+            self->_usdzModelManagerScene = [[ORKUSDZModelManagerScene alloc] initWithMDLAsset:mdlAsset
                                                                         hightlightColor:self.highlightColor
-                                                                               fileName:_fileName];
+                                                                               fileName:self->_fileName];
             
             dispatch_async(dispatch_get_main_queue(), ^(void) {
-                _sceneView = [SCNView new];
-                _sceneView.scene = _usdzModelManagerScene;
-                [_sceneView setAllowsCameraControl:YES];
-                [_sceneView setAutoenablesDefaultLighting:YES];
-                [_sceneView setAntialiasingMode:SCNAntialiasingModeMultisampling4X];
-                _sceneView.translatesAutoresizingMaskIntoConstraints = NO;
-                _sceneView.backgroundColor = [UIColor secondarySystemBackgroundColor];
-                [_parentView addSubview:_sceneView];
+                self->_sceneView = [SCNView new];
+                self->_sceneView.scene = self->_usdzModelManagerScene;
+                [self->_sceneView setAllowsCameraControl:YES];
+                [self->_sceneView setAutoenablesDefaultLighting:YES];
+                [self->_sceneView setAntialiasingMode:SCNAntialiasingModeMultisampling4X];
+                self->_sceneView.translatesAutoresizingMaskIntoConstraints = NO;
+                self->_sceneView.backgroundColor = [UIColor secondarySystemBackgroundColor];
+                [self->_parentView addSubview:self->_sceneView];
                 
                 [self setupSceneViewConstraints];
                 
                 if (self.allowsSelection) {
                     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTap:)];
-                    [_sceneView addGestureRecognizer:tapRecognizer];
+                    [self->_sceneView addGestureRecognizer:tapRecognizer];
                 }
                 
                 if (self.identifiersOfObjectsToHighlight) {
-                    [_usdzModelManagerScene hightlightModelObjectsWithIdentifiers:self.identifiersOfObjectsToHighlight];
+                    [self->_usdzModelManagerScene hightlightModelObjectsWithIdentifiers:self.identifiersOfObjectsToHighlight];
                 }
                 
             });

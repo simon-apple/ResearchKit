@@ -34,25 +34,25 @@
 
 int daxpy(integer *n, double *da, double *dx, integer *incx, double *dy, integer *incy)
 {
-    cblas_daxpy(*n, *da, dx, *incx, dy, *incy);
+    cblas_daxpy((int)*n, *da, dx, (int)*incx, dy, (int)*incy);
     return 0;
 }
 
 int dcopy(integer *n, double *dx, integer *incx, double *dy, integer *incy)
 {
-    cblas_dcopy(*n, dx, *incx, dy, *incy);
+    cblas_dcopy((int)*n, dx, (int)*incx, dy, (int)*incy);
     return 0;
 }
 
 double ddot(integer *n, double *dx, integer *incx, double *dy,
         integer *incy)
 {
-    return cblas_ddot(*n, dx, *incx, dy, *incy);
+    return cblas_ddot((int)*n, dx, (int)*incx, dy, (int)*incy);
 }
 
 int dscal(integer *n, double *da, double *dx,
         integer *incx)
 {
-    cblas_dscal(*n, *da, dx, *incx);
+    cblas_dscal((int)*n, *da, dx, (int)*incx);
     return 0;
 }

@@ -33,7 +33,7 @@
 #import "ORKAVJournalingTaskViewController.h"
 #import "ORKContext.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #if ORK_FEATURE_AV_JOURNALING
 
@@ -70,8 +70,8 @@
             [self updateAVJournalingTaskArrayForResumption];
             [self applicationFinishedRestoringState];
             
-            if (unarchiver == nil) {
-                *errorOut = [NSError errorWithDomain:ORKErrorDomain code:ORKErrorException userInfo:@{NSLocalizedDescriptionKey: AAPLLocalizedString(@"RESTORE_ERROR_CANNOT_DECODE", nil)}];
+            if (unarchiver == nil && errorOut != nil) {
+                *errorOut = [NSError errorWithDomain:ORKErrorDomain code:ORKErrorException userInfo:@{NSLocalizedDescriptionKey: ORKILocalizedString(@"RESTORE_ERROR_CANNOT_DECODE", nil)}];
             }
         }
     }
@@ -182,7 +182,7 @@
         // add Finish Later Face Detection Step before it and restore to it
         ORKAVJournalingPredfinedTaskContext *avJournalingPredefinedContext = [[ORKAVJournalingPredfinedTaskContext alloc] init];
         ORKFaceDetectionStep *faceDetectionStep = [[ORKFaceDetectionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierFinishLaterFaceDetection];
-        faceDetectionStep.title = AAPLLocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_FACE_DETECTION_STEP_TITLE", nil);
+        faceDetectionStep.title = ORKILocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_FACE_DETECTION_STEP_TITLE", nil);
         faceDetectionStep.context = avJournalingPredefinedContext;
         NSUInteger insertionIndex = 0;
         BOOL identifierFound = NO;

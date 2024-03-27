@@ -30,28 +30,23 @@
  */
 
 
-@import XCTest;
-@import ResearchKit_Private;
-@import ResearchKitActiveTask;
-@import ResearchKitActiveTask_Private;
+#import <Foundation/Foundation.h>
+#import <XCTest/XCTest.h>
+#import <ResearchKit/ResearchKit_Private.h>
+#import <ResearchKitActiveTask/ResearchKitActiveTask.h>
+#import <ResearchKitActiveTask/ResearchKitActiveTask_Private.h>
 #if RK_APPLE_INTERNAL
-@import ResearchKitInternal;
-@import ResearchKitInternal_Private;
+#import <ResearchKitInternal/ResearchKitInternal.h>
+#import <ResearchKitInternal/ResearchKitInternal_Private.h>
 #endif
-@import ResearchKitUI;
+#import <ResearchKitUI/ResearchKitUI.h>
 
 #import "ORKESerialization.h"
-
 #import <objc/runtime.h>
 
 BOOL ORKIsResearchKitClass(Class class) {
     NSString *name = NSStringFromClass(class);
-    
-#if RK_APPLE_INTERNAL
-    return [name hasPrefix:@"ORK"] || [name hasPrefix:@"AAPL"];
-#else
     return [name hasPrefix:@"ORK"];
-#endif
 }
 
 
@@ -86,6 +81,15 @@ BOOL ORKIsResearchKitClass(Class class) {
     ];
    
    classesToExclude = [classesToExclude arrayByAddingObjectsFromArray:blePeripheralsClasses];
+#endif
+    
+#if RK_APPLE_INTERNAL
+    NSArray<NSString *> *excludedJSONFiles = @[
+        @"mapper_navigableTaskExample1",
+        @"mapper_ras_acute_environment"
+    ];
+   
+   classesToExclude = [classesToExclude arrayByAddingObjectsFromArray:excludedJSONFiles];
 #endif
     
     return classesToExclude;
@@ -302,11 +306,11 @@ ORK_MAKE_TEST_INIT(ORKVerificationStep, ^{return [self initWithIdentifier:[NSUUI
 ORK_MAKE_TEST_INIT(ORKStep, ^{return [self initWithIdentifier:[NSUUID UUID].UUIDString];});
 ORK_MAKE_TEST_INIT(ORKReviewStep, ^{return [[self class] standaloneReviewStepWithIdentifier:[NSUUID UUID].UUIDString steps:@[] resultSource:[[ORKTaskResult alloc] orktest_init]];});
 ORK_MAKE_TEST_INIT(ORKOrderedTask, ^{return [self initWithIdentifier:@"test1" steps:nil];});
+ORK_MAKE_TEST_INIT(ORKWebViewStep, ^{
+    ORKWebViewStep *webViewStep = [ORKWebViewStep webViewStepWithIdentifier:@"test1" html:@""];
+    return webViewStep;
+});
 ORK_MAKE_TEST_INIT(ORK3DModelStep, ^{return [[self.class alloc] initWithIdentifier:NSUUID.UUID.UUIDString modelManager: [[ORK3DModelManager alloc] init]]; });
-
-#if RK_APPLE_INTERNAL
-ORK_MAKE_TEST_INIT(ORKAgeAnswerFormat, ^{return [self initWithMinimumAge:0 maximumAge:80 minimumAgeCustomText:nil maximumAgeCustomText:nil showYear:NO useYearForResult:NO treatMinAgeAsRange:false treatMaxAgeAsRange:false defaultValue:0];});
-#endif
 
 #if RK_APPLE_INTERNAL && ORK_FEATURE_AV_JOURNALING
 ORK_MAKE_TEST_INIT(ORKAVJournalingPredefinedTask, ^{
@@ -325,7 +329,9 @@ ORK_MAKE_TEST_INIT(ORKFaceDetectionStep, ^{
 #endif
 
 #if RK_APPLE_INTERNAL
-ORK_MAKE_TEST_INIT(AAPLSpeechRecognitionStep, ^ {
+ORK_MAKE_TEST_INIT(ORKAgeAnswerFormat, ^{return [self initWithMinimumAge:0 maximumAge:80 minimumAgeCustomText:nil maximumAgeCustomText:nil showYear:NO useYearForResult:NO treatMinAgeAsRange:false treatMaxAgeAsRange:false defaultValue:0];});
+
+ORK_MAKE_TEST_INIT(ORKISpeechRecognitionStep, ^ {
     return [self initWithIdentifier:[NSUUID UUID].UUIDString image:nil text:@"test1"];
 });
 
@@ -550,6 +556,17 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                                  [ORKMotionActivityCollector class],
                                                  [ORKShoulderRangeOfMotionStep class],
                                                  [ORKCustomStep class],
+                                                 [ORKTouchAbilityPinchStep class],
+                                                 [ORKTouchAbilitySwipeStep class],
+                                                 [ORKTouchAbilityTapResult class],
+                                                 [ORKTouchAbilityRotationStep class],
+                                                 [ORKTouchAbilityLongPressStep class],
+                                                 [ORKTouchAbilityScrollStep class],
+                                                 [ORKTouchAbilityPinchResult class],
+                                                 [ORKTouchAbilityRotationResult class],
+                                                 [ORKTouchAbilityLongPressResult class],
+                                                 [ORKTouchAbilitySwipeResult class],
+                                                 [ORKTouchAbilityScrollResult class]
                                                  ];
         
         _propertyExclusionList = @[
@@ -581,7 +598,9 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                    @"ORKPredicateFormItemVisibilityRule.predicateFormat", // Prevent trying to assign a bogus empty string as predicateFormat during testing
                                    @"ORKAccuracyStroopStep.actualDisplayColor",
                                    @"ORKAccuracyStroopResult.didSelectCorrectColor",
-                                   @"ORKAccuracyStroopResult.timeTakenToSelect"
+                                   @"ORKAccuracyStroopResult.timeTakenToSelect",
+                                   @"ORKWebViewStepResult.html",
+                                   @"ORKWebViewStepResult.htmlWithSignature"
                                    ];
         
 #if RK_APPLE_INTERNAL
@@ -674,14 +693,14 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
 #if RK_APPLE_INTERNAL
                                           @"ORKTextAnswerFormat.scrubbers",
                                           @"ORKColorChoice.value",
+                                          @"ORKHealthCondition.value",
+                                          @"ORKColorChoice.value",
 #endif
                                           @"ORKTextChoice.detailTextAttributedString",
                                           @"ORKTextChoice.primaryTextAttributedString",
                                           @"ORKTextChoice.value",
-                                          @"ORKHealthCondition.value",
                                           @"ORKTextChoice.image",
                                           @"ORKTextChoiceOther.image",
-                                          @"ORKColorChoice.value",
                                           @"ORKTimeIntervalAnswerFormat.defaultInterval",
                                           @"ORKTimeIntervalAnswerFormat.maximumInterval",
                                           @"ORKTimeIntervalAnswerFormat.step",
@@ -691,7 +710,8 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKWebViewStep.customViewProvider",
                                           @"ORKLearnMoreItem.delegate",
                                           @"ORKSpeechRecognitionResult.recognitionMetadata",
-                                          @"ORKAccuracyStroopStep.actualDisplayColor"
+                                          @"ORKAccuracyStroopStep.actualDisplayColor",
+                                          @"ORKAudioStreamerConfiguration.bypassAudioEngineStart"
                                           ];
         
 #if RK_APPLE_INTERNAL
@@ -699,8 +719,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
             @"ORKFaceDetectionBlurFooterView.startStopButton",
             @"ORKFaceDetectionBlurFooterView.timerLabel",
             @"ORKBLEScanPeripheralsStepResult.centralManager",
-            @"ORKBLEScanPeripheralsStepResult.connectedPeripherals",
-            @"ORKAudioStreamerConfiguration.bypassAudioEngineStart"
+            @"ORKBLEScanPeripheralsStepResult.connectedPeripherals"
         ];
         _knownNotSerializedProperties = [_knownNotSerializedProperties arrayByAddingObjectsFromArray:internalKnownNotSerializedProperties];
 #endif
@@ -738,7 +757,36 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
         @"ORKUSDZModelManagerScene",
         @"ORKBlurFooterView",
         @"ORKFrontFacingCameraStepOptionsView",
-        @"ORKNoAnswer"
+        @"ORKNoAnswer",
+        @"ORKTouchAbilityTouch",
+        @"ORKTouchAbilityTouch",
+        @"ORKTouchAbilityTrack",
+        @"ORKTouchAbilityTrial",
+        @"ORKTouchAbilityTapStep",
+        @"ORKTouchAbilityTapTrial",
+        @"ORKTouchAbilityPinchStep",
+        @"ORKTouchAbilitySwipeStep",
+        @"ORKTouchAbilityTapResult",
+        @"ORKTouchAbilityPinchTrial",
+        @"ORKTouchAbilityLongPressTrial",
+        @"ORKTouchAbilityScrollTrial",
+        @"ORKTouchAbilityRotationTrial",
+        @"ORKTouchAbilitySwipeTrial",
+        @"ORKTouchAbilityGestureRecoginzerEvent",
+        @"ORKTouchAbilityRotationGestureRecoginzerEvent",
+        @"ORKTouchAbilityPinchGestureRecoginzerEvent",
+        @"ORKTouchAbilitySwipeGestureRecoginzerEvent",
+        @"ORKTouchAbilityPanGestureRecoginzerEvent",
+        @"ORKTouchAbilityLongPressGestureRecoginzerEvent",
+        @"ORKTouchAbilityTapGestureRecoginzerEvent",
+        @"ORKTouchAbilityRotationStep",
+        @"ORKTouchAbilityLongPressStep",
+        @"ORKTouchAbilityScrollStep",
+        @"ORKTouchAbilityPinchResult",
+        @"ORKTouchAbilityRotationResult",
+        @"ORKTouchAbilityLongPressResult",
+        @"ORKTouchAbilitySwipeResult",
+        @"ORKTouchAbilityScrollResult"
     ];
     
     #if RK_APPLE_INTERNAL
@@ -1082,7 +1130,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
             [instance setValue:@(0) forKey:@"minimum"];
             [instance setValue:@(100) forKey:@"maximum"];
             [instance setValue:@(10) forKey:@"step"];
-        } else if ([aClass isSubclassOfClass:[ORKImageChoice class]] || [aClass isSubclassOfClass:[ORKTextChoice class]] || [aClass isSubclassOfClass:[ORKColorChoice class]]) {
+        } else if ([aClass isSubclassOfClass:[ORKImageChoice class]] || [aClass isSubclassOfClass:[ORKTextChoice class]]) {
             [instance setValue:@"blah" forKey:@"value"];
         } else if ([aClass isSubclassOfClass:[ORKConsentSection class]]) {
             [instance setValue:[NSURL URLWithString:@"http://www.apple.com/"] forKey:@"customAnimationURL"];
@@ -1492,8 +1540,14 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
                                        @"ORKConsentDocument.instructionSteps",
                                        @"ORKFormStep.useCardView",
                                        @"ORKSpeechRecognitionStep.shouldHideTranscript",
+                                       @"ORKWebViewStepResult.html",
+                                       @"ORKWebViewStepResult.htmlWithSignature",
 #if RK_APPLE_INTERNAL
-                                       @"AAPLSpeechRecognitionStep.shouldHideTranscript",
+                                       @"ORKISpeechRecognitionStep.shouldHideTranscript",
+                                       @"ORKAgeAnswerFormat.minimumAge",
+                                       @"ORKAgeAnswerFormat.maximumAge",
+                                       @"ORKAgeAnswerFormat.relativeYear",
+                                       @"ORKAgeAnswerFormat.defaultValue",
 #endif
                                        @"ORKTableStep.isBulleted",
                                        @"ORKTableStep.allowsSelection",
@@ -1502,11 +1556,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
                                        @"ORKBodyItem.customButtonConfigurationHandler",
                                        @"ORKAccuracyStroopStep.actualDisplayColor",
                                        @"ORKAccuracyStroopResult.didSelectCorrectColor",
-                                       @"ORKAccuracyStroopResult.timeTakenToSelect",
-                                       @"ORKAgeAnswerFormat.minimumAge",
-                                       @"ORKAgeAnswerFormat.maximumAge",
-                                       @"ORKAgeAnswerFormat.relativeYear",
-                                       @"ORKAgeAnswerFormat.defaultValue"
+                                       @"ORKAccuracyStroopResult.timeTakenToSelect"
                                        ];
     
     NSArray *hashExclusionList = @[
@@ -1742,7 +1792,16 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
         if (stepClassName && (kv = kvMapForStep[stepClassName])) {
             [step setValuesForKeysWithDictionary:kv];
         }
-        ORKStepViewController *stepViewController = [(ORKStepViewController *)[aClass alloc] initWithStep:step];
+        
+        ORKStepViewController *stepViewController;
+        
+        if ([aClass isSubclassOfClass:[ORKQuestionStepViewController class]]) {
+            Class questionStepClass = [ORKQuestionStep class];
+            ORKQuestionStep *questionStep = [self instanceForClass:questionStepClass];
+            stepViewController = [(ORKStepViewController *)[aClass alloc] initWithStep:questionStep];
+        } else {
+            stepViewController = [(ORKStepViewController *)[aClass alloc] initWithStep:step];
+        }
         
         // Create a result
         ORKBooleanQuestionResult *result = [[ORKBooleanQuestionResult alloc] initWithIdentifier:@"test"];

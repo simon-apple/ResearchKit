@@ -30,7 +30,7 @@
 
 @import Foundation;
 
-#import <ResearchKitInternal/AAPLTypes.h>
+#import <ResearchKitInternal/ORKITypes.h>
 
 #import <ResearchKitUI/ORKTaskViewController.h>
 
@@ -38,7 +38,9 @@
 #import <ResearchKit/ORKStep.h>
 #import <ResearchKit/ORKDefines.h>
 @class ORKTaskViewController;
-#elif TARGET_OS_WATCH
+#endif
+
+#if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKStep.h>
 #import <ResearchKitCore/ORKDefines.h>
 #endif

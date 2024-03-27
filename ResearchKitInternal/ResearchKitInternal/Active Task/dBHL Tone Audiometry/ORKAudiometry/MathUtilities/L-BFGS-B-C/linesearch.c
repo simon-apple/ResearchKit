@@ -431,11 +431,11 @@ the sufficient decrease and curvature condition.
     }
     /*     Decide if a bisection step is needed. */
     if (brackt) {
-        if ((d__1 = sty - stx, fabs(d__1)) >= width1 * .66) {
+        if (((void)(d__1 = sty - stx), fabs(d__1)) >= width1 * .66) {
             *stp = stx + (sty - stx) * .5;
         }
         width1 = width;
-        width = (d__1 = sty - stx, fabs(d__1));
+        width = ((void)(d__1 = sty - stx), fabs(d__1));
     }
     /*     Set the minimum and maximum steps allowed for stp. */
     if (brackt) {
@@ -600,7 +600,7 @@ L1000:
     if (*fp > *fx) {
         theta = (*fx - *fp) * 3. / (*stp - *stx) + *dx + *dp;
         /* Computing MAX */
-        d__1 = fabs(theta), d__2 = fabs(*dx), d__1 = fmax(d__1,d__2), 
+        (void)(d__1 = fabs(theta)), (void)(d__2 = fabs(*dx)), (void)(d__1 = fmax(d__1,d__2)), 
           d__2 = fabs(*dp);
         s = fmax(d__1,d__2);
         /* Computing 2nd power */
@@ -615,7 +615,7 @@ L1000:
         stpc = *stx + r__ * (*stp - *stx);
         stpq = *stx + *dx / ((*fx - *fp) / (*stp - *stx) + *dx) / 2. * (*stp 
                 - *stx);
-        if ((d__1 = stpc - *stx, fabs(d__1)) < (d__2 = stpq - *stx, fabs(d__2)))
+        if (((void)(d__1 = stpc - *stx), fabs(d__1)) < ((void)(d__2 = stpq - *stx), fabs(d__2)))
         {
             stpf = stpc;
         } else {
@@ -629,7 +629,7 @@ L1000:
     } else if (sgnd < 0.) {
         theta = (*fx - *fp) * 3. / (*stp - *stx) + *dx + *dp;
         /* Computing MAX */
-        d__1 = fabs(theta), d__2 = fabs(*dx), d__1 = fmax(d__1,d__2), 
+        (void)(d__1 = fabs(theta)), (void)(d__2 = fabs(*dx)), (void)(d__1 = fmax(d__1,d__2)), 
           d__2 = fabs(*dp);
         s = fmax(d__1,d__2);
         /* Computing 2nd power */
@@ -643,7 +643,7 @@ L1000:
         r__ = p / q;
         stpc = *stp + r__ * (*stx - *stp);
         stpq = *stp + *dp / (*dp - *dx) * (*stx - *stp);
-        if ((d__1 = stpc - *stp, fabs(d__1)) > (d__2 = stpq - *stp, fabs(d__2)))
+        if (((void)(d__1 = stpc - *stp), fabs(d__1)) > ((void)(d__2 = stpq - *stp), fabs(d__2)))
         {
             stpf = stpc;
         } else {
@@ -659,7 +659,7 @@ L1000:
         /*        secant step. */
         theta = (*fx - *fp) * 3. / (*stp - *stx) + *dx + *dp;
         /* Computing MAX */
-        d__1 = fabs(theta), d__2 = fabs(*dx), d__1 = fmax(d__1,d__2), 
+        (void)(d__1 = fabs(theta)), (void)(d__2 = fabs(*dx)), (void)(d__1 = fmax(d__1,d__2)), 
           d__2 = fabs(*dp);
         s = fmax(d__1,d__2);
         /*        The case gamma = 0 only arises if the cubic does not tend */
@@ -667,7 +667,7 @@ L1000:
         /* Computing MAX */
         /* Computing 2nd power */
         d__3 = theta / s;
-        d__1 = 0., d__2 = d__3 * d__3 - *dx / s * (*dp / s);
+        (void)(d__1 = 0.), d__2 = d__3 * d__3 - *dx / s * (*dp / s);
         gamma = s * sqrt((fmax(d__1,d__2)));
         if (*stp > *stx) {
             gamma = -gamma;
@@ -687,8 +687,8 @@ L1000:
             /*           A minimizer has been bracketed. If the cubic step is */
             /*           closer to stp than the secant step, the cubic step is */
             /*           taken, otherwise the secant step is taken. */
-            if ((d__1 = stpc - *stp, fabs(d__1)) < 
-                (d__2 = stpq - *stp, fabs(d__2))) {
+            if (((void)(d__1 = stpc - *stp), fabs(d__1)) < 
+                ((void)(d__2 = stpq - *stp), fabs(d__2))) {
                 stpf = stpc;
             } else {
                 stpf = stpq;
@@ -706,8 +706,8 @@ L1000:
             /*           A minimizer has not been bracketed. If the cubic step is */
             /*           farther from stp than the secant step, the cubic step is */
             /*           taken, otherwise the secant step is taken. */
-            if ((d__1 = stpc - *stp, fabs(d__1)) > 
-                (d__2 = stpq - *stp, fabs(d__2))) {
+            if (((void)(d__1 = stpc - *stp), fabs(d__1)) > 
+                ((void)(d__2 = stpq - *stp), fabs(d__2))) {
                 stpf = stpc;
             } else {
                 stpf = stpq;
@@ -723,7 +723,7 @@ L1000:
         if (*brackt) {
             theta = (*fp - *fy) * 3. / (*sty - *stp) + *dy + *dp;
             /* Computing MAX */
-            d__1 = fabs(theta), d__2 = fabs(*dy), d__1 = fmax(d__1,d__2), 
+            (void)(d__1 = fabs(theta)), (void)(d__2 = fabs(*dy)), (void)(d__1 = fmax(d__1,d__2)), 
               d__2 = fabs(*dp);
             s = fmax(d__1,d__2);
             /* Computing 2nd power */

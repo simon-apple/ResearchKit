@@ -30,7 +30,7 @@
 
 
 @import UIKit;
-#import "ORKStepView_Private.h"
+#import <ResearchKitUI/ORKStepView_Private.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

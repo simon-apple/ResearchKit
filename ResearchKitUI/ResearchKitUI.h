@@ -42,7 +42,9 @@
 #import <ResearchKitUI/ORKConsentSharingStepViewController.h>
 #import <ResearchKitUI/ORKContinueButton.h>
 #import <ResearchKitUI/ORKCountdownLabel.h>
+#import <ResearchKitUI/ORKCustomStepView.h>
 #import <ResearchKitUI/ORKCustomStepViewController.h>
+#import <ResearchKitUI/ORKCustomStepView_Internal.h>
 #import <ResearchKitUI/ORKDateTimePicker.h>
 #import <ResearchKitUI/ORKDefaultFont.h>
 #import <ResearchKitUI/ORKDontKnowButton.h>
@@ -68,6 +70,7 @@
 #import <ResearchKitUI/ORKPasscodeViewController.h>
 #import <ResearchKitUI/ORKPicker.h>
 #import <ResearchKitUI/ORKPlaybackButton.h>
+#import <ResearchKitUI/ORKQuestionStepViewController.h>
 #import <ResearchKitUI/ORKRecordButton.h>
 #import <ResearchKitUI/ORKRequestPermissionsStepViewController.h>
 #import <ResearchKitUI/ORKReviewIncompleteCell.h>

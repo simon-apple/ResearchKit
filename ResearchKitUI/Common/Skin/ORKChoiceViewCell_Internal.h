@@ -38,6 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)textChoiceOtherCellDidBecomeFirstResponder:(ORKChoiceOtherViewCell *)choiceOtherViewCell;
 - (void)textChoiceOtherCellDidResignFirstResponder:(ORKChoiceOtherViewCell *)choiceOtherViewCell;
+- (void)textChoiceOtherCellDidChangeText:(NSString *)text choiceOtherCell:(ORKChoiceOtherViewCell *)choiceOtherViewCell;
 
 @end
 

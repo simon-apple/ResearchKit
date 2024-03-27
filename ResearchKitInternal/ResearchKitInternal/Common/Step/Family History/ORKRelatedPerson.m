@@ -29,7 +29,7 @@
  */
 
 #import "ORKRelatedPerson.h"
-
+#import "ORKIUtils.h"
 #import <ResearchKit/ORKAnswerFormat_Internal.h>
 #import <ResearchKit/ORKCollectionResult.h>
 #import <ResearchKit/ORKCollectionResult_Private.h>
@@ -154,7 +154,7 @@
         if ([self shouldSkipListValue:value]) {
             didSkipValue = YES;
         } else {
-            NSString *displayString = [[value lowercaseString] isEqual:@"none of the above"] ? ORKLocalizedString(@"FAMILY_HISTORY_NONE_SELECTED", "") : value;
+            NSString *displayString = [[value lowercaseString] isEqual:@"none of the above"] ? ORKILocalizedString(@"FAMILY_HISTORY_NONE_SELECTED", @"") : value;
             [conditionListDisplayValues addObject:displayString];
         }
     }
@@ -220,13 +220,13 @@
                     if (value && ![value isKindOfClass:[ORKDontKnowAnswer class]]) {
                         
                         if ([value isEqual:_ageAnswerFormat.minimumAgeCustomText] && _ageAnswerFormat.treatMinAgeAsRange) {
-                            return [NSNumber numberWithInt:[self currentYear]];
+                            return [NSNumber numberWithInteger:[self currentYear]];
                         } else if ([value isEqual:_ageAnswerFormat.maximumAgeCustomText] && _ageAnswerFormat.treatMaxAgeAsRange) {
-                            return [NSNumber numberWithInt:_ageAnswerFormat.relativeYear - _ageAnswerFormat.maximumAge];
+                            return [NSNumber numberWithInteger:_ageAnswerFormat.relativeYear - _ageAnswerFormat.maximumAge];
                         }
-                        
-                        int intValue = [value integerValue];
-                        return intValue == [ORKAgeAnswerFormat minimumAgeSentinelValue] ? [NSNumber numberWithInt:[self currentYear]] : [NSNumber numberWithInt:intValue];
+
+                        NSInteger intValue = [value integerValue];
+                        return intValue == [ORKAgeAnswerFormat minimumAgeSentinelValue] ? [NSNumber numberWithInteger:[self currentYear]] : [NSNumber numberWithInteger:intValue];
                     }
                     break;
                 }

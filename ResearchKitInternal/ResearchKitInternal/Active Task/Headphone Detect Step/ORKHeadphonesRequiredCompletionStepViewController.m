@@ -32,7 +32,7 @@
 #import "ORKHeadphonesRequiredCompletionStepViewController.h"
 #import "ORKHeadphonesRequiredCompletionStep.h"
 
-#import "AAPLUtils.h"
+#import "ORKIUtils.h"
 
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKitUI/ORKInstructionStepContainerView.h>
@@ -100,11 +100,11 @@ struct ORKHeadphonesRequiredViewModel {
 
     switch ([[self headphonesRequiredCompletionStep] requiredHeadphoneTypes]) {
         case ORKHeadphoneTypesAny:
-            viewModel.continueButtonTitle = AAPLLocalizedString(@"BUTTON_DONE", nil);
+            viewModel.continueButtonTitle = ORKILocalizedString(@"BUTTON_DONE", nil);
             break;
         case ORKHeadphoneTypesSupported:
-            viewModel.continueButtonTitle = AAPLLocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_DO_LATER", nil);
-            viewModel.skipButtonTitle = AAPLLocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_SKIP", nil);
+            viewModel.continueButtonTitle = ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_DO_LATER", nil);
+            viewModel.skipButtonTitle = ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_SKIP", nil);
             break;
     }
 }

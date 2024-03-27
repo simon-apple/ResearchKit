@@ -44,3 +44,4 @@
 #import <ResearchKitCore/ORKResult.h>
 #import <ResearchKitCore/ORKCollectionResult.h>
 #import <ResearchKitCore/ORKQuestionResult.h>
+#import <ResearchKitCore/ORKSkin.h>

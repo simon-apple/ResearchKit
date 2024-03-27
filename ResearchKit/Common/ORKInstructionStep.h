@@ -29,15 +29,15 @@
  */
 
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 
 
 #if TARGET_OS_WATCH || TARGET_OS_VISION
 #import <ResearchKitCore/ORKStep.h>
+#endif
 
-#elif TARGET_OS_IOS
+#if TARGET_OS_IOS
 #import <ResearchKit/ORKStep.h>
-
 #endif
 
 NS_ASSUME_NONNULL_BEGIN
