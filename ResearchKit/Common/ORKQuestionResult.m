@@ -32,7 +32,7 @@
 #import "ORKQuestionResult_Private.h"
 #import "ORKResult_Private.h"
 
-#if TARGET_OS_WATCH
+#if TARGET_OS_WATCH || TARGET_OS_VISION
 #import <ResearchKitCore/ORKAnswerFormat_Internal.h>
 #import <ResearchKitCore/ORKQuestionStep_Private.h>
 #import <ResearchKitCore/ORKAnswerFormat_Private.h>

@@ -176,6 +176,7 @@
     }
 }
 
+#if TARGET_OS_IOS
 - (NSSet<HKObjectType *> *)requestedHealthKitTypesForReading {
     NSMutableSet<HKObjectType *> *healthTypes = [NSMutableSet set];
     
@@ -189,7 +190,7 @@
     
     return healthTypes.count ? healthTypes : nil;
 }
-
+#endif
 @end
 
 
@@ -254,6 +255,7 @@
     return self;
 }
 
+#if TARGET_OS_IOS
 - (ORKFormItem *)confirmationAnswerFormItemWithIdentifier:(NSString *)identifier
                                                      text:(nullable NSString *)text
                                              errorMessage:(NSString *)errorMessage {
@@ -273,6 +275,7 @@
                                                        optional:self.optional];
     return item;
 }
+#endif
 
 + (BOOL)supportsSecureCoding {
     return YES;

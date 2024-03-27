@@ -30,8 +30,9 @@
  */
 
 #import "ORKOrderedTask.h"
-#if TARGET_OS_WATCH
+#if TARGET_OS_WATCH || TARGET_OS_VISION
 #import "ResearchKitCore/ORKQuestionStep.h"
+#import "ResearchKitCore/ORKFormStep.h"
 #endif
 #import "ORKAnswerFormat.h"
 #import "ORKInstructionStep.h"
@@ -281,7 +282,7 @@
             totalQuestions += 1;
         }
 #else
-        if ([step isKindOfClass:[ORKQuestionStep class]]) {
+        if ([step isKindOfClass:[ORKFormStep class]]) {
             if (step.identifier == currentStep.identifier) {
                 currentStepStartingProgressNumber = (totalQuestions + 1);
             }

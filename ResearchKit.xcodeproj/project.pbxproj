@@ -28,9 +28,9 @@
 		0B59A6BF28C1738D005035B4 /* ORKPickerTestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B59A6BE28C1738D005035B4 /* ORKPickerTestDelegate.m */; };
 		0B7E977B2B76B60200E2C6F8 /* ORKQuestionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BA11A8D7C5C00081FAC /* ORKQuestionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0B7E977C2B76B60700E2C6F8 /* ORKQuestionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BA21A8D7C5C00081FAC /* ORKQuestionStep.m */; };
-		0B7E977D2B76B62D00E2C6F8 /* ORKQuestionStep_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BA31A8D7C5C00081FAC /* ORKQuestionStep_Internal.h */; };
+		0B7E977D2B76B62D00E2C6F8 /* ORKQuestionStep_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BA31A8D7C5C00081FAC /* ORKQuestionStep_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		0B7E977E2B76B63500E2C6F8 /* ORKQuestionStep_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04884B25EF4CC30006C68B /* ORKQuestionStep_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		0B7E97802B76BFFF00E2C6F8 /* ORKAnswerFormat_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B661A8D7C5B00081FAC /* ORKAnswerFormat_Internal.h */; };
+		0B7E97802B76BFFF00E2C6F8 /* ORKAnswerFormat_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B661A8D7C5B00081FAC /* ORKAnswerFormat_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		0B9A990F2A8AC47500D64C40 /* NSObject+TestingSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9A990E2A8AC47500D64C40 /* NSObject+TestingSupport.m */; };
 		0B9CC5672A68C02C00080E29 /* UIImageView+ResearchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B9CC5652A68C02C00080E29 /* UIImageView+ResearchKit.h */; };
 		0B9CC5682A68C02C00080E29 /* UIImageView+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9CC5662A68C02C00080E29 /* UIImageView+ResearchKit.m */; };
@@ -296,7 +296,7 @@
 		5DABE5AC24D9F10B00570C57 /* ORKTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = BC2908BB1FBD628F0030AB89 /* ORKTypes.m */; };
 		5DABE5AE24DA173F00570C57 /* ResearchKit_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 5DABE5AD24DA16E600570C57 /* ResearchKit_Prefix.pch */; };
 		5DABE5AF24DA174200570C57 /* ResearchKit_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 5DABE5AD24DA16E600570C57 /* ResearchKit_Prefix.pch */; };
-		5DABE5B024DA1A4900570C57 /* ORKChoiceAnswerFormatHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 861D11AB1AA7951F003C98A7 /* ORKChoiceAnswerFormatHelper.h */; };
+		5DABE5B024DA1A4900570C57 /* ORKChoiceAnswerFormatHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 861D11AB1AA7951F003C98A7 /* ORKChoiceAnswerFormatHelper.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5DABE5B124DA1A4F00570C57 /* ORKChoiceAnswerFormatHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 861D11AC1AA7951F003C98A7 /* ORKChoiceAnswerFormatHelper.m */; };
 		5DFD11D124F73A6F00744C69 /* ORKCollectionResult.m in Sources */ = {isa = PBXBuildFile; fileRef = FF919A521E81BEB5005C2A1E /* ORKCollectionResult.m */; };
 		714080DB235FD14700281E04 /* ResearchKit.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 714080D9235FD14700281E04 /* ResearchKit.stringsdict */; };
@@ -996,6 +996,14 @@
 		CAFAA6C528A19E260010BBDE /* ResearchKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA1C7A5A288B0C68004DAB3A /* ResearchKitUI.framework */; };
 		D44239791AF17F5100559D96 /* ORKImageCaptureStep.h in Headers */ = {isa = PBXBuildFile; fileRef = D44239771AF17F5100559D96 /* ORKImageCaptureStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D442397A1AF17F5100559D96 /* ORKImageCaptureStep.m in Sources */ = {isa = PBXBuildFile; fileRef = D44239781AF17F5100559D96 /* ORKImageCaptureStep.m */; };
+		E483E3282BB3C8EF001CBC91 /* ORKFormStep_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7167D027231B1EAA00AAB4DD /* ORKFormStep_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		E483E3292BB3C8FD001CBC91 /* ORKFormStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B831A8D7C5C00081FAC /* ORKFormStep.m */; };
+		E483E32A2BB3C962001CBC91 /* ORKFormItemVisibilityRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF582AE09794006E43FB /* ORKFormItemVisibilityRule.m */; settings = {ATTRIBUTES = (Private, ); }; };
+		E483E32B2BB3C971001CBC91 /* ORKPredicateFormItemVisibilityRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF4D2AE09672006E43FB /* ORKPredicateFormItemVisibilityRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E483E32C2BB3C99C001CBC91 /* ORKLearnMoreItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BA8C5020226FFB04001896D0 /* ORKLearnMoreItem.m */; };
+		E483E32D2BB3C9A4001CBC91 /* ORKLearnMoreItem.h in Headers */ = {isa = PBXBuildFile; fileRef = BA8C501F226FFB04001896D0 /* ORKLearnMoreItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E483E32F2BB3CAA0001CBC91 /* ORKLearnMoreInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = BAD9E9102255E9750014FA29 /* ORKLearnMoreInstructionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E483E3302BB3CAB1001CBC91 /* ORKLearnMoreInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD9E9112255E9750014FA29 /* ORKLearnMoreInstructionStep.m */; };
 		FA7A9D2B1B082688005A2BEA /* ORKConsentDocumentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7A9D2A1B082688005A2BEA /* ORKConsentDocumentTests.m */; };
 		FA7A9D2F1B083DD3005A2BEA /* ORKConsentSectionFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = FA7A9D2D1B083DD3005A2BEA /* ORKConsentSectionFormatter.h */; };
 		FA7A9D301B083DD3005A2BEA /* ORKConsentSectionFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7A9D2E1B083DD3005A2BEA /* ORKConsentSectionFormatter.m */; };
@@ -4616,9 +4624,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				00F189CC24F5B46100371E9C /* ORKAnswerFormat_Private.h in Headers */,
+				E483E32F2BB3CAA0001CBC91 /* ORKLearnMoreInstructionStep.h in Headers */,
 				003BC2BF24FD585B00BC7CDF /* ORKCollectionResult.h in Headers */,
 				5D04885D25F1B3AB0006C68B /* ORKDevice_Private.h in Headers */,
-				5DABE5B024DA1A4900570C57 /* ORKChoiceAnswerFormatHelper.h in Headers */,
 				5DABE55E24D8C35A00570C57 /* ORKDefines.h in Headers */,
 				5DABE54C24D8BF2400570C57 /* ResearchKitCore.h in Headers */,
 				5D04885925F19AD50006C68B /* ORKDevice.h in Headers */,
@@ -4626,10 +4634,11 @@
 				5DABE5AF24DA174200570C57 /* ResearchKit_Prefix.pch in Headers */,
 				5DABE5A824D9EF4A00570C57 /* ORKHelpers_Private.h in Headers */,
 				BC6450D62B75B23C0084F1D9 /* ORKSkin_Private.h in Headers */,
+				E483E32B2BB3C971001CBC91 /* ORKPredicateFormItemVisibilityRule.h in Headers */,
 				5DABE55F24D8C92000570C57 /* ORKInstructionStep.h in Headers */,
+				E483E32D2BB3C9A4001CBC91 /* ORKLearnMoreItem.h in Headers */,
 				5DABE5A024D9EAFE00570C57 /* ORKSkin.h in Headers */,
 				0B7E977E2B76B63500E2C6F8 /* ORKQuestionStep_Private.h in Headers */,
-				0B7E977D2B76B62D00E2C6F8 /* ORKQuestionStep_Internal.h in Headers */,
 				5DABE5A224D9EC4200570C57 /* ORKQuestionResult.h in Headers */,
 				5DABE56024D8C94500570C57 /* ORKCompletionStep.h in Headers */,
 				5DABE55C24D8C33800570C57 /* ORKStep.h in Headers */,
@@ -4637,10 +4646,13 @@
 				00F189CE24F5B46F00371E9C /* ORKQuestionResult_Private.h in Headers */,
 				5DABE59624D9E49200570C57 /* ORKTask.h in Headers */,
 				5DABE59924D9E98F00570C57 /* ORKOrderedTask.h in Headers */,
+				0B7E977D2B76B62D00E2C6F8 /* ORKQuestionStep_Internal.h in Headers */,
+				0B7E97802B76BFFF00E2C6F8 /* ORKAnswerFormat_Internal.h in Headers */,
 				5DABE59E24D9EA0C00570C57 /* ORKAnswerFormat.h in Headers */,
 				00F189CD24F5B46800371E9C /* ORKFormStep.h in Headers */,
-				0B7E97802B76BFFF00E2C6F8 /* ORKAnswerFormat_Internal.h in Headers */,
+				E483E3282BB3C8EF001CBC91 /* ORKFormStep_Internal.h in Headers */,
 				5DABE5A724D9EEF800570C57 /* ORKHelpers_Internal.h in Headers */,
+				5DABE5B024DA1A4900570C57 /* ORKChoiceAnswerFormatHelper.h in Headers */,
 				5DABE5A924D9EF8800570C57 /* ORKErrors.h in Headers */,
 				5D04885E25F1B8C00006C68B /* ORKCollectionResult_Private.h in Headers */,
 				00F189CB24F5B45300371E9C /* ORKStep_Private.h in Headers */,
@@ -5457,7 +5469,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E483E3302BB3CAB1001CBC91 /* ORKLearnMoreInstructionStep.m in Sources */,
+				E483E32C2BB3C99C001CBC91 /* ORKLearnMoreItem.m in Sources */,
+				E483E3292BB3C8FD001CBC91 /* ORKFormStep.m in Sources */,
 				5DABE5A524D9ECB500570C57 /* ORKResult.m in Sources */,
+				E483E32A2BB3C962001CBC91 /* ORKFormItemVisibilityRule.m in Sources */,
 				5DFD11D124F73A6F00744C69 /* ORKCollectionResult.m in Sources */,
 				5DABE5AA24D9EFB000570C57 /* ORKErrors.m in Sources */,
 				5DABE5B124DA1A4F00570C57 /* ORKChoiceAnswerFormatHelper.m in Sources */,

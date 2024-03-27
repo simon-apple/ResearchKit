@@ -34,7 +34,7 @@
 #import <ResearchKit/ORKAnswerFormat_Private.h>
 #import <ResearchKit/ORKChoiceAnswerFormatHelper.h>
 #endif
-#if TARGET_OS_WATCH
+#if TARGET_OS_WATCH || TARGET_OS_VISION
 #import <ResearchKitCore/ORKAnswerFormat_Private.h>
 #import <ResearchKitCore/ORKChoiceAnswerFormatHelper.h>
 #endif
