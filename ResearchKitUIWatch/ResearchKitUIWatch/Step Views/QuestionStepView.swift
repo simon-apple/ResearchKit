@@ -36,7 +36,7 @@ import SwiftUI
 class QuestionStepViewModel: ObservableObject {
     
     @ObservedObject
-    private(set) var step: ORKQuestionStep
+    private(set) var step: ORKFormStep
     
     @ObservedObject
     private(set) var result: ORKStepResult
@@ -72,12 +72,15 @@ class QuestionStepViewModel: ObservableObject {
         
     }()
     
-    init(step: ORKQuestionStep, result: ORKStepResult) {
+    init(step: ORKFormStep, result: ORKStepResult) {
         self.step = step
         self.result = result
     }
 }
 
+// need to write an outer View for ORKFormStep that has multiple questions on one page 
+
+// reuse QuestionStepView for individual form items in ORKFormStep
 internal struct _QuestionStepView: View {
     
     enum Constants {
@@ -130,7 +133,7 @@ internal struct _QuestionStepView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading)
                 
-            let textChoices = viewModel.textChoiceAnswers
+                let textChoices = viewModel.step.formItems
                 ForEach(textChoices, id: \.1) { index, textChoice in
                     
                     TextChoiceCell(title: Text(textChoice.text), selected: index == viewModel.selectedIndex) { selected in
@@ -176,14 +179,14 @@ public struct QuestionStepView: View {
     private var taskManager: TaskManager
     
     @ObservedObject
-    public private(set) var step: ORKQuestionStep
+    public private(set) var step: ORKFormStep
 
     @ObservedObject
     public private(set) var result: ORKStepResult
     
     @Environment(\.completion) var completion
     
-    init(_ step: ORKQuestionStep, result: ORKStepResult) {
+    init(_ step: ORKFormStep, result: ORKStepResult) {
         self.step = step
         self.result = result
     }

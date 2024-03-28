@@ -106,7 +106,7 @@ internal struct TaskContentView<Content>: View where Content: View {
     
     func completion(_ complete: Bool) {
         
-        if complete && currentStep is ORKQuestionStep {
+        if complete && currentStep is ORKFormStep {
             
             if !hasNextStep || (hasNextStep && currentStepWasAnsweredOnce) {
                 shouldScrollToCTA = true
@@ -119,7 +119,7 @@ internal struct TaskContentView<Content>: View where Content: View {
             currentResult.endDate = Date()
             
             taskManager.mark(currentStep, answered: true)
-        } else if !complete && currentStep is ORKQuestionStep {
+        } else if !complete && currentStep is ORKFormStep {
             taskManager.mark(currentStep, answered: false)
             shouldScrollToCTA = false
         }
@@ -164,7 +164,7 @@ internal struct TaskContentView<Content>: View where Content: View {
                     }
                 
                 if hasNextStep {
-                    if shouldScrollToCTA || !(currentStep is ORKQuestionStep) {
+                    if shouldScrollToCTA || !(currentStep is ORKFormStep) {
                         Button {
                             goNext = true
                         } label: {
@@ -181,7 +181,7 @@ internal struct TaskContentView<Content>: View where Content: View {
                         Text("Done").bold()
                     }
                     .id(Constants.CTA)
-                    .disabled(!shouldScrollToCTA && currentStep is ORKQuestionStep)
+                    .disabled(!shouldScrollToCTA && currentStep is ORKFormStep)
                     .padding(.top, buttonTopPadding)
                 }
             }
