@@ -159,11 +159,27 @@
     
     if (@available(iOS 14.0, *)) {
         if ([self.audiometryEngine isKindOfClass:ORKNewAudiometry.class]) {
-            ORKIdBHLToneAudiometryResult *toneResult = (ORKIdBHLToneAudiometryResult *)result.results.lastObject;
+            ORKdBHLToneAudiometryResult *parentToneResult = [(ORKdBHLToneAudiometryResult *)result.results.lastObject copy];
+            
+            ORKIdBHLToneAudiometryResult *toneResult = [[ORKIdBHLToneAudiometryResult alloc] initWithIdentifier:parentToneResult.identifier];
+            toneResult.startDate = [parentToneResult.startDate copy];
+            toneResult.endDate = [parentToneResult.endDate copy];
+            toneResult.samples = [[parentToneResult samples] copy];
+            toneResult.outputVolume = parentToneResult.outputVolume;
+            toneResult.headphoneType = parentToneResult.headphoneType;
+            toneResult.tonePlaybackDuration = parentToneResult.tonePlaybackDuration;
+            toneResult.postStimulusDelay = parentToneResult.postStimulusDelay;
+            
             ORKNewAudiometry *engine = (ORKNewAudiometry *)self.audiometryEngine;
             toneResult.algorithmVersion = 1;
             toneResult.discreteUnits = engine.resultUnits;
             toneResult.fitMatrix = engine.fitMatrix;
+            
+            NSMutableArray *updatedResults = [NSMutableArray arrayWithArray:result.results];
+            [updatedResults removeLastObject];
+            [updatedResults addObject:toneResult];
+            
+            result.results = updatedResults;
         }
     }
     

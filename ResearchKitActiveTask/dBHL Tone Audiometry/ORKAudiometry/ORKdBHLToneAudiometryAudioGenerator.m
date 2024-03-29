@@ -206,11 +206,11 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
             @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"A valid headphone route identifier must be provided" userInfo:nil];
         }
         
-        _sensitivityPerFrequency = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:[NSString stringWithFormat:frequencydBSPLBaseFilename, headphoneTypeIdentifier]  ofType:filenameExtension]];
+        _sensitivityPerFrequency = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[ORKdBHLToneAudiometryAudioGenerator class]] pathForResource:[NSString stringWithFormat:frequencydBSPLBaseFilename, headphoneTypeIdentifier]  ofType:filenameExtension]];
 
-        _retspl = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:[NSString stringWithFormat:retsplBaseFilename, headphoneTypeIdentifier] ofType:filenameExtension]];
+        _retspl = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[ORKdBHLToneAudiometryAudioGenerator class]] pathForResource:[NSString stringWithFormat:retsplBaseFilename, headphoneTypeIdentifier] ofType:filenameExtension]];
         
-        _volumeCurve = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:volumeCurveFilename ofType:filenameExtension]];
+        _volumeCurve = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[ORKdBHLToneAudiometryAudioGenerator class]] pathForResource:volumeCurveFilename ofType:filenameExtension]];
         
         [self setupGraph];
     }
