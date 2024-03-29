@@ -114,13 +114,13 @@ static const CGFloat FramesToSkipTotal = 5.0;
     
    [self setupContentView];
    [self setupContentViewConstraints];
-   [self startSession];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    [self startSession];
     [self updateNavFooterText];
 }
 
