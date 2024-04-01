@@ -150,7 +150,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         self.distribution = UIStackViewDistributionFill;
         self.alignment = UIStackViewAlignmentCenter;
         self.spacing = ORKHeadphoneDetectStepSpacing;
-        self.layoutMargins = UIEdgeInsetsMake(0.0, ORKStepContainerLeftRightPaddingForWindow(self.window), 0.0, -ORKStepContainerLeftRightPaddingForWindow(self.window));
+        self.layoutMargins = UIEdgeInsetsMake(0.0, ORKStepContainerLeftRightPaddingForWindow(self.window), 0.0, ORKStepContainerLeftRightPaddingForWindow(self.window));
         self.layoutMarginsRelativeArrangement = YES;
         [self setupImageView];
         [self setupLabelStackView];
@@ -438,14 +438,26 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     if (!_checkView) {
         _checkView = [[ORKCheckmarkView alloc] initWithDefaultsWithoutCircle];
     }
+    
     [_checkView setChecked:NO];
+    
     _checkView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_checkContainerView addSubview:_checkView];
-    [[_checkView.centerYAnchor constraintEqualToAnchor:_checkContainerView.centerYAnchor] setActive:YES];
     _checkContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+    
     [self addArrangedSubview:_checkContainerView];
-    [[_checkContainerView.widthAnchor constraintEqualToConstant:CheckmarkViewDimension] setActive:YES];
-    [[_checkContainerView.heightAnchor constraintEqualToConstant:ORKHeadphoneDetectCellStepSize] setActive:YES];
+    [_checkContainerView addSubview:_checkView];
+    
+    [self setupCheckViewConstraints];
+}
+
+- (void)setupCheckViewConstraints {
+    [[_checkView.centerYAnchor constraintEqualToAnchor:_checkContainerView.centerYAnchor] setActive:YES];
+    [[_checkView.leadingAnchor constraintEqualToAnchor:_checkContainerView.leadingAnchor]  setActive:YES];
+    [[_checkView.trailingAnchor constraintEqualToAnchor:_checkContainerView.trailingAnchor] setActive:YES];
+    [[_checkView.widthAnchor constraintEqualToConstant:CheckmarkViewDimension] setActive:YES];
+    
+    [[_checkContainerView.topAnchor constraintEqualToAnchor:_checkView.topAnchor] setActive:YES];
+    [[_checkContainerView.bottomAnchor constraintEqualToAnchor:_checkView.bottomAnchor] setActive:YES];
 }
 
 - (void)updateCheckView {
