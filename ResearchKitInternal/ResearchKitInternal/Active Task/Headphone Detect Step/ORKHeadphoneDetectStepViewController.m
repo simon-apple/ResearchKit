@@ -138,6 +138,9 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     ORKCheckmarkView *_checkView;
     UIView *_checkContainerView;
+    
+    NSLayoutConstraint *_labelContainerTopConstraint;
+    NSLayoutConstraint *_labelContainerBottomConstraint;
 }
 
 - (instancetype)initWithTitle:(NSString *)title image:(UIImage *)image headphoneType:(ORKHeadphoneDetected)headphoneType {
@@ -156,15 +159,10 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         [self setupLabelStackView];
         [self setupTitleLabel];
         [self setupTextLabel];
-        [self setupLabelContainerTopBottomConstraints];
         [self setupCheckView];
+        [self setupNoiseCancellationLabelsWithHeadphoneType:headphoneType];
+        [self setupLabelContainerTopBottomConstraints];
         
-        NSString *explanation = [self getNoiseCancellationExplanationForHeadphoneType:headphoneType];
-        if (explanation != nil) {
-            [self setupOrangeLabel];
-            [self setupExtraLabelWithText:explanation];
-            [self setExtraLabelsAlpha:0.0];
-        }
         
         [self updateAccessibilityElements];
     }
@@ -211,7 +209,6 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     [_labelContainerView addSubview:_titleLabel];
     
     [[_titleLabel.leadingAnchor constraintEqualToAnchor:_labelContainerView.leadingAnchor] setActive:YES];
-    [[_titleLabel.bottomAnchor constraintEqualToAnchor:_labelContainerView.centerYAnchor] setActive:YES];
     [[_titleLabel.trailingAnchor constraintEqualToAnchor:_labelContainerView.trailingAnchor] setActive:YES];
 }
 
@@ -229,14 +226,33 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     [_labelContainerView addSubview:_textLabel];
     
     [[_textLabel.leadingAnchor constraintEqualToAnchor:_labelContainerView.leadingAnchor] setActive:YES];
-    [[_textLabel.topAnchor constraintEqualToAnchor:_labelContainerView.centerYAnchor] setActive:YES];
+    [[_textLabel.topAnchor constraintEqualToAnchor:_titleLabel.bottomAnchor] setActive:YES];
     [[_textLabel.trailingAnchor constraintEqualToAnchor:_labelContainerView.trailingAnchor] setActive:YES];
 }
 
 - (void)setupLabelContainerTopBottomConstraints {
+    if (_labelContainerTopConstraint) {
+        [NSLayoutConstraint deactivateConstraints:@[_labelContainerTopConstraint, _labelContainerBottomConstraint]];
+        _labelContainerTopConstraint = nil;
+        _labelContainerBottomConstraint = nil;
+    }
+    
     if (_titleLabel && _textLabel) {
-        [[_labelContainerView.topAnchor constraintEqualToAnchor:_titleLabel.topAnchor] setActive:YES];
-        [[_labelContainerView.bottomAnchor constraintEqualToAnchor:_textLabel.bottomAnchor] setActive:YES];
+        NSLayoutAnchor *bottomMostAnchor = _extraLabelsContainerView.alpha > 0 ? _extraLabelsContainerView.bottomAnchor : _textLabel.bottomAnchor;
+        _labelContainerTopConstraint = [_labelContainerView.topAnchor constraintEqualToAnchor:_titleLabel.topAnchor];
+        _labelContainerBottomConstraint = [_labelContainerView.bottomAnchor constraintEqualToAnchor:bottomMostAnchor];
+        
+        [_labelContainerTopConstraint setActive:YES];
+        [_labelContainerBottomConstraint setActive:YES];
+    }
+}
+
+- (void)setupNoiseCancellationLabelsWithHeadphoneType:(ORKHeadphoneDetected)headphoneType {
+    NSString *explanation = [self getNoiseCancellationExplanationForHeadphoneType:headphoneType];
+    if (explanation != nil) {
+        [self setupOrangeLabel];
+        [self setupExtraLabelWithText:explanation];
+        [self setExtraLabelsAlpha:0.0];
     }
 }
 
@@ -363,7 +379,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     [[_extraLabelsContainerView.leadingAnchor constraintEqualToAnchor:_labelContainerView.leadingAnchor] setActive:YES];
     [[_extraLabelsContainerView.topAnchor constraintEqualToAnchor:_textLabel.bottomAnchor constant:ORKHeadphoneDetectExtraLabelsSpacing] setActive:YES];
-    [[_extraLabelsContainerView.trailingAnchor constraintEqualToAnchor:_checkContainerView.leadingAnchor constant:ORKHeadphoneDetectStepSpacing] setActive:YES];
+    [[_extraLabelsContainerView.trailingAnchor constraintEqualToAnchor:_labelContainerView.trailingAnchor constant:ORKHeadphoneDetectStepSpacing] setActive:YES];
 }
 
 - (void)setupExtraLabelWithText:(NSString *)text {
@@ -468,8 +484,9 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
 - (void)setExtraLabelsAlpha:(CGFloat) alpha {
     _extraLabelsContainerView.alpha = alpha;
-    
     [self updateAccessibilityElements];
+    
+    [self setupLabelContainerTopBottomConstraints];
 }
 
 - (void)reset {
