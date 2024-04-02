@@ -397,7 +397,7 @@ ORK_CLASS_AVAILABLE
  */
 - (instancetype)initWithTask:(id<ORKTask>)task
                ongoingResult:(nullable ORKTaskResult *)ongoingResult
-           restoreAtLastStep:(BOOL)restoreAtLastStep
+          restoreAtFirstStep:(BOOL)restoreAtFirstStep
          defaultResultSource:(nullable id<ORKTaskResultSource>)defaultResultSource
                     delegate:(id<ORKTaskViewControllerDelegate>)delegate;
 

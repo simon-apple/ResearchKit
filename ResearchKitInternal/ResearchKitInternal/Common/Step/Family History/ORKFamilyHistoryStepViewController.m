@@ -840,7 +840,7 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
                 
                 ORKTaskViewController *taskVC = [[ORKTaskViewController alloc] initWithTask:relatedPersonTask
                                                                               ongoingResult:currentRelatedPerson.taskResult
-                                                                          restoreAtLastStep:NO
+                                                                         restoreAtFirstStep:YES
                                                                         defaultResultSource:nil
                                                                                    delegate:self];
                 
