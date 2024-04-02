@@ -133,6 +133,10 @@ NSString * const ORKActiveStepViewAccessibilityIdentifier = @"ORKActiveStepView"
     [self.view addSubview:_activeStepView];
 }
 
+- (void)setNavigationFooterViewHidden:(BOOL)hidden {
+    [_navigationFooterView setHidden:hidden];
+}
+
 - (void)setNavigationFooterView {
     if (!_navigationFooterView) {
         _navigationFooterView = _activeStepView.navigationFooterView;

@@ -71,6 +71,10 @@
 "TINNITUS_ALERT_BUTTON_CONTINUE" = "Continue";
 "TINNITUS_ALERT_BUTTON_CANCEL" = "Cancel Task";
 
+/* dBHL Tone audiometry method of adjustments active task. */
+"dBHL_TONE_AUDIOMETRY_METHOD_OF_ADJUSTMENTS_INTRO_TITLE" = "Select the Faintest Tone You Can Hear";
+"dBHL_TONE_AUDIOMETRY_METHOD_OF_ADJUSTMENTS_INTRO_TEXT" = "Adjust by touching the bars below or by tapping the plus and minus buttons.";
+
 /* Pacha Alerts */
 "PACHA_ALERT_TITLE_TASK_INTERRUPTED" = "Task Interrupted";
 "PACHA_ALERT_TEXT_TASK_INTERRUPTED" = "To ensure accurate results, this task must be completed without interruption.";

@@ -299,6 +299,7 @@ enum Identifier {
     case predefinedSpeechInNoiseTask
     case predefinedAVJournalingTask
     case predefinedTinnitusTask
+    case methodOfAdjustmentdBHLToneAudiometryTask
     case newdBHLToneAudiometryTask
     case customStepTask
     case studyPromoTask

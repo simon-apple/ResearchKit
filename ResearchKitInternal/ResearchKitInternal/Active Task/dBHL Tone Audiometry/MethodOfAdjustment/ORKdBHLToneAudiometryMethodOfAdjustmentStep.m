@@ -1,4 +1,3 @@
-//
 /*
  Copyright (c) 2022, Apple Inc. All rights reserved.
  
@@ -29,20 +28,63 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ResearchKit.h>
+#import "ORKdBHLToneAudiometryMethodOfAdjustmentStep.h"
+#import "ResearchKitInternal/ResearchKitInternal-Swift.h"
 
-NS_ASSUME_NONNULL_BEGIN
+#import <ResearchKit/ORKHelpers_Internal.h>
 
-@interface ORKOrderedTask (ResearchKitInternal)
+#define ORKdBHLToneAudiometryMethodOfAdjustmentTaskStepSize 5.0
+#define ORKdBHLToneAudiometryMethodOfAdjustmentTaskInitialdBHL 30.93
 
-+ (ORKNavigableOrderedTask *)dBHLMethodOfAdjustmentsToneAudiometryTaskWithIdentifier:(NSString *)identifier
-                                  intendedUseDescription:(nullable NSString *)intendedUseDescription
-                                                 options:(ORKPredefinedTaskOption)options;
+// internal methods for the parent class
+@interface ORKIdBHLToneAudiometryStep()
 
-+ (ORKNavigableOrderedTask *)newdBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
-                                  intendedUseDescription:(nullable NSString *)intendedUseDescription
-                                                 options:(ORKPredefinedTaskOption)options;
+- (void)commonInit;
 
 @end
 
-NS_ASSUME_NONNULL_END
+@implementation ORKdBHLToneAudiometryMethodOfAdjustmentStep
+
+- (void)commonInit {
+    [super commonInit];
+    self.stepSize = ORKdBHLToneAudiometryMethodOfAdjustmentTaskStepSize;
+    self.frequencyList = @[@1000.0, @2000.0, @3000.0, @4000.0, @6000.0, @8000.0, @500.0];
+    self.initialdBHLValue = ORKdBHLToneAudiometryMethodOfAdjustmentTaskInitialdBHL;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKdBHLToneAudiometryMethodOfAdjustmentStep *step = [super copyWithZone:zone];
+    
+    step.stepSize = self.stepSize;
+    
+    return step;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    
+    if (self) {
+        ORK_DECODE_DOUBLE(aDecoder, stepSize);
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+
+    ORK_ENCODE_DOUBLE(aCoder, stepSize);
+}
+
+- (BOOL)isEqual:(id)object {
+    __typeof(self) castObject = object;
+
+    return [super isEqual:object]
+        && (self.stepSize == castObject.stepSize);
+}
+
+@end

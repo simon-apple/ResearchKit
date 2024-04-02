@@ -1,6 +1,5 @@
-//
 /*
- Copyright (c) 2022, Apple Inc. All rights reserved.
+ Copyright (c) 2018, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,20 +28,20 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ResearchKit.h>
+
+#import <Foundation/Foundation.h>
+#import <ResearchKit/ORKDefines.h>
+#import <ResearchKitActiveTask/ORKActiveStepViewController.h>
+#import <ResearchKitInternal/ORKHeadphoneDetector.h>
+#import <ResearchKitInternal/ORKdBHLToneAudiometryMethodOfAdjustmentContentView.h>
+
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKOrderedTask (ResearchKitInternal)
-
-+ (ORKNavigableOrderedTask *)dBHLMethodOfAdjustmentsToneAudiometryTaskWithIdentifier:(NSString *)identifier
-                                  intendedUseDescription:(nullable NSString *)intendedUseDescription
-                                                 options:(ORKPredefinedTaskOption)options;
-
-+ (ORKNavigableOrderedTask *)newdBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
-                                  intendedUseDescription:(nullable NSString *)intendedUseDescription
-                                                 options:(ORKPredefinedTaskOption)options;
+ORK_CLASS_AVAILABLE
+@interface ORKdBHLToneAudiometryMethodOfAdjustmentStepViewController : ORKActiveStepViewController <ORKHeadphoneDetectorDelegate, ORKdBHLToneAudiometryMethodOfAdjustmentContentViewDelegate>
 
 @end
 
 NS_ASSUME_NONNULL_END
+

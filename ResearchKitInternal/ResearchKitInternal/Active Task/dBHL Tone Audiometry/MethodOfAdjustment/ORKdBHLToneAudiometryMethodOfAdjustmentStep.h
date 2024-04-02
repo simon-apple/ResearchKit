@@ -1,4 +1,3 @@
-//
 /*
  Copyright (c) 2022, Apple Inc. All rights reserved.
  
@@ -29,19 +28,15 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ResearchKit.h>
+#import <Foundation/Foundation.h>
+#import <ResearchKitInternal/ORKIdBHLToneAudiometryStep.h>
+@import ResearchKitActiveTask_Private;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKOrderedTask (ResearchKitInternal)
+@interface ORKdBHLToneAudiometryMethodOfAdjustmentStep : ORKIdBHLToneAudiometryStep
 
-+ (ORKNavigableOrderedTask *)dBHLMethodOfAdjustmentsToneAudiometryTaskWithIdentifier:(NSString *)identifier
-                                  intendedUseDescription:(nullable NSString *)intendedUseDescription
-                                                 options:(ORKPredefinedTaskOption)options;
-
-+ (ORKNavigableOrderedTask *)newdBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
-                                  intendedUseDescription:(nullable NSString *)intendedUseDescription
-                                                 options:(ORKPredefinedTaskOption)options;
+@property (nonatomic, assign) double stepSize;
 
 @end
 

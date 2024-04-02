@@ -35,6 +35,7 @@
 #import <ResearchKitInternal/ORKIdBHLToneAudiometryStepViewController.h>
 #import <ResearchKitInternal/ORKIdBHLToneAudiometryResult.h>
 #import <ResearchKitInternal/ORKIEnvironmentSPLMeterStep.h>
+#import <ResearchKitInternal/ORKIEnvironmentSPLMeterStepViewController.h>
 #import <ResearchKitInternal/ORKIInstructionStep.h>
 #import <ResearchKitInternal/ORKIInstructionStepViewController.h>
 #import <ResearchKitInternal/ORKINavigableOrderedTask.h>
@@ -53,6 +54,8 @@
 #import <ResearchKitInternal/ORKBLEScanPeripheralsStepResult.h>
 #import <ResearchKitInternal/ORKBLEScanPeripheralsStepViewController.h>
 #import <ResearchKitInternal/ORKContext.h>
+#import <ResearchKitInternal/ORKdBHLToneAudiometryMethodOfAdjustmentStep.h>
+#import <ResearchKitInternal/ORKdBHLToneAudiometryMethodOfAdjustmentStepViewController.h>
 #import <ResearchKitInternal/ORKFaceDetectionStepViewController.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectResult.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectStep.h>

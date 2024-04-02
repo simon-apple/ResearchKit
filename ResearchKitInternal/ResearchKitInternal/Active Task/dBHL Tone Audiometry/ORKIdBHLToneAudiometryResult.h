@@ -34,8 +34,20 @@
 @class ORKdBHLToneAudiometryFrequencySample;
 @class ORKdBHLToneAudiometryUnit;
 
+typedef NS_ENUM(NSInteger, ORKdBHLToneAudiometryMethodOfAdjustmentSourceOfInteraction) {
+    ORKdBHLToneAudiometryMethodOfAdjustmentSourceOfInteractionSlider = 0,
+    ORKdBHLToneAudiometryMethodOfAdjustmentSourceOfInteractionStepper = 1,
+    ORKdBHLToneAudiometryMethodOfAdjustmentSourceOfInteractionReset = 2, // will not go to results, used as a flag to reset the slider.
+} ORK_ENUM_AVAILABLE;
+
+typedef NS_ENUM(NSInteger, ORKdBHLToneAudiometryMeasurementMethod) {
+    ORKdBHLToneAudiometryMeasurementMethodLimits = 0,
+    ORKdBHLToneAudiometryMeasurementMethodAdjustment = 1,
+} ORK_ENUM_AVAILABLE;
+
 NS_ASSUME_NONNULL_BEGIN
 
+ORK_CLASS_AVAILABLE
 @interface ORKIdBHLToneAudiometryResult : ORKdBHLToneAudiometryResult
 
 //These data are related to the new algorithm only
@@ -44,6 +56,26 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSDictionary<NSString *, NSNumber *> *fitMatrix;
 
 @property (nonatomic, assign) NSInteger algorithmVersion;
+
+@property (nonatomic, assign) ORKdBHLToneAudiometryMeasurementMethod measurementMethod;
+
+@end
+
+ORK_CLASS_AVAILABLE
+@interface ORKdBHLToneAudiometryMethodOfAdjustmentInteraction : NSObject <NSCopying, NSSecureCoding>
+
+@property (nonatomic, assign) double dBHLValue;
+
+@property (nonatomic, assign) NSTimeInterval timeStamp;
+
+@property (nonatomic, assign) ORKdBHLToneAudiometryMethodOfAdjustmentSourceOfInteraction sourceOfInteraction;
+
+@end
+
+ORK_CLASS_AVAILABLE
+@interface ORKIdBHLToneAudiometryFrequencySample : ORKdBHLToneAudiometryFrequencySample
+
+@property (nonatomic, copy, nullable) NSArray<ORKdBHLToneAudiometryMethodOfAdjustmentInteraction *> *methodOfAdjustmentInteractions;
 
 @end
 

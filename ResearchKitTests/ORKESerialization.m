@@ -1182,6 +1182,12 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(discreteUnits, ORKdBHLToneAudiometryFrequencySample, NSArray, NO, nil, nil),
                     PROPERTY(fitMatrix, NSDictionary, NSObject, NO, nil, nil),
                     PROPERTY(algorithmVersion, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(measurementMethod, NSNumber, NSObject, NO, nil, nil),
+                    })),
+           ENTRY(ORKIdBHLToneAudiometryFrequencySample,
+                nil,
+                (@{
+                    PROPERTY(methodOfAdjustmentInteractions, ORKdBHLToneAudiometryMethodOfAdjustmentInteraction, NSArray, NO, nil, nil)
                     })),
            ENTRY(ORKICompletionStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
@@ -1221,6 +1227,20 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(algorithm, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(dBHLMaximumThreshold, NSNumber, NSObject, YES, nil, nil),
                  })),
+           ENTRY(ORKdBHLToneAudiometryMethodOfAdjustmentStep,
+                ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                    return [[ORKdBHLToneAudiometryMethodOfAdjustmentStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                },
+                (@{
+                    PROPERTY(stepSize, NSNumber, NSObject, YES, nil, nil),
+                })),
+            ENTRY(ORKdBHLToneAudiometryMethodOfAdjustmentInteraction,
+                nil,
+                (@{
+                    PROPERTY(dBHLValue, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(sourceOfInteraction, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(timeStamp, NSNumber, NSObject, NO, nil, nil),
+                    })),
 #endif
            ENTRY(ORKHolePegTestPlaceStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {

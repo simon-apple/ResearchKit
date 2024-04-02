@@ -142,6 +142,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case predefinedTinnitusTask
     case ble
     case textQuestionPIIScrubbing
+    case methodOfAdjustmentdBHLToneAudiometryTask
     case newdBHLToneAudiometryTask
     case customStepTask
     case studyPromoTask
@@ -259,6 +260,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .familyHistory,
                     .familyHistoryReviewTask,
                     .longHeaderTask,
+                    .methodOfAdjustmentdBHLToneAudiometryTask,
                     .newdBHLToneAudiometryTask,
                     .platterUIQuestion,
                     .predefinedAVJournalingTask,
@@ -491,6 +493,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .textQuestionPIIScrubbing:
             return NSLocalizedString("Text Question PII Scrubbing", comment: "")
+            
+        case .methodOfAdjustmentdBHLToneAudiometryTask:
+            return NSLocalizedString("Method Of Adjustment Tone Audiometry", comment: "")
             
         case .newdBHLToneAudiometryTask:
             return NSLocalizedString("dBHL Tone Audiometry (New Algorithm)", comment: "")
@@ -743,6 +748,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .ble:
             return ble
+            
+        case .methodOfAdjustmentdBHLToneAudiometryTask:
+            return methodOfAdjustmentdBHLToneAudiometryTask
             
         case .newdBHLToneAudiometryTask:
             return newdBHLToneAudiometryTask
@@ -2087,6 +2095,10 @@ enum TaskListRow: Int, CustomStringConvertible {
         ];
         
         return ORKOrderedTask(identifier: "BLE", steps: [scanStep])
+    }
+    
+    private var methodOfAdjustmentdBHLToneAudiometryTask: ORKTask {
+        return ORKOrderedTask.dBHLMethodOfAdjustmentsToneAudiometryTask(withIdentifier: String(describing: Identifier.methodOfAdjustmentdBHLToneAudiometryTask), intendedUseDescription: nil, options: [])
     }
     
     /// This task presents the dBHL Tone Audiometry new algorithm.

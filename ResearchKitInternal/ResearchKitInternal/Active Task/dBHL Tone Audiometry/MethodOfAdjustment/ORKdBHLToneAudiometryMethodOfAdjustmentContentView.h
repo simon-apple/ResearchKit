@@ -1,4 +1,3 @@
-//
 /*
  Copyright (c) 2022, Apple Inc. All rights reserved.
  
@@ -29,19 +28,40 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ResearchKit.h>
+#import <UIKit/UIKit.h>
+#import <ResearchKitInternal/ORKIdBHLToneAudiometryResult.h>
+#import <ResearchKitUI/ORKCustomStepView_Internal.h>
+#import <ResearchKitActiveTask/ORKAudiometryProtocol.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKOrderedTask (ResearchKitInternal)
+@protocol ORKdBHLToneAudiometryMethodOfAdjustmentContentViewDelegate<NSObject>
 
-+ (ORKNavigableOrderedTask *)dBHLMethodOfAdjustmentsToneAudiometryTaskWithIdentifier:(NSString *)identifier
-                                  intendedUseDescription:(nullable NSString *)intendedUseDescription
-                                                 options:(ORKPredefinedTaskOption)options;
+- (void)didSelected:(float)row;
 
-+ (ORKNavigableOrderedTask *)newdBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
-                                  intendedUseDescription:(nullable NSString *)intendedUseDescription
-                                                 options:(ORKPredefinedTaskOption)options;
+@end
+
+@interface ORKdBHLToneAudiometryMethodOfAdjustmentContentView : ORKActiveStepCustomView
+
+- (instancetype)initWithValue:(float)value 
+                      minimum:(NSInteger)minimum
+                      maximum:(NSInteger)maximum 
+                     stepSize:(float)stepSize
+               numFrequencies:(NSInteger)numFrequencies
+                 audioChannel:(ORKAudioChannel)audioChannel;
+
+@property (nonatomic, strong) NSMutableArray<ORKdBHLToneAudiometryMethodOfAdjustmentInteraction *> *userInteractions;
+
+/**
+ A block used to retrieve timestamp from external sources to be included in the results.
+ */
+@property (nonatomic, strong) ORKAudiometryTimestampProvider timestampProvider;
+
+@property (nonatomic, weak) id<ORKdBHLToneAudiometryMethodOfAdjustmentContentViewDelegate> delegate;
+
+- (void)setValue:(float)value;
+
+- (void)resetView;
 
 @end
 

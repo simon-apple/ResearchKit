@@ -41,6 +41,22 @@
 
 @end
 
+@implementation ORKIEnvironmentSPLMeterStep (ViewControllerProviding)
+
+- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
+    return [[ORKIEnvironmentSPLMeterStepViewController alloc] initWithStep:self result:result];
+}
+
+@end
+
+@implementation ORKdBHLToneAudiometryMethodOfAdjustmentStep (ViewControllerProviding)
+
+- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
+    return [[ORKdBHLToneAudiometryMethodOfAdjustmentStepViewController alloc] initWithStep:self result:result];
+}
+
+@end
+
 @implementation ORKAVJournalingStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {

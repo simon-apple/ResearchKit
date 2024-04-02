@@ -1,6 +1,5 @@
-//
 /*
- Copyright (c) 2022, Apple Inc. All rights reserved.
+ Copyright (c) 2023, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,20 +28,25 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ResearchKit.h>
+import Foundation
+import SwiftUI
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface ORKOrderedTask (ResearchKitInternal)
-
-+ (ORKNavigableOrderedTask *)dBHLMethodOfAdjustmentsToneAudiometryTaskWithIdentifier:(NSString *)identifier
-                                  intendedUseDescription:(nullable NSString *)intendedUseDescription
-                                                 options:(ORKPredefinedTaskOption)options;
-
-+ (ORKNavigableOrderedTask *)newdBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
-                                  intendedUseDescription:(nullable NSString *)intendedUseDescription
-                                                 options:(ORKPredefinedTaskOption)options;
-
-@end
-
-NS_ASSUME_NONNULL_END
+@objc public class ORKIdBHLToneAudiometryMethodOfAdjustmentSwiftUIFactory: NSObject {
+    
+    var numSteps: Int = 0
+    var numFrequencies: Int = 0
+    var audioChannel: ORKAudioChannel = .left
+    
+    var moaView: ORKdBHLToneAudiometryMethodOfAdjustmentView {
+        ORKdBHLToneAudiometryMethodOfAdjustmentView(
+            viewModel: SliderViewModel(numSteps: self.numSteps, numFrequencies: self.numFrequencies, audioChannel: self.audioChannel)
+        )
+    }
+    
+    @objc public func makeMethodOfAdjustmentsView(numSteps: Int, numFrequencies: Int, audioChannel: ORKAudioChannel) -> UIViewController {
+        self.numSteps = numSteps
+        self.numFrequencies = numFrequencies
+        self.audioChannel = audioChannel
+        return UIHostingController(rootView: moaView)
+    }
+}

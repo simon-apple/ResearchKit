@@ -48,6 +48,9 @@ NSString *const ORKInstruction3StepIdentifier = @"instruction3";
 NSString *const ORKdBHLToneAudiometryStep1Identifier = @"dBHL1.tone.audiometry";
 NSString *const ORKdBHLToneAudiometryStep2Identifier = @"dBHL2.tone.audiometry";
 
+NSString *const ORKdBHLToneAudiometryMethodOfAdjustmentStep1Identifier = @"dBHL1.MOA.tone.audiometry";
+NSString *const ORKdBHLToneAudiometryMethodOfAdjustmentStep2Identifier = @"dBHL2.MOA.tone.audiometry";
+
 @implementation ORKOrderedTask (ResearchKitInternal)
 
 + (ORKNavigableOrderedTask *)newdBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
@@ -160,5 +163,50 @@ NSString *const ORKdBHLToneAudiometryStep2Identifier = @"dBHL2.tone.audiometry";
     return task;
 }
 
++ (ORKNavigableOrderedTask *)dBHLMethodOfAdjustmentsToneAudiometryTaskWithIdentifier:(NSString *)identifier
+                                                              intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                                                             options:(ORKPredefinedTaskOption)options {
+    if (options & ORKPredefinedTaskOptionExcludeAudio) {
+        @throw [NSException exceptionWithName:NSGenericException reason:@"Audio collection cannot be excluded from audio task" userInfo:nil];
+    }
+
+    NSMutableArray *steps = [NSMutableArray array];
+
+    {
+        ORKHeadphoneDetectStep *step = [[ORKHeadphoneDetectStep alloc] initWithIdentifier:ORKdBHLToneAudiometryHeadphoneDetectStepIdentifier headphoneTypes:ORKHeadphoneTypesSupported];
+        step.title = ORKILocalizedString(@"HEADPHONE_DETECT_TITLE", nil);
+        step.detailText = ORKILocalizedString(@"HEADPHONE_DETECT_TEXT", nil);
+        [steps addObject:step];
+    }
+    
+    {
+        ORKdBHLToneAudiometryMethodOfAdjustmentStep *step = [[ORKdBHLToneAudiometryMethodOfAdjustmentStep alloc] initWithIdentifier:ORKdBHLToneAudiometryMethodOfAdjustmentStep1Identifier];
+        step.title = ORKILocalizedString(@"dBHL_TONE_AUDIOMETRY_METHOD_OF_ADJUSTMENTS_INTRO_TITLE", nil);
+        step.text = ORKILocalizedString(@"dBHL_TONE_AUDIOMETRY_METHOD_OF_ADJUSTMENTS_INTRO_TEXT", nil);
+        step.stepDuration = CGFLOAT_MAX;
+        step.earPreference = ORKAudioChannelLeft;
+        
+        ORKStepArrayAddStep(steps, step);
+    }
+    
+    {
+        ORKdBHLToneAudiometryMethodOfAdjustmentStep *step = [[ORKdBHLToneAudiometryMethodOfAdjustmentStep alloc] initWithIdentifier:ORKdBHLToneAudiometryMethodOfAdjustmentStep2Identifier];
+        step.title = ORKILocalizedString(@"dBHL_TONE_AUDIOMETRY_METHOD_OF_ADJUSTMENTS_INTRO_TITLE", nil);
+        step.text = ORKILocalizedString(@"dBHL_TONE_AUDIOMETRY_METHOD_OF_ADJUSTMENTS_INTRO_TEXT", nil);
+        step.stepDuration = CGFLOAT_MAX;
+        step.earPreference = ORKAudioChannelRight;
+
+        ORKStepArrayAddStep(steps, step);
+    }
+
+    if (!(options & ORKPredefinedTaskOptionExcludeConclusion)) {
+        ORKInstructionStep *step = [self makeCompletionStep];
+        ORKStepArrayAddStep(steps, step);
+    }
+    
+    ORKNavigableOrderedTask *task = [[ORKNavigableOrderedTask alloc] initWithIdentifier:identifier steps:steps];
+    
+    return task;
+}
 
 @end
