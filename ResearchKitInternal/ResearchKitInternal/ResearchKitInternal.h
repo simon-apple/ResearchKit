@@ -72,6 +72,7 @@
 #import <ResearchKitInternal/ORKTinnitusOverallAssessmentStepViewController.h>
 #import <ResearchKitInternal/ORKTinnitusPureToneResult.h>
 #import <ResearchKitInternal/ORKTinnitusPureToneStepViewController.h>
+#import <ResearchKitInternal/ORKdBHLToneAudiometryPulsedAudioGenerator.h>
 #import <ResearchKitInternal/ORKTinnitusTypeResult.h>
 #import <ResearchKitInternal/ORKTinnitusTypeStepViewController.h>
 #import <ResearchKitInternal/ORKTinnitusVolumeResult.h>
