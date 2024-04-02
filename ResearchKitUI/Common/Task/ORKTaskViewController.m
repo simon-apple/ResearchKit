@@ -290,6 +290,21 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     return self;
 }
 
+- (instancetype)initWithTask:(id<ORKTask>)task
+               ongoingResult:(ORKTaskResult *)ongoingResult
+           restoreAtLastStep:(BOOL)restoreAtLastStep
+         defaultResultSource:(id<ORKTaskResultSource>)defaultResultSource
+                    delegate:(id<ORKTaskViewControllerDelegate>)delegate {
+    self = [self initWithTask:task ongoingResult:ongoingResult defaultResultSource:defaultResultSource delegate:delegate];
+    
+    if (self) {
+        if (restoreAtLastStep == NO && ongoingResult != nil) {
+            _restoredStepIdentifier = ongoingResult.results.firstObject.identifier;
+        }
+    }
+    return self;
+}
+
 - (void)setTaskRunUUID:(NSUUID *)taskRunUUID {
     if (_hasBeenPresented) {
         @throw [NSException exceptionWithName:NSGenericException reason:@"Cannot change task instance UUID after presenting task controller" userInfo:nil];
