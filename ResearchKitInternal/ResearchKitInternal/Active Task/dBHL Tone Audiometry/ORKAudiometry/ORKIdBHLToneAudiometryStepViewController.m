@@ -78,8 +78,6 @@
 }
 
 - (void)configureStep {
-    [super configureStep];
-    
     ORKdBHLToneAudiometryStep *dBHLTAStep = [self dBHLToneAudiometryStep];
     
     _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
@@ -126,6 +124,7 @@
         }
     }
     
+    [super configureStep];
 }
 
 - (void)addObservers {
