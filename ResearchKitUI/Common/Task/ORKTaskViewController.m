@@ -1237,7 +1237,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     
 #if RK_APPLE_INTERNAL
-    NSString *discardText = _updatingPreviousResults ? ORKLocalizedString(@"BUTTON_OPTION_DISCARD_CHANGES", nil) :  ORKLocalizedString(@"BUTTON_OPTION_DISCARD", nil);
+    NSString *discardText = _updatingPreviousResults ? @"Discard Changes" :  ORKLocalizedString(@"BUTTON_OPTION_DISCARD", nil);
     NSString *discardTitle = saveable ? discardText : ORKLocalizedString(@"BUTTON_OPTION_STOP_TASK", nil);
 #else
     NSString *discardTitle = saveable ? ORKLocalizedString(@"BUTTON_OPTION_DISCARD", nil) : ORKLocalizedString(@"BUTTON_OPTION_STOP_TASK", nil);
