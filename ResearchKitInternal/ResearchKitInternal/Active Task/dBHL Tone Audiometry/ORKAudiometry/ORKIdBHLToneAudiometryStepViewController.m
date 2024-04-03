@@ -73,12 +73,16 @@
     return self;
 }
 
+-(ORKIdBHLToneAudiometryStep *)idBHLToneAudiometryStep {
+    return (ORKIdBHLToneAudiometryStep *)self.step;
+}
+
 - (ORKdBHLToneAudiometryAudioGenerator *)createAudioGeneratorFromHeadphoneType:(ORKHeadphoneTypeIdentifier)type {
     return [[ORKIdBHLToneAudiometryAudioGenerator alloc] initForHeadphoneType:type];
 }
 
 - (void)configureStep {
-    ORKdBHLToneAudiometryStep *dBHLTAStep = [self dBHLToneAudiometryStep];
+    ORKIdBHLToneAudiometryStep *dBHLTAStep = [self idBHLToneAudiometryStep];
     
     _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
                                                 supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
@@ -101,7 +105,7 @@
                 ORKHeadphoneDetectResult *headphoneDetectResult = (ORKHeadphoneDetectResult *)firstResult;
                 dBHLTAStep.headphoneType = headphoneDetectResult.headphoneType;
         
-            } else if ([firstResult isKindOfClass:[ORKdBHLToneAudiometryResult class]]) {
+            } else if ([firstResult isKindOfClass:[ORKIdBHLToneAudiometryResult class]]) {
                 if (@available(iOS 14.0, *)) {
                     ORKIdBHLToneAudiometryResult *dBHLToneAudiometryResult = (ORKIdBHLToneAudiometryResult *)firstResult;
                     BOOL suitableResult = (dBHLToneAudiometryResult.algorithmVersion == 1 &&
@@ -196,12 +200,12 @@
 #pragma mark - Headphone Monitoring
 
 - (NSString *)headphoneType {
-    return [[self dBHLToneAudiometryStep].headphoneType uppercaseString];
+    return [[self idBHLToneAudiometryStep].headphoneType uppercaseString];
 }
 
 - (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
-    if ([[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
-        [[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
+    if ([[[self idBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
+        [[[self idBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
             
         BOOL newModeIsNoiseCancellingMode = (bluetoothMode == ORKBluetoothModeNoiseCancellation);
         if (!newModeIsNoiseCancellingMode) {
