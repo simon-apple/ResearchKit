@@ -53,7 +53,7 @@
         self.optional = YES;
         self.useSurveyMode = YES;
         self.useCardView = YES;
-        self.autoScrollEnabled = YES;
+        self.autoScrollEnabled = NO;
         self.cardViewStyle = ORKCardViewStyleDefault;
     }
     return self;
@@ -65,7 +65,7 @@
         self.optional = YES;
         self.useSurveyMode = YES;
         self.useCardView = YES;
-        self.autoScrollEnabled = YES;
+        self.autoScrollEnabled = NO;
         self.cardViewStyle = ORKCardViewStyleDefault;
     }
     return self;
