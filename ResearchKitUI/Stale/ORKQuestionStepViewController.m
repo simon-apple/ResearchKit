@@ -672,6 +672,13 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     _answer = answer;
 }
 
+- (void)setCellHolderViewAnswer:(id)answer {
+    if (_cellHolderView) {
+        _cellHolderView.cell.answer = answer;
+        [self setAnswer:answer];
+    }
+}
+
 - (BOOL)continueButtonEnabled {
     BOOL enabled = (([self hasAnswer] && [self.answerFormat isAnswerValid:self.answer]) || (self.questionStep.optional && !self.skipButtonItem));
     if (self.isBeingReviewed) {
