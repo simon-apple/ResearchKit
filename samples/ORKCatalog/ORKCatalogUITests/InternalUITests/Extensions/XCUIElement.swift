@@ -125,6 +125,39 @@ class Keyboards {
         }
     }
     
+    enum KeyboardKeys: String {
+        case more = "more"
+        case shift = "shift"
+        case space = "space"
+        
+        var element: XCUIElement {
+            switch self {
+            case .more, .space:
+                return XCUIApplication().keyboards.keys[self.rawValue]
+            case .shift:
+                return XCUIApplication().buttons[self.rawValue]
+            }
+        }
+    }
+        
+    static func switchKeyboardType() {
+        let moreKey = KeyboardKeys.more.element
+        if moreKey.waitForExistence(timeout: 20) {
+            moreKey.tap()
+        }
+    }
+    
+    static func tapShiftKey() {
+        let shiftKey = KeyboardKeys.shift.element
+        if shiftKey.waitForExistence(timeout: 20) {
+            shiftKey.tap()
+        }
+    }
+    
+    static func tapSpace() {
+        KeyboardKeys.space.element.tap()
+    }
+    
     /**
      Enters number using a numeric keyboard
      - parameter number: number to be entered

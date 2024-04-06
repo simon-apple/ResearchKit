@@ -5,6 +5,10 @@
       "name" : "Configuration 1",
       "options" : {
         "detectTextLayoutIssues" : false,
+        "locationScenario" : {
+          "identifier" : "San Francisco, CA, USA",
+          "referenceType" : "built-in"
+        },
         "testRepetitionMode" : "retryOnFailure",
         "uiTestingScreenshotsLifetime" : "keepAlways",
         "userAttachmentLifetime" : "keepAlways"
@@ -12,6 +16,10 @@
     }
   ],
   "defaultOptions" : {
+    "locationScenario" : {
+      "identifier" : "San Francisco, CA, USA",
+      "referenceType" : "built-in"
+    },
     "testTimeoutsEnabled" : true,
     "uiTestingScreenshotsLifetime" : "keepAlways",
     "userAttachmentLifetime" : "keepAlways"

@@ -216,6 +216,11 @@ UIFontDescriptor *ORKFontDescriptorForLightStylisticAlternative(UIFontDescriptor
 CGFloat ORKFloorToViewScale(CGFloat value, UIView *view);
 #endif
 
+#if RK_APPLE_INTERNAL
+// Global constant for launch argument using in XCUITest
+extern NSString * const UITestLaunchArgument;
+#endif
+
 ORK_INLINE bool
 ORKEqualObjects(id o1, id o2) {
     return (o1 == o2) || (o1 && o2 && [o1 isEqual:o2]);

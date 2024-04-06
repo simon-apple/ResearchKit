@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 
 // Tasks tab on the bottom tab bar
-class TasksTab {
+final class TasksTab {
     static let app = XCUIApplication()
     static var title: XCUIElement {
         app.navigationBars[AccessibilityIdentifiers.TabBar.TasksTab.title].firstMatch
