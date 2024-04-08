@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 
 // Results tab on the bottom tab bar
-class ResultsTab {
+final class ResultsTab {
     static let app = XCUIApplication()
     static var title: XCUIElement {
         app.navigationBars[AccessibilityIdentifiers.TabBar.ResultsTab.resultsTabButton].firstMatch
