@@ -18,8 +18,10 @@ final class FormStepScreen: Step {
      - parameter itemIds: Array of string that identifies the form item, which should be unique within the form step.
      */
     var itemIds: [String]
-    init(id: String = "", itemIds: [String] = []) {
+    var answer: Any?
+    init(id: String = "", itemIds: [String] = [], answer: Any? = nil) {
         self.itemIds = itemIds
+        self.answer = answer
         super.init(id: id)
     }
    
