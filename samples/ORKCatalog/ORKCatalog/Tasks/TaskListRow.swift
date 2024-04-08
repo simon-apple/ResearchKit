@@ -133,6 +133,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case webView
     case consentTask
     case consentDoc
+    case usdzModel
     
     #if RK_APPLE_INTERNAL
     case ageQuestion
@@ -215,6 +216,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .imageCapture,
                     .PDFViewer,
                     .requestPermissions,
+                    .usdzModel,
                     .videoCapture,
                     .videoInstruction,
                     .wait,
@@ -472,6 +474,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .consentDoc:
             return NSLocalizedString("Consent Document Review", comment: "")
             
+        case .usdzModel:
+            return NSLocalizedString("USDZ Model", comment: "")
+            
         #if RK_APPLE_INTERNAL
         case .ageQuestion:
             return NSLocalizedString("Age Question", comment: "")
@@ -726,6 +731,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .consentDoc:
             return consentDoc
+            
+        case .usdzModel:
+            return usdzModel
             
         #if RK_APPLE_INTERNAL
         case .ageQuestion:
@@ -1928,6 +1936,11 @@ enum TaskListRow: Int, CustomStringConvertible {
     private var webView: ORKTask {
         let webViewStep = TaskListRowSteps.webViewStepExample
         return ORKOrderedTask(identifier: String(describing: Identifier.webViewTask), steps: [webViewStep])
+    }
+    
+    private var usdzModel: ORKTask {
+        let usdzModelStep = TaskListRowSteps.usdzModelExample
+        return ORKOrderedTask(identifier: String(describing: Identifier.usdzModelTask), steps: [usdzModelStep])
     }
 
     #if RK_APPLE_INTERNAL

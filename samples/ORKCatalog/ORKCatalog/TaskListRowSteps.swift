@@ -28,7 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import ResearchKit
+import ResearchKitActiveTask
 
 enum TaskListRowSteps {
     
@@ -711,6 +711,21 @@ enum TaskListRowSteps {
         embeddedReviewStep.title = "Embedded Review Step"
         
         return embeddedReviewStep
+    }
+    
+    // MARK: - ORK3DModelStep
+    
+    static var usdzModelExample: ORK3DModelStep {
+        let modelManager = ORKUSDZModelManager(usdzFileName: "sphere_model")
+        modelManager.allowsSelection = true
+        modelManager.enableContinueAfterSelection = true
+        modelManager.highlightColor = .systemBlue
+        
+        let usdzModelStep = ORK3DModelStep(identifier: String(describing: Identifier.usdzModelStep), modelManager: modelManager)
+        usdzModelStep.title = "Example USDZ Model"
+        usdzModelStep.text = "Tap the model to continue"
+        
+        return usdzModelStep
     }
     
     // MARK: - Helpers
