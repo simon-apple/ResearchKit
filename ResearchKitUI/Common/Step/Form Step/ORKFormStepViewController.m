@@ -1565,7 +1565,7 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
                    
                    NSIndexPath *currentFirstResponderCellIndex = [tableView indexPathForCell:_currentFirstResponderCell];
                    
-                   if (currentFirstResponderCellIndex && [self _isAutoScrollEnabled]) {
+                   if (currentFirstResponderCellIndex) {
                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, DelayBeforeAutoScroll * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                            [tableView scrollToRowAtIndexPath:currentFirstResponderCellIndex atScrollPosition:UITableViewScrollPositionBottom animated:YES];
                        });
