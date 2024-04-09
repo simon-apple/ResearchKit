@@ -639,7 +639,7 @@ static const NSInteger kNumberOfSamples = 5;
 }
 
 - (void)testHealthQuantityTypeRecorder {
-    
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     HKUnit *bpmUnit = [[HKUnit countUnit] unitDividedByUnit:[HKUnit minuteUnit]];
     HKQuantityType *hbQuantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate];
     ORKHealthQuantityTypeRecorderConfiguration *recorderConfiguration = [[ORKHealthQuantityTypeRecorderConfiguration alloc] initWithIdentifier:@"healtQuantityTypeRecorder" healthQuantityType:hbQuantityType unit:bpmUnit];
@@ -647,6 +647,7 @@ static const NSInteger kNumberOfSamples = 5;
     ORKHealthQuantityTypeRecorder *recorder = (ORKHealthQuantityTypeRecorder *)[self createRecorder:recorderConfiguration];
     
     XCTAssertTrue([recorder isKindOfClass:recorderClass], @"");
+#endif
 }
 
 @end
