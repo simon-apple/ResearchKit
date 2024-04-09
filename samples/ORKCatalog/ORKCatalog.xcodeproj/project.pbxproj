@@ -249,6 +249,7 @@
 		8C4908972B7ECF6200DA6E2D /* OpenAndCancelSurveysUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelSurveysUITests.swift; sourceTree = "<group>"; };
 		8C4908992B7ECF9400DA6E2D /* ActiveStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveStepScreen.swift; sourceTree = "<group>"; };
 		8C49089B2B7ED08000DA6E2D /* LaunchTasksUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = LaunchTasksUITests.xctestplan; sourceTree = "<group>"; };
+		8C67958E2BC4B84500DE7286 /* SurveysRegressionUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = SurveysRegressionUITests.xctestplan; sourceTree = "<group>"; };
 		8C7C541C2B4F5CF900A2E513 /* Answers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answers.swift; sourceTree = "<group>"; };
 		8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsLocaleDependentUITests.swift; sourceTree = "<group>"; };
 		8C7C54212B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessRequestPermissionStepUITests.swift; sourceTree = "<group>"; };
@@ -488,6 +489,7 @@
 				8CCB03722B86AA8A00096C86 /* UITestLogger.swift */,
 				8CFF29262AE9CBBC000DC99E /* RegressionUITests.xctestplan */,
 				8C49089B2B7ED08000DA6E2D /* LaunchTasksUITests.xctestplan */,
+				8C67958E2BC4B84500DE7286 /* SurveysRegressionUITests.xctestplan */,
 				8C7C541C2B4F5CF900A2E513 /* Answers.swift */,
 			);
 			path = InternalUITests;
