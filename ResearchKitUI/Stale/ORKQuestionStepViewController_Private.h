@@ -51,11 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setAnswer:(id)answer;
 
-/**
- Set the step answer and the answer for the survey cell.
- */
-- (void)setCellHolderViewAnswer:(id)answer;
-
 @end
 
 NS_ASSUME_NONNULL_END
