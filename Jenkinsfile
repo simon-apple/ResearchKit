@@ -38,7 +38,7 @@ pipeline {
         stage('Build for Testing (ResearchKit - Latest iOS)') {
             steps {
                 timeout(time: 20, unit: 'MINUTES') {
-                    sh 'set -o pipefail && xcodebuild clean build-for-testing -project ./ResearchKit.xcodeproj -scheme "ResearchKit" -destination "name=iPhone (Latest iOS)" CI=JENKINS | tee output/ResearchKit_Latest_iOS_build.log | /usr/local/bin/xcpretty'
+                    sh 'set -o pipefail && xcodebuild clean build-for-testing -workspace ./RKWorkspace.xcworkspace -scheme "ResearchKit" -destination "name=iPhone (Latest iOS)" CI=JENKINS | tee output/ResearchKit_Latest_iOS_build.log | /usr/local/bin/xcpretty'
                 }
             }
         }
