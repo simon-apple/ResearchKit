@@ -45,7 +45,7 @@ pipeline {
         stage('Test (ResearchKit - Latest iOS)') {
             steps {
                 timeout(time: 20, unit: 'MINUTES') {
-                    sh 'set -o pipefail && xcodebuild test-without-building -project ./ResearchKit.xcodeproj -scheme "ResearchKit" -destination "name=iPhone (Latest iOS)" -resultBundlePath output/ResearchKit/ios/RKTestResult CI=JENKINS | tee output/ResearchKit_Latest_iOS_test.log | /usr/local/bin/xcpretty -r junit'
+                    sh 'set -o pipefail && xcodebuild test-without-building -workspace ./RKWorkspace.xcworkspace -scheme "ResearchKit" -destination "name=iPhone (Latest iOS)" -resultBundlePath output/ResearchKit/ios/RKTestResult CI=JENKINS | tee output/ResearchKit_Latest_iOS_test.log | /usr/local/bin/xcpretty -r junit'
                     sh 'set -o pipefail && xcrun xccov view --report --json output/ResearchKit/ios/RKTestResult.xcresult > output/ResearchKit/ios/CodeCoverage.json'
                     // sh 'set -o pipefail && swift ./scripts/xccov-json-to-cobertura-xml.swift output/ResearchKit/ios/CodeCoverage.json -targetsToExclude ResearchKitTests.xctest > output/ResearchKit/ios/CoberturaCodeCoverage.xml'
                 }
