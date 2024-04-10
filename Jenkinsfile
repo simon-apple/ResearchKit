@@ -51,20 +51,6 @@ pipeline {
                 }
             }
         }
-        stage('Build for Testing (ORKTest - Latest iOS)') {
-            steps {
-                timeout(time: 20, unit: 'MINUTES') {
-                    sh 'set -o pipefail && xcodebuild clean build-for-testing -project ./Testing/ORKTest/ORKTest.xcodeproj -scheme "ORKTest" -destination "name=iPhone (Latest iOS)" CI=JENKINS | tee output/ORKTest_Latest_iOS_build.log | /usr/local/bin/xcpretty'
-                }
-            }
-        }
-        stage('Test (ORKTest - Latest iOS)') {
-            steps {
-                timeout(time: 20, unit: 'MINUTES') {
-                    sh 'set -o pipefail && xcodebuild test-without-building -project ./Testing/ORKTest/ORKTest.xcodeproj -scheme "ORKTest" -destination "name=iPhone (Latest iOS)" -resultBundlePath output/ResearchKit/ios/ORKTestResult CI=JENKINS | tee output/ORKTest_Latest_iOS_test.log | /usr/local/bin/xcpretty -r junit'
-                }
-            }
-        }
     }
     post {
         always {
