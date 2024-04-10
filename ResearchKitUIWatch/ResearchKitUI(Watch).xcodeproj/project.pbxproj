@@ -18,23 +18,8 @@
 		0B7213522B4F39CC00463E69 /* ORKScrollViewReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72134C2B4F39CC00463E69 /* ORKScrollViewReader.swift */; };
 		0B7213532B4F39CC00463E69 /* View+OnChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72134D2B4F39CC00463E69 /* View+OnChange.swift */; };
 		0B72136B2B4F3D1D00463E69 /* ResearchKitCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B72136A2B4F3D1D00463E69 /* ResearchKitCore.framework */; };
-		0B72136C2B4F3D1D00463E69 /* ResearchKitCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B72136A2B4F3D1D00463E69 /* ResearchKitCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */ = {isa = PBXBuildFile; fileRef = 0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		0B7213602B4F3C7600463E69 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				0B72136C2B4F3D1D00463E69 /* ResearchKitCore.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0B72132C2B4F368600463E69 /* DefaultStepView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultStepView.swift; sourceTree = "<group>"; };
@@ -160,7 +145,6 @@
 				0BF86B192B4F360000E3790E /* Sources */,
 				0BF86B1A2B4F360000E3790E /* Frameworks */,
 				0BF86B1B2B4F360000E3790E /* Resources */,
-				0B7213602B4F3C7600463E69 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
