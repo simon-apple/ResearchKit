@@ -343,6 +343,10 @@ class ResultTableViewProvider: NSObject, UITableViewDataSource, UITableViewDeleg
 
                 cell.textLabel!.text = text
                 cell.detailTextLabel!.text = detailText
+            // start-omit-internal-code
+                cell.textLabel!.accessibilityIdentifier = text
+                cell.detailTextLabel!.accessibilityIdentifier = "\(text)_value"
+            // end-omit-internal-code
                 
                 cell.textLabel?.textColor = UIColor.label
                 cell.detailTextLabel?.textColor = UIColor.secondaryLabel
