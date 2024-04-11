@@ -16,6 +16,8 @@ class FormStepViewModel: ObservableObject {
     @ObservedObject
     private(set) var result: ORKStepResult
 
+    var formRows: [FormRow]
+
     @Published
     var selectedIndex: Int = -1
 
@@ -36,19 +38,14 @@ class FormStepViewModel: ObservableObject {
         }
     }
 
-    lazy var questions: [ORKFormItem] = {
-        guard let formItems = step.formItems else {
-            return []
-        }
-        return formItems
-    }()
-
     init(step: ORKFormStep, result: ORKStepResult) {
         self.step = step
         self.result = result
+
+        self.formRows = Self.convertFormItemsToFormRows(formItems: step.formItems ?? []) ?? []
     }
 
-    func convertFormItemsToFormRows(formItems: [ORKFormItem]) -> [FormRow]? {
+    static func convertFormItemsToFormRows(formItems: [ORKFormItem]) -> [FormRow]? {
 
         let formRows: [FormRow?] = formItems.map { formItem in
             if let answerFormat = formItem.answerFormat as? ORKTextChoiceAnswerFormat,
@@ -67,8 +64,7 @@ class FormStepViewModel: ObservableObject {
                 }
 
                 // TODO: where should this be owned
-                var resultObject : MultipleChoiceOption<UUID> = MultipleChoiceOption(choiceText: Text(""))
-
+                let resultObject : MultipleChoiceOption<UUID> = MultipleChoiceOption(choiceText: Text(""))
                 return FormRow.multipleChoiceRow(
                     MultipleChoiceQuestion(
                         id: UUID(),
@@ -80,7 +76,9 @@ class FormStepViewModel: ObservableObject {
             }
             return nil
         }
-        return formRows.compactMap { $0 }
+        let formRowsCompacted = formRows.compactMap { $0 }
+        print(formRowsCompacted)
+        return formRowsCompacted
     }
 
 }

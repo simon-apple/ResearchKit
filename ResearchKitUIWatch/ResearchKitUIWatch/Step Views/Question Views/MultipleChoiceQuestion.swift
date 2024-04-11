@@ -22,12 +22,13 @@ public class MultipleChoiceOption<ID: Hashable>: Identifiable {
 @Observable
 public class MultipleChoiceQuestion<ID: Hashable>: Identifiable {
 
-    public var title: Text = Text("")
+    public var title: Text
     public var id: ID
     public var choices: [MultipleChoiceOption<ID>]
     public var result: MultipleChoiceOption<ID>
 
     public init(id: ID, title: Text, choices: [MultipleChoiceOption<ID>], result: MultipleChoiceOption<ID>) {
+        self.title = title
         self.id = id
         self.choices = choices
         _result = result
@@ -48,14 +49,6 @@ extension MultipleChoiceOption where ID == UUID {
         self.init(id: id, choiceText: choiceText)
     }
 }
-
-//extension MultipleChoiceOption where ID == String {
-//
-//    convenience init(choiceText: Text) {
-//        let id = UUID().uuidString
-//        self.init(id: id, choiceText: choiceText)
-//    }
-//}
 
 public struct MultipleChoiceQuestionView: View {
 

@@ -55,9 +55,6 @@ enum FormRow: Identifiable {
 
 internal struct FormStepView: View {
 
-    @State
-    private var formRows: [FormRow] = []
-
     enum Constants {
         static let topToProgressPadding: CGFloat = 4.0
         static let bottomToProgressPadding: CGFloat = 4.0
@@ -71,44 +68,6 @@ internal struct FormStepView: View {
     
     init(viewModel: FormStepViewModel) {
         self.viewModel = viewModel
-        if let formItems = viewModel.step.formItems {
-            self.formRows = FormStepView.convertFormItemsToFormRows(formItems: formItems) ?? []
-        }
-    }
-
-    static func convertFormItemsToFormRows(formItems: [ORKFormItem]) -> [FormRow]? {
-
-        let formRows: [FormRow?] = formItems.map { formItem in
-            if let answerFormat = formItem.answerFormat as? ORKTextChoiceAnswerFormat,
-               let questionText = formItem.text
-            {
-                var answerOptions : [MultipleChoiceOption<UUID>] = []
-                answerFormat.textChoices.forEach { textChoice in
-                    answerOptions.append(
-                        MultipleChoiceOption(
-                            id: UUID(),
-                            choiceText: Text(
-                                textChoice.text
-                            )
-                        )
-                    )
-                }
-
-                // TODO: where should this be owned
-                var resultObject : MultipleChoiceOption<UUID> = MultipleChoiceOption(choiceText: Text(""))
-
-                return FormRow.multipleChoiceRow(
-                    MultipleChoiceQuestion(
-                        id: UUID(),
-                        title: Text(questionText),
-                        choices: answerOptions,
-                        result: resultObject
-                    )
-                )
-            }
-            return nil
-        }
-        return formRows.compactMap { $0 }
     }
 
     var body: some View {
@@ -124,7 +83,7 @@ internal struct FormStepView: View {
                             .padding(.bottom, Constants.bottomToProgressPadding)
                     }
                     
-                    if let stepTitle = viewModel.step.title, !stepTitle.isEmpty {
+                    if let stepTitle = viewModel.step.title {
                         Text(stepTitle)
                             .font(.body)
                             .fontWeight(.semibold)
@@ -132,7 +91,7 @@ internal struct FormStepView: View {
                             .padding(.bottom, Constants.questionToAnswerPadding)
                     }
 
-                    ForEach(formRows) { formRow in
+                    ForEach(viewModel.formRows) { formRow in
                         switch formRow {
                             case .textRow(let value):
                                 @Bindable var textValueBinding = value
@@ -149,41 +108,6 @@ internal struct FormStepView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading)
-                
-                let textChoices = viewModel.step.formItems
-                ForEach(textChoices, id: \.1) { index, textChoice in
-                    
-                    TextChoiceCell(title: Text(textChoice.text), selected: index == viewModel.selectedIndex) { selected in
-
-                        if selected {
-                            
-                            viewModel.selectedIndex = index
-                            
-                            let choiceResult =
-                                ORKChoiceQuestionResult(identifier: viewModel.step.identifier)
-                            
-                            choiceResult.choiceAnswers = [textChoice.value]
-                            viewModel.childResult = choiceResult
-                            
-                            // 250 ms delay
-                            DispatchQueue
-                                .main
-                                .asyncAfter(deadline: DispatchTime
-                                                .now()
-                                                .advanced(by: .milliseconds(250))) {
-
-                                    completion(true)
-                                }
-                            
-                        } else {
-                            
-                            viewModel.selectedIndex = -1
-                            viewModel.childResult = nil
-
-                            completion(false)
-                        }
-                    }
-                }
             }
         }
     }
