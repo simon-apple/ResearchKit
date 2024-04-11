@@ -96,7 +96,11 @@ internal struct TaskContentView<Content>: View where Content: View {
     private var hasNextStep: Bool {
         return index < taskManager.task.steps.count - 1
     }
-    
+
+    private var isSkippable: Bool {
+        return taskManager.task.steps[index].isOptional
+    }
+
     private var currentStepWasAnsweredOnce: Bool {
         return taskManager.answeredSteps.contains(currentStep)
     }
@@ -162,28 +166,46 @@ internal struct TaskContentView<Content>: View where Content: View {
                             value.scrollToID(Constants.CTA, anchor: nil)
                         }
                     }
-                
-                if hasNextStep {
-                    if shouldScrollToCTA || !(currentStep is ORKQuestionStep) {
+                HStack {
+                    if isSkippable && hasNextStep {
                         Button {
                             goNext = true
                         } label: {
-                            Text("Next").bold()
+                            Text("Skip")
+                        }
+                    }
+                    if hasNextStep {
+                        if shouldScrollToCTA || !(currentStep is ORKQuestionStep) {
+                            Button {
+                                goNext = true
+                            } label: {
+                                Text("Next").bold()
+                            }
+                            .id(Constants.CTA)
+                            .padding(.top, buttonTopPadding)
+                        }
+                    } else {
+                        Button {
+
+                            taskManager.finishReason = .completed
+                        } label: {
+                            Text("Done").bold()
                         }
                         .id(Constants.CTA)
+                        .disabled(!shouldScrollToCTA && currentStep is ORKQuestionStep)
                         .padding(.top, buttonTopPadding)
                     }
-                } else {
-                    Button {
-                        
-                        taskManager.finishReason = .completed
-                    } label: {
-                        Text("Done").bold()
-                    }
-                    .id(Constants.CTA)
-                    .disabled(!shouldScrollToCTA && currentStep is ORKQuestionStep)
-                    .padding(.top, buttonTopPadding)
                 }
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    setDiscardedIfNeeded(taskManager: taskManager)
+                } label: {
+                    Text("Cancel")
+                }
+
             }
         }
     }
