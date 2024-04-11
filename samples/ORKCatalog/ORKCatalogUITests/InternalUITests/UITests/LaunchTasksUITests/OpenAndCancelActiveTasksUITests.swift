@@ -296,3 +296,36 @@ final class OpenAndCancelFitnessTasksUITests: OpenAndCancelBaseUITest {
             .verifyStepView(timeout: 60)
     }
 }
+
+// MARK: - Internal Tasks
+
+final class OpenAndCancelInternalTasksUITests: OpenAndCancelBaseUITest {
+    
+    func testLaunchPredefinedAVJournalingTask() {
+        openThenCancel(task: Task.predefinedAVJournalingTask.description)
+    }
+    
+    func testLaunchBLETask() {
+        openThenCancel(task: Task.ble.description)
+    }
+    
+    func testLaunchFamilyHistoryTask() {
+        openThenCancel(task: Task.familyHistory.description)
+    }
+    
+    func testCustomStepTask() {
+        openThenCancel(task: Task.customStepTask.description)
+    }
+    
+    func testLaunchStudyPromoVCTask() {
+        tasksList.selectTaskByName(Task.studyPromoTask.description)
+        let step = Step()
+        step.tap(.continueButton)
+    }
+    
+    func testLaunchStudySignPostStep() {
+        tasksList.selectTaskByName(Task.studySignPostStep.description)
+        let step = Step()
+        step.tap(.continueButton)
+    }
+}
