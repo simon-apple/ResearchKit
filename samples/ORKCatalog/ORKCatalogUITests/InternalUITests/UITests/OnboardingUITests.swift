@@ -198,8 +198,8 @@ final class OnboardingUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        let healthDataRequestStep = RequestPermissionsStepScreen()
-        healthDataRequestStep
+        let informedConsentSharingFormStep = FormStepScreen()
+        informedConsentSharingFormStep
             .cancelTask()
     }
     
