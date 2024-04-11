@@ -73,6 +73,7 @@ struct WidthPreferenceKey: PreferenceKey {
     }
 }
 
+@available(iOS 14.0, *)
 struct FullScreenModifier<V: View>: ViewModifier {
     let isPresented: Binding<Bool>
     let builder: () -> V
@@ -85,6 +86,7 @@ struct FullScreenModifier<V: View>: ViewModifier {
 
 extension View {
     // swiftlint:disable line_length
+    @available(iOS 14.0, *)
     func compatibleFullScreen<Content: View>(isPresented: Binding<Bool>,
                                              @ViewBuilder content: @escaping () -> Content) -> some View {
         // swiftlint:enable line_length

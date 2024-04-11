@@ -53,8 +53,8 @@ public struct DefaultStepView: View {
             CompletionStepView(completionStep, result: result)
         } else if let instructionStep = step as? ORKInstructionStep {
             InstructionStepView(instructionStep, result: result)
-        } else if let questionStep = step as? ORKQuestionStep {
-            QuestionStepView(questionStep, result: result)
+        } else if let formStep = step as? ORKFormStep {
+            FormStepView(viewModel: FormStepViewModel(step: formStep, result: result))
         } else {
             fatalError("Not Supported")
         }

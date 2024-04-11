@@ -11,7 +11,7 @@
 		0B7213402B4F395C00463E69 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72133F2B4F395C00463E69 /* TaskManager.swift */; };
 		0B7213422B4F396B00463E69 /* CompletionStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7213412B4F396B00463E69 /* CompletionStepView.swift */; };
 		0B7213442B4F397A00463E69 /* InstructionStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7213432B4F397A00463E69 /* InstructionStepView.swift */; };
-		0B7213462B4F398500463E69 /* QuestionStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7213452B4F398500463E69 /* QuestionStepView.swift */; };
+		0B7213462B4F398500463E69 /* FormStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7213452B4F398500463E69 /* FormStepView.swift */; };
 		0B72134F2B4F39CC00463E69 /* View+Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7213492B4F39CC00463E69 /* View+Task.swift */; };
 		0B7213502B4F39CC00463E69 /* TaskContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72134A2B4F39CC00463E69 /* TaskContentView.swift */; };
 		0B7213512B4F39CC00463E69 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72134B2B4F39CC00463E69 /* TaskView.swift */; };
@@ -27,6 +27,7 @@
 		E4DBF1BF2BA24AA40085D6A1 /* StickyScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1BE2BA24AA10085D6A1 /* StickyScrollView.swift */; };
 		E4DBF1C12BA24B190085D6A1 /* StickyFooterLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1C02BA24B150085D6A1 /* StickyFooterLayout.swift */; };
 		E4DBF1C32BA24B8B0085D6A1 /* StickyScrollView+StickyLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1C22BA24B860085D6A1 /* StickyScrollView+StickyLayout.swift */; };
+		E4FC4FAB2BC88F3F00E0AEBF /* FormStepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FC4FAA2BC88F3F00E0AEBF /* FormStepViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -53,7 +54,7 @@
 		0B72133F2B4F395C00463E69 /* TaskManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskManager.swift; sourceTree = "<group>"; };
 		0B7213412B4F396B00463E69 /* CompletionStepView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompletionStepView.swift; sourceTree = "<group>"; };
 		0B7213432B4F397A00463E69 /* InstructionStepView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionStepView.swift; sourceTree = "<group>"; };
-		0B7213452B4F398500463E69 /* QuestionStepView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionStepView.swift; sourceTree = "<group>"; };
+		0B7213452B4F398500463E69 /* FormStepView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormStepView.swift; sourceTree = "<group>"; };
 		0B7213492B4F39CC00463E69 /* View+Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+Task.swift"; sourceTree = "<group>"; };
 		0B72134A2B4F39CC00463E69 /* TaskContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskContentView.swift; sourceTree = "<group>"; };
 		0B72134B2B4F39CC00463E69 /* TaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
@@ -76,6 +77,7 @@
 		E4DBF1BE2BA24AA10085D6A1 /* StickyScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyScrollView.swift; sourceTree = "<group>"; };
 		E4DBF1C02BA24B150085D6A1 /* StickyFooterLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyFooterLayout.swift; sourceTree = "<group>"; };
 		E4DBF1C22BA24B860085D6A1 /* StickyScrollView+StickyLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StickyScrollView+StickyLayout.swift"; sourceTree = "<group>"; };
+		E4FC4FAA2BC88F3F00E0AEBF /* FormStepViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormStepViewModel.swift; path = "Step Views/FormStepViewModel.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,7 +119,7 @@
 				0B72132C2B4F368600463E69 /* DefaultStepView.swift */,
 				0B7213412B4F396B00463E69 /* CompletionStepView.swift */,
 				0B7213432B4F397A00463E69 /* InstructionStepView.swift */,
-				0B7213452B4F398500463E69 /* QuestionStepView.swift */,
+				0B7213452B4F398500463E69 /* FormStepView.swift */,
 				0B72133F2B4F395C00463E69 /* TaskManager.swift */,
 			);
 			path = "Step Views";
@@ -143,6 +145,7 @@
 		0BF86B1F2B4F360000E3790E /* ResearchKitUIWatch */ = {
 			isa = PBXGroup;
 			children = (
+				E4FC4FAA2BC88F3F00E0AEBF /* FormStepViewModel.swift */,
 				0B72134B2B4F39CC00463E69 /* TaskView.swift */,
 				0B72134A2B4F39CC00463E69 /* TaskContentView.swift */,
 				0B7213492B4F39CC00463E69 /* View+Task.swift */,
@@ -260,7 +263,8 @@
 				0B7213502B4F39CC00463E69 /* TaskContentView.swift in Sources */,
 				0B7213522B4F39CC00463E69 /* ORKScrollViewReader.swift in Sources */,
 				E4DBF1BF2BA24AA40085D6A1 /* StickyScrollView.swift in Sources */,
-				0B7213462B4F398500463E69 /* QuestionStepView.swift in Sources */,
+				E4FC4FAB2BC88F3F00E0AEBF /* FormStepViewModel.swift in Sources */,
+				0B7213462B4F398500463E69 /* FormStepView.swift in Sources */,
 				0B7213532B4F39CC00463E69 /* View+OnChange.swift in Sources */,
 				E4DBF1B62B97C2B30085D6A1 /* MultipleChoiceQuestion.swift in Sources */,
 				E4DBF1B92B97C3060085D6A1 /* TextChoiceCell.swift in Sources */,

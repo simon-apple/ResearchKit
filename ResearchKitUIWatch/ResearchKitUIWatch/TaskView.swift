@@ -40,7 +40,6 @@ public struct TaskNavigationDelegate {
     public init(taskDidFinishWithReason: @escaping (TaskManager.FinishReason) -> Void) {
         self.taskDidFinishWithReason = taskDidFinishWithReason
     }
-
 }
 
 public struct TaskView<Content>: View where Content: View {
