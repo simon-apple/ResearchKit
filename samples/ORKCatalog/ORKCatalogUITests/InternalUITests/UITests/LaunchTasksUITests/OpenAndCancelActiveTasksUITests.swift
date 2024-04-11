@@ -320,12 +320,12 @@ final class OpenAndCancelInternalTasksUITests: OpenAndCancelBaseUITest {
     func testLaunchStudyPromoVCTask() {
         tasksList.selectTaskByName(Task.studyPromoTask.description)
         let step = Step()
-        step.tap(.continueButton)
+        step.tap(.continueButton) // This step doesn't include a cancel button
     }
     
     func testLaunchStudySignPostStep() {
         tasksList.selectTaskByName(Task.studySignPostStep.description)
         let step = Step()
-        step.tap(.continueButton)
+        step.tap(.continueButton) // This step doesn't include a cancel button
     }
 }
