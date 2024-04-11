@@ -134,9 +134,22 @@ final class OnboardingUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
+        let informedConsentSharingFormStep = FormStepScreen()
+        let formItemId = "TextChoiceFormItem"
+        informedConsentSharingFormStep
+            .verifyStepView()
+            .verify(.title)
+            .verify(.text)
+            .verify(.continueButton, isEnabled: true)
+            .verify(.skipButton, isEnabled: true)
+            .verifySingleQuestionTitleExists()
+            .answerSingleChoiceTextQuestion(withId: formItemId, atIndex: 0)
+            .tap(.continueButton)
+        
         let healthDataRequestStep = RequestPermissionsStepScreen()
         let permissionButtonIndex = 0
         healthDataRequestStep
+            .verifyStepView()
             .tapPermissionButton(atIndex: permissionButtonIndex) // Triggers alert for granting access
         let healthAccessScreen = HealthAccess()
         healthAccessScreen
