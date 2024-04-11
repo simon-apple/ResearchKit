@@ -72,6 +72,10 @@
 		24C296771BD055B800B42EF1 /* ORKLoginStep_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 24C296761BD055B800B42EF1 /* ORKLoginStep_Internal.h */; };
 		2EBFE11D1AE1B32D00CB8254 /* ORKUIViewAccessibilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBFE11C1AE1B32D00CB8254 /* ORKUIViewAccessibilityTests.m */; };
 		2EBFE1201AE1B74100CB8254 /* ORKVoiceEngineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBFE11F1AE1B74100CB8254 /* ORKVoiceEngineTests.m */; };
+		49D335F82BC8A8DE00E760B2 /* ORKActiveStepQuantityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40AFB1A8D7C5B00081FAC /* ORKActiveStepQuantityView.m */; };
+		49D335F92BC8A8F900E760B2 /* ORKActiveStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AD910F1AB7B8A600361FEB /* ORKActiveStepView.m */; };
+		49D335FA2BC8A94500E760B2 /* splMeter_sensitivity_offset.plist in Resources */ = {isa = PBXBuildFile; fileRef = 71F3B27F21001DEC00FB1C41 /* splMeter_sensitivity_offset.plist */; };
+		49D335FB2BC8A95200E760B2 /* SentencesList.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA22F76C20C4F884006E6E11 /* SentencesList.txt */; };
 		511987C3246330CA004FC2C7 /* ORKRequestPermissionsStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 511987C1246330CA004FC2C7 /* ORKRequestPermissionsStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		511987C4246330CA004FC2C7 /* ORKRequestPermissionsStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 511987C2246330CA004FC2C7 /* ORKRequestPermissionsStep.m */; };
 		511BB024298DCCC200936EC0 /* ORKSpeechRecognitionStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 511BB022298DCCC200936EC0 /* ORKSpeechRecognitionStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -765,10 +769,6 @@
 		CAA20E5D288B3E9900EDC764 /* UIResponder+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BEA1A8D7C5C00081FAC /* UIResponder+ResearchKit.m */; };
 		CAA20E5E288B3E9900EDC764 /* UIBarButtonItem+ORKBarButtonItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BE71A8D7C5C00081FAC /* UIBarButtonItem+ORKBarButtonItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAA20E5F288B3E9900EDC764 /* UIBarButtonItem+ORKBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BE81A8D7C5C00081FAC /* UIBarButtonItem+ORKBarButtonItem.m */; };
-		CAA20E7C288B3F1100EDC764 /* ORKActiveStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AD910F1AB7B8A600361FEB /* ORKActiveStepView.m */; };
-		CAA20E8C288B3F1100EDC764 /* splMeter_sensitivity_offset.plist in Resources */ = {isa = PBXBuildFile; fileRef = 71F3B27F21001DEC00FB1C41 /* splMeter_sensitivity_offset.plist */; };
-		CAA20EEA288B3F1200EDC764 /* ORKActiveStepQuantityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40AFB1A8D7C5B00081FAC /* ORKActiveStepQuantityView.m */; };
-		CAA20F1A288B3F4000EDC764 /* SentencesList.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA22F76C20C4F884006E6E11 /* SentencesList.txt */; };
 		CAA20F2A288B3F5B00EDC764 /* ORKConsentSharingStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B11C549C1A9EF4A700265E61 /* ORKConsentSharingStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAA20F2E288B3F5B00EDC764 /* ORKConsentReviewStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BFA1A8D7C5C00081FAC /* ORKConsentReviewStepViewController.m */; };
 		CAA20F30288B3F5B00EDC764 /* ORKConsentSharingStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B11C549D1A9EF4A700265E61 /* ORKConsentSharingStepViewController.m */; };
@@ -5126,8 +5126,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAA20E8C288B3F1100EDC764 /* splMeter_sensitivity_offset.plist in Resources */,
-				CAA20F1A288B3F4000EDC764 /* SentencesList.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5148,6 +5146,7 @@
 				51BD8FCD29D60FB60001D54E /* retspl_AIRPODSMAX.plist in Resources */,
 				51BD8FD629D60FB60001D54E /* retspl_AIRPODSPRO.plist in Resources */,
 				51AF1B232B69803A00D3B399 /* Window.wav in Resources */,
+				49D335FA2BC8A94500E760B2 /* splMeter_sensitivity_offset.plist in Resources */,
 				51BD8FD729D60FB60001D54E /* frequency_dBSPL_AIRPODSPRO.plist in Resources */,
 				51AF1B242B69803A00D3B399 /* Noise.wav in Resources */,
 				5192BF5D2AE19036006E43FB /* frequency_dBSPL_AIRPODSPROV2.plist in Resources */,
@@ -5162,6 +5161,7 @@
 				51BD8FCC29D60FB60001D54E /* volume_curve_AIRPODSV3.plist in Resources */,
 				0BD9B6122B75992C00A64EF9 /* Sentence6.wav in Resources */,
 				51BD8FCB29D60FB60001D54E /* frequency_dBSPL_AIRPODS.plist in Resources */,
+				49D335FB2BC8A95200E760B2 /* SentencesList.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5373,7 +5373,6 @@
 				CA6A0D82288B54650048C1EF /* ORKConsentReviewController.m in Sources */,
 				CAA20D8A288B3D9100EDC764 /* ORKScaleSliderView.m in Sources */,
 				CAA20F36288B3F6700EDC764 /* ORKLoginStepViewController.m in Sources */,
-				CAA20EEA288B3F1200EDC764 /* ORKActiveStepQuantityView.m in Sources */,
 				CAA20D4F288B3D5700EDC764 /* ORKRecordButton.m in Sources */,
 				CAA20DE0288B3DB400EDC764 /* ORKCountdownLabel.m in Sources */,
 				CAA20D7F288B3D9100EDC764 /* SwiftUIViewFactory.swift in Sources */,
@@ -5423,7 +5422,6 @@
 				CAA20F2E288B3F5B00EDC764 /* ORKConsentReviewStepViewController.m in Sources */,
 				51F716D3297E2FB600D8ACF7 /* ORKConsentLearnMoreViewController.m in Sources */,
 				CAA20D90288B3D9100EDC764 /* ORKTextChoiceCellGroup.m in Sources */,
-				CAA20E7C288B3F1100EDC764 /* ORKActiveStepView.m in Sources */,
 				CAA20D51288B3D6400EDC764 /* ORKCheckmarkView.m in Sources */,
 				CAA20E20288B3E8200EDC764 /* ORKSignatureStepViewController.m in Sources */,
 				CAA20DE2288B3DB400EDC764 /* ORKRoundTappingButton.m in Sources */,
@@ -5511,6 +5509,7 @@
 				5192BEEC2AE043D3006E43FB /* ORKTimedWalkContentView.m in Sources */,
 				CAD08A30289DE5CD007B2A98 /* CMAccelerometerData+ORKJSONDictionary.m in Sources */,
 				CAD08A32289DE5D5007B2A98 /* ORKAudioRecorder.m in Sources */,
+				49D335F82BC8A8DE00E760B2 /* ORKActiveStepQuantityView.m in Sources */,
 				CAD08A5F289DE693007B2A98 /* ORKAudioFitnessStep.m in Sources */,
 				CA2B8FFA28A177DE0025B773 /* ORKWalkingTaskStepViewController.m in Sources */,
 				5156CA062B7E440A00983535 /* ORKTouchAbilityLongPressResult.m in Sources */,
@@ -5630,6 +5629,7 @@
 				CA2B8FCB28A176120025B773 /* ORKPSATContentView.m in Sources */,
 				CAD08A0C289DE4DB007B2A98 /* ORKAudiometryStimulus.m in Sources */,
 				CA2B8FB328A175660025B773 /* ORKSpeechRecognitionContentView.m in Sources */,
+				49D335F92BC8A8F900E760B2 /* ORKActiveStepView.m in Sources */,
 				CAD08A8B289DE76D007B2A98 /* ORKTappingIntervalStep.m in Sources */,
 				CAD08A9B289DE7AB007B2A98 /* ORKTrailmakingStep.m in Sources */,
 				5156CA602B7E465500983535 /* ORKTouchAbilityRotationStepViewController.m in Sources */,
