@@ -124,11 +124,12 @@ internal extension TaskManager {
         if let viewModel = viewModels[step.identifier] {
             return viewModel
         } else if let questionStep = step as? ORKFormStep {
-            let viewModel = QuestionStepViewModel(step: questionStep,
-                                                  result: getOrCreateResult(for: step))
+
+            let viewModel = FormStepViewModel(step: questionStep,
+                                            result: getOrCreateResult(for: step))
             viewModel.progress = progressForQuestionStep(step)
-            self.viewModels[step.identifier] = .questionStep(viewModel)
-            return .questionStep(viewModel)
+            self.viewModels[step.identifier] = .formStep(viewModel)
+            return .formStep(viewModel)
         }
         
         return .none

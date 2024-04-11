@@ -35,7 +35,7 @@ import SwiftUI
 
 enum ViewModel {
     case none
-    case questionStep(QuestionStepViewModel)
+    case formStep(FormStepViewModel)
 }
 
 typealias Progress = (index: Int, count: Int)

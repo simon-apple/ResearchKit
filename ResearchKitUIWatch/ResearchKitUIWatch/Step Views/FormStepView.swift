@@ -33,79 +33,89 @@
 import ResearchKitCore
 import SwiftUI
 
-class QuestionStepViewModel: ObservableObject {
-    
-    @ObservedObject
-    private(set) var step: ORKFormStep
-    
-    @ObservedObject
-    private(set) var result: ORKStepResult
-      
-    @Published
-    var selectedIndex: Int = -1
-    
-    var progress: Progress?
-    
-    var childResult: ORKResult? {
-        get {
-            return result.results?.first
+@Observable
+class TextRowValue: Identifiable {
+    let id = UUID()
+    var text: String = ""
+}
+
+enum FormRow: Identifiable {
+    case textRow(TextRowValue)
+    case multipleChoiceRow(MultipleChoiceQuestion<UUID>)
+
+    var id: AnyHashable {
+        switch self {
+            case .textRow(let textRowValue):
+                textRowValue.id
+            case .multipleChoiceRow(let multipleChoiceValue):
+                multipleChoiceValue.id
         }
-        set {
-            if let value = newValue {
-                value.startDate = result.startDate
-                value.endDate = Date()
-                result.results = [value]
-            } else {
-                result.results = nil
-            }
-        }
-    }
-    
-    lazy var textChoiceAnswers: [(Int, ORKTextChoice)] = {
-        
-        if let textChoiceAnswerFormat = step.answerFormat as? ORKTextChoiceAnswerFormat {
-            return Array(zip(textChoiceAnswerFormat.textChoices.indices,
-                             textChoiceAnswerFormat.textChoices))
-        } else {
-            return []
-        }
-        
-    }()
-    
-    init(step: ORKFormStep, result: ORKStepResult) {
-        self.step = step
-        self.result = result
     }
 }
 
-// need to write an outer View for ORKFormStep that has multiple questions on one page 
+internal struct FormStepView: View {
 
-// reuse QuestionStepView for individual form items in ORKFormStep
-internal struct _QuestionStepView: View {
-    
+    @State
+    private var formRows: [FormRow] = []
+
     enum Constants {
         static let topToProgressPadding: CGFloat = 4.0
         static let bottomToProgressPadding: CGFloat = 4.0
         static let questionToAnswerPadding: CGFloat = 12.0
     }
-    
-    @ObservedObject
-    private var viewModel: QuestionStepViewModel
-    
+
+    @State
+    private var viewModel: FormStepViewModel
+
     @Environment(\.completion) var completion
     
-    init(viewModel: QuestionStepViewModel) {
+    init(viewModel: FormStepViewModel) {
         self.viewModel = viewModel
+        if let formItems = viewModel.step.formItems {
+            self.formRows = FormStepView.convertFormItemsToFormRows(formItems: formItems) ?? []
+        }
     }
-    
+
+    static func convertFormItemsToFormRows(formItems: [ORKFormItem]) -> [FormRow]? {
+
+        let formRows: [FormRow?] = formItems.map { formItem in
+            if let answerFormat = formItem.answerFormat as? ORKTextChoiceAnswerFormat,
+               let questionText = formItem.text
+            {
+                var answerOptions : [MultipleChoiceOption<UUID>] = []
+                answerFormat.textChoices.forEach { textChoice in
+                    answerOptions.append(
+                        MultipleChoiceOption(
+                            id: UUID(),
+                            choiceText: Text(
+                                textChoice.text
+                            )
+                        )
+                    )
+                }
+
+                // TODO: where should this be owned
+                var resultObject : MultipleChoiceOption<UUID> = MultipleChoiceOption(choiceText: Text(""))
+
+                return FormRow.multipleChoiceRow(
+                    MultipleChoiceQuestion(
+                        id: UUID(),
+                        title: Text(questionText),
+                        choices: answerOptions,
+                        result: resultObject
+                    )
+                )
+            }
+            return nil
+        }
+        return formRows.compactMap { $0 }
+    }
+
     var body: some View {
-        
-        ORKScrollViewReader { value in
-        
+
+        ScrollView {
             VStack {
-                
                 Group {
-                    
                     if let progress = viewModel.progress {
                         Text("\(progress.index) OF \(progress.count)".uppercased())
                             .foregroundColor(.gray)
@@ -121,13 +131,20 @@ internal struct _QuestionStepView: View {
                             .multilineTextAlignment(.leading)
                             .padding(.bottom, Constants.questionToAnswerPadding)
                     }
-                    
-                    if let stepQuestion = viewModel.step.question, !stepQuestion.isEmpty {
-                        Text(stepQuestion)
-                            .font(.body)
-                            .fontWeight(.semibold)
-                            .multilineTextAlignment(.leading)
-                            .padding(.bottom, Constants.questionToAnswerPadding)
+
+                    ForEach(formRows) { formRow in
+                        switch formRow {
+                            case .textRow(let value):
+                                @Bindable var textValueBinding = value
+                                TextField("Placeholder", text: $textValueBinding.text)
+                        case .multipleChoiceRow(let value):
+                            @Bindable var multipleChoiceValueBinding = value
+                            MultipleChoiceQuestionView(
+                                title: multipleChoiceValueBinding.title,
+                                options: multipleChoiceValueBinding.choices,
+                                result: $multipleChoiceValueBinding.result
+                            )
+                        }
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -170,40 +187,31 @@ internal struct _QuestionStepView: View {
             }
         }
     }
-}
 
-@available(watchOS 6.0, *)
-public struct QuestionStepView: View {
-
-    @EnvironmentObject
-    private var taskManager: TaskManager
-    
-    @ObservedObject
-    public private(set) var step: ORKFormStep
-
-    @ObservedObject
-    public private(set) var result: ORKStepResult
-    
-    @Environment(\.completion) var completion
-    
-    init(_ step: ORKFormStep, result: ORKStepResult) {
-        self.step = step
-        self.result = result
-    }
-    
-    private var model: QuestionStepViewModel? {
-        
-        if case let ViewModel.questionStep(model) = taskManager.viewModelForStep(step) {
-            return model
-        } else {
-            return nil
-        }
-    }
-     
-    public var body: some View {
-        if let viewModel = model {
-            _QuestionStepView(viewModel: viewModel)
-                .environment(\.completion, completion)
+    @ViewBuilder
+    func viewFor(formRow: FormRow) -> some View {
+        switch formRow {
+            case .textRow(let value):
+                @Bindable var textValueBinding = value
+                TextField("Placeholder", text: $textValueBinding.text)
+        case .multipleChoiceRow(let value):
+            @Bindable var multipleChoiceValueBinding = value
+            MultipleChoiceQuestionView(
+                title: multipleChoiceValueBinding.title,
+                options: multipleChoiceValueBinding.choices,
+                result: $multipleChoiceValueBinding.result
+            )
         }
     }
 }
+
+
+//@Observable
+//class StepResultRepresentation {
+//
+////    private var orkresult: ORKStepResult
+////
+////    func orkresult() -> ORKStepResult {
+////
+////    }
+//}
