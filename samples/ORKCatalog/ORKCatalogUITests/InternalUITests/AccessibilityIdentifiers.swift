@@ -121,4 +121,28 @@ struct AccessibilityIdentifiers {
     struct CustomStep {
         static let view = "ORKCustomStepView"
     }
+    
+    // Identifier for the cell label in the Results Tab (based on "ResultRow" text in "ORKCatalog/Results/ResultTableViewProviders.swift")
+    enum ResultRow {
+        case bool  // ORKBooleanQuestionResult
+        case choices  // ORKChoiceQuestionResult
+        case dateAnswer // ORKDateQuestionResult - The date the user entered
+        case calendar // ORKDateQuestionResult - The calendar that was used when the date picker was presented.
+        case timeZone // ORKDateQuestionResult - The timezone when the user answered.
+        case latitude // ORKLocationQuestionResult
+        case longitude // ORKLocationQuestionResult
+        case address // ORKLocationQuestionResult
+        case numericAnswer // ORKNumericQuestionResult - The numeric value the user entered
+        case unit  // ORKNumericQuestionResult - The unit string with the numeric value
+        case displayUnit // ORKNumericQuestionResult - The unit string that was displayed with the numeric value
+        case rungPicked // ORKSESQuestionResult - The value returned from the socieoeconomic rung selected.
+        case scaleAnswer // ORKScaleQuestionResult - The numeric value returned from the discrete or continuous slider.
+        case textAnswer // ORKTextQuestionResult - The text the user typed into the text view.
+        case intervalAnswer  // ORKTimeIntervalQuestionResult -  The time interval the user answered.
+        case dateComponentsAnswer  // ORKTimeOfDayQuestionResult -  String summarizing the date components the user entered.
+        
+        var detailTextLabelIdentifier: String {
+            return "\(String(describing: self))_value"
+        }
+    }
 }

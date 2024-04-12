@@ -43,6 +43,7 @@
 		8C4908962B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908952B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestionUITests.swift */; };
 		8C4908982B7ECF6200DA6E2D /* OpenAndCancelSurveysUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908972B7ECF6200DA6E2D /* OpenAndCancelSurveysUITests.swift */; };
 		8C49089A2B7ECF9400DA6E2D /* ActiveStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908992B7ECF9400DA6E2D /* ActiveStepScreen.swift */; };
+		8C67958C2BC3B09B00DE7286 /* TaskListRowConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F210FD2B49D04F0072B536 /* TaskListRowConstants.swift */; };
 		8C7C541D2B4F5CF900A2E513 /* Answers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C541C2B4F5CF900A2E513 /* Answers.swift */; };
 		8C7C54202B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */; };
 		8C7C54222B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54212B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift */; };
@@ -929,6 +930,7 @@
 				9622283B24F04DFE0056E74D /* CommonElements.swift in Sources */,
 				8C7C541D2B4F5CF900A2E513 /* Answers.swift in Sources */,
 				8CFF29182AE9C674000DC99E /* InstructionStepScreen.swift in Sources */,
+				8C67958C2BC3B09B00DE7286 /* TaskListRowConstants.swift in Sources */,
 				9622284124F04EEF0056E74D /* PreSubmissionTests.swift in Sources */,
 				8CFF29232AE9CB20000DC99E /* SurveysUITests.swift in Sources */,
 				8C49089A2B7ECF9400DA6E2D /* ActiveStepScreen.swift in Sources */,
