@@ -6261,6 +6261,7 @@
 			baseConfigurationReference = CA481E8228CBD79B001C4D49 /* ResearchKitUI-iOS-Debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				PRODUCT_NAME = ResearchKitUI;
@@ -6275,6 +6276,7 @@
 			baseConfigurationReference = CA481E8328CBD835001C4D49 /* ResearchKitUI-iOS-Skywagon-Stable.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				PRODUCT_NAME = ResearchKitUI;
@@ -6289,6 +6291,7 @@
 			baseConfigurationReference = CA481E8428CBD835001C4D49 /* ResearchKitUI-iOS-Release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				PRODUCT_NAME = ResearchKitUI;
@@ -6303,6 +6306,7 @@
 			baseConfigurationReference = CA481E8628CBD835001C4D49 /* ResearchKitUI-iOS-Skywagon-Internal-Release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				PRODUCT_NAME = ResearchKitUI;
@@ -6317,6 +6321,7 @@
 			baseConfigurationReference = CA481E8528CBD835001C4D49 /* ResearchKitUI-iOS-Skywagon-Public-Release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				PRODUCT_NAME = ResearchKitUI;
