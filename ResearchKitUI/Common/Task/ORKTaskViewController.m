@@ -54,7 +54,6 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKObserver.h"
 #import "ORKSkin.h"
-#import "ORKBorderedButton.h"
 #import "ORKTaskReviewViewController.h"
 
 #import <CoreLocation/CLLocationManagerDelegate.h>
@@ -248,7 +247,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 }
 
 - (instancetype)initWithTask:(id<ORKTask>)task restorationData:(NSData *)data delegate:(id<ORKTaskViewControllerDelegate>)delegate error:(NSError* __autoreleasing *)errorOut {
-    self = [[self initWithNibName:nil bundle:nil] commonInitWithTask:task taskRunUUID:nil];
+    self = [[super initWithNibName:nil bundle:nil] commonInitWithTask:task taskRunUUID:nil];
     
     if (self) {
         self.delegate = delegate;

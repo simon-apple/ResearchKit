@@ -1455,6 +1455,9 @@
 		51F716CD297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORKConsentLearnMoreViewController.h; path = ResearchKitUI/Stale/ORKConsentLearnMoreViewController.h; sourceTree = SOURCE_ROOT; };
 		51F716CE297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORKConsentLearnMoreViewController.m; path = ResearchKitUI/Stale/ORKConsentLearnMoreViewController.m; sourceTree = SOURCE_ROOT; };
 		51F716E82981AF1200D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSpeechInNoiseStepViewController_Private.h; sourceTree = "<group>"; };
+		51FBAC572BC85C7A009CA28F /* ResearchKIt_Private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKIt_Private.modulemap; sourceTree = "<group>"; };
+		51FBAC582BC86E6E009CA28F /* ResearchKitUI_Private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKitUI_Private.modulemap; sourceTree = "<group>"; };
+		51FBAC592BC998D8009CA28F /* ResearchKitActiveTask_Private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKitActiveTask_Private.modulemap; sourceTree = "<group>"; };
 		5D000EC22620F27100E5442A /* ResearchKit-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Debug.xcconfig"; sourceTree = "<group>"; };
 		5D000EC32620F27100E5442A /* ResearchKit-Skywagon-Stable.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Skywagon-Stable.xcconfig"; sourceTree = "<group>"; };
 		5D000EC42620F27100E5442A /* ResearchKit-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Shared.xcconfig"; sourceTree = "<group>"; };
@@ -2808,6 +2811,7 @@
 				CA6A0D9D288F1BDC0048C1EF /* ResearchKitUI_Private.h */,
 				5D06633024FEF272005D9B40 /* Info.plist */,
 				CA1C7A5B288B0C69004DAB3A /* Info-iOS.plist */,
+				51FBAC582BC86E6E009CA28F /* ResearchKitUI_Private.modulemap */,
 			);
 			path = ResearchKitUI;
 			sourceTree = "<group>";
@@ -2871,6 +2875,7 @@
 				B1C0F4E01A9BA65F0022C153 /* Localized */,
 				86C40C101A8D7C5C00081FAC /* Info.plist */,
 				B18AABE01A9F08D9003871B5 /* ResearchKit.modulemap */,
+				51FBAC572BC85C7A009CA28F /* ResearchKIt_Private.modulemap */,
 				5139A553266ED9BB00537192 /* ORKFeatureFlags.h */,
 				861610BF1A8D8EDD00245F7A /* Artwork.xcassets */,
 			);
@@ -3919,6 +3924,7 @@
 				CAD08969289DD747007B2A98 /* ResearchKitActiveTask.h */,
 				CAFAA6C128A198BD0010BBDE /* ResearchKitActiveTask_Private.h */,
 				CAFAA6C328A199950010BBDE /* ResearchKitActiveTask.modulemap */,
+				51FBAC592BC998D8009CA28F /* ResearchKitActiveTask_Private.modulemap */,
 				CA954B6D28AD8A8C0020A35C /* ORKStep+ResearchKitActiveTask.m */,
 				5156C9BF2B7E421400983535 /* Touch Ability */,
 				CA2B902A28A18ED00025B773 /* Front Facing Camera */,
@@ -6069,6 +6075,7 @@
 					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
 			};
 			name = "Skywagon Stable";
 		};
@@ -6095,6 +6102,7 @@
 			baseConfigurationReference = 5D000EC82620F27100E5442A /* ResearchKit-Skywagon-Internal-Release.xcconfig */;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
 			};
 			name = "Skywagon Internal Release";
 		};
@@ -6121,6 +6129,7 @@
 			baseConfigurationReference = 5D000EC52620F27100E5442A /* ResearchKit-Skywagon-Public-Release.xcconfig */;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
 			};
 			name = "Skywagon Public Release";
 		};
@@ -6238,6 +6247,7 @@
 					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
 				"OTHER_SWIFT_FLAGS[arch=*]" = "$(inherited) -runtime-compatibility-version none";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -6250,6 +6260,7 @@
 			baseConfigurationReference = 5D000EC62620F27100E5442A /* ResearchKit-Release.xcconfig */;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -6263,6 +6274,7 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
+				MODULEMAP_PRIVATE_FILE = ResearchKitUI/ResearchKitUI_Private.modulemap;
 				PRODUCT_NAME = ResearchKitUI;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -6277,6 +6289,7 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
+				MODULEMAP_PRIVATE_FILE = ResearchKitUI/ResearchKitUI_Private.modulemap;
 				PRODUCT_NAME = ResearchKitUI;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -6291,6 +6304,7 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
+				MODULEMAP_PRIVATE_FILE = ResearchKitUI/ResearchKitUI_Private.modulemap;
 				PRODUCT_NAME = ResearchKitUI;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -6305,6 +6319,7 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
+				MODULEMAP_PRIVATE_FILE = ResearchKitUI/ResearchKitUI_Private.modulemap;
 				PRODUCT_NAME = ResearchKitUI;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -6319,6 +6334,7 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
+				MODULEMAP_PRIVATE_FILE = ResearchKitUI/ResearchKitUI_Private.modulemap;
 				PRODUCT_NAME = ResearchKitUI;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -6385,6 +6401,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				MODULEMAP_PRIVATE_FILE = ResearchKitActiveTask/ResearchKitActiveTask_Private.modulemap;
 				"OTHER_SWIFT_FLAGS[arch=*]" = "";
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitActiveTask;
 				SKIP_INSTALL = YES;
@@ -6453,6 +6470,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				MODULEMAP_PRIVATE_FILE = ResearchKitActiveTask/ResearchKitActiveTask_Private.modulemap;
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitActiveTask;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = YES;
@@ -6522,6 +6540,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				MODULEMAP_PRIVATE_FILE = ResearchKitActiveTask/ResearchKitActiveTask_Private.modulemap;
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitActiveTask;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
@@ -6591,6 +6610,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				MODULEMAP_PRIVATE_FILE = ResearchKitActiveTask/ResearchKitActiveTask_Private.modulemap;
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitActiveTask;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = YES;
@@ -6660,6 +6680,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				MODULEMAP_PRIVATE_FILE = ResearchKitActiveTask/ResearchKitActiveTask_Private.modulemap;
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitActiveTask;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = YES;

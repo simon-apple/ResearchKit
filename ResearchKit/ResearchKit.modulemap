@@ -12,9 +12,9 @@ framework module ResearchKit {
     }
 }
 
-framework module ResearchKit_Private {
-    umbrella header "ResearchKit_Private.h"
-    
-    export *
-    module * { export * }
-}
+//framework module ResearchKit_Private {
+//    umbrella header "ResearchKit_Private.h"
+//    
+//    export *
+//    module * { export * }
+//}
