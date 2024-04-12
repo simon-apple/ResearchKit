@@ -930,7 +930,8 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                                                                          image:nil
                                                                  learnMoreItem:GETPROP(dict, learnMoreItem)
                                                                  bodyItemStyle:[GETPROP(dict, bodyItemStyle) intValue]
-                                                                  useCardStyle:GETPROP(dict, useCardStyle)];
+                                                                  useCardStyle:GETPROP(dict, useCardStyle)
+                                                               alignImageToTop:GETPROP(dict, alignImageToTop)];
                      return bodyItem;
                  },
                  (@{
@@ -941,6 +942,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(learnMoreItem, ORKLearnMoreItem, NSObject, YES, nil, nil),
                     PROPERTY(useCardStyle, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(useSecondaryColor, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(alignImageToTop, NSNumber, NSObject, YES, nil, nil),
                     })),
            ENTRY(ORKLearnMoreItem,
                  ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
