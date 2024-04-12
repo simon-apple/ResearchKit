@@ -35,6 +35,8 @@
         "OpenAndCancelBaseUITest",
         "OpenAndCancelFitnessTasks",
         "OpenAndCancelFitnessTasksUITests",
+        "OpenAndCancelInternalSurveyQuestionUITests",
+        "OpenAndCancelInternalTasksUITests",
         "OpenAndCancelMiscellaneousTasks",
         "OpenAndCancelMiscellaneousTasksUITests",
         "OpenAndCancelSurveyQuestion",
