@@ -112,7 +112,11 @@ final class OnboardingUITests: BaseUITest {
     
     // MARK: - Consent UI Tests
     
-    private func obtainConsentViaConsentTask() {
+    /**
+     Navigates through all steps in "Consent Task"
+     - parameter verifyElements: adds verifications of ui elements 
+     */
+    private func obtainConsentViaConsentTask(verifyElements: Bool) {
         tasksList
             .selectTaskByName(Task.consentTask.description)
         
@@ -124,19 +128,37 @@ final class OnboardingUITests: BaseUITest {
             .tap(.continueButton)
         
         let webView = WebViewStepScreen()
-        webView
-            .verifyView() // Wait for web view to load
+        webView.verifyView() // Wait for web view to load
         app.swipeUp() // Accelerate scrolling up to signature view, a preparatory step for next method
-        webView
-            .scrollUpToSignatureView()
-            .verify(.continueButton, isEnabled: false)
-            .drawSignature()
-            .verify(.continueButton, isEnabled: true)
+        webView.scrollUpToSignatureView()
+        if verifyElements {
+            webView.verify(.continueButton, isEnabled: false)
+        }
+        webView.drawSignature()
+        if verifyElements {
+            webView.verify(.continueButton, isEnabled: true)
+        }
+        webView.tap(.continueButton)
+        
+        let informedConsentSharingFormStep = FormStepScreen()
+        let formItemId = "TextChoiceFormItem"
+        informedConsentSharingFormStep.verifyStepView()
+        if verifyElements {
+            informedConsentSharingFormStep
+                .verify(.title)
+                .verify(.text)
+                .verify(.continueButton, isEnabled: true)
+                .verify(.skipButton, isEnabled: true)
+                .verifySingleQuestionTitleExists()
+        }
+        informedConsentSharingFormStep
+            .answerSingleChoiceTextQuestion(withId: formItemId, atIndex: 0)
             .tap(.continueButton)
         
         let healthDataRequestStep = RequestPermissionsStepScreen()
         let permissionButtonIndex = 0
         healthDataRequestStep
+            .verifyStepView()
             .tapPermissionButton(atIndex: permissionButtonIndex) // Triggers alert for granting access
         let healthAccessScreen = HealthAccess()
         healthAccessScreen
@@ -146,8 +168,10 @@ final class OnboardingUITests: BaseUITest {
             .verifyAllowButton(isEnabled: true)
             .tapAllowButton()
         
+        if verifyElements {
+            healthDataRequestStep.verifyPermissionButtonLabelExists(atIndex: permissionButtonIndex, label: .labelConnected)
+        }
         healthDataRequestStep
-            .verifyPermissionButtonLabelExists(atIndex: permissionButtonIndex, label: .labelConnected)
             .tap(.continueButton)
         
         let completionStep = InstructionStepScreen()
@@ -157,7 +181,7 @@ final class OnboardingUITests: BaseUITest {
     
     /// rdar://tsc/33600824 ([Onboarding] Consent Task) - Happy Path
     func testConsentTask() {
-        obtainConsentViaConsentTask()
+        obtainConsentViaConsentTask(verifyElements: true)
     }
     
     /// rdar://tsc/33600824 ([Onboarding] Consent Task) - Negative Path
@@ -185,8 +209,8 @@ final class OnboardingUITests: BaseUITest {
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
         
-        let healthDataRequestStep = RequestPermissionsStepScreen()
-        healthDataRequestStep
+        let informedConsentSharingFormStep = FormStepScreen()
+        informedConsentSharingFormStep
             .cancelTask()
     }
     
@@ -223,7 +247,7 @@ final class OnboardingUITests: BaseUITest {
     
     func testConsentDocumentReview() {
         // First we need to obtain consent in order to view PDF
-        obtainConsentViaConsentTask()
+        obtainConsentViaConsentTask(verifyElements: false)
         
         tasksList
             .selectTaskByName(Task.consentDoc.description)
