@@ -75,7 +75,6 @@ ORK_EXTERN ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationSty
  
  */
 
-
 + (instancetype)platterQuestionWithIdentifier:(NSString *)identifier
                                      question:(NSString *)question
                                          text:(NSString *)text
@@ -83,6 +82,5 @@ ORK_EXTERN ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationSty
 #endif
 
 @end
-
 
 NS_ASSUME_NONNULL_END

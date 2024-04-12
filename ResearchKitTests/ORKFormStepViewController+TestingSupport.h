@@ -73,4 +73,3 @@ returns a list of all the answerable formItems
 @end
 
 NS_ASSUME_NONNULL_END
-
