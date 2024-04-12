@@ -258,6 +258,7 @@
 		51F716D1297E2CC400D8ACF7 /* ORKConsentLearnMoreViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716CD297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51F716D3297E2FB600D8ACF7 /* ORKConsentLearnMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716CE297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.m */; };
 		51F716EB2981B49000D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716E82981AF1200D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		51FBAC5D2BC9CE4A009CA28F /* ORKBorderedButton_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 51FBAC5C2BC9CE4A009CA28F /* ORKBorderedButton_Internal.h */; };
 		5D04884C25EF4CC30006C68B /* ORKQuestionStep_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04884B25EF4CC30006C68B /* ORKQuestionStep_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D04885725F19A7A0006C68B /* ORKDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04885525F19A7A0006C68B /* ORKDevice.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D04885825F19A7A0006C68B /* ORKDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D04885625F19A7A0006C68B /* ORKDevice.m */; };
@@ -1458,6 +1459,7 @@
 		51FBAC572BC85C7A009CA28F /* ResearchKIt_Private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKIt_Private.modulemap; sourceTree = "<group>"; };
 		51FBAC582BC86E6E009CA28F /* ResearchKitUI_Private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKitUI_Private.modulemap; sourceTree = "<group>"; };
 		51FBAC592BC998D8009CA28F /* ResearchKitActiveTask_Private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKitActiveTask_Private.modulemap; sourceTree = "<group>"; };
+		51FBAC5C2BC9CE4A009CA28F /* ORKBorderedButton_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ORKBorderedButton_Internal.h; path = ResearchKitUI/Common/Skin/ORKBorderedButton_Internal.h; sourceTree = "<group>"; };
 		5D000EC22620F27100E5442A /* ResearchKit-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Debug.xcconfig"; sourceTree = "<group>"; };
 		5D000EC32620F27100E5442A /* ResearchKit-Skywagon-Stable.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Skywagon-Stable.xcconfig"; sourceTree = "<group>"; };
 		5D000EC42620F27100E5442A /* ResearchKit-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Shared.xcconfig"; sourceTree = "<group>"; };
@@ -2350,6 +2352,7 @@
 		3FFF18341829DB1D00167070 = {
 			isa = PBXGroup;
 			children = (
+				51FBAC5C2BC9CE4A009CA28F /* ORKBorderedButton_Internal.h */,
 				05F3765923C797930068E166 /* ResearchKit.xctestplan */,
 				168EEAAE230B6F9E003FD2FA /* scripts */,
 				86B623AF19520B770074CD3C /* ResearchKit */,
@@ -4801,6 +4804,7 @@
 				CAA20F34288B3F6700EDC764 /* ORKVerificationStepViewController.h in Headers */,
 				CAA20E1F288B3E8200EDC764 /* ORKPasscodeStepViewController.h in Headers */,
 				CAA20E39288B3E8200EDC764 /* ORKFormStepViewController.h in Headers */,
+				51FBAC5D2BC9CE4A009CA28F /* ORKBorderedButton_Internal.h in Headers */,
 				CAA20E37288B3E8200EDC764 /* ORKRequestPermissionsStepViewController.h in Headers */,
 				CAA20F37288B3F6700EDC764 /* ORKVerificationStepView.h in Headers */,
 				CAA20D7A288B3D9100EDC764 /* ORKTextChoiceCellGroup.h in Headers */,

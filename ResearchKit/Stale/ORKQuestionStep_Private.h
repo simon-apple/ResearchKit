@@ -52,12 +52,15 @@ ORK_EXTERN ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationSty
 
 @protocol ORKQuestionStepPresentation <NSObject>
 
+#if TARGET_OS_IOS
 @property (nonatomic, copy) ORKQuestionStepPresentationStyle presentationStyle;
+#endif
 
 @end
 
 @interface ORKQuestionStep () <ORKQuestionStepPresentation>
 
+#if TARGET_OS_IOS
 /**
  
  Platter presentation style initializer. Since this uses a custom layout for step details, this is the recommended way use the ORKQuestionStepPresentationStylePlatter.
@@ -71,11 +74,15 @@ ORK_EXTERN ORKQuestionStepPresentationStyle const ORKQuestionStepPresentationSty
  Using configurations other than what is specified above will cause a runtime exception.
  
  */
+
+
 + (instancetype)platterQuestionWithIdentifier:(NSString *)identifier
                                      question:(NSString *)question
                                          text:(NSString *)text
                                  answerFormat:(ORKAnswerFormat<ORKAnswerFormatPlatterPresentable> *)answerFormat;
+#endif
 
 @end
+
 
 NS_ASSUME_NONNULL_END

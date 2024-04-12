@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2023, Apple Inc. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,49 +28,9 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitUI/ORKFormStepViewController_Private.h>
+@interface CALayer (ORKCornerCurveContinuousCategory)
 
-NS_ASSUME_NONNULL_BEGIN
-
-@class ORKTableCellItemIdentifier;
-
-@interface ORKFormStepViewController (TestingSupport)
-
-@property (nonatomic, strong) UITableView *tableView;
-
-/**
-returns a list of all the formItems
- */
-- (nonnull NSArray<ORKFormItem*> *)allFormItems;
-
-/**
-returns a list of all the visible formItems
- */
-- (nonnull NSArray<ORKFormItem*> *)visibleFormItems;
-
-/**
-returns a list of all the answerable formItems
- */
-- (nonnull NSArray<ORKFormItem*> *)answerableFormItems;
-
-/**
- returns delegate_ongoingTaskResult from the ORKTaskViewController Delegate
- */
-- (nonnull ORKTaskResult *)_ongoingTaskResult;
-
-- (void)buildDataSource:(UITableViewDiffableDataSource<NSString *, ORKTableCellItemIdentifier *> *)dataSource withCompletion:(void (^ _Nullable)(void))completion;
-
-/**
- fetches the associated ORKFormItem from an indexPath which calls  _formItemForFormItemIdentifier (potential performance hit)
- */
-- (nullable ORKFormItem *)_formItemForIndexPath:(NSIndexPath *)indexPath;
-
-/**
- fetches the associated ORKFormItem from a formItemIdentifier (potential performance hit)
- */
-- (nullable ORKFormItem *)_formItemForFormItemIdentifier:(NSString *)formItemIdentifier;
+- (void)setCornerCurveContinuous;
+- (void)setCornerCurveCircular;
 
 @end
-
-NS_ASSUME_NONNULL_END
-

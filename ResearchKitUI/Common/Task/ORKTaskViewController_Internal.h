@@ -31,7 +31,6 @@
 
 #import <ResearchKit/ORKActiveStep_Internal.h>
 #import <ResearchKitUI/ORKReviewStepViewController.h>
-#import <ResearchKitUI/ORKTaskViewController_Private.h>
 #import <HealthKit/HealthKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
