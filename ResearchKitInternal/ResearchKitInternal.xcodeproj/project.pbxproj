@@ -2041,7 +2041,6 @@
 			baseConfigurationReference = CA0AC57A28C0020300E80040 /* ResearchKitInternal-Debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -2075,7 +2074,6 @@
 			baseConfigurationReference = CA0AC58528C0036F00E80040 /* ResearchKitInternal-Release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(ORK_GCC_PREPROCESSOR_DEFINITIONS)";
 				GENERATE_INFOPLIST_FILE = YES;
