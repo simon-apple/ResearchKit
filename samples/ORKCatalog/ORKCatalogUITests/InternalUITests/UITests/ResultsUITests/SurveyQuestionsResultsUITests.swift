@@ -129,15 +129,14 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
     
     /**
      Verifies results of task that consists of two form steps: form step with single choice style and form step with multiple choice style
-     - parameter singleChoiceExpectedValue/multiChoiceExpectedValue: Expected value in results tab
-     - parameter inputText:text that is entered in other choice when selected
+     - parameter singleChoiceExpectedValue/multiChoiceExpectedValue: expected value in results tab
+     - parameter inputText: text that is entered in other choice textfield when selected
      */
     func answerAndVerifyTextChoiceQuestionTask(singleChoiceAnswerIndex: Int?, multiChoiceAnswerIndex: [Int]?, singleChoiceExpectedValue: String, multiChoiceExpectedValue: String, inputText: String?) {
         
         tasksList.selectTaskByName(Task.textChoiceQuestion.description)
         
         let formStep1 = FormStepScreen(id: String(describing: Identifier.formStep), itemIds: [String(describing: Identifier.formItem01)], answer: singleChoiceAnswerIndex)
-        
         let formStep2 = FormStepScreen(id: String(describing: Identifier.formStep02), itemIds: [String(describing: Identifier.formItem02)], answer: multiChoiceAnswerIndex)
         
         // Answer question in form step 1
