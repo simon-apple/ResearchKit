@@ -234,4 +234,56 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
     func testTextChoiceImageQuestionSkipResult() {
         answerAndVerifyImageQuestion(answerCellIndex: nil, expectedValue: "nil")
     }
+    
+    // MARK: - Image Choice Question
+    
+    func answerAndVerifyImageChoiceQuestionTask(singleChoiceAnswerIndex: Int?, multiChoiceAnswerIndex: [Int]?, singleChoiceExpectedValue: String, multiChoiceExpectedValue: String) {
+        tasksList.selectTaskByName(Task.imageChoiceQuestion.description)
+        
+        let formStep1 = FormStepScreen(id: String(describing: Identifier.imageChoiceFormStep1), itemIds: [String(describing: Identifier.imageChoiceFormItem)])
+        let formStep2 = FormStepScreen(id: String(describing: Identifier.imageChoiceFormStep2), itemIds: [String(describing: Identifier.imageChoiceFormItem)])
+        
+        if singleChoiceAnswerIndex != nil {
+            formStep1
+                .verifyStepView()
+                .answerImageChoiceQuestion(withId: formStep1.itemIds[0], imageIndex: 0)
+                .answerImageChoiceQuestion(withId: formStep1.itemIds[0], imageIndex: singleChoiceAnswerIndex!)
+                .tap(.continueButton)
+        } else {
+            formStep1.tap(.skipButton)
+        }
+        
+        if multiChoiceAnswerIndex != nil {
+            formStep2.verifyStepView()
+            for index in multiChoiceAnswerIndex! {
+                formStep2.answerImageChoiceQuestion(withId: formStep2.itemIds[0], imageIndex: index)
+            }
+            formStep2.tap(.continueButton)
+        } else {
+            formStep2.tap(.skipButton)
+        }
+        
+        let resultsTab = tabBar.navigateToResults()
+        resultsTab
+            .selectResultsCell(withId: formStep1.id)
+            .selectResultsCell(withId: formStep1.itemIds[0])
+            .verifyResultsCellValue(resultType: .choices, expectedValue: singleChoiceExpectedValue)
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+            .selectResultsCell(withId: formStep2.id)
+            .selectResultsCell(withId: formStep2.itemIds[0])
+            .verifyResultsCellValue(resultType: .choices, expectedValue: multiChoiceExpectedValue)
+    }
+    
+    func testImageChoiceQuestionResult() {
+        let roundShape = FormStepScreen.ImageButtonLabel.roundShape.rawValue
+        let squareShape = FormStepScreen.ImageButtonLabel.squareShape.rawValue
+        
+        answerAndVerifyImageChoiceQuestionTask(singleChoiceAnswerIndex: 1, multiChoiceAnswerIndex: [0, 1], singleChoiceExpectedValue: "[\(roundShape)]", multiChoiceExpectedValue: "[\(roundShape), \(squareShape)]")
+    }
+    
+    func testImageChoiceQuestionSkipResult() {
+        answerAndVerifyImageChoiceQuestionTask(singleChoiceAnswerIndex: nil, multiChoiceAnswerIndex: nil, singleChoiceExpectedValue: "nil", multiChoiceExpectedValue: "nil")
+    }
 }
