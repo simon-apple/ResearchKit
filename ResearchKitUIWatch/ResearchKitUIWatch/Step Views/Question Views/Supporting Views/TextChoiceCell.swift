@@ -9,32 +9,32 @@ import SwiftUI
 
 public struct TextChoiceCell: View {
 
-    var selected: Bool
+    var isSelected: Bool
 
     var title: Text
 
-    var selection: (Bool) -> Void
+    var selection: () -> Void
 
-    public init(title: Text, selected: Bool, selection: @escaping (Bool) -> Void) {
+    public init(title: Text, isSelected: Bool, selection: @escaping () -> Void) {
         self.title = title
         self.selection = selection
-        self.selected = selected
+        self.isSelected = isSelected
     }
 
     @ViewBuilder
     public var body: some View {
         Button(action: {
-            selection(!selected)
+            selection()
         }) {
             HStack {
                 title
                     .fontWeight(.medium)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .font(.body)
-                Image(systemName: selected ? "checkmark.circle.fill" : "circle")
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                     .frame(alignment: .trailing)
                     .imageScale(.large)
-                    .foregroundColor(selected ? .blue : .gray)
+                    .foregroundColor(isSelected ? .blue : .gray)
                     .font(.body)
             }
         }.buttonBorderShape(.roundedRectangle)

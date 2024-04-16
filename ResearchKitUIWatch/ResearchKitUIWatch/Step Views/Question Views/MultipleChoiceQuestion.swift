@@ -89,12 +89,19 @@ public struct MultipleChoiceQuestionView: View {
                 ) { option in
                     TextChoiceCell(
                         title: option.choiceText,
-                        selected: result.contains(where: { choice in
+                        isSelected: result.contains(where: { choice in
                             choice.id == option.id
                         })
-                    ) { choiceSelected in
-                        if choiceSelected == true {
-                            result = [option] // FIXME
+                    ) {
+
+                        if result.contains(where: { choice in
+                            choice.id == option.id
+                        }) {
+                            result.removeAll { choice in
+                                choice.id == option.id
+                            }
+                        } else {
+                            result.append(option)
                         }
                     }
                 }
