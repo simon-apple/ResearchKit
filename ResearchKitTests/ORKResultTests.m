@@ -128,7 +128,7 @@
                                                                                       [[ORKInstructionStep alloc] initWithIdentifier:@"test"]
                                                                                       ]];
     ORKTaskViewController *taskViewController = [[ORKTaskViewController alloc] initWithTask:task taskRunUUID:nil];
-    ORKStepViewController *viewController = [((ORKOrderedTask *)taskViewController.task).steps.firstObject makeViewControllerWithResult:nil];
+    ORKStepViewController *viewController = [((ORKOrderedTask *)ORKDynamicCast(taskViewController.task, ORKOrderedTask)).steps.firstObject makeViewControllerWithResult:nil];
     
     XCTAssertFalse(viewController.isViewLoaded, "TaskViewController's viewControllerForStep should return a viewController *without* its view loaded");
 }
