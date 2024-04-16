@@ -101,7 +101,8 @@ internal struct FormStepView: View {
                             MultipleChoiceQuestionView(
                                 title: multipleChoiceValueBinding.title,
                                 options: multipleChoiceValueBinding.choices,
-                                result: $multipleChoiceValueBinding.result
+                                result: $multipleChoiceValueBinding.result,
+                                selectionType: multipleChoiceValueBinding.selectionType
                             )
                         }
                     }
@@ -123,7 +124,8 @@ internal struct FormStepView: View {
             MultipleChoiceQuestionView(
                 title: multipleChoiceValueBinding.title,
                 options: multipleChoiceValueBinding.choices,
-                result: $multipleChoiceValueBinding.result
+                result: $multipleChoiceValueBinding.result,
+                selectionType: multipleChoiceValueBinding.selectionType
             )
         }
     }

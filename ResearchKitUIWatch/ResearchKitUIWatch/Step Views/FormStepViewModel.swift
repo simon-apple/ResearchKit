@@ -18,9 +18,6 @@ class FormStepViewModel: ObservableObject {
 
     var formRows: [FormRow]
 
-    @Published
-    var selectedIndex: Int = -1
-
     var progress: Progress?
 
     var childResult: ORKResult? {
@@ -70,7 +67,8 @@ class FormStepViewModel: ObservableObject {
                         id: UUID(),
                         title: Text(questionText),
                         choices: answerOptions,
-                        result: resultObject
+                        result: resultObject,
+                        selectionType: answerFormat.style == .singleChoice ? .single : .multiple
                     )
                 )
             }
