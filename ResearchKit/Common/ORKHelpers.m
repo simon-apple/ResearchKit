@@ -559,3 +559,7 @@ NSNumberFormatter *ORKDecimalNumberFormatter(void) {
     numberFormatter.usesGroupingSeparator = NO;
     return numberFormatter;
 }
+
+#if RK_APPLE_INTERNAL
+NSString * const UITestLaunchArgument = @"UITest";
+#endif

@@ -38,6 +38,9 @@
          <TestPlanReference
             reference = "container:ORKCatalogUITests/InternalUITests/LaunchTasksUITests.xctestplan">
          </TestPlanReference>
+         <TestPlanReference
+            reference = "container:ORKCatalogUITests/InternalUITests/SurveysRegressionUITests.xctestplan">
+         </TestPlanReference>
       </TestPlans>
       <Testables>
          <TestableReference

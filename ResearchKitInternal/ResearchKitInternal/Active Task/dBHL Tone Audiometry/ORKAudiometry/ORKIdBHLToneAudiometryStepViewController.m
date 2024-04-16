@@ -167,7 +167,16 @@
             ORKIdBHLToneAudiometryResult *toneResult = [[ORKIdBHLToneAudiometryResult alloc] initWithIdentifier:parentToneResult.identifier];
             toneResult.startDate = [parentToneResult.startDate copy];
             toneResult.endDate = [parentToneResult.endDate copy];
-            toneResult.samples = [[parentToneResult samples] copy];
+            NSMutableArray *newSamples = [NSMutableArray array];
+            for (ORKdBHLToneAudiometryFrequencySample *parentSample in [parentToneResult samples]) {
+                ORKIdBHLToneAudiometryFrequencySample *newSample = [[ORKIdBHLToneAudiometryFrequencySample alloc] init];
+                newSample.frequency = parentSample.frequency;
+                newSample.calculatedThreshold = parentSample.calculatedThreshold;
+                newSample.channel = parentSample.channel;
+                newSample.units = [parentSample.units copy];
+                [newSamples addObject:newSample];
+            }
+            toneResult.samples = newSamples;
             toneResult.outputVolume = parentToneResult.outputVolume;
             toneResult.headphoneType = parentToneResult.headphoneType;
             toneResult.tonePlaybackDuration = parentToneResult.tonePlaybackDuration;

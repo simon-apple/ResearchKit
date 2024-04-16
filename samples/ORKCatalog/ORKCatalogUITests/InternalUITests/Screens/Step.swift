@@ -77,6 +77,19 @@ class Step {
     }
     
     @discardableResult
+    func verify(_ button: StepComponent, isHittable: Bool, shouldWait: Bool = true) -> Self {
+        let additionalFailureMessage  = "Step button: \(button), Identifier:  \(button.identifier)"
+        let button = button.element
+        if shouldWait {
+            wait(for: button, toExists: true, failureMessage: additionalFailureMessage)
+            wait(for: button, toBeHittable: isHittable, failureMessage: additionalFailureMessage)
+        } else {
+            XCTAssert(button.isHittable == isHittable, additionalFailureMessage)
+        }
+        return self
+    }
+    
+    @discardableResult
     func verifyLabel(_ element: StepComponent, expectedLabel: String) -> Self {
         XCTAssertEqual(element.element.label, expectedLabel)
         return self
@@ -94,6 +107,13 @@ class Step {
             XCTAssert(button.isEnabled == isEnabled, additionalFailureMessage)
         }
         return self
+    }
+    
+    // Returns label for specified step element
+    func getElementLabel(_ element: StepComponent) -> String {
+        let stepElement = element.element
+        wait(for: stepElement)
+        return stepElement.label
     }
     
     /// Method for buttons
@@ -158,6 +178,7 @@ class Step {
         case next = "Next"
         case getStarted = "Get Started"
         case done = "Done"
+        case login = "Login"
     }
     
     /**
@@ -215,6 +236,23 @@ class Step {
         let normalizedCenter = CGVector(dx: 0.5, dy: 0.5)
         let centerCoordinate = Self.app.windows.firstMatch.coordinate(withNormalizedOffset: normalizedCenter)
         centerCoordinate.tap()
+        return self
+    }
+    
+    // MARK: - Methods for handling app alerts (non system alerts)
+
+    @discardableResult
+    func verifyAlert(exists: Bool) -> Self {
+        let alert = Self.app.alerts.firstMatch
+        wait(for: alert, toExists: exists)
+        return self
+    }
+    
+    @discardableResult
+    func tapAlertFirstButton() -> Self {
+        let cancelButton = Self.app.alerts.firstMatch.buttons.firstMatch
+        wait(for: cancelButton)
+        cancelButton.tap()
         return self
     }
 }

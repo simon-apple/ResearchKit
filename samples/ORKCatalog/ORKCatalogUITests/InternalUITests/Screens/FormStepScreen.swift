@@ -18,8 +18,10 @@ final class FormStepScreen: Step {
      - parameter itemIds: Array of string that identifies the form item, which should be unique within the form step.
      */
     var itemIds: [String]
-    init(id: String = "", itemIds: [String] = []) {
+    var answer: Any?
+    init(id: String = "", itemIds: [String] = [], answer: Any? = nil) {
         self.itemIds = itemIds
+        self.answer = answer
         super.init(id: id)
     }
    
@@ -28,6 +30,7 @@ final class FormStepScreen: Step {
     }
     
     /// Verifies that step type did not change
+    @discardableResult
     func verifyStepView(_ exists: Bool = true) -> Self {
         wait(for: Self.stepView, toExists: exists)
         return self
@@ -257,7 +260,7 @@ final class FormStepScreen: Step {
     }
     
     @discardableResult
-    func verifyOnlyOneCellSelected(withId formItemId: String, atIndex index: Int) -> Self {
+    func verifyOnlyOneCellSelected(withId formItemId: String, atIndex index: Int, cellShouldContainImage: Bool = false) -> Self {
         let firstCell = getFormItemCell(withId: formItemId, atIndex: 0)
         wait(for: firstCell, toExists: true)
         let actualCount = getFormItemCells(withID: formItemId).count
@@ -272,7 +275,11 @@ final class FormStepScreen: Step {
             } else {
                 XCTAssert(!currentCell.isSelected, "Cell at index \(i) should not be selected, but was found selected")
             }
-            XCTAssert(!currentCell.label.isEmpty, "Text choice cell should not be empty")
+            if !cellShouldContainImage {
+                XCTAssert(!currentCell.label.isEmpty, "Text choice cell should not be empty at index \(i)")
+            } else {
+                XCTAssert(currentCell.images.firstMatch.exists, "Image choice cell should not be empty at index \(i)")
+            }
         }
         return self
     }
@@ -327,6 +334,7 @@ final class FormStepScreen: Step {
     }
     
     /// Verify that user did not select any answer
+    @discardableResult
     func verifyNoCellsSelected(withId formItemId: String, _ numberOfTextChoices: Int) -> Self {
         for index in 0..<numberOfTextChoices {
             let currentCell = getFormItemCell(withId: formItemId, atIndex: index)
@@ -341,12 +349,12 @@ final class FormStepScreen: Step {
     // MARK: - Text Choice Other Answer Format
     
     @discardableResult
-    func answerTextChoiceOtherQuestion(withId formItemId: String, atIndex index: Int, text: String, dismissKeyboard: Bool = true) -> Self {
+    func answerTextChoiceOtherQuestion(withId formItemId: String, atIndex index: Int, text: String, dismissKeyboard: Bool = true, clearIfNeeded: Bool = false) -> Self {
         let formItem = FormStepScreen().getFormItemCell(withId: formItemId, atIndex: index)
        // let textView = formItem.textViews.firstMatch
         let textView = formItem.textViews.element(boundBy: 0)
         wait(for: textView)
-        textView.typeText(text, dismissKeyboard: dismissKeyboard)
+        textView.typeText(text, clearIfNeeded: clearIfNeeded, dismissKeyboard: dismissKeyboard)
         return self
     }
     
@@ -414,6 +422,14 @@ final class FormStepScreen: Step {
         return self
     }
     
+    @discardableResult
+    func verifyTextViewValue(withId formItemId: String, expectedText inputText: String) -> Self {
+        let textView = getFormItemCell(withId: formItemId).textViews.firstMatch
+        wait(for: textView)
+        textView.verifyElementValue(expectedValue: inputText)
+        return self
+    }
+    
     // MARK: - Numeric and Text Answer Format
     
     /**
@@ -445,8 +461,8 @@ final class FormStepScreen: Step {
     }
     
     @discardableResult
-    func verifyErrorMessage(exists: Bool, withId formItemId: String, expectedMessage: String) -> Self {
-        let formItemCell = getFormItemCell(withId: formItemId)
+    func verifyErrorMessage(exists: Bool, withId formItemId: String, atIndex index: Int = 0, expectedMessage: String) -> Self {
+        let formItemCell = getFormItemCell(withId: formItemId, atIndex: index)
         let errorMessageElement = formItemCell.staticTexts[expectedMessage].firstMatch // TODO: rdar://121345903 (Create AX Id for an error message when invalid values are entered)
         guard exists else {
             wait(for: errorMessageElement, toExists: false)
@@ -933,6 +949,14 @@ final class FormStepScreen: Step {
         return self
     }
     
+    @discardableResult
+    func verifyImageChoiceQuestion(withId formItemId: String, imageIndex: Int, expectedLabel: String) -> Self {
+        let imageButton = getFormItemCell(withId: formItemId).buttons.element(boundBy: imageIndex)
+        wait(for: imageButton, toBeSelected: true)
+        XCTAssertEqual(imageButton.label,  expectedLabel, "Expected Image label: \(expectedLabel) at index \(imageIndex), but found: \(imageButton.label)")
+        return self
+    }
+    
     enum ImageButtonLabel: String {
         case squareShape = "Square Shape"
         case roundShape = "Round Shape"
@@ -1154,5 +1178,73 @@ final class FormStepScreen: Step {
         let lastCell = cellCount - 1
         let cell = FormStepScreen().getFormItemCell(withId: formItemId, atIndex: lastCell)
         return cell
+    }
+    
+    // MARK: -  Learn More Button
+    
+    /**
+     Observed behavior: twice more "Learn more" buttons in hierarchy than expected. In this case "index" variable should have different value in order to tap expected button. That's why we provide buttons count and adjust index as needed
+     - parameter index: 0-based button index
+     - parameter buttonsCount: number of "Learn more" buttons in hierarchy
+     */
+    func tapLearnMoreButton(withIndex index: Int, buttonsCount: Int) -> LearnMoreStepScreen {
+        let adjustedIndex = buttonsCount + index
+        let learnMoreIconButton = Self.stepView.buttons.matching(identifier: "More Info").element(boundBy: adjustedIndex)
+        wait(for: learnMoreIconButton)
+        learnMoreIconButton.tap()
+        return LearnMoreStepScreen()
+    }
+    
+    // MARK: -  Don't Know Button
+    
+    func tapDontKnowButton(withId formItemId: String) -> Self {
+        let dontKnowButton = getFormItemCell(withId: formItemId).buttons.element(boundBy: 0)
+        wait(for: dontKnowButton)
+        // XCTAssert(!dontKnowButton.isSelected)
+        // TODO: rdar://124189155 ([Blocked] Verify Don't Know Button State (Selected/Unselected)). Currently blocked by: rdar://121157828 ([Accessibility] [ORKCatalog] "I Don't Know" button choice is inaccessible with VoiceOver)
+        dontKnowButton.tap()
+        // wait(for: dontKnowButton, toBeSelected: true)
+        return self
+    }
+    
+    // MARK: - Location Answer Format
+    
+    func verifyCellTextFieldValue(withId formItemId: String, expectedValue: String) -> Self {
+        let textfield = getFormItemCell(withId: formItemId).textFields.firstMatch
+        wait(for: textfield)
+        textfield.verifyElementValue(expectedValue: expectedValue, failureMessage: "Textfield value is expected to be \(expectedValue)")
+        return self
+    }
+    
+    @discardableResult
+    func clearTextFieldWithXButton(withId formItemId: String, atIndex index: Int = 0) -> Self {
+        let textfield = getFormItemCell(withId: formItemId, atIndex: index).textFields.firstMatch
+        wait(for: textfield)
+        let xButton = textfield.buttons.firstMatch // There is only one button in textfield
+        xButton.tap()
+        return self
+    }
+    
+    @discardableResult
+    func enterTextInTextField(withId formItemId: String, text inputText: String, dismissKeyboard: Bool = true) -> Self {
+        let textView = getFormItemCell(withId: formItemId).textFields.firstMatch
+        wait(for: textView)
+        textView.typeText(inputText, clearIfNeeded: true, dismissKeyboard: dismissKeyboard)
+        textView.verifyElementValue(expectedValue: inputText, failureMessage: "Textfield value is expected to be \(inputText)")
+        return self
+    }
+    
+    func verifyMapExists(withId formItemId: String) -> Self {
+        let mapCell = getFormItemCell(withId: formItemId).maps.firstMatch
+        wait(for: mapCell)
+        return self
+    }
+    
+    @discardableResult
+    func verifyLocationPinIconExists(withId formItemId: String) -> Self {
+        let locationImageId = "balloon_shadow"
+        let locationPin = getFormItemCell(withId: formItemId).images[locationImageId]
+        wait(for: locationPin)
+        return self
     }
 }

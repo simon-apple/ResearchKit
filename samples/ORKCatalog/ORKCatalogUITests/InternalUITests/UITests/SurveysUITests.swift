@@ -47,6 +47,9 @@ final class SurveysUITests: BaseUITest {
         let dateQuestionId = "birthdayQuestionFormItem"
         let textChoiceOtherQuestionId = "textChoiceFormItem"
         
+        // This is required for results validation
+        let answerIndices: [String: Int] = [booleanQuestionId: 0, textChoiceOtherQuestionId: 6] // formItemId: index
+        
         let questionSteps = [FormStepScreen(id: booleanQuestionId), FormStepScreen(id: dateQuestionId), FormStepScreen(id: textChoiceOtherQuestionId)]
         let totalProgress = questionSteps.count
         
@@ -68,7 +71,7 @@ final class SurveysUITests: BaseUITest {
                 XCTAssert(currentProgress == 1, "Boolean Question not found at step 1")
                 step
                     .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
-                    .answerBooleanQuestion(withId: booleanQuestionId, atIndex: 0)
+                    .answerBooleanQuestion(withId: booleanQuestionId, atIndex: answerIndices[booleanQuestionId]!)
                     .verify(.continueButton, isEnabled: true)
             case dateQuestionId:
                 XCTAssert(currentProgress == 2, "Date Question not found at step 2")
@@ -81,7 +84,7 @@ final class SurveysUITests: BaseUITest {
                 XCTAssert(currentProgress == 3, "Text Choice Question not found at step 3")
                 step
                     .verify(.continueButton,isEnabled: expectingNextButtonEnabledByDefault)
-                    .answerSingleChoiceTextQuestion(withId: "textChoiceFormItem", atIndex: 6)
+                    .answerSingleChoiceTextQuestion(withId: textChoiceOtherQuestionId, atIndex: answerIndices[textChoiceOtherQuestionId]!)
                     .verify(.continueButton,isEnabled: true)
             default:
                 XCTFail("Unexpected step found with id: \(step.id)")
@@ -98,6 +101,25 @@ final class SurveysUITests: BaseUITest {
             .verify(.title)
             .verify(.text)
             .verifyContinueButtonLabel(expectedLabel: .done)
+            .tap(.backButton)
+            .tap(.backButton)
+            .tap(.backButton)
+        
+        test("After returning back verify survey results are saved") {
+            let formStep = FormStepScreen()
+            formStep
+                .verifyOnlyOneCellSelected(withId: booleanQuestionId, atIndex: answerIndices[booleanQuestionId]!)
+                .tap(.continueButton)
+            
+            // TODO: rdar://124182363 ([Blocked] Numeric / Date Questions - Verify entered value). Currently I'm unable to verify entered value in date question due to rdar://120826508 ([Accessibility][iOS][ORKCatalog] Unable to access cell value after entering it)
+                .tap(.continueButton)
+            
+            formStep
+                .verifyOnlyOneCellSelected(withId: textChoiceOtherQuestionId, atIndex: answerIndices[textChoiceOtherQuestionId]!)
+                .tap(.continueButton)
+        }
+        completionStep
+            .verifyStepView()
             .tap(.continueButton)
     }
     
@@ -108,12 +130,15 @@ final class SurveysUITests: BaseUITest {
         
         let formStep = FormStepScreen(itemIds: ["appleFormItemIdentifier", "formItem03", "formItem04", "formItem01", "formItem02", "textChoiceFormItem", "imageChoiceItem", "freeTextItemIdentifier"])
         
+        // This is required for results validation
+        let answerIndices: [String: Int] = [formStep.itemIds[0]: 4, formStep.itemIds[5]: 5, formStep.itemIds[6]: 1] // questionFormItemId: index
+        
         formStep
             .verifyQuestionTitleExists(atIndex: 0)
             .verifyQuestionProgressLabelExists(atIndex: 0)
             .answerSingleChoiceTextQuestion(withId: formStep.itemIds[0], atIndex: 2)
             .answerSingleChoiceTextQuestion(withId: formStep.itemIds[0], atIndex: 1)
-            .answerSingleChoiceTextQuestion(withId: formStep.itemIds[0], atIndex: 4)
+            .answerSingleChoiceTextQuestion(withId: formStep.itemIds[0], atIndex: answerIndices[formStep.itemIds[0]]!)
         
         formStep
             .verifyQuestionTitleExists(atIndex: 1)
@@ -124,6 +149,7 @@ final class SurveysUITests: BaseUITest {
         // Section that consist of 3 questions:
         formStep
             .verifyQuestionTitleExists(atIndex: 2)
+            .adjustQuestionSlider(withId: formStep.itemIds[2], atIndex: 0, withNormalizedPosition: 0.5)
             .adjustQuestionSlider(withId: formStep.itemIds[2], atIndex: 0, withNormalizedPosition: 1)
             .selectFormItemCell(withID: formStep.itemIds[3], atIndex: 1)
             .answerIntegerQuestion(number: 578)
@@ -134,17 +160,17 @@ final class SurveysUITests: BaseUITest {
             .verifyQuestionTitleExists(atIndex: 3)
             .answerSingleChoiceTextQuestion(withId: formStep.itemIds[5], atIndex: 1)
             .answerSingleChoiceTextQuestion(withId: formStep.itemIds[5], atIndex: 6)
-            .answerTextChoiceOtherQuestion(withId: formStep.itemIds[5], atIndex: 6, text: TextAnswers.loremIpsumShortText)
-            .answerSingleChoiceTextQuestion(withId: formStep.itemIds[5], atIndex: 5)
+            .answerTextChoiceOtherQuestion(withId: formStep.itemIds[5], atIndex: 6, text: Answers.loremIpsumShortText)
+            .answerSingleChoiceTextQuestion(withId: formStep.itemIds[5], atIndex: answerIndices[formStep.itemIds[5]]!)
        //     app.swipeUp()
         formStep
             .verifyQuestionTitleExists(atIndex: 4)
-         //   .scrollToQuestionTitle(atIndex: 4)
-            .answerImageChoiceQuestion(withId: formStep.itemIds[6], imageIndex: 1)
+        //   .scrollToQuestionTitle(atIndex: 4)
+            .answerImageChoiceQuestion(withId: formStep.itemIds[6], imageIndex: answerIndices[formStep.itemIds[6]]!)
         
         formStep
             .verifyQuestionTitleExists(atIndex: 5)
-            .answerTextQuestionTextView(withId: formStep.itemIds[7], text: TextAnswers.loremIpsumShortText, dismissKeyboard: true)
+            .answerTextQuestionTextView(withId: formStep.itemIds[7], text: Answers.loremIpsumShortText, dismissKeyboard: true)
         
         formStep
             .tap(.continueButton)
@@ -152,6 +178,28 @@ final class SurveysUITests: BaseUITest {
         let instructionStep = InstructionStepScreen()
         instructionStep
             .verify(.title)
+            .tap(.backButton)
+        
+        test("After returning back verify survey results are saved") {
+            formStep
+                .verifyOnlyOneCellSelected(withId: formStep.itemIds[0], atIndex: 4)
+                .verifySliderValue(withId: formStep.itemIds[1], atIndex: 0, expectedValue: "10")
+                .verifySliderValue(withId: formStep.itemIds[2], atIndex: 0, expectedValue: "choice 7")
+            
+            // TODO: rdar://124182363 ([Blocked] Numeric / Date Questions - Verify entered value). Currently I'm unable to verify entered values in formStep.itemIds[3], formStep.itemIds[4] due to rdar://120826508 ([Accessibility][iOS][ORKCatalog] Unable to access cell value after entering it)
+            
+            formStep
+                .scrollToQuestionTitle(atIndex: 3)
+                .verifyOnlyOneCellSelected(withId: formStep.itemIds[5], atIndex: 5)
+            
+            let roundShape = FormStepScreen.ImageButtonLabel.roundShape.rawValue
+            formStep
+                .verifyImageChoiceQuestion(withId: formStep.itemIds[6], imageIndex: 1, expectedLabel: roundShape)
+                .verifyTextViewValue(withId: formStep.itemIds[7], expectedText: Answers.loremIpsumShortText)
+                .tap(.continueButton)
+        }
+        
+        instructionStep
             .tap(.continueButton)
     }
     
@@ -278,97 +326,185 @@ final class SurveysUITests: BaseUITest {
             .verify(.continueButton, exists: false)
     }
     
-        //rdar://116741746 (FxHist: after selecting Yes for a minor on the conditions page, a very large space is left at the bottom below conditions, before the Done button. It was hard to find the button.)
-       func testPaddingBetweenContinueButtonAndLastCell() {
-           tasksList
-               .selectTaskByName(Task.booleanConditionalFormTask.description)
-           let formStep = FormStepScreen()
-           let formItemId1 = "childFormItem"
-           let formItemId2 = "childConditions"
-           formStep
-               .answerSingleChoiceTextQuestion(withId: formItemId1, atIndex: 0) // Triggers next form item to appear
-               .answerMultipleChoiceTextQuestion(withId: formItemId2, indices: [2, 4, 12])
-           app.swipeUp() // just to streamline next method
-           formStep
-               .scrollTo(.continueButton)
-               .verifyPaddingBetweenContinueButtonAndCell(withId: formItemId2, maximumAllowedDistance: 200.0)
-       }
-    
-    /// rdar://tsc/21847968 ([Onboarding] Eligibility Task Example)
-    /// Navigable Ordered Task
-    func testEligibilitySurvey() {
+    func testSimpleSurveySkipFlow() {
         tasksList
-            .selectTaskByName(Task.eligibilityTask.description)
+            .selectTaskByName(Task.survey.description)
         
         let instructionStep = InstructionStepScreen()
         instructionStep
-            .verify(.title)
-            .verify(.text)
-            .verify(.detailText)
             .tap(.continueButton)
         
-        let formStep = FormStepScreen(itemIds: ["eligibilityFormItem01", "eligibilityFormItem02", "eligibilityFormItem03"])
-        
-        formStep
-            .verify(.continueButton, isEnabled: false)
-            .answerSingleChoiceTextQuestion(withId: formStep.itemIds[0], atIndex: 0)
-            .answerSingleChoiceTextQuestion(withId: formStep.itemIds[1], atIndex: 0)
-            .answerSingleChoiceTextQuestion(withId: formStep.itemIds[2], atIndex: 1)
-            .verify(.continueButton, isEnabled: true)
-            .tap(.continueButton)
+        let formStep = FormStepScreen()
+        let numOfFormSteps = 3
+        for _ in 0..<numOfFormSteps {
+            formStep
+                .verifyStepView()
+                .tap(.skipButton)
+        }
         
         let completionStep = InstructionStepScreen()
-        // Eligible step
         completionStep
-            .verify(.title)
-            .verify(.detailText)
-            .verifyImage(exists: true) // blue check mark success
-            .verify(.continueButton, isEnabled: true)
-            .tap(.backButton)
-        
-        formStep
-            .answerSingleChoiceTextQuestion(withId: formStep.itemIds[2], atIndex: 0)
-            .tap(.continueButton)
-        // Ineligible step
-        completionStep
-            .verify(.title)
-            .verify(.detailText)
-            .verifyImage(exists: false)
             .tap(.continueButton)
     }
     
-    ///rdar://tsc/21847968 ([Onboarding] Eligibility Task Example)
-    /// Navigable Ordered Task
-    /// TODO: rdar://117821622 (Add localization support for UI Tests)
-    func testEligibilitySurveyResultLabels() {
+    func testGroupedSurveySkipFlow() {
         tasksList
-            .selectTaskByName(Task.eligibilityTask.description)
+            .selectTaskByName(Task.groupedForm.description)
+        
+        let formStep = FormStepScreen()
+        let numOfFormSteps = 4
+        for _ in 0..<numOfFormSteps {
+            formStep
+                .verifyStepView()
+                .tap(.skipButton)
+        }
+    }
+    
+    /// rdar://119563338 ([Modularization] [ORK Catalog] [Surveys] App crashing when scroll up after entering text into Choice 7 text area in Simple Survey Example task)
+    func testSimpleSurveyTextChoiceOther() {
+        tasksList
+            .selectTaskByName(Task.survey.description)
         
         let instructionStep = InstructionStepScreen()
         instructionStep
             .tap(.continueButton)
         
-        let formStep = FormStepScreen(itemIds: ["eligibilityFormItem01", "eligibilityFormItem02", "eligibilityFormItem03"])
+        let formStep = FormStepScreen()
+        formStep
+            .tap(.skipButton)
+            .tap(.skipButton)
+                
+        let formItemTextChoiceId = "textChoiceFormItem"
+        let otherTextChoiceIndex = 6
+        formStep
+            .answerSingleChoiceTextQuestion(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex)
+            .answerTextChoiceOtherQuestion(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex, text: Answers.loremIpsumOneLineText)
+            .verifyTextBoxIsHidden(false, withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex)
+            .verifyTextBoxValue(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex, expectedValue: Answers.loremIpsumOneLineText)
+        app.swipeUp()
+        formStep
+            .tap(.continueButton)
+            .tap(.backButton)
+            .verifyTextBoxValue(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex, expectedValue: Answers.loremIpsumOneLineText)
+            .answerSingleChoiceTextQuestion(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex)
+            .answerTextChoiceOtherQuestion(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex, text: Answers.loremIpsumOneLineText, clearIfNeeded: true)
+        formStep
+            .tap(.continueButton)
+            .tap(.continueButton)
+  
+    }
+    ///rdar://119521655 ([Modularization] [ORK Catalog] [Surveys] ORKTextChoiceOther not getting saved when tap Next and go Back)
+    ///rdar://119524431 ([Modularization] [ORK Catalog] [CRASH] App crashing when deleting Choice 7 text entry and tap Done on keyboard in ORKTextChoiceOther)
+    func testFormSurveyTextChoiceOther() {
+
+        tasksList
+            .selectTaskByName(Task.form.description)
+        
+        let formStep = FormStepScreen()
+        let formItemTextChoiceId = "textChoiceFormItem"
+        let otherTextChoiceIndex = 6
         
         formStep
-            .answerSingleChoiceTextQuestion(withId: formStep.itemIds[0], atIndex: 0)
-            .answerSingleChoiceTextQuestion(withId: formStep.itemIds[1], atIndex: 0)
-            .answerSingleChoiceTextQuestion(withId: formStep.itemIds[2], atIndex: 1)
+            .scrollToQuestionTitle(atIndex: 4)
+            .answerSingleChoiceTextQuestion(withId: formItemTextChoiceId , atIndex: 1)
+            .answerSingleChoiceTextQuestion(withId: formItemTextChoiceId , atIndex: otherTextChoiceIndex)
+            .answerTextChoiceOtherQuestion(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex, text: Answers.loremIpsumOneLineText)
+            .verifyTextBoxIsHidden(false, withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex)
+            .verifyTextBoxValue(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex, expectedValue: Answers.loremIpsumOneLineText)
+            .answerSingleChoiceTextQuestion(withId: formItemTextChoiceId , atIndex: otherTextChoiceIndex)
+            .answerTextChoiceOtherQuestion(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex, text: Answers.loremIpsumOneLineText, clearIfNeeded: true)
+        
+            app.swipeUp()
+            app.swipeUp()
+        formStep
             .tap(.continueButton)
         
         let completionStep = InstructionStepScreen()
-        // Eligible step
-            .verifyImageLabel(expectedAXLabel: "Illustration of a check mark in a blue circle conveying success")
-            .verifyLabel(.detailText, expectedLabel: "You are eligible to join the study")
-            .verifyContinueButtonLabel(expectedLabel: .done)
-            .tap(.backButton)
-        
-        formStep
-            .answerSingleChoiceTextQuestion(withId: formStep.itemIds[2], atIndex: 0)
-            .tap(.continueButton)
         completionStep
-        // Ineligible step
-            .verifyLabel(.detailText, expectedLabel: "You are ineligible to join the study")
+            .tap(.backButton)
+        formStep
+            .scrollToQuestionTitle(atIndex: 4)
+            .verifyTextBoxValue(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex, expectedValue: Answers.loremIpsumOneLineText)
             .tap(.continueButton)
+
+        completionStep
+            .tap(.continueButton)
+    }
+    
+    func testScaleQuestionInFormSurvey() {
+        tasksList
+            .selectTaskByName(Task.form.description)
+        
+        let formStep = FormStepScreen()
+        
+        let formItemIdSlider1 = "formItem03"
+        let minValueSlider1 = 0
+        let maxValueSlider1 = 10
+        let formItemIdSlider2 = "formItem04"
+        let minValueSlider2 = 1
+        let maxValueSlider2 = 7
+        
+        // First slider
+        formStep
+            .scrollToQuestionTitle(atIndex: 1)
+        
+        for sliderValue in minValueSlider1...maxValueSlider1 {
+            formStep.answerScaleQuestion(withId: formItemIdSlider1, sliderValue: Double(sliderValue), stepValue: 1, minValue: Double(minValueSlider1), maxValue: Double(maxValueSlider1))
+        }
+        
+        // Second Text Slider
+        // Scroll to second slider
+        let secondSlider = formStep.getFormItemCell(withId: formItemIdSlider2).sliders.firstMatch
+        secondSlider.scrollUntilVisible()
+        
+        for value in minValueSlider2...maxValueSlider2 {
+            formStep
+                .answerTextScaleQuestion(withId: formItemIdSlider2, sliderValue: Double(value), expectedSliderValue: "choice \(value)" , stepValue: 1, minValue: Double(minValueSlider2), maxValue: Double(maxValueSlider2))
+        }
+        
+        // End Task
+        formStep
+            .cancelTask()
+    }
+    
+    func testSelectAllThatApplyLabelExists() {
+        tasksList
+            .selectTaskByName(Task.surveyWithMultipleOptions.description)
+        
+        let formStep1 = FormStepScreen()
+        formStep1
+            .verifySelectAllThatApplyExists()
+    }
+    
+    func testLearnMoreStepView() {
+        tasksList
+            .selectTaskByName(Task.groupedForm.description)
+        
+        let formStep = FormStepScreen()
+        let learnMoreStep = formStep.tapLearnMoreButton(withIndex: 0, buttonsCount: 2)
+        learnMoreStep
+            .verifyLearnMoreStepView()
+            .verify(.title)
+            .verify(.text)
+            .tapDoneButtonNavigationBar()
+        
+        formStep.verifyStepView()
+    }
+    
+    func testLearnMoreButtonInSurvey() {
+        tasksList
+            .selectTaskByName(Task.survey.description)
+        
+        let instructionStep = InstructionStepScreen()
+        instructionStep
+            .tap(.nextButton)
+        
+        let questionStep = FormStepScreen()
+        questionStep
+            .tapLearnMoreButton(withIndex: 0, buttonsCount: 1)
+            .tapDoneButtonNavigationBar()
+        
+        questionStep.verifyStepView()
+            .cancelTask()
     }
 }

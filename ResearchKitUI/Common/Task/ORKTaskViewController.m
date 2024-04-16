@@ -1006,9 +1006,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
         stepViewController = lastStepViewController;
         _currentStepViewController = lastStepViewController;
     }
-    
-    UIColor *tintColor = ORKViewTintColor(self.view);
-    stepViewController.view.tintColor = tintColor;
 
     [newViewControllers addObject:stepViewController];
 

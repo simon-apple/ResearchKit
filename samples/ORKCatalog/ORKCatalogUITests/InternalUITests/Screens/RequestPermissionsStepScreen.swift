@@ -1,4 +1,4 @@
-//  RequestPermissionsStep.swift
+//  RequestPermissionsStepScreen.swift
 //  ORKCatalogUITests
 //
 //  Created by Albina Kashapova on 12/18/23.
@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 
 /// This class corresponds to a single screen that enables sharing the health data types to the study (`ORKRequestPermissionsStep`)
-final class RequestPermissionsStep: Step {
+final class RequestPermissionsStepScreen: Step {
     
     static var stepView: XCUIElement {
         app.otherElements[AccessibilityIdentifiers.RequestPermissionsStep.view].firstMatch

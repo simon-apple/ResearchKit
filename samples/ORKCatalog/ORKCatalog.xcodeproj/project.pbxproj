@@ -29,6 +29,7 @@
 		3ED967B81AC13D37007E2D83 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3ED967BA1AC13D37007E2D83 /* Localizable.strings */; };
 		51AF19862B59F3A900D3B399 /* ORKKeychainWrapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AF19852B59F3A900D3B399 /* ORKKeychainWrapperTests.m */; };
 		51BD8FC729D3AE2E0001D54E /* Sentence1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC629D3AE2E0001D54E /* Sentence1.wav */; };
+		51C173282BA4B4E1006604FB /* sphere_model.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 51C173272BA4B4E1006604FB /* sphere_model.usdz */; };
 		51F210EF2B4634FC0072B536 /* TaskListRowSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F210EE2B4634FC0072B536 /* TaskListRowSteps.swift */; };
 		51F210FE2B49D04F0072B536 /* TaskListRowConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F210FD2B49D04F0072B536 /* TaskListRowConstants.swift */; };
 		5D1CE45123FB1DFE004CB416 /* List1 in Resources */ = {isa = PBXBuildFile; fileRef = 5D1CE45023FB1DFE004CB416 /* List1 */; };
@@ -42,14 +43,29 @@
 		8C4908962B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908952B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestionUITests.swift */; };
 		8C4908982B7ECF6200DA6E2D /* OpenAndCancelSurveysUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908972B7ECF6200DA6E2D /* OpenAndCancelSurveysUITests.swift */; };
 		8C49089A2B7ECF9400DA6E2D /* ActiveStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908992B7ECF9400DA6E2D /* ActiveStepScreen.swift */; };
-		8C7C541D2B4F5CF900A2E513 /* TextAnswers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C541C2B4F5CF900A2E513 /* TextAnswers.swift */; };
+		8C67958C2BC3B09B00DE7286 /* TaskListRowConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F210FD2B49D04F0072B536 /* TaskListRowConstants.swift */; };
+		8C7C541D2B4F5CF900A2E513 /* Answers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C541C2B4F5CF900A2E513 /* Answers.swift */; };
 		8C7C54202B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */; };
-		8C7C54222B4F675500A2E513 /* RequestPermissionStepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54212B4F675500A2E513 /* RequestPermissionStepUITests.swift */; };
+		8C7C54222B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54212B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift */; };
 		8C7C54242B4F677300A2E513 /* HealthApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54232B4F677300A2E513 /* HealthApp.swift */; };
 		8C7C54262B4F678E00A2E513 /* HealthAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54252B4F678E00A2E513 /* HealthAccess.swift */; };
 		8C7C54282B4F67E200A2E513 /* Springboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54272B4F67E200A2E513 /* Springboard.swift */; };
-		8C7C542A2B4F680B00A2E513 /* RequestPermissionsStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54292B4F680B00A2E513 /* RequestPermissionsStep.swift */; };
+		8C7C542A2B4F680B00A2E513 /* RequestPermissionsStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */; };
 		8CCB03732B86AA8A00096C86 /* UITestLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCB03722B86AA8A00096C86 /* UITestLogger.swift */; };
+		8CECC5EB2B978265002266B9 /* OnboardingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */; };
+		8CECC5ED2B978683002266B9 /* InstructionStepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EC2B978683002266B9 /* InstructionStepUITests.swift */; };
+		8CECC5EF2B978B3D002266B9 /* WebViewStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EE2B978B3D002266B9 /* WebViewStepScreen.swift */; };
+		8CECC5F12B9791AD002266B9 /* PDFViewerStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5F02B9791AD002266B9 /* PDFViewerStepScreen.swift */; };
+		8CECC5F32B97A78E002266B9 /* WaitStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5F22B97A78E002266B9 /* WaitStepScreen.swift */; };
+		8CECC5F52B97A8CF002266B9 /* MiscellaneousUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5F42B97A8CF002266B9 /* MiscellaneousUITests.swift */; };
+		8CECC5F92B97AC03002266B9 /* PasscodeStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5F82B97AC03002266B9 /* PasscodeStepScreen.swift */; };
+		8CECC5FB2B97ACFE002266B9 /* VerificationStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5FA2B97ACFE002266B9 /* VerificationStepScreen.swift */; };
+		8CECC5FD2B97AFB7002266B9 /* CustomStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5FC2B97AFB7002266B9 /* CustomStepScreen.swift */; };
+		8CECC5FF2B97B61E002266B9 /* LearnMoreStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5FE2B97B61E002266B9 /* LearnMoreStepScreen.swift */; };
+		8CECC6012B97CF6C002266B9 /* SettingsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC6002B97CF6C002266B9 /* SettingsTab.swift */; };
+		8CECC6032B97CF8C002266B9 /* ResultsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC6022B97CF8C002266B9 /* ResultsTab.swift */; };
+		8CECC6052B99315E002266B9 /* InternalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC6042B99315E002266B9 /* InternalUITests.swift */; };
+		8CECC6072B9A28FE002266B9 /* SwiftUIAdaptorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC6062B9A28FE002266B9 /* SwiftUIAdaptorUITests.swift */; };
 		8CFF29072AE9BE99000DC99E /* WaitUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29062AE9BE99000DC99E /* WaitUtils.swift */; };
 		8CFF29092AE9BEF9000DC99E /* XCUIElementQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29082AE9BEF9000DC99E /* XCUIElementQuery.swift */; };
 		8CFF290B2AE9C051000DC99E /* XCTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF290A2AE9C051000DC99E /* XCTestCase.swift */; };
@@ -216,6 +232,7 @@
 		51AF19772B59F1E400D3B399 /* ORKCatalogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ORKCatalogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51AF19852B59F3A900D3B399 /* ORKKeychainWrapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKKeychainWrapperTests.m; sourceTree = "<group>"; };
 		51BD8FC629D3AE2E0001D54E /* Sentence1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Sentence1.wav; path = List1/Sentence1.wav; sourceTree = "<group>"; };
+		51C173272BA4B4E1006604FB /* sphere_model.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = sphere_model.usdz; sourceTree = "<group>"; };
 		51F210EE2B4634FC0072B536 /* TaskListRowSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListRowSteps.swift; sourceTree = "<group>"; };
 		51F210FD2B49D04F0072B536 /* TaskListRowConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListRowConstants.swift; sourceTree = "<group>"; };
 		5D1CE45023FB1DFE004CB416 /* List1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = List1; sourceTree = "<group>"; };
@@ -233,14 +250,29 @@
 		8C4908972B7ECF6200DA6E2D /* OpenAndCancelSurveysUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelSurveysUITests.swift; sourceTree = "<group>"; };
 		8C4908992B7ECF9400DA6E2D /* ActiveStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveStepScreen.swift; sourceTree = "<group>"; };
 		8C49089B2B7ED08000DA6E2D /* LaunchTasksUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = LaunchTasksUITests.xctestplan; sourceTree = "<group>"; };
-		8C7C541C2B4F5CF900A2E513 /* TextAnswers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAnswers.swift; sourceTree = "<group>"; };
+		8C67958E2BC4B84500DE7286 /* SurveysRegressionUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = SurveysRegressionUITests.xctestplan; sourceTree = "<group>"; };
+		8C7C541C2B4F5CF900A2E513 /* Answers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answers.swift; sourceTree = "<group>"; };
 		8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsLocaleDependentUITests.swift; sourceTree = "<group>"; };
-		8C7C54212B4F675500A2E513 /* RequestPermissionStepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPermissionStepUITests.swift; sourceTree = "<group>"; };
+		8C7C54212B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessRequestPermissionStepUITests.swift; sourceTree = "<group>"; };
 		8C7C54232B4F677300A2E513 /* HealthApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthApp.swift; sourceTree = "<group>"; };
 		8C7C54252B4F678E00A2E513 /* HealthAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthAccess.swift; sourceTree = "<group>"; };
 		8C7C54272B4F67E200A2E513 /* Springboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Springboard.swift; sourceTree = "<group>"; };
-		8C7C54292B4F680B00A2E513 /* RequestPermissionsStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPermissionsStep.swift; sourceTree = "<group>"; };
+		8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPermissionsStepScreen.swift; sourceTree = "<group>"; };
 		8CCB03722B86AA8A00096C86 /* UITestLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestLogger.swift; sourceTree = "<group>"; };
+		8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingUITests.swift; sourceTree = "<group>"; };
+		8CECC5EC2B978683002266B9 /* InstructionStepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionStepUITests.swift; sourceTree = "<group>"; };
+		8CECC5EE2B978B3D002266B9 /* WebViewStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewStepScreen.swift; sourceTree = "<group>"; };
+		8CECC5F02B9791AD002266B9 /* PDFViewerStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewerStepScreen.swift; sourceTree = "<group>"; };
+		8CECC5F22B97A78E002266B9 /* WaitStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitStepScreen.swift; sourceTree = "<group>"; };
+		8CECC5F42B97A8CF002266B9 /* MiscellaneousUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscellaneousUITests.swift; sourceTree = "<group>"; };
+		8CECC5F82B97AC03002266B9 /* PasscodeStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeStepScreen.swift; sourceTree = "<group>"; };
+		8CECC5FA2B97ACFE002266B9 /* VerificationStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationStepScreen.swift; sourceTree = "<group>"; };
+		8CECC5FC2B97AFB7002266B9 /* CustomStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStepScreen.swift; sourceTree = "<group>"; };
+		8CECC5FE2B97B61E002266B9 /* LearnMoreStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnMoreStepScreen.swift; sourceTree = "<group>"; };
+		8CECC6002B97CF6C002266B9 /* SettingsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTab.swift; sourceTree = "<group>"; };
+		8CECC6022B97CF8C002266B9 /* ResultsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTab.swift; sourceTree = "<group>"; };
+		8CECC6042B99315E002266B9 /* InternalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalUITests.swift; sourceTree = "<group>"; };
+		8CECC6062B9A28FE002266B9 /* SwiftUIAdaptorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIAdaptorUITests.swift; sourceTree = "<group>"; };
 		8CFF29062AE9BE99000DC99E /* WaitUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitUtils.swift; sourceTree = "<group>"; };
 		8CFF29082AE9BEF9000DC99E /* XCUIElementQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCUIElementQuery.swift; sourceTree = "<group>"; };
 		8CFF290A2AE9C051000DC99E /* XCTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestCase.swift; sourceTree = "<group>"; };
@@ -458,7 +490,8 @@
 				8CCB03722B86AA8A00096C86 /* UITestLogger.swift */,
 				8CFF29262AE9CBBC000DC99E /* RegressionUITests.xctestplan */,
 				8C49089B2B7ED08000DA6E2D /* LaunchTasksUITests.xctestplan */,
-				8C7C541C2B4F5CF900A2E513 /* TextAnswers.swift */,
+				8C67958E2BC4B84500DE7286 /* SurveysRegressionUITests.xctestplan */,
+				8C7C541C2B4F5CF900A2E513 /* Answers.swift */,
 			);
 			path = InternalUITests;
 			sourceTree = "<group>";
@@ -490,8 +523,13 @@
 				8CFF29202AE9CB00000DC99E /* BaseUITest.swift */,
 				8CFF29222AE9CB20000DC99E /* SurveysUITests.swift */,
 				8CFF29242AE9CB4A000DC99E /* SurveyQuestionsUITests.swift */,
+				8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */,
+				8CECC6042B99315E002266B9 /* InternalUITests.swift */,
+				8CECC5F42B97A8CF002266B9 /* MiscellaneousUITests.swift */,
+				8CECC5EC2B978683002266B9 /* InstructionStepUITests.swift */,
+				8CECC6062B9A28FE002266B9 /* SwiftUIAdaptorUITests.swift */,
 				8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */,
-				8C7C54212B4F675500A2E513 /* RequestPermissionStepUITests.swift */,
+				8C7C54212B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift */,
 				8CD2A5ED2B7EC68C0078AB5F /* LaunchTasksUITests */,
 			);
 			path = UITests;
@@ -517,12 +555,21 @@
 				8CFF291D2AE9CA95000DC99E /* FormStepScreen.swift */,
 				8CFF29172AE9C674000DC99E /* InstructionStepScreen.swift */,
 				8C4908992B7ECF9400DA6E2D /* ActiveStepScreen.swift */,
+				8CECC5FE2B97B61E002266B9 /* LearnMoreStepScreen.swift */,
 				8CFF29112AE9C395000DC99E /* TabBar.swift */,
 				8CFF29132AE9C3E9000DC99E /* TasksTab.swift */,
+				8CECC6002B97CF6C002266B9 /* SettingsTab.swift */,
+				8CECC6022B97CF8C002266B9 /* ResultsTab.swift */,
 				8C7C54232B4F677300A2E513 /* HealthApp.swift */,
 				8C7C54252B4F678E00A2E513 /* HealthAccess.swift */,
 				8C7C54272B4F67E200A2E513 /* Springboard.swift */,
-				8C7C54292B4F680B00A2E513 /* RequestPermissionsStep.swift */,
+				8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */,
+				8CECC5EE2B978B3D002266B9 /* WebViewStepScreen.swift */,
+				8CECC5F02B9791AD002266B9 /* PDFViewerStepScreen.swift */,
+				8CECC5F22B97A78E002266B9 /* WaitStepScreen.swift */,
+				8CECC5F82B97AC03002266B9 /* PasscodeStepScreen.swift */,
+				8CECC5FA2B97ACFE002266B9 /* VerificationStepScreen.swift */,
+				8CECC5FC2B97AFB7002266B9 /* CustomStepScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -547,6 +594,7 @@
 		BC74787A1B990EED0072BFE8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				51C173272BA4B4E1006604FB /* sphere_model.usdz */,
 				51BD8FC629D3AE2E0001D54E /* Sentence1.wav */,
 				0BEE14A5286BC6A9005F26D1 /* Scrubbers */,
 				5DB068E925AE5940000F3170 /* TinnitusSounds1 */,
@@ -788,6 +836,7 @@
 			files = (
 				0BEE14A6286BC6A9005F26D1 /* Scrubbers in Resources */,
 				5DD2B46B249974AC00FF17F5 /* QuestionList1 in Resources */,
+				51C173282BA4B4E1006604FB /* sphere_model.usdz in Resources */,
 				3E39BA001ABF683F00C2ABE5 /* Images.xcassets in Resources */,
 				51BD8FC729D3AE2E0001D54E /* Sentence1.wav in Resources */,
 				3E39B9FB1ABF682D00C2ABE5 /* Main.storyboard in Resources */,
@@ -857,13 +906,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				8CFF29212AE9CB00000DC99E /* BaseUITest.swift in Sources */,
+				8CECC5F92B97AC03002266B9 /* PasscodeStepScreen.swift in Sources */,
+				8CECC5F52B97A8CF002266B9 /* MiscellaneousUITests.swift in Sources */,
+				8CECC5EF2B978B3D002266B9 /* WebViewStepScreen.swift in Sources */,
 				8C4908982B7ECF6200DA6E2D /* OpenAndCancelSurveysUITests.swift in Sources */,
+				8CECC6072B9A28FE002266B9 /* SwiftUIAdaptorUITests.swift in Sources */,
+				8CECC6032B97CF8C002266B9 /* ResultsTab.swift in Sources */,
 				8CFF29072AE9BE99000DC99E /* WaitUtils.swift in Sources */,
-				8C7C542A2B4F680B00A2E513 /* RequestPermissionsStep.swift in Sources */,
-				8C7C54222B4F675500A2E513 /* RequestPermissionStepUITests.swift in Sources */,
+				8CECC6012B97CF6C002266B9 /* SettingsTab.swift in Sources */,
+				8C7C542A2B4F680B00A2E513 /* RequestPermissionsStepScreen.swift in Sources */,
+				8C7C54222B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift in Sources */,
 				9622283924F04DBF0056E74D /* TaskScreen.swift in Sources */,
+				8CECC5EB2B978265002266B9 /* OnboardingUITests.swift in Sources */,
 				8CFF29142AE9C3E9000DC99E /* TasksTab.swift in Sources */,
 				8C49088C2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift in Sources */,
+				8CECC6052B99315E002266B9 /* InternalUITests.swift in Sources */,
 				8CFF29252AE9CB4A000DC99E /* SurveyQuestionsUITests.swift in Sources */,
 				8C49088E2B7ECEEB00DA6E2D /* OpenAndCancelActiveTasksUITests.swift in Sources */,
 				8C7C54242B4F677300A2E513 /* HealthApp.swift in Sources */,
@@ -871,8 +928,9 @@
 				8CFF290B2AE9C051000DC99E /* XCTestCase.swift in Sources */,
 				8CFF29092AE9BEF9000DC99E /* XCUIElementQuery.swift in Sources */,
 				9622283B24F04DFE0056E74D /* CommonElements.swift in Sources */,
-				8C7C541D2B4F5CF900A2E513 /* TextAnswers.swift in Sources */,
+				8C7C541D2B4F5CF900A2E513 /* Answers.swift in Sources */,
 				8CFF29182AE9C674000DC99E /* InstructionStepScreen.swift in Sources */,
+				8C67958C2BC3B09B00DE7286 /* TaskListRowConstants.swift in Sources */,
 				9622284124F04EEF0056E74D /* PreSubmissionTests.swift in Sources */,
 				8CFF29232AE9CB20000DC99E /* SurveysUITests.swift in Sources */,
 				8C49089A2B7ECF9400DA6E2D /* ActiveStepScreen.swift in Sources */,
@@ -881,10 +939,16 @@
 				8CFF290F2AE9C24A000DC99E /* AccessibilityIdentifiers.swift in Sources */,
 				8CFF29122AE9C395000DC99E /* TabBar.swift in Sources */,
 				8CFF290D2AE9C06E000DC99E /* XCUIElement.swift in Sources */,
+				8CECC5ED2B978683002266B9 /* InstructionStepUITests.swift in Sources */,
+				8CECC5F12B9791AD002266B9 /* PDFViewerStepScreen.swift in Sources */,
 				8CFF29162AE9C452000DC99E /* Step.swift in Sources */,
+				8CECC5F32B97A78E002266B9 /* WaitStepScreen.swift in Sources */,
 				8C7C54202B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift in Sources */,
+				8CECC5FD2B97AFB7002266B9 /* CustomStepScreen.swift in Sources */,
+				8CECC5FB2B97ACFE002266B9 /* VerificationStepScreen.swift in Sources */,
 				8CFF291E2AE9CA95000DC99E /* FormStepScreen.swift in Sources */,
 				8C7C54262B4F678E00A2E513 /* HealthAccess.swift in Sources */,
+				8CECC5FF2B97B61E002266B9 /* LearnMoreStepScreen.swift in Sources */,
 				9622283D24F04E6F0056E74D /* AllowScreens.swift in Sources */,
 				8C4908962B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestionUITests.swift in Sources */,
 			);

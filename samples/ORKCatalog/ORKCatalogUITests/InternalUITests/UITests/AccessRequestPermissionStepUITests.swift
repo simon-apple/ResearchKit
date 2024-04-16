@@ -1,4 +1,4 @@
-//  RequestPermissionStepUITests.swift
+//  AccessRequestPermissionStepUITests.swift
 //  ORKCatalogUITests
 //
 //  Created by Albina Kashapova on 1/10/24.
@@ -8,7 +8,7 @@
 import Foundation
 import XCTest
 
-final class RequestPermissionStepUITests: BaseUITest {
+final class AccessRequestPermissionStepUITests: BaseUITest {
     
     let tasksList = TasksTab()
     
@@ -52,7 +52,7 @@ final class RequestPermissionStepUITests: BaseUITest {
         let locationData = (title:"Location Data", image: "orient to phone")
         let dataTypes = [notifications, deviceMotion, healthData, locationData]
         
-        let permissionsStep = RequestPermissionsStep()
+        let permissionsStep = RequestPermissionsStepScreen()
         permissionsStep
             .verifyStepView()
             .verify(.title)

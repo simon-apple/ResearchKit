@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 
 // Tasks tab on the bottom tab bar
-class TasksTab {
+final class TasksTab {
     static let app = XCUIApplication()
     static var title: XCUIElement {
         app.navigationBars[AccessibilityIdentifiers.TabBar.TasksTab.title].firstMatch
@@ -99,7 +99,6 @@ enum Task {
     case videoInstruction
     case webView
     
-//#if RK_APPLE_INTERNAL
     case predefinedSpeechInNoiseTask
     case predefinedAVJournalingTask
     case predefinedTinnitusTask
@@ -112,8 +111,8 @@ enum Task {
     case consentTask
     case consentDoc
     case familyHistoryReviewTask
+    case longHeaderTask
     case booleanConditionalFormTask
-//#endif
     
     var description: String {
         switch self {
@@ -309,7 +308,6 @@ enum Task {
         case .webView:
             return NSLocalizedString("Web View", comment: "")
             
-//#if RK_APPLE_INTERNAL
         case .predefinedSpeechInNoiseTask:
             return NSLocalizedString("Predefined Speech In Noise", comment: "")
             
@@ -346,9 +344,12 @@ enum Task {
         case .familyHistoryReviewTask:
             return NSLocalizedString("Family History Review Controller", comment: "")
             
+        case .longHeaderTask:
+            return NSLocalizedString("Long Header Task", comment: "")
+            
         case .booleanConditionalFormTask:
                     return NSLocalizedString("Boolean Conditional Form Task", comment: "")
-//#endif
+            
         case .surveyWithMultipleOptions:
             return NSLocalizedString("Survey With Multiple Options", comment: "")
         }
