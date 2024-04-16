@@ -299,6 +299,10 @@
 		5DABE5B024DA1A4900570C57 /* ORKChoiceAnswerFormatHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 861D11AB1AA7951F003C98A7 /* ORKChoiceAnswerFormatHelper.h */; };
 		5DABE5B124DA1A4F00570C57 /* ORKChoiceAnswerFormatHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 861D11AC1AA7951F003C98A7 /* ORKChoiceAnswerFormatHelper.m */; };
 		5DFD11D124F73A6F00744C69 /* ORKCollectionResult.m in Sources */ = {isa = PBXBuildFile; fileRef = FF919A521E81BEB5005C2A1E /* ORKCollectionResult.m */; };
+		5EB91CC62BCE2ED500BBF23E /* ORKActiveStepQuantityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40AFB1A8D7C5B00081FAC /* ORKActiveStepQuantityView.m */; };
+		5EB91CC72BCE2EE600BBF23E /* ORKActiveStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AD910F1AB7B8A600361FEB /* ORKActiveStepView.m */; };
+		5EB91CC82BCE2EFD00BBF23E /* splMeter_sensitivity_offset.plist in Resources */ = {isa = PBXBuildFile; fileRef = 71F3B27F21001DEC00FB1C41 /* splMeter_sensitivity_offset.plist */; };
+		5EB91CC92BCE2F1D00BBF23E /* SentencesList.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA22F76C20C4F884006E6E11 /* SentencesList.txt */; };
 		714080DB235FD14700281E04 /* ResearchKit.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 714080D9235FD14700281E04 /* ResearchKit.stringsdict */; };
 		714151D0225C4A23002CA33B /* ORKPasscodeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A92C6922444F93007547F2 /* ORKPasscodeViewControllerTests.swift */; };
 		7141EA2222EFBC0C00650145 /* ORKLoggingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7141EA2122EFBC0C00650145 /* ORKLoggingTests.m */; };
@@ -823,10 +827,6 @@
 		CAA20E5D288B3E9900EDC764 /* UIResponder+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BEA1A8D7C5C00081FAC /* UIResponder+ResearchKit.m */; };
 		CAA20E5E288B3E9900EDC764 /* UIBarButtonItem+ORKBarButtonItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BE71A8D7C5C00081FAC /* UIBarButtonItem+ORKBarButtonItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAA20E5F288B3E9900EDC764 /* UIBarButtonItem+ORKBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BE81A8D7C5C00081FAC /* UIBarButtonItem+ORKBarButtonItem.m */; };
-		CAA20E7C288B3F1100EDC764 /* ORKActiveStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AD910F1AB7B8A600361FEB /* ORKActiveStepView.m */; };
-		CAA20E8C288B3F1100EDC764 /* splMeter_sensitivity_offset.plist in Resources */ = {isa = PBXBuildFile; fileRef = 71F3B27F21001DEC00FB1C41 /* splMeter_sensitivity_offset.plist */; };
-		CAA20EEA288B3F1200EDC764 /* ORKActiveStepQuantityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40AFB1A8D7C5B00081FAC /* ORKActiveStepQuantityView.m */; };
-		CAA20F1A288B3F4000EDC764 /* SentencesList.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA22F76C20C4F884006E6E11 /* SentencesList.txt */; };
 		CAA20F2A288B3F5B00EDC764 /* ORKConsentSharingStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B11C549C1A9EF4A700265E61 /* ORKConsentSharingStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CAA20F2E288B3F5B00EDC764 /* ORKConsentReviewStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BFA1A8D7C5C00081FAC /* ORKConsentReviewStepViewController.m */; };
 		CAA20F30288B3F5B00EDC764 /* ORKConsentSharingStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B11C549D1A9EF4A700265E61 /* ORKConsentSharingStepViewController.m */; };
@@ -5376,8 +5376,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAA20E8C288B3F1100EDC764 /* splMeter_sensitivity_offset.plist in Resources */,
-				CAA20F1A288B3F4000EDC764 /* SentencesList.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5385,6 +5383,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EB91CC92BCE2F1D00BBF23E /* SentencesList.txt in Resources */,
+				5EB91CC82BCE2EFD00BBF23E /* splMeter_sensitivity_offset.plist in Resources */,
 				0BD9B6112B75992800A64EF9 /* Sentence5.wav in Resources */,
 				51BD8FD329D60FB60001D54E /* volume_curve_AIRPODSMAX.plist in Resources */,
 				5192BF7F2AE1A9BA006E43FB /* volume_curve_AIRPODSPROV2.plist in Resources */,
@@ -5667,7 +5667,6 @@
 				CA6A0D82288B54650048C1EF /* ORKConsentReviewController.m in Sources */,
 				CAA20D8A288B3D9100EDC764 /* ORKScaleSliderView.m in Sources */,
 				CAA20F36288B3F6700EDC764 /* ORKLoginStepViewController.m in Sources */,
-				CAA20EEA288B3F1200EDC764 /* ORKActiveStepQuantityView.m in Sources */,
 				CAA20D4F288B3D5700EDC764 /* ORKRecordButton.m in Sources */,
 				CAA20DE0288B3DB400EDC764 /* ORKCountdownLabel.m in Sources */,
 				CAA20D7F288B3D9100EDC764 /* SwiftUIViewFactory.swift in Sources */,
@@ -5717,7 +5716,6 @@
 				CAA20F2E288B3F5B00EDC764 /* ORKConsentReviewStepViewController.m in Sources */,
 				51F716D3297E2FB600D8ACF7 /* ORKConsentLearnMoreViewController.m in Sources */,
 				CAA20D90288B3D9100EDC764 /* ORKTextChoiceCellGroup.m in Sources */,
-				CAA20E7C288B3F1100EDC764 /* ORKActiveStepView.m in Sources */,
 				5192BF9D2AE1DE62006E43FB /* ORKColorChoiceCellGroup.m in Sources */,
 				CAA20D51288B3D6400EDC764 /* ORKCheckmarkView.m in Sources */,
 				CAA20E20288B3E8200EDC764 /* ORKSignatureStepViewController.m in Sources */,
@@ -5775,6 +5773,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EB91CC72BCE2EE600BBF23E /* ORKActiveStepView.m in Sources */,
+				5EB91CC62BCE2ED500BBF23E /* ORKActiveStepQuantityView.m in Sources */,
 				CAD08A7F289DE714007B2A98 /* ORKStroopStep.m in Sources */,
 				CAD08A34289DE5DB007B2A98 /* ORKStreamingAudioRecorder.m in Sources */,
 				5156C9C82B7E426900983535 /* ORKTouchAbilityArrowView.m in Sources */,
