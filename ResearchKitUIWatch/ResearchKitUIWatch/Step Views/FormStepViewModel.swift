@@ -61,7 +61,7 @@ class FormStepViewModel: ObservableObject {
                 }
 
                 // TODO: where should this be owned
-                let resultObject : MultipleChoiceOption<UUID> = MultipleChoiceOption(choiceText: Text(""))
+                let resultObject : [MultipleChoiceOption<UUID>] = [MultipleChoiceOption(choiceText: Text(""))]
                 return FormRow.multipleChoiceRow(
                     MultipleChoiceQuestion(
                         id: UUID(),

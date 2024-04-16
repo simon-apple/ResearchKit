@@ -29,10 +29,10 @@ public class MultipleChoiceQuestion<ID: Hashable>: Identifiable {
     public var title: Text
     public var id: ID
     public var choices: [MultipleChoiceOption<ID>]
-    public var result: MultipleChoiceOption<ID>
+    public var result: [MultipleChoiceOption<ID>]
     public var selectionType: ChoiceSelectionType
 
-    public init(id: ID, title: Text, choices: [MultipleChoiceOption<ID>], result: MultipleChoiceOption<ID>, selectionType: ChoiceSelectionType) {
+    public init(id: ID, title: Text, choices: [MultipleChoiceOption<ID>], result: [MultipleChoiceOption<ID>], selectionType: ChoiceSelectionType) {
         self.title = title
         self.id = id
         self.choices = choices
@@ -42,7 +42,7 @@ public class MultipleChoiceQuestion<ID: Hashable>: Identifiable {
 }
 
 extension MultipleChoiceQuestion where ID == UUID {
-    convenience init(title: Text, choices: [MultipleChoiceOption<UUID>], result: MultipleChoiceOption<UUID>, selectionType: ChoiceSelectionType) {
+    convenience init(title: Text, choices: [MultipleChoiceOption<UUID>], result: [MultipleChoiceOption<UUID>], selectionType: ChoiceSelectionType) {
         let id = UUID()
         self.init(id: id, title: title, choices: choices, result: result, selectionType: selectionType)
     }
@@ -59,7 +59,7 @@ extension MultipleChoiceOption where ID == UUID {
 public struct MultipleChoiceQuestionView: View {
 
     @Binding
-    public var result: MultipleChoiceOption<UUID>
+    public var result: [MultipleChoiceOption<UUID>]
 
     public let identifier: UUID = UUID()
 
@@ -71,7 +71,7 @@ public struct MultipleChoiceQuestionView: View {
         title: Text,
         detail: Text? = nil,
         options: [MultipleChoiceOption<UUID>],
-        result: Binding<MultipleChoiceOption<UUID>>,
+        result: Binding<[MultipleChoiceOption<UUID>]>,
         selectionType: ChoiceSelectionType
     ) {
         self.multipleChoiceQuestion = MultipleChoiceQuestion(id: identifier, title: title, choices: options, result: result.wrappedValue, selectionType: selectionType)
@@ -89,10 +89,12 @@ public struct MultipleChoiceQuestionView: View {
                 ) { option in
                     TextChoiceCell(
                         title: option.choiceText,
-                        selected: result.id == option.id
+                        selected: result.contains(where: { choice in
+                            choice.id == option.id
+                        })
                     ) { choiceSelected in
                         if choiceSelected == true {
-                            result = option
+                            result = [option] // FIXME
                         }
                     }
                 }
