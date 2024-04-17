@@ -258,6 +258,10 @@
 		51F716D1297E2CC400D8ACF7 /* ORKConsentLearnMoreViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716CD297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51F716D3297E2FB600D8ACF7 /* ORKConsentLearnMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716CE297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.m */; };
 		51F716EB2981B49000D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716E82981AF1200D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		51FBAC8C2BD06119009CA28F /* HKSample+ORKJSONDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 51FBAC882BD06118009CA28F /* HKSample+ORKJSONDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51FBAC8D2BD06119009CA28F /* CMMotionActivity+ORKJSONDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 51FBAC892BD06118009CA28F /* CMMotionActivity+ORKJSONDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		51FBAC8E2BD06119009CA28F /* HKSample+ORKJSONDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 51FBAC8A2BD06118009CA28F /* HKSample+ORKJSONDictionary.m */; };
+		51FBAC8F2BD06119009CA28F /* CMMotionActivity+ORKJSONDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 51FBAC8B2BD06119009CA28F /* CMMotionActivity+ORKJSONDictionary.m */; };
 		5D04884C25EF4CC30006C68B /* ORKQuestionStep_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04884B25EF4CC30006C68B /* ORKQuestionStep_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D04885725F19A7A0006C68B /* ORKDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04885525F19A7A0006C68B /* ORKDevice.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D04885825F19A7A0006C68B /* ORKDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D04885625F19A7A0006C68B /* ORKDevice.m */; };
@@ -896,14 +900,10 @@
 		CAD08A38289DE5EC007B2A98 /* ORKDeviceMotionRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B401A8D7C5B00081FAC /* ORKDeviceMotionRecorder.m */; };
 		CAD08A39289DE5F0007B2A98 /* CMDeviceMotion+ORKJSONDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B261A8D7C5B00081FAC /* CMDeviceMotion+ORKJSONDictionary.h */; };
 		CAD08A3A289DE5F3007B2A98 /* CMDeviceMotion+ORKJSONDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B271A8D7C5B00081FAC /* CMDeviceMotion+ORKJSONDictionary.m */; };
-		CAD08A3B289DE5F6007B2A98 /* CMMotionActivity+ORKJSONDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B281A8D7C5B00081FAC /* CMMotionActivity+ORKJSONDictionary.h */; };
-		CAD08A3C289DE5F9007B2A98 /* CMMotionActivity+ORKJSONDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B291A8D7C5B00081FAC /* CMMotionActivity+ORKJSONDictionary.m */; };
 		CAD08A3D289DE609007B2A98 /* ORKHealthClinicalTypeRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 71D8EF1520B9EE1900EBCDC6 /* ORKHealthClinicalTypeRecorder.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CAD08A3E289DE60E007B2A98 /* ORKHealthClinicalTypeRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 71D8EF1620B9EE1900EBCDC6 /* ORKHealthClinicalTypeRecorder.m */; };
 		CAD08A3F289DE611007B2A98 /* ORKHealthQuantityTypeRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B411A8D7C5B00081FAC /* ORKHealthQuantityTypeRecorder.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CAD08A40289DE615007B2A98 /* ORKHealthQuantityTypeRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B421A8D7C5B00081FAC /* ORKHealthQuantityTypeRecorder.m */; };
-		CAD08A41289DE617007B2A98 /* HKSample+ORKJSONDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B2C1A8D7C5B00081FAC /* HKSample+ORKJSONDictionary.h */; };
-		CAD08A42289DE61A007B2A98 /* HKSample+ORKJSONDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B2D1A8D7C5B00081FAC /* HKSample+ORKJSONDictionary.m */; };
 		CAD08A43289DE620007B2A98 /* ORKLocationRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B431A8D7C5B00081FAC /* ORKLocationRecorder.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CAD08A44289DE623007B2A98 /* ORKLocationRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B441A8D7C5B00081FAC /* ORKLocationRecorder.m */; };
 		CAD08A45289DE626007B2A98 /* CLLocation+ORKJSONDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B221A8D7C5B00081FAC /* CLLocation+ORKJSONDictionary.h */; };
@@ -1456,6 +1456,10 @@
 		51F716CE297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORKConsentLearnMoreViewController.m; path = ResearchKitUI/Stale/ORKConsentLearnMoreViewController.m; sourceTree = SOURCE_ROOT; };
 		51F716E82981AF1200D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSpeechInNoiseStepViewController_Private.h; sourceTree = "<group>"; };
 		51FBAC7D2BC9EBA7009CA28F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		51FBAC882BD06118009CA28F /* HKSample+ORKJSONDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HKSample+ORKJSONDictionary.h"; path = "../../../../../../../HKSample+ORKJSONDictionary.h"; sourceTree = "<group>"; };
+		51FBAC892BD06118009CA28F /* CMMotionActivity+ORKJSONDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CMMotionActivity+ORKJSONDictionary.h"; path = "../../../../../../../CMMotionActivity+ORKJSONDictionary.h"; sourceTree = "<group>"; };
+		51FBAC8A2BD06118009CA28F /* HKSample+ORKJSONDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "HKSample+ORKJSONDictionary.m"; path = "../../../../../../../HKSample+ORKJSONDictionary.m"; sourceTree = "<group>"; };
+		51FBAC8B2BD06119009CA28F /* CMMotionActivity+ORKJSONDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CMMotionActivity+ORKJSONDictionary.m"; path = "../../../../../../../CMMotionActivity+ORKJSONDictionary.m"; sourceTree = "<group>"; };
 		5D000EC22620F27100E5442A /* ResearchKit-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Debug.xcconfig"; sourceTree = "<group>"; };
 		5D000EC32620F27100E5442A /* ResearchKit-Skywagon-Stable.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Skywagon-Stable.xcconfig"; sourceTree = "<group>"; };
 		5D000EC42620F27100E5442A /* ResearchKit-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Shared.xcconfig"; sourceTree = "<group>"; };
@@ -1651,12 +1655,8 @@
 		86C40B251A8D7C5B00081FAC /* CMAccelerometerData+ORKJSONDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "CMAccelerometerData+ORKJSONDictionary.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86C40B261A8D7C5B00081FAC /* CMDeviceMotion+ORKJSONDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "CMDeviceMotion+ORKJSONDictionary.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		86C40B271A8D7C5B00081FAC /* CMDeviceMotion+ORKJSONDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "CMDeviceMotion+ORKJSONDictionary.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		86C40B281A8D7C5B00081FAC /* CMMotionActivity+ORKJSONDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "CMMotionActivity+ORKJSONDictionary.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		86C40B291A8D7C5B00081FAC /* CMMotionActivity+ORKJSONDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "CMMotionActivity+ORKJSONDictionary.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86C40B2A1A8D7C5B00081FAC /* CMPedometerData+ORKJSONDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "CMPedometerData+ORKJSONDictionary.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		86C40B2B1A8D7C5B00081FAC /* CMPedometerData+ORKJSONDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "CMPedometerData+ORKJSONDictionary.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		86C40B2C1A8D7C5B00081FAC /* HKSample+ORKJSONDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "HKSample+ORKJSONDictionary.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		86C40B2D1A8D7C5B00081FAC /* HKSample+ORKJSONDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "HKSample+ORKJSONDictionary.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86C40B2E1A8D7C5B00081FAC /* ORKAccelerometerRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ORKAccelerometerRecorder.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		86C40B2F1A8D7C5B00081FAC /* ORKAccelerometerRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ORKAccelerometerRecorder.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		86C40B301A8D7C5B00081FAC /* ORKActiveStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKActiveStep.h; sourceTree = "<group>"; };
@@ -2838,6 +2838,10 @@
 		866DA5121D63D01C00C9AF3F /* DataCollection */ = {
 			isa = PBXGroup;
 			children = (
+				51FBAC892BD06118009CA28F /* CMMotionActivity+ORKJSONDictionary.h */,
+				51FBAC8B2BD06119009CA28F /* CMMotionActivity+ORKJSONDictionary.m */,
+				51FBAC882BD06118009CA28F /* HKSample+ORKJSONDictionary.h */,
+				51FBAC8A2BD06118009CA28F /* HKSample+ORKJSONDictionary.m */,
 				866DA5131D63D04700C9AF3F /* ORKCollector_Internal.h */,
 				866DA5141D63D04700C9AF3F /* ORKCollector.h */,
 				866DA5151D63D04700C9AF3F /* ORKCollector.m */,
@@ -4213,8 +4217,6 @@
 				71D8EF1620B9EE1900EBCDC6 /* ORKHealthClinicalTypeRecorder.m */,
 				86C40B411A8D7C5B00081FAC /* ORKHealthQuantityTypeRecorder.h */,
 				86C40B421A8D7C5B00081FAC /* ORKHealthQuantityTypeRecorder.m */,
-				86C40B2C1A8D7C5B00081FAC /* HKSample+ORKJSONDictionary.h */,
-				86C40B2D1A8D7C5B00081FAC /* HKSample+ORKJSONDictionary.m */,
 			);
 			path = Health;
 			sourceTree = "<group>";
@@ -4226,8 +4228,6 @@
 				86C40B401A8D7C5B00081FAC /* ORKDeviceMotionRecorder.m */,
 				86C40B261A8D7C5B00081FAC /* CMDeviceMotion+ORKJSONDictionary.h */,
 				86C40B271A8D7C5B00081FAC /* CMDeviceMotion+ORKJSONDictionary.m */,
-				86C40B281A8D7C5B00081FAC /* CMMotionActivity+ORKJSONDictionary.h */,
-				86C40B291A8D7C5B00081FAC /* CMMotionActivity+ORKJSONDictionary.m */,
 			);
 			path = "Device Motion";
 			sourceTree = "<group>";
@@ -4717,6 +4717,7 @@
 				51AF1B152B67F30500D3B399 /* ORKSignatureFormatter.h in Headers */,
 				51AF1B202B683C3400D3B399 /* ORKWebViewStepResult_Private.h in Headers */,
 				5D04884C25EF4CC30006C68B /* ORKQuestionStep_Private.h in Headers */,
+				51FBAC8C2BD06119009CA28F /* HKSample+ORKJSONDictionary.h in Headers */,
 				86C40D621A8D7C5C00081FAC /* ORKQuestionStep_Internal.h in Headers */,
 				B183A4DD1A8535D100C76870 /* ResearchKit.h in Headers */,
 				BAD9E9122255E9750014FA29 /* ORKLearnMoreInstructionStep.h in Headers */,
@@ -4762,6 +4763,7 @@
 				CA6A0D83288B5B370048C1EF /* ORKHTMLPDFWriter.h in Headers */,
 				86C40DC61A8D7C5C00081FAC /* ORKTask.h in Headers */,
 				86C40E1E1A8D7C5C00081FAC /* ORKConsentSignature.h in Headers */,
+				51FBAC8D2BD06119009CA28F /* CMMotionActivity+ORKJSONDictionary.h in Headers */,
 				5192BF522AE09673006E43FB /* ORKPredicateFormItemVisibilityRule_Private.h in Headers */,
 				FF5051ED1D668FF80065E677 /* ORKPageStep_Private.h in Headers */,
 				BC94EF311E962F7400143081 /* ORKDeprecated.h in Headers */,
@@ -4961,7 +4963,6 @@
 				511E8D622995C20E00A384A5 /* ORKEnvironmentSPLMeterStepViewController_Private.h in Headers */,
 				CAD08A8C289DE772007B2A98 /* ORKAudioGenerator.h in Headers */,
 				CA2B8F9128A16E3B0025B773 /* ORKEnvironmentSPLMeterContentView.h in Headers */,
-				CAD08A41289DE617007B2A98 /* HKSample+ORKJSONDictionary.h in Headers */,
 				CA2B8FBB28A175940025B773 /* ORKFitnessContentView.h in Headers */,
 				5156CA4A2B7E45AE00983535 /* ORKTouchAbilityPinchContentView.h in Headers */,
 				CA2B901028A17BEE0025B773 /* ORKActiveTaskResult.h in Headers */,
@@ -5105,7 +5106,6 @@
 				CA2B8F6D28A16BAC0025B773 /* ORKSpeechInNoiseContentView.h in Headers */,
 				CAD08A72289DE6E5007B2A98 /* ORKReactionTimeStep.h in Headers */,
 				CAD089ED289DE454007B2A98 /* ORK3DModelManager.h in Headers */,
-				CAD08A3B289DE5F6007B2A98 /* CMMotionActivity+ORKJSONDictionary.h in Headers */,
 				CAD08A80289DE716007B2A98 /* ORKAccuracyStroopStep.h in Headers */,
 				CAD08A3D289DE609007B2A98 /* ORKHealthClinicalTypeRecorder.h in Headers */,
 				CAD08A76289DE6F3007B2A98 /* ORKSpatialSpanMemoryStep.h in Headers */,
@@ -5551,6 +5551,7 @@
 				00C2668F23022CD400337E0B /* ORKCustomStep.m in Sources */,
 				866DA5281D63D04700C9AF3F /* ORKMotionActivityQueryOperation.m in Sources */,
 				BCFF24BD1B0798D10044EC35 /* ORKResultPredicate.m in Sources */,
+				51FBAC8E2BD06119009CA28F /* HKSample+ORKJSONDictionary.m in Sources */,
 				511987C4246330CA004FC2C7 /* ORKRequestPermissionsStep.m in Sources */,
 				86C40E0A1A8D7C5C00081FAC /* ORKConsentReviewStep.m in Sources */,
 				03BD9EA4253E62A0008ADBE1 /* ORKBundleAsset.m in Sources */,
@@ -5584,6 +5585,7 @@
 				5192BF512AE09673006E43FB /* ORKPredicateFormItemVisibilityRule.m in Sources */,
 				BAD9E9132255E9750014FA29 /* ORKLearnMoreInstructionStep.m in Sources */,
 				86C40D901A8D7C5C00081FAC /* ORKStep.m in Sources */,
+				51FBAC8F2BD06119009CA28F /* CMMotionActivity+ORKJSONDictionary.m in Sources */,
 				FA7A9D341B0843A9005A2BEA /* ORKConsentSignatureFormatter.m in Sources */,
 				86C40E001A8D7C5C00081FAC /* ORKConsentDocument.m in Sources */,
 				D442397A1AF17F5100559D96 /* ORKImageCaptureStep.m in Sources */,
@@ -5782,7 +5784,6 @@
 				5156CA322B7E451C00983535 /* ORKTouchAbilityScrollResult.m in Sources */,
 				CAD08A1A289DE51D007B2A98 /* ORKAmslerGridResult.m in Sources */,
 				CA2B8FAA28A175360025B773 /* ORKAudioStepViewController.m in Sources */,
-				CAD08A3C289DE5F9007B2A98 /* CMMotionActivity+ORKJSONDictionary.m in Sources */,
 				CA2B8FF628A177BF0025B773 /* ORKTrailmakingStepViewController.m in Sources */,
 				CA2B8FF728A177BF0025B773 /* ORKTrailmakingContentView.m in Sources */,
 				CAD08A75289DE6F1007B2A98 /* ORKSpatialSpanMemoryResult.m in Sources */,
@@ -5863,7 +5864,6 @@
 				CAD08A4C289DE63F007B2A98 /* ORKTouchRecorder.m in Sources */,
 				CAD08A18289DE516007B2A98 /* ORKAmslerGridStep.m in Sources */,
 				5156CA2E2B7E451C00983535 /* ORKTouchAbilityScrollStep.m in Sources */,
-				CAD08A42289DE61A007B2A98 /* HKSample+ORKJSONDictionary.m in Sources */,
 				CAD08A4E289DE644007B2A98 /* UITouch+ORKJSONDictionary.m in Sources */,
 				5156C9D82B7E42C200983535 /* ORKTouchAbilityGestureRecoginzerEvent.m in Sources */,
 				CAD08A71289DE6E2007B2A98 /* ORKReactionTimeResult.m in Sources */,
