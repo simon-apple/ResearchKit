@@ -31,7 +31,7 @@
 
 #import <ResearchKitActiveTask/ORKdBHLToneAudiometryResult.h>
 
-@class ORKdBHLToneAudiometryFrequencySample;
+@class ORKIdBHLToneAudiometryFrequencySample;
 @class ORKdBHLToneAudiometryUnit;
 
 typedef NS_ENUM(NSInteger, ORKdBHLToneAudiometryMethodOfAdjustmentSourceOfInteraction) {
@@ -58,6 +58,11 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, assign) NSInteger algorithmVersion;
 
 @property (nonatomic, assign) ORKdBHLToneAudiometryMeasurementMethod measurementMethod;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wincompatible-property-type"
+@property (nonatomic, copy, nullable) NSArray<ORKIdBHLToneAudiometryFrequencySample *> *samples;
+#pragma clang diagnostic pop
 
 @end
 
