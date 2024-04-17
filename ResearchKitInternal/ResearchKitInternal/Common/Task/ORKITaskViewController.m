@@ -37,6 +37,7 @@
 #import "ORKCelestialSoftLink.h"
 
 #import <ResearchKitUI/ORKTaskViewController_Internal.h>
+#import <ResearchKitUI/ORKTaskViewController_Private.h>
 
 #import <ResearchKit/ORKActiveStep_Internal.h>
 #import <ResearchKit/ORKOrderedTask_Private.h>

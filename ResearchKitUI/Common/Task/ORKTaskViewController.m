@@ -32,6 +32,7 @@
 #import "ORKTaskViewController.h"
 
 #import "ORKActiveStepViewController.h"
+#import "ORKBorderedButton.h"
 #import "ORKInstructionStepViewController_Internal.h"
 #import "ORKFormStepViewController.h"
 #import "ORKReviewStepViewController_Internal.h"
@@ -54,7 +55,6 @@
 #import "ORKHelpers_Internal.h"
 #import "ORKObserver.h"
 #import "ORKSkin.h"
-#import "ORKBorderedButton.h"
 #import "ORKTaskReviewViewController.h"
 
 #import <CoreLocation/CLLocationManagerDelegate.h>

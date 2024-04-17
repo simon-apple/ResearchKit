@@ -389,7 +389,7 @@ ORK_CLASS_AVAILABLE
  
  @param task                    The task to be presented.
  @param ongoingResult           An optional task result from a previous run of the task. If you provide an ongoingResult, the task will start at the step corresponding to the last result.
- @param restoreAtLastResult     A boolean that determines if the restored task starts from the last or first step.
+ @param restoreAtFirstStep     A boolean that determines if the restored task starts from the last or first step.
  @param defaultResultSource     A source that the task view controller can consult to obtain default answers for questions provided in question steps and form steps.
  @param delegate                The delegate for the task view controller.
  
