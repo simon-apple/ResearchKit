@@ -165,7 +165,14 @@ internal struct TaskContentView<Content>: View where Content: View {
                         Button {
                             goNext = true
                         } label: {
-                            Text("Next").bold()
+                            Text(
+                                Bundle(for: TaskManager.self)
+                                .localizedString(
+                                    forKey: "BUTTON_NEXT",
+                                    value: nil,
+                                    table: "ResearchKitUI(Watch)"
+                                )
+                            ).bold()
                         }
                         .id(Constants.CTA)
                         .padding(.top, buttonTopPadding)
@@ -174,7 +181,14 @@ internal struct TaskContentView<Content>: View where Content: View {
                     Button {
                         taskManager.finishReason = .completed
                     } label: {
-                        Text("Done").bold()
+                        Text(
+                            Bundle(for: TaskManager.self)
+                            .localizedString(
+                                forKey: "BUTTON_DONE",
+                                value: nil,
+                                table: "ResearchKitUI(Watch)"
+                            )
+                        ).bold()
                     }
                     .id(Constants.CTA)
                     .disabled(!shouldScrollToCTA && currentStep is ORKQuestionStep)

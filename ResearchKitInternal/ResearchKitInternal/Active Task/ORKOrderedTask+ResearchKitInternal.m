@@ -163,7 +163,7 @@ NSString *const ORKdBHLToneAudiometryMethodOfAdjustmentStep2Identifier = @"dBHL2
     return task;
 }
 
-+ (ORKNavigableOrderedTask *)dBHLMethodOfAdjustmentsToneAudiometryTaskWithIdentifier:(NSString *)identifier
++ (ORKNavigableOrderedTask *)dBHLMethodOfAdjustmentToneAudiometryTaskWithIdentifier:(NSString *)identifier
                                                               intendedUseDescription:(nullable NSString *)intendedUseDescription
                                                                              options:(ORKPredefinedTaskOption)options {
     if (options & ORKPredefinedTaskOptionExcludeAudio) {
