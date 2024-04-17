@@ -149,11 +149,21 @@ internal struct _QuestionStepView: View {
                 Group {
                     
                     if let progress = viewModel.progress {
-                        Text("\(progress.index) OF \(progress.count)".uppercased())
-                            .foregroundColor(.gray)
-                            .font(.subheadline)
-                            .padding(.top, Constants.topToProgressPadding)
-                            .padding(.bottom, Constants.bottomToProgressPadding)
+                        Text(
+                            String(format: Bundle(for: TaskManager.self)
+                                .localizedString(
+                                    forKey: "QUESTION_PROGRESS",
+                                    value: nil,
+                                    table: "ResearchKitUI(Watch)"
+                                ).uppercased(),
+                                   progress.index,
+                                   progress.count
+                            ) 
+                        )
+                        .foregroundColor(.gray)
+                        .font(.subheadline)
+                        .padding(.top, Constants.topToProgressPadding)
+                        .padding(.bottom, Constants.bottomToProgressPadding)
                     }
                     
                     if let stepTitle = viewModel.step.title, !stepTitle.isEmpty {

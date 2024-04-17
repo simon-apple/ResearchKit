@@ -55,7 +55,7 @@ public extension View {
                                         .localizedString(
                                             forKey: "BUTTON_CANCEL",
                                             value: nil,
-                                            table: "ResearchKitUI"
+                                            table: "ResearchKitUI(Watch)"
                                         ), action: {
                                             setDiscardedIfNeeded(taskManager: taskManager)
                                         }
