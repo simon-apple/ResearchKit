@@ -964,7 +964,8 @@
 
 - (void)testCustomTask {
     // only should initialize with a valid content view
-    XCTAssertThrows([ORKCustomStep customStepWithIdentifier:@"whoops" contentView: NULL]);
+    UIView *customView = nil;
+    XCTAssertThrows([ORKCustomStep customStepWithIdentifier:@"whoops" contentView: customView]);
 }
 
 - (void)testTextAnswerFormatPIIScrubber {

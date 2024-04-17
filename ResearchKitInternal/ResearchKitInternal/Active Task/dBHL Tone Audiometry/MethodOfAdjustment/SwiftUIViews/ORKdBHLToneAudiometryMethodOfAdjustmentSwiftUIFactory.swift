@@ -43,7 +43,7 @@ import SwiftUI
         )
     }
     
-    @objc public func makeMethodOfAdjustmentsView(numSteps: Int, numFrequencies: Int, audioChannel: ORKAudioChannel) -> UIViewController {
+    @objc public func makeMethodOfAdjustmentView(numSteps: Int, numFrequencies: Int, audioChannel: ORKAudioChannel) -> UIViewController {
         self.numSteps = numSteps
         self.numFrequencies = numFrequencies
         self.audioChannel = audioChannel

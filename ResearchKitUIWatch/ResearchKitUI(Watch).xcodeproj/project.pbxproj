@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B53DA602BD054EE00227126 /* ResearchKitUI(Watch).strings in Resources */ = {isa = PBXBuildFile; fileRef = 0B53DA5E2BD054EE00227126 /* ResearchKitUI(Watch).strings */; };
 		0B72132D2B4F368600463E69 /* DefaultStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72132C2B4F368600463E69 /* DefaultStepView.swift */; };
 		0B7213402B4F395C00463E69 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72133F2B4F395C00463E69 /* TaskManager.swift */; };
 		0B7213422B4F396B00463E69 /* CompletionStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7213412B4F396B00463E69 /* CompletionStepView.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B53DA5D2BD054EE00227126 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "en.lproj/ResearchKitUI(Watch).strings"; sourceTree = "<group>"; };
 		0B72132C2B4F368600463E69 /* DefaultStepView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultStepView.swift; sourceTree = "<group>"; };
 		0B72132F2B4F36B900463E69 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B7213332B4F36C600463E69 /* ResearchKitInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,6 +63,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B53DA5F2BD054EE00227126 /* Localized */ = {
+			isa = PBXGroup;
+			children = (
+				0B53DA5E2BD054EE00227126 /* ResearchKitUI(Watch).strings */,
+			);
+			path = Localized;
+			sourceTree = "<group>";
+		};
 		0B72132E2B4F36B900463E69 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -96,6 +106,7 @@
 		0BF86B132B4F360000E3790E = {
 			isa = PBXGroup;
 			children = (
+				0B53DA5F2BD054EE00227126 /* Localized */,
 				0BF86B1F2B4F360000E3790E /* ResearchKitUIWatch */,
 				0BF86B1E2B4F360000E3790E /* Products */,
 				0B72132E2B4F36B900463E69 /* Frameworks */,
@@ -192,6 +203,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B53DA602BD054EE00227126 /* ResearchKitUI(Watch).strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,6 +229,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		0B53DA5E2BD054EE00227126 /* ResearchKitUI(Watch).strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0B53DA5D2BD054EE00227126 /* en */,
+			);
+			name = "ResearchKitUI(Watch).strings";
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		0BF86B242B4F360000E3790E /* Debug */ = {
@@ -273,7 +296,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -333,7 +356,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = NO;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

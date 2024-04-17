@@ -58,7 +58,7 @@
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"task must be of ORKAVJournalingPredefinedTask class" userInfo:nil];
     }
     
-    self = [self initWithTask:task taskRunUUID:nil];
+    self = [[super initWithNibName:nil bundle:nil] initWithTask:task taskRunUUID:nil];
     
     if (self) {
         self.delegate = delegate;

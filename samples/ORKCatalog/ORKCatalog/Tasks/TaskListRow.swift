@@ -2111,7 +2111,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
     
     private var methodOfAdjustmentdBHLToneAudiometryTask: ORKTask {
-        return ORKOrderedTask.dBHLMethodOfAdjustmentsToneAudiometryTask(withIdentifier: String(describing: Identifier.methodOfAdjustmentdBHLToneAudiometryTask), intendedUseDescription: nil, options: [])
+        return ORKOrderedTask.dBHLMethodOfAdjustmentToneAudiometryTask(withIdentifier: String(describing: Identifier.methodOfAdjustmentdBHLToneAudiometryTask), intendedUseDescription: nil, options: [])
     }
     
     /// This task presents the dBHL Tone Audiometry new algorithm.
