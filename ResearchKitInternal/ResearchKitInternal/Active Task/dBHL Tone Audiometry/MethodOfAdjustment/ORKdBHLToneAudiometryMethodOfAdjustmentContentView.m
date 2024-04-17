@@ -136,7 +136,7 @@ static const double ORKdBHLToneAudiometryMethodOfAdjustmentContentViewSliderMarg
 
 - (void)setupSliderViewWithNumFrequencies:(NSInteger)numFrequencies audioChannel:(ORKAudioChannel)audioChannel {
     _swiftUIFactory = [[ORKIdBHLToneAudiometryMethodOfAdjustmentSwiftUIFactory alloc] init];
-    _sliderView = [[_swiftUIFactory makeMethodOfAdjustmentsViewWithNumSteps:_numDBSteps
+    _sliderView = [[_swiftUIFactory makeMethodOfAdjustmentViewWithNumSteps:_numDBSteps
                                                              numFrequencies:numFrequencies
                                                                audioChannel:audioChannel] view];
     _sliderView.backgroundColor = UIColor.clearColor;
