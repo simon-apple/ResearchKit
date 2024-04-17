@@ -1460,7 +1460,7 @@
 		51FBAC572BC85C7A009CA28F /* ResearchKIt_Private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKIt_Private.modulemap; sourceTree = "<group>"; };
 		51FBAC582BC86E6E009CA28F /* ResearchKitUI_Private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKitUI_Private.modulemap; sourceTree = "<group>"; };
 		51FBAC592BC998D8009CA28F /* ResearchKitActiveTask_Private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKitActiveTask_Private.modulemap; sourceTree = "<group>"; };
-		51FBAC5C2BC9CE4A009CA28F /* ORKBorderedButton_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ORKBorderedButton_Internal.h; path = ResearchKitUI/Common/Skin/ORKBorderedButton_Internal.h; sourceTree = "<group>"; };
+		51FBAC5C2BC9CE4A009CA28F /* ORKBorderedButton_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKBorderedButton_Internal.h; sourceTree = "<group>"; };
 		51FBAC7D2BC9EBA7009CA28F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		51FBAC882BD06118009CA28F /* HKSample+ORKJSONDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HKSample+ORKJSONDictionary.h"; path = "../../../../../../../HKSample+ORKJSONDictionary.h"; sourceTree = "<group>"; };
 		51FBAC892BD06118009CA28F /* CMMotionActivity+ORKJSONDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CMMotionActivity+ORKJSONDictionary.h"; path = "../../../../../../../CMMotionActivity+ORKJSONDictionary.h"; sourceTree = "<group>"; };
@@ -2356,7 +2356,6 @@
 		3FFF18341829DB1D00167070 = {
 			isa = PBXGroup;
 			children = (
-				51FBAC5C2BC9CE4A009CA28F /* ORKBorderedButton_Internal.h */,
 				05F3765923C797930068E166 /* ResearchKit.xctestplan */,
 				168EEAAE230B6F9E003FD2FA /* scripts */,
 				86B623AF19520B770074CD3C /* ResearchKit */,
@@ -3476,6 +3475,7 @@
 		CA1C7A72288B1A75004DAB3A /* Skin */ = {
 			isa = PBXGroup;
 			children = (
+				51FBAC5C2BC9CE4A009CA28F /* ORKBorderedButton_Internal.h */,
 				5192BF912AE1C2F7006E43FB /* ORKChoiceViewCell+ORKColorChoice.h */,
 				5192BF922AE1C2F7006E43FB /* ORKChoiceViewCell+ORKColorChoice.m */,
 				0B8444632A79C25000292DEA /* ORKChoiceViewCell+ORKTextChoice.h */,
