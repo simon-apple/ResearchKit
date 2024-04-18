@@ -317,4 +317,79 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
     func testTextQuestionSkipResult() {
         answerAndVerifyTextQuestionTask(textAnswer: nil, expectedValue: "nil")
     }
+    
+    // MARK: - Numeric Question
+    
+    func answerAndVerifyNumericQuestionTask(answer: Double?, expectedValue: String) {
+        tasksList.selectTaskByName(Task.numericQuestion.description)
+        
+        let formItemId = String(describing: Identifier.numericFormItem)
+        let formStep1 = FormStepScreen(id: String(describing: Identifier.numericQuestionFormStep), itemIds: [formItemId])
+        let formStep2 = FormStepScreen(id: String(describing: Identifier.numericNoUnitQuestionFormStep), itemIds: [formItemId])
+        let formStep3 = FormStepScreen(id:  String(describing: Identifier.numericDisplayUnitQuestionFormStep), itemIds: [formItemId])
+        
+        if answer != nil {
+            formStep1
+                .selectFormItemCell(withID: formItemId)
+                .answerNumericQuestion(number: answer!, dismissKeyboard: true)
+                .tap(.continueButton)
+        } else {
+            formStep1
+                .selectFormItemCell(withID: formItemId) /// Adding extra check:  verify that the answer is not saved after it is entered and then skipped it
+                .answerNumericQuestion(number: Double(1), dismissKeyboard: true)
+                .tap(.skipButton)
+        }
+        
+        if answer != nil {
+            formStep2
+                .selectFormItemCell(withID: formItemId)
+                .answerNumericQuestion(number: answer!, dismissKeyboard: true)
+                .tap(.continueButton)
+        } else {
+            formStep2.tap(.skipButton)
+        }
+        
+        if answer != nil {
+            formStep3
+                .selectFormItemCell(withID: formItemId)
+                .answerNumericQuestion(number: answer!, dismissKeyboard: true)
+                .verify(.continueButton, isEnabled: true)
+                .tap(.continueButton)
+        } else {
+            formStep3.tap(.skipButton)
+        }
+        
+        let resultsTab = tabBar.navigateToResults()
+        resultsTab
+            .selectResultsCell(withId: formStep1.id)
+            .selectResultsCell(withId: formStep1.itemIds[0])
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: expectedValue)
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "Your unit")
+            .verifyResultsCellValue(resultType: .displayUnit, expectedValue: "Your unit")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+            .selectResultsCell(withId: formStep2.id)
+            .selectResultsCell(withId: formStep2.itemIds[0])
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: expectedValue)
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "nil")
+            .verifyResultsCellValue(resultType: .displayUnit, expectedValue: "nil")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+            .selectResultsCell(withId: formStep3.id)
+            .selectResultsCell(withId: formStep3.itemIds[0])
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: expectedValue)
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "weeks")
+            .verifyResultsCellValue(resultType: .displayUnit, expectedValue: "semanas")
+    }
+    
+    func testNumericQuestionResults() {
+        let numericAnswer = 123.1
+        answerAndVerifyNumericQuestionTask(answer: numericAnswer, expectedValue: String(numericAnswer))
+    }
+    
+    func testNumericQuestionSkipResults() {
+        answerAndVerifyNumericQuestionTask(answer: nil, expectedValue: "nil")
+    }
 }
