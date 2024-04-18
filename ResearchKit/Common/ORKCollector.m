@@ -153,7 +153,6 @@ static NSString *const ItemIdentifierFormatWithTwoPlaceholders = @"org.researchk
 - (NSArray *)serializableObjectsForObjects:(NSArray<HKSample *> *)objects {
     NSMutableArray *elements = [NSMutableArray arrayWithCapacity:[objects count]];
     for (HKSample *sample in objects) {
-        // TODO: HANDLE ERROR
         [elements addObject:[sample ork_JSONDictionaryWithOptions:(ORKSampleJSONOptions)(ORKSampleIncludeMetadata|ORKSampleIncludeSource|ORKSampleIncludeUUID) unit:self.unit]];
     }
     
@@ -251,7 +250,6 @@ static NSString *const ItemIdentifierFormatWithTwoPlaceholders = @"org.researchk
 - (NSArray *)serializableObjectsForObjects:(NSArray<HKCorrelation *> *)objects {
     NSMutableArray *elements = [NSMutableArray arrayWithCapacity:[objects count]];
     for (HKCorrelation *correlation in objects) {
-        // TODO: HANDLE ERROR
         [elements addObject:[correlation ork_JSONDictionaryWithOptions:(ORKSampleJSONOptions)(ORKSampleIncludeMetadata|ORKSampleIncludeSource|ORKSampleIncludeUUID) sampleTypes:self.sampleTypes units:self.units]];
     }
     
@@ -326,7 +324,6 @@ static NSString *const ItemIdentifierFormatWithTwoPlaceholders = @"org.researchk
     // Expect an array of CMMotionActivity objects
     NSMutableArray *elements = [NSMutableArray arrayWithCapacity:[objects count]];
     for (CMMotionActivity *activity in objects) {
-        // TODO: HANDLE ERROR
         [elements addObject:[activity ork_JSONDictionary]];
     }
     
