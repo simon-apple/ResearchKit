@@ -286,4 +286,36 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
     func testImageChoiceQuestionSkipResult() {
         answerAndVerifyImageChoiceQuestionTask(singleChoiceAnswerIndex: nil, multiChoiceAnswerIndex: nil, singleChoiceExpectedValue: "nil", multiChoiceExpectedValue: "nil")
     }
+    
+    // MARK: - Text Question
+    
+    func answerAndVerifyTextQuestionTask(textAnswer: String?, expectedValue: String) {
+        tasksList.selectTaskByName(Task.textQuestion.description)
+        
+        let formStep = FormStepScreen(id: String(describing: Identifier.textQuestionFormStep), itemIds: [String(describing: Identifier.textQuestionFormItem)])
+        
+        if textAnswer != nil {
+            formStep
+                .answerTextQuestionTextView(withId: formStep.itemIds[0], text: textAnswer!)
+                .tap(.continueButton)
+        }
+        else {
+            formStep.tap(.skipButton)
+        }
+        
+        let resultsTab = tabBar.navigateToResults()
+        resultsTab
+            .selectResultsCell(withId: formStep.id)
+            .selectResultsCell(withId: formStep.itemIds[0])
+            .verifyResultsCellValue(resultType: .textAnswer, expectedValue: expectedValue)
+    }
+    
+    func testTextQuestionResult() {
+        let inputText = Answers.loremIpsumMediumText
+        answerAndVerifyTextQuestionTask(textAnswer: inputText, expectedValue: inputText)
+    }
+    
+    func testTextQuestionSkipResult() {
+        answerAndVerifyTextQuestionTask(textAnswer: nil, expectedValue: "nil")
+    }
 }
