@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Shazino SAS. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,39 +28,35 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-@import UIKit;
 #import "ORKActiveStepCustomView.h"
-#import "ORKTypes.h"
+
+#import "ORKActiveStepViewController.h"
+
+#import <ResearchKitUI/ORKSurveyAnswerCell.h>
+#import <ResearchKitUI/ORKSurveyCardHeaderView.h>
+#import <ResearchKitUI/ORKStepViewController.h>
+
+#import <ResearchKit/ORKSkin.h>
 
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation ORKActiveStepCustomView
 
-@protocol ORKHolePegTestPlaceContentViewDelegate;
+- (void)resetStep:(ORKStepViewController *)viewController {
+}
 
-ORK_CLASS_AVAILABLE
-@interface ORKHolePegTestPlaceContentView : ORKActiveStepCustomView
+- (void)startStep:(ORKStepViewController *)viewController {
+}
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
-- (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
-- (instancetype)initWithMovingDirection:(ORKBodySagittal)movingDirection rotated:(BOOL)rotated NS_DESIGNATED_INITIALIZER;
+- (void)suspendStep:(ORKStepViewController *)viewController {
+}
 
-@property (nonatomic, assign) ORKBodySagittal movingDirection;
-@property (nonatomic, assign) double threshold;
-@property (nonatomic, assign, getter = isRotated) BOOL rotated;
-@property (nonatomic, weak) id<ORKHolePegTestPlaceContentViewDelegate> delegate;
+- (void)resumeStep:(ORKStepViewController *)viewController {
+}
 
-- (void)setProgress:(CGFloat)progress animated:(BOOL)animated;
+- (void)finishStep:(ORKStepViewController *)viewController {
+}
+
+- (void)updateDisplay:(ORKActiveStepViewController *)viewController {
+}
 
 @end
-
-
-@protocol ORKHolePegTestPlaceContentViewDelegate <NSObject>
-
-- (void)holePegTestPlaceDidProgress:(ORKHolePegTestPlaceContentView *)holePegTestPlaceContentView;
-- (void)holePegTestPlaceDidSucceed:(ORKHolePegTestPlaceContentView *)holePegTestPlaceContentView withDistance:(CGFloat)distance;
-- (void)holePegTestPlaceDidFail:(ORKHolePegTestPlaceContentView *)holePegTestPlaceContentView;
-
-@end
-
-NS_ASSUME_NONNULL_END
