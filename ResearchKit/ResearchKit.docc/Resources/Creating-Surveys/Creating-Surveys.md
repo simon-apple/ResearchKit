@@ -153,12 +153,10 @@ the user navigates through the task, in order to produce an
 [ORKTaskResult](#).
 
 Both the task result and step result are collection results, in that
-they can contain other result objects. For example, a task result
-contains an array of step results.
+they can contain other result objects. For example, a task result contains an array of step results.
 
 The results contained in a step result vary depending on the type of
-step. For example, a question step produces a question result
-([ORKQuestionResult](#)); a form step produces one question result for
+step. For example, a form step produces one question result for
 every form item; and an active task with recorders generally produces
 one result for each recorder. 
 
@@ -179,70 +177,6 @@ step, form item, or recorder) that produced it. Every result also
 includes start and end times, using the [startDate]([ORKResult startDate]) and [endDate]([ORKResult endDate])
 properties respectively. These properties can be used to infer how long the user
 spent on the step.
-
-### Conditional Steps
-
-Sometimes it's important to know the result of a step before presenting the next step. For example, suppose a step asks "Do you have a fever?" If the user answers `Yes`, the next question the next question might be "What is your temperature now?";  otherwise it might be, "Do you have any additional health concerns?"
-
-To add custom conditional behavior in your task, use either ordered task (`ORKOrderedTask`)  or navigable ordered task (`ORKNavigableOrderedTask`), and override particular `ORKTask` methods like `stepAfterStep:withResult`, and `stepBeforeStep:withResult:` and call `super` for all other methods.
-
-#### Ordered Tasks
-
-A sequential (static) task, such as a survey or an active task, can be represented as an ordered task.  
-
-The following example demonstrates how to subclass
-`ORKOrderedTask` to provide a different set of steps depending on the
-user's answer to a Boolean question. Although the code shows the step-after-step method, a corresponding implementation of "step-before-step"
-is usually necessary.
-
-
-        - (ORKStep *)stepAfterStep:(ORKStep *)step
-                        withResult:(id<ORKTaskResultSource>)result {
-            NSString *identifier = step.identifier;  
-            if ([identifier isEqualToString:self.qualificationStep.identifier])
-            {
-                ORKStepResult *stepResult = [result stepResultForStepIdentifier:identifier];
-                ORKQuestionResult *result = (ORKQuestionResult *)stepResult.firstResult;
-                if ([result isKindOfClass:[ORKBooleanQuestionResult class]])
-                {
-                    ORKBooleanQuestionResult *booleanResult = result;
-                    NSNumber *booleanAnswer = booleanResult.booleanAnswer;
-                    if (booleanAnswer)
-                    {
-                        return booleanAnswer.boolValue ? self.regularQuestionStep : self.terminationStep;
-                    }
-                }
-            }
-            return [super stepAfterStep:step withResult:result];
-        }
-
-
-#### Navigable Ordered Task
-The navigable ordered task (`ORKNavigableOrderedTask`)  inherits its behavior from the ordered task (`ORKOrderedTask`) class. In addition to inheriting the behavior of ordered task it provides functionality to present different set of steps depending on the user's answer to a question.
-
-You can add a condition while the user navigates through the steps in a task by adding a conditional step navigation. For example, add a navigation rule to obtain a new destination step when the user goes forward from one step to another. You cannot add more than one navigation rule to the same step. If you do, then the most recent rule is executed.
- 
-For example, to display a survey question only when the user answered Yes to a previous question you can use `ORKPredicateStepNavigationRule`; or if you want to define an arbitrary jump between two steps, you can use `ORKDirectStepNavigationRule`.
-
-The following example demonstrates how you can add a navigation rule to go to different step in the task depending on the user's selection to the symptom type. For example, from the "symptom" step, go to "other_symptom" step when the user didn't chose headache.  Otherwise, default to going to next step (the regular ordered task ([ORKOrderedTask](#)) applies).
-
-
-        ORKNavigableOrderedTask *task = [[ORKNavigableOrderedTask alloc] initWithIdentifier:StepNavigationTaskIdentifier steps:steps];
-                                                                                  
-        
-        // Build a navigation rule
-        ORKPredicateStepNavigationRule *predicateRule = nil;
-     
-        NSPredicate *predicateHeadache = [ORKResultPredicate predicateForChoiceQuestionResultWithResultIdentifier:@"symptom" expectedString:@"headache"];
-                                                                                                   
-    
-        // The user didn't choose headache at the symptom step
-        NSPredicate *predicateNotHeadache = [NSCompoundPredicate notPredicateWithSubpredicate:predicateHeadache];
-    
-        predicateRule = [[ORKPredicateStepNavigationRule alloc] initWithResultPredicates:@[ predicateNotHeadache ]
-                                                              destinationStepIdentifiers:@[ @"other_symptom" ] ];
-    
-        [task setNavigationRule:predicateRule forTriggerStepIdentifier:@"symptom"];
  
 
 #### Saving Results on Task Completion
@@ -261,32 +195,37 @@ saving and restoring tasks, the user may save the task, so this
 example also demonstrates how to obtain the restoration data that
 would later be needed to restore the task.
 
-        - (void)taskViewController:(ORKTaskViewController *)taskViewController
-               didFinishWithReason:(ORKTaskViewControllerFinishReason)reason
-                             error:(NSError *)error
-        {
-            switch (reason) {
-            case ORKTaskViewControllerFinishReasonCompleted:
-                // Archive the result object first
-                NSData *data = [NSKeyedArchiver archivedDataWithRootObject:taskViewController.result];
-                
-                // Save the data to disk with file protection
-                // or upload to a remote server securely.
-    
-                // If any file results are expected, also zip up the outputDirectory.
-                break;
-            case ORKTaskViewControllerFinishReasonFailed:
-            case ORKTaskViewControllerFinishReasonDiscarded:
-                // Generally, discard the result.
-                // Consider clearing the contents of the output directory.
-                break;
-            case ORKTaskViewControllerFinishReasonSaved:
-                NSData *data = [taskViewController restorationData];
-                // Store the restoration data persistently for later use.
-                // Normally, keep the output directory for when you will restore.
-                break;
-            }
-        }
-
-
+```swift
+ func taskViewController(_ taskViewController: ORKTaskViewController, 
+ 			             didFinishWith reason: ORKTaskFinishReason, 
+ 			             error: Error?) {
+	switch reason {
+	case .completed:
+	    // Archive the result object first
+	    do {
+	        let data = try NSKeyedArchiver.archivedData(withRootObject: taskViewController.result, 
+	                                                    requiringSecureCoding: true)
+			 // Save the data to disk with file protection
+	   	 	 // or upload to a remote server securely.
+	    
+	    	 // If any file results are expected, also zip up the outputDirectory.
+	    } catch {
+	        print("error archiving result data: \(error.localizedDescription)")
+	    }
+	    
+	    break;
+	case .failed, .discarded, .earlyTermination:
+	    // Generally, discard the result.
+	    // Consider clearing the contents of the output directory.
+	    break;
+	case .saved:
+	    let data = taskViewController.restorationData
+	    // Store the restoration data persistently for later use.
+	    // Normally, keep the output directory for when you will restore.
+	    break;
+	}
+	    
+	taskViewController.dismiss(animated: true, completion: nil)
+}
+```
 
