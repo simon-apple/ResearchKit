@@ -93,20 +93,29 @@ public struct MultipleChoiceQuestionView: View {
                             choice.id == option.id
                         })
                     ) {
-
-                        if result.contains(where: { choice in
-                            choice.id == option.id
-                        }) {
-                            result.removeAll { choice in
-                                choice.id == option.id
-                            }
-                        } else {
-                            result.append(option)
-                        }
+                        choiceSelected(option)
                     }
                 }
             }
             .padding()
         }
     }
+
+    private func choiceSelected(_ option: MultipleChoiceOption<UUID>) {
+        if result.contains(where: { choice in
+            choice.id == option.id
+        }) {
+            result.removeAll { choice in
+                choice.id == option.id
+            }
+        } else {
+
+            switch multipleChoiceQuestion.selectionType {
+                case .single:
+                    result = [option]
+                case .multiple:
+                    result.append(option)
+            }
+        }
+       }
 }
