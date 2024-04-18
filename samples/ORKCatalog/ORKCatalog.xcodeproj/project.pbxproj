@@ -51,6 +51,7 @@
 		8C7C54262B4F678E00A2E513 /* HealthAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54252B4F678E00A2E513 /* HealthAccess.swift */; };
 		8C7C54282B4F67E200A2E513 /* Springboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54272B4F67E200A2E513 /* Springboard.swift */; };
 		8C7C542A2B4F680B00A2E513 /* RequestPermissionsStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */; };
+		8C89CD592BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */; };
 		8CCB03732B86AA8A00096C86 /* UITestLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCB03722B86AA8A00096C86 /* UITestLogger.swift */; };
 		8CECC5EB2B978265002266B9 /* OnboardingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */; };
 		8CECC5ED2B978683002266B9 /* InstructionStepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EC2B978683002266B9 /* InstructionStepUITests.swift */; };
@@ -258,6 +259,7 @@
 		8C7C54252B4F678E00A2E513 /* HealthAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthAccess.swift; sourceTree = "<group>"; };
 		8C7C54272B4F67E200A2E513 /* Springboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Springboard.swift; sourceTree = "<group>"; };
 		8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPermissionsStepScreen.swift; sourceTree = "<group>"; };
+		8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsResultsUITests.swift; sourceTree = "<group>"; };
 		8CCB03722B86AA8A00096C86 /* UITestLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestLogger.swift; sourceTree = "<group>"; };
 		8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingUITests.swift; sourceTree = "<group>"; };
 		8CECC5EC2B978683002266B9 /* InstructionStepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionStepUITests.swift; sourceTree = "<group>"; };
@@ -469,6 +471,14 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		8C89CD572BCD08F000C61F8A /* ResultsUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */,
+			);
+			path = ResultsUITests;
+			sourceTree = "<group>";
+		};
 		8CD2A5ED2B7EC68C0078AB5F /* LaunchTasksUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -530,6 +540,7 @@
 				8CECC6062B9A28FE002266B9 /* SwiftUIAdaptorUITests.swift */,
 				8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */,
 				8C7C54212B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift */,
+				8C89CD572BCD08F000C61F8A /* ResultsUITests */,
 				8CD2A5ED2B7EC68C0078AB5F /* LaunchTasksUITests */,
 			);
 			path = UITests;
@@ -940,6 +951,7 @@
 				8CFF29122AE9C395000DC99E /* TabBar.swift in Sources */,
 				8CFF290D2AE9C06E000DC99E /* XCUIElement.swift in Sources */,
 				8CECC5ED2B978683002266B9 /* InstructionStepUITests.swift in Sources */,
+				8C89CD592BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift in Sources */,
 				8CECC5F12B9791AD002266B9 /* PDFViewerStepScreen.swift in Sources */,
 				8CFF29162AE9C452000DC99E /* Step.swift in Sources */,
 				8CECC5F32B97A78E002266B9 /* WaitStepScreen.swift in Sources */,

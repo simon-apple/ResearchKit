@@ -68,40 +68,6 @@ final class SurveyQuestionsUITests: BaseUITest {
             .tap(.continueButton)
     }
     
-    func navigateAndAnswerBoolQuestion(answerCellIndex: Int?, expectedValue: String) {
-        tasksList
-            .selectTaskByName(Task.booleanQuestion.description)
-        
-        let questionStep = FormStepScreen(id: String(describing: Identifier.booleanFormStep), itemIds: [String(describing: Identifier.booleanFormItem)], answer: answerCellIndex)
-        
-        if answerCellIndex == nil {
-            questionStep
-                .tap(.skipButton)
-        } else {
-            questionStep
-                .answerBooleanQuestion(withId: questionStep.itemIds[0], atIndex: questionStep.answer as! Int)
-                .tap(.continueButton)
-        }
-        
-        let resultsTab = TabBar().navigateToResults()
-        resultsTab
-            .selectResultsCell(withId: questionStep.id)
-            .selectResultsCell(withId: questionStep.itemIds[0])
-            .verifyResultsCellValue(resultType: .bool, expectedValue: expectedValue)
-    }
-    
-    func testBooleanQuestionTrueResult() {
-        navigateAndAnswerBoolQuestion(answerCellIndex: 0, expectedValue: "true")
-    }
-    
-    func testBooleanQuestionFalseResult() {
-        navigateAndAnswerBoolQuestion(answerCellIndex: 1, expectedValue: "false")
-    }
-    
-    func testBooleanQuestionSkipResult() {
-        navigateAndAnswerBoolQuestion(answerCellIndex: nil, expectedValue: "nil")
-    }
-    
     /// <rdar://tsc/21847947> [Survey Questions] Custom Boolean Question
     func testCustomBooleanQuestion() {
         tasksList
