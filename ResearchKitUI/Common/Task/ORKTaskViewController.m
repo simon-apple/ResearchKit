@@ -31,7 +31,6 @@
 
 #import "ORKTaskViewController.h"
 
-#import "ORKActiveStepViewController.h"
 #import "ORKBorderedButton.h"
 #import "ORKInstructionStepViewController_Internal.h"
 #import "ORKFormStepViewController.h"
@@ -49,7 +48,6 @@
 #import "ORKResult_Private.h"
 #import "ORKReviewStep_Internal.h"
 #import "ORKStep_Private.h"
-#import "ORKTappingIntervalStep.h"
 #import "ORKViewControllerProviding.h"
 
 #import "ORKHelpers_Internal.h"

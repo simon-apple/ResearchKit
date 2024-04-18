@@ -30,7 +30,7 @@
 
 #import <UIKit/UIKit.h>
 #import <ResearchKitInternal/ORKIdBHLToneAudiometryResult.h>
-#import <ResearchKitUI/ORKCustomStepView_Internal.h>
+#import <ResearchKitActiveTask/ORKActiveStepCustomView.h>
 #import <ResearchKitActiveTask/ORKAudiometryProtocol.h>
 
 NS_ASSUME_NONNULL_BEGIN

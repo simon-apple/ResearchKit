@@ -40,7 +40,6 @@
 #import <ResearchKit/ORKSkin.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKitUI/ORKCheckmarkView.h>
-#import <ResearchKitUI/ORKCustomStepView_Internal.h>
 #import <ResearchKitUI/ORKInstructionStepContainerView.h>
 #import <ResearchKitUI/ORKInstructionStepViewController_Internal.h>
 #import <ResearchKitUI/ORKNavigationContainerView.h>
@@ -49,6 +48,8 @@
 #import <ResearchKitUI/ORKStepViewController_Internal.h>
 #import <ResearchKitUI/ORKStepContainerView_Private.h>
 #import <ResearchKitUI/ORKTaskViewController_Internal.h>
+
+#import <ResearchKitActiveTask/ORKActiveStepCustomView.h>
 
 #import <LocalAuthentication/LAContext.h>
 
