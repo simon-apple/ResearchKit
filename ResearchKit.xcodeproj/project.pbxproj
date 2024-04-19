@@ -6756,7 +6756,7 @@
 				050968EE236B7217006F734C /* Skywagon Public Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		5DABE55324D8BF2400570C57 /* Build configuration list for PBXNativeTarget "ResearchKitCore (watchOS)" */ = {
 			isa = XCConfigurationList;
@@ -6768,7 +6768,7 @@
 				5DABE55224D8BF2400570C57 /* Skywagon Public Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		86CC8EA31AC09332001CCD89 /* Build configuration list for PBXNativeTarget "ResearchKitTests" */ = {
 			isa = XCConfigurationList;
@@ -6780,7 +6780,7 @@
 				050968F0236B7217006F734C /* Skywagon Public Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		B183A5921A8535D100C76870 /* Build configuration list for PBXNativeTarget "ResearchKit" */ = {
 			isa = XCConfigurationList;
@@ -6792,7 +6792,7 @@
 				050968EF236B7217006F734C /* Skywagon Public Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		CA1C7A54288B0C68004DAB3A /* Build configuration list for PBXNativeTarget "ResearchKitUI (iOS)" */ = {
 			isa = XCConfigurationList;
@@ -6804,7 +6804,7 @@
 				CA1C7A59288B0C68004DAB3A /* Skywagon Public Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		CAD08970289DD747007B2A98 /* Build configuration list for PBXNativeTarget "ResearchKitActiveTask" */ = {
 			isa = XCConfigurationList;
@@ -6816,7 +6816,7 @@
 				CAD0896F289DD747007B2A98 /* Skywagon Public Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
