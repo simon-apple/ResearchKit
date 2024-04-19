@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,16 +28,35 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "ORKActiveStepCustomView.h"
 
-@import CoreMotion;
+#import "ORKActiveStepViewController.h"
+
+#import <ResearchKitUI/ORKSurveyAnswerCell.h>
+#import <ResearchKitUI/ORKSurveyCardHeaderView.h>
+#import <ResearchKitUI/ORKStepViewController.h>
+
+#import <ResearchKit/ORKSkin.h>
 
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation ORKActiveStepCustomView
 
-@interface CMMotionActivity (ORKJSONDictionary)
+- (void)resetStep:(ORKStepViewController *)viewController {
+}
 
-- (NSDictionary *)ork_JSONDictionary;
+- (void)startStep:(ORKStepViewController *)viewController {
+}
+
+- (void)suspendStep:(ORKStepViewController *)viewController {
+}
+
+- (void)resumeStep:(ORKStepViewController *)viewController {
+}
+
+- (void)finishStep:(ORKStepViewController *)viewController {
+}
+
+- (void)updateDisplay:(ORKActiveStepViewController *)viewController {
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

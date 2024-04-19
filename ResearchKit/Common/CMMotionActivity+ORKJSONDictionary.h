@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Shazino SAS. All rights reserved.
+ Copyright (c) 2015, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,37 +29,14 @@
  */
 
 
-@import UIKit;
-#import "ORKActiveStepCustomView.h"
-#import "ORKTypes.h"
+#import <CoreMotion/CoreMotion.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ORKHolePegTestPlaceContentViewDelegate;
+@interface CMMotionActivity (ORKJSONDictionary)
 
-ORK_CLASS_AVAILABLE
-@interface ORKHolePegTestPlaceContentView : ORKActiveStepCustomView
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
-- (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
-- (instancetype)initWithMovingDirection:(ORKBodySagittal)movingDirection rotated:(BOOL)rotated NS_DESIGNATED_INITIALIZER;
-
-@property (nonatomic, assign) ORKBodySagittal movingDirection;
-@property (nonatomic, assign) double threshold;
-@property (nonatomic, assign, getter = isRotated) BOOL rotated;
-@property (nonatomic, weak) id<ORKHolePegTestPlaceContentViewDelegate> delegate;
-
-- (void)setProgress:(CGFloat)progress animated:(BOOL)animated;
-
-@end
-
-
-@protocol ORKHolePegTestPlaceContentViewDelegate <NSObject>
-
-- (void)holePegTestPlaceDidProgress:(ORKHolePegTestPlaceContentView *)holePegTestPlaceContentView;
-- (void)holePegTestPlaceDidSucceed:(ORKHolePegTestPlaceContentView *)holePegTestPlaceContentView withDistance:(CGFloat)distance;
-- (void)holePegTestPlaceDidFail:(ORKHolePegTestPlaceContentView *)holePegTestPlaceContentView;
+- (NSDictionary *)ork_JSONDictionary;
 
 @end
 

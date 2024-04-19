@@ -124,6 +124,8 @@
 
 @implementation ORKIdBHLToneAudiometryResult
 
+@dynamic samples;
+
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
   
