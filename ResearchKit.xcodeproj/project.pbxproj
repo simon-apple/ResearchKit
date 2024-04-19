@@ -1465,7 +1465,7 @@
 		51F716CD297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ORKConsentLearnMoreViewController.h; path = ResearchKitUI/Stale/ORKConsentLearnMoreViewController.h; sourceTree = SOURCE_ROOT; };
 		51F716CE297E2CB600D8ACF7 /* ORKConsentLearnMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ORKConsentLearnMoreViewController.m; path = ResearchKitUI/Stale/ORKConsentLearnMoreViewController.m; sourceTree = SOURCE_ROOT; };
 		51F716E82981AF1200D8ACF7 /* ORKSpeechInNoiseStepViewController_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSpeechInNoiseStepViewController_Private.h; sourceTree = "<group>"; };
-		51FBAC572BC85C7A009CA28F /* ResearchKIt_Private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKIt_Private.modulemap; sourceTree = "<group>"; };
+		51FBAC572BC85C7A009CA28F /* ResearchKit_Private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKit_Private.modulemap; sourceTree = "<group>"; };
 		51FBAC582BC86E6E009CA28F /* ResearchKitUI_Private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKitUI_Private.modulemap; sourceTree = "<group>"; };
 		51FBAC592BC998D8009CA28F /* ResearchKitActiveTask_Private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKitActiveTask_Private.modulemap; sourceTree = "<group>"; };
 		51FBAC5C2BC9CE4A009CA28F /* ORKBorderedButton_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKBorderedButton_Internal.h; sourceTree = "<group>"; };
@@ -2907,7 +2907,7 @@
 				B1C0F4E01A9BA65F0022C153 /* Localized */,
 				86C40C101A8D7C5C00081FAC /* Info.plist */,
 				B18AABE01A9F08D9003871B5 /* ResearchKit.modulemap */,
-				51FBAC572BC85C7A009CA28F /* ResearchKIt_Private.modulemap */,
+				51FBAC572BC85C7A009CA28F /* ResearchKit_Private.modulemap */,
 				5139A553266ED9BB00537192 /* ORKFeatureFlags.h */,
 				861610BF1A8D8EDD00245F7A /* Artwork.xcassets */,
 			);
