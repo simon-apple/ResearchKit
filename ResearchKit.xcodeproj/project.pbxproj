@@ -43,6 +43,7 @@
 		03EDD58124CA6B1D006245E9 /* ORKNotificationPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EDD57F24CA6B1D006245E9 /* ORKNotificationPermissionType.m */; };
 		0B0EF9C92B8FB87600E2A97B /* ResearchKitTests-Shared.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0B0EF9C72B8FB87600E2A97B /* ResearchKitTests-Shared.xcconfig */; };
 		0B0EF9CA2B8FB87600E2A97B /* ResearchKitTests-Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0B0EF9C82B8FB87600E2A97B /* ResearchKitTests-Debug.xcconfig */; };
+		0B4D0F982BC87AB100DCB8B2 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0B4D0F972BC87AB100DCB8B2 /* PrivacyInfo.xcprivacy */; };
 		0B59A6BF28C1738D005035B4 /* ORKPickerTestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B59A6BE28C1738D005035B4 /* ORKPickerTestDelegate.m */; };
 		0B6CD14329119C7F004BC4A0 /* ORKNormalizedReactionTimeStimulusView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BAF9797291088EE00EF138A /* ORKNormalizedReactionTimeStimulusView.h */; };
 		0B6CD14429119CBA004BC4A0 /* ORKNormalizedReactionTimeContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BAF9798291088EE00EF138A /* ORKNormalizedReactionTimeContentView.h */; };
@@ -1051,6 +1052,7 @@
 		05F3765923C797930068E166 /* ResearchKit.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ResearchKit.xctestplan; sourceTree = "<group>"; };
 		0B0EF9C72B8FB87600E2A97B /* ResearchKitTests-Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ResearchKitTests-Shared.xcconfig"; sourceTree = "<group>"; };
 		0B0EF9C82B8FB87600E2A97B /* ResearchKitTests-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ResearchKitTests-Debug.xcconfig"; sourceTree = "<group>"; };
+		0B4D0F972BC87AB100DCB8B2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		0B59A6BD28C1738D005035B4 /* ORKPickerTestDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKPickerTestDelegate.h; sourceTree = "<group>"; };
 		0B59A6BE28C1738D005035B4 /* ORKPickerTestDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKPickerTestDelegate.m; sourceTree = "<group>"; };
 		0B7D32E92AE6F8040071C576 /* ORKQuestionStepViewController+TestingSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ORKQuestionStepViewController+TestingSupport.h"; sourceTree = "<group>"; };
@@ -2510,6 +2512,7 @@
 		3FFF18341829DB1D00167070 = {
 			isa = PBXGroup;
 			children = (
+				0B4D0F972BC87AB100DCB8B2 /* PrivacyInfo.xcprivacy */,
 				05F3765923C797930068E166 /* ResearchKit.xctestplan */,
 				168EEAAE230B6F9E003FD2FA /* scripts */,
 				B11DF3B21AA109C8009E76D2 /* docs */,
@@ -4926,6 +4929,7 @@
 				2246E5152749350300261D5A /* frequency_dBSPL_AIRPODSV3.plist in Resources */,
 				B1A860F31A9693C400EA57B7 /* consent_03@3x.m4v in Resources */,
 				B1A860F11A9693C400EA57B7 /* consent_01@3x.m4v in Resources */,
+				0B4D0F982BC87AB100DCB8B2 /* PrivacyInfo.xcprivacy in Resources */,
 				E26E32D722E75FBF004F42EC /* Window.wav in Resources */,
 				62DF9F4728CA87DE00D13018 /* frequency_dBSPL_AIRPODSPROV2.plist in Resources */,
 				B1A860F71A9693C400EA57B7 /* consent_07@3x.m4v in Resources */,
