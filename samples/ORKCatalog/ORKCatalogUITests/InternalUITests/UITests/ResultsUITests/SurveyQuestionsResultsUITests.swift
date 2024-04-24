@@ -59,15 +59,15 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.booleanQuestion.description)
         
-        let questionStep = FormStepScreen(id: String(describing: Identifier.booleanFormStep), itemIds: [String(describing: Identifier.booleanFormItem)], answer: answerCellIndex)
+        let questionStep = FormStepScreen(id: String(describing: Identifier.booleanFormStep), itemIds: [String(describing: Identifier.booleanFormItem)])
         
-        if answerCellIndex == nil {
+        if let answerCellIndex = answerCellIndex {
             questionStep
-                .tap(.skipButton)
+                .answerBooleanQuestion(withId: questionStep.itemIds[0], atIndex: answerCellIndex)
+                .tap(.continueButton)
         } else {
             questionStep
-                .answerBooleanQuestion(withId: questionStep.itemIds[0], atIndex: questionStep.answer as! Int)
-                .tap(.continueButton)
+                .tap(.skipButton)
         }
         
         let resultsTab = tabBar.navigateToResults()
@@ -95,11 +95,11 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.customBooleanQuestion.description)
         
-        let formStep = FormStepScreen(id: String(describing: Identifier.booleanFormStep), itemIds: [String(describing: Identifier.booleanFormItem)], answer: answerCellIndex)
+        let formStep = FormStepScreen(id: String(describing: Identifier.booleanFormStep), itemIds: [String(describing: Identifier.booleanFormItem)])
         
-        if answerCellIndex != nil {
+        if let answerCellIndex = answerCellIndex {
             formStep
-                .answerSingleChoiceTextQuestion(withId: formStep.itemIds[0], atIndex: formStep.answer as! Int)
+                .answerSingleChoiceTextQuestion(withId: formStep.itemIds[0], atIndex: answerCellIndex)
                 .tap(.continueButton)
         } else {
             formStep
@@ -136,17 +136,16 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
         
         tasksList.selectTaskByName(Task.textChoiceQuestion.description)
         
-        let formStep1 = FormStepScreen(id: String(describing: Identifier.formStep), itemIds: [String(describing: Identifier.formItem01)], answer: singleChoiceAnswerIndex)
-        let formStep2 = FormStepScreen(id: String(describing: Identifier.formStep02), itemIds: [String(describing: Identifier.formItem02)], answer: multiChoiceAnswerIndex)
+        let formStep1 = FormStepScreen(id: String(describing: Identifier.formStep), itemIds: [String(describing: Identifier.formItem01)])
+        let formStep2 = FormStepScreen(id: String(describing: Identifier.formStep02), itemIds: [String(describing: Identifier.formItem02)])
         
         // Answer question in form step 1
-        if singleChoiceAnswerIndex != nil {
-            let formStep1Answer = formStep1.answer as! Int
+        if let singleChoiceAnswerIndex = singleChoiceAnswerIndex {
             formStep1
                 .answerSingleChoiceTextQuestion(withId: formStep1.itemIds[0], atIndex: 0) /// Adding extra check for single choice question: selecting first index before next one
-                .answerSingleChoiceTextQuestion(withId: formStep1.itemIds[0], atIndex: formStep1Answer)
-            if inputText != nil {
-                formStep1.answerTextChoiceOtherQuestion(withId: formStep1.itemIds[0], atIndex: formStep1Answer, text: inputText!)
+                .answerSingleChoiceTextQuestion(withId: formStep1.itemIds[0], atIndex: singleChoiceAnswerIndex)
+            if let inputText = inputText {
+                formStep1.answerTextChoiceOtherQuestion(withId: formStep1.itemIds[0], atIndex: singleChoiceAnswerIndex, text: inputText)
             }
             formStep1.tap(.continueButton)
         } else {
@@ -154,12 +153,11 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
         }
         
         // Answer question in form step 2
-        if multiChoiceAnswerIndex != nil {
-            let formStep2Answer = formStep2.answer as! [Int]
+        if let multiChoiceAnswerIndex = multiChoiceAnswerIndex {
             formStep2
-                .answerMultipleChoiceTextQuestion(withId: formStep2.itemIds[0], indices: formStep2Answer)
-            if inputText != nil {
-                formStep2.answerTextChoiceOtherQuestion(withId: formStep2.itemIds[0], atIndex: formStep2Answer[0], text: inputText!)
+                .answerMultipleChoiceTextQuestion(withId: formStep2.itemIds[0], indices: multiChoiceAnswerIndex)
+            if let inputText = inputText {
+                formStep2.answerTextChoiceOtherQuestion(withId: formStep2.itemIds[0], atIndex: multiChoiceAnswerIndex[0], text: inputText)
             }
             formStep2.tap(.continueButton)
         } else {
@@ -209,12 +207,12 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
     func answerAndVerifyImageQuestion(answerCellIndex: Int?, expectedValue: String) {
         tasksList.selectTaskByName(Task.textChoiceQuestionWithImageTask.description)
         
-        let formStep = FormStepScreen(id: String(describing: Identifier.textChoiceFormStep), itemIds: [String(describing: Identifier.textChoiceFormItem)], answer: answerCellIndex)
+        let formStep = FormStepScreen(id: String(describing: Identifier.textChoiceFormStep), itemIds: [String(describing: Identifier.textChoiceFormItem)])
         
-        if answerCellIndex != nil {
+        if let answerCellIndex = answerCellIndex {
             formStep
                 .verifyStepView()
-                .answerSingleChoiceTextQuestion(withId: formStep.itemIds[0], atIndex: formStep.answer as! Int)
+                .answerSingleChoiceTextQuestion(withId: formStep.itemIds[0], atIndex: answerCellIndex)
                 .tap(.continueButton)
         } else {
             formStep.tap(.skipButton)
@@ -243,19 +241,19 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
         let formStep1 = FormStepScreen(id: String(describing: Identifier.imageChoiceFormStep1), itemIds: [String(describing: Identifier.imageChoiceFormItem)])
         let formStep2 = FormStepScreen(id: String(describing: Identifier.imageChoiceFormStep2), itemIds: [String(describing: Identifier.imageChoiceFormItem)])
         
-        if singleChoiceAnswerIndex != nil {
+        if let singleChoiceAnswerIndex = singleChoiceAnswerIndex {
             formStep1
                 .verifyStepView()
                 .answerImageChoiceQuestion(withId: formStep1.itemIds[0], imageIndex: 0)
-                .answerImageChoiceQuestion(withId: formStep1.itemIds[0], imageIndex: singleChoiceAnswerIndex!)
+                .answerImageChoiceQuestion(withId: formStep1.itemIds[0], imageIndex: singleChoiceAnswerIndex)
                 .tap(.continueButton)
         } else {
             formStep1.tap(.skipButton)
         }
         
-        if multiChoiceAnswerIndex != nil {
+        if let multiChoiceAnswerIndex = multiChoiceAnswerIndex {
             formStep2.verifyStepView()
-            for index in multiChoiceAnswerIndex! {
+            for index in multiChoiceAnswerIndex {
                 formStep2.answerImageChoiceQuestion(withId: formStep2.itemIds[0], imageIndex: index)
             }
             formStep2.tap(.continueButton)
@@ -328,34 +326,28 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
         let formStep2 = FormStepScreen(id: String(describing: Identifier.numericNoUnitQuestionFormStep), itemIds: [formItemId])
         let formStep3 = FormStepScreen(id:  String(describing: Identifier.numericDisplayUnitQuestionFormStep), itemIds: [formItemId])
         
-        if answer != nil {
+        if let answer = answer {
             formStep1
                 .selectFormItemCell(withID: formItemId)
-                .answerNumericQuestion(number: answer!, dismissKeyboard: true)
+                .answerNumericQuestion(number: answer, dismissKeyboard: true)
                 .tap(.continueButton)
+            
+            formStep2
+                .selectFormItemCell(withID: formItemId)
+                .answerNumericQuestion(number: answer, dismissKeyboard: true)
+                .tap(.continueButton)
+            
+            formStep3
+                .selectFormItemCell(withID: formItemId)
+                .answerNumericQuestion(number: answer, dismissKeyboard: true)
+                .tap(.continueButton)
+            
         } else {
             formStep1
                 .selectFormItemCell(withID: formItemId) /// Adding extra check:  verify that the answer is not saved after it is entered and then skipped it
                 .answerNumericQuestion(number: Double(1), dismissKeyboard: true)
                 .tap(.skipButton)
-        }
-        
-        if answer != nil {
-            formStep2
-                .selectFormItemCell(withID: formItemId)
-                .answerNumericQuestion(number: answer!, dismissKeyboard: true)
-                .tap(.continueButton)
-        } else {
             formStep2.tap(.skipButton)
-        }
-        
-        if answer != nil {
-            formStep3
-                .selectFormItemCell(withID: formItemId)
-                .answerNumericQuestion(number: answer!, dismissKeyboard: true)
-                .verify(.continueButton, isEnabled: true)
-                .tap(.continueButton)
-        } else {
             formStep3.tap(.skipButton)
         }
         
