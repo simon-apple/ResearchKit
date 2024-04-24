@@ -802,4 +802,50 @@ final class SurveyQuestionsUITests: BaseUITest {
         questionStep
             .tap(.continueButton)
     }
+    
+    /// rdar://tsc/25670613 ([Internal] Predefined PII Scrubber)
+    func testPredefinedPIIScrubber() {
+        tasksList
+            .selectTaskByName(Task.textQuestionPIIScrubbing.description)
+
+        let formStep1 = FormStepScreen(id: String(describing: Identifier.textQuestionEmailPIIScrubbingStep), itemIds: [String(describing: Identifier.textQuestionPIIScrubbingEmailFormItem)])
+        let formStep2 = FormStepScreen(id: String(describing: Identifier.textQuestionSSNPIIScrubbingStep), itemIds: [String(describing: Identifier.textQuestionPIIScrubbingSSNFormItem)])
+        
+        let exampleTextEmail = "My email is: user@example.com email" // a phrase that includes an email
+        formStep1
+            .verify(.title)
+            .verify(.skipButton, exists: false)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
+        
+            .answerTextQuestionTextView(withId: formStep1.itemIds[0], text: exampleTextEmail)
+            .verify(.continueButton, isEnabled: true)
+            .tap(.continueButton)
+        
+        let exampleTextSSN = "My ssn number is: 078-05-1120 ssn" // a phrase that includes  an int string like a SSN
+        formStep2
+            .verify(.title)
+            .verify(.skipButton, exists: false)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
+        
+            .answerTextQuestionTextView(withId: formStep2.itemIds[0], text: exampleTextSSN)
+            .verify(.continueButton, isEnabled: true)
+            .tap(.continueButton)
+        
+        // Check the results tab for the child responses
+        let scrubbedTextFormStep1 = "My email is:  email" // The phrase should be presented without the email address
+        let scrubbedTextFormStep2 = "My ssn number is:  ssn" // The phrase should be presented without the SSN
+        let resultsTab = TabBar().navigateToResults()
+        resultsTab
+            .selectResultsCell(withId: formStep1.id)
+            .selectResultsCell(withId: formStep1.itemIds[0])
+            .verifyResultsCellValue(resultType: .textAnswer, expectedValue: scrubbedTextFormStep1)
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+            .selectResultsCell(withId: formStep2.id)
+            .selectResultsCell(withId: formStep2.itemIds[0])
+            .verifyResultsCellValue(resultType: .textAnswer, expectedValue: scrubbedTextFormStep2)
+    }
 }
