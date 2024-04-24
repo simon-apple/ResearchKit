@@ -294,12 +294,11 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
         
         let formStep = FormStepScreen(id: String(describing: Identifier.textQuestionFormStep), itemIds: [String(describing: Identifier.textQuestionFormItem)])
         
-        if textAnswer != nil {
+        if let textAnswer = textAnswer {
             formStep
-                .answerTextQuestionTextView(withId: formStep.itemIds[0], text: textAnswer!)
+                .answerTextQuestionTextView(withId: formStep.itemIds[0], text: textAnswer)
                 .tap(.continueButton)
-        }
-        else {
+        } else {
             formStep.tap(.skipButton)
         }
         
