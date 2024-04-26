@@ -384,4 +384,50 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
     func testNumericQuestionSkipResults() {
         answerAndVerifyNumericQuestionTask(answer: nil, expectedValue: "nil")
     }
+    
+    // MARK: - Value Picker Question
+    
+    func answerAndVerifyValuePickerQuestion(answer: String?, expectedValue: String) {
+        tasksList.selectTaskByName(Task.valuePickerChoiceQuestion.description)
+        
+        let formStep = FormStepScreen(id: String(describing: Identifier.valuePickerChoiceFormStep), itemIds: [String(describing: Identifier.valuePickerChoiceFormItem)])
+        
+        /// This issue required extra button tap to dismiss picker to continue rdar://111132091 ([Modularization] [ORKCatalog] Date Picker won't display on the question card)
+        let shouldUseUIPickerWorkaround = true
+        
+        if let answer = answer {
+            var dismissPicker = false
+            if shouldUseUIPickerWorkaround {
+                formStep.selectFormItemCell(withID: formStep.itemIds[0])
+                dismissPicker = true
+            }
+            formStep
+                .answerPickerValueChoiceQuestion(value: answer, dismissPicker: dismissPicker)
+                .tap(.continueButton)
+        } else {
+            formStep.tap(.skipButton)
+        }
+        
+        let resultsTab = tabBar.navigateToResults()
+        resultsTab
+            .selectResultsCell(withId: formStep.id)
+            .selectResultsCell(withId: formStep.itemIds[0])
+            .verifyResultsCellValue(resultType: .choices, expectedValue: expectedValue)
+    }
+    
+    let textChoices: [(text: String, value: String)] = [("Poor", "[1]"), ("Fair", "[2]") , ("Good", "[3]"), ("Above Average", "[10]"), ("Excellent", "[5]")] /// Choices are based on textChoicesExample in ORKCatalog/TaskListRowSteps.swift
+    
+    func testValuePickerChoiceQuestionMinResult() {
+        let choiceIndex = 0
+        answerAndVerifyValuePickerQuestion(answer: textChoices[choiceIndex].text, expectedValue: textChoices[choiceIndex].value)
+    }
+    
+    func testValuePickerChoiceQuestionMaxResult() {
+        let choiceIndex = 4
+        answerAndVerifyValuePickerQuestion(answer: textChoices[choiceIndex].text, expectedValue: textChoices[choiceIndex].value)
+    }
+    
+    func testValuePickerChoiceQuestionSkipResult() {
+        answerAndVerifyValuePickerQuestion(answer: nil, expectedValue: "nil")
+    }
 }
