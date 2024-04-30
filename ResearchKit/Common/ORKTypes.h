@@ -31,11 +31,9 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#if TARGET_OS_WATCH || TARGET_OS_VISION
+#if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKDefines.h>
-#endif
-
-#if TARGET_OS_IOS
+#else
 #import <ResearchKit/ORKDefines.h>
 #endif
 

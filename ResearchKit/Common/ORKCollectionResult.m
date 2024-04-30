@@ -28,21 +28,20 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "ORKCollectionResult.h"
+
 #if TARGET_OS_WATCH
 @import WatchKit;
 #endif
 
-#import "ORKCollectionResult.h"
-
 #import "ORKCollectionResult_Private.h"
+#import "ORKDevice.h"
+#import "ORKHelpers_Internal.h"
 #import "ORKPageStep.h"
 #import "ORKQuestionResult_Private.h"
 #import "ORKResult_Private.h"
 #import "ORKStep.h"
 #import "ORKTask.h"
-
-#import "ORKHelpers_Internal.h"
-#import "ORKDevice.h"
 
 @interface ORKCollectionResult ()
 

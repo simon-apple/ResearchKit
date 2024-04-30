@@ -28,16 +28,14 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if TARGET_OS_IOS
+#import <Contacts/Contacts.h>
+#import <CoreLocation/CLLocation.h>
+
+#if TARGET_OS_WATCH
+#import <ResearchKitCore/ORKResult.h>
+#else
 #import <ResearchKit/ORKResult.h>
 #endif
-
-#if TARGET_OS_WATCH || TARGET_OS_VISION
-#import <ResearchKitCore/ORKResult.h>
-#endif
-
-#import <CoreLocation/CLLocation.h>
-#import <Contacts/Contacts.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
