@@ -6,12 +6,15 @@
 //
 
 import Foundation
+import ResearchKitCore
 import SwiftUI
 
 @Observable
 public class ScaleSliderNumericRange {
     public var minValue: Int
     public var maxValue: Int
+
+    public var selectedValue: Int?
 
     init(minValue: Int, maxValue: Int) {
         self.minValue = minValue
@@ -25,7 +28,8 @@ public enum ScaleAxis {
 
 public enum ScaleSelectionType {
     case textChoice([MultipleChoiceOption<String>])
-    case numericRange(ScaleSliderNumericRange)
+    case integerRange(ClosedRange<Int>)
+    case doubleRange(ClosedRange<Double>)
 }
 
 @Observable
@@ -33,7 +37,7 @@ public class ScaleSliderQuestion<ResultType>: Identifiable {
 
     public var title: String
     public var id: UUID
-    public var selectionType: ScaleSelectionType
+    public let selectionType: ScaleSelectionType
     public var result: ResultType
 
 
@@ -56,7 +60,8 @@ public struct ScaleSliderQuestionView<ResultType>: View {
 
     private var scaleSelectionType: ScaleSelectionType
 
-    @State var value: Double = 2.0
+    @State
+    var value = 0.0
 
     @Binding
     public var result: ResultType
@@ -94,27 +99,42 @@ public struct ScaleSliderQuestionView<ResultType>: View {
     func scaleView(selectionType: ScaleSelectionType) -> some View {
 
         switch selectionType {
-            case .textChoice(let array):
-                Text("Coming Soon")
-            case .numericRange(let scaleSliderNumericRange):
+            case .integerRange(let range):
                 VStack {
-                    HStack {
-                        Text("\(scaleSliderNumericRange.minValue)")
-                            .frame(alignment: .leading)
-                        Text("\(scaleSliderNumericRange.maxValue)")
-                            .frame(alignment: .trailing)
-                    }
+                    Text("\(value)")
                     Slider(
                         value: $value,
-                        in: 0...10
+                        in: 0...100
                     ) {
-                        Text("Hello")
+                        Text("Replace This Text")
                     } minimumValueLabel: {
-                        Text("\(scaleSliderNumericRange.minValue)")
+                        Text("min")
                     } maximumValueLabel: {
-                        Text("\(scaleSliderNumericRange.maxValue)")
+                        Text("max")
                     }
                 }
+
+            default:
+                Text("Coming Soon")
+//            case .numericRange(let scaleSliderNumericRange):
+//                VStack {
+//                    HStack {
+//                        Text("\(scaleSliderNumericRange.minValue)")
+//                            .frame(alignment: .leading)
+//                        Text("\(scaleSliderNumericRange.maxValue)")
+//                            .frame(alignment: .trailing)
+//                    }
+//                    Slider(
+//                        value: $value,
+//                        in: 0...10
+//                    ) {
+//                        Text("Hello")
+//                    } minimumValueLabel: {
+//                        Text("\(scaleSliderNumericRange.minValue)")
+//                    } maximumValueLabel: {
+//                        Text("\(scaleSliderNumericRange.maxValue)")
+//                    }
+//                }
         }
     }
 

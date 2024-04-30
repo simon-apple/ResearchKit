@@ -108,24 +108,12 @@ internal struct FormStepView: View {
                                 selectionType: multipleChoiceValueBinding.selectionType
                             )
                         case .scale(let scaleQuestion):
-
                             @Bindable var scaleQuestionBinding = scaleQuestion
-
                             ScaleSliderQuestionView(
                                 title: scaleQuestion.title,
                                 result: $scaleQuestionBinding.result,
-                                scaleSelectionType: scaleQuestion.selectionType
+                                scaleSelectionType: scaleQuestionBinding.selectionType
                             )
-//                                ScaleSliderQuestionView(
-//                                    title: scaleQuestion.title,
-//                                    result: $scaleQuestionBinding.result,
-//                                    selectionType: .numericRange(
-//                                        ScaleSliderNumericRange(
-//                                            minValue: scaleQuestionBinding.minValue,
-//                                            maxValue: scaleQuestionBinding.maxValue
-//                                        )
-//                                    )
-//                                )
                         }
                     }
                 }
