@@ -37,10 +37,13 @@
 
 #if TARGET_OS_WATCH || TARGET_OS_VISION
 #import <ResearchKitCore/ORKTypes.h>
+@class ORKScaleAnswerFormat;
+@class ORKContinuousScaleAnswerFormat;
+@class ORKTextScaleAnswerFormat;
 #endif
 
-#if TARGET_OS_IOS
-#import <ResearchKit/ORKTypes.h>
+//#if TARGET_OS_IOS
+//#import <ResearchKit/ORKTypes.h>
 
 @class ORKScaleAnswerFormat;
 @class ORKContinuousScaleAnswerFormat;
@@ -59,7 +62,7 @@
 @class ORKLocationAnswerFormat;
 @class ORKSESAnswerFormat;
 @class ORKImageChoice;
-#endif
+//#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -445,9 +448,9 @@ ORK_CLASS_AVAILABLE
 #endif
 
 
-#pragma mark - iOS
+//#pragma mark - iOS
 
-#if TARGET_OS_IOS
+//#if TARGET_OS_IOS
 @interface ORKAnswerFormat()
 
 /// @name Factory methods
@@ -2263,6 +2266,6 @@ ORK_CLASS_AVAILABLE
 
 @end
 
-#endif
+//#endif
 
 NS_ASSUME_NONNULL_END

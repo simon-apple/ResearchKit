@@ -72,6 +72,13 @@ class FormStepViewModel: ObservableObject {
                     )
                 )
             }
+            else if let answerFormat = formItem.answerFormat as? ORKScaleAnswerFormat,
+                    let text = formItem.text {
+                return FormRow.scale(ScaleSliderQuestion(
+                    title: text,
+                    id: UUID(),
+                    selectionType: .numericRange(ScaleSliderNumericRange(minValue: answerFormat.minimum, maxValue: answerFormat.maximum)), result: 0))
+            }
             return nil
         }
         let formRowsCompacted = formRows.compactMap { $0 }
