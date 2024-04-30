@@ -337,7 +337,9 @@ static const double ORKdBHLVolumeViewAlpha = 0.001;
     
     [_arrayOfResultSamples addObject:resultSample];
     
-    [self.dBHLToneAudiometryContentView resetView];
+    if (_currentTestIndex < dBHLTAStep.frequencyList.count -1) {
+        [self.dBHLToneAudiometryContentView resetView];
+    }
     [self nextTrial];
 }
 
