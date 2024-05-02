@@ -86,7 +86,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
         if (completionStep) {
             [currentTask removeSkipNavigationRuleForStepIdentifier:self.headphoneRequiredIdentifier];
         } else {
-            completionStep = [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:self.headphoneRequiredIdentifier requiredHeadphoneTypes: ORKHeadphoneTypesAny];
+            completionStep = [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:self.headphoneRequiredIdentifier requiredHeadphoneTypes: ORKHeadphoneTypesAny lockedToAppleHeadphoneType:nil];
             completionStep.title = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TITLE", nil);
             completionStep.text = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TEXT", nil);
             completionStep.optional = NO;

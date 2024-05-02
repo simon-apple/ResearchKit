@@ -719,7 +719,9 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
             @"ORKFaceDetectionBlurFooterView.startStopButton",
             @"ORKFaceDetectionBlurFooterView.timerLabel",
             @"ORKBLEScanPeripheralsStepResult.centralManager",
-            @"ORKBLEScanPeripheralsStepResult.connectedPeripherals"
+            @"ORKBLEScanPeripheralsStepResult.connectedPeripherals",
+            @"ORKHeadphoneDetectStep.lockedToAppleHeadphoneType",
+            @"ORKSelectableHeadphoneDetectorPredefinedTask.steps"
         ];
         _knownNotSerializedProperties = [_knownNotSerializedProperties arrayByAddingObjectsFromArray:internalKnownNotSerializedProperties];
 #endif

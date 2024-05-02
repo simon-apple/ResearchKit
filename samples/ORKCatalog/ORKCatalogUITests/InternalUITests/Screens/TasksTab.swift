@@ -102,6 +102,7 @@ enum Task {
     case predefinedSpeechInNoiseTask
     case predefinedAVJournalingTask
     case predefinedTinnitusTask
+    case predefinedSelectableHeadphoneTask
     case ble
     case textQuestionPIIScrubbing
     case newdBHLToneAudiometryTask
@@ -316,6 +317,9 @@ enum Task {
             
         case .predefinedTinnitusTask:
             return NSLocalizedString("Predefined Tinnitus", comment: "")
+            
+        case .predefinedSelectableHeadphoneTask:
+            return NSLocalizedString("Selectable Headphone", comment: "")
             
         case .ble:
             return NSLocalizedString("BLE", comment: "")

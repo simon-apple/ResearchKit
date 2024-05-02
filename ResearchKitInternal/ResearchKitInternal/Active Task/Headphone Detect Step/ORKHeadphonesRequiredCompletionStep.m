@@ -30,14 +30,15 @@
 // apple-internal
 
 #import "ORKHeadphonesRequiredCompletionStep.h"
-
 #import "ORKIUtils.h"
 
 #import <ResearchKit/ORKHelpers_Internal.h>
 
 @implementation ORKHeadphonesRequiredCompletionStep
 
-- (instancetype)initWithIdentifier:(NSString *)identifier requiredHeadphoneTypes:(ORKHeadphoneTypes)requiredHeadphoneTypes {
+- (instancetype)initWithIdentifier:(NSString *)identifier
+            requiredHeadphoneTypes:(ORKHeadphoneTypes)requiredHeadphoneTypes
+        lockedToAppleHeadphoneType:(nullable ORKHeadphoneTypeIdentifier)lockedHeadphone {
     self = [super initWithIdentifier:identifier];
     if (self) {
         self.requiredHeadphoneTypes = requiredHeadphoneTypes;
@@ -48,8 +49,8 @@
                 self.text = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_HEADPHONES_REQUIRED_TEXT", nil);
                 break;
             case ORKHeadphoneTypesSupported:
-                self.title = ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TITLE", nil);
-                self.text = ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT", nil);
+                self.title = [self getStepTitleForHeadphoneType:lockedHeadphone];
+                self.text = [self getStepTextForHeadphoneType:lockedHeadphone];
                 break;
         }
     }
@@ -89,6 +90,29 @@
 
 - (NSUInteger)hash {
     return super.hash ^ self.requiredHeadphoneTypes;
+}
+
+- (NSString *)getStepTitleForHeadphoneType:(_Nullable ORKHeadphoneTypeIdentifier)headphoneType {
+    if (headphoneType == nil) {
+        return [NSString stringWithFormat:ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TITLE", nil), @"s"];
+    }
+    return [NSString stringWithFormat:ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TITLE", nil), @""];
+}
+
+- (NSString *)getStepTextForHeadphoneType:(_Nullable ORKHeadphoneTypeIdentifier)headphoneType {
+    if (headphoneType == nil) {
+        return ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT", nil);
+    }
+    NSDictionary *stepText = @{
+        ORKHeadphoneTypeIdentifierAirPodsGen1:      ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_AIRPODSGEN1", nil),
+        ORKHeadphoneTypeIdentifierAirPodsGen2:      ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_AIRPODSGEN2", nil),
+        ORKHeadphoneTypeIdentifierAirPodsGen3:      ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_AIRPODSGEN3", nil),
+        ORKHeadphoneTypeIdentifierAirPodsPro:       ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_AIRPODSPROGEN1", nil),
+        ORKHeadphoneTypeIdentifierAirPodsProGen2:   ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_AIRPODSPROGEN2", nil),
+        ORKHeadphoneTypeIdentifierAirPodsMax:       ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_AIRPODSMAX", nil),
+        ORKHeadphoneTypeIdentifierEarPods:          ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_EARPODS", nil)
+    };
+    return stepText[headphoneType];
 }
 
 @end

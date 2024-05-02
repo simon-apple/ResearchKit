@@ -37,6 +37,7 @@
 #import <ResearchKitInternal/ORKIHelpers_Internal.h>
 #import <ResearchKitInternal/ORKISpeechRecognitionStep.h>
 #import <ResearchKitInternal/ORKISpeechRecognitionStepViewController.h>
+#import <ResearchKitInternal/ORKSelectableHeadphoneDetectorPredefinedTask.h>
 #import <ResearchKitInternal/ORKSensitiveURLLearnMoreInstructionStep.h>
 #import <ResearchKitInternal/ORKSpeechInNoisePredefinedTask.h>
 #import <ResearchKitInternal/ORKTinnitusMaskingSoundStep.h>

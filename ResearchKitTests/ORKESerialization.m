@@ -2746,16 +2746,27 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      PROPERTY(appendSteps, ORKStep, NSArray, NO, nil, nil),
                      SKIP_PROPERTY(steps, ORKStep, NSArray, NO, nil, nil)
                   })),
+           ENTRY(ORKSelectableHeadphoneDetectorPredefinedTask,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     ORKOrderedTask *task = [[ORKSelectableHeadphoneDetectorPredefinedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
+                                                                                                               steps:GETPROP(dict, steps)];
+                     return task;
+                 },
+                 (@{
+                      PROPERTY(identifier, NSString, NSObject, NO, nil, nil),
+                      PROPERTY(steps, ORKStep, NSArray, NO, nil, nil)
+                      })),
            ENTRY(ORKHeadphoneDetectStep, ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
             return [[ORKHeadphoneDetectStep alloc] initWithIdentifier:GETPROP(dict, identifier)
                                                        headphoneTypes:(NSUInteger)[GETPROP(dict, headphoneTypes) integerValue]];
         },
                  (@{
                      PROPERTY(headphoneTypes, NSNumber, NSObject, YES, nil, nil),
+                     PROPERTY(lockedToAppleHeadphoneType, NSString, NSObject, YES, nil, nil)
                  })),
            ENTRY(ORKHeadphonesRequiredCompletionStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:GETPROP(dict, identifier) requiredHeadphoneTypes:(NSUInteger)[GETPROP(dict, requiredHeadphoneTypes) integerValue]];
+               return [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:GETPROP(dict, identifier) requiredHeadphoneTypes:(NSUInteger)[GETPROP(dict, requiredHeadphoneTypes) integerValue] lockedToAppleHeadphoneType:nil];
                 },
                  (@{
                      PROPERTY(requiredHeadphoneTypes, NSNumber, NSObject, YES, nil, nil)

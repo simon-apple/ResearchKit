@@ -141,6 +141,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case predefinedSpeechInNoiseTask
     case predefinedAVJournalingTask
     case predefinedTinnitusTask
+    case predefinedSelectableHeadphoneTask
     case ble
     case textQuestionPIIScrubbing
     case methodOfAdjustmentdBHLToneAudiometryTask
@@ -267,6 +268,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .platterUIQuestion,
                     .predefinedAVJournalingTask,
                     .predefinedSpeechInNoiseTask,
+                    .predefinedSelectableHeadphoneTask,
                     .predefinedTinnitusTask,
                     .studyPromoTask,
                     .studySignPostStep,
@@ -492,6 +494,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .predefinedTinnitusTask:
             return NSLocalizedString("Predefined Tinnitus", comment: "")
+            
+        case .predefinedSelectableHeadphoneTask:
+            return NSLocalizedString("Selectable Heaphone Detector", comment: "")
         
         case .ble:
             return NSLocalizedString("BLE", comment: "")
@@ -753,6 +758,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .predefinedTinnitusTask:
             return predefinedTinnitusTask
+            
+        case .predefinedSelectableHeadphoneTask:
+            return predefinedSelectableHeadphoneTask
             
         case .ble:
             return ble
@@ -2098,6 +2106,10 @@ enum TaskListRow: Int, CustomStringConvertible {
         }
         
         return ORKTinnitusPredefinedTask(identifier: "\(Identifier.predefinedTinnitusTask)", audioSetManifestPath: path, prepend: nil, append: nil)
+    }
+    
+    private var predefinedSelectableHeadphoneTask: ORKTask {
+        return ORKSelectableHeadphoneDetectorPredefinedTask(identifier: "\(Identifier.predefinedSelectableHeadphoneTask)", steps: nil)
     }
     
     private var ble: ORKTask {

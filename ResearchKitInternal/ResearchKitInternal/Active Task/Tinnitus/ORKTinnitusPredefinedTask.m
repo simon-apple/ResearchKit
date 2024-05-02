@@ -116,7 +116,7 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
         if (completionStep) {
             [currentTask removeSkipNavigationRuleForStepIdentifier:self.headphoneRequiredIdentifier];
         } else {
-            completionStep = [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:self.headphoneRequiredIdentifier requiredHeadphoneTypes:ORKHeadphoneTypesSupported];
+            completionStep = [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:self.headphoneRequiredIdentifier requiredHeadphoneTypes:ORKHeadphoneTypesSupported lockedToAppleHeadphoneType:nil];
             [currentTask insertStep:completionStep atIndex:[currentTask indexOfStep:step]+1];
         }
         

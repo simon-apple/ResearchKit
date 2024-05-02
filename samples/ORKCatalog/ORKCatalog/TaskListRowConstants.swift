@@ -302,6 +302,7 @@ enum Identifier {
     case textQuestionPIIScrubbingSSNFormItem
     case predefinedSpeechInNoiseTask
     case predefinedAVJournalingTask
+    case predefinedSelectableHeadphoneTask
     case predefinedTinnitusTask
     case methodOfAdjustmentdBHLToneAudiometryTask
     case newdBHLToneAudiometryTask
