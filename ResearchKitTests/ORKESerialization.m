@@ -1691,6 +1691,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(formItems, ORKFormItem, NSArray, YES, nil, nil),
                     PROPERTY(footnote, NSString, NSObject, YES, nil, nil),
                     PROPERTY(useCardView, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(autoScrollEnabled, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(footerText, NSString, NSObject, YES, nil, nil),
                     PROPERTY(cardViewStyle, NSNumber, NSObject, YES, nil, nil),
                     })),
