@@ -70,6 +70,7 @@ class SystemSound {
 enum TaskListRow: Int, CustomStringConvertible {
     case form = 0
     case groupedForm
+    case groupedFormNoScroll
     case survey
     case dontknowSurvey
     case surveyWithMultipleOptions
@@ -171,6 +172,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                 [
                     .dontknowSurvey,
                     .groupedForm,
+                    .groupedFormNoScroll,
                     .form,
                     .survey,
                     .surveyWithMultipleOptions
@@ -279,13 +281,16 @@ enum TaskListRow: Int, CustomStringConvertible {
     var description: String {
         switch self {
         case .form:
-            return NSLocalizedString("Form Survey Example", comment: "")
+            return NSLocalizedString("Form Survey", comment: "")
             
         case .groupedForm:
-            return NSLocalizedString("Grouped Form Survey Example", comment: "")
+            return NSLocalizedString("Grouped Form Survey", comment: "")
+            
+        case .groupedFormNoScroll:
+            return NSLocalizedString("Grouped From Survey No AutoScroll", comment: "")
 
         case .survey:
-            return NSLocalizedString("Simple Survey Example", comment: "")
+            return NSLocalizedString("Simple Survey", comment: "")
             
         case .dontknowSurvey:
             return NSLocalizedString("Don't Know Survey", comment: "")
@@ -535,6 +540,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .groupedForm:
             return groupedFormTask
+            
+        case .groupedFormNoScroll:
+            return groupedFormTaskNoScroll
     
         case .surveyWithMultipleOptions:
             return formTaskWithMultipleOptions
@@ -1011,47 +1019,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
     
     private var groupedFormTask: ORKTask {
-        let step = ORKFormStep(identifier: String(describing: Identifier.groupedFormStep), title: NSLocalizedString("Form Step", comment: ""), text: TaskListRowStrings.exampleDetailText)
-        
-        //Start of first section
-        let learnMoreInstructionStep01 = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
-        learnMoreInstructionStep01.title = NSLocalizedString("Learn more title", comment: "")
-        learnMoreInstructionStep01.text = NSLocalizedString("Learn more text", comment: "")
-        let learnMoreItem01 = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep01)
-        let section01 = ORKFormItem(sectionTitle: NSLocalizedString("Section title", comment: ""), detailText: NSLocalizedString("Section detail text", comment: ""), learnMoreItem: learnMoreItem01, showsProgress: true)
-        
-        // A first field, for entering an integer.
-        let formItem01Text = NSLocalizedString("Field01", comment: "")
-        let formItem01 = ORKFormItem(identifier: String(describing: Identifier.formItem01), text: formItem01Text, answerFormat: ORKAnswerFormat.integerAnswerFormat(withUnit: nil))
-        formItem01.placeholder = NSLocalizedString("Your placeholder here", comment: "")
-        
-        // A second field, for entering a time interval.
-        let formItem02Text = NSLocalizedString("Field02", comment: "")
-        let formItem02 = ORKFormItem(identifier: String(describing: Identifier.formItem02), text: formItem02Text, answerFormat: ORKTimeIntervalAnswerFormat())
-        formItem02.placeholder = NSLocalizedString("Your placeholder here", comment: "")
-        
-        let textOnlySection = ORKFormItem(sectionTitle: NSLocalizedString("Text Only Section", comment: ""), detailText: NSLocalizedString("Text section text", comment: ""), learnMoreItem: learnMoreItem01, showsProgress: true)
-        let textOnlyFormItemA = ORKFormItem(identifier: "text-section-text-item-a", text: "Text Field A", answerFormat: ORKTextAnswerFormat())
-        let textOnlyFormItemB = ORKFormItem(identifier: "text-section-text-item-b", text: "Text Field B", answerFormat: ORKTimeIntervalAnswerFormat())
-
-        let sesAnswerFormat = ORKSESAnswerFormat(topRungText: "Best Off", bottomRungText: "Worst Off")
-        let sesFormItem = ORKFormItem(identifier: "sesIdentifier", text: "Select where you are on the socioeconomic ladder.", answerFormat: sesAnswerFormat)
-        
-        //Start of section for scale question
-        let formItem03Text = TaskListRowStrings.exampleQuestionText
-        let scaleAnswerFormat = ORKContinuousScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0.0, maximumFractionDigits: 1)//ORKScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0, step: 1)
-        let formItem03 = ORKFormItem(identifier: String(describing: Identifier.formItem03), text: formItem03Text, detailText: nil, learnMoreItem: nil, showsProgress: true, answerFormat: scaleAnswerFormat, tagText: nil, optional: true)
-       
-        step.formItems = [
-            section01,
-            formItem01,
-            formItem02,
-            textOnlySection,
-            textOnlyFormItemA,
-            textOnlyFormItemB,
-            formItem03,
-            sesFormItem
-        ]
+        let step = TaskListRowSteps.groupFormExample
         
         let booleanQuestionFormStep = TaskListRowSteps.booleanExample
         
@@ -1079,6 +1047,13 @@ enum TaskListRow: Int, CustomStringConvertible {
         ]
         
         return ORKOrderedTask(identifier: String(describing: Identifier.groupedFormTask), steps: [step, booleanQuestionFormStep, birthdayQuestionFormStep, appleFormStep])
+    }
+    
+    private var groupedFormTaskNoScroll: ORKTask {
+        let groupedFormStep = TaskListRowSteps.groupFormExample
+        groupedFormStep.autoScrollEnabled = false
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.groupedFormTask), steps: [groupedFormStep])
     }
 
     /**

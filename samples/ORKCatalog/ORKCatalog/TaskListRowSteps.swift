@@ -197,6 +197,54 @@ enum TaskListRowSteps {
         return emailFormStep
     }
     
+    static var groupFormExample: ORKFormStep {
+        let step = ORKFormStep(identifier: String(describing: Identifier.groupedFormStep),
+                               title: NSLocalizedString("Form Step", comment: ""),
+                               text: TaskListRowStrings.exampleDetailText)
+        
+        //Start of first section
+        let learnMoreInstructionStep01 = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
+        learnMoreInstructionStep01.title = NSLocalizedString("Learn more title", comment: "")
+        learnMoreInstructionStep01.text = NSLocalizedString("Learn more text", comment: "")
+        let learnMoreItem01 = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep01)
+        let section01 = ORKFormItem(sectionTitle: NSLocalizedString("Section title", comment: ""), detailText: NSLocalizedString("Section detail text", comment: ""), learnMoreItem: learnMoreItem01, showsProgress: true)
+        
+        // A first field, for entering an integer.
+        let formItem01Text = NSLocalizedString("Field01", comment: "")
+        let formItem01 = ORKFormItem(identifier: String(describing: Identifier.formItem01), text: formItem01Text, answerFormat: ORKAnswerFormat.integerAnswerFormat(withUnit: nil))
+        formItem01.placeholder = NSLocalizedString("Your placeholder here", comment: "")
+        
+        // A second field, for entering a time interval.
+        let formItem02Text = NSLocalizedString("Field02", comment: "")
+        let formItem02 = ORKFormItem(identifier: String(describing: Identifier.formItem02), text: formItem02Text, answerFormat: ORKTimeIntervalAnswerFormat())
+        formItem02.placeholder = NSLocalizedString("Your placeholder here", comment: "")
+        
+        let textOnlySection = ORKFormItem(sectionTitle: NSLocalizedString("Text Only Section", comment: ""), detailText: NSLocalizedString("Text section text", comment: ""), learnMoreItem: learnMoreItem01, showsProgress: true)
+        let textOnlyFormItemA = ORKFormItem(identifier: "text-section-text-item-a", text: "Text Field A", answerFormat: ORKTextAnswerFormat())
+        let textOnlyFormItemB = ORKFormItem(identifier: "text-section-text-item-b", text: "Text Field B", answerFormat: ORKTimeIntervalAnswerFormat())
+        
+        let sesAnswerFormat = ORKSESAnswerFormat(topRungText: "Best Off", bottomRungText: "Worst Off")
+        let sesFormItem = ORKFormItem(identifier: "sesIdentifier", text: "Select where you are on the socioeconomic ladder.", answerFormat: sesAnswerFormat)
+        
+        //Start of section for scale question
+        let formItem03Text = TaskListRowStrings.exampleQuestionText
+        let scaleAnswerFormat = ORKContinuousScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0.0, maximumFractionDigits: 1)//ORKScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0, step: 1)
+        let formItem03 = ORKFormItem(identifier: String(describing: Identifier.formItem03), text: formItem03Text, detailText: nil, learnMoreItem: nil, showsProgress: true, answerFormat: scaleAnswerFormat, tagText: nil, optional: true)
+        
+        step.formItems = [
+            section01,
+            formItem01,
+            formItem02,
+            textOnlySection,
+            textOnlyFormItemA,
+            textOnlyFormItemB,
+            formItem03,
+            sesFormItem
+        ]
+        
+        return step
+    }
+    
     static var heartRateExample: ORKFormStep {
         let heartRateType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!
         let heartRateAnswerFormat = ORKHealthKitQuantityTypeAnswerFormat(quantityType: heartRateType,
