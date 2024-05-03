@@ -32,14 +32,11 @@
 #import <Foundation/Foundation.h>
 #import <HealthKit/HealthKit.h>
 
-#if TARGET_OS_WATCH || TARGET_OS_VISION
+#if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKTypes.h>
-#endif
-
-#if TARGET_OS_IOS
+#else
 #import <ResearchKit/ORKTypes.h>
 #endif
-
 
 NS_ASSUME_NONNULL_BEGIN
 

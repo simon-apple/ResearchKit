@@ -5,7 +5,7 @@
 //  Created by Jessi Aboukasm on 4/1/24.
 //
 
-import ResearchKitCore
+import ResearchKit
 import SwiftUI
 
 class FormStepViewModel: ObservableObject {
