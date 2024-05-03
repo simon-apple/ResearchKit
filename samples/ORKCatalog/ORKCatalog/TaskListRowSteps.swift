@@ -612,25 +612,33 @@ enum TaskListRowSteps {
                                                     detailText: nil,
                                                     image: UIImage(systemName: "heart.fill"),
                                                     learnMoreItem: nil,
-                                                    bodyItemStyle: .image)
+                                                    bodyItemStyle: .image,
+                                                    useCardStyle: false,
+                                                    alignImageToTop: true)
         
         let completingTasksBodyItem = ORKBodyItem(text: "You will be asked to complete various tasks over the duration of the study.",
                                                   detailText: nil,
                                                   image: UIImage(systemName: "checkmark.circle.fill"),
                                                   learnMoreItem: nil,
-                                                  bodyItemStyle: .image)
+                                                  bodyItemStyle: .image,
+                                                  useCardStyle: false,
+                                                  alignImageToTop: true)
         
         let signatureBodyItem = ORKBodyItem(text: "Before joining, we will ask you to sign an informed consent document.",
                                             detailText: nil,
                                             image: UIImage(systemName: "signature"),
                                             learnMoreItem: nil,
-                                            bodyItemStyle: .image)
+                                            bodyItemStyle: .image,
+                                            useCardStyle: false,
+                                            alignImageToTop: true)
         
         let secureDataBodyItem = ORKBodyItem(text: "Your data is kept private and secure.",
                                              detailText: nil,
-                                             image: UIImage(systemName: "lock.fill"),
+                                             image:  UIImage(systemName: "lock.fill"),
                                              learnMoreItem: nil,
-                                             bodyItemStyle: .image)
+                                             bodyItemStyle: .image,
+                                             useCardStyle: false,
+                                             alignImageToTop: true)
         
         instructionStep.bodyItems = [
             sharingHealthDataBodyItem,
