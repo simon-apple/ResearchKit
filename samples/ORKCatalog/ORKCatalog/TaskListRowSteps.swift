@@ -634,7 +634,7 @@ enum TaskListRowSteps {
         
         let secureDataBodyItem = ORKBodyItem(text: "Your data is kept private and secure.",
                                              detailText: nil,
-                                             image:  UIImage(systemName: "lock.fill"),
+                                             image: UIImage(systemName: "lock.fill"),
                                              learnMoreItem: nil,
                                              bodyItemStyle: .image,
                                              useCardStyle: false,
