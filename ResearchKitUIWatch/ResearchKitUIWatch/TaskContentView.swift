@@ -121,7 +121,14 @@ internal struct TaskContentView<Content>: View where Content: View {
             }
             
             currentResult.endDate = Date()
-            
+            let viewModel = taskManager.viewModelForStep(currentStep)
+            switch viewModel {
+            case .formStep(let formStepViewModel):
+                print("TODO: serialize these results to JSON by pulling in serializer: \(formStepViewModel.result)")
+                break
+            case .none:
+                break
+            }
             taskManager.mark(currentStep, answered: true)
         } else if !complete && currentStep is ORKFormStep {
             taskManager.mark(currentStep, answered: false)
@@ -186,7 +193,7 @@ internal struct TaskContentView<Content>: View where Content: View {
                         }
                     } else {
                         Button {
-
+                            completion(true)
                             taskManager.finishReason = .completed
                         } label: {
                             Text("Done").bold()
