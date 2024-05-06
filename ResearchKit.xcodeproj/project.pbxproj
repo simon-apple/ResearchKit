@@ -25,6 +25,9 @@
 		03BD9EA4253E62A0008ADBE1 /* ORKBundleAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BD9EA2253E62A0008ADBE1 /* ORKBundleAsset.m */; };
 		03EDD58024CA6B1D006245E9 /* ORKNotificationPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 03EDD57E24CA6B1D006245E9 /* ORKNotificationPermissionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		03EDD58124CA6B1D006245E9 /* ORKNotificationPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EDD57F24CA6B1D006245E9 /* ORKNotificationPermissionType.m */; };
+		0B0852742BD872C400149963 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0B0852732BD872C400149963 /* PrivacyInfo.xcprivacy */; };
+		0B0852762BD872D800149963 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0B0852752BD872D800149963 /* PrivacyInfo.xcprivacy */; };
+		0B0852782BD872EA00149963 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0B0852772BD872EA00149963 /* PrivacyInfo.xcprivacy */; };
 		0B53DA642BD0595100227126 /* ResearchKitUI.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0B53DA622BD0595100227126 /* ResearchKitUI.strings */; };
 		0B59A6BF28C1738D005035B4 /* ORKPickerTestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B59A6BE28C1738D005035B4 /* ORKPickerTestDelegate.m */; };
 		0B7E977B2B76B60200E2C6F8 /* ORKQuestionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BA11A8D7C5C00081FAC /* ORKQuestionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1114,6 +1117,9 @@
 		03EDD57E24CA6B1D006245E9 /* ORKNotificationPermissionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKNotificationPermissionType.h; sourceTree = "<group>"; };
 		03EDD57F24CA6B1D006245E9 /* ORKNotificationPermissionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKNotificationPermissionType.m; sourceTree = "<group>"; };
 		05F3765923C797930068E166 /* ResearchKit.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ResearchKit.xctestplan; sourceTree = "<group>"; };
+		0B0852732BD872C400149963 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		0B0852752BD872D800149963 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		0B0852772BD872EA00149963 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		0B53DA632BD0595100227126 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ResearchKitUI.strings; sourceTree = "<group>"; };
 		0B59A6BD28C1738D005035B4 /* ORKPickerTestDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKPickerTestDelegate.h; sourceTree = "<group>"; };
 		0B59A6BE28C1738D005035B4 /* ORKPickerTestDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKPickerTestDelegate.m; sourceTree = "<group>"; };
@@ -2837,6 +2843,7 @@
 				5D06632F24FEF272005D9B40 /* ResearchKitUI.h */,
 				CA6A0D9F288F1F3C0048C1EF /* ResearchKitUI.modulemap */,
 				CA6A0D9D288F1BDC0048C1EF /* ResearchKitUI_Private.h */,
+				0B0852752BD872D800149963 /* PrivacyInfo.xcprivacy */,
 				5D06633024FEF272005D9B40 /* Info.plist */,
 				CA1C7A5B288B0C69004DAB3A /* Info-iOS.plist */,
 				51FBAC582BC86E6E009CA28F /* ResearchKitUI_Private.modulemap */,
@@ -2908,6 +2915,7 @@
 				86C40C101A8D7C5C00081FAC /* Info.plist */,
 				B18AABE01A9F08D9003871B5 /* ResearchKit.modulemap */,
 				51FBAC572BC85C7A009CA28F /* ResearchKit_Private.modulemap */,
+				0B0852732BD872C400149963 /* PrivacyInfo.xcprivacy */,
 				5139A553266ED9BB00537192 /* ORKFeatureFlags.h */,
 				861610BF1A8D8EDD00245F7A /* Artwork.xcassets */,
 			);
@@ -3981,6 +3989,7 @@
 				CAD089A6289DDE97007B2A98 /* Trailmaking */,
 				CAD089A7289DDEA8007B2A98 /* Walking */,
 				51FBAC7D2BC9EBA7009CA28F /* Info.plist */,
+				0B0852772BD872EA00149963 /* PrivacyInfo.xcprivacy */,
 			);
 			path = ResearchKitActiveTask;
 			sourceTree = "<group>";
@@ -5399,6 +5408,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B0852742BD872C400149963 /* PrivacyInfo.xcprivacy in Resources */,
 				168EEAB6230B6F9E003FD2FA /* plist-to-strings.py in Resources */,
 				0BEE14B1286CE552005F26D1 /* Scrubbers in Resources */,
 				B1C0F4E41A9BA65F0022C153 /* ResearchKit.strings in Resources */,
@@ -5411,6 +5421,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B0852762BD872D800149963 /* PrivacyInfo.xcprivacy in Resources */,
 				0B53DA642BD0595100227126 /* ResearchKitUI.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5437,6 +5448,7 @@
 				51BD8FD729D60FB60001D54E /* frequency_dBSPL_AIRPODSPRO.plist in Resources */,
 				51AF1B242B69803A00D3B399 /* Noise.wav in Resources */,
 				5192BF5D2AE19036006E43FB /* frequency_dBSPL_AIRPODSPROV2.plist in Resources */,
+				0B0852782BD872EA00149963 /* PrivacyInfo.xcprivacy in Resources */,
 				51BD8FD029D60FB60001D54E /* volume_curve_AIRPODS.plist in Resources */,
 				51BD8FD429D60FB60001D54E /* volume_curve_WIRED.plist in Resources */,
 				0BD9B6132B75992F00A64EF9 /* Sentence7.wav in Resources */,
