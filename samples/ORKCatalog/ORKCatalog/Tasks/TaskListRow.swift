@@ -293,7 +293,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             return NSLocalizedString("Grouped Form Survey", comment: "")
             
         case .groupedFormNoScroll:
-            return NSLocalizedString("Grouped From Survey No AutoScroll", comment: "")
+            return NSLocalizedString("Grouped Form Survey No AutoScroll", comment: "")
 
         case .survey:
             return NSLocalizedString("Simple Survey", comment: "")
