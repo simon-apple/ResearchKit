@@ -122,25 +122,6 @@ internal struct FormStepView: View {
             }
         }
     }
-
-    @ViewBuilder
-    func viewFor(formRow: FormRow) -> some View {
-        switch formRow {
-        case .textRow(let value):
-            @Bindable var textValueBinding = value
-            TextField("Placeholder", text: $textValueBinding.text)
-        case .multipleChoiceRow(let value):
-            @Bindable var multipleChoiceValueBinding = value
-            MultipleChoiceQuestionView(
-                title: multipleChoiceValueBinding.title,
-                options: multipleChoiceValueBinding.choices,
-                result: $multipleChoiceValueBinding.result,
-                selectionType: multipleChoiceValueBinding.selectionType
-            )
-        case .scale(let scaleQuestion):
-            Text("This is getting used! Scale-Slider")
-        }
-    }
 }
 
 

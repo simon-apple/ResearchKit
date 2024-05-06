@@ -101,6 +101,21 @@ public struct ScaleSliderQuestionView<ResultType>: View {
         switch selectionType {
             case .integerRange(let range):
                 VStack {
+                    Text("\(Int(value))")
+                    Slider(
+                        value: $value,
+                        in: 0...100,
+                        step: 1
+                    ) {
+                        Text("Replace This Text")
+                    } minimumValueLabel: {
+                        Text("min")
+                    } maximumValueLabel: {
+                        Text("max")
+                    }
+                }
+            case .doubleRange(let range):
+                VStack {
                     Text("\(value)")
                     Slider(
                         value: $value,
@@ -113,28 +128,22 @@ public struct ScaleSliderQuestionView<ResultType>: View {
                         Text("max")
                     }
                 }
+            case .textChoice(let choices):
+                VStack {
+                    Text("\(choices[Int(value)].choiceText)")
+                    Slider(
+                        value: $value,
+                        in: 0...Double(choices.count - 1),
+                        step: 1
+                    ) {
+                            Text("Choices")
+                        } minimumValueLabel: {
+                            Text("Min")
+                        } maximumValueLabel: {
+                            Text("Max")
+                        }
 
-            default:
-                Text("Coming Soon")
-//            case .numericRange(let scaleSliderNumericRange):
-//                VStack {
-//                    HStack {
-//                        Text("\(scaleSliderNumericRange.minValue)")
-//                            .frame(alignment: .leading)
-//                        Text("\(scaleSliderNumericRange.maxValue)")
-//                            .frame(alignment: .trailing)
-//                    }
-//                    Slider(
-//                        value: $value,
-//                        in: 0...10
-//                    ) {
-//                        Text("Hello")
-//                    } minimumValueLabel: {
-//                        Text("\(scaleSliderNumericRange.minValue)")
-//                    } maximumValueLabel: {
-//                        Text("\(scaleSliderNumericRange.maxValue)")
-//                    }
-//                }
+                }
         }
     }
 
