@@ -124,6 +124,7 @@ internal struct TaskContentView<Content>: View where Content: View {
             let viewModel = taskManager.viewModelForStep(currentStep)
             switch viewModel {
             case .formStep(let formStepViewModel):
+                formStepViewModel.createORKResult()
                 print("TODO: serialize these results to JSON by pulling in serializer: \(formStepViewModel.result)")
                 break
             case .none:

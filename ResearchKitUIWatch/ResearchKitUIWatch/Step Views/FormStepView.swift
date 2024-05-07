@@ -92,18 +92,7 @@ internal struct FormStepView: View {
                     }
 
                     ForEach(viewModel.formRows) { formRow in
-                        switch formRow {
-                            case .textRow(let value):
-                                @Bindable var textValueBinding = value
-                                TextField("Placeholder", text: $textValueBinding.text)
-                        case .multipleChoiceRow(let value):
-                            @Bindable var multipleChoiceValueBinding = value
-                            MultipleChoiceQuestionView(
-                                title: multipleChoiceValueBinding.title,
-                                options: multipleChoiceValueBinding.choices,
-                                result: $multipleChoiceValueBinding.result
-                            )
-                        }
+                        viewFor(formRow: formRow)
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)

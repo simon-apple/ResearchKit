@@ -11,9 +11,9 @@ import SwiftUI
 public class MultipleChoiceOption<ID: Hashable>: Identifiable {
 
     public var id: ID
-    public var choiceText: Text = Text("")
+    public var choiceText: String
 
-    public init(id: ID, choiceText: Text) {
+    public init(id: ID, choiceText: String) {
         self.id = id
         self.choiceText = choiceText
     }
@@ -22,12 +22,12 @@ public class MultipleChoiceOption<ID: Hashable>: Identifiable {
 @Observable
 public class MultipleChoiceQuestion<ID: Hashable>: Identifiable {
 
-    public var title: Text
+    public var title: String
     public var id: ID
     public var choices: [MultipleChoiceOption<ID>]
     public var result: MultipleChoiceOption<ID>
 
-    public init(id: ID, title: Text, choices: [MultipleChoiceOption<ID>], result: MultipleChoiceOption<ID>) {
+    public init(id: ID, title: String, choices: [MultipleChoiceOption<ID>], result: MultipleChoiceOption<ID>) {
         self.title = title
         self.id = id
         self.choices = choices
@@ -36,7 +36,7 @@ public class MultipleChoiceQuestion<ID: Hashable>: Identifiable {
 }
 
 extension MultipleChoiceQuestion where ID == UUID {
-    convenience init(title: Text, choices: [MultipleChoiceOption<UUID>], result: MultipleChoiceOption<UUID>) {
+    convenience init(title: String, choices: [MultipleChoiceOption<UUID>], result: MultipleChoiceOption<UUID>) {
         let id = UUID()
         self.init(id: id, title: title, choices: choices, result: result)
     }
@@ -44,7 +44,7 @@ extension MultipleChoiceQuestion where ID == UUID {
 
 extension MultipleChoiceOption where ID == UUID {
 
-    public convenience init(choiceText: Text) {
+    public convenience init(choiceText: String) {
         let id = UUID()
         self.init(id: id, choiceText: choiceText)
     }
@@ -62,7 +62,7 @@ public struct MultipleChoiceQuestionView: View {
     private var detail: Text?
 
     public init(
-        title: Text,
+        title: String,
         detail: Text? = nil,
         options: [MultipleChoiceOption<UUID>],
         result: Binding<MultipleChoiceOption<UUID>>
@@ -74,14 +74,14 @@ public struct MultipleChoiceQuestionView: View {
     public var body: some View {
         CardView {
             VStack(alignment: .leading) {
-                multipleChoiceQuestion.title
+                Text(multipleChoiceQuestion.title)
                     .font(.title)
                 detail
                 ForEach(
                     multipleChoiceQuestion.choices
                 ) { option in
                     TextChoiceCell(
-                        title: option.choiceText,
+                        title: Text(option.choiceText),
                         selected: result.id == option.id
                     ) { choiceSelected in
                         if choiceSelected == true {

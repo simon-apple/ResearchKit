@@ -42,6 +42,10 @@ class FormStepViewModel: ObservableObject {
         self.step = step
         self.result = result
 
+        if result.results == nil {
+            result.results = []
+        }
+
         self.formRows = Self.convertFormItemsToFormRows(formItems: step.formItems ?? []) ?? []
     }
 
@@ -56,19 +60,17 @@ class FormStepViewModel: ObservableObject {
                     answerOptions.append(
                         MultipleChoiceOption(
                             id: UUID(),
-                            choiceText: Text(
-                                textChoice.text
-                            )
+                            choiceText: textChoice.text
                         )
                     )
                 }
 
-                // TODO: where should this be owned
-                let resultObject : MultipleChoiceOption<UUID> = MultipleChoiceOption(choiceText: Text(""))
+                // TODO: need to figure out a bindable result object here!!
+                let resultObject : MultipleChoiceOption<UUID> = MultipleChoiceOption(choiceText: "")
                 return FormRow.multipleChoiceRow(
                     MultipleChoiceQuestion(
                         id: UUID(),
-                        title: Text(questionText),
+                        title: questionText,
                         choices: answerOptions,
                         result: resultObject
                     )
@@ -81,4 +83,23 @@ class FormStepViewModel: ObservableObject {
         return formRowsCompacted
     }
 
+    func createORKResult() {
+        for row in formRows {
+            guard let id = row.id as? UUID else {
+                return
+            }
+            switch row {
+            case .multipleChoiceRow(let multipleChoiceRow):
+                let result = ORKChoiceQuestionResult(identifier: id.uuidString)
+                result.choiceAnswers = [multipleChoiceRow.result.choiceText as NSString]
+                self.result.results?.append(result)
+
+            case .textRow(let textRow):
+                let result = ORKTextQuestionResult(identifier: id.uuidString)
+                result.textAnswer = textRow.text
+                self.result.results?.append(result)
+            }
+
+        }
+    }
 }
