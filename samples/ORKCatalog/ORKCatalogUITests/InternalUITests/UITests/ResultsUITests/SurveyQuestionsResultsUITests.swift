@@ -415,8 +415,6 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
             .verifyResultsCellValue(resultType: .choices, expectedValue: expectedValue)
     }
     
-    let textChoices: [(text: String, value: String)] = [("Poor", "[1]"), ("Fair", "[2]") , ("Good", "[3]"), ("Above Average", "[10]"), ("Excellent", "[5]")] /// Choices are based on textChoicesExample in ORKCatalog/TaskListRowSteps.swift
-    
     func testValuePickerChoiceQuestionMinResult() {
         let choiceIndex = 0
         answerAndVerifyValuePickerQuestion(answer: textChoices[choiceIndex].text, expectedValue: textChoices[choiceIndex].value)

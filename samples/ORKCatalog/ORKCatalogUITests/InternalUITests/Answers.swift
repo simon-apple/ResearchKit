@@ -19,3 +19,6 @@ struct Answers {
     static let passwordAlphabeticPart = "pass"
     static let passwordNumericPart = 123
 }
+
+// Value picker choices are based on textChoicesExample in ORKCatalog/TaskListRowSteps.swift
+let textChoices: [(text: String, value: String)] = [("Poor", "[1]"), ("Fair", "[2]") , ("Good", "[3]"), ("Above Average", "[10]"), ("Excellent", "[5]")]
