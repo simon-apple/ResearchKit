@@ -1,7 +1,7 @@
 # ResearchKit Release Notes
 
 ## ResearchKit 3.0.1 Release Notes
-In addition to general stability and performance improvements, ResearchKit 3.0.1 includes the following updates.
+In addition to general stability and performance improvements, ResearchKit 3.0.1 includes the following updates:
 
 - **ORKFormStep**
 The `ORKFormStep` has an additional property named `autoScrollEnabled` that allows developers to disable autoscrolling.
