@@ -16,6 +16,10 @@ class FormStepViewModel: ObservableObject {
     @ObservedObject
     private(set) var result: ORKStepResult
 
+    @State
+    var answer : MultipleChoiceOption<UUID>
+
+    @State
     var formRows: [FormRow]
 
     @Published
@@ -46,12 +50,13 @@ class FormStepViewModel: ObservableObject {
             result.results = []
         }
 
-        self.formRows = Self.convertFormItemsToFormRows(formItems: step.formItems ?? []) ?? []
-    }
+        var answerVar = State(initialValue: MultipleChoiceOption(choiceText: "hi andrew"))
 
-    static func convertFormItemsToFormRows(formItems: [ORKFormItem]) -> [FormRow]? {
+        self._answer = answerVar
+//        self.formRows = Self.convertFormItemsToFormRows(formItems: step.formItems ?? []) ?? []
 
-        let formRows: [FormRow?] = formItems.map { formItem in
+        let formItems = step.formItems ?? []
+        let rows : [FormRow?] = formItems.map { formItem in
             if let answerFormat = formItem.answerFormat as? ORKTextChoiceAnswerFormat,
                let questionText = formItem.text
             {
@@ -66,40 +71,75 @@ class FormStepViewModel: ObservableObject {
                 }
 
                 // TODO: need to figure out a bindable result object here!!
-                let resultObject : MultipleChoiceOption<UUID> = MultipleChoiceOption(choiceText: "")
+                let result : MultipleChoiceOption<UUID> = MultipleChoiceOption(choiceText: "")
                 return FormRow.multipleChoiceRow(
                     MultipleChoiceQuestion(
                         id: UUID(),
                         title: questionText,
                         choices: answerOptions,
-                        result: resultObject
+                        result: result
                     )
                 )
             }
             return nil
         }
-        let formRowsCompacted = formRows.compactMap { $0 }
-        print(formRowsCompacted)
-        return formRowsCompacted
+
+        self.formRows = rows.compactMap { $0 }
+
     }
 
+//    static func convertFormItemsToFormRows(formItems: [ORKFormItem]) -> [FormRow]? {
+//
+//        let formRows: [FormRow?] = formItems.map { formItem in
+//            if let answerFormat = formItem.answerFormat as? ORKTextChoiceAnswerFormat,
+//               let questionText = formItem.text
+//            {
+//                var answerOptions : [MultipleChoiceOption<UUID>] = []
+//                answerFormat.textChoices.forEach { textChoice in
+//                    answerOptions.append(
+//                        MultipleChoiceOption(
+//                            id: UUID(),
+//                            choiceText: textChoice.text
+//                        )
+//                    )
+//                }
+//
+//                // TODO: need to figure out a bindable result object here!!
+//                let resultObject : MultipleChoiceOption<UUID> = MultipleChoiceOption(choiceText: "hi andrew")
+//                return FormRow.multipleChoiceRow(
+//                    MultipleChoiceQuestion(
+//                        id: UUID(),
+//                        title: questionText,
+//                        choices: answerOptions,
+//                        result: resultObject
+//                    )
+//                )
+//            }
+//            return nil
+//        }
+//        let formRowsCompacted = formRows.compactMap { $0 }
+//        print(formRowsCompacted)
+//        return formRowsCompacted
+//    }
+
     func createORKResult() {
-        for row in formRows {
-            guard let id = row.id as? UUID else {
-                return
-            }
-            switch row {
-            case .multipleChoiceRow(let multipleChoiceRow):
-                let result = ORKChoiceQuestionResult(identifier: id.uuidString)
-                result.choiceAnswers = [multipleChoiceRow.result.choiceText as NSString]
-                self.result.results?.append(result)
-
-            case .textRow(let textRow):
-                let result = ORKTextQuestionResult(identifier: id.uuidString)
-                result.textAnswer = textRow.text
-                self.result.results?.append(result)
-            }
-
-        }
+//        for row in formRows {
+//            guard let id = row.id as? UUID else {
+//                return
+//            }
+//            switch row {
+//            case .multipleChoiceRow(let multipleChoiceRow):
+//                print("multiple choice row: \(multipleChoiceRow.result.choiceText)")
+//                let result = ORKChoiceQuestionResult(identifier: id.uuidString)
+//                result.choiceAnswers = [multipleChoiceRow.result.choiceText as NSString]
+//                self.result.results?.append(result)
+//
+//            case .textRow(let textRow):
+//                let result = ORKTextQuestionResult(identifier: id.uuidString)
+//                result.textAnswer = textRow.text
+//                self.result.results?.append(result)
+//            }
+//
+//        }
     }
 }

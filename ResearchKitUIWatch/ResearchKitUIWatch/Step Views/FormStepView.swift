@@ -33,13 +33,17 @@
 import ResearchKitCore
 import SwiftUI
 
-@Observable
-class TextRowValue: Identifiable {
+struct TextRowValue: Identifiable, Hashable {
     let id = UUID()
     var text: String = ""
 }
 
-enum FormRow: Identifiable {
+enum FormRow: Identifiable, Hashable {
+    
+    static func == (lhs: FormRow, rhs: FormRow) -> Bool {
+       return lhs.hashValue == rhs.hashValue
+    }
+    
     case textRow(TextRowValue)
     case multipleChoiceRow(MultipleChoiceQuestion<UUID>)
 
@@ -51,6 +55,15 @@ enum FormRow: Identifiable {
                 multipleChoiceValue.id
         }
     }
+
+//    var result: Any {
+//        switch self {
+//        case .textRow(let value):
+//            value.text
+//        case .multipleChoiceRow(let value):
+//            value.result
+//        }
+//    }
 }
 
 internal struct FormStepView: View {
@@ -91,8 +104,30 @@ internal struct FormStepView: View {
                             .padding(.bottom, Constants.questionToAnswerPadding)
                     }
 
-                    ForEach(viewModel.formRows) { formRow in
-                        viewFor(formRow: formRow)
+                    ForEach($viewModel.formRows) { $formRow in
+                        switch formRow {
+                        case .textRow(let value):
+                            Text("hi")
+                        case .multipleChoiceRow(let value):
+                            Text("")
+
+                            MultipleChoiceQuestionView(
+                                result: .init(get: {
+                                    value.result
+                                }, set: { newValue in
+                                    print("newValue \(newValue)")
+
+
+                                    viewModel.formRows[0] = .multipleChoiceRow(MultipleChoiceQuestion(title: "", choices: [], result: newValue))
+//
+//                                    print("newValue \(newValue)")
+                                    print("formRow \(self.viewModel.formRows)")
+
+
+                                }),
+                                multipleChoiceQuestion: value
+                            )
+                        }
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -101,30 +136,25 @@ internal struct FormStepView: View {
         }
     }
 
-    @ViewBuilder
-    func viewFor(formRow: FormRow) -> some View {
-        switch formRow {
-            case .textRow(let value):
-                @Bindable var textValueBinding = value
-                TextField("Placeholder", text: $textValueBinding.text)
-        case .multipleChoiceRow(let value):
-            @Bindable var multipleChoiceValueBinding = value
-            MultipleChoiceQuestionView(
-                title: multipleChoiceValueBinding.title,
-                options: multipleChoiceValueBinding.choices,
-                result: $multipleChoiceValueBinding.result
-            )
-        }
-    }
+//    @ViewBuilder
+//    func viewFor(formRow: Binding<FormRow>) -> some View {
+//
+//    }
 }
 
-
-//@Observable
-//class StepResultRepresentation {
-//
-////    private var orkresult: ORKStepResult
-////
-////    func orkresult() -> ORKStepResult {
-////
-////    }
-//}
+/*
+ .init(
+                                 get: {
+                                     info.textField
+                                 },
+                                 set: { newValue in
+                                     component = .textfield(
+                                         TextFieldComponentInfo(
+                                             id: info.id,
+                                             contextLabel: info.contextLabel,
+                                             placeholder: info.placeholder,
+                                             textField: newValue
+                                         )
+                                     )
+                                 }
+ */

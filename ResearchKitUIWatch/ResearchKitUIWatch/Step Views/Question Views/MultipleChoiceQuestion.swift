@@ -19,8 +19,16 @@ public class MultipleChoiceOption<ID: Hashable>: Identifiable {
     }
 }
 
-@Observable
-public class MultipleChoiceQuestion<ID: Hashable>: Identifiable {
+public struct MultipleChoiceQuestion<ID: Hashable>: Identifiable, Hashable {
+    
+    public static func == (lhs: MultipleChoiceQuestion<ID>, rhs: MultipleChoiceQuestion<ID>) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(title)
+        hasher.combine(id)
+    }
 
     public var title: String
     public var id: ID
@@ -31,12 +39,12 @@ public class MultipleChoiceQuestion<ID: Hashable>: Identifiable {
         self.title = title
         self.id = id
         self.choices = choices
-        _result = result
+        self.result = result
     }
 }
 
 extension MultipleChoiceQuestion where ID == UUID {
-    convenience init(title: String, choices: [MultipleChoiceOption<UUID>], result: MultipleChoiceOption<UUID>) {
+    init(title: String, choices: [MultipleChoiceOption<UUID>], result: MultipleChoiceOption<UUID>) {
         let id = UUID()
         self.init(id: id, title: title, choices: choices, result: result)
     }
@@ -57,19 +65,18 @@ public struct MultipleChoiceQuestionView: View {
 
     public let identifier: UUID = UUID()
 
-    private var multipleChoiceQuestion: MultipleChoiceQuestion<UUID>
+    public var multipleChoiceQuestion: MultipleChoiceQuestion<UUID>
 
-    private var detail: Text?
+    public var detail: Text?
 
-    public init(
-        title: String,
-        detail: Text? = nil,
-        options: [MultipleChoiceOption<UUID>],
-        result: Binding<MultipleChoiceOption<UUID>>
-    ) {
-        self.multipleChoiceQuestion = MultipleChoiceQuestion(id: identifier, title: title, choices: options, result: result.wrappedValue)
-        _result = result
-    }
+//    public init(
+//        title: String,
+//        detail: Text? = nil,
+//        options: [MultipleChoiceOption<UUID>],
+//        result: Binding<MultipleChoiceOption<UUID>>
+//    ) {
+//        self.multipleChoiceQuestion = MultipleChoiceQuestion(id: identifier, title: title, choices: options, result: result.wrappedValue)
+//    }
 
     public var body: some View {
         CardView {
