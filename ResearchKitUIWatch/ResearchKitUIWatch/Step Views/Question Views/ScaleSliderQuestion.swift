@@ -9,19 +9,6 @@ import Foundation
 import ResearchKitCore
 import SwiftUI
 
-@Observable
-public class ScaleSliderNumericRange {
-    public var minValue: Int
-    public var maxValue: Int
-
-    public var selectedValue: Int?
-
-    init(minValue: Int, maxValue: Int) {
-        self.minValue = minValue
-        self.maxValue = maxValue
-    }
-}
-
 public enum ScaleAxis {
     case horizontal, verticle
 }
@@ -119,7 +106,8 @@ public struct ScaleSliderQuestionView<ResultType>: View {
                     Text("\(value)")
                     Slider(
                         value: $value,
-                        in: 0...100
+                        in: 0...5,
+                        step: 0.01
                     ) {
                         Text("Replace This Text")
                     } minimumValueLabel: {
