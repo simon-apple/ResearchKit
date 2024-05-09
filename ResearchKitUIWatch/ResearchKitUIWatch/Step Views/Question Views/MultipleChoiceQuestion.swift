@@ -7,20 +7,19 @@
 
 import SwiftUI
 
-public struct MultipleChoiceOption: Identifiable {
-    public var id: String
-    public var choiceText: String
+struct MultipleChoiceOption: Identifiable {
+    var id: String
+    var choiceText: String
 }
 
-public struct MultipleChoiceQuestion: Identifiable {
+struct MultipleChoiceQuestion: Identifiable {
 
-    public var title: String
-    public var id: String
-    public var choices: [MultipleChoiceOption]
-    public var result: MultipleChoiceOption?
+    var title: String
+    var id: String
+    var choices: [MultipleChoiceOption]
+    var result: MultipleChoiceOption?
 
-    // TODO: Get rid of all my public things
-    public init(id: ID, title: String, choices: [MultipleChoiceOption], result: MultipleChoiceOption? = nil) {
+    init(id: ID, title: String, choices: [MultipleChoiceOption], result: MultipleChoiceOption? = nil) {
         self.title = title
         self.id = id
         self.choices = choices
@@ -36,7 +35,7 @@ public struct MultipleChoiceQuestionView: View {
     @Binding
     var result: MultipleChoiceOption?
 
-    public let detail: Text? = nil
+    let detail: Text? = nil
 
     public var body: some View {
         CardView {

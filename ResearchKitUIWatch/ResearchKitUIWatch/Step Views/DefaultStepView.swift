@@ -39,7 +39,7 @@ public struct DefaultStepView: View {
     @ObservedObject
     public private(set) var step: ORKStep
 
-    public private(set) var viewModel: ViewModel
+    private(set) var viewModel: ViewModel
 
     @ObservedObject
     public private(set) var result: ORKStepResult
@@ -56,11 +56,10 @@ public struct DefaultStepView: View {
             CompletionStepView(completionStep, result: result)
         } else if let instructionStep = step as? ORKInstructionStep {
             InstructionStepView(instructionStep, result: result)
-        } else if let formStep = step as? ORKFormStep {
+        } else if (step as? ORKFormStep) != nil {
             if case .formStep(let formStepViewModel) = viewModel {
                 FormStepView(viewModel: formStepViewModel)
             }
-
         } else {
             fatalError("Not Supported")
         }
