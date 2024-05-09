@@ -125,7 +125,9 @@ enum TaskListRow: Int, CustomStringConvertible {
     case walkBackAndForth
     case heightQuestion
     case weightQuestion
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     case healthQuantity
+#endif
     case kneeRangeOfMotion
     case shoulderRangeOfMotion
     case trailMaking
@@ -187,7 +189,6 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .dateTimeQuestion,
                     .dateQuestion,
                     .date3DayLimitQuestionTask,
-                    .healthQuantity,
                     .heightQuestion,
                     .imageChoiceQuestion,
                     .locationQuestion,
@@ -279,6 +280,16 @@ enum TaskListRow: Int, CustomStringConvertible {
             defaultSections = (defaultSections + internalSections)
             #endif
         
+            #if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
+             let healthSections:[TaskListRowSection] = [
+                 TaskListRowSection(title: "Health", rows:
+                     [
+                         .healthQuantity
+                     ])
+             ]
+             defaultSections = defaultSections + healthSections
+             #endif
+            
             return defaultSections
         }
     
@@ -321,10 +332,10 @@ enum TaskListRow: Int, CustomStringConvertible {
     
         case .weightQuestion:
             return NSLocalizedString("Weight Question", comment: "")
-        
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
         case .healthQuantity:
             return NSLocalizedString("Health Quantity Question", comment: "")
-            
+#endif
         case .imageChoiceQuestion:
             return NSLocalizedString("Image Choice Question", comment: "")
             
@@ -588,9 +599,11 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .weightQuestion:
             return weightQuestionTask
-            
+  
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
         case .healthQuantity:
             return healthQuantityTypeTask
+#endif
             
         case .imageChoiceQuestion:
             return imageChoiceQuestionTask
@@ -1116,17 +1129,20 @@ enum TaskListRow: Int, CustomStringConvertible {
         let informedConsentInstructionStep = TaskListRowSteps.informedConsentStepExample
         let webViewStep = TaskListRowSteps.webViewStepExample
         let consentSharingFormStep = TaskListRowSteps.informedConsentSharingStepExample
-        let requestPermissionStep = TaskListRowSteps.requestPermissionsStepExample
-        let consentCompletionStep = TaskListRowSteps.consentCompletionStepExample
         
-        let steps: [ORKStep] = [
+        var steps: [ORKStep] = [
             welcomeInstructionStep,
             informedConsentInstructionStep,
             webViewStep,
             consentSharingFormStep,
-            requestPermissionStep,
-            consentCompletionStep
         ]
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
+        let requestPermissionStep = TaskListRowSteps.requestPermissionsStepExample
+        steps.append(requestPermissionStep)
+#endif
+        
+        let consentCompletionStep = TaskListRowSteps.consentCompletionStepExample
+        steps.append(consentCompletionStep)
         
         return ORKOrderedTask(identifier: String(describing: Identifier.consentTask), steps: steps)
     }
@@ -1222,9 +1238,14 @@ enum TaskListRow: Int, CustomStringConvertible {
         let step1 = TaskListRowSteps.heightExample
         let step2 = TaskListRowSteps.heightMetricSystemExample
         let step3 = TaskListRowSteps.heightUSCSystemExample
-        let step4 = TaskListRowSteps.heightHealthKitExample
         
-        return ORKOrderedTask(identifier: String(describing: Identifier.heightQuestionTask), steps: [step1, step2, step3, step4])
+        var steps = [step1, step2, step3]
+        
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
+        let step4 = TaskListRowSteps.heightHealthKitExample
+        steps.append(contentsOf:[step4])
+#endif
+        return ORKOrderedTask(identifier: String(describing: Identifier.heightQuestionTask), steps: steps)
     }
 
     /// This task demonstrates a question asking for the user weight.
@@ -1235,17 +1256,24 @@ enum TaskListRow: Int, CustomStringConvertible {
         let step4 = TaskListRowSteps.weightMetricSystemHighPrecisionExample
         let step5 = TaskListRowSteps.weightUSCSystemExample
         let step6 = TaskListRowSteps.weightUSCSystemHighPrecisionExample
-        let step7 = TaskListRowSteps.weightHealthKitBodyMassExample
         
-        return ORKOrderedTask(identifier: String(describing: Identifier.weightQuestionTask), steps: [step1, step2, step3, step4, step5, step6, step7])
+        var steps = [step1, step2, step3, step4, step5, step6]
+        
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
+        let step7 = TaskListRowSteps.weightHealthKitBodyMassExample
+        steps.append(contentsOf:[step7])
+#endif
+        return ORKOrderedTask(identifier: String(describing: Identifier.weightQuestionTask), steps: steps)
     }
 
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     private var healthQuantityTypeTask: ORKTask {
         let heartRateQuestion = TaskListRowSteps.heartRateExample    
         let bloodTypeQuestion = TaskListRowSteps.bloodTypeExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.healthQuantityTask), steps: [heartRateQuestion, bloodTypeQuestion])
     }
+#endif
     
     /**
     This task demonstrates a survey question involving picking from a series of
@@ -1504,6 +1532,12 @@ enum TaskListRow: Int, CustomStringConvertible {
 
         let motionActivityPermissionType = ORKMotionActivityPermissionType()
 
+        let locationPermissionType = ORKLocationPermissionType()
+        
+        
+        var permissionTypes = [notificationsPermissionType, motionActivityPermissionType, locationPermissionType]
+        
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
         let healthKitTypesToWrite: Set<HKSampleType> = [
             HKObjectType.quantityType(forIdentifier: .bodyMassIndex)!,
             HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
@@ -1515,14 +1549,17 @@ enum TaskListRow: Int, CustomStringConvertible {
             HKObjectType.workoutType()]
 
 
-        let healthKitPermissionType = ORKHealthKitPermissionType(sampleTypesToWrite: healthKitTypesToWrite,
-                                                                 objectTypesToRead: healthKitTypesToRead)
-
-        let locationPermissionType = ORKLocationPermissionType()
+        let healthKitPermissionType = ORKHealthKitPermissionType(
+            sampleTypesToWrite: healthKitTypesToWrite,
+            objectTypesToRead: healthKitTypesToRead
+        )
+        
+        permissionTypes.append(healthKitPermissionType)
+#endif
         
         let requestPermissionsStep = ORKRequestPermissionsStep(
             identifier: String(describing: Identifier.requestPermissionsStep),
-            permissionTypes: [notificationsPermissionType, motionActivityPermissionType, healthKitPermissionType, locationPermissionType])
+            permissionTypes: permissionTypes)
 
         requestPermissionsStep.title = "Health Data Request"
         requestPermissionsStep.text = "Please review the health data types below and enable sharing to contribute to the study."

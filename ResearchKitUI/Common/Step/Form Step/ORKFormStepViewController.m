@@ -431,7 +431,10 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
 }
 
 - (instancetype)ORKFormStepViewController_initWithResult:(ORKResult *)result {
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     _defaultSource = [ORKAnswerDefaultSource sourceWithHealthStore:[HKHealthStore new]];
+#endif
+    
     if (result) {
         NSAssert([result isKindOfClass:[ORKStepResult class]], @"Expect a ORKStepResult instance");
         
@@ -485,6 +488,8 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self updateAnsweredSections];
+    
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     NSMutableSet *types = [NSMutableSet set];
     for (ORKFormItem *item in [self answerableFormItems]) {
         ORKAnswerFormat *format = [item answerFormat];
@@ -512,6 +517,7 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
     if (!refreshDefaultsPending) {
         [self refreshDefaults];
     }
+#endif
     
     // Reset skipped flag - result can now be non-empty
     _skipped = NO;
@@ -595,6 +601,8 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
 }
 
 - (void)refreshDefaults {
+    // defaults only come from HealthKit
+    
     NSArray *formItems = [self allFormItems];
     ORKAnswerDefaultSource *source = _defaultSource;
     ORKWeakTypeOf(self) weakSelf = self;
@@ -620,9 +628,7 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
             ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
             [strongSelf updateDefaults:defaults];
         });
-        
     });
-    
 }
 
 - (void)removeAnswerForIdentifier:(NSString *)identifier {

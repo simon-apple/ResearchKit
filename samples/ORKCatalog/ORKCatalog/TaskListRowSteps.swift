@@ -72,6 +72,7 @@ enum TaskListRowSteps {
         return booleanQuestionFormStep
     }
     
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     static var bloodTypeExample: ORKFormStep {
         let bloodType = HKCharacteristicType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.bloodType)!
         let bloodTypeAnswerFormat = ORKHealthKitCharacteristicTypeAnswerFormat(characteristicType: bloodType)
@@ -89,6 +90,7 @@ enum TaskListRowSteps {
         
         return bloodTypeFormStep
     }
+#endif
     
     static var continuousScaleWithPercentExample: ORKFormStep {
         // The second step is a scale control that allows continuous movement with a percent formatter.
@@ -245,6 +247,7 @@ enum TaskListRowSteps {
         return step
     }
     
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     static var heartRateExample: ORKFormStep {
         let heartRateType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!
         let heartRateAnswerFormat = ORKHealthKitQuantityTypeAnswerFormat(quantityType: heartRateType,
@@ -263,6 +266,7 @@ enum TaskListRowSteps {
         
         return heartRateFormStep
     }
+#endif
     
     static var heightExample: ORKFormStep {
         let stepIdentifier = String(describing: Identifier.heightQuestionFormStep1)
@@ -275,6 +279,7 @@ enum TaskListRowSteps {
         return formStep
     }
     
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     static var heightHealthKitExample: ORKFormStep {
         let stepIdentifier = String(describing: Identifier.heightQuestionFormStep4)
         let heightAnswerFormat = ORKHealthKitQuantityTypeAnswerFormat(quantityType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!, unit: HKUnit.meterUnit(with: .centi), style: .decimal)
@@ -285,6 +290,7 @@ enum TaskListRowSteps {
         
         return formStep
     }
+#endif
     
     static var heightMetricSystemExample: ORKFormStep {
         let stepIdentifier = String(describing: Identifier.heightQuestionFormStep2)
@@ -574,6 +580,7 @@ enum TaskListRowSteps {
         return formStep
     }
     
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     static var weightHealthKitBodyMassExample: ORKFormStep {
         let stepIdentifier = String(describing: Identifier.weightQuestionFormStep7)
         let weightAnswerFormat = ORKHealthKitQuantityTypeAnswerFormat(quantityType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!, unit: HKUnit.gramUnit(with: .kilo), style: .decimal)
@@ -584,6 +591,7 @@ enum TaskListRowSteps {
         
         return formStep
     }
+#endif
     
     static var weightMetricSystemExample: ORKFormStep {
         let stepIdentifier = String(describing: Identifier.weightQuestionFormStep2)
@@ -727,6 +735,8 @@ enum TaskListRowSteps {
         return webViewStep
     }
     
+
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     static var requestPermissionsStepExample: ORKRequestPermissionsStep {
         let healthKitTypesToWrite: Set<HKSampleType> = [
             HKObjectType.quantityType(forIdentifier: .bodyMassIndex)!,
@@ -746,6 +756,7 @@ enum TaskListRowSteps {
         
         return requestPermissionsStep
     }
+#endif
     
     static var consentCompletionStepExample: ORKCompletionStep {
         let completionStep = ORKCompletionStep(identifier: "completionId")

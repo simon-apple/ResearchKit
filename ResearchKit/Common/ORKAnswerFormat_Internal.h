@@ -29,7 +29,12 @@
  */
 
 
+//#import <ResearchKit/ORKDefines.h>
+
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
 #import <HealthKit/HealthKit.h>
+#endif
+
 #if TARGET_OS_IOS
 #import <ResearchKit/ORKAnswerFormat_Private.h>
 #import <ResearchKit/ORKChoiceAnswerFormatHelper.h>
@@ -45,9 +50,11 @@ NS_ASSUME_NONNULL_BEGIN
 BOOL ORKIsAnswerEmpty(_Nullable id answer);
 
 #if TARGET_OS_IOS
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
 NSString *ORKHKBiologicalSexString(HKBiologicalSex biologicalSex);
 NSString *ORKHKBloodTypeString(HKBloodType bloodType);
-#endif
+#endif // ORK_FEATURE_HEALTHKIT_AUTHORIZATION
+#endif // TARGET_OS_IOS
 NSString *ORKQuestionTypeString(ORKQuestionType questionType);
 
 // Need to mark these as designated initializers to avoid warnings once we designate the others.
@@ -90,13 +97,15 @@ ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKTextChoice)
 #if TARGET_OS_IOS
 - (BOOL)isHealthKitAnswerFormat;
 
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
 - (nullable HKObjectType *)healthKitObjectType;
 - (nullable HKObjectType *)healthKitObjectTypeForAuthorization;
 
 @property (nonatomic, strong, readonly, nullable) HKUnit *healthKitUnit;
 
 @property (nonatomic, strong, nullable) HKUnit *healthKitUserUnit;
-#endif
+#endif // ORK_FEATURE_HEALTHKIT_AUTHORIZATION
+#endif // TARGET_OS_IOS
 
 - (nullable NSString *)localizedInvalidValueStringWithAnswerString:(nullable NSString *)text;
 
@@ -261,16 +270,16 @@ NSArray<Class> *ORKAllowableValueClasses(void);
 
 @interface ORKAnswerDefaultSource : NSObject
 
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
 + (instancetype)sourceWithHealthStore:(HKHealthStore *)healthStore;
 - (instancetype)initWithHealthStore:(HKHealthStore *)healthStore NS_DESIGNATED_INITIALIZER;
 
 @property (nonatomic, strong, readonly, nullable) HKHealthStore *healthStore;
-
-- (void)fetchDefaultValueForAnswerFormat:(nullable ORKAnswerFormat *)answerFormat handler:(void(^)(id defaultValue, NSError *error))handler;
-
 - (nullable HKUnit *)defaultHealthKitUnitForAnswerFormat:(ORKAnswerFormat *)answerFormat;
 - (void)updateHealthKitUnitForAnswerFormat:(ORKAnswerFormat *)answerFormat force:(BOOL)force;
+#endif
 
+- (void)fetchDefaultValueForAnswerFormat:(nullable ORKAnswerFormat *)answerFormat handler:(void(^)(id defaultValue, NSError *error))handler;
 @end
 
 @interface ORKTextChoiceOther()

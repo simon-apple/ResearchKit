@@ -37,9 +37,9 @@
 #import "ORKDataLogger.h"
 #import "ORKRecorder_Private.h"
 #import "ORKRecorder_Internal.h"
+#import "HKSample+ORKJSONDictionary.h"
 
-#import <ResearchKit/HKSample+ORKJSONDictionary.h>
-
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
 @interface ORKHealthClinicalTypeRecorder () {
     ORKDataLogger *_logger;
     BOOL _isRecording;
@@ -234,3 +234,4 @@
 
 @end
 #endif
+#endif 

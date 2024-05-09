@@ -31,10 +31,12 @@
 
 
 #import <UIKit/UIKit.h>
-#import <HealthKit/HealthKit.h>
 #import <ResearchKit/ORKDefines.h>
 #import <Availability.h>
 
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
+#import <HealthKit/HealthKit.h>
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -105,8 +107,9 @@ ORK_CLASS_AVAILABLE
  If your recorder requires or would benefit from read access to HealthKit at
  runtime during the task, return the appropriate set of `HKSampleType` objects.
  */
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
 - (nullable NSSet<HKObjectType *> *)requestedHealthKitTypesForReading;
-
+#endif
 @end
 
 
