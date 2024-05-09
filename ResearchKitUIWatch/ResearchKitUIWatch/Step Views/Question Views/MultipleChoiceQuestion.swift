@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-@Observable
 public class MultipleChoiceOption<ID: Hashable>: Identifiable {
 
     public var id: ID
@@ -19,8 +18,9 @@ public class MultipleChoiceOption<ID: Hashable>: Identifiable {
     }
 }
 
-public struct MultipleChoiceQuestion<ID: Hashable>: Identifiable, Hashable {
-    
+@Observable
+public class MultipleChoiceQuestion<ID: Hashable>: Identifiable, Hashable {
+
     public static func == (lhs: MultipleChoiceQuestion<ID>, rhs: MultipleChoiceQuestion<ID>) -> Bool {
         return lhs.hashValue == rhs.hashValue
     }
@@ -28,25 +28,27 @@ public struct MultipleChoiceQuestion<ID: Hashable>: Identifiable, Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(title)
         hasher.combine(id)
+        hasher.combine(selectedIndex)
     }
 
     public var title: String
     public var id: ID
     public var choices: [MultipleChoiceOption<ID>]
-    public var result: MultipleChoiceOption<ID>
+    public var selectedIndex: Int = -1
 
-    public init(id: ID, title: String, choices: [MultipleChoiceOption<ID>], result: MultipleChoiceOption<ID>) {
+
+    public init(id: ID, title: String, choices: [MultipleChoiceOption<ID>], selectedIndex: Int = -1) {
         self.title = title
         self.id = id
         self.choices = choices
-        self.result = result
+        self.selectedIndex = selectedIndex
     }
 }
 
 extension MultipleChoiceQuestion where ID == UUID {
-    init(title: String, choices: [MultipleChoiceOption<UUID>], result: MultipleChoiceOption<UUID>) {
+    convenience init(title: String, choices: [MultipleChoiceOption<UUID>]) {
         let id = UUID()
-        self.init(id: id, title: title, choices: choices, result: result)
+        self.init(id: id, title: title, choices: choices)
     }
 }
 
@@ -60,39 +62,38 @@ extension MultipleChoiceOption where ID == UUID {
 
 public struct MultipleChoiceQuestionView: View {
 
+    let title: String
+
+    let choices: [MultipleChoiceOption<UUID>]
+
     @Binding
-    public var result: MultipleChoiceOption<UUID>
+    var selectedIndex: Int
 
-    public let identifier: UUID = UUID()
-
-    public var multipleChoiceQuestion: MultipleChoiceQuestion<UUID>
-
-    public var detail: Text?
-
-//    public init(
-//        title: String,
-//        detail: Text? = nil,
-//        options: [MultipleChoiceOption<UUID>],
-//        result: Binding<MultipleChoiceOption<UUID>>
-//    ) {
-//        self.multipleChoiceQuestion = MultipleChoiceQuestion(id: identifier, title: title, choices: options, result: result.wrappedValue)
-//    }
+    public let detail: Text? = nil
 
     public var body: some View {
         CardView {
             VStack(alignment: .leading) {
-                Text(multipleChoiceQuestion.title)
+                Text(title)
                     .font(.title)
                 detail
                 ForEach(
-                    multipleChoiceQuestion.choices
+                    choices
                 ) { option in
                     TextChoiceCell(
                         title: Text(option.choiceText),
-                        selected: result.id == option.id
+                        selected: {
+                            guard choices.indices.contains(selectedIndex) else {
+                                return false
+                            }
+                            return choices[selectedIndex].id == option.id
+                        }()
                     ) { choiceSelected in
                         if choiceSelected == true {
-                            result = option
+                            selectedIndex = choices.firstIndex(where: { $0.id == option.id })!
+                        } else {
+                            // This would allow un-selection, which RK doesn't really have??
+                            selectedIndex = -1
                         }
                     }
                 }

@@ -33,9 +33,19 @@
 import ResearchKitCore
 import SwiftUI
 
-struct TextRowValue: Identifiable, Hashable {
+@Observable
+class TextRowValue: Identifiable, Hashable {
     let id = UUID()
     var text: String = ""
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(text)
+    }
+
+    static func == (lhs: TextRowValue, rhs: TextRowValue) -> Bool {
+        lhs.hashValue == rhs.hashValue
+    }
 }
 
 enum FormRow: Identifiable, Hashable {
@@ -55,15 +65,6 @@ enum FormRow: Identifiable, Hashable {
                 multipleChoiceValue.id
         }
     }
-
-//    var result: Any {
-//        switch self {
-//        case .textRow(let value):
-//            value.text
-//        case .multipleChoiceRow(let value):
-//            value.result
-//        }
-//    }
 }
 
 internal struct FormStepView: View {
@@ -104,28 +105,17 @@ internal struct FormStepView: View {
                             .padding(.bottom, Constants.questionToAnswerPadding)
                     }
 
-                    ForEach($viewModel.formRows) { $formRow in
+                    ForEach(viewModel.formRows) { formRow in
                         switch formRow {
-                        case .textRow(let value):
-                            Text("hi")
-                        case .multipleChoiceRow(let value):
-                            Text("")
-
+                        case .textRow(let textRow):
+                            @Bindable var textRow = textRow
+                            TextField("\(textRow.id)", text: $textRow.text)                        
+                        case .multipleChoiceRow(let multipleChoiceRow):
+                            @Bindable var multipleChoiceRow = multipleChoiceRow
                             MultipleChoiceQuestionView(
-                                result: .init(get: {
-                                    value.result
-                                }, set: { newValue in
-                                    print("newValue \(newValue)")
-
-
-                                    viewModel.formRows[0] = .multipleChoiceRow(MultipleChoiceQuestion(title: "", choices: [], result: newValue))
-//
-//                                    print("newValue \(newValue)")
-                                    print("formRow \(self.viewModel.formRows)")
-
-
-                                }),
-                                multipleChoiceQuestion: value
+                                title: multipleChoiceRow.title,
+                                choices: multipleChoiceRow.choices,
+                                selectedIndex: $multipleChoiceRow.selectedIndex
                             )
                         }
                     }
@@ -135,26 +125,5 @@ internal struct FormStepView: View {
             }
         }
     }
-
-//    @ViewBuilder
-//    func viewFor(formRow: Binding<FormRow>) -> some View {
-//
-//    }
 }
 
-/*
- .init(
-                                 get: {
-                                     info.textField
-                                 },
-                                 set: { newValue in
-                                     component = .textfield(
-                                         TextFieldComponentInfo(
-                                             id: info.id,
-                                             contextLabel: info.contextLabel,
-                                             placeholder: info.placeholder,
-                                             textField: newValue
-                                         )
-                                     )
-                                 }
- */
