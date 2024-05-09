@@ -33,11 +33,6 @@
 import ResearchKitCore
 import SwiftUI
 
-enum ViewModel {
-    case none
-    case formStep(FormStepViewModel)
-}
-
 typealias Progress = (index: Int, count: Int)
 
 struct ProgressKey: EnvironmentKey {

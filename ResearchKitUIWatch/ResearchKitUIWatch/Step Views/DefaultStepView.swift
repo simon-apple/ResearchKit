@@ -39,12 +39,15 @@ public struct DefaultStepView: View {
     @ObservedObject
     public private(set) var step: ORKStep
 
+    public private(set) var viewModel: ViewModel
+
     @ObservedObject
     public private(set) var result: ORKStepResult
     
-    init(_ step: ORKStep, result: ORKStepResult) {
+    init(_ step: ORKStep, viewModel: ViewModel, result: ORKStepResult) {
         self.step = step
         self.result = result
+        self.viewModel = viewModel
     }
 
     @ViewBuilder
@@ -54,7 +57,10 @@ public struct DefaultStepView: View {
         } else if let instructionStep = step as? ORKInstructionStep {
             InstructionStepView(instructionStep, result: result)
         } else if let formStep = step as? ORKFormStep {
-            FormStepView(viewModel: FormStepViewModel(step: formStep, result: result))
+            if case .formStep(let formStepViewModel) = viewModel {
+                FormStepView(viewModel: formStepViewModel)
+            }
+
         } else {
             fatalError("Not Supported")
         }

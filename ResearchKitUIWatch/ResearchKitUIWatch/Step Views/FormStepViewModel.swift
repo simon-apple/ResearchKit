@@ -8,7 +8,7 @@
 import ResearchKitCore
 import SwiftUI
 
-class FormStepViewModel: ObservableObject {
+public class FormStepViewModel: ObservableObject {
 
     @ObservedObject
     private(set) var step: ORKFormStep
@@ -47,6 +47,7 @@ class FormStepViewModel: ObservableObject {
             result.results = []
         }
 
+        // Convert our ORKFormItems to FormRows with associated types
         let formItems = step.formItems ?? []
         let rows : [FormRow?] = formItems.map { formItem in
             if let answerFormat = formItem.answerFormat as? ORKTextChoiceAnswerFormat,
