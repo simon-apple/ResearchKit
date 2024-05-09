@@ -7,67 +7,34 @@
 
 import SwiftUI
 
-public class MultipleChoiceOption<ID: Hashable>: Identifiable {
-
-    public var id: ID
+public struct MultipleChoiceOption: Identifiable {
+    public var id: String
     public var choiceText: String
-
-    public init(id: ID, choiceText: String) {
-        self.id = id
-        self.choiceText = choiceText
-    }
 }
 
-@Observable
-public class MultipleChoiceQuestion<ID: Hashable>: Identifiable, Hashable {
-
-    public static func == (lhs: MultipleChoiceQuestion<ID>, rhs: MultipleChoiceQuestion<ID>) -> Bool {
-        return lhs.hashValue == rhs.hashValue
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(title)
-        hasher.combine(id)
-        hasher.combine(selectedIndex)
-    }
+public struct MultipleChoiceQuestion: Identifiable {
 
     public var title: String
-    public var id: ID
-    public var choices: [MultipleChoiceOption<ID>]
-    public var selectedIndex: Int = -1
+    public var id: String
+    public var choices: [MultipleChoiceOption]
+    public var result: MultipleChoiceOption?
 
-
-    public init(id: ID, title: String, choices: [MultipleChoiceOption<ID>], selectedIndex: Int = -1) {
+    // TODO: Get rid of all my public things
+    public init(id: ID, title: String, choices: [MultipleChoiceOption], result: MultipleChoiceOption? = nil) {
         self.title = title
         self.id = id
         self.choices = choices
-        self.selectedIndex = selectedIndex
-    }
-}
-
-extension MultipleChoiceQuestion where ID == UUID {
-    convenience init(title: String, choices: [MultipleChoiceOption<UUID>]) {
-        let id = UUID()
-        self.init(id: id, title: title, choices: choices)
-    }
-}
-
-extension MultipleChoiceOption where ID == UUID {
-
-    public convenience init(choiceText: String) {
-        let id = UUID()
-        self.init(id: id, choiceText: choiceText)
+        self.result = result
     }
 }
 
 public struct MultipleChoiceQuestionView: View {
 
     let title: String
-
-    let choices: [MultipleChoiceOption<UUID>]
+    let choices: [MultipleChoiceOption]
 
     @Binding
-    var selectedIndex: Int
+    var result: MultipleChoiceOption?
 
     public let detail: Text? = nil
 
@@ -82,20 +49,12 @@ public struct MultipleChoiceQuestionView: View {
                 ) { option in
                     TextChoiceCell(
                         title: Text(option.choiceText),
-                        selected: {
-                            guard choices.indices.contains(selectedIndex) else {
-                                return false
-                            }
-                            return choices[selectedIndex].id == option.id
-                        }()
-                    ) { choiceSelected in
-                        if choiceSelected == true {
-                            selectedIndex = choices.firstIndex(where: { $0.id == option.id })!
-                        } else {
-                            // This would allow un-selection, which RK doesn't really have??
-                            selectedIndex = -1
-                        }
-                    }
+                       selected: result?.id == option.id
+                   ) { choiceSelected in
+                       if choiceSelected == true {
+                           result = option
+                       }
+                   }
                 }
             }
             .padding()

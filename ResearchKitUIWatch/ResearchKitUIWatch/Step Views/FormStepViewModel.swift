@@ -47,24 +47,24 @@ public class FormStepViewModel: ObservableObject {
             result.results = []
         }
 
-        // Convert our ORKFormItems to FormRows with associated types
+        // Convert our ORKFormItems to FormRows with associated values 
         let formItems = step.formItems ?? []
         let rows : [FormRow?] = formItems.map { formItem in
             if let answerFormat = formItem.answerFormat as? ORKTextChoiceAnswerFormat,
                let questionText = formItem.text
             {
-                var answerOptions : [MultipleChoiceOption<UUID>] = []
+                var answerOptions : [MultipleChoiceOption] = []
                 answerFormat.textChoices.forEach { textChoice in
                     answerOptions.append(
                         MultipleChoiceOption(
-                            id: UUID(),
+                            id: UUID().uuidString,
                             choiceText: textChoice.text
                         )
                     )
                 }
                 return FormRow.multipleChoiceRow(
                     MultipleChoiceQuestion(
-                        id: UUID(),
+                        id: UUID().uuidString,
                         title: questionText,
                         choices: answerOptions
                     )
@@ -79,27 +79,21 @@ public class FormStepViewModel: ObservableObject {
 
     func createORKResult() {
         for row in formRows {
-            guard let id = row.id as? UUID else {
-                return
-            }
+
             switch row {
             case .textRow(let textRow):
-                let result = ORKTextQuestionResult(identifier: id.uuidString)
+                let result = ORKTextQuestionResult(identifier: textRow.text)
                 result.textAnswer = textRow.text
                 self.result.results?.append(result)
 
             case .multipleChoiceRow(let multipleChoiceRow):
-                let result = ORKChoiceQuestionResult(identifier: id.uuidString)
-
-                let selectedIndex = multipleChoiceRow.selectedIndex
-                guard multipleChoiceRow.choices.count > selectedIndex && selectedIndex > 0 else {
+                let result = ORKChoiceQuestionResult(identifier: multipleChoiceRow.id)
+                guard let choiceAnswer = multipleChoiceRow.result?.choiceText else {
                     return
                 }
-                let choiceAnswer = multipleChoiceRow.choices[selectedIndex].choiceText
                 result.choiceAnswers = [choiceAnswer as NSString]
                 self.result.results?.append(result)
             }
-
         }
     }
 }

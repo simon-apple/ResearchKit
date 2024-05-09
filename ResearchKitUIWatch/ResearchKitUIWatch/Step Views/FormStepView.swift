@@ -33,13 +33,10 @@
 import ResearchKitCore
 import SwiftUI
 
-@Observable
-class TextRowValue: Identifiable, Hashable {
-    let id = UUID()
+struct TextRowValue: Hashable {
     var text: String = ""
 
     func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
         hasher.combine(text)
     }
 
@@ -48,19 +45,14 @@ class TextRowValue: Identifiable, Hashable {
     }
 }
 
-enum FormRow: Identifiable, Hashable {
-    
-    static func == (lhs: FormRow, rhs: FormRow) -> Bool {
-       return lhs.hashValue == rhs.hashValue
-    }
-    
+enum FormRow: Identifiable {
     case textRow(TextRowValue)
-    case multipleChoiceRow(MultipleChoiceQuestion<UUID>)
+    case multipleChoiceRow(MultipleChoiceQuestion)
 
     var id: AnyHashable {
         switch self {
             case .textRow(let textRowValue):
-                textRowValue.id
+                textRowValue.hashValue
             case .multipleChoiceRow(let multipleChoiceValue):
                 multipleChoiceValue.id
         }
@@ -75,11 +67,11 @@ internal struct FormStepView: View {
         static let questionToAnswerPadding: CGFloat = 12.0
     }
 
-    @State
+    @ObservedObject
     private var viewModel: FormStepViewModel
 
     @Environment(\.completion) var completion
-    
+
     init(viewModel: FormStepViewModel) {
         self.viewModel = viewModel
     }
@@ -104,19 +96,28 @@ internal struct FormStepView: View {
                             .multilineTextAlignment(.leading)
                             .padding(.bottom, Constants.questionToAnswerPadding)
                     }
-
-                    ForEach(viewModel.formRows) { formRow in
+                    ForEach($viewModel.formRows) { $formRow in
                         switch formRow {
-                        case .textRow(let textRow):
-                            @Bindable var textRow = textRow
-                            TextField("\(textRow.id)", text: $textRow.text)                        
-                        case .multipleChoiceRow(let multipleChoiceRow):
-                            @Bindable var multipleChoiceRow = multipleChoiceRow
+                        case .multipleChoiceRow(let multipleChoiceValue):
                             MultipleChoiceQuestionView(
-                                title: multipleChoiceRow.title,
-                                choices: multipleChoiceRow.choices,
-                                selectedIndex: $multipleChoiceRow.selectedIndex
+                                title: multipleChoiceValue.title,
+                                choices: multipleChoiceValue.choices,
+                                result: .init(get: {
+                                    return multipleChoiceValue.result
+                                },
+                                set: { newValue in
+                                    formRow = .multipleChoiceRow(
+                                        MultipleChoiceQuestion(
+                                            id: multipleChoiceValue.id,
+                                            title: multipleChoiceValue.title,
+                                            choices: multipleChoiceValue.choices,
+                                            result: newValue
+                                        )
+                                    )
+                                })
                             )
+                            default:
+                                Text("")
                         }
                     }
                 }
@@ -126,4 +127,3 @@ internal struct FormStepView: View {
         }
     }
 }
-
