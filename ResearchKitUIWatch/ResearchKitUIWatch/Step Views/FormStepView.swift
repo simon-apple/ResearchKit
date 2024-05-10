@@ -33,26 +33,12 @@
 import ResearchKitCore
 import SwiftUI
 
-struct TextRowValue: Hashable {
-    var text: String = ""
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(text)
-    }
-
-    static func == (lhs: TextRowValue, rhs: TextRowValue) -> Bool {
-        lhs.hashValue == rhs.hashValue
-    }
-}
-
+// Enumeration to cover all the different question types for FormStep
 enum FormRow: Identifiable {
-    case textRow(TextRowValue)
     case multipleChoiceRow(MultipleChoiceQuestion)
 
     var id: AnyHashable {
         switch self {
-            case .textRow(let textRowValue):
-                textRowValue.hashValue
             case .multipleChoiceRow(let multipleChoiceValue):
                 multipleChoiceValue.id
         }
@@ -116,8 +102,6 @@ internal struct FormStepView: View {
                                     )
                                 })
                             )
-                            default:
-                                Text("")
                         }
                     }
                 }

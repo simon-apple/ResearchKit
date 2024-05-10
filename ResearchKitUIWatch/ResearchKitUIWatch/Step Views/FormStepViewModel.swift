@@ -79,13 +79,7 @@ public class FormStepViewModel: ObservableObject {
 
     func createORKResult() {
         for row in formRows {
-
             switch row {
-            case .textRow(let textRow):
-                let result = ORKTextQuestionResult(identifier: textRow.text)
-                result.textAnswer = textRow.text
-                self.result.results?.append(result)
-
             case .multipleChoiceRow(let multipleChoiceRow):
                 let result = ORKChoiceQuestionResult(identifier: multipleChoiceRow.id)
                 guard let choiceAnswer = multipleChoiceRow.result?.choiceText else {
