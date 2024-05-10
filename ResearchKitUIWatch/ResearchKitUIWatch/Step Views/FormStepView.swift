@@ -33,18 +33,6 @@
 import ResearchKitCore
 import SwiftUI
 
-// Enumeration to cover all the different question types for FormStep
-enum FormRow: Identifiable {
-    case multipleChoiceRow(MultipleChoiceQuestion)
-
-    var id: AnyHashable {
-        switch self {
-            case .multipleChoiceRow(let multipleChoiceValue):
-                multipleChoiceValue.id
-        }
-    }
-}
-
 internal struct FormStepView: View {
 
     enum Constants {
