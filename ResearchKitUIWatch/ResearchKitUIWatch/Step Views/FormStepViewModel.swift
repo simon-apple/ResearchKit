@@ -8,7 +8,7 @@
 import ResearchKitCore
 import SwiftUI
 
-public class FormStepViewModel: ObservableObject {
+class FormStepViewModel: ObservableObject {
 
     @ObservedObject
     private(set) var step: ORKFormStep
