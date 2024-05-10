@@ -42,6 +42,9 @@ NS_ASSUME_NONNULL_BEGIN
 @class ORKColorChoiceAnswerFormat;
 @class ORKChoiceViewCell;
 @class ORKTextChoiceAnswerFormat;
+@class ORKScaleAnswerFormat;
+@class ORKContinuousScaleAnswerFormat;
+@class ORKTextScaleAnswerFormat;
 
 
 @interface ORKColorChoiceCellGroup : NSObject

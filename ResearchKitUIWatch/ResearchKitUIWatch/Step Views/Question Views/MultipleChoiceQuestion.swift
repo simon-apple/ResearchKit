@@ -19,26 +19,32 @@ public class MultipleChoiceOption<ID: Hashable>: Identifiable {
     }
 }
 
+public enum ChoiceSelectionType {
+    case single, multiple
+}
+
 @Observable
 public class MultipleChoiceQuestion<ID: Hashable>: Identifiable {
 
     public var title: Text
     public var id: ID
     public var choices: [MultipleChoiceOption<ID>]
-    public var result: MultipleChoiceOption<ID>
+    public var result: [MultipleChoiceOption<ID>]
+    public var selectionType: ChoiceSelectionType
 
-    public init(id: ID, title: Text, choices: [MultipleChoiceOption<ID>], result: MultipleChoiceOption<ID>) {
+    public init(id: ID, title: Text, choices: [MultipleChoiceOption<ID>], result: [MultipleChoiceOption<ID>], selectionType: ChoiceSelectionType) {
         self.title = title
         self.id = id
         self.choices = choices
+        self.selectionType = selectionType
         _result = result
     }
 }
 
 extension MultipleChoiceQuestion where ID == UUID {
-    convenience init(title: Text, choices: [MultipleChoiceOption<UUID>], result: MultipleChoiceOption<UUID>) {
+    convenience init(title: Text, choices: [MultipleChoiceOption<UUID>], result: [MultipleChoiceOption<UUID>], selectionType: ChoiceSelectionType) {
         let id = UUID()
-        self.init(id: id, title: title, choices: choices, result: result)
+        self.init(id: id, title: title, choices: choices, result: result, selectionType: selectionType)
     }
 }
 
@@ -53,7 +59,7 @@ extension MultipleChoiceOption where ID == UUID {
 public struct MultipleChoiceQuestionView: View {
 
     @Binding
-    public var result: MultipleChoiceOption<UUID>
+    public var result: [MultipleChoiceOption<UUID>]
 
     public let identifier: UUID = UUID()
 
@@ -65,9 +71,10 @@ public struct MultipleChoiceQuestionView: View {
         title: Text,
         detail: Text? = nil,
         options: [MultipleChoiceOption<UUID>],
-        result: Binding<MultipleChoiceOption<UUID>>
+        result: Binding<[MultipleChoiceOption<UUID>]>,
+        selectionType: ChoiceSelectionType
     ) {
-        self.multipleChoiceQuestion = MultipleChoiceQuestion(id: identifier, title: title, choices: options, result: result.wrappedValue)
+        self.multipleChoiceQuestion = MultipleChoiceQuestion(id: identifier, title: title, choices: options, result: result.wrappedValue, selectionType: selectionType)
         _result = result
     }
 
@@ -82,15 +89,33 @@ public struct MultipleChoiceQuestionView: View {
                 ) { option in
                     TextChoiceCell(
                         title: option.choiceText,
-                        selected: result.id == option.id
-                    ) { choiceSelected in
-                        if choiceSelected == true {
-                            result = option
-                        }
+                        isSelected: result.contains(where: { choice in
+                            choice.id == option.id
+                        })
+                    ) {
+                        choiceSelected(option)
                     }
                 }
             }
             .padding()
         }
     }
+
+    private func choiceSelected(_ option: MultipleChoiceOption<UUID>) {
+        if result.contains(where: { choice in
+            choice.id == option.id
+        }) {
+            result.removeAll { choice in
+                choice.id == option.id
+            }
+        } else {
+
+            switch multipleChoiceQuestion.selectionType {
+                case .single:
+                    result = [option]
+                case .multiple:
+                    result.append(option)
+            }
+        }
+       }
 }

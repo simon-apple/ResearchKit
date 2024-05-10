@@ -40,7 +40,6 @@
 #import <ResearchKit/ORKTypes.h>
 #endif
 
-#if TARGET_OS_IOS
 @class ORKScaleAnswerFormat;
 @class ORKContinuousScaleAnswerFormat;
 @class ORKTextScaleAnswerFormat;
@@ -58,7 +57,6 @@
 @class ORKLocationAnswerFormat;
 @class ORKSESAnswerFormat;
 @class ORKImageChoice;
-#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -443,10 +441,6 @@ ORK_CLASS_AVAILABLE
 @end
 #endif
 
-
-#pragma mark - iOS
-
-#if TARGET_OS_IOS
 @interface ORKAnswerFormat()
 
 /// @name Factory methods
@@ -2261,7 +2255,5 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, nullable) NSString *bottomRungText;
 
 @end
-
-#endif
 
 NS_ASSUME_NONNULL_END

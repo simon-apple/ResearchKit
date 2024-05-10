@@ -39,12 +39,8 @@ public struct BooleanQuestion: View { // TODO: Do we even need a Boolean type? i
                 title
                     .font(.title)
                 detail
-                TextChoiceCell(title: yesAnswerText, selected: isSelected(for: true)) { _ in
-                    result = true
-                }
-                TextChoiceCell(title: noAnswerText, selected: isSelected(for: false)) { _ in
-                    result = false
-                }
+                TextChoiceCell(title: yesAnswerText, isSelected: isSelected(for: true)) { }
+                TextChoiceCell(title: noAnswerText, isSelected: isSelected(for: false)) { }
             }
             .padding()
         }

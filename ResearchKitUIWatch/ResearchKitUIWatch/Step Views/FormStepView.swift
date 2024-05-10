@@ -42,6 +42,7 @@ class TextRowValue: Identifiable {
 enum FormRow: Identifiable {
     case textRow(TextRowValue)
     case multipleChoiceRow(MultipleChoiceQuestion<UUID>)
+    case scale(ScaleSliderQuestion<Any>)
 
     var id: AnyHashable {
         switch self {
@@ -49,6 +50,8 @@ enum FormRow: Identifiable {
                 textRowValue.id
             case .multipleChoiceRow(let multipleChoiceValue):
                 multipleChoiceValue.id
+            case .scale(let scaleQuestion):
+                scaleQuestion.id
         }
     }
 }
@@ -93,15 +96,23 @@ internal struct FormStepView: View {
 
                     ForEach(viewModel.formRows) { formRow in
                         switch formRow {
-                            case .textRow(let value):
-                                @Bindable var textValueBinding = value
-                                TextField("Placeholder", text: $textValueBinding.text)
+                        case .textRow(let value):
+                            @Bindable var textValueBinding = value
+                            TextField("Placeholder", text: $textValueBinding.text)
                         case .multipleChoiceRow(let value):
                             @Bindable var multipleChoiceValueBinding = value
                             MultipleChoiceQuestionView(
                                 title: multipleChoiceValueBinding.title,
                                 options: multipleChoiceValueBinding.choices,
-                                result: $multipleChoiceValueBinding.result
+                                result: $multipleChoiceValueBinding.result,
+                                selectionType: multipleChoiceValueBinding.selectionType
+                            )
+                        case .scale(let scaleQuestion):
+                            @Bindable var scaleQuestionBinding = scaleQuestion
+                            ScaleSliderQuestionView(
+                                title: scaleQuestion.title,
+                                result: $scaleQuestionBinding.result,
+                                scaleSelectionType: scaleQuestionBinding.selectionType
                             )
                         }
                     }
@@ -109,22 +120,6 @@ internal struct FormStepView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading)
             }
-        }
-    }
-
-    @ViewBuilder
-    func viewFor(formRow: FormRow) -> some View {
-        switch formRow {
-            case .textRow(let value):
-                @Bindable var textValueBinding = value
-                TextField("Placeholder", text: $textValueBinding.text)
-        case .multipleChoiceRow(let value):
-            @Bindable var multipleChoiceValueBinding = value
-            MultipleChoiceQuestionView(
-                title: multipleChoiceValueBinding.title,
-                options: multipleChoiceValueBinding.choices,
-                result: $multipleChoiceValueBinding.result
-            )
         }
     }
 }

@@ -18,9 +18,6 @@ class FormStepViewModel: ObservableObject {
 
     var formRows: [FormRow]
 
-    @Published
-    var selectedIndex: Int = -1
-
     var progress: Progress?
 
     var childResult: ORKResult? {
@@ -47,34 +44,76 @@ class FormStepViewModel: ObservableObject {
 
     static func convertFormItemsToFormRows(formItems: [ORKFormItem]) -> [FormRow]? {
 
-        let formRows: [FormRow?] = formItems.map { formItem in
-            if let answerFormat = formItem.answerFormat as? ORKTextChoiceAnswerFormat,
-               let questionText = formItem.text
-            {
-                var answerOptions : [MultipleChoiceOption<UUID>] = []
-                answerFormat.textChoices.forEach { textChoice in
-                    answerOptions.append(
+        let formRows: [FormRow] = formItems.compactMap { formItem in
+            #warning("[AY] Handle optional string")
+            let questionText = formItem.text ?? ""
+            switch formItem.answerFormat {
+                case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
+
+                    var answerOptions : [MultipleChoiceOption<UUID>] = []
+                    textChoiceAnswerFormat.textChoices.forEach { textChoice in
+                         answerOptions.append(
+                             MultipleChoiceOption(
+                                 id: UUID(),
+                                 choiceText: Text(
+                                     textChoice.text
+                                 )
+                             )
+                         )
+                     }
+
+                     // TODO: where should this be owned
+                     let resultObject : [MultipleChoiceOption<UUID>] = [MultipleChoiceOption(choiceText: Text(""))]
+                     return FormRow.multipleChoiceRow(
+                         MultipleChoiceQuestion(
+                             id: UUID(),
+                             title: Text(questionText),
+                             choices: answerOptions,
+                             result: resultObject,
+                             selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
+                         )
+                     )
+                case let scaleAnswerFormat as ORKScaleAnswerFormat:
+                    return FormRow.scale(
+                        ScaleSliderQuestion(
+                        title: questionText,
+                        id: UUID(),
+                        selectionType: .integerRange(scaleAnswerFormat.minimum...scaleAnswerFormat.maximum),
+                        result: 1
+                        )
+                    )
+                case let continuousScaleAnswerFormat as ORKContinuousScaleAnswerFormat:
+                    return FormRow.scale(
+                        ScaleSliderQuestion(
+                        title: questionText,
+                        id: UUID(),
+                        selectionType: .doubleRange(continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum),
+                        result: 1
+                        )
+                    )
+
+                case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
+                    #warning("[AY] remove uuid string as identifier")
+                    let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
                         MultipleChoiceOption(
-                            id: UUID(),
+                            id: UUID().uuidString,
                             choiceText: Text(
                                 textChoice.text
                             )
                         )
-                    )
-                }
-
-                // TODO: where should this be owned
-                let resultObject : MultipleChoiceOption<UUID> = MultipleChoiceOption(choiceText: Text(""))
-                return FormRow.multipleChoiceRow(
-                    MultipleChoiceQuestion(
+                    }
+                    return FormRow.scale(
+                        ScaleSliderQuestion(
+                        title: questionText,
                         id: UUID(),
-                        title: Text(questionText),
-                        choices: answerOptions,
-                        result: resultObject
+                        selectionType: .textChoice(answerOptions),
+                        result: MultipleChoiceOption(choiceText: Text(""))
+                        )
                     )
-                )
+                default:
+                    return nil
             }
-            return nil
+
         }
         let formRowsCompacted = formRows.compactMap { $0 }
         print(formRowsCompacted)
