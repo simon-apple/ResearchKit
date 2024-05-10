@@ -48,7 +48,10 @@ class FormStepViewModel: ObservableObject {
         }
 
         // Convert our ORKFormItems to FormRows with associated values 
-        let formItems = step.formItems ?? []
+        guard let formItems = step.formItems else {
+            fatalError("Attempting to create an empty ORKFormStep")
+        }
+
         let rows : [FormRow?] = formItems.map { formItem in
             if let answerFormat = formItem.answerFormat as? ORKTextChoiceAnswerFormat,
                let questionText = formItem.text
@@ -64,7 +67,7 @@ class FormStepViewModel: ObservableObject {
                 }
                 return FormRow.multipleChoiceRow(
                     MultipleChoiceQuestion(
-                        id: UUID().uuidString,
+                        id: formItem.identifier,
                         title: questionText,
                         choices: answerOptions
                     )
