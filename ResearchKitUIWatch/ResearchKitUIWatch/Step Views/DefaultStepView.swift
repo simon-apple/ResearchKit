@@ -30,7 +30,7 @@
 
 // apple-internal
 
-import ResearchKitCore
+import ResearchKit
 import SwiftUI
 
 @available(watchOS 6.0, *)

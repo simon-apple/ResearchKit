@@ -17,10 +17,9 @@
 		0B7213512B4F39CC00463E69 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72134B2B4F39CC00463E69 /* TaskView.swift */; };
 		0B7213522B4F39CC00463E69 /* ORKScrollViewReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72134C2B4F39CC00463E69 /* ORKScrollViewReader.swift */; };
 		0B7213532B4F39CC00463E69 /* View+OnChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72134D2B4F39CC00463E69 /* View+OnChange.swift */; };
-		0B72136B2B4F3D1D00463E69 /* ResearchKitCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B72136A2B4F3D1D00463E69 /* ResearchKitCore.framework */; };
-		0B72136C2B4F3D1D00463E69 /* ResearchKitCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B72136A2B4F3D1D00463E69 /* ResearchKitCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */ = {isa = PBXBuildFile; fileRef = 0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */; };
 		BA32DE9F2BCF34440041A937 /* ScaleSliderQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA32DE9E2BCF34440041A937 /* ScaleSliderQuestion.swift */; };
+		5E7596BD2BE049B90088F7B7 /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7596BC2BE049B90088F7B7 /* ResearchKit.framework */; };
 		E4DBF1B42B97C2980085D6A1 /* BooleanQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B32B97C2980085D6A1 /* BooleanQuestion.swift */; };
 		E4DBF1B62B97C2B30085D6A1 /* MultipleChoiceQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B52B97C2AC0085D6A1 /* MultipleChoiceQuestion.swift */; };
 		E4DBF1B92B97C3060085D6A1 /* TextChoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B82B97C3030085D6A1 /* TextChoiceCell.swift */; };
@@ -30,20 +29,6 @@
 		E4DBF1C32BA24B8B0085D6A1 /* StickyScrollView+StickyLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1C22BA24B860085D6A1 /* StickyScrollView+StickyLayout.swift */; };
 		E4FC4FAB2BC88F3F00E0AEBF /* FormStepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FC4FAA2BC88F3F00E0AEBF /* FormStepViewModel.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		0B7213602B4F3C7600463E69 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				0B72136C2B4F3D1D00463E69 /* ResearchKitCore.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0B72132C2B4F368600463E69 /* DefaultStepView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultStepView.swift; sourceTree = "<group>"; };
@@ -72,6 +57,7 @@
 		0BF86B1D2B4F360000E3790E /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ResearchKitUIWatch.docc; sourceTree = "<group>"; };
 		BA32DE9E2BCF34440041A937 /* ScaleSliderQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleSliderQuestion.swift; sourceTree = "<group>"; };
+		5E7596BC2BE049B90088F7B7 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4DBF1B32B97C2980085D6A1 /* BooleanQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanQuestion.swift; sourceTree = "<group>"; };
 		E4DBF1B52B97C2AC0085D6A1 /* MultipleChoiceQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleChoiceQuestion.swift; sourceTree = "<group>"; };
 		E4DBF1B82B97C3030085D6A1 /* TextChoiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextChoiceCell.swift; sourceTree = "<group>"; };
@@ -87,7 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B72136B2B4F3D1D00463E69 /* ResearchKitCore.framework in Frameworks */,
+				5E7596BD2BE049B90088F7B7 /* ResearchKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +83,7 @@
 		0B72132E2B4F36B900463E69 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5E7596BC2BE049B90088F7B7 /* ResearchKit.framework */,
 				0B72135D2B4F3C7600463E69 /* ResearchKitInternal.framework */,
 				0B7213612B4F3C7F00463E69 /* ResearchKit.framework */,
 				0B72136A2B4F3D1D00463E69 /* ResearchKitCore.framework */,
@@ -203,7 +190,6 @@
 				0BF86B192B4F360000E3790E /* Sources */,
 				0BF86B1A2B4F360000E3790E /* Frameworks */,
 				0BF86B1B2B4F360000E3790E /* Resources */,
-				0B7213602B4F3C7600463E69 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
