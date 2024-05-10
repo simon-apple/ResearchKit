@@ -43,10 +43,6 @@ class FormStepViewModel: ObservableObject {
         self.step = step
         self.result = result
 
-        if result.results == nil {
-            result.results = []
-        }
-
         // Convert our ORKFormItems to FormRows with associated values 
         guard let formItems = step.formItems else {
             fatalError("Attempting to create an empty ORKFormStep")
@@ -80,7 +76,13 @@ class FormStepViewModel: ObservableObject {
 
     }
 
+    // TODO: Move this logic out to an adapter class 🛠️
+    // rdar://127850219 (Create an RK Adapter class to handle translation layer)
     func createORKResult() {
+        if result.results == nil {
+            result.results = []
+        }
+
         for row in formRows {
             switch row {
             case .multipleChoiceRow(let multipleChoiceRow):
