@@ -377,9 +377,6 @@
 		BA473FE9224DB38900A362E3 /* ORKBodyItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BA473FE7224DB38900A362E3 /* ORKBodyItem.m */; platformFilter = ios; };
 		BA8C5021226FFB04001896D0 /* ORKLearnMoreItem.h in Headers */ = {isa = PBXBuildFile; fileRef = BA8C501F226FFB04001896D0 /* ORKLearnMoreItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BAB96755226E5D67006AAC56 /* ORKStepContainerViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB96754226E5D67006AAC56 /* ORKStepContainerViewTests.m */; };
-		BAC3BFC92BD870F100532B77 /* ORKAnswerFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B641A8D7C5B00081FAC /* ORKAnswerFormat.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BAC3BFCA2BD8715000532B77 /* ORKAnswerFormat_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B661A8D7C5B00081FAC /* ORKAnswerFormat_Internal.h */; };
-		BAC3BFCB2BD871CB00532B77 /* ORKAnswerFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B651A8D7C5B00081FAC /* ORKAnswerFormat.m */; };
 		BABBB1AE2097D97200CB29E5 /* ORKPDFViewerStep.h in Headers */ = {isa = PBXBuildFile; fileRef = BABBB1AC2097D97200CB29E5 /* ORKPDFViewerStep.h */; platformFilter = ios; settings = {ATTRIBUTES = (Public, ); }; };
 		BABBB1AF2097D97200CB29E5 /* ORKPDFViewerStep.m in Sources */ = {isa = PBXBuildFile; fileRef = BABBB1AD2097D97200CB29E5 /* ORKPDFViewerStep.m */; platformFilter = ios; };
 		BAD9E9122255E9750014FA29 /* ORKLearnMoreInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = BAD9E9102255E9750014FA29 /* ORKLearnMoreInstructionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -4880,7 +4877,6 @@
 				CA6A0D9E288F1CA20048C1EF /* ResearchKitUI_Private.h in Headers */,
 				CAA20D4E288B3D5700EDC764 /* ORKRecordButton.h in Headers */,
 				CAA20D7D288B3D9100EDC764 /* ORKSurveyCardHeaderView.h in Headers */,
-				BAC3BFCA2BD8715000532B77 /* ORKAnswerFormat_Internal.h in Headers */,
 				CAA20E1D288B3E8200EDC764 /* ORKImageCaptureCameraPreviewView.h in Headers */,
 				CAA20D67288B3D9100EDC764 /* ORKDateTimePicker.h in Headers */,
 				CAA20D89288B3D9100EDC764 /* ORKValuePicker.h in Headers */,
@@ -4906,7 +4902,6 @@
 				CAA20D7C288B3D9100EDC764 /* ORKSurveyAnswerCellForSES.h in Headers */,
 				CAA20F3B288B3F6D00EDC764 /* UIView+ORKAccessibility.h in Headers */,
 				CAA20D61288B3D9100EDC764 /* ORKScaleSlider.h in Headers */,
-				BAC3BFC92BD870F100532B77 /* ORKAnswerFormat.h in Headers */,
 				CAA20DEF288B3DB400EDC764 /* ORKCaption1Label.h in Headers */,
 				CAA20F31288B3F5B00EDC764 /* ORKConsentReviewStepViewController.h in Headers */,
 				CAA20DC8288B3DB400EDC764 /* ORKRoundTappingButton.h in Headers */,
@@ -5717,7 +5712,6 @@
 				CAA20E58288B3E9200EDC764 /* ORKTaskReviewViewController.m in Sources */,
 				CAA20E52288B3E9200EDC764 /* ORKTaskViewController.m in Sources */,
 				CAA20D8D288B3D9100EDC764 /* ORKAnswerTextField.m in Sources */,
-				BAC3BFCB2BD871CB00532B77 /* ORKAnswerFormat.m in Sources */,
 				CAA20E1C288B3E8200EDC764 /* ORKInstructionStepViewController.m in Sources */,
 				CAA20DBC288B3DB300EDC764 /* ORKHeadlineLabel.m in Sources */,
 				CAA20E23288B3E8200EDC764 /* ORKPDFViewerStepView.m in Sources */,
