@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ResearchKitCore
+import ResearchKit
 import SwiftUI
 
 public enum ScaleAxis {
