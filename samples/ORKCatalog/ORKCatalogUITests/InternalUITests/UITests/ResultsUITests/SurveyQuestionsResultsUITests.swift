@@ -429,6 +429,7 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
     func testValuePickerChoiceQuestionSkipResult() {
         answerAndVerifyValuePickerQuestion(answer: nil, expectedValue: "nil")
     }
+    
     // MARK: - Location Question
     
     func answerAndVerifyLocationQuestionTask(locationAnswer: (locationString: String, latitude: Double, longitude: Double)?, expectedValue: (locationString: String, latitude: String, longitude: String)) {
@@ -473,5 +474,55 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
         try XCTSkipIf(true, "Skipping this test for now due to crash after skipping question (126589758)") /// rdar://126589758 ([ORKCatalog] App crash when viewing location question result in Results tab after skipping question)
         
         answerAndVerifyLocationQuestionTask(locationAnswer: nil, expectedValue: (locationString: "nil", latitude: "nil", longitude: "nil"))
+    }
+    
+    // MARK: - Validated Text Question
+    
+    func answerAndVerifyValidatedTextQuestionTask(emailAnswer: String?, domainAnswer: String?, expectedEmail: String, expectedDomain: String) {
+        tasksList.selectTaskByName(Task.validatedTextQuestion.description)
+        
+        let formItemId = String(describing: Identifier.validatedTextFormItem)
+        // Email Step
+        let formStep1 = FormStepScreen(id: String(describing: Identifier.validatedTextFormStepEmail), itemIds: [formItemId])
+        // URL Step
+        let formStep2 = FormStepScreen(id: String(describing: Identifier.validatedTextFormStepDomain), itemIds: [formItemId])
+        
+        if let email = emailAnswer, let domain = domainAnswer {
+            formStep1
+                .selectFormItemCell(withID: formStep1.itemIds[0])
+                .typeEmail(email: email)
+                .tap(.continueButton)
+            
+            formStep2
+                .selectFormItemCell(withID: formStep2.itemIds[0])
+                .answerTextQuestion(text: domain, dismissKeyboard: true)
+                .tap(.continueButton)
+        } else {
+            formStep1
+                .tap(.skipButton)
+                .tap(.skipButton)
+        }
+        
+        let resultsTab = tabBar.navigateToResults()
+        resultsTab
+            .selectResultsCell(withId: formStep1.id)
+            .selectResultsCell(withId: formStep1.itemIds[0])
+            .verifyResultsCellValue(resultType: .textAnswer, expectedValue: expectedEmail)
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+            .selectResultsCell(withId: formStep2.id)
+            .selectResultsCell(withId: formStep2.itemIds[0])
+            .verifyResultsCellValue(resultType: .textAnswer, expectedValue: expectedDomain)
+    }
+    
+    func testValidatedTextQuestionResult() {
+        let email = Answers.exampleEmailCapitalized
+        let url = Answers.exampleDomainName
+        answerAndVerifyValidatedTextQuestionTask(emailAnswer: email, domainAnswer: url, expectedEmail: email, expectedDomain: url)
+    }
+    
+    func testValidatedTextQuestionSkipResult() {
+        answerAndVerifyValidatedTextQuestionTask(emailAnswer: nil, domainAnswer: nil, expectedEmail: "nil", expectedDomain: "nil")
     }
 }
