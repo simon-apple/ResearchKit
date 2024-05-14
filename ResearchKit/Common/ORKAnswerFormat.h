@@ -32,15 +32,13 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import <UIKit/UIKit.h>
 
-#if TARGET_OS_WATCH || TARGET_OS_VISION
+#if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKTypes.h>
-#endif
-
-#if TARGET_OS_IOS
+#else
 #import <ResearchKit/ORKTypes.h>
+#endif
 
 @class ORKScaleAnswerFormat;
 @class ORKContinuousScaleAnswerFormat;
@@ -59,7 +57,6 @@
 @class ORKLocationAnswerFormat;
 @class ORKSESAnswerFormat;
 @class ORKImageChoice;
-#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -444,10 +441,6 @@ ORK_CLASS_AVAILABLE
 @end
 #endif
 
-
-#pragma mark - iOS
-
-#if TARGET_OS_IOS
 @interface ORKAnswerFormat()
 
 /// @name Factory methods
@@ -2262,7 +2255,5 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, nullable) NSString *bottomRungText;
 
 @end
-
-#endif
 
 NS_ASSUME_NONNULL_END

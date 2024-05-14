@@ -31,11 +31,9 @@
 
 #import <Foundation/Foundation.h>
 
-#if TARGET_OS_WATCH || TARGET_OS_VISION
+#if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKStep.h>
-#endif
-
-#if TARGET_OS_IOS
+#else
 #import <ResearchKit/ORKStep.h>
 #endif
 

@@ -10,11 +10,14 @@ import Foundation
 // Enumeration to cover all the different question types for FormStep
 enum FormRow: Identifiable {
     case multipleChoiceRow(MultipleChoiceQuestion)
+    case scale(ScaleSliderQuestion<Any>)
 
     var id: AnyHashable {
         switch self {
             case .multipleChoiceRow(let multipleChoiceValue):
                 multipleChoiceValue.id
+            case .scale(let scaleQuestion):
+                scaleQuestion.id
         }
     }
 }

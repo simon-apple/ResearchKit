@@ -30,7 +30,7 @@
 
 // apple-internal
 
-import ResearchKitCore
+import ResearchKit
 import SwiftUI
 
 typealias Progress = (index: Int, count: Int)

@@ -31,14 +31,11 @@
 
 #import <UIKit/UIKit.h>
 
-#if TARGET_OS_WATCH || TARGET_OS_VISION
+#if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKTask.h>
-#endif
-
-#if TARGET_OS_IOS
+#else
 #import <ResearchKit/ORKTask.h>
 #endif
-
 
 NS_ASSUME_NONNULL_BEGIN
 

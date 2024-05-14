@@ -30,7 +30,7 @@
 
 // apple-internal
 
-import ResearchKitCore
+import ResearchKit
 import SwiftUI
 
 internal struct FormStepView: View {
@@ -89,6 +89,13 @@ internal struct FormStepView: View {
                                         )
                                     )
                                 })
+                            )
+                        case .scale(let scaleQuestion):
+                            @Bindable var scaleQuestionBinding = scaleQuestion
+                            ScaleSliderQuestionView(
+                                title: scaleQuestion.title,
+                                result: $scaleQuestionBinding.result,
+                                scaleSelectionType: scaleQuestionBinding.selectionType
                             )
                         }
                     }

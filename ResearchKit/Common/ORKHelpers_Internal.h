@@ -32,21 +32,18 @@
 
 @import UIKit;
 
-#if TARGET_OS_IOS
+#import <Foundation/Foundation.h>
+#import <os/log.h>
+
+#if TARGET_OS_WATCH
+#import <ResearchKitCore/ORKTypes.h>
+#import <ResearchKitCore/ORKHelpers_Private.h>
+#import <ResearchKitCore/ORKErrors.h>
+#else
 #import <ResearchKit/ORKTypes.h>
 #import <ResearchKit/ORKHelpers_Private.h>
 #import <ResearchKit/ORKErrors.h>
 #endif
-
-#if TARGET_OS_WATCH || TARGET_OS_VISION
-#import <ResearchKitCore/ORKTypes.h>
-#import <ResearchKitCore/ORKHelpers_Private.h>
-#import <ResearchKitCore/ORKErrors.h>
-#endif
-
-#import <Foundation/Foundation.h>
-#import <os/log.h>
-
 
 NS_ASSUME_NONNULL_BEGIN
 

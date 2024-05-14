@@ -90,11 +90,11 @@ NSString *ORKQuestionTypeString(ORKQuestionType questionType) {
 }
 
 
-#if TARGET_OS_IOS
+
 static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattingStyle style) {
     return style == ORKNumberFormattingStylePercent ? NSNumberFormatterPercentStyle : NSNumberFormatterDecimalStyle;
 }
-
+#if TARGET_OS_IOS
 @implementation ORKAnswerDefaultSource {
     NSMutableDictionary *_unitsTable;
 }
@@ -283,47 +283,6 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
 
 #if TARGET_OS_IOS
 
-+ (ORKScaleAnswerFormat *)scaleAnswerFormatWithMaximumValue:(NSInteger)scaleMaximum
-                                               minimumValue:(NSInteger)scaleMinimum
-                                               defaultValue:(NSInteger)defaultValue
-                                                       step:(NSInteger)step
-                                                   vertical:(BOOL)vertical
-                                    maximumValueDescription:(nullable NSString *)maximumValueDescription
-                                    minimumValueDescription:(nullable NSString *)minimumValueDescription {
-    return [[ORKScaleAnswerFormat alloc] initWithMaximumValue:scaleMaximum
-                                                 minimumValue:scaleMinimum
-                                                 defaultValue:defaultValue
-                                                         step:step
-                                                     vertical:vertical
-                                      maximumValueDescription:maximumValueDescription
-                                      minimumValueDescription:minimumValueDescription];
-}
-
-+ (ORKContinuousScaleAnswerFormat *)continuousScaleAnswerFormatWithMaximumValue:(double)scaleMaximum
-                                                                   minimumValue:(double)scaleMinimum
-                                                                   defaultValue:(double)defaultValue
-                                                          maximumFractionDigits:(NSInteger)maximumFractionDigits
-                                                                       vertical:(BOOL)vertical
-                                                        maximumValueDescription:(nullable NSString *)maximumValueDescription
-                                                        minimumValueDescription:(nullable NSString *)minimumValueDescription {
-    return [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:scaleMaximum
-                                                           minimumValue:scaleMinimum
-                                                           defaultValue:defaultValue
-                                                  maximumFractionDigits:maximumFractionDigits
-                                                               vertical:vertical
-                                                maximumValueDescription:maximumValueDescription
-                                                minimumValueDescription:minimumValueDescription];
-}
-
-+ (ORKTextScaleAnswerFormat *)textScaleAnswerFormatWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices
-                                                      defaultIndex:(NSInteger)defaultIndex
-                                                          vertical:(BOOL)vertical {
-    return [[ORKTextScaleAnswerFormat alloc] initWithTextChoices:textChoices
-                                                    defaultIndex:defaultIndex
-                                                        vertical:vertical];
-}
-
-
 + (ORKValuePickerAnswerFormat *)valuePickerAnswerFormatWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices {
     return [[ORKValuePickerAnswerFormat alloc] initWithTextChoices:textChoices];
 }
@@ -492,6 +451,46 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
 }
 
 #endif
+
++ (ORKScaleAnswerFormat *)scaleAnswerFormatWithMaximumValue:(NSInteger)scaleMaximum
+                                               minimumValue:(NSInteger)scaleMinimum
+                                               defaultValue:(NSInteger)defaultValue
+                                                       step:(NSInteger)step
+                                                   vertical:(BOOL)vertical
+                                    maximumValueDescription:(nullable NSString *)maximumValueDescription
+                                    minimumValueDescription:(nullable NSString *)minimumValueDescription {
+    return [[ORKScaleAnswerFormat alloc] initWithMaximumValue:scaleMaximum
+                                                 minimumValue:scaleMinimum
+                                                 defaultValue:defaultValue
+                                                         step:step
+                                                     vertical:vertical
+                                      maximumValueDescription:maximumValueDescription
+                                      minimumValueDescription:minimumValueDescription];
+}
+
++ (ORKContinuousScaleAnswerFormat *)continuousScaleAnswerFormatWithMaximumValue:(double)scaleMaximum
+                                                                   minimumValue:(double)scaleMinimum
+                                                                   defaultValue:(double)defaultValue
+                                                          maximumFractionDigits:(NSInteger)maximumFractionDigits
+                                                                       vertical:(BOOL)vertical
+                                                        maximumValueDescription:(nullable NSString *)maximumValueDescription
+                                                        minimumValueDescription:(nullable NSString *)minimumValueDescription {
+    return [[ORKContinuousScaleAnswerFormat alloc] initWithMaximumValue:scaleMaximum
+                                                           minimumValue:scaleMinimum
+                                                           defaultValue:defaultValue
+                                                  maximumFractionDigits:maximumFractionDigits
+                                                               vertical:vertical
+                                                maximumValueDescription:maximumValueDescription
+                                                minimumValueDescription:minimumValueDescription];
+}
+
++ (ORKTextScaleAnswerFormat *)textScaleAnswerFormatWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices
+                                                      defaultIndex:(NSInteger)defaultIndex
+                                                          vertical:(BOOL)vertical {
+    return [[ORKTextScaleAnswerFormat alloc] initWithTextChoices:textChoices
+                                                    defaultIndex:defaultIndex
+                                                        vertical:vertical];
+}
 
 + (ORKBooleanAnswerFormat *)booleanAnswerFormat {
     return [ORKBooleanAnswerFormat new];
@@ -1697,6 +1696,692 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 @end
 #endif
 
+#pragma mark - ORKScaleAnswerFormat
+
+@implementation ORKScaleAnswerFormat {
+    NSNumberFormatter *_numberFormatter;
+}
+
+- (Class)questionResultClass {
+    return [ORKScaleQuestionResult class];
+}
+
++ (instancetype)new {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)init {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)initWithMaximumValue:(NSInteger)maximumValue
+                        minimumValue:(NSInteger)minimumValue
+                        defaultValue:(NSInteger)defaultValue
+                                step:(NSInteger)step
+                            vertical:(BOOL)vertical
+             maximumValueDescription:(nullable NSString *)maximumValueDescription
+             minimumValueDescription:(nullable NSString *)minimumValueDescription {
+    self = [super init];
+    if (self) {
+        _minimum = minimumValue;
+        _maximum = maximumValue;
+        _defaultValue = defaultValue;
+        _step = step;
+        _vertical = vertical;
+        _hideSelectedValue = NO;
+        _maximumValueDescription = maximumValueDescription;
+        _minimumValueDescription = minimumValueDescription;
+        _hideRanges = NO;
+        _hideLabels = NO;
+        _hideValueMarkers = NO;
+
+        [self validateParameters];
+    }
+    return self;
+}
+
+- (instancetype)initWithMaximumValue:(NSInteger)maximumValue
+                        minimumValue:(NSInteger)minimumValue
+                        defaultValue:(NSInteger)defaultValue
+                                step:(NSInteger)step
+                            vertical:(BOOL)vertical {
+    return [self initWithMaximumValue:maximumValue
+                         minimumValue:minimumValue
+                         defaultValue:defaultValue
+                                 step:step
+                             vertical:vertical
+              maximumValueDescription:nil
+              minimumValueDescription:nil];
+}
+
+- (instancetype)initWithMaximumValue:(NSInteger)maximumValue
+                        minimumValue:(NSInteger)minimumValue
+                        defaultValue:(NSInteger)defaultValue
+                                step:(NSInteger)step {
+    return [self initWithMaximumValue:maximumValue
+                         minimumValue:minimumValue
+                         defaultValue:defaultValue
+                                 step:step
+                             vertical:NO
+              maximumValueDescription:nil
+              minimumValueDescription:nil];
+}
+
+- (NSNumber *)minimumNumber {
+    return @(_minimum);
+}
+- (NSNumber *)maximumNumber {
+    return @(_maximum);
+}
+- (NSNumber *)defaultAnswer {
+
+    if (_defaultValue > _maximum || _defaultValue < _minimum) {
+        return nil;
+    }
+
+    NSInteger integer = round( (double)( _defaultValue - _minimum ) / (double)_step ) * _step + _minimum;
+
+    return @(integer);
+}
+- (NSString *)localizedStringForNumber:(NSNumber *)number {
+    return [self.numberFormatter stringFromNumber:number];
+}
+
+- (NSArray<ORKTextChoice *> *)textChoices {
+    return nil;
+}
+
+- (NSNumberFormatter *)numberFormatter {
+    if (!_numberFormatter) {
+        _numberFormatter = [[NSNumberFormatter alloc] init];
+        _numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+        _numberFormatter.locale = [NSLocale autoupdatingCurrentLocale];
+        _numberFormatter.maximumFractionDigits = 0;
+    }
+    return _numberFormatter;
+}
+
+- (NSInteger)numberOfSteps {
+    return (_maximum - _minimum) / _step;
+}
+
+- (NSNumber *)normalizedValueForNumber:(NSNumber *)number {
+    return @(number.integerValue);
+}
+
+- (void)validateParameters {
+    [super validateParameters];
+
+    const NSInteger ORKScaleAnswerFormatMinimumStepSize = 1;
+    const NSInteger ORKScaleAnswerFormatMinimumStepCount = 1;
+    const NSInteger ORKScaleAnswerFormatMaximumStepCount = 13;
+
+    const NSInteger ORKScaleAnswerFormatValueLowerbound = -10000;
+    const NSInteger ORKScaleAnswerFormatValueUpperbound = 10000;
+
+    if (_maximum < _minimum) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Expect maximumValue larger than minimumValue"] userInfo:nil];
+    }
+
+    if (_step < ORKScaleAnswerFormatMinimumStepSize) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:[NSString stringWithFormat:@"Expect step value not less than than %@.", @(ORKScaleAnswerFormatMinimumStepSize)]
+                                     userInfo:nil];
+    }
+
+    NSInteger mod = (_maximum - _minimum) % _step;
+    if (mod != 0) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Expect the difference between maximumValue and minimumValue is divisible by step value"] userInfo:nil];
+    }
+
+    NSInteger steps = (_maximum - _minimum) / _step;
+    if (steps < ORKScaleAnswerFormatMinimumStepCount || steps > ORKScaleAnswerFormatMaximumStepCount) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:[NSString stringWithFormat:@"Expect the total number of steps between minimumValue and maximumValue more than %@ and no more than %@.", @(ORKScaleAnswerFormatMinimumStepCount), @(ORKScaleAnswerFormatMaximumStepCount)]
+                                     userInfo:nil];
+    }
+
+    if (_minimum < ORKScaleAnswerFormatValueLowerbound) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:[NSString stringWithFormat:@"minimumValue should not less than %@", @(ORKScaleAnswerFormatValueLowerbound)]
+                                     userInfo:nil];
+    }
+
+    if (_maximum > ORKScaleAnswerFormatValueUpperbound) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:[NSString stringWithFormat:@"maximumValue should not more than %@", @(ORKScaleAnswerFormatValueUpperbound)]
+                                     userInfo:nil];
+    }
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_INTEGER(aDecoder, maximum);
+        ORK_DECODE_INTEGER(aDecoder, minimum);
+        ORK_DECODE_INTEGER(aDecoder, step);
+        ORK_DECODE_INTEGER(aDecoder, defaultValue);
+        ORK_DECODE_BOOL(aDecoder, vertical);
+        ORK_DECODE_BOOL(aDecoder, hideSelectedValue);
+        ORK_DECODE_BOOL(aDecoder, hideRanges);
+        ORK_DECODE_BOOL(aDecoder, hideLabels);
+        ORK_DECODE_BOOL(aDecoder, hideValueMarkers);
+        ORK_DECODE_OBJ_CLASS(aDecoder, maximumValueDescription, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, minimumValueDescription, NSString);
+        ORK_DECODE_IMAGE(aDecoder, maximumImage);
+        ORK_DECODE_IMAGE(aDecoder, minimumImage);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, gradientColors, UIColor);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, gradientLocations, NSNumber);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_INTEGER(aCoder, maximum);
+    ORK_ENCODE_INTEGER(aCoder, minimum);
+    ORK_ENCODE_INTEGER(aCoder, step);
+    ORK_ENCODE_INTEGER(aCoder, defaultValue);
+    ORK_ENCODE_BOOL(aCoder, vertical);
+    ORK_ENCODE_BOOL(aCoder, hideSelectedValue);
+    ORK_ENCODE_BOOL(aCoder, hideRanges);
+    ORK_ENCODE_BOOL(aCoder, hideLabels);
+    ORK_ENCODE_BOOL(aCoder, hideValueMarkers);
+    ORK_ENCODE_OBJ(aCoder, maximumValueDescription);
+    ORK_ENCODE_OBJ(aCoder, minimumValueDescription);
+    ORK_ENCODE_IMAGE(aCoder, maximumImage);
+    ORK_ENCODE_IMAGE(aCoder, minimumImage);
+    ORK_ENCODE_OBJ(aCoder, gradientColors);
+    ORK_ENCODE_OBJ(aCoder, gradientLocations);
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            (_maximum == castObject.maximum) &&
+            (_minimum == castObject.minimum) &&
+            (_step == castObject.step) &&
+            (_defaultValue == castObject.defaultValue) &&
+            (_hideLabels == castObject.hideLabels) &&
+            (_hideRanges == castObject.hideRanges) &&
+            (_hideValueMarkers == castObject.hideValueMarkers) &&
+            (_hideSelectedValue == castObject.hideSelectedValue) &&
+            ORKEqualObjects(self.maximumValueDescription, castObject.maximumValueDescription) &&
+            ORKEqualObjects(self.minimumValueDescription, castObject.minimumValueDescription) &&
+            ORKEqualObjects(self.maximumImage, castObject.maximumImage) &&
+            ORKEqualObjects(self.minimumImage, castObject.minimumImage) &&
+            ORKEqualObjects(self.gradientColors, castObject.gradientColors) &&
+            ORKEqualObjects(self.gradientLocations, castObject.gradientLocations));
+}
+
+- (ORKQuestionType)questionType {
+    return ORKQuestionTypeScale;
+}
+
+- (NSString *)stringForAnswer:(id)answer {
+    return [self localizedStringForNumber:answer];
+}
+
+- (BOOL)shouldHideRanges {
+    return _hideRanges;
+}
+
+- (BOOL)shouldHideLabels {
+    return _hideLabels;
+}
+
+- (BOOL)shouldHideValueMarkers {
+    return _hideValueMarkers;
+}
+
+@end
+
+
+#pragma mark - ORKContinuousScaleAnswerFormat
+
+@implementation ORKContinuousScaleAnswerFormat {
+    NSNumberFormatter *_numberFormatter;
+}
+
+- (Class)questionResultClass {
+    return [ORKScaleQuestionResult class];
+}
+
++ (instancetype)new {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)init {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)initWithMaximumValue:(double)maximumValue
+                        minimumValue:(double)minimumValue
+                        defaultValue:(double)defaultValue
+               maximumFractionDigits:(NSInteger)maximumFractionDigits
+                            vertical:(BOOL)vertical
+             maximumValueDescription:(nullable NSString *)maximumValueDescription
+             minimumValueDescription:(nullable NSString *)minimumValueDescription {
+    self = [super init];
+    if (self) {
+        _minimum = minimumValue;
+        _maximum = maximumValue;
+        _defaultValue = defaultValue;
+        _maximumFractionDigits = maximumFractionDigits;
+        _vertical = vertical;
+        _hideSelectedValue = NO;
+        _maximumValueDescription = maximumValueDescription;
+        _minimumValueDescription = minimumValueDescription;
+        _hideRanges = NO;
+        _hideLabels = NO;
+
+        [self validateParameters];
+    }
+    return self;
+}
+
+- (instancetype)initWithMaximumValue:(double)maximumValue
+                        minimumValue:(double)minimumValue
+                        defaultValue:(double)defaultValue
+               maximumFractionDigits:(NSInteger)maximumFractionDigits
+                            vertical:(BOOL)vertical {
+    return [self initWithMaximumValue:maximumValue
+                         minimumValue:minimumValue
+                         defaultValue:defaultValue
+                maximumFractionDigits:maximumFractionDigits
+                             vertical:vertical
+              maximumValueDescription:nil
+              minimumValueDescription:nil];
+}
+
+- (instancetype)initWithMaximumValue:(double)maximumValue
+                        minimumValue:(double)minimumValue
+                        defaultValue:(double)defaultValue
+               maximumFractionDigits:(NSInteger)maximumFractionDigits {
+    return [self initWithMaximumValue:maximumValue
+                         minimumValue:minimumValue
+                         defaultValue:defaultValue
+                maximumFractionDigits:maximumFractionDigits
+                             vertical:NO
+              maximumValueDescription:nil
+              minimumValueDescription:nil];
+}
+
+- (NSNumber *)minimumNumber {
+    return @(_minimum);
+}
+- (NSNumber *)maximumNumber {
+    return @(_maximum);
+}
+- (NSNumber *)defaultAnswer {
+    if ( _defaultValue > _maximum || _defaultValue < _minimum) {
+        return nil;
+    }
+    return @(_defaultValue);
+}
+- (NSString *)localizedStringForNumber:(NSNumber *)number {
+    return [self.numberFormatter stringFromNumber:number];
+}
+
+- (NSArray<ORKTextChoice *> *)textChoices {
+    return nil;
+}
+
+- (NSNumberFormatter *)numberFormatter {
+    if (!_numberFormatter) {
+        _numberFormatter = [[NSNumberFormatter alloc] init];
+        _numberFormatter.numberStyle = ORKNumberFormattingStyleConvert(_numberStyle);
+        _numberFormatter.maximumFractionDigits = _maximumFractionDigits;
+    }
+    return _numberFormatter;
+}
+
+- (NSInteger)numberOfSteps {
+    return 0;
+}
+
+- (NSNumber *)normalizedValueForNumber:(NSNumber *)number {
+    return number;
+}
+
+- (void)validateParameters {
+    [super validateParameters];
+
+    const double ORKScaleAnswerFormatValueLowerbound = -100000;
+    const double ORKScaleAnswerFormatValueUpperbound = 100000;
+
+    // Just clamp maximumFractionDigits to be 0-4. This is all aimed at keeping the maximum
+    // number of digits down to 6 or less.
+    _maximumFractionDigits = MAX(_maximumFractionDigits, 0);
+    _maximumFractionDigits = MIN(_maximumFractionDigits, 4);
+
+    double effectiveUpperbound = ORKScaleAnswerFormatValueUpperbound * pow(0.1, _maximumFractionDigits);
+    double effectiveLowerbound = ORKScaleAnswerFormatValueLowerbound * pow(0.1, _maximumFractionDigits);
+
+    if (_maximum <= _minimum) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Expect maximumValue larger than minimumValue"] userInfo:nil];
+    }
+
+    if (_minimum < effectiveLowerbound) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:[NSString stringWithFormat:@"minimumValue should not less than %@ with %@ fractional digits", @(effectiveLowerbound), @(_maximumFractionDigits)]
+                                     userInfo:nil];
+    }
+
+    if (_maximum > effectiveUpperbound) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:[NSString stringWithFormat:@"maximumValue should not more than %@ with %@ fractional digits", @(effectiveUpperbound), @(_maximumFractionDigits)]
+                                     userInfo:nil];
+    }
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_DOUBLE(aDecoder, maximum);
+        ORK_DECODE_DOUBLE(aDecoder, minimum);
+        ORK_DECODE_DOUBLE(aDecoder, defaultValue);
+        ORK_DECODE_INTEGER(aDecoder, maximumFractionDigits);
+        ORK_DECODE_BOOL(aDecoder, vertical);
+        ORK_DECODE_ENUM(aDecoder, numberStyle);
+        ORK_DECODE_BOOL(aDecoder, hideSelectedValue);
+        ORK_DECODE_BOOL(aDecoder, hideLabels);
+        ORK_DECODE_BOOL(aDecoder, hideRanges);
+        ORK_DECODE_OBJ_CLASS(aDecoder, maximumValueDescription, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, minimumValueDescription, NSString);
+        ORK_DECODE_IMAGE(aDecoder, maximumImage);
+        ORK_DECODE_IMAGE(aDecoder, minimumImage);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, gradientColors, UIColor);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, gradientLocations, NSNumber);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_DOUBLE(aCoder, maximum);
+    ORK_ENCODE_DOUBLE(aCoder, minimum);
+    ORK_ENCODE_DOUBLE(aCoder, defaultValue);
+    ORK_ENCODE_INTEGER(aCoder, maximumFractionDigits);
+    ORK_ENCODE_BOOL(aCoder, vertical);
+    ORK_ENCODE_BOOL(aCoder, hideSelectedValue);
+    ORK_ENCODE_BOOL(aCoder, hideLabels);
+    ORK_ENCODE_BOOL(aCoder, hideRanges);
+    ORK_ENCODE_ENUM(aCoder, numberStyle);
+    ORK_ENCODE_OBJ(aCoder, maximumValueDescription);
+    ORK_ENCODE_OBJ(aCoder, minimumValueDescription);
+    ORK_ENCODE_IMAGE(aCoder, maximumImage);
+    ORK_ENCODE_IMAGE(aCoder, minimumImage);
+    ORK_ENCODE_OBJ(aCoder, gradientColors);
+    ORK_ENCODE_OBJ(aCoder, gradientLocations);
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            (_maximum == castObject.maximum) &&
+            (_minimum == castObject.minimum) &&
+            (_defaultValue == castObject.defaultValue) &&
+            (_maximumFractionDigits == castObject.maximumFractionDigits) &&
+            (_numberStyle == castObject.numberStyle) &&
+            (_hideSelectedValue == castObject.hideSelectedValue) &&
+            (_hideLabels == castObject.hideLabels) &&
+            (_hideRanges == castObject.hideRanges) &&
+            ORKEqualObjects(self.maximumValueDescription, castObject.maximumValueDescription) &&
+            ORKEqualObjects(self.minimumValueDescription, castObject.minimumValueDescription) &&
+            ORKEqualObjects(self.maximumImage, castObject.maximumImage) &&
+            ORKEqualObjects(self.minimumImage, castObject.minimumImage) &&
+            ORKEqualObjects(self.gradientColors, castObject.gradientColors) &&
+            ORKEqualObjects(self.gradientLocations, castObject.gradientLocations));
+}
+
+- (ORKQuestionType)questionType {
+    return ORKQuestionTypeScale;
+}
+
+- (NSString *)stringForAnswer:(id)answer {
+    return [self localizedStringForNumber:answer];
+}
+
+- (BOOL)shouldHideRanges {
+    return _hideRanges;
+}
+
+- (BOOL)shouldHideLabels {
+    return _hideLabels;
+}
+
+- (BOOL)shouldHideValueMarkers {
+    return NO;
+}
+
+@end
+
+
+#pragma mark - ORKTextScaleAnswerFormat
+
+@interface ORKTextScaleAnswerFormat () {
+
+    ORKChoiceAnswerFormatHelper *_helper;
+}
+
+@end
+
+
+@implementation ORKTextScaleAnswerFormat {
+    NSNumberFormatter *_numberFormatter;
+}
+
+- (Class)questionResultClass {
+    return [ORKChoiceQuestionResult class];
+}
+
++ (instancetype)new {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)init {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)initWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices
+                       defaultIndex:(NSInteger)defaultIndex
+                           vertical:(BOOL)vertical {
+    self = [super init];
+    if (self) {
+        _textChoices = [textChoices copy];
+        _defaultIndex = defaultIndex;
+        _vertical = vertical;
+        _hideSelectedValue = NO;
+        _helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:self];
+        _hideRanges = NO;
+        _hideLabels = NO;
+        _hideValueMarkers = NO;
+
+        [self validateParameters];
+    }
+    return self;
+}
+
+- (instancetype)initWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices
+                       defaultIndex:(NSInteger)defaultIndex {
+    return [self initWithTextChoices:textChoices
+                        defaultIndex:defaultIndex
+                            vertical:NO];
+}
+
+- (NSNumber *)minimumNumber {
+    return @(1);
+}
+- (NSNumber *)maximumNumber {
+    return @(_textChoices.count);
+}
+- (NSObject<NSCopying, NSSecureCoding> *)defaultAnswer {
+    if (_defaultIndex < 0 || _defaultIndex >= _textChoices.count) {
+        return nil;
+    }
+    NSObject<NSCopying, NSSecureCoding> *value = [self textChoiceAtIndex:_defaultIndex].value;
+    return value ? @[value] : nil;
+}
+- (NSString *)localizedStringForNumber:(NSNumber *)number {
+    return [self.numberFormatter stringFromNumber:number];
+}
+- (NSString *)minimumValueDescription {
+    return _textChoices.firstObject.text;
+}
+- (NSString *)maximumValueDescription {
+    return _textChoices.lastObject.text;
+}
+- (UIImage *)minimumImage {
+    return nil;
+}
+- (UIImage *)maximumImage {
+    return nil;
+}
+
+- (NSNumberFormatter *)numberFormatter {
+    if (!_numberFormatter) {
+        _numberFormatter = [[NSNumberFormatter alloc] init];
+        _numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+        _numberFormatter.locale = [NSLocale autoupdatingCurrentLocale];
+        _numberFormatter.maximumFractionDigits = 0;
+    }
+    return _numberFormatter;
+}
+
+- (NSInteger)numberOfSteps {
+    return _textChoices.count - 1;
+}
+
+- (NSNumber *)normalizedValueForNumber:(NSNumber *)number {
+    return @([number integerValue]);
+}
+
+- (ORKTextChoice *)textChoiceAtIndex:(NSUInteger)index {
+
+    if (index >= _textChoices.count) {
+        return nil;
+    }
+    return _textChoices[index];
+}
+
+- (ORKTextChoice *)textChoiceForValue:(NSObject<NSCopying, NSSecureCoding> *)value {
+    __block ORKTextChoice *choice = nil;
+
+    [_textChoices enumerateObjectsUsingBlock:^(ORKTextChoice * _Nonnull textChoice, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([textChoice.value isEqual:value]) {
+            choice = textChoice;
+            *stop = YES;
+        }
+    }];
+
+    return choice;
+}
+
+- (NSUInteger)textChoiceIndexForValue:(NSObject<NSCopying, NSSecureCoding> *)value {
+    ORKTextChoice *choice = [self textChoiceForValue:value];
+    return choice ? [_textChoices indexOfObject:choice] : NSNotFound;
+}
+
+- (void)validateParameters {
+    [super validateParameters];
+
+    if (_textChoices.count < 2) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Must have a minimum of 2 text choices." userInfo:nil];
+    } else if (_textChoices.count > 8) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Cannot have more than 8 text choices." userInfo:nil];
+    }
+
+    ORKValidateArrayForObjectsOfClass(_textChoices, [ORKTextChoice class], @"Text choices must be of class ORKTextChoice.");
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ_ARRAY(aDecoder, textChoices, ORKTextChoice);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, gradientColors, UIColor);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, gradientLocations, NSNumber);
+        ORK_DECODE_INTEGER(aDecoder, defaultIndex);
+        ORK_DECODE_BOOL(aDecoder, vertical);
+        ORK_DECODE_BOOL(aDecoder, hideSelectedValue);
+        ORK_DECODE_BOOL(aDecoder, hideValueMarkers);
+        ORK_DECODE_BOOL(aDecoder, hideLabels);
+        ORK_DECODE_BOOL(aDecoder, hideRanges);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, textChoices);
+    ORK_ENCODE_OBJ(aCoder, gradientColors);
+    ORK_ENCODE_OBJ(aCoder, gradientLocations);
+    ORK_ENCODE_INTEGER(aCoder, defaultIndex);
+    ORK_ENCODE_BOOL(aCoder, vertical);
+    ORK_ENCODE_BOOL(aCoder, hideSelectedValue);
+    ORK_ENCODE_BOOL(aCoder, hideValueMarkers);
+    ORK_ENCODE_BOOL(aCoder, hideLabels);
+    ORK_ENCODE_BOOL(aCoder, hideRanges);
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            ORKEqualObjects(self.textChoices, castObject.textChoices) &&
+            (_defaultIndex == castObject.defaultIndex) &&
+            (_vertical == castObject.vertical) &&
+            (_hideSelectedValue == castObject.hideSelectedValue) &&
+            (_hideValueMarkers == castObject.hideValueMarkers) &&
+            (_hideLabels == castObject.hideLabels) &&
+            (_hideRanges == castObject.hideRanges) &&
+            ORKEqualObjects(self.gradientColors, castObject.gradientColors) &&
+            ORKEqualObjects(self.gradientLocations, castObject.gradientLocations));
+}
+
+- (ORKQuestionType)questionType {
+    return ORKQuestionTypeScale;
+}
+
+- (NSString *)stringForAnswer:(id)answer {
+    return [_helper stringForChoiceAnswer:answer];
+}
+
+- (BOOL)shouldHideRanges {
+    return _hideRanges;
+}
+
+- (BOOL)shouldHideLabels {
+    return _hideLabels;
+}
+
+- (BOOL)shouldHideValueMarkers {
+    return _hideValueMarkers;
+}
+
+- (NSArray *)choices {
+    return self.textChoices;
+}
+
+@end
+
 
 #pragma mark - ORKBooleanAnswerFormat
 
@@ -2333,695 +3018,6 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 }
 
 @end
-
-
-#pragma mark - ORKScaleAnswerFormat
-
-@implementation ORKScaleAnswerFormat {
-    NSNumberFormatter *_numberFormatter;
-}
-
-- (Class)questionResultClass {
-    return [ORKScaleQuestionResult class];
-}
-
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)initWithMaximumValue:(NSInteger)maximumValue
-                        minimumValue:(NSInteger)minimumValue
-                        defaultValue:(NSInteger)defaultValue
-                                step:(NSInteger)step
-                            vertical:(BOOL)vertical
-             maximumValueDescription:(nullable NSString *)maximumValueDescription
-             minimumValueDescription:(nullable NSString *)minimumValueDescription {
-    self = [super init];
-    if (self) {
-        _minimum = minimumValue;
-        _maximum = maximumValue;
-        _defaultValue = defaultValue;
-        _step = step;
-        _vertical = vertical;
-        _hideSelectedValue = NO;
-        _maximumValueDescription = maximumValueDescription;
-        _minimumValueDescription = minimumValueDescription;
-        _hideRanges = NO;
-        _hideLabels = NO;
-        _hideValueMarkers = NO;
-
-        [self validateParameters];
-    }
-    return self;
-}
-
-- (instancetype)initWithMaximumValue:(NSInteger)maximumValue
-                        minimumValue:(NSInteger)minimumValue
-                        defaultValue:(NSInteger)defaultValue
-                                step:(NSInteger)step
-                            vertical:(BOOL)vertical {
-    return [self initWithMaximumValue:maximumValue
-                         minimumValue:minimumValue
-                         defaultValue:defaultValue
-                                 step:step
-                             vertical:vertical
-              maximumValueDescription:nil
-              minimumValueDescription:nil];
-}
-
-- (instancetype)initWithMaximumValue:(NSInteger)maximumValue
-                        minimumValue:(NSInteger)minimumValue
-                        defaultValue:(NSInteger)defaultValue
-                                step:(NSInteger)step {
-    return [self initWithMaximumValue:maximumValue
-                         minimumValue:minimumValue
-                         defaultValue:defaultValue
-                                 step:step
-                             vertical:NO
-              maximumValueDescription:nil
-              minimumValueDescription:nil];
-}
-
-- (NSNumber *)minimumNumber {
-    return @(_minimum);
-}
-- (NSNumber *)maximumNumber {
-    return @(_maximum);
-}
-- (NSNumber *)defaultAnswer {
-    
-    if (_defaultValue > _maximum || _defaultValue < _minimum) {
-        return nil;
-    }
-    
-    NSInteger integer = round( (double)( _defaultValue - _minimum ) / (double)_step ) * _step + _minimum;
-    
-    return @(integer);
-}
-- (NSString *)localizedStringForNumber:(NSNumber *)number {
-    return [self.numberFormatter stringFromNumber:number];
-}
-
-- (NSArray<ORKTextChoice *> *)textChoices {
-    return nil;
-}
-
-- (NSNumberFormatter *)numberFormatter {
-    if (!_numberFormatter) {
-        _numberFormatter = [[NSNumberFormatter alloc] init];
-        _numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
-        _numberFormatter.locale = [NSLocale autoupdatingCurrentLocale];
-        _numberFormatter.maximumFractionDigits = 0;
-    }
-    return _numberFormatter;
-}
-
-- (NSInteger)numberOfSteps {
-    return (_maximum - _minimum) / _step;
-}
-
-- (NSNumber *)normalizedValueForNumber:(NSNumber *)number {
-    return @(number.integerValue);
-}
-
-- (void)validateParameters {
-    [super validateParameters];
-    
-    const NSInteger ORKScaleAnswerFormatMinimumStepSize = 1;
-    const NSInteger ORKScaleAnswerFormatMinimumStepCount = 1;
-    const NSInteger ORKScaleAnswerFormatMaximumStepCount = 13;
-    
-    const NSInteger ORKScaleAnswerFormatValueLowerbound = -10000;
-    const NSInteger ORKScaleAnswerFormatValueUpperbound = 10000;
-    
-    if (_maximum < _minimum) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Expect maximumValue larger than minimumValue"] userInfo:nil];
-    }
-    
-    if (_step < ORKScaleAnswerFormatMinimumStepSize) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:[NSString stringWithFormat:@"Expect step value not less than than %@.", @(ORKScaleAnswerFormatMinimumStepSize)]
-                                     userInfo:nil];
-    }
-    
-    NSInteger mod = (_maximum - _minimum) % _step;
-    if (mod != 0) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Expect the difference between maximumValue and minimumValue is divisible by step value"] userInfo:nil];
-    }
-    
-    NSInteger steps = (_maximum - _minimum) / _step;
-    if (steps < ORKScaleAnswerFormatMinimumStepCount || steps > ORKScaleAnswerFormatMaximumStepCount) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:[NSString stringWithFormat:@"Expect the total number of steps between minimumValue and maximumValue more than %@ and no more than %@.", @(ORKScaleAnswerFormatMinimumStepCount), @(ORKScaleAnswerFormatMaximumStepCount)]
-                                     userInfo:nil];
-    }
-    
-    if (_minimum < ORKScaleAnswerFormatValueLowerbound) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:[NSString stringWithFormat:@"minimumValue should not less than %@", @(ORKScaleAnswerFormatValueLowerbound)]
-                                     userInfo:nil];
-    }
-    
-    if (_maximum > ORKScaleAnswerFormatValueUpperbound) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:[NSString stringWithFormat:@"maximumValue should not more than %@", @(ORKScaleAnswerFormatValueUpperbound)]
-                                     userInfo:nil];
-    }
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_INTEGER(aDecoder, maximum);
-        ORK_DECODE_INTEGER(aDecoder, minimum);
-        ORK_DECODE_INTEGER(aDecoder, step);
-        ORK_DECODE_INTEGER(aDecoder, defaultValue);
-        ORK_DECODE_BOOL(aDecoder, vertical);
-        ORK_DECODE_BOOL(aDecoder, hideSelectedValue);
-        ORK_DECODE_BOOL(aDecoder, hideRanges);
-        ORK_DECODE_BOOL(aDecoder, hideLabels);
-        ORK_DECODE_BOOL(aDecoder, hideValueMarkers);
-        ORK_DECODE_OBJ_CLASS(aDecoder, maximumValueDescription, NSString);
-        ORK_DECODE_OBJ_CLASS(aDecoder, minimumValueDescription, NSString);
-        ORK_DECODE_IMAGE(aDecoder, maximumImage);
-        ORK_DECODE_IMAGE(aDecoder, minimumImage);
-        ORK_DECODE_OBJ_ARRAY(aDecoder, gradientColors, UIColor);
-        ORK_DECODE_OBJ_ARRAY(aDecoder, gradientLocations, NSNumber);
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_INTEGER(aCoder, maximum);
-    ORK_ENCODE_INTEGER(aCoder, minimum);
-    ORK_ENCODE_INTEGER(aCoder, step);
-    ORK_ENCODE_INTEGER(aCoder, defaultValue);
-    ORK_ENCODE_BOOL(aCoder, vertical);
-    ORK_ENCODE_BOOL(aCoder, hideSelectedValue);
-    ORK_ENCODE_BOOL(aCoder, hideRanges);
-    ORK_ENCODE_BOOL(aCoder, hideLabels);
-    ORK_ENCODE_BOOL(aCoder, hideValueMarkers);
-    ORK_ENCODE_OBJ(aCoder, maximumValueDescription);
-    ORK_ENCODE_OBJ(aCoder, minimumValueDescription);
-    ORK_ENCODE_IMAGE(aCoder, maximumImage);
-    ORK_ENCODE_IMAGE(aCoder, minimumImage);
-    ORK_ENCODE_OBJ(aCoder, gradientColors);
-    ORK_ENCODE_OBJ(aCoder, gradientLocations);
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    
-    __typeof(self) castObject = object;
-    return (isParentSame &&
-            (_maximum == castObject.maximum) &&
-            (_minimum == castObject.minimum) &&
-            (_step == castObject.step) &&
-            (_defaultValue == castObject.defaultValue) &&
-            (_hideLabels == castObject.hideLabels) &&
-            (_hideRanges == castObject.hideRanges) &&
-            (_hideValueMarkers == castObject.hideValueMarkers) &&
-            (_hideSelectedValue == castObject.hideSelectedValue) &&
-            ORKEqualObjects(self.maximumValueDescription, castObject.maximumValueDescription) &&
-            ORKEqualObjects(self.minimumValueDescription, castObject.minimumValueDescription) &&
-            ORKEqualObjects(self.maximumImage, castObject.maximumImage) &&
-            ORKEqualObjects(self.minimumImage, castObject.minimumImage) &&
-            ORKEqualObjects(self.gradientColors, castObject.gradientColors) &&
-            ORKEqualObjects(self.gradientLocations, castObject.gradientLocations));
-}
-
-- (ORKQuestionType)questionType {
-    return ORKQuestionTypeScale;
-}
-
-- (NSString *)stringForAnswer:(id)answer {
-    return [self localizedStringForNumber:answer];
-}
-
-- (BOOL)shouldHideRanges {
-    return _hideRanges;
-}
-
-- (BOOL)shouldHideLabels {
-    return _hideLabels;
-}
-
-- (BOOL)shouldHideValueMarkers {
-    return _hideValueMarkers;
-}
-
-@end
-
-
-#pragma mark - ORKContinuousScaleAnswerFormat
-
-@implementation ORKContinuousScaleAnswerFormat {
-    NSNumberFormatter *_numberFormatter;
-}
-
-- (Class)questionResultClass {
-    return [ORKScaleQuestionResult class];
-}
-
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)initWithMaximumValue:(double)maximumValue
-                        minimumValue:(double)minimumValue
-                        defaultValue:(double)defaultValue
-               maximumFractionDigits:(NSInteger)maximumFractionDigits
-                            vertical:(BOOL)vertical
-             maximumValueDescription:(nullable NSString *)maximumValueDescription
-             minimumValueDescription:(nullable NSString *)minimumValueDescription {
-    self = [super init];
-    if (self) {
-        _minimum = minimumValue;
-        _maximum = maximumValue;
-        _defaultValue = defaultValue;
-        _maximumFractionDigits = maximumFractionDigits;
-        _vertical = vertical;
-        _hideSelectedValue = NO;
-        _maximumValueDescription = maximumValueDescription;
-        _minimumValueDescription = minimumValueDescription;
-        _hideRanges = NO;
-        _hideLabels = NO;
-        
-        [self validateParameters];
-    }
-    return self;
-}
-
-- (instancetype)initWithMaximumValue:(double)maximumValue
-                        minimumValue:(double)minimumValue
-                        defaultValue:(double)defaultValue
-               maximumFractionDigits:(NSInteger)maximumFractionDigits
-                            vertical:(BOOL)vertical {
-    return [self initWithMaximumValue:maximumValue
-                         minimumValue:minimumValue
-                         defaultValue:defaultValue
-                maximumFractionDigits:maximumFractionDigits
-                             vertical:vertical
-              maximumValueDescription:nil
-              minimumValueDescription:nil];
-}
-
-- (instancetype)initWithMaximumValue:(double)maximumValue
-                        minimumValue:(double)minimumValue
-                        defaultValue:(double)defaultValue
-               maximumFractionDigits:(NSInteger)maximumFractionDigits {
-    return [self initWithMaximumValue:maximumValue
-                         minimumValue:minimumValue
-                         defaultValue:defaultValue
-                maximumFractionDigits:maximumFractionDigits
-                             vertical:NO
-              maximumValueDescription:nil
-              minimumValueDescription:nil];
-}
-
-- (NSNumber *)minimumNumber {
-    return @(_minimum);
-}
-- (NSNumber *)maximumNumber {
-    return @(_maximum);
-}
-- (NSNumber *)defaultAnswer {
-    if ( _defaultValue > _maximum || _defaultValue < _minimum) {
-        return nil;
-    }
-    return @(_defaultValue);
-}
-- (NSString *)localizedStringForNumber:(NSNumber *)number {
-    return [self.numberFormatter stringFromNumber:number];
-}
-
-- (NSArray<ORKTextChoice *> *)textChoices {
-    return nil;
-}
-
-- (NSNumberFormatter *)numberFormatter {
-    if (!_numberFormatter) {
-        _numberFormatter = [[NSNumberFormatter alloc] init];
-        _numberFormatter.numberStyle = ORKNumberFormattingStyleConvert(_numberStyle);
-        _numberFormatter.maximumFractionDigits = _maximumFractionDigits;
-    }
-    return _numberFormatter;
-}
-
-- (NSInteger)numberOfSteps {
-    return 0;
-}
-
-- (NSNumber *)normalizedValueForNumber:(NSNumber *)number {
-    return number;
-}
-
-- (void)validateParameters {
-    [super validateParameters];
-    
-    const double ORKScaleAnswerFormatValueLowerbound = -100000;
-    const double ORKScaleAnswerFormatValueUpperbound = 100000;
-    
-    // Just clamp maximumFractionDigits to be 0-4. This is all aimed at keeping the maximum
-    // number of digits down to 6 or less.
-    _maximumFractionDigits = MAX(_maximumFractionDigits, 0);
-    _maximumFractionDigits = MIN(_maximumFractionDigits, 4);
-    
-    double effectiveUpperbound = ORKScaleAnswerFormatValueUpperbound * pow(0.1, _maximumFractionDigits);
-    double effectiveLowerbound = ORKScaleAnswerFormatValueLowerbound * pow(0.1, _maximumFractionDigits);
-    
-    if (_maximum <= _minimum) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Expect maximumValue larger than minimumValue"] userInfo:nil];
-    }
-    
-    if (_minimum < effectiveLowerbound) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:[NSString stringWithFormat:@"minimumValue should not less than %@ with %@ fractional digits", @(effectiveLowerbound), @(_maximumFractionDigits)]
-                                     userInfo:nil];
-    }
-    
-    if (_maximum > effectiveUpperbound) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:[NSString stringWithFormat:@"maximumValue should not more than %@ with %@ fractional digits", @(effectiveUpperbound), @(_maximumFractionDigits)]
-                                     userInfo:nil];
-    }
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_DOUBLE(aDecoder, maximum);
-        ORK_DECODE_DOUBLE(aDecoder, minimum);
-        ORK_DECODE_DOUBLE(aDecoder, defaultValue);
-        ORK_DECODE_INTEGER(aDecoder, maximumFractionDigits);
-        ORK_DECODE_BOOL(aDecoder, vertical);
-        ORK_DECODE_ENUM(aDecoder, numberStyle);
-        ORK_DECODE_BOOL(aDecoder, hideSelectedValue);
-        ORK_DECODE_BOOL(aDecoder, hideLabels);
-        ORK_DECODE_BOOL(aDecoder, hideRanges);
-        ORK_DECODE_OBJ_CLASS(aDecoder, maximumValueDescription, NSString);
-        ORK_DECODE_OBJ_CLASS(aDecoder, minimumValueDescription, NSString);
-        ORK_DECODE_IMAGE(aDecoder, maximumImage);
-        ORK_DECODE_IMAGE(aDecoder, minimumImage);
-        ORK_DECODE_OBJ_ARRAY(aDecoder, gradientColors, UIColor);
-        ORK_DECODE_OBJ_ARRAY(aDecoder, gradientLocations, NSNumber);
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_DOUBLE(aCoder, maximum);
-    ORK_ENCODE_DOUBLE(aCoder, minimum);
-    ORK_ENCODE_DOUBLE(aCoder, defaultValue);
-    ORK_ENCODE_INTEGER(aCoder, maximumFractionDigits);
-    ORK_ENCODE_BOOL(aCoder, vertical);
-    ORK_ENCODE_BOOL(aCoder, hideSelectedValue);
-    ORK_ENCODE_BOOL(aCoder, hideLabels);
-    ORK_ENCODE_BOOL(aCoder, hideRanges);
-    ORK_ENCODE_ENUM(aCoder, numberStyle);
-    ORK_ENCODE_OBJ(aCoder, maximumValueDescription);
-    ORK_ENCODE_OBJ(aCoder, minimumValueDescription);
-    ORK_ENCODE_IMAGE(aCoder, maximumImage);
-    ORK_ENCODE_IMAGE(aCoder, minimumImage);
-    ORK_ENCODE_OBJ(aCoder, gradientColors);
-    ORK_ENCODE_OBJ(aCoder, gradientLocations);
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    
-    __typeof(self) castObject = object;
-    return (isParentSame &&
-            (_maximum == castObject.maximum) &&
-            (_minimum == castObject.minimum) &&
-            (_defaultValue == castObject.defaultValue) &&
-            (_maximumFractionDigits == castObject.maximumFractionDigits) &&
-            (_numberStyle == castObject.numberStyle) &&
-            (_hideSelectedValue == castObject.hideSelectedValue) &&
-            (_hideLabels == castObject.hideLabels) &&
-            (_hideRanges == castObject.hideRanges) &&
-            ORKEqualObjects(self.maximumValueDescription, castObject.maximumValueDescription) &&
-            ORKEqualObjects(self.minimumValueDescription, castObject.minimumValueDescription) &&
-            ORKEqualObjects(self.maximumImage, castObject.maximumImage) &&
-            ORKEqualObjects(self.minimumImage, castObject.minimumImage) &&
-            ORKEqualObjects(self.gradientColors, castObject.gradientColors) &&
-            ORKEqualObjects(self.gradientLocations, castObject.gradientLocations));
-}
-
-- (ORKQuestionType)questionType {
-    return ORKQuestionTypeScale;
-}
-
-- (NSString *)stringForAnswer:(id)answer {
-    return [self localizedStringForNumber:answer];
-}
-
-- (BOOL)shouldHideRanges {
-    return _hideRanges;
-}
-
-- (BOOL)shouldHideLabels {
-    return _hideLabels;
-}
-
-- (BOOL)shouldHideValueMarkers {
-    return NO;
-}
-
-@end
-
-
-#pragma mark - ORKTextScaleAnswerFormat
-#if TARGET_OS_IOS
-@interface ORKTextScaleAnswerFormat () {
-    
-    ORKChoiceAnswerFormatHelper *_helper;
-}
-
-@end
-
-
-@implementation ORKTextScaleAnswerFormat {
-    NSNumberFormatter *_numberFormatter;
-}
-
-- (Class)questionResultClass {
-    return [ORKChoiceQuestionResult class];
-}
-
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)initWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices
-                       defaultIndex:(NSInteger)defaultIndex
-                           vertical:(BOOL)vertical {
-    self = [super init];
-    if (self) {
-        _textChoices = [textChoices copy];
-        _defaultIndex = defaultIndex;
-        _vertical = vertical;
-        _hideSelectedValue = NO;
-        _helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:self];
-        _hideRanges = NO;
-        _hideLabels = NO;
-        _hideValueMarkers = NO;
-        
-        [self validateParameters];
-    }
-    return self;
-}
-
-- (instancetype)initWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices
-                       defaultIndex:(NSInteger)defaultIndex {
-    return [self initWithTextChoices:textChoices
-                        defaultIndex:defaultIndex
-                            vertical:NO];
-}
-
-- (NSNumber *)minimumNumber {
-    return @(1);
-}
-- (NSNumber *)maximumNumber {
-    return @(_textChoices.count);
-}
-- (NSObject<NSCopying, NSSecureCoding> *)defaultAnswer {
-    if (_defaultIndex < 0 || _defaultIndex >= _textChoices.count) {
-        return nil;
-    }
-    NSObject<NSCopying, NSSecureCoding> *value = [self textChoiceAtIndex:_defaultIndex].value;
-    return value ? @[value] : nil;
-}
-- (NSString *)localizedStringForNumber:(NSNumber *)number {
-    return [self.numberFormatter stringFromNumber:number];
-}
-- (NSString *)minimumValueDescription {
-    return _textChoices.firstObject.text;
-}
-- (NSString *)maximumValueDescription {
-    return _textChoices.lastObject.text;
-}
-- (UIImage *)minimumImage {
-    return nil;
-}
-- (UIImage *)maximumImage {
-    return nil;
-}
-
-- (NSNumberFormatter *)numberFormatter {
-    if (!_numberFormatter) {
-        _numberFormatter = [[NSNumberFormatter alloc] init];
-        _numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
-        _numberFormatter.locale = [NSLocale autoupdatingCurrentLocale];
-        _numberFormatter.maximumFractionDigits = 0;
-    }
-    return _numberFormatter;
-}
-
-- (NSInteger)numberOfSteps {
-    return _textChoices.count - 1;
-}
-
-- (NSNumber *)normalizedValueForNumber:(NSNumber *)number {
-    return @([number integerValue]);
-}
-
-- (ORKTextChoice *)textChoiceAtIndex:(NSUInteger)index {
-    
-    if (index >= _textChoices.count) {
-        return nil;
-    }
-    return _textChoices[index];
-}
-
-- (ORKTextChoice *)textChoiceForValue:(NSObject<NSCopying, NSSecureCoding> *)value {
-    __block ORKTextChoice *choice = nil;
-    
-    [_textChoices enumerateObjectsUsingBlock:^(ORKTextChoice * _Nonnull textChoice, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([textChoice.value isEqual:value]) {
-            choice = textChoice;
-            *stop = YES;
-        }
-    }];
-    
-    return choice;
-}
-
-- (NSUInteger)textChoiceIndexForValue:(NSObject<NSCopying, NSSecureCoding> *)value {
-    ORKTextChoice *choice = [self textChoiceForValue:value];
-    return choice ? [_textChoices indexOfObject:choice] : NSNotFound;
-}
-
-- (void)validateParameters {
-    [super validateParameters];
-    
-    if (_textChoices.count < 2) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Must have a minimum of 2 text choices." userInfo:nil];
-    } else if (_textChoices.count > 8) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Cannot have more than 8 text choices." userInfo:nil];
-    }
-    
-    ORKValidateArrayForObjectsOfClass(_textChoices, [ORKTextChoice class], @"Text choices must be of class ORKTextChoice.");
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_OBJ_ARRAY(aDecoder, textChoices, ORKTextChoice);
-        ORK_DECODE_OBJ_ARRAY(aDecoder, gradientColors, UIColor);
-        ORK_DECODE_OBJ_ARRAY(aDecoder, gradientLocations, NSNumber);
-        ORK_DECODE_INTEGER(aDecoder, defaultIndex);
-        ORK_DECODE_BOOL(aDecoder, vertical);
-        ORK_DECODE_BOOL(aDecoder, hideSelectedValue);
-        ORK_DECODE_BOOL(aDecoder, hideValueMarkers);
-        ORK_DECODE_BOOL(aDecoder, hideLabels);
-        ORK_DECODE_BOOL(aDecoder, hideRanges);
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_OBJ(aCoder, textChoices);
-    ORK_ENCODE_OBJ(aCoder, gradientColors);
-    ORK_ENCODE_OBJ(aCoder, gradientLocations);
-    ORK_ENCODE_INTEGER(aCoder, defaultIndex);
-    ORK_ENCODE_BOOL(aCoder, vertical);
-    ORK_ENCODE_BOOL(aCoder, hideSelectedValue);
-    ORK_ENCODE_BOOL(aCoder, hideValueMarkers);
-    ORK_ENCODE_BOOL(aCoder, hideLabels);
-    ORK_ENCODE_BOOL(aCoder, hideRanges);
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    
-    __typeof(self) castObject = object;
-    return (isParentSame &&
-            ORKEqualObjects(self.textChoices, castObject.textChoices) &&
-            (_defaultIndex == castObject.defaultIndex) &&
-            (_vertical == castObject.vertical) &&
-            (_hideSelectedValue == castObject.hideSelectedValue) &&
-            (_hideValueMarkers == castObject.hideValueMarkers) &&
-            (_hideLabels == castObject.hideLabels) &&
-            (_hideRanges == castObject.hideRanges) &&
-            ORKEqualObjects(self.gradientColors, castObject.gradientColors) &&
-            ORKEqualObjects(self.gradientLocations, castObject.gradientLocations));
-}
-
-- (ORKQuestionType)questionType {
-    return ORKQuestionTypeScale;
-}
-
-- (NSString *)stringForAnswer:(id)answer {
-    return [_helper stringForChoiceAnswer:answer];
-}
-
-- (BOOL)shouldHideRanges {
-    return _hideRanges;
-}
-
-- (BOOL)shouldHideLabels {
-    return _hideLabels;
-}
-
-- (BOOL)shouldHideValueMarkers {
-    return _hideValueMarkers;
-}
-
-- (NSArray *)choices {
-    return self.textChoices;
-}
-
-@end
-
-#endif
 
 
 #pragma mark - ORKTextAnswerFormat

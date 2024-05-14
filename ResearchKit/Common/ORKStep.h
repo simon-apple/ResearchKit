@@ -28,16 +28,14 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if TARGET_OS_WATCH || TARGET_OS_VISION
-#import <ResearchKitCore/ORKTypes.h>
-#endif
-
-#if TARGET_OS_IOS
-#import <ResearchKit/ORKTypes.h>
-#endif
-
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+
+#if TARGET_OS_WATCH
+#import <ResearchKitCore/ORKTypes.h>
+#else
+#import <ResearchKit/ORKTypes.h>
+#endif
 
 @class HKObjectType;
 @class ORKResult;
