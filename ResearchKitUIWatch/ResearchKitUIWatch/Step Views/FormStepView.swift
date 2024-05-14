@@ -76,26 +76,30 @@ internal struct FormStepView: View {
                             MultipleChoiceQuestionView(
                                 title: multipleChoiceValue.title,
                                 choices: multipleChoiceValue.choices,
-                                result: .init(get: {
-                                    return multipleChoiceValue.result
-                                },
-                                set: { newValue in
-                                    formRow = .multipleChoiceRow(
-                                        MultipleChoiceQuestion(
-                                            id: multipleChoiceValue.id,
-                                            title: multipleChoiceValue.title,
-                                            choices: multipleChoiceValue.choices,
-                                            result: newValue
+                                selectionType: multipleChoiceValue.selectionType,
+                                result: .init(
+                                    get: {
+                                        return multipleChoiceValue.result
+                                    },
+                                    set: { newValue in
+                                        formRow = .multipleChoiceRow(
+                                            MultipleChoiceQuestion(
+                                                id: multipleChoiceValue.id,
+                                                title: multipleChoiceValue.title,
+                                                choices: multipleChoiceValue.choices,
+                                                result: newValue,
+                                                selectionType: multipleChoiceValue.selectionType
+                                            )
                                         )
-                                    )
-                                })
+                                    })
                             )
                         case .scale(let scaleQuestion):
                             @Bindable var scaleQuestionBinding = scaleQuestion
                             ScaleSliderQuestionView(
+                                identifier: scaleQuestion.id,
                                 title: scaleQuestion.title,
-                                result: $scaleQuestionBinding.result,
-                                scaleSelectionType: scaleQuestionBinding.selectionType
+                                scaleSelectionType: scaleQuestionBinding.selectionType,
+                                result: $scaleQuestionBinding.result
                             )
                         }
                     }

@@ -53,18 +53,6 @@ struct ScaleSliderQuestionView<ResultType>: View {
     @Binding
     var result: ResultType
 
-//    init(
-//        title: String,
-//        detail: String? = nil,
-//        result: Binding<ResultType>,
-//        scaleSelectionType: ScaleSelectionType
-//    ) {
-//        self.title = title
-//        self.detail = detail
-//        _result = result
-//        self.scaleSelectionType = scaleSelectionType
-//    }
-
     public var body: some View {
         CardView {
             VStack(alignment: .leading) {
