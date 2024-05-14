@@ -1,9 +1,9 @@
 # 
 <sub>These materials are for informational purposes only and do not constitute legal advice. You should contact an attorney to obtain advice with respect to the development of a research app and any applicable laws.</sub>
 
-# Creating Surveys
+# Creating surveys
 
-A survey is a sequence of questions that you use to collect data from your users.  In a ResearchKit app, a survey is composed of a <i>survey task</i> that has a collection of step objects (`ORKStep`). Each step object handles a specific question in the survey, such as "What medications are you taking?" or "How many hours did you sleep last night?".
+A survey is a sequence of questions that you use to collect data from your users. In a ResearchKit app, a survey is composed of a <i>survey task</i> that has a collection of step objects (`ORKStep`). Each step object handles a specific question in the survey, such as "What medications are you taking?" or "How many hours did you sleep last night?".
 
 You can collect results for the individual steps or for the task as a whole. There are two types of survey tasks: an ordered task (`ORKOrderedTask`) and a navigable ordered task (`ORKNavigableOrderedTask`).
 
@@ -28,19 +28,19 @@ The steps for creating a task to present a survey are:
 2. <a href="#task">Create a task</a>
 3. <a href="#results">Collect results</a>
 
-## 1. Create Steps<a name="create"></a>
+## 1. Create steps<a name="create"></a>
 
 The survey module provides a form step that can contain one or more questions
 (`ORKFormStep`). You can also use an instruction step
 (`ORKInstructionStep`) or a video instruction step (`ORKVideoInstructionStep`) to introduce the survey or provide instructions.
 
-### Instruction Step
+### Instruction step
 
 An instruction step explains the purpose of a task and provides
 instructions for the user. An `ORKInstructionStep` object includes an
 identifier, title, text, detail text, and an image. An
-instruction step does not collect any data and yields an empty
-`ORKStepResult` that nonetheless records how long the instruction was
+instruction step doesn't collect any data and yields an empty
+`ORKStepResult` that records how long the instruction was
 on screen.
 
 ```swift
@@ -67,7 +67,7 @@ The result of a form step contains one question result for each form
 item. The results are matched to their corresponding form items using
 their identifier property.
 
-For example, the following code shows how to create a form that requests some basic details:
+The following code shows how to create a form that requests some basic details:
 
 
 ```swift
@@ -116,7 +116,7 @@ The screenshots below show the standard answer formats that the ResearchKit fram
 <p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SurveyImages/LocationAnswerFormat.png" style="width: 100%;border: solid black 1px;"> Location answer format</p>
 <p style="clear: both;">
 
-## 2. Create a Survey Task<a name="task"></a>
+## 2. Create a survey task<a name="task"></a>
 
 Once you create one or more steps, create an `ORKOrderedTask` object to
 contain the steps. The code below shows the steps created above being added to a task.
@@ -127,7 +127,7 @@ let orderedTask = ORKOrderedTask(identifier: "OrderedTaskIdentifier", steps: [in
 ```
 
 
-You must assign a string identifier to each step. The step identifier must be unique within the task, because it is the key that connects a step in the task hierarchy with the step result in the result hierarchy.
+You must assign a string identifier to each step. The step identifier must be unique within the task, because it's the key that connects a step in the task hierarchy with the step result in the result hierarchy.
 
 To present the task, attach it to a task view controller and present
 it. The code below shows how to create a task view controller and present it modally.
@@ -139,8 +139,8 @@ taskViewController.delegate = self
 present(taskViewController, animated: true)
 ```
 
-*Note: `ORKOrderedTask` assumes that you will always present all the questions,
-and will never decide what question to show based on previous answers.
+*Note: `ORKOrderedTask` assumes that you always present all of the questions,
+and never decide what question to show based on previous answers.
 To introduce conditional logic, you must either subclass
 `ORKOrderedTask` or implement the `ORKTask` protocol yourself.*
 
@@ -161,7 +161,7 @@ every form item; and an active task with recorders generally produces
 one result for each recorder. 
 
 The hierarchy of results corresponds closely to the input
-model hierarchy of task and steps, as you can see here:
+model hierarchy of task and steps as you can see here:
 
 <center>
 <figure>
@@ -175,7 +175,7 @@ Among other properties, every result has an identifier. This
 identifier is what connects the result to the model object (task,
 step, form item, or recorder) that produced it. Every result also
 includes start and end times, using the [startDate]([ORKResult startDate]) and [endDate]([ORKResult endDate])
-properties respectively. These properties can be used to infer how long the user
+properties respectively. Use these properties to infer how long the user
 spent on the step.
  
 
@@ -186,12 +186,12 @@ will likely include serializing the result hierarchy in some form,
 either using the built-in `NSSecureCoding` support, or another
 format appropriate for your application.
 
-If your task can produce file output, the files are generally referenced by an `ORKFileResult` object and they are placed in the output directory that you set on the task view controller. After you complete a task, one implementation might be to serialize the result hierarchy into the output directory, zip up the entire output
+If your task can produce file output, the files are generally referenced by an `ORKFileResult` object and they are placed in the output directory that you set on the task view controller. After you complete a task, one implementation might be to serialize the result hierarchy into the output directory, compress the entire output
 directory, and share it.
 
 In the following example, the result is archived with
-`NSKeyedArchiver` on successful completion.  If you choose to support
-saving and restoring tasks, the user may save the task, so this
+`NSKeyedArchiver` on successful completion. If you choose to support
+saving and restoring tasks, the user may save the task. This
 example also demonstrates how to obtain the restoration data that
 would later be needed to restore the task.
 
