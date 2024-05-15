@@ -520,28 +520,15 @@ final class SurveyQuestionsUITests: BaseUITest {
         questionStep
             .selectFormItemCell(withID:  formItemId)
         Keyboards.deleteValue(characterCount: username.count, keyboardType: .alphabetic)
-        
-        app.keyboards.keys[username].tap()
-        // The letters keyboard is displayed, so we need to switch to the numbers keyboard in order to type "@"
-        let moreKey =  app.keyboards.keys["more"]
-        if moreKey.waitForExistence(timeout: 20)  {
-            moreKey.tap() // switch to numbers
-        }
-        app.keyboards.keys["@"].tap()
-        moreKey.tap() // switch to letters
-        questionStep.answerTextQuestion(text: "example")
-        moreKey.tap()  // switch to numbers
-        app.keyboards.keys["."].tap()
-        moreKey.tap()  // switch to letters
         questionStep
-            .answerTextQuestion(text: "com", dismissKeyboard: true)
+            .typeEmail(email: Answers.exampleEmailCapitalized)
             .verify(.continueButton, isEnabled: true)
             .verifyErrorMessage(exists: false, withId: formItemId, expectedMessage: " Invalid Email")
             .tap(.continueButton)
         
         // URL validation
         let questionStep2 = FormStepScreen()
-        let domainName = "apple.com"
+        let domainName = Answers.exampleDomainName
         let secondLevelDomainName = String(domainName.split(separator: ".").first!)
         questionStep2
             .selectFormItemCell(withID:  formItemId)

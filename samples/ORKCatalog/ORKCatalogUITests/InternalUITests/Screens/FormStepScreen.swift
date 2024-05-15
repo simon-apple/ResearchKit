@@ -473,6 +473,30 @@ final class FormStepScreen: Step {
         return self
     }
     
+    /// Types an email by switching between letter and numbers keyboards
+    /// This method is used to enter an email answer when the keyboard type is not set to UIKeyboardTypeEmailAddress
+    @discardableResult
+    func typeEmail(email: String) -> Self {
+        let emailParts = email.components(separatedBy: "@")
+        let localName = emailParts[0]
+        let domainParts = emailParts[1].components(separatedBy: ".")
+        let domainName = domainParts[0]
+        let topLevelDomain = domainParts[1]
+        answerTextQuestion(text: localName)
+        let moreKey = Self.app.keyboards.keys["more"] /// The letters keyboard is displayed, so we need to switch to the numbers keyboard in order to type "@"
+        if moreKey.waitForExistence(timeout: 20)  {
+            moreKey.tap() // switch to numbers
+        }
+        Self.app.keyboards.keys["@"].tap()
+        moreKey.tap() // switch to letters
+        answerTextQuestion(text: domainName)
+        moreKey.tap()  // switch to numbers
+        Self.app.keyboards.keys["."].tap()
+        moreKey.tap()  // switch to letters
+        answerTextQuestion(text: topLevelDomain, dismissKeyboard: true)
+        return self
+    }
+    
     // MARK: - Date and Time Answer Format
     
     // Usually, there is only one UI picker  presented on the screen
