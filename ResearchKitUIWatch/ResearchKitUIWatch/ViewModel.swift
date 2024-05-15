@@ -8,6 +8,6 @@
 // Enum to be extended for all types of of ORKSteps
 
 enum ViewModel {
-    case none
     case formStep(FormStepViewModel)
+    case none
 }

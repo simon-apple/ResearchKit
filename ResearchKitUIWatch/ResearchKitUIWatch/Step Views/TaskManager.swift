@@ -131,7 +131,8 @@ internal extension TaskManager {
             self.viewModels[step.identifier] = .formStep(viewModel)
             return .formStep(viewModel)
         }
-        
+
+        debugPrint("Attempted to create a ViewModel for an ORKStep type that is not supported yet: \(step.description)")
         return .none
     }
 }

@@ -56,7 +56,7 @@ public struct DefaultStepView: View {
             CompletionStepView(completionStep, result: result)
         } else if let instructionStep = step as? ORKInstructionStep {
             InstructionStepView(instructionStep, result: result)
-        } else if type(of: step) == ORKFormStep.self {
+        } else if step is ORKFormStep {
             if case .formStep(let formStepViewModel) = viewModel {
                 FormStepView(viewModel: formStepViewModel)
             }

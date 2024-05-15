@@ -39,13 +39,17 @@ class FormStepViewModel: ObservableObject {
     init(step: ORKFormStep, result: ORKStepResult) {
         self.step = step
         self.result = result
+        self.formRows = Self.createFormRowsFromORKStep(step)
+    }
 
-        // Convert our ORKFormItems to FormRows with associated values 
+    static func createFormRowsFromORKStep(_ step: ORKFormStep) -> [FormRow] {
+        // Convert our ORKFormItems to FormRows with associated values
         guard let formItems = step.formItems else {
-            fatalError("Attempting to create an empty ORKFormStep")
+            assertionFailure("Attempting to create an empty ORKFormStep")
+            return []
         }
 
-        self.formRows = formItems.compactMap { formItem in
+        let formRows = formItems.compactMap { formItem in
             #warning("[AY] Handle optional string")
             let questionText = formItem.text ?? ""
             switch formItem.answerFormat {
@@ -106,6 +110,8 @@ class FormStepViewModel: ObservableObject {
                 return nil
             }
         }
+        
+        return formRows
     }
 
     // TODO: Move this logic out to an adapter class 🛠️

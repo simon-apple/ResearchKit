@@ -12,7 +12,7 @@ enum FormRow: Identifiable {
     case multipleChoiceRow(MultipleChoiceQuestion)
     case scale(ScaleSliderQuestion<Any>)
 
-    var id: AnyHashable {
+    var id: String {
         switch self {
             case .multipleChoiceRow(let multipleChoiceValue):
                 multipleChoiceValue.id
