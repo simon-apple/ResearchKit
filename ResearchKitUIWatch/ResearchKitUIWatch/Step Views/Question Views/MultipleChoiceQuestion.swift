@@ -17,14 +17,14 @@ struct MultipleChoiceQuestion: Identifiable {
     var title: String
     var id: String
     var choices: [MultipleChoiceOption]
-    var result: [MultipleChoiceOption]?
+    var result: [MultipleChoiceOption]
     var selectionType: ChoiceSelectionType
 
     init(
         id: ID,
         title: String,
         choices: [MultipleChoiceOption],
-        result: [MultipleChoiceOption]? = nil,
+        result: [MultipleChoiceOption] = [],
         selectionType: ChoiceSelectionType
     ) {
         self.title = title
@@ -46,7 +46,7 @@ public struct MultipleChoiceQuestionView: View {
     let selectionType: MultipleChoiceQuestion.ChoiceSelectionType
 
     @Binding
-    var result: [MultipleChoiceOption]?
+    var result: [MultipleChoiceOption]
 
     let detail: Text? = nil
 
@@ -61,9 +61,9 @@ public struct MultipleChoiceQuestionView: View {
                 ) { option in
                     TextChoiceCell(
                         title: Text(option.choiceText),
-                        isSelected: result?.contains(where: { choice in
+                        isSelected: result.contains(where: { choice in
                             choice.id == option.id
-                        }) ?? false
+                        })
                     ) {
                         choiceSelected(option)
                     }
@@ -74,10 +74,8 @@ public struct MultipleChoiceQuestionView: View {
     }
 
     private func choiceSelected(_ option: MultipleChoiceOption) {
-        if ((result?.contains(where: { choice in
-            choice.id == option.id
-        })) != nil) {
-            result?.removeAll { choice in
+        if result.contains(where: { $0.id == option.id }) {
+            result.removeAll { choice in
                 choice.id == option.id
             }
         } else {
@@ -85,7 +83,7 @@ public struct MultipleChoiceQuestionView: View {
             case .single:
                 result = [option]
             case .multiple:
-                result?.append(option)
+                result.append(option)
             }
         }
        }

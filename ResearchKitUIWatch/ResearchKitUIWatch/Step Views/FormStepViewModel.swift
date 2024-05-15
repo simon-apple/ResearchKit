@@ -119,19 +119,21 @@ class FormStepViewModel: ObservableObject {
             switch row {
             case .multipleChoiceRow(let multipleChoiceRow):
                 let result = ORKChoiceQuestionResult(identifier: multipleChoiceRow.id)
-                guard let choiceAnswers = multipleChoiceRow.result else {
-                    return
-                }
-                result.choiceAnswers = choiceAnswers.map{ $0.choiceText as NSString }
+                result.choiceAnswers = multipleChoiceRow.result.map { $0.choiceText as NSString }
                 self.result.results?.append(result)
 
             case .scale(let scaleRow):
-                let result = ORKScaleQuestionResult(identifier: scaleRow.id)
-                guard let scaleAnswer = result.scaleAnswer else {
-                    return
+                switch scaleRow.selectionType {
+                case .textChoice(_):
+                    let result = ORKTextQuestionResult(identifier: scaleRow.id)
+                    result.textAnswer = scaleRow.result as? String
+                    self.result.results?.append(result)
+
+                case .integerRange(_), .doubleRange(_):
+                    let result = ORKScaleQuestionResult(identifier: scaleRow.id)
+                    result.scaleAnswer = scaleRow.result as? NSNumber
+                    self.result.results?.append(result)
                 }
-                result.scaleAnswer = scaleAnswer as NSNumber
-                self.result.results?.append(result)
             }
         }
     }
