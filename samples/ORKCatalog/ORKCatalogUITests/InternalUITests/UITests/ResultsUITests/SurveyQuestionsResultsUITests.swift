@@ -31,6 +31,7 @@
 import Foundation
 import XCTest
 import ORKCatalog
+import CoreLocation
 
 final class SurveyQuestionsResultsUITests: BaseUITest {
     
@@ -427,5 +428,50 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
     
     func testValuePickerChoiceQuestionSkipResult() {
         answerAndVerifyValuePickerQuestion(answer: nil, expectedValue: "nil")
+    }
+    // MARK: - Location Question
+    
+    func answerAndVerifyLocationQuestionTask(locationAnswer: (locationString: String, latitude: Double, longitude: Double)?, expectedValue: (locationString: String, latitude: String, longitude: String)) {
+        
+        tasksList.selectTaskByName(Task.locationQuestion.description)
+        
+        let formStep = FormStepScreen(id: String(describing: Identifier.locationQuestionFormStep))
+        let formItemId = String(describing: Identifier.locationQuestionFormItem)
+        
+        if let location = locationAnswer {
+            formStep
+                .tap(.title) /// Required for automatic detection and handling the location alert: see Helpers().monitorAlerts() method
+                .verifyCellTextFieldValue(withId: formItemId, expectedValue: location.locationString)
+                .tap(.continueButton)
+        } else {
+            formStep
+                .tap(.skipButton)
+        }
+        
+        let resultsTab = tabBar.navigateToResults()
+        resultsTab
+            .selectResultsCell(withId: formStep.id)
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .latitude, expectedValue: expectedValue.latitude)
+            .verifyResultsCellValue(resultType: .longitude, expectedValue: expectedValue.longitude)
+            .verifyResultsCellValue(resultType: .address, expectedValue: expectedValue.locationString)
+    }
+    
+    func testLocationQuestionResult() {
+        let simulatedLocation = (locationString: "Geary St San Francisco CA 94102 United States", latitude: 37.787354, longitude: -122.408243)
+        let simulatedLocationResultString = "Geary St\nSan Francisco CA 94102\nUnited States"
+        
+        /// https://developer.apple.com/documentation/xcode/simulating-location-in-tests
+        if #available(iOS 16.4, *) {
+            XCUIDevice.shared.location = XCUILocation(location: CLLocation(latitude: simulatedLocation.latitude, longitude: simulatedLocation.longitude))
+        }
+        
+        answerAndVerifyLocationQuestionTask(locationAnswer: (locationString: simulatedLocation.locationString, latitude: simulatedLocation.latitude, longitude: simulatedLocation.longitude), expectedValue: (locationString: simulatedLocationResultString, latitude: "\(simulatedLocation.latitude)", longitude: "\(simulatedLocation.longitude)"))
+    }
+    
+    func testLocationQuestionSkipResult() throws {
+        try XCTSkipIf(true, "Skipping this test for now due to crash after skipping question (126589758)") /// rdar://126589758 ([ORKCatalog] App crash when viewing location question result in Results tab after skipping question)
+        
+        answerAndVerifyLocationQuestionTask(locationAnswer: nil, expectedValue: (locationString: "nil", latitude: "nil", longitude: "nil"))
     }
 }
