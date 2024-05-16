@@ -32,6 +32,7 @@
 
 #if defined(__IPHONE_12_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_12_0
 
+#import <ResearchKit/HKSample+ORKJSONDictionary.h>
 #import "ORKHealthClinicalTypeRecorder.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKDataLogger.h"

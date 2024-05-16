@@ -29,6 +29,7 @@
  */
 
 
+#import <ResearchKit/HKSample+ORKJSONDictionary.h>
 #import "ORKHealthQuantityTypeRecorder.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKDataLogger.h"
