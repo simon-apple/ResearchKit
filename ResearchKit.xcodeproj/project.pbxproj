@@ -6,6 +6,23 @@
 	objectVersion = 54;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		0BC672D82BD9C52D005798AC /* ResearchKitAllTargets */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 0BC672D92BD9C52D005798AC /* Build configuration list for PBXAggregateTarget "ResearchKitAllTargets" */;
+			buildPhases = (
+				0BC672E82BD9C69C005798AC /* ShellScript */,
+			);
+			dependencies = (
+				0BC672E02BD9C541005798AC /* PBXTargetDependency */,
+				0BC672E22BD9C541005798AC /* PBXTargetDependency */,
+				0BC672E62BD9C541005798AC /* PBXTargetDependency */,
+			);
+			name = ResearchKitAllTargets;
+			productName = ResearchKitAllTargets;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		003BC2BF24FD585B00BC7CDF /* ORKCollectionResult.h in Headers */ = {isa = PBXBuildFile; fileRef = FF919A511E81BEB5005C2A1E /* ORKCollectionResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		00B1F7852241503900D022FE /* Speech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B1F7842241503900D022FE /* Speech.framework */; };
@@ -1038,6 +1055,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0BC672DF2BD9C541005798AC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3FFF18351829DB1D00167070 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B183A4731A8535D100C76870;
+			remoteInfo = ResearchKit;
+		};
+		0BC672E12BD9C541005798AC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3FFF18351829DB1D00167070 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CAD08966289DD747007B2A98;
+			remoteInfo = ResearchKitActiveTask;
+		};
+		0BC672E52BD9C541005798AC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3FFF18351829DB1D00167070 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CA1C7A40288B0C68004DAB3A;
+			remoteInfo = "ResearchKitUI (iOS)";
+		};
 		86CC8EA11AC09332001CCD89 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3FFF18351829DB1D00167070 /* Project object */;
@@ -1129,6 +1167,8 @@
 		0B9A990E2A8AC47500D64C40 /* NSObject+TestingSupport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TestingSupport.m"; sourceTree = "<group>"; };
 		0B9CC5652A68C02C00080E29 /* UIImageView+ResearchKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImageView+ResearchKit.h"; sourceTree = "<group>"; };
 		0B9CC5662A68C02C00080E29 /* UIImageView+ResearchKit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+ResearchKit.m"; sourceTree = "<group>"; };
+		0BA1D93A2BD1DF5A00BB79DB /* ResearchKit.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ResearchKit.podspec; sourceTree = "<group>"; };
+		0BB4FC572BEAED92005BDF71 /* create-universal-frameworks-for-distribution.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "create-universal-frameworks-for-distribution.sh"; sourceTree = "<group>"; };
 		0BCC4B9928663895001E316F /* PIIScrubber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PIIScrubber.swift; sourceTree = "<group>"; };
 		0BE9D5242947EA4900DA0625 /* ORKConsentDocument+ORKInstructionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKConsentDocument+ORKInstructionStep.h"; sourceTree = "<group>"; };
 		0BE9D5252947EA4900DA0625 /* ORKConsentDocument+ORKInstructionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ORKConsentDocument+ORKInstructionStep.m"; sourceTree = "<group>"; };
@@ -2292,6 +2332,7 @@
 			isa = PBXGroup;
 			children = (
 				BC3FA7F7231067F500AD0DD6 /* update-private-headers.py */,
+				0BB4FC572BEAED92005BDF71 /* create-universal-frameworks-for-distribution.sh */,
 				168EEAAF230B6F9E003FD2FA /* find_headers.rb */,
 				168EEAB0230B6F9E003FD2FA /* private-headers.txt */,
 				168EEAB1230B6F9E003FD2FA /* plist-to-strings.py */,
@@ -2374,6 +2415,7 @@
 		3FFF18341829DB1D00167070 = {
 			isa = PBXGroup;
 			children = (
+				0BA1D93A2BD1DF5A00BB79DB /* ResearchKit.podspec */,
 				05F3765923C797930068E166 /* ResearchKit.xctestplan */,
 				168EEAAE230B6F9E003FD2FA /* scripts */,
 				86B623AF19520B770074CD3C /* ResearchKit */,
@@ -5254,9 +5296,9 @@
 			productReference = B183A5951A8535D100C76870 /* ResearchKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		CA1C7A40288B0C68004DAB3A /* ResearchKitUI (iOS) */ = {
+		CA1C7A40288B0C68004DAB3A /* ResearchKitUI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CA1C7A54288B0C68004DAB3A /* Build configuration list for PBXNativeTarget "ResearchKitUI (iOS)" */;
+			buildConfigurationList = CA1C7A54288B0C68004DAB3A /* Build configuration list for PBXNativeTarget "ResearchKitUI" */;
 			buildPhases = (
 				CA1C7A43288B0C68004DAB3A /* Headers */,
 				CA1C7A45288B0C68004DAB3A /* Sources */,
@@ -5269,7 +5311,7 @@
 			dependencies = (
 				CA1C7A5F288B0CA2004DAB3A /* PBXTargetDependency */,
 			);
-			name = "ResearchKitUI (iOS)";
+			name = ResearchKitUI;
 			productName = ResearchKitUI;
 			productReference = CA1C7A5A288B0C68004DAB3A /* ResearchKitUI.framework */;
 			productType = "com.apple.product-type.framework";
@@ -5306,6 +5348,9 @@
 				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = researchkit.org;
 				TargetAttributes = {
+					0BC672D82BD9C52D005798AC = {
+						CreatedOnToolsVersion = 15.3;
+					};
 					5DABE54724D8BF2400570C57 = {
 						ProvisioningStyle = Manual;
 					};
@@ -5381,8 +5426,9 @@
 				B183A4731A8535D100C76870 /* ResearchKit */,
 				86CC8E991AC09332001CCD89 /* ResearchKitTests */,
 				5DABE54724D8BF2400570C57 /* ResearchKitCore (watchOS) */,
-				CA1C7A40288B0C68004DAB3A /* ResearchKitUI (iOS) */,
+				CA1C7A40288B0C68004DAB3A /* ResearchKitUI */,
 				CAD08966289DD747007B2A98 /* ResearchKitActiveTask */,
+				0BC672D82BD9C52D005798AC /* ResearchKitAllTargets */,
 			);
 		};
 /* End PBXProject section */
@@ -5466,6 +5512,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0BC672E82BD9C69C005798AC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./scripts/create-universal-frameworks-for-distribution.sh\n";
+		};
 		714174B5227ADF87005DD5E4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -6011,6 +6074,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0BC672E02BD9C541005798AC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B183A4731A8535D100C76870 /* ResearchKit */;
+			targetProxy = 0BC672DF2BD9C541005798AC /* PBXContainerItemProxy */;
+		};
+		0BC672E22BD9C541005798AC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CAD08966289DD747007B2A98 /* ResearchKitActiveTask */;
+			targetProxy = 0BC672E12BD9C541005798AC /* PBXContainerItemProxy */;
+		};
+		0BC672E62BD9C541005798AC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CA1C7A40288B0C68004DAB3A /* ResearchKitUI */;
+			targetProxy = 0BC672E52BD9C541005798AC /* PBXContainerItemProxy */;
+		};
 		86CC8EA21AC09332001CCD89 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B183A4731A8535D100C76870 /* ResearchKit */;
@@ -6028,7 +6106,7 @@
 		};
 		CAF8D2BA288F2DCB001E6992 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CA1C7A40288B0C68004DAB3A /* ResearchKitUI (iOS) */;
+			target = CA1C7A40288B0C68004DAB3A /* ResearchKitUI */;
 			targetProxy = CAF8D2B9288F2DCB001E6992 /* PBXContainerItemProxy */;
 		};
 		CAFAA6C728A19E2F0010BBDE /* PBXTargetDependency */ = {
@@ -6038,7 +6116,7 @@
 		};
 		CAFAA6C928A19E330010BBDE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CA1C7A40288B0C68004DAB3A /* ResearchKitUI (iOS) */;
+			target = CA1C7A40288B0C68004DAB3A /* ResearchKitUI */;
 			targetProxy = CAFAA6C828A19E330010BBDE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -6191,6 +6269,51 @@
 			baseConfigurationReference = 5D000ED82620F27100E5442A /* ResearchKitTests-Skywagon-Public-Release.xcconfig */;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+			};
+			name = "Skywagon Public Release";
+		};
+		0BC672DA2BD9C52D005798AC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0BC672DB2BD9C52D005798AC /* Skywagon Stable */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Skywagon Stable";
+		};
+		0BC672DC2BD9C52D005798AC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		0BC672DD2BD9C52D005798AC /* Skywagon Internal Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Skywagon Internal Release";
+		};
+		0BC672DE2BD9C52D005798AC /* Skywagon Public Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = "Skywagon Public Release";
 		};
@@ -6758,6 +6881,18 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0BC672D92BD9C52D005798AC /* Build configuration list for PBXAggregateTarget "ResearchKitAllTargets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0BC672DA2BD9C52D005798AC /* Debug */,
+				0BC672DB2BD9C52D005798AC /* Skywagon Stable */,
+				0BC672DC2BD9C52D005798AC /* Release */,
+				0BC672DD2BD9C52D005798AC /* Skywagon Internal Release */,
+				0BC672DE2BD9C52D005798AC /* Skywagon Public Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		3FFF18381829DB1D00167070 /* Build configuration list for PBXProject "ResearchKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -6806,7 +6941,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CA1C7A54288B0C68004DAB3A /* Build configuration list for PBXNativeTarget "ResearchKitUI (iOS)" */ = {
+		CA1C7A54288B0C68004DAB3A /* Build configuration list for PBXNativeTarget "ResearchKitUI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CA1C7A55288B0C68004DAB3A /* Debug */,
