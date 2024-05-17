@@ -57,6 +57,7 @@
 #import "ORKNavigableOrderedTask.h"
 #import "ORKStepNavigationRule.h"
 
+
 @interface ORKdBHLToneAudiometryStepViewController () <ORKdBHLToneAudiometryAudioGeneratorDelegate> {
     ORKdBHLToneAudiometryFrequencySample *_resultSample;
     ORKAudioChannel _audioChannel;
@@ -205,7 +206,7 @@
     toneResult.startDate = sResult.startDate;
     toneResult.endDate = now;
     toneResult.samples = [self.audiometryEngine resultSamples];
-    toneResult.outputVolume = [AVAudioSession sharedInstance].outputVolume;
+    toneResult.outputVolume = ORKForceDoubleToLimits([AVAudioSession sharedInstance].outputVolume);
     toneResult.headphoneType = self.dBHLToneAudiometryStep.headphoneType;
     toneResult.tonePlaybackDuration = [self dBHLToneAudiometryStep].toneDuration;
     toneResult.postStimulusDelay = [self dBHLToneAudiometryStep].postStimulusDelay;
