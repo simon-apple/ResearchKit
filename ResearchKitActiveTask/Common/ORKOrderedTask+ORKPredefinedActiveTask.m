@@ -145,9 +145,11 @@ void ORKStepArrayAddStep(NSMutableArray *array, ORKStep *step) {
         [recorderConfigurations addObject:[[ORKDeviceMotionRecorderConfiguration alloc] initWithIdentifier:ORKDeviceMotionRecorderIdentifier
                                                                                                  frequency:100]];
     }
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
     if (!(ORKPredefinedTaskOptionExcludeLocation & options)) {
         [recorderConfigurations addObject:[[ORKLocationRecorderConfiguration alloc] initWithIdentifier:ORKLocationRecorderIdentifier]];
     }
+#endif
 #if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     if (!(ORKPredefinedTaskOptionExcludeHeartRate & options)) {
         [recorderConfigurations addObject:[[ORKHealthQuantityTypeRecorderConfiguration alloc] initWithIdentifier:ORKHeartRateRecorderIdentifier
@@ -2347,10 +2349,12 @@ NSString *const ORKTimedWalkTrial2StepIdentifier = @"timed.walk.trial2";
             [recorderConfigurations addObject:[[ORKDeviceMotionRecorderConfiguration alloc] initWithIdentifier:ORKDeviceMotionRecorderIdentifier
                                                                                                      frequency:100]];
         }
+        
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
         if (! (options & ORKPredefinedTaskOptionExcludeLocation)) {
             [recorderConfigurations addObject:[[ORKLocationRecorderConfiguration alloc] initWithIdentifier:ORKLocationRecorderIdentifier]];
         }
-
+#endif
         {
             ORKTimedWalkStep *step = [[ORKTimedWalkStep alloc] initWithIdentifier:ORKTimedWalkTrial1StepIdentifier];
             step.title = ORKLocalizedString(@"TIMED_WALK_TITLE", nil);

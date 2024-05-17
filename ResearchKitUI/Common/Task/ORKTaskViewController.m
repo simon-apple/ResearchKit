@@ -31,7 +31,6 @@
 
 #import "ORKTaskViewController.h"
 
-#import "ORKActiveStepViewController.h"
 #import "ORKBorderedButton.h"
 #import "ORKInstructionStepViewController_Internal.h"
 #import "ORKFormStepViewController.h"
@@ -49,7 +48,6 @@
 #import "ORKResult_Private.h"
 #import "ORKReviewStep_Internal.h"
 #import "ORKStep_Private.h"
-#import "ORKTappingIntervalStep.h"
 #import "ORKViewControllerProviding.h"
 
 #import "ORKHelpers_Internal.h"
@@ -58,11 +56,15 @@
 #import "ORKBorderedButton.h"
 #import "ORKTaskReviewViewController.h"
 
+@import AVFoundation;
+@import CoreMotion;
+
+
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 #import <CoreLocation/CLLocationManagerDelegate.h>
 #import <ResearchKit/CLLocationManager+ResearchKit.h>
 
-@import AVFoundation;
-@import CoreMotion;
+
 
 
 typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
@@ -74,8 +76,10 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 - (void)resume;
 
 @end
+#endif
 
 
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 @implementation ORKLocationAuthorizationRequester {
     CLLocationManager *_manager;
     _ORKLocationAuthorizationRequestHandler _handler;
@@ -135,7 +139,7 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
 }
 
 @end
-
+#endif
 
 /// An interface for managing a task in a view.
 ///
@@ -433,6 +437,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }];
 }
 
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 - (void)requestLocationAccessWithHandler:(void (^)(BOOL success))handler {
     NSParameterAssert(handler != nil);
     
@@ -447,6 +452,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     
     [requester resume];
 }
+#endif
 
 - (ORKPermissionMask)desiredPermissions {
     ORKPermissionMask permissions = ORKPermissionNone;
@@ -525,6 +531,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
             
             dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
         }
+        
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
         if (permissions & ORKPermissionCoreLocation) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 ORK_Log_Debug("Requesting location access");
@@ -540,6 +548,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
             
             dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
         }
+#endif 
         if (permissions & ORKPermissionCamera) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 ORK_Log_Debug("Requesting camera access");

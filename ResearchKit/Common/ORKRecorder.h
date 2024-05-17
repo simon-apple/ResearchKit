@@ -312,6 +312,8 @@ ORK_CLASS_AVAILABLE
  
  No additional parameters besides the identifier are required.
  */
+
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 ORK_CLASS_AVAILABLE
 @interface ORKLocationRecorderConfiguration : ORKRecorderConfiguration
 
@@ -336,7 +338,7 @@ ORK_CLASS_AVAILABLE
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 
 @end
-
+#endif 
 
 /**
  A configuration object that records streaming audio data during an active step.

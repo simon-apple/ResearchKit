@@ -491,9 +491,11 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
                                                        defaultValue:defaultValue];
 }
 
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 + (ORKLocationAnswerFormat *)locationAnswerFormat {
     return [ORKLocationAnswerFormat new];
 }
+#endif
 
 + (ORKSESAnswerFormat *)socioEconomicAnswerFormatWithTopRungText:(NSString *)topRungText
                                                                       bottomRungText:(NSString *)bottomRungText {
@@ -4073,6 +4075,7 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
 @end
 // end-omit-internal-code
 
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 #pragma mark - ORKLocationAnswerFormat
 @implementation ORKLocationAnswerFormat
 
@@ -4143,6 +4146,7 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
 }
 
 @end
+#endif
 
 #pragma mark ORKSESAnswerFormat
 

@@ -35,7 +35,6 @@
 #import "ORKDataLogger.h"
 #import "ORKRecorder_Private.h"
 #import "ORKRecorder_Internal.h"
-#import "HKSample+ORKJSONDictionary.h"
 
 #if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
 @interface ORKHealthQuantityTypeRecorder () {

@@ -346,6 +346,7 @@ enum TaskListRowSteps {
         return imageChoiceFormStep
     }
     
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
     static var locationExample: ORKFormStep {
         let locationAnswerFormat = ORKLocationAnswerFormat()
         let locationFormItem = ORKFormItem(identifier: String(describing: Identifier.locationQuestionFormItem),
@@ -359,6 +360,7 @@ enum TaskListRowSteps {
         
         return locationFormStep
     }
+#endif
     
     static var textAnswerExample: ORKFormStep {
         let textAnswerFormat = ORKTextAnswerFormat()

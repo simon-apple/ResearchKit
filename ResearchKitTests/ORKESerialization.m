@@ -2066,14 +2066,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(maximumValue, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(defaultValue, NSNumber, NSObject, NO, nil, nil),
                     })),
-           ENTRY(ORKLocationAnswerFormat,
-                 ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
-                     return [[ORKLocationAnswerFormat alloc] init];
-                 },
-                 (@{
-                    PROPERTY(useCurrentLocation, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(placeholder, NSString, NSObject, YES, nil, nil)
-                    })),
            ENTRY(ORKSESAnswerFormat,
                  ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
                return [[ORKSESAnswerFormat alloc] init];
@@ -2082,12 +2074,23 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      PROPERTY(topRungText, NSString, NSObject, YES, nil, nil),
                      PROPERTY(bottomRungText, NSString, NSObject, YES, nil, nil)
                  })),
+           
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+           ENTRY(ORKLocationAnswerFormat,
+                 ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
+                     return [[ORKLocationAnswerFormat alloc] init];
+                 },
+                 (@{
+                    PROPERTY(useCurrentLocation, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(placeholder, NSString, NSObject, YES, nil, nil)
+                    })),
            ENTRY(ORKLocationRecorderConfiguration,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKLocationRecorderConfiguration alloc] initWithIdentifier:GETPROP(dict,identifier)];
                  },
                  (@{
                     })),
+#endif 
            ENTRY(ORKPedometerRecorderConfiguration,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKPedometerRecorderConfiguration alloc] initWithIdentifier:GETPROP(dict,identifier)];
@@ -2401,6 +2404,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                              ^id(id timeZone, __unused ORKESerializationContext *context) { return @([timeZone secondsFromGMT]); },
                              ^id(id number, __unused ORKESerializationContext *context) { return [NSTimeZone timeZoneForSecondsFromGMT:(NSInteger)((NSNumber *)number).doubleValue]; })
                     })),
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
            ENTRY(ORKLocation,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      CLLocationCoordinate2D coordinate = coordinateFromDictionary(dict[@ESTRINGIFY(coordinate)]);
@@ -2426,6 +2430,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  (@{
                     PROPERTY(locationAnswer, ORKLocation, NSObject, NO, nil, nil)
                     })),
+#endif
            ENTRY(ORKSESQuestionResult,
                  nil,
                  (@{

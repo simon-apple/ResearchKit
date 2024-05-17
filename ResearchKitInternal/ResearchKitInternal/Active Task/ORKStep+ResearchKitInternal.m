@@ -65,6 +65,7 @@
 
 @end
 
+#if ORK_FEATURE_BLE_SCAN_PERIPHERALS
 @implementation ORKBLEScanPeripheralsStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
@@ -72,6 +73,7 @@
 }
 
 @end
+#endif
 
 @implementation ORKFaceDetectionStep (ViewControllerProviding)
 

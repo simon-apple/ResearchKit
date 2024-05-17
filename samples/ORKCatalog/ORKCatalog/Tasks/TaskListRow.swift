@@ -80,7 +80,9 @@ enum TaskListRow: Int, CustomStringConvertible {
     case dateTimeQuestion
     case date3DayLimitQuestionTask
     case imageChoiceQuestion
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
     case locationQuestion
+#endif
     case numericQuestion
     case scaleQuestion
     case textQuestion
@@ -191,7 +193,6 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .date3DayLimitQuestionTask,
                     .heightQuestion,
                     .imageChoiceQuestion,
-                    .locationQuestion,
                     .numericQuestion,
                     .scaleQuestion,
                     .textChoiceQuestion,
@@ -290,6 +291,16 @@ enum TaskListRow: Int, CustomStringConvertible {
              defaultSections = defaultSections + healthSections
              #endif
             
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+        let locationSections:[TaskListRowSection] = [
+            TaskListRowSection(title: "Location", rows:
+                [
+                    .locationQuestion,
+                ])
+            ]
+        defaultSections = defaultSections + locationSections
+#endif
+        
             return defaultSections
         }
     
@@ -338,9 +349,10 @@ enum TaskListRow: Int, CustomStringConvertible {
 #endif
         case .imageChoiceQuestion:
             return NSLocalizedString("Image Choice Question", comment: "")
-            
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
         case .locationQuestion:
             return NSLocalizedString("Location Question", comment: "")
+#endif
             
         case .numericQuestion:
             return NSLocalizedString("Numeric Question", comment: "")
@@ -608,8 +620,10 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .imageChoiceQuestion:
             return imageChoiceQuestionTask
             
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
         case .locationQuestion:
             return locationQuestionTask
+#endif
             
         case .numericQuestion:
             return numericQuestionTask
@@ -1286,13 +1300,15 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         return ORKOrderedTask(identifier: String(describing: Identifier.imageChoiceQuestionTask), steps: [questionStep1, questionStep2])
     }
-    
+
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
     /// This task presents just a single location question.
     private var locationQuestionTask: ORKTask {
         let locationFormStep = TaskListRowSteps.locationExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.locationQuestionTask), steps: [locationFormStep])
     }
+#endif
     
     /// This task presents a few different ORKReviewSteps
     private var reviewTask: ORKTask {
@@ -1532,10 +1548,8 @@ enum TaskListRow: Int, CustomStringConvertible {
 
         let motionActivityPermissionType = ORKMotionActivityPermissionType()
 
-        let locationPermissionType = ORKLocationPermissionType()
         
-        
-        var permissionTypes = [notificationsPermissionType, motionActivityPermissionType, locationPermissionType]
+        var permissionTypes = [notificationsPermissionType, motionActivityPermissionType]
         
 #if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
         let healthKitTypesToWrite: Set<HKSampleType> = [
@@ -1555,6 +1569,11 @@ enum TaskListRow: Int, CustomStringConvertible {
         )
         
         permissionTypes.append(healthKitPermissionType)
+#endif
+        
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+        let locationPermissionType = ORKLocationPermissionType()
+        permissionTypes.append(locationPermissionType)
 #endif
         
         let requestPermissionsStep = ORKRequestPermissionsStep(
