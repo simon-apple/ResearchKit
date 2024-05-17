@@ -1130,6 +1130,18 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
     return self.textChoices;
 }
 
+- (BOOL)isAnswerValid:(id)answer {
+    [super isAnswerValid:answer];
+    @try
+    {
+        [_helper selectedIndexesForAnswer: answer];
+        return YES;
+    } @catch(id anException) {
+        ORK_Log_Error("%@ exception thrown for isAnswerValid: for answer:%@", anException, answer);
+        return NO;
+    }
+}
+
 @end
 
 

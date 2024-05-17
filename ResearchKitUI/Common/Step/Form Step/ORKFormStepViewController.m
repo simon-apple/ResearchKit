@@ -2145,6 +2145,8 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
     
     NSSet *decodableAnswerTypes = [NSSet setWithObjects:NSMutableDictionary.self, NSString.self, NSNumber.self, NSDate.self, nil];
     _savedAnswers = [coder decodeObjectOfClasses:decodableAnswerTypes forKey:_ORKSavedAnswersRestoreKey];
+    [self removeInvalidSavedAnswers];
+    
     _savedAnswerDates = [coder decodeObjectOfClasses:[NSSet setWithArray:@[NSMutableDictionary.self, NSString.self, NSDate.self]] forKey:_ORKSavedAnswerDatesRestoreKey];
     _savedSystemCalendars = [coder decodeObjectOfClasses:[NSSet setWithArray:@[NSMutableDictionary.self, NSString.self, NSCalendar.self]] forKey:_ORKSavedSystemCalendarsRestoreKey];
     _savedSystemTimeZones = [coder decodeObjectOfClasses:[NSSet setWithArray:@[NSMutableDictionary.self, NSString.self,  NSTimeZone.self]] forKey:_ORKSavedSystemTimeZonesRestoreKey];
@@ -2152,6 +2154,18 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
     _identifiersOfAnsweredSections = [coder decodeObjectOfClasses:[NSSet setWithArray:@[NSMutableSet.self, NSString.self]] forKey:_ORKAnsweredSectionIdentifiersRestoreKey];
 }
 
+- (void)removeInvalidSavedAnswers {
+    for (ORKFormItem *item in [self allFormItems]) {
+        id answer = _savedAnswers[item.identifier];
+        ORKAnswerFormat *answerFormat = item.impliedAnswerFormat;
+        if (![answerFormat isAnswerValid:answer]) {
+            ORK_Log_Error("unexpected answer %@ on answerFormat of %@", answer, item.impliedAnswerFormat);
+            _savedAnswers[item.identifier] = nil;
+            _savedAnswerDates[item.identifier] = nil;
+        }
+    }
+}
+    
 #pragma mark Rotate
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
