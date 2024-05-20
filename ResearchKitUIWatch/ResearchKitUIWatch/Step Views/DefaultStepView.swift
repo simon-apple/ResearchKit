@@ -59,6 +59,8 @@ public struct DefaultStepView: View {
         } else if step is ORKFormStep {
             if case .formStep(let formStepViewModel) = viewModel {
                 FormStepView(viewModel: formStepViewModel)
+            } else {
+                fatalError("Attempted to create a FormStepView with incorrect ViewModel")
             }
         } else {
             fatalError("Not Supported")
