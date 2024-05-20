@@ -8,19 +8,13 @@ A survey is a sequence of questions that you use to collect data from your users
 You can collect results for the individual steps or for the task as a whole. There are two types of survey tasks: an ordered task (`ORKOrderedTask`) and a navigable ordered task (`ORKNavigableOrderedTask`).
 
 In an ordered task, the order that the steps appear are always the same. 
-<center>
-<figure>
-<img src="SurveyImages/OrderedTasks.png" style="width: 100%;"><figcaption><center>An example of a survey that uses ordered tasks.</center></figcaption>
-</figure>
-</center>
+
+
+![Ordered Tasks](creating-surveys-ordered-tasks)
 
 In a navigable ordered task, the order of the tasks can change, or branch out, depending on how the user answered a question in a previous task.
 
-<center>
-<figure>
-<img src="SurveyImages/NavigableOrderedTasks.png" style="width: 100%;"><figcaption><center>An example of a survey that uses navigable ordered tasks.</center></figcaption>
-</figure>
-</center>
+![Naviable Ordered Tasks](creating-surveys-navigable-ordered-tasks)
 
 The steps for creating a task to present a survey are:
 
@@ -28,7 +22,7 @@ The steps for creating a task to present a survey are:
 2. <a href="#task">Create a task</a>
 3. <a href="#results">Collect results</a>
 
-## 1. Create steps<a name="create"></a>
+## 1. Create steps
 
 The survey module provides a form step that can contain one or more questions
 (`ORKFormStep`). You can also use an instruction step
@@ -51,12 +45,7 @@ instructionStep.text = "This survey helps us understand your eligibility for the
 
 Creating a step as shown in the code above, including it in a task, and presenting with a task view controller, yields something like this:
 
-<center>
-<figure>
-<img src="SurveyImages/InstructionStep.png" width="25%" alt="Instruction step"  style="border: solid black 1px;"  align="middle"/>
-  <figcaption> <center>Example of an instruction step.</center></figcaption>
-</figure>
-</center>
+![Instruction Step](creating-surveys-instruction-step)
 
 ### Form Step
 
@@ -83,12 +72,8 @@ formStep.formItems = [sectionHeaderFormItem, nameFormItem, emailFormItem, headac
 ```
 
 The code above creates this form step:
-<center>
-<figure>
-<img src="SurveyImages/FormStep.png" width="25%" alt="Form step"  style="border: solid black 1px;"  align="middle"/>
-  <figcaption> <center>Example of a form step.</center></figcaption>
-</figure>
-</center>
+
+![Form Step](creating-surveys-form-step)
 
 ### Answer Formats
 
@@ -102,7 +87,12 @@ properties to reflect the desired range.
 
 The screenshots below show the standard answer formats that the ResearchKit framework provides.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SurveyImages/ScaleAnswerFormat.png" style="width: 100%;border: solid black 1px; ">Scale answer format</p><p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SurveyImages/BooleanAnswerFormat.png" style="width: 100%;border: solid black 1px;">Boolean answer format</p><p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="SurveyImages/ValuePickerAnswerFormat.png" style="width: 100%;border: solid black 1px;">Value picker answer format  </p>
+|   |   |
+|---|---|
+| ![Instruction Step](creating-surveys-instruction-step) | ![Instruction Step](creating-surveys-instruction-step) |
+| ![Instruction Step](creating-surveys-instruction-step) | ![Instruction Step](creating-surveys-instruction-step) |
+
+<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="creating-surveys-instruction-step@3x.png" style="width: 100%;border: solid black 1px; ">Scale answer format</p><p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SurveyImages/BooleanAnswerFormat.png" style="width: 100%;border: solid black 1px;">Boolean answer format</p><p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="SurveyImages/ValuePickerAnswerFormat.png" style="width: 100%;border: solid black 1px;">Value picker answer format  </p>
 <p style="clear: both;">
 <p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SurveyImages/ImageChoiceAnswerFormat.png" style="width: 100%;border: solid black 1px; ">Image choice answer format  </p><p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SurveyImages/TextChoiceAnswerFormat_1.png" style="width: 100%;border: solid black 1px;">Text choice answer format (single text choice answer) </p><p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="SurveyImages/TextChoiceAnswerFormat_2.png" style="width: 100%;border: solid black 1px;">Text choice answer format (multiple text choice answer) </p>
 <p style="clear: both;">
@@ -116,7 +106,7 @@ The screenshots below show the standard answer formats that the ResearchKit fram
 <p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SurveyImages/LocationAnswerFormat.png" style="width: 100%;border: solid black 1px;"> Location answer format</p>
 <p style="clear: both;">
 
-## 2. Create a survey task<a name="task"></a>
+## 2. Create a survey task
 
 Once you create one or more steps, create an `ORKOrderedTask` object to
 contain the steps. The code below shows the steps created above being added to a task.
@@ -144,8 +134,7 @@ and never decide what question to show based on previous answers.
 To introduce conditional logic, you must either subclass
 `ORKOrderedTask` or implement the `ORKTask` protocol yourself.*
 
-## 3. Collect Results<a name="results"></a>
-
+## 3. Collect Results
 The [result]([ORKTaskViewController result]) property of the task view controller gives you the results of the task.
 Each step view controller that the user views produces a step result
 ([ORKStepResult](#)). The task view controller collates these results as
