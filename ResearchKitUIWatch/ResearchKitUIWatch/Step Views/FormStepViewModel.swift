@@ -1,4 +1,3 @@
-//
 //  FormStepViewModel.swift
 //  ResearchKitUI(Watch)
 //
@@ -117,30 +116,34 @@ class FormStepViewModel: ObservableObject {
     // TODO: Move this logic out to an adapter class 🛠️
     // rdar://127850219 (Create an RK Adapter class to handle translation layer)
     func createORKResult() {
-        if result.results == nil {
-            result.results = []
-        }
+
+        var resultArray: [ORKResult] = []
 
         for row in formRows {
             switch row {
             case .multipleChoiceRow(let multipleChoiceRow):
                 let result = ORKChoiceQuestionResult(identifier: multipleChoiceRow.id)
                 result.choiceAnswers = multipleChoiceRow.result.map { $0.choiceText as NSString }
-                self.result.results?.append(result)
+                resultArray.append(result)
 
             case .scale(let scaleRow):
                 switch scaleRow.selectionType {
                 case .textChoice(_):
                     let result = ORKTextQuestionResult(identifier: scaleRow.id)
                     result.textAnswer = scaleRow.result as? String
-                    self.result.results?.append(result)
+                    resultArray.append(result)
 
                 case .integerRange(_), .doubleRange(_):
                     let result = ORKScaleQuestionResult(identifier: scaleRow.id)
                     result.scaleAnswer = scaleRow.result as? NSNumber
-                    self.result.results?.append(result)
+                    resultArray.append(result)
                 }
             }
+        }
+
+        // Step result may be nil if the user skipped a step
+        if resultArray.isEmpty == false {
+            self.result.results = resultArray
         }
     }
 }
