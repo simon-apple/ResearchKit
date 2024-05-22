@@ -245,6 +245,62 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
         questionStep
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
+        
+        let resultsTab = TabBar().navigateToResults()
+   
+        let expectedHeightInCentimeters = feetAndInchesToCentimeters(feet: Double(heightUSAnswerFeet), inches: Double(heightUSAnswerInches))
+        
+        // result 1
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.heightQuestionFormStep1))
+            .selectResultsCell(withId: formItemId)
+        
+        if measurementSystem == metricSignature {
+            resultsTab.verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(heightMetricAnswer)")
+        } else if measurementSystem == usSignature {
+            resultsTab.verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(expectedHeightInCentimeters)")
+        }
+        
+        resultsTab
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "cm")
+            .verifyResultsCellValue(resultType: .displayUnit, expectedValue: "nil")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+            
+        // result 2
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.heightQuestionFormStep2))
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(heightMetricAnswer)")
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "cm")
+            .verifyResultsCellValue(resultType: .displayUnit, expectedValue: "nil")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+        // result 3
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.heightQuestionFormStep3))
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(expectedHeightInCentimeters)")
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "cm")
+            .verifyResultsCellValue(resultType: .displayUnit, expectedValue: "nil")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+        // result 4
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.heightQuestionFormStep4))
+            .selectResultsCell(withId: formItemId)
+        
+        if measurementSystem == metricSignature {
+            resultsTab.verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(heightMetricAnswer)")
+        } else if measurementSystem == usSignature {
+            resultsTab.verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(expectedHeightInCentimeters)")
+        }
+        
+        resultsTab
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "cm")
+            .verifyResultsCellValue(resultType: .displayUnit, expectedValue: "nil")
     }
     
     /// <rdar://tsc/21847951> [Survey Questions] Weight Question
@@ -559,6 +615,101 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
         questionStep
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
+        
+        let resultsTab = TabBar().navigateToResults()
+        let expectedWeightInKilograms = poundsAndOuncesToKilograms(pounds: Double(weightUSAnswerLb))
+        
+        // result 1
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.weightQuestionFormStep1))
+            .selectResultsCell(withId: formItemId)
+        
+        if measurementSystem == metricSignature {
+            resultsTab.verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(weightMetricAnswerKg)")
+        } else if measurementSystem == usSignature {
+            resultsTab.verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(expectedWeightInKilograms)")
+        }
+        
+        resultsTab
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "kg")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+            
+        // result 2
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.weightQuestionFormStep2))
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(weightMetricAnswerKgPrecise)")
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "kg")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+        // result 3
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.weightQuestionFormStep3))
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(weightMetricAnswerKg)")
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "kg")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+        // result 4
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.weightQuestionFormStep4))
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(weightMetricAnswerKgHighlyPrecise)")
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "kg")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+        // result 5
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.weightQuestionFormStep5))
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(expectedWeightInKilograms)")
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "kg")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+        // result 6
+        let convertedPoundsAndOuncesToKgValue = poundsAndOuncesToKilograms(pounds: Double(weightUSAnswerLb), ounces: Double(weightUSAnswerOz))
+        
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.weightQuestionFormStep6))
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(convertedPoundsAndOuncesToKgValue)")
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "kg")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+        // result 7
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.weightQuestionFormStep7))
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "kg")
+        
+        if measurementSystem == metricSignature {
+            resultsTab.verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(weightMetricAnswerKg)")
+        } else if measurementSystem == usSignature {
+            resultsTab.verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(expectedWeightInKilograms)")
+        }
+    }
+    
+    private func poundsAndOuncesToKilograms(pounds: Double, ounces: Double = 0) -> Double {
+        let poundsToKg = pounds * 0.453592
+        let ouncesToKg = ounces * 0.0283495
+        let kg = poundsToKg + ouncesToKg
+        return round(value: kg, places: 2)
+    }
+    
+    private func feetAndInchesToCentimeters(feet: Double, inches: Double) -> Double {
+        let cm = ((feet * 12) + inches) * 2.54
+        return round(value: cm, places: 2)
+    }
+    
+    private func round(value: Double,  places: Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (value * divisor).rounded() / divisor
     }
     
     ///<rdar://tsc/21847949> [Survey Questions] Date & Time Question
