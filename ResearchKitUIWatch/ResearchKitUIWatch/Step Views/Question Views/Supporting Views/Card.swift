@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct CardView<Content: View>: View {
+struct CardView<Content: View>: View {
 
     // MARK: - Properties
 
@@ -19,7 +19,7 @@ public struct CardView<Content: View>: View {
 
     private let content: Content
 
-    @ViewBuilder public var body: some View {
+    @ViewBuilder var body: some View {
         stackedContent
             .modifier(CardModifier())
     }
@@ -28,7 +28,7 @@ public struct CardView<Content: View>: View {
 
     /// Create a card with injected content.
     /// - Parameter content: Content view injected into the card.
-    public init(@ViewBuilder content: () -> Content) {
+    init(@ViewBuilder content: () -> Content) {
         self.content = content()
     }
 }

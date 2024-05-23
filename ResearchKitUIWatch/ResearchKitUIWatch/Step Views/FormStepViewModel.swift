@@ -1,4 +1,3 @@
-//
 //  FormStepViewModel.swift
 //  ResearchKitUI(Watch)
 //
@@ -16,6 +15,7 @@ class FormStepViewModel: ObservableObject {
     @ObservedObject
     private(set) var result: ORKStepResult
 
+    @Published
     var formRows: [FormRow]
 
     var progress: Progress?
@@ -38,57 +38,54 @@ class FormStepViewModel: ObservableObject {
     init(step: ORKFormStep, result: ORKStepResult) {
         self.step = step
         self.result = result
-
-        self.formRows = Self.convertFormItemsToFormRows(formItems: step.formItems ?? []) ?? []
+        self.formRows = Self.createFormRowsFromORKStep(step)
     }
 
-    static func convertFormItemsToFormRows(formItems: [ORKFormItem]) -> [FormRow]? {
+    static func createFormRowsFromORKStep(_ step: ORKFormStep) -> [FormRow] {
+        // Convert our ORKFormItems to FormRows with associated values
+        guard let formItems = step.formItems else {
+            assertionFailure("Attempting to create an empty ORKFormStep")
+            return []
+        }
 
-        let formRows: [FormRow] = formItems.compactMap { formItem in
+        let formRows = formItems.compactMap { formItem in
             #warning("[AY] Handle optional string")
             let questionText = formItem.text ?? ""
             switch formItem.answerFormat {
                 case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
-
-                    var answerOptions : [MultipleChoiceOption<UUID>] = []
+                    var answerOptions : [MultipleChoiceOption] = []
                     textChoiceAnswerFormat.textChoices.forEach { textChoice in
                          answerOptions.append(
                              MultipleChoiceOption(
-                                 id: UUID(),
-                                 choiceText: Text(
-                                     textChoice.text
-                                 )
+                                id: UUID().uuidString,
+                                choiceText: textChoice.text
                              )
                          )
                      }
-
-                     // TODO: where should this be owned
-                     let resultObject : [MultipleChoiceOption<UUID>] = [MultipleChoiceOption(choiceText: Text(""))]
                      return FormRow.multipleChoiceRow(
                          MultipleChoiceQuestion(
-                             id: UUID(),
-                             title: Text(questionText),
-                             choices: answerOptions,
-                             result: resultObject,
-                             selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
+                            id: formItem.identifier,
+                            title: questionText,
+                            choices: answerOptions,
+                            selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
                          )
                      )
                 case let scaleAnswerFormat as ORKScaleAnswerFormat:
                     return FormRow.scale(
                         ScaleSliderQuestion(
-                        title: questionText,
-                        id: UUID(),
-                        selectionType: .integerRange(scaleAnswerFormat.minimum...scaleAnswerFormat.maximum),
-                        result: 1
+                            title: questionText,
+                            id: formItem.identifier,
+                            selectionType: .integerRange(scaleAnswerFormat.minimum...scaleAnswerFormat.maximum),
+                            result: 1
                         )
                     )
                 case let continuousScaleAnswerFormat as ORKContinuousScaleAnswerFormat:
                     return FormRow.scale(
                         ScaleSliderQuestion(
-                        title: questionText,
-                        id: UUID(),
-                        selectionType: .doubleRange(continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum),
-                        result: 1
+                            title: questionText,
+                            id: formItem.identifier,
+                            selectionType: .doubleRange(continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum),
+                            result: 1
                         )
                     )
 
@@ -97,27 +94,56 @@ class FormStepViewModel: ObservableObject {
                     let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
                         MultipleChoiceOption(
                             id: UUID().uuidString,
-                            choiceText: Text(
-                                textChoice.text
-                            )
+                            choiceText: textChoice.text
                         )
                     }
                     return FormRow.scale(
                         ScaleSliderQuestion(
-                        title: questionText,
-                        id: UUID(),
-                        selectionType: .textChoice(answerOptions),
-                        result: MultipleChoiceOption(choiceText: Text(""))
+                            title: questionText,
+                            id: formItem.identifier,
+                            selectionType: .textChoice(answerOptions),
+                            result: MultipleChoiceOption(id: UUID().uuidString, choiceText: "")
                         )
                     )
-                default:
-                    return nil
+            default:
+                return nil
             }
-
         }
-        let formRowsCompacted = formRows.compactMap { $0 }
-        print(formRowsCompacted)
-        return formRowsCompacted
+        
+        return formRows
     }
 
+    // TODO: Move this logic out to an adapter class 🛠️
+    // rdar://127850219 (Create an RK Adapter class to handle translation layer)
+    func createORKResult() {
+
+        var resultArray: [ORKResult] = []
+
+        for row in formRows {
+            switch row {
+            case .multipleChoiceRow(let multipleChoiceRow):
+                let result = ORKChoiceQuestionResult(identifier: multipleChoiceRow.id)
+                result.choiceAnswers = multipleChoiceRow.result.map { $0.choiceText as NSString }
+                resultArray.append(result)
+
+            case .scale(let scaleRow):
+                switch scaleRow.selectionType {
+                case .textChoice(_):
+                    let result = ORKTextQuestionResult(identifier: scaleRow.id)
+                    result.textAnswer = scaleRow.result as? String
+                    resultArray.append(result)
+
+                case .integerRange(_), .doubleRange(_):
+                    let result = ORKScaleQuestionResult(identifier: scaleRow.id)
+                    result.scaleAnswer = scaleRow.result as? NSNumber
+                    resultArray.append(result)
+                }
+            }
+        }
+
+        // Step result may be nil if the user skipped a step
+        if resultArray.isEmpty == false {
+            self.result.results = resultArray
+        }
+    }
 }

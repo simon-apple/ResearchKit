@@ -9,26 +9,26 @@ import Foundation
 import ResearchKit
 import SwiftUI
 
-public enum ScaleAxis {
+enum ScaleAxis {
     case horizontal, verticle
 }
 
-public enum ScaleSelectionType {
-    case textChoice([MultipleChoiceOption<String>])
+enum ScaleSelectionType {
+    case textChoice([MultipleChoiceOption])
     case integerRange(ClosedRange<Int>)
     case doubleRange(ClosedRange<Double>)
 }
 
 @Observable
-public class ScaleSliderQuestion<ResultType>: Identifiable {
+class ScaleSliderQuestion<ResultType>: Identifiable {
 
     public var title: String
-    public var id: UUID
+    public var id: String
     public let selectionType: ScaleSelectionType
     public var result: ResultType
 
 
-    init(title: String, id: UUID, selectionType: ScaleSelectionType, result: ResultType) {
+    init(title: String, id: String, selectionType: ScaleSelectionType, result: ResultType) {
         self.title = title
         self.id = id
         self.selectionType = selectionType
@@ -37,33 +37,21 @@ public class ScaleSliderQuestion<ResultType>: Identifiable {
 
 }
 
-public struct ScaleSliderQuestionView<ResultType>: View {
+struct ScaleSliderQuestionView<ResultType>: View {
 
-    public let identifier: UUID = UUID()
+    let identifier: String
 
-    private var title: String
+    var title: String
 
-    private var detail: String?
+    var detail: String?
 
-    private var scaleSelectionType: ScaleSelectionType
+    var scaleSelectionType: ScaleSelectionType
 
     @State
     var value = 0.0
 
     @Binding
-    public var result: ResultType
-
-    public init(
-        title: String,
-        detail: String? = nil,
-        result: Binding<ResultType>,
-        scaleSelectionType: ScaleSelectionType
-    ) {
-        self.title = title
-        self.detail = detail
-        _result = result
-        self.scaleSelectionType = scaleSelectionType
-    }
+    var result: ResultType
 
     public var body: some View {
         CardView {

@@ -33,47 +33,24 @@
 import ResearchKit
 import SwiftUI
 
-@Observable
-class TextRowValue: Identifiable {
-    let id = UUID()
-    var text: String = ""
-}
-
-enum FormRow: Identifiable {
-    case textRow(TextRowValue)
-    case multipleChoiceRow(MultipleChoiceQuestion<UUID>)
-    case scale(ScaleSliderQuestion<Any>)
-
-    var id: AnyHashable {
-        switch self {
-            case .textRow(let textRowValue):
-                textRowValue.id
-            case .multipleChoiceRow(let multipleChoiceValue):
-                multipleChoiceValue.id
-            case .scale(let scaleQuestion):
-                scaleQuestion.id
-        }
-    }
-}
-
 // TODO(x-plat): Add documentation.
 internal struct FormStepView: View {
-
+    
     enum Constants {
         static let topToProgressPadding: CGFloat = 4.0
         static let bottomToProgressPadding: CGFloat = 4.0
         static let questionToAnswerPadding: CGFloat = 12.0
     }
-
-    @State
+    
+    @ObservedObject
     private var viewModel: FormStepViewModel
-
+    
     @Environment(\.completion) var completion
     
     init(viewModel: FormStepViewModel) {
         self.viewModel = viewModel
     }
-
+    
     var body: some View {
         List {
             ListHeaderView(viewModel: viewModel)
@@ -87,26 +64,37 @@ internal struct FormStepView: View {
                             .padding(.top, Constants.topToProgressPadding)
                             .padding(.bottom, Constants.bottomToProgressPadding)
                     }
-
-                    ForEach(viewModel.formRows) { formRow in
+                    
+                    ForEach($viewModel.formRows) { $formRow in
                         switch formRow {
-                        case .textRow(let value):
-                            @Bindable var textValueBinding = value
-                            TextField("Placeholder", text: $textValueBinding.text)
-                        case .multipleChoiceRow(let value):
-                            @Bindable var multipleChoiceValueBinding = value
+                        case .multipleChoiceRow(let multipleChoiceValue):
                             MultipleChoiceQuestionView(
-                                title: multipleChoiceValueBinding.title,
-                                options: multipleChoiceValueBinding.choices,
-                                result: $multipleChoiceValueBinding.result,
-                                selectionType: multipleChoiceValueBinding.selectionType
+                                title: multipleChoiceValue.title,
+                                choices: multipleChoiceValue.choices,
+                                selectionType: multipleChoiceValue.selectionType,
+                                result: .init(
+                                    get: {
+                                        return multipleChoiceValue.result
+                                    },
+                                    set: { newValue in
+                                        formRow = .multipleChoiceRow(
+                                            MultipleChoiceQuestion(
+                                                id: multipleChoiceValue.id,
+                                                title: multipleChoiceValue.title,
+                                                choices: multipleChoiceValue.choices,
+                                                result: newValue,
+                                                selectionType: multipleChoiceValue.selectionType
+                                            )
+                                        )
+                                    })
                             )
                         case .scale(let scaleQuestion):
                             @Bindable var scaleQuestionBinding = scaleQuestion
                             ScaleSliderQuestionView(
+                                identifier: scaleQuestion.id,
                                 title: scaleQuestion.title,
-                                result: $scaleQuestionBinding.result,
-                                scaleSelectionType: scaleQuestionBinding.selectionType
+                                scaleSelectionType: scaleQuestionBinding.selectionType,
+                                result: $scaleQuestionBinding.result
                             )
                         }
                     }
@@ -117,14 +105,3 @@ internal struct FormStepView: View {
         }
     }
 }
-
-
-//@Observable
-//class StepResultRepresentation {
-//
-////    private var orkresult: ORKStepResult
-////
-////    func orkresult() -> ORKStepResult {
-////
-////    }
-//}

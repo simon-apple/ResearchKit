@@ -79,6 +79,11 @@ public struct TaskView<Content>: View where Content: View {
 public extension TaskView where Content == DefaultStepView {
 
     init(taskManager: TaskManager, navigationDelegate: TaskNavigationDelegate? = nil) {
-        self.init(taskManager: taskManager, navigationDelegate: navigationDelegate) { DefaultStepView($0, result: $1) }
+        self.init(taskManager: taskManager, navigationDelegate: navigationDelegate) {
+            DefaultStepView($0,
+                            viewModel: taskManager.viewModelForStep($0),
+                            result: $1
+            )
+        }
     }
 }
