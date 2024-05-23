@@ -7,15 +7,20 @@
 
 import SwiftUI
 
-struct MultipleChoiceOption: Identifiable {
-    var id: String
+public struct MultipleChoiceOption: Identifiable {
+    public var id: String
     var choiceText: String
+
+    public init(id: String, choiceText: String) {
+        self.id = id
+        self.choiceText = choiceText
+    }
 }
 
-struct MultipleChoiceQuestion: Identifiable {
+public struct MultipleChoiceQuestion: Identifiable {
 
     var title: String
-    var id: String
+    public var id: String
     var choices: [MultipleChoiceOption]
     var result: [MultipleChoiceOption]
     var selectionType: ChoiceSelectionType
@@ -49,6 +54,13 @@ public struct MultipleChoiceQuestionView: View {
     var result: [MultipleChoiceOption]
 
     let detail: Text? = nil
+
+    public init(title: String, choices: [MultipleChoiceOption], selectionType: MultipleChoiceQuestion.ChoiceSelectionType, result: Binding<[MultipleChoiceOption]>) {
+        self.title = title
+        self.choices = choices
+        self.selectionType = selectionType
+        _result = result
+    }
 
     public var body: some View {
         CardView {
