@@ -20,15 +20,36 @@ struct StepHeaderView: View {
     var body: some View {
 #if os(iOS)
         // TODO(x-plat): Make biz logic exactly like in ORKCatalog.
-        if let stepTitle = viewModel.step.title {
-            Text(stepTitle)
-                .foregroundStyle(Color(uiColor: .label))
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .textCase(.none)
+        VStack(alignment: .leading) {
+            // TODO(x-plat): Ensure same colors are used as in ORKCatalog.
+            if let stepTitle = viewModel.step.title {
+                Text(stepTitle)
+                    .foregroundStyle(Color(uiColor: .label))
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+            }
+            
+            if let text = viewModel.step.text {
+                Text(text)
+                    .foregroundStyle(Color(uiColor: .label))
+                    .font(.body)
+            }
         }
+        .textCase(.none)
 #else
-        EmptyView()
+        if let text = viewModel.step.text {
+            HStack {
+                Spacer()
+                
+                // TODO(x-plat): Ensure same colors are used as in ORKCatalog.
+                Text(text)
+                    .multilineTextAlignment(.center)
+                    .font(.body)
+                    .fontWeight(.semibold)
+                
+                Spacer()
+            }
+        }
 #endif
     }
     
