@@ -75,14 +75,7 @@ internal struct FormStepView: View {
 
     var body: some View {
         List {
-            Section(
-                content: {
-                    EmptyView()
-                },
-                header: {
-                    StepHeaderView(viewModel: viewModel)
-                }
-            )
+            ListHeaderView(viewModel: viewModel)
             
             VStack {
                 Group {
