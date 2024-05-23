@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// TODO(x-plat): Add documentation.
 struct StepHeaderView: View {
     
     @State

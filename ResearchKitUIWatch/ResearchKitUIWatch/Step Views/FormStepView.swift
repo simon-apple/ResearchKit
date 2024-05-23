@@ -56,6 +56,7 @@ enum FormRow: Identifiable {
     }
 }
 
+// TODO(x-plat): Add documentation.
 internal struct FormStepView: View {
 
     enum Constants {
