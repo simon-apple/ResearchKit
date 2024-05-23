@@ -74,8 +74,7 @@ internal struct FormStepView: View {
     }
 
     var body: some View {
-
-        ScrollView {
+        List {
             VStack {
                 Group {
                     if let progress = viewModel.progress {
