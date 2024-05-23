@@ -33,11 +33,6 @@
 import ResearchKit
 import SwiftUI
 
-enum ViewModel {
-    case none
-    case formStep(FormStepViewModel)
-}
-
 typealias Progress = (index: Int, count: Int)
 
 struct ProgressKey: EnvironmentKey {
@@ -121,7 +116,16 @@ internal struct TaskContentView<Content>: View where Content: View {
             }
             
             currentResult.endDate = Date()
-            
+            let viewModel = taskManager.viewModelForStep(currentStep)
+            switch viewModel {
+            case .formStep(let formStepViewModel):
+                formStepViewModel.createORKResult()
+                // TODO: serialize these results to JSON by pulling in serializer:
+                // rdar://126868123 (Serialize results from SwiftUI Question Views)
+                break
+            case .none:
+                break
+            }
             taskManager.mark(currentStep, answered: true)
         } else if !complete && currentStep is ORKFormStep {
             taskManager.mark(currentStep, answered: false)
@@ -186,7 +190,7 @@ internal struct TaskContentView<Content>: View where Content: View {
                         }
                     } else {
                         Button {
-
+                            completion(true)
                             taskManager.finishReason = .completed
                         } label: {
                             Text("Done").bold()

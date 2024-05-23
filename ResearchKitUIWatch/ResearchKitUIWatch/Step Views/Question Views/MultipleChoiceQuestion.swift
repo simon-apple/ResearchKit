@@ -7,88 +7,60 @@
 
 import SwiftUI
 
-@Observable
-public class MultipleChoiceOption<ID: Hashable>: Identifiable {
-
-    public var id: ID
-    public var choiceText: Text = Text("")
-
-    public init(id: ID, choiceText: Text) {
-        self.id = id
-        self.choiceText = choiceText
-    }
+struct MultipleChoiceOption: Identifiable {
+    var id: String
+    var choiceText: String
 }
 
-public enum ChoiceSelectionType {
-    case single, multiple
-}
+struct MultipleChoiceQuestion: Identifiable {
 
-@Observable
-public class MultipleChoiceQuestion<ID: Hashable>: Identifiable {
+    var title: String
+    var id: String
+    var choices: [MultipleChoiceOption]
+    var result: [MultipleChoiceOption]
+    var selectionType: ChoiceSelectionType
 
-    public var title: Text
-    public var id: ID
-    public var choices: [MultipleChoiceOption<ID>]
-    public var result: [MultipleChoiceOption<ID>]
-    public var selectionType: ChoiceSelectionType
-
-    public init(id: ID, title: Text, choices: [MultipleChoiceOption<ID>], result: [MultipleChoiceOption<ID>], selectionType: ChoiceSelectionType) {
+    init(
+        id: ID,
+        title: String,
+        choices: [MultipleChoiceOption],
+        result: [MultipleChoiceOption] = [],
+        selectionType: ChoiceSelectionType
+    ) {
         self.title = title
         self.id = id
         self.choices = choices
+        self.result = result
         self.selectionType = selectionType
-        _result = result
     }
-}
 
-extension MultipleChoiceQuestion where ID == UUID {
-    convenience init(title: Text, choices: [MultipleChoiceOption<UUID>], result: [MultipleChoiceOption<UUID>], selectionType: ChoiceSelectionType) {
-        let id = UUID()
-        self.init(id: id, title: title, choices: choices, result: result, selectionType: selectionType)
-    }
-}
-
-extension MultipleChoiceOption where ID == UUID {
-
-    public convenience init(choiceText: Text) {
-        let id = UUID()
-        self.init(id: id, choiceText: choiceText)
+    public enum ChoiceSelectionType {
+        case single, multiple
     }
 }
 
 public struct MultipleChoiceQuestionView: View {
 
+    let title: String
+    let choices: [MultipleChoiceOption]
+    let selectionType: MultipleChoiceQuestion.ChoiceSelectionType
+
     @Binding
-    public var result: [MultipleChoiceOption<UUID>]
+    var result: [MultipleChoiceOption]
 
-    public let identifier: UUID = UUID()
-
-    private var multipleChoiceQuestion: MultipleChoiceQuestion<UUID>
-
-    private var detail: Text?
-
-    public init(
-        title: Text,
-        detail: Text? = nil,
-        options: [MultipleChoiceOption<UUID>],
-        result: Binding<[MultipleChoiceOption<UUID>]>,
-        selectionType: ChoiceSelectionType
-    ) {
-        self.multipleChoiceQuestion = MultipleChoiceQuestion(id: identifier, title: title, choices: options, result: result.wrappedValue, selectionType: selectionType)
-        _result = result
-    }
+    let detail: Text? = nil
 
     public var body: some View {
         CardView {
             VStack(alignment: .leading) {
-                multipleChoiceQuestion.title
+                Text(title)
                     .font(.title)
                 detail
                 ForEach(
-                    multipleChoiceQuestion.choices
+                    choices
                 ) { option in
                     TextChoiceCell(
-                        title: option.choiceText,
+                        title: Text(option.choiceText),
                         isSelected: result.contains(where: { choice in
                             choice.id == option.id
                         })
@@ -101,20 +73,17 @@ public struct MultipleChoiceQuestionView: View {
         }
     }
 
-    private func choiceSelected(_ option: MultipleChoiceOption<UUID>) {
-        if result.contains(where: { choice in
-            choice.id == option.id
-        }) {
+    private func choiceSelected(_ option: MultipleChoiceOption) {
+        if result.contains(where: { $0.id == option.id }) {
             result.removeAll { choice in
                 choice.id == option.id
             }
         } else {
-
-            switch multipleChoiceQuestion.selectionType {
-                case .single:
-                    result = [option]
-                case .multiple:
-                    result.append(option)
+            switch selectionType {
+            case .single:
+                result = [option]
+            case .multiple:
+                result.append(option)
             }
         }
        }
