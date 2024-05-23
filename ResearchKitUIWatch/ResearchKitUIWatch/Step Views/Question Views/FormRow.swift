@@ -1,4 +1,3 @@
-//
 //  FormRow.swift
 //  ResearchKitUI(Watch)
 //
