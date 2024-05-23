@@ -150,10 +150,6 @@ internal struct TaskContentView<Content>: View where Content: View {
     }
       
     var body: some View {
-        if hasNextStep {
-            hiddenNavigationButton
-        }
-        
         ORKScrollViewReader { value in
             content(currentStep, currentResult)
                 .onAppear {
