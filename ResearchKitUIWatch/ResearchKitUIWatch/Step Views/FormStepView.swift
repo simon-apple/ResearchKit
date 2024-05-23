@@ -75,6 +75,15 @@ internal struct FormStepView: View {
 
     var body: some View {
         List {
+            Section(
+                content: {
+                    EmptyView()
+                },
+                header: {
+                    StepHeaderView(viewModel: viewModel)
+                }
+            )
+            
             VStack {
                 Group {
                     if let progress = viewModel.progress {
@@ -83,14 +92,6 @@ internal struct FormStepView: View {
                             .font(.subheadline)
                             .padding(.top, Constants.topToProgressPadding)
                             .padding(.bottom, Constants.bottomToProgressPadding)
-                    }
-                    
-                    if let stepTitle = viewModel.step.title {
-                        Text(stepTitle)
-                            .font(.body)
-                            .fontWeight(.semibold)
-                            .multilineTextAlignment(.leading)
-                            .padding(.bottom, Constants.questionToAnswerPadding)
                     }
 
                     ForEach(viewModel.formRows) { formRow in
