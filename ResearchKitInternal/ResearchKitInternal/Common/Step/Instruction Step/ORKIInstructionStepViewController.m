@@ -34,7 +34,6 @@
 
 #import <ResearchKitUI/ORKInstructionStepViewController_Internal.h>
 
-
 @implementation ORKIInstructionStepViewController
 
 - (void)handleLearnMoreButtonPressed:(ORKLearnMoreInstructionStep *)learnMoreStep {

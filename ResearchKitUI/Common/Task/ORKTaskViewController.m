@@ -1201,6 +1201,28 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     return stepViewController;
 }
 
+- (nullable ORKResult *)getCurrentStepResult:(ORKStep *)step {
+    ORKResult *result = [self.result resultForIdentifier:step.identifier];
+    if (result) {
+        return result;
+    }
+    ORKStepResult *previousResult = _managedResults[step.identifier];
+    
+    // Check the default source first
+    BOOL alwaysCheckForDefaultResult = ([self.defaultResultSource respondsToSelector:@selector(alwaysCheckForDefaultResult)] &&
+                                        [self.defaultResultSource alwaysCheckForDefaultResult]);
+    if ((previousResult == nil) || alwaysCheckForDefaultResult) {
+        result = [self.defaultResultSource stepResultForStepIdentifier:step.identifier];
+    }
+    
+    // If nil, assign to the previous result (if available) otherwise create new instance
+    if (!result) {
+        result = previousResult ? : [[ORKStepResult alloc] initWithIdentifier:step.identifier];
+    }
+    
+    return result;
+}
+
 - (ORKStepViewController *)viewControllerForStep:(ORKStep *)step {
     return [self viewControllerForStep:step isPreviousViewController:NO];
 }

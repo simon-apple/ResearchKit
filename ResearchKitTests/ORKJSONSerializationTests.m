@@ -343,10 +343,6 @@ ORK_MAKE_TEST_INIT(ORKFaceDetectionStep, ^{
 #if RK_APPLE_INTERNAL
 ORK_MAKE_TEST_INIT(ORKAgeAnswerFormat, ^{return [self initWithMinimumAge:0 maximumAge:80 minimumAgeCustomText:nil maximumAgeCustomText:nil showYear:NO useYearForResult:NO treatMinAgeAsRange:false treatMaxAgeAsRange:false defaultValue:0];});
 
-ORK_MAKE_TEST_INIT(ORKISpeechRecognitionStep, ^ {
-    return [self initWithIdentifier:[NSUUID UUID].UUIDString image:nil text:@"test1"];
-});
-
 ORK_MAKE_TEST_INIT(ORKSpeechInNoisePredefinedTask, ^{
     ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
     ORKStep *stepB = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];

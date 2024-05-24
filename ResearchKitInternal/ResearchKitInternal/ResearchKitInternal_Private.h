@@ -35,7 +35,6 @@
 #import <ResearchKitInternal/ORKFamilyHistoryStepViewController_Private.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectStep.h>
 #import <ResearchKitInternal/ORKIHelpers_Internal.h>
-#import <ResearchKitInternal/ORKISpeechRecognitionStep.h>
 #import <ResearchKitInternal/ORKISpeechRecognitionStepViewController.h>
 #import <ResearchKitInternal/ORKSelectableHeadphoneDetectorPredefinedTask.h>
 #import <ResearchKitInternal/ORKSensitiveURLLearnMoreInstructionStep.h>

@@ -36,13 +36,9 @@
 
 #import "ORKIUtils.h"
 
-#import <ResearchKitInternal/ORKICompletionStep.h>
-#import <ResearchKitInternal/ORKISpeechRecognitionStep.h>
-#import <ResearchKitInternal/ORKISpeechInNoiseStep.h>
-#import <ResearchKitInternal/ORKIQuestionStep.h>
-
 #import <ResearchKit/ORKAnswerFormat.h>
 #import <ResearchKit/ORKBodyItem.h>
+#import <ResearchKit/ORKCompletionStep.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ORKLearnMoreInstructionStep.h>
 #import <ResearchKit/ORKRecorder_Private.h>
@@ -51,8 +47,8 @@
 #import "ORKContext.h"
 
 #import <ResearchKitActiveTask/ORKSpeechRecognitionStep.h>
-
-#import <ResearchKitInternal/ORKIEnvironmentSPLMeterStep.h>
+#import <ResearchKitActiveTask/ORKSpeechInNoiseStep.h>
+#import <ResearchKitActiveTask/ORKEnvironmentSPLMeterStep.h>
 
 #import <Speech/SFSpeechRecognizer.h>
 
@@ -342,7 +338,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
     
 #if !HIDE_ENVIRONMENT_SPL_STEP
     {
-        ORKIEnvironmentSPLMeterStep *step = [[ORKIEnvironmentSPLMeterStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierEnvironmentSPLStep];
+        ORKEnvironmentSPLMeterStep *step = [[ORKEnvironmentSPLMeterStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierEnvironmentSPLStep];
         step.title = ORKILocalizedString(@"ENVIRONMENTSPL_TITLE_2", nil);
         step.text = ORKILocalizedString(@"ENVIRONMENTSPL_INTRO_TEXT_2", nil);
         step.thresholdValue = 45;
@@ -388,7 +384,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
         // Speech In Noise
         {
             ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.lowercaseString, ORKSpeechInNoiseStepIdentifierSpeechInNoiseStep];
-            ORKISpeechInNoiseStep *step = [[ORKISpeechInNoiseStep alloc] initWithIdentifier:stepIdentifier];
+            ORKSpeechInNoiseStep *step = [[ORKSpeechInNoiseStep alloc] initWithIdentifier:stepIdentifier];
             step.context = context;
             step.speechFilePath = obj.path;
             step.targetSentence = obj.transcript;
@@ -414,7 +410,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
         if ( [SFSpeechRecognizer authorizationStatus] != SFSpeechRecognizerAuthorizationStatusDenied ) {
             ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.lowercaseString, ORKSpeechInNoiseStepIdentifierSpeechRecognitionStep];
             ORKAudioStreamerConfiguration *config = [[ORKAudioStreamerConfiguration alloc] initWithIdentifier:@"streamingAudio"];
-            ORKISpeechRecognitionStep *step = [[ORKISpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:nil];
+            ORKSpeechRecognitionStep *step = [[ORKSpeechRecognitionStep alloc] initWithIdentifier:stepIdentifier image:nil text:nil];
             step.shouldHideTranscript = YES;
             step.context = context;
             step.recorderConfigurations = @[config];
@@ -437,7 +433,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
             answerFormat.hideCharacterCountLabel = YES;
             
             ORKSpeechInNoiseStepIdentifier stepIdentifier = [NSString stringWithFormat:@"%@_%@", fileName.lowercaseString, ORKSpeechInNoiseStepIdentifierEditSpeechTranscriptStep];
-            ORKIQuestionStep *step = [ORKIQuestionStep questionStepWithIdentifier:stepIdentifier
+            ORKQuestionStep *step = [ORKQuestionStep questionStepWithIdentifier:stepIdentifier
                                                                             title:ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_REVIEW_TITLE", nil)
                                                                          question:nil
                                                                            answer:answerFormat];
@@ -458,7 +454,7 @@ ORKSpeechInNoiseStepIdentifier const ORKSpeechInNoiseStepIdentifierHeadphonesReq
     {
         // Completion (Practice)
         {
-            ORKICompletionStep *step = [[ORKICompletionStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierPracticeCompletionStep];
+            ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKSpeechInNoiseStepIdentifierPracticeCompletionStep];
             step.context = context;
             step.title = ORKILocalizedString(@"SPEECH_IN_NOISE_PREDEFINED_PRACTICE_COMPLETION_TITLE", nil);
             step.optional = YES;

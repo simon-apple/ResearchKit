@@ -38,6 +38,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NSString *ORKCompletionStepIdentifier NS_STRING_ENUM;
+ORK_EXTERN ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore;
+ORK_EXTERN ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier;
+
 @protocol ORKITaskViewControllerDelegate <NSObject>
 
 - (void)taskViewController:(ORKTaskViewController *)taskViewController sensitiveURLLearnMoreButtonPressedWithStep:(ORKSensitiveURLLearnMoreInstructionStep *)sensitiveURLLearnMoreStep forStepViewController:(ORKStepViewController *)stepViewController;

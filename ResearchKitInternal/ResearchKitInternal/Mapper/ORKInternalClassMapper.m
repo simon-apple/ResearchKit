@@ -30,16 +30,8 @@
 
 #import "ORKInternalClassMapper.h"
 
-#import "ORKICompletionStep.h"
 #import "ORKIdBHLToneAudiometryResult.h"
 #import "ORKIdBHLToneAudiometryStep.h"
-#import "ORKIEnvironmentSPLMeterStep.h"
-#import "ORKIInstructionStep.h"
-#import "ORKINavigableOrderedTask.h"
-#import "ORKIOrderedTask.h"
-#import "ORKIQuestionStep.h"
-#import "ORKISpeechInNoiseStep.h"
-#import "ORKISpeechRecognitionStep.h"
 
 @import ResearchKit_Private;
 #import <ResearchKit/ORKCompletionStep.h>
@@ -52,8 +44,14 @@
 #import <ResearchKitActiveTask/ORKSpeechInNoiseStep.h>
 #import <ResearchKitActiveTask/ORKSpeechRecognitionStep.h>
 
+#import "ORKIQuestionStepViewController.h"
+#import "ORKICompletionStepViewController.h"
+#import "ORKIInstructionStepViewController.h"
+#import "ORKISpeechRecognitionStepViewController.h"
+#import "ORKISpeechInNoiseStepViewController.h"
+#import "ORKIEnvironmentSPLMeterStepViewController.h"
+
 NSString * const ORKUseInternalClassMapperKey = @"ORKUseInternalClassMapperKey";
-NSString * const ORKUseInternalClassMapperThrowsKey = @"ORKUseInternalClassMapperThrowsKey";
 
 @implementation ORKInternalClassMapper
 
@@ -67,20 +65,9 @@ NSString * const ORKUseInternalClassMapperThrowsKey = @"ORKUseInternalClassMappe
     return [userDefaults boolForKey:ORKUseInternalClassMapperKey];
 }
 
-+ (void)setUseInternalMapperThrowsUserDefaultsValue:(BOOL)value {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setBool:value forKey:ORKUseInternalClassMapperThrowsKey];
-}
-
-+ (BOOL)getUseInternalMapperThrowsUserDefaultsValue {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [userDefaults boolForKey:ORKUseInternalClassMapperThrowsKey];
-}
-
 + (void)removeUseInternalMapperUserDefaultsValues {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults removeObjectForKey:ORKUseInternalClassMapperKey];
-    [userDefaults removeObjectForKey:ORKUseInternalClassMapperThrowsKey];
 }
 
 + (nullable Class)getInternalClassForPublicClass:(Class)class {
@@ -90,76 +77,20 @@ NSString * const ORKUseInternalClassMapperThrowsKey = @"ORKUseInternalClassMappe
 
 + (nullable NSString *)getInternalClassStringForPublicClass:(NSString *)class {
     NSDictionary<NSString *, NSString *> *dict = @{
-        NSStringFromClass([ORKInstructionStep class]) : NSStringFromClass([ORKIInstructionStep class]),
-        NSStringFromClass([ORKQuestionStep class]) : NSStringFromClass([ORKIQuestionStep class]),
         NSStringFromClass([ORKdBHLToneAudiometryStep class]) : NSStringFromClass([ORKIdBHLToneAudiometryStep class]),
         NSStringFromClass([ORKdBHLToneAudiometryResult class]) : NSStringFromClass([ORKIdBHLToneAudiometryResult class]),
-        NSStringFromClass([ORKSpeechInNoiseStep class]) : NSStringFromClass([ORKISpeechInNoiseStep class]),
-        NSStringFromClass([ORKEnvironmentSPLMeterStep class]) : NSStringFromClass([ORKIEnvironmentSPLMeterStep class]),
-        NSStringFromClass([ORKSpeechRecognitionStep class]) : NSStringFromClass([ORKISpeechRecognitionStep class]),
-        NSStringFromClass([ORKCompletionStep class]) : NSStringFromClass([ORKICompletionStep class]),
-        NSStringFromClass([ORKOrderedTask class]) : NSStringFromClass([ORKIOrderedTask class]),
-        NSStringFromClass([ORKNavigableOrderedTask class]) : NSStringFromClass([ORKINavigableOrderedTask class])
     };
     
     return [dict valueForKey:class];
 }
 
 + (nullable id)getInternalInstanceForPublicInstance:(id)class {
-    // attempt instruction step mapping
-    ORKIInstructionStep *internalInstructionStep = [ORKInternalClassMapper _mapPublicInstructionStep:class];
-    if (internalInstructionStep != nil) {
-        return internalInstructionStep;
-    }
-    
-    // attempt question step mapping
-    ORKIQuestionStep *internalQuestionStep = [ORKInternalClassMapper _mapPublicQuestionStep:class];
-    if (internalQuestionStep != nil) {
-        return internalQuestionStep;
-    }
-    
     // attempt dBHL step mapping
     ORKIdBHLToneAudiometryStep *internaldBHLStep = [ORKInternalClassMapper _mapPublicdBHLToneAudiometryStep:class];
     if (internaldBHLStep != nil) {
         return internaldBHLStep;
     }
-    
-    // attempt speech in noise step mapping
-    ORKISpeechInNoiseStep *internalSpeechInNoiseStep = [ORKInternalClassMapper _mapPublicSpeechInNoiseStep:class];
-    if (internalSpeechInNoiseStep != nil) {
-        return internalSpeechInNoiseStep;
-    }
-    
-    // attempt speech recognition step mapping
-    ORKISpeechRecognitionStep *internalSpeechRecognitionStep = [ORKInternalClassMapper _mapPublicSpeechRecognitionStep:class];
-    if (internalSpeechRecognitionStep != nil) {
-        return internalSpeechRecognitionStep;
-    }
-    
-    // attempt environment spl meter step mapping
-    ORKIEnvironmentSPLMeterStep *internalEnvironmentSPLMeterStep = [ORKInternalClassMapper _mapPublicEnvironmentSPLMeterStep:class];
-    if (internalEnvironmentSPLMeterStep != nil) {
-        return internalEnvironmentSPLMeterStep;
-    }
-    
-    // attempt completion step mapping
-    ORKICompletionStep *internalCompletionStep = [ORKInternalClassMapper _mapPublicCompletionStep:class];
-    if (internalCompletionStep != nil) {
-        return internalCompletionStep;
-    }
-    
-    // attempt ordered task mapping
-    ORKIOrderedTask *internalOrderedTask = [ORKInternalClassMapper _mapPublicOrderedTask:class];
-    if (internalOrderedTask != nil) {
-        return internalOrderedTask;
-    }
-    
-    // attempt navigable ordered task mapping
-    ORKINavigableOrderedTask *internalNavigableOrderedTask = [ORKInternalClassMapper _mapPublicNavigableOrderedTask:class];
-    if (internalNavigableOrderedTask != nil) {
-        return internalNavigableOrderedTask;
-    }
-    
+        
     return nil;
 }
 
@@ -173,91 +104,7 @@ NSString * const ORKUseInternalClassMapperThrowsKey = @"ORKUseInternalClassMappe
     return sanitizedArray;
 }
 
-+ (void)throwIfTaskIsNotSanitized:(id)task {
-    [ORKInternalClassMapper _throwIfInternalSubclassParent:task];
-    
-    NSArray<ORKStep *> *taskSteps = @[];
-    ORKIOrderedTask *internalOrderedTask = (ORKIOrderedTask *)task;
-    ORKINavigableOrderedTask *internalNavigableOrderedTask = (ORKINavigableOrderedTask *)task;
-    
-    if ([NSStringFromClass([internalOrderedTask class]) isEqualToString:NSStringFromClass([ORKIOrderedTask class])]) {
-        taskSteps = [internalOrderedTask.steps copy];
-    } else if ([NSStringFromClass([internalNavigableOrderedTask class]) isEqualToString:NSStringFromClass([ORKINavigableOrderedTask class])]) {
-        taskSteps = [internalOrderedTask.steps copy];
-    }
-    
-    for (ORKStep *step in taskSteps) {
-        [ORKInternalClassMapper _throwIfInternalSubclassParent:step];
-    }
-}
-
 #pragma mark - Private Methods
-
-+ (nullable id)_mapPublicInstructionStep:(id)class {
-    ORKInstructionStep *instructionStep = (ORKInstructionStep *)class;
-
-    if ([NSStringFromClass([instructionStep class]) isEqualToString:NSStringFromClass([ORKInstructionStep class])]) {
-        ORKIInstructionStep *internalInstructionStep = [[ORKIInstructionStep alloc] initWithIdentifier:[instructionStep.identifier copy]];
-        
-        // ORKInstructionStep properties
-        internalInstructionStep.attributedDetailText = [instructionStep.attributedDetailText copy];
-        internalInstructionStep.centerImageVertically = instructionStep.centerImageVertically;
-        internalInstructionStep.type = instructionStep.type;
-        
-        // ORKStep properties
-        internalInstructionStep.optional = instructionStep.optional;
-        internalInstructionStep.title = [instructionStep.title copy];
-        internalInstructionStep.text = [instructionStep.text copy];
-        internalInstructionStep.detailText = [instructionStep.detailText copy];
-        internalInstructionStep.headerTextAlignment = instructionStep.headerTextAlignment;
-        internalInstructionStep.footnote = [instructionStep.footnote copy];
-        internalInstructionStep.iconImage = [instructionStep.iconImage copy];
-        internalInstructionStep.shouldAutomaticallyAdjustImageTintColor = instructionStep.shouldAutomaticallyAdjustImageTintColor;
-        internalInstructionStep.showsProgress = instructionStep.showsProgress;
-        internalInstructionStep.useExtendedPadding = instructionStep.useExtendedPadding;
-        internalInstructionStep.earlyTerminationConfiguration = [instructionStep.earlyTerminationConfiguration copy];
-        internalInstructionStep.task = instructionStep.task;
-        
-        return internalInstructionStep;
-    }
-    
-    return nil;
-}
-
-+ (nullable id)_mapPublicQuestionStep:(id)class {
-    ORKQuestionStep *questionStep = (ORKQuestionStep *)class;
-    
-    if ([NSStringFromClass([questionStep class]) isEqualToString:NSStringFromClass([ORKQuestionStep class])]) {
-        ORKIQuestionStep *internalQuestionStep = [[ORKIQuestionStep alloc] initWithIdentifier:[questionStep.identifier copy]];
-        
-        // ORKQuestionStep properties
-        internalQuestionStep.answerFormat = [questionStep.answerFormat copy];
-        internalQuestionStep.question = [questionStep.question copy];
-        internalQuestionStep.placeholder = [questionStep.placeholder copy];
-        internalQuestionStep.useCardView = questionStep.useCardView;
-        internalQuestionStep.learnMoreItem = [questionStep.learnMoreItem copy];
-        internalQuestionStep.tagText = [questionStep.tagText copy];
-        internalQuestionStep.presentationStyle = questionStep.presentationStyle;
-        
-        // ORKStep properties
-        internalQuestionStep.optional = questionStep.optional;
-        internalQuestionStep.title = [questionStep.title copy];
-        internalQuestionStep.text = [questionStep.text copy];
-        internalQuestionStep.detailText = [questionStep.detailText copy];
-        internalQuestionStep.headerTextAlignment = questionStep.headerTextAlignment;
-        internalQuestionStep.footnote = [questionStep.footnote copy];
-        internalQuestionStep.iconImage = [questionStep.iconImage copy];
-        internalQuestionStep.shouldAutomaticallyAdjustImageTintColor = questionStep.shouldAutomaticallyAdjustImageTintColor;
-        internalQuestionStep.showsProgress = questionStep.showsProgress;
-        internalQuestionStep.useExtendedPadding = questionStep.useExtendedPadding;
-        internalQuestionStep.earlyTerminationConfiguration = [questionStep.earlyTerminationConfiguration copy];
-        internalQuestionStep.task = questionStep.task;
-        
-        return internalQuestionStep;
-    }
-    
-    return nil;
-}
 
 + (nullable id)_mapPublicdBHLToneAudiometryStep:(id)class {
     ORKdBHLToneAudiometryStep *dBHLStep = (ORKdBHLToneAudiometryStep *)class;
@@ -301,204 +148,39 @@ NSString * const ORKUseInternalClassMapperThrowsKey = @"ORKUseInternalClassMappe
     return nil;
 }
 
-+ (nullable id)_mapPublicSpeechInNoiseStep:(id)class {
-    ORKSpeechInNoiseStep *speechInNoiseStep = (ORKSpeechInNoiseStep *)class;
-    
-    if ([NSStringFromClass([speechInNoiseStep class]) isEqualToString:NSStringFromClass([ORKSpeechInNoiseStep class])]) {
-        ORKISpeechInNoiseStep *internalSpeechInNoiseStep = [[ORKISpeechInNoiseStep alloc] initWithIdentifier:[speechInNoiseStep.identifier copy]];
-        
-        // ORKSpeechInNoiseStep properties
-        internalSpeechInNoiseStep.speechFilePath = [speechInNoiseStep.speechFilePath copy];
-        internalSpeechInNoiseStep.targetSentence = [speechInNoiseStep.targetSentence copy];
-        internalSpeechInNoiseStep.speechFileNameWithExtension = [speechInNoiseStep.speechFileNameWithExtension copy];
-        internalSpeechInNoiseStep.noiseFileNameWithExtension = [speechInNoiseStep.noiseFileNameWithExtension copy];
-        internalSpeechInNoiseStep.filterFileNameWithExtension = [speechInNoiseStep.filterFileNameWithExtension copy];
-        internalSpeechInNoiseStep.gainAppliedToNoise = speechInNoiseStep.gainAppliedToNoise;
-        internalSpeechInNoiseStep.willAudioLoop = speechInNoiseStep.willAudioLoop;
-        internalSpeechInNoiseStep.hideGraphView = speechInNoiseStep.hideGraphView;
-        
-        // ORKStep properties
-        internalSpeechInNoiseStep.optional = speechInNoiseStep.optional;
-        internalSpeechInNoiseStep.title = [speechInNoiseStep.title copy];
-        internalSpeechInNoiseStep.text = [speechInNoiseStep.text copy];
-        internalSpeechInNoiseStep.detailText = [speechInNoiseStep.detailText copy];
-        internalSpeechInNoiseStep.headerTextAlignment = speechInNoiseStep.headerTextAlignment;
-        internalSpeechInNoiseStep.footnote = [speechInNoiseStep.footnote copy];
-        internalSpeechInNoiseStep.iconImage = [speechInNoiseStep.iconImage copy];
-        internalSpeechInNoiseStep.shouldAutomaticallyAdjustImageTintColor = speechInNoiseStep.shouldAutomaticallyAdjustImageTintColor;
-        internalSpeechInNoiseStep.showsProgress = speechInNoiseStep.showsProgress;
-        internalSpeechInNoiseStep.useExtendedPadding = speechInNoiseStep.useExtendedPadding;
-        internalSpeechInNoiseStep.earlyTerminationConfiguration = [speechInNoiseStep.earlyTerminationConfiguration copy];
-        internalSpeechInNoiseStep.task = speechInNoiseStep.task;
-        
-        return internalSpeechInNoiseStep;
-    }
-    
-    return nil;
-}
-
-+ (nullable id)_mapPublicSpeechRecognitionStep:(id)class {
-    ORKSpeechRecognitionStep *speechRecognitionStep = (ORKSpeechRecognitionStep *)class;
-    
-    if ([NSStringFromClass([speechRecognitionStep class]) isEqualToString:NSStringFromClass([ORKSpeechRecognitionStep class])]) {
-        ORKISpeechRecognitionStep *internalSpeechRecognitionStep = [[ORKISpeechRecognitionStep alloc] initWithIdentifier:[speechRecognitionStep.identifier copy]];
-        
-        // ORKSpeechRecognitionStep properties
-        internalSpeechRecognitionStep.speechRecognizerLocale = [speechRecognitionStep.speechRecognizerLocale copy];
-        internalSpeechRecognitionStep.shouldHideTranscript = speechRecognitionStep.shouldHideTranscript;
-        
-        // ORKStep properties
-        internalSpeechRecognitionStep.optional = speechRecognitionStep.optional;
-        internalSpeechRecognitionStep.title = [speechRecognitionStep.title copy];
-        internalSpeechRecognitionStep.text = [speechRecognitionStep.text copy];
-        internalSpeechRecognitionStep.detailText = [speechRecognitionStep.detailText copy];
-        internalSpeechRecognitionStep.headerTextAlignment = speechRecognitionStep.headerTextAlignment;
-        internalSpeechRecognitionStep.footnote = [speechRecognitionStep.footnote copy];
-        internalSpeechRecognitionStep.iconImage = [speechRecognitionStep.iconImage copy];
-        internalSpeechRecognitionStep.shouldAutomaticallyAdjustImageTintColor = speechRecognitionStep.shouldAutomaticallyAdjustImageTintColor;
-        internalSpeechRecognitionStep.showsProgress = speechRecognitionStep.showsProgress;
-        internalSpeechRecognitionStep.useExtendedPadding = speechRecognitionStep.useExtendedPadding;
-        internalSpeechRecognitionStep.earlyTerminationConfiguration = [speechRecognitionStep.earlyTerminationConfiguration copy];
-        internalSpeechRecognitionStep.task = speechRecognitionStep.task;
-        
-        return internalSpeechRecognitionStep;
-    }
-    
-    return nil;
-}
-
-+ (nullable id)_mapPublicEnvironmentSPLMeterStep:(id)class {
-    ORKEnvironmentSPLMeterStep *environmentSPLMeterStep = (ORKEnvironmentSPLMeterStep *)class;
-    
-    if ([NSStringFromClass([environmentSPLMeterStep class]) isEqualToString:NSStringFromClass([ORKEnvironmentSPLMeterStep class])]) {
-        ORKIEnvironmentSPLMeterStep *internalEnvironmentSPLMeterStep = [[ORKIEnvironmentSPLMeterStep alloc] initWithIdentifier:[environmentSPLMeterStep.identifier copy]];
-        
-        // ORKEnvironmentStep properties
-        internalEnvironmentSPLMeterStep.thresholdValue = environmentSPLMeterStep.thresholdValue;
-        internalEnvironmentSPLMeterStep.samplingInterval = environmentSPLMeterStep.samplingInterval;
-        internalEnvironmentSPLMeterStep.requiredContiguousSamples = environmentSPLMeterStep.requiredContiguousSamples;
-        
-        // ORKStep properties
-        internalEnvironmentSPLMeterStep.optional = environmentSPLMeterStep.optional;
-        internalEnvironmentSPLMeterStep.title = [environmentSPLMeterStep.title copy];
-        internalEnvironmentSPLMeterStep.text = [environmentSPLMeterStep.text copy];
-        internalEnvironmentSPLMeterStep.detailText = [environmentSPLMeterStep.detailText copy];
-        internalEnvironmentSPLMeterStep.headerTextAlignment = environmentSPLMeterStep.headerTextAlignment;
-        internalEnvironmentSPLMeterStep.footnote = [environmentSPLMeterStep.footnote copy];
-        internalEnvironmentSPLMeterStep.iconImage = [environmentSPLMeterStep.iconImage copy];
-        internalEnvironmentSPLMeterStep.shouldAutomaticallyAdjustImageTintColor = environmentSPLMeterStep.shouldAutomaticallyAdjustImageTintColor;
-        internalEnvironmentSPLMeterStep.showsProgress = environmentSPLMeterStep.showsProgress;
-        internalEnvironmentSPLMeterStep.useExtendedPadding = environmentSPLMeterStep.useExtendedPadding;
-        internalEnvironmentSPLMeterStep.earlyTerminationConfiguration = [environmentSPLMeterStep.earlyTerminationConfiguration copy];
-        internalEnvironmentSPLMeterStep.task = environmentSPLMeterStep.task;
-        
-        return internalEnvironmentSPLMeterStep;
-    }
-    
-    return nil;
-}
-
-+ (nullable id)_mapPublicCompletionStep:(id)class {
-    ORKCompletionStep *completionStep = (ORKCompletionStep *)class;
-    
-    if ([NSStringFromClass([completionStep class]) isEqualToString:NSStringFromClass([ORKCompletionStep class])]) {
-        ORKICompletionStep *internalCompletionStep = [[ORKICompletionStep alloc] initWithIdentifier:[completionStep.identifier copy]];
-        
-        // ORKCompletionStep properties
-        internalCompletionStep.reasonForCompletion = completionStep.reasonForCompletion;
-
-        // ORKStep properties
-        internalCompletionStep.optional = completionStep.optional;
-        internalCompletionStep.title = [completionStep.title copy];
-        internalCompletionStep.text = [completionStep.text copy];
-        internalCompletionStep.detailText = [completionStep.detailText copy];
-        internalCompletionStep.headerTextAlignment = completionStep.headerTextAlignment;
-        internalCompletionStep.footnote = [completionStep.footnote copy];
-        internalCompletionStep.iconImage = [completionStep.iconImage copy];
-        internalCompletionStep.shouldAutomaticallyAdjustImageTintColor = completionStep.shouldAutomaticallyAdjustImageTintColor;
-        internalCompletionStep.showsProgress = completionStep.showsProgress;
-        internalCompletionStep.useExtendedPadding = completionStep.useExtendedPadding;
-        internalCompletionStep.earlyTerminationConfiguration = [completionStep.earlyTerminationConfiguration copy];
-        internalCompletionStep.task = completionStep.task;
-        
-        return internalCompletionStep;
-    }
-    
-    return nil;
-}
-
-+ (nullable id)_mapPublicOrderedTask:(id)class {
-    ORKOrderedTask *orderedTask = (ORKOrderedTask *)class;
-    
-    if ([NSStringFromClass([orderedTask class]) isEqualToString:NSStringFromClass([ORKOrderedTask class])]) {
-        NSArray<ORKStep *> *sanitizedSteps = [ORKInternalClassMapper sanitizeOrderedTaskSteps:[orderedTask.steps copy]];
-        ORKIOrderedTask *internalOrderedTask = [[ORKIOrderedTask alloc] initWithIdentifier:[orderedTask.identifier copy]
-                                                                                     steps:sanitizedSteps];
-        
-        // ORKOrderedTask properties
-        internalOrderedTask.progressLabelColor = [orderedTask.progressLabelColor copy];
-        
-        return internalOrderedTask;
-    }
-    
-    return nil;
-}
-
-+ (nullable id)_mapPublicNavigableOrderedTask:(id)class {
-    ORKNavigableOrderedTask *navigableOrderedTask = (ORKNavigableOrderedTask *)class;
-    
-    if ([NSStringFromClass([navigableOrderedTask class]) isEqualToString:NSStringFromClass([ORKNavigableOrderedTask class])]) {
-        NSArray<ORKStep *> *sanitizedSteps = [ORKInternalClassMapper sanitizeOrderedTaskSteps:[navigableOrderedTask.steps copy]];
-        ORKINavigableOrderedTask *internalNavigableOrderedTask = [[ORKINavigableOrderedTask alloc] initWithIdentifier:[navigableOrderedTask.identifier copy]
-                                                                                                                steps:sanitizedSteps];
-        // ORKNavigableOrderedTask properties
-        [navigableOrderedTask.stepNavigationRules enumerateKeysAndObjectsUsingBlock:^(NSString* key, ORKStepNavigationRule* navigationRule, BOOL* stop) {
-            [internalNavigableOrderedTask setNavigationRule:navigationRule forTriggerStepIdentifier:key];
-        }];
-        
-        [navigableOrderedTask.skipStepNavigationRules enumerateKeysAndObjectsUsingBlock:^(NSString* key, ORKSkipStepNavigationRule* skipNavigationRule, BOOL* stop) {
-            [internalNavigableOrderedTask setSkipNavigationRule:skipNavigationRule forStepIdentifier:key];
-        }];
-        
-        [navigableOrderedTask.stepModifiers enumerateKeysAndObjectsUsingBlock:^(NSString* key, ORKStepModifier* stepModifier, BOOL* stop) {
-            [internalNavigableOrderedTask setStepModifier:stepModifier forStepIdentifier:key];
-        }];
-        
-        internalNavigableOrderedTask.shouldReportProgress = navigableOrderedTask.shouldReportProgress;
-        
-        // ORKOrderedTask properties
-        internalNavigableOrderedTask.progressLabelColor = [navigableOrderedTask.progressLabelColor copy];
-      
-        return internalNavigableOrderedTask;
-    }
-    
-    return nil;
-}
-
-+ (void)_throwIfInternalSubclassParent:(id)parentClass {
-    NSDictionary<NSString *, Class> *mappedClassesWithInternalVersions = [ORKInternalClassMapper _getMappedClassesWithInternalVersions];
-    NSString *classString = NSStringFromClass([parentClass class]);
-    if ([mappedClassesWithInternalVersions valueForKey:classString]) {
-        NSString *reason = [NSString stringWithFormat:@"Use of %@ was detected. Please use %@ instead.", classString, [mappedClassesWithInternalVersions valueForKey:classString]];
-        @throw [NSException exceptionWithName:NSGenericException reason:reason userInfo:nil];
-    }
-}
-
 + (NSDictionary<NSString *, Class> *)_getMappedClassesWithInternalVersions {
     NSDictionary<NSString *, Class> *dict = @{
-        NSStringFromClass([ORKInstructionStep class]) : [ORKIInstructionStep class],
-        NSStringFromClass([ORKQuestionStep class]) : [ORKIQuestionStep class],
         NSStringFromClass([ORKdBHLToneAudiometryStep class]) : [ORKIdBHLToneAudiometryStep class],
-        NSStringFromClass([ORKdBHLToneAudiometryResult class]) : [ORKIdBHLToneAudiometryResult class],
-        NSStringFromClass([ORKSpeechInNoiseStep class]) : [ORKISpeechInNoiseStep class],
-        NSStringFromClass([ORKEnvironmentSPLMeterStep class]) : [ORKIEnvironmentSPLMeterStep class],
-        NSStringFromClass([ORKSpeechRecognitionStep class]) : [ORKISpeechRecognitionStep class],
-        NSStringFromClass([ORKCompletionStep class]) : [ORKICompletionStep class],
-        NSStringFromClass([ORKOrderedTask class]) : [ORKIOrderedTask class],
-        NSStringFromClass([ORKNavigableOrderedTask class]) : [ORKINavigableOrderedTask class]
+        NSStringFromClass([ORKdBHLToneAudiometryResult class]) : [ORKIdBHLToneAudiometryResult class]
     };
     
     return [dict copy];
+}
+
++ (nullable ORKStepViewController *)mappedStepViewControllerForStep:(ORKStep *)step fromTaskViewController:(ORKTaskViewController *)taskViewController {
+    ORKResult *result = [taskViewController getCurrentStepResult:step];
+
+    if ([step class] == [ORKQuestionStep class]) {
+        ORK_Log_Debug("mapping ORKIQuestionStepViewController");
+        return [[ORKIQuestionStepViewController alloc] initWithStep:step result:result];
+    } else if ([step class] == [ORKCompletionStep class]) {
+        ORK_Log_Debug("mapping ORKICompletionStepViewController");
+        return [[ORKICompletionStepViewController alloc] initWithStep:step result:result];
+    } else if ([step class] == [ORKInstructionStep class]) {
+        ORK_Log_Debug("mapping ORKIInstructionStepViewController");
+        return [[ORKIInstructionStepViewController alloc] initWithStep:step result:result];
+    } else if ([step class] == [ORKSpeechRecognitionStep class]) {
+        ORK_Log_Debug("mapping ORKISpeechRecognitionStepViewController");
+        return [[ORKISpeechRecognitionStepViewController alloc] initWithStep:step result:result];
+    } else if ([step class] == [ORKSpeechInNoiseStep class]) {
+        ORK_Log_Debug("mapping ORKISpeechInNoiseStepViewController");
+        return [[ORKISpeechInNoiseStepViewController alloc] initWithStep:step result:result];
+    } else if ([step class] == [ORKEnvironmentSPLMeterStep class]) {
+        ORK_Log_Debug("mapping ORKIEnvironmentSPLMeterStepViewController");
+        return [[ORKIEnvironmentSPLMeterStepViewController alloc] initWithStep:step result:result];
+    } 
+    ORK_Log_Debug("no class found for %@ - %@", step.class, step.superclass);
+    return nil;
 }
 
 @end

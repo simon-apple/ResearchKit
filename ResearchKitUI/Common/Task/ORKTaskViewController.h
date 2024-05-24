@@ -599,6 +599,15 @@ ORK_CLASS_AVAILABLE
  */
 
 - (void)setUpdatingPreviousResults:(BOOL)updatingPreviousResults;
+
+/*
+ A method that returns either the current result,
+ the default result if the `alwaysCheckForDefaultResult` is set,
+ or the previous result, if everything else is nil. 
+ */
+
+- (nullable ORKResult *)getCurrentStepResult:(ORKStep *)step;
+
 #endif
 
 @end
