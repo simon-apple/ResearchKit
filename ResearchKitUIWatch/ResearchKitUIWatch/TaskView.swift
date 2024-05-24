@@ -35,14 +35,17 @@ import SwiftUI
 import UIKit
 
 public struct TaskNavigationDelegate {
-    public var taskDidFinishWithReason: (TaskManager.FinishReason) -> ()
+    public var taskDidFinishWithReason: (TaskManager.FinishReason, DismissAction) -> ()
 
-    public init(taskDidFinishWithReason: @escaping (TaskManager.FinishReason) -> Void) {
+    public init(taskDidFinishWithReason: @escaping (TaskManager.FinishReason, DismissAction) -> Void) {
         self.taskDidFinishWithReason = taskDidFinishWithReason
     }
 }
 
 public struct TaskView<Content>: View where Content: View {
+    
+    // TODO(x-plat): Revisit and see if this is still needed for the done button by end of x-plat transition.
+    @Environment(\.dismiss) private var dismiss
 
     @ObservedObject
     private var taskManager: TaskManager
@@ -71,7 +74,7 @@ public struct TaskView<Content>: View where Content: View {
             guard let reason = taskManager.finishReason else {
                 return
             }
-            navigationDelegate?.taskDidFinishWithReason(reason)
+            navigationDelegate?.taskDidFinishWithReason(reason, dismiss)
         })
     }
 }
