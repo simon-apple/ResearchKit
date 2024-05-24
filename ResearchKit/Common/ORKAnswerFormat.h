@@ -200,6 +200,11 @@ ORK_CLASS_AVAILABLE
  */
 @property (copy, readonly) NSArray<ORKTextChoice *> *textChoices;
 
+/**
+ Returns YES if the answer is no longer valid, specifically used in the ORKFormStep Restoration
+ */
+- (BOOL)isAnswerInvalid:(id)answer;
+
 @end
 
 #if RK_APPLE_INTERNAL

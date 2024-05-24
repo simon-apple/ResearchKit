@@ -2158,7 +2158,8 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
     for (ORKFormItem *item in [self allFormItems]) {
         id answer = _savedAnswers[item.identifier];
         ORKAnswerFormat *answerFormat = item.impliedAnswerFormat;
-        if (![answerFormat isAnswerValid:answer]) {
+        ORKTextChoiceAnswerFormat *textChoiceAnswerFormat = ORKDynamicCast(answerFormat, ORKTextChoiceAnswerFormat);
+        if ([textChoiceAnswerFormat isAnswerInvalid:answer]) {
             ORK_Log_Error("unexpected answer %@ on answerFormat of %@", answer, item.impliedAnswerFormat);
             _savedAnswers[item.identifier] = nil;
             _savedAnswerDates[item.identifier] = nil;
