@@ -8,13 +8,12 @@
 import SwiftUI
 
 // TODO(x-plat): Add documentation.
-struct ListHeaderView: View {
+struct ListHeaderView<Content: View>: View {
     
-    @ObservedObject
-    private var viewModel: FormStepViewModel
+    private let content: Content
     
-    init(viewModel: FormStepViewModel) {
-        self.viewModel = viewModel
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
     }
     
     var body: some View {
@@ -23,14 +22,15 @@ struct ListHeaderView: View {
                 EmptyView()
             },
             header: {
-                StepHeaderView(viewModel: viewModel)
+                content
             }
         )
     }
     
 }
 
-// TODO(x-plat): Update to make preview compile.
-//#Preview {
-//    ListHeaderView()
-//}
+#Preview {
+    ListHeaderView {
+        Text("List header")
+    }
+}
