@@ -29,7 +29,6 @@
  */
 
 #import "ORKISpeechInNoiseStepViewController.h"
-#import "ORKISpeechInNoiseStep.h"
 #import "ORKIUtils.h"
 #import "ORKHeadphoneDetector.h"
 #import "ORKHeadphoneDetectResult.h"

@@ -200,6 +200,11 @@ ORK_CLASS_AVAILABLE
  */
 @property (copy, readonly) NSArray<ORKTextChoice *> *textChoices;
 
+/**
+ Returns YES if the answer is no longer valid, specifically used in the ORKFormStep Restoration
+ */
+- (BOOL)isAnswerInvalid:(id)answer;
+
 @end
 
 #if RK_APPLE_INTERNAL
@@ -537,8 +542,9 @@ ORK_CLASS_AVAILABLE
                                                       minimumValue:(double)minimumValue
                                                       maximumValue:(double)maximumValue
                                                       defaultValue:(double)defaultValue;
-
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 + (ORKLocationAnswerFormat *)locationAnswerFormat;
+#endif
 
 + (ORKSESAnswerFormat *)socioEconomicAnswerFormatWithTopRungText:(NSString *)topRungText bottomRungText:(NSString *)bottomRungText;
 
@@ -2229,6 +2235,7 @@ ORK_CLASS_AVAILABLE
  
  An `ORKLocationAnswerFormat` object produces an `ORKLocationQuestionResult` object.
  */
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 ORK_CLASS_AVAILABLE
 @interface ORKLocationAnswerFormat : ORKAnswerFormat
 
@@ -2247,6 +2254,7 @@ ORK_CLASS_AVAILABLE
 @property (copy, nullable) NSString *placeholder;
 
 @end
+#endif
 
 /**
  Socio-Economic Ladder Answer Format.

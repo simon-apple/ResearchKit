@@ -36,7 +36,10 @@
 #import <ResearchKitCore/ORKResult.h>
 #endif
 
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 #import <CoreLocation/CLLocation.h>
+#endif
+
 #import <Contacts/Contacts.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -153,8 +156,9 @@ ORK_CLASS_AVAILABLE
 @end
 
 
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 /**
- The `ORKLocation` class represents the location addess obtained from a locaton question.
+ The `ORKLocation` class represents the location addess obtained from a location question.
  */
 ORK_CLASS_AVAILABLE
 @interface ORKLocation : NSObject <NSCopying, NSSecureCoding>
@@ -183,7 +187,7 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, readonly, nullable) CNPostalAddress *postalAddress;
 
 @end
-
+#endif 
 
 /**
  A result object from a location answer format.
@@ -195,6 +199,7 @@ ORK_CLASS_AVAILABLE
  completes, it may be appropriate to serialize it for transmission to a server,
  or to immediately perform analysis on it.
  */
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 ORK_CLASS_AVAILABLE
 @interface ORKLocationQuestionResult : ORKQuestionResult
 
@@ -204,7 +209,7 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, nullable) ORKLocation *locationAnswer;
 
 @end
-
+#endif 
 
 /**
  A result object from a multiple-component picker-style choice-based answer format.

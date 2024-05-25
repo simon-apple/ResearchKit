@@ -54,6 +54,10 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
     var waitStepViewController: ORKWaitStepViewController?
     var waitStepUpdateTimer: Timer?
     var waitStepProgress: CGFloat = 0.0
+    #if RK_APPLE_INTERNAL
+    var showInternalViewControllers = false
+    #endif
+
     // MARK: Types
     
     enum TableViewCellIdentifier: String {
@@ -108,7 +112,6 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         
         // Present the task view controller that the user asked for.
         let taskListRow = TaskListRow.sections[(indexPath as NSIndexPath).section].rows[(indexPath as NSIndexPath).row]
-        
         #if RK_APPLE_INTERNAL
         if taskListRow == .studyPromoTask {
             let studyPromoViewController = StudyPromoViewController()
@@ -143,8 +146,11 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         
         // display internal tasks with ORKITaskViewController
         if indexPath.section == 5 {
+            showInternalViewControllers = true
             displayInternalTaskViewController(taskListRow: taskListRow)
             return
+        } else {
+            showInternalViewControllers = false 
         }
         
         #endif
@@ -328,7 +334,17 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
             
         }
     }
-    
+ 
+#if RK_APPLE_INTERNAL
+    func taskViewController(_ taskViewController: ORKTaskViewController, viewControllerFor step: ORKStep) -> ORKStepViewController? {
+        if showInternalViewControllers {
+            return ORKInternalClassMapper.mappedStepViewController(for: step, from: taskViewController)
+        }
+        
+        return nil 
+    }
+#endif
+
     func delay(_ delay: Double, closure: @escaping () -> Void ) {
         let delayTime = DispatchTime.now() + delay
         let dispatchWorkItem = DispatchWorkItem(block: closure)

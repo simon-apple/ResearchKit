@@ -35,6 +35,9 @@
 #import <ResearchKit/ORKStep_Private.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
 
+static NSString *const kAirPodsPrefix = @"AIRPODS";
+static NSString *const kEarPodsPrefix = @"EARPODS";
+
 @implementation ORKHeadphoneDetectStep
 
 + (NSSet<NSString *> *)dBHLTypes {
@@ -66,13 +69,25 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         ORK_DECODE_INTEGER(aDecoder, headphoneTypes);
+        ORK_DECODE_OBJ_CLASS(aDecoder, lockedToAppleHeadphoneType, NSString);
     }
     return self;
+}
+
+// we can only restrict to Apple Heaphone Types
+- (void)setLockedToAppleHeadphoneType:(ORKHeadphoneTypeIdentifier)lockedToAppleHeadphoneType {
+    if ([lockedToAppleHeadphoneType hasPrefix:kAirPodsPrefix]
+        || [lockedToAppleHeadphoneType hasPrefix:kEarPodsPrefix]) {
+        _lockedToAppleHeadphoneType = lockedToAppleHeadphoneType;
+    } else {
+        _lockedToAppleHeadphoneType = nil;
+    }
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
     ORK_ENCODE_INTEGER(aCoder, headphoneTypes);
+    ORK_ENCODE_OBJ(aCoder, lockedToAppleHeadphoneType);
 }
 
 + (BOOL)supportsSecureCoding {
@@ -82,6 +97,7 @@
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKHeadphoneDetectStep *step = [super copyWithZone:zone];
     step.headphoneTypes = self.headphoneTypes;
+    step.lockedToAppleHeadphoneType = [self.lockedToAppleHeadphoneType copy];
     return step;
 }
 
@@ -90,11 +106,12 @@
 
         __typeof(self) castObject = object;
         return (isParentSame
-                && (self.headphoneTypes == castObject.headphoneTypes));
+                && (self.headphoneTypes == castObject.headphoneTypes)
+                && ORKEqualObjects(self.lockedToAppleHeadphoneType, castObject.lockedToAppleHeadphoneType));
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ self.headphoneTypes;
+    return super.hash ^ self.headphoneTypes ^ self.lockedToAppleHeadphoneType.hash;
 }
 
 - (nullable NSSet<ORKHeadphoneChipsetIdentifier> *)supportedHeadphoneChipsetTypes {

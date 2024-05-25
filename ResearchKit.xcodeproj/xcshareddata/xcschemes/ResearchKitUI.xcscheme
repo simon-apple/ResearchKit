@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CA1C7A40288B0C68004DAB3A"
                BuildableName = "ResearchKitUI.framework"
-               BlueprintName = "ResearchKitUI (iOS)"
+               BlueprintName = "ResearchKitUI"
                ReferencedContainer = "container:ResearchKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -52,7 +52,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CA1C7A40288B0C68004DAB3A"
             BuildableName = "ResearchKitUI.framework"
-            BlueprintName = "ResearchKitUI (iOS)"
+            BlueprintName = "ResearchKitUI"
             ReferencedContainer = "container:ResearchKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

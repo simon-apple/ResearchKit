@@ -30,7 +30,10 @@
 
 
 #import <Foundation/Foundation.h>
+
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
 #import <HealthKit/HealthKit.h>
+#endif
 
 #if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKTypes.h>
@@ -274,6 +277,7 @@ requests access to these HealthKit types.
  
  See also: `requestedHealthKitTypesForWriting`.
  */
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
 @property (nonatomic, copy, readonly, nullable) NSSet<HKObjectType *> *requestedHealthKitTypesForReading;
 
 /**
@@ -286,7 +290,7 @@ requests access to these HealthKit types.
  See also: `requestedHealthKitTypesForReading`.
  */
 @property (nonatomic, copy, readonly, nullable) NSSet<HKObjectType *> *requestedHealthKitTypesForWriting;
-
+#endif
 /**
  The set of permissions requested by the task.
  

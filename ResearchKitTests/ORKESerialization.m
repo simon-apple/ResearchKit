@@ -1165,20 +1165,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
                     })),
 #if RK_APPLE_INTERNAL
-           ENTRY(ORKIOrderedTask,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                   ORKIOrderedTask *task = [[ORKIOrderedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
-                                                                                 steps:GETPROP(dict, steps)];
-                   return task;
-                 },
-                 (@{})),
-           ENTRY(ORKINavigableOrderedTask,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                   ORKINavigableOrderedTask *task = [[ORKINavigableOrderedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
-                                                                                                   steps:GETPROP(dict, steps)];
-                    return task;
-                 },
-                 (@{})),
            ENTRY(ORKIdBHLToneAudiometryResult,
                  nil,
                  (@{
@@ -1192,36 +1178,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                 (@{
                     PROPERTY(methodOfAdjustmentInteractions, ORKdBHLToneAudiometryMethodOfAdjustmentInteraction, NSArray, NO, nil, nil)
                     })),
-           ENTRY(ORKICompletionStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKICompletionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-                 },
-                 (@{})),
-           ENTRY(ORKIInstructionStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKIInstructionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-                 },
-                 (@{})),
-           ENTRY(ORKIQuestionStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKIQuestionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-                 },
-                 (@{})),
-           ENTRY(ORKISpeechInNoiseStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKISpeechInNoiseStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-                 },
-                 ((@{}))),
-           ENTRY(ORKIEnvironmentSPLMeterStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKIEnvironmentSPLMeterStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-                 },
-                 (@{})),
-           ENTRY(ORKISpeechRecognitionStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKISpeechRecognitionStep alloc] initWithIdentifier:GETPROP(dict, identifier) image:nil text:GETPROP(dict, speechRecognitionText)];
-                 },
-                 (@{})),
            ENTRY(ORKIdBHLToneAudiometryStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKIdBHLToneAudiometryStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
@@ -1691,6 +1647,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(formItems, ORKFormItem, NSArray, YES, nil, nil),
                     PROPERTY(footnote, NSString, NSObject, YES, nil, nil),
                     PROPERTY(useCardView, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(autoScrollEnabled, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(footerText, NSString, NSObject, YES, nil, nil),
                     PROPERTY(cardViewStyle, NSNumber, NSObject, YES, nil, nil),
                     })),
@@ -2065,14 +2022,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(maximumValue, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(defaultValue, NSNumber, NSObject, NO, nil, nil),
                     })),
-           ENTRY(ORKLocationAnswerFormat,
-                 ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
-                     return [[ORKLocationAnswerFormat alloc] init];
-                 },
-                 (@{
-                    PROPERTY(useCurrentLocation, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(placeholder, NSString, NSObject, YES, nil, nil)
-                    })),
            ENTRY(ORKSESAnswerFormat,
                  ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
                return [[ORKSESAnswerFormat alloc] init];
@@ -2081,12 +2030,23 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      PROPERTY(topRungText, NSString, NSObject, YES, nil, nil),
                      PROPERTY(bottomRungText, NSString, NSObject, YES, nil, nil)
                  })),
+           
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+           ENTRY(ORKLocationAnswerFormat,
+                 ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
+                     return [[ORKLocationAnswerFormat alloc] init];
+                 },
+                 (@{
+                    PROPERTY(useCurrentLocation, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(placeholder, NSString, NSObject, YES, nil, nil)
+                    })),
            ENTRY(ORKLocationRecorderConfiguration,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKLocationRecorderConfiguration alloc] initWithIdentifier:GETPROP(dict,identifier)];
                  },
                  (@{
                     })),
+#endif 
            ENTRY(ORKPedometerRecorderConfiguration,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKPedometerRecorderConfiguration alloc] initWithIdentifier:GETPROP(dict,identifier)];
@@ -2400,6 +2360,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                              ^id(id timeZone, __unused ORKESerializationContext *context) { return @([timeZone secondsFromGMT]); },
                              ^id(id number, __unused ORKESerializationContext *context) { return [NSTimeZone timeZoneForSecondsFromGMT:(NSInteger)((NSNumber *)number).doubleValue]; })
                     })),
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
            ENTRY(ORKLocation,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      CLLocationCoordinate2D coordinate = coordinateFromDictionary(dict[@ESTRINGIFY(coordinate)]);
@@ -2425,6 +2386,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  (@{
                     PROPERTY(locationAnswer, ORKLocation, NSObject, NO, nil, nil)
                     })),
+#endif
            ENTRY(ORKSESQuestionResult,
                  nil,
                  (@{
@@ -2746,16 +2708,27 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      PROPERTY(appendSteps, ORKStep, NSArray, NO, nil, nil),
                      SKIP_PROPERTY(steps, ORKStep, NSArray, NO, nil, nil)
                   })),
+           ENTRY(ORKSelectableHeadphoneDetectorPredefinedTask,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     ORKOrderedTask *task = [[ORKSelectableHeadphoneDetectorPredefinedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
+                                                                                                               steps:GETPROP(dict, steps)];
+                     return task;
+                 },
+                 (@{
+                      PROPERTY(identifier, NSString, NSObject, NO, nil, nil),
+                      PROPERTY(steps, ORKStep, NSArray, NO, nil, nil)
+                      })),
            ENTRY(ORKHeadphoneDetectStep, ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
             return [[ORKHeadphoneDetectStep alloc] initWithIdentifier:GETPROP(dict, identifier)
                                                        headphoneTypes:(NSUInteger)[GETPROP(dict, headphoneTypes) integerValue]];
         },
                  (@{
                      PROPERTY(headphoneTypes, NSNumber, NSObject, YES, nil, nil),
+                     PROPERTY(lockedToAppleHeadphoneType, NSString, NSObject, YES, nil, nil)
                  })),
            ENTRY(ORKHeadphonesRequiredCompletionStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:GETPROP(dict, identifier) requiredHeadphoneTypes:(NSUInteger)[GETPROP(dict, requiredHeadphoneTypes) integerValue]];
+               return [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:GETPROP(dict, identifier) requiredHeadphoneTypes:(NSUInteger)[GETPROP(dict, requiredHeadphoneTypes) integerValue] lockedToAppleHeadphoneType:nil];
                 },
                  (@{
                      PROPERTY(requiredHeadphoneTypes, NSNumber, NSObject, YES, nil, nil)

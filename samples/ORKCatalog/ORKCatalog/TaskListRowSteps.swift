@@ -72,6 +72,7 @@ enum TaskListRowSteps {
         return booleanQuestionFormStep
     }
     
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     static var bloodTypeExample: ORKFormStep {
         let bloodType = HKCharacteristicType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.bloodType)!
         let bloodTypeAnswerFormat = ORKHealthKitCharacteristicTypeAnswerFormat(characteristicType: bloodType)
@@ -89,6 +90,7 @@ enum TaskListRowSteps {
         
         return bloodTypeFormStep
     }
+#endif
     
     static var continuousScaleWithPercentExample: ORKFormStep {
         // The second step is a scale control that allows continuous movement with a percent formatter.
@@ -197,6 +199,55 @@ enum TaskListRowSteps {
         return emailFormStep
     }
     
+    static var groupFormExample: ORKFormStep {
+        let step = ORKFormStep(identifier: String(describing: Identifier.groupedFormStep),
+                               title: NSLocalizedString("Form Step", comment: ""),
+                               text: TaskListRowStrings.exampleDetailText)
+        
+        //Start of first section
+        let learnMoreInstructionStep01 = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
+        learnMoreInstructionStep01.title = NSLocalizedString("Learn more title", comment: "")
+        learnMoreInstructionStep01.text = NSLocalizedString("Learn more text", comment: "")
+        let learnMoreItem01 = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep01)
+        let section01 = ORKFormItem(sectionTitle: NSLocalizedString("Section title", comment: ""), detailText: NSLocalizedString("Section detail text", comment: ""), learnMoreItem: learnMoreItem01, showsProgress: true)
+        
+        // A first field, for entering an integer.
+        let formItem01Text = NSLocalizedString("Field01", comment: "")
+        let formItem01 = ORKFormItem(identifier: String(describing: Identifier.formItem01), text: formItem01Text, answerFormat: ORKAnswerFormat.integerAnswerFormat(withUnit: nil))
+        formItem01.placeholder = NSLocalizedString("Your placeholder here", comment: "")
+        
+        // A second field, for entering a time interval.
+        let formItem02Text = NSLocalizedString("Field02", comment: "")
+        let formItem02 = ORKFormItem(identifier: String(describing: Identifier.formItem02), text: formItem02Text, answerFormat: ORKTimeIntervalAnswerFormat())
+        formItem02.placeholder = NSLocalizedString("Your placeholder here", comment: "")
+        
+        let textOnlySection = ORKFormItem(sectionTitle: NSLocalizedString("Text Only Section", comment: ""), detailText: NSLocalizedString("Text section text", comment: ""), learnMoreItem: learnMoreItem01, showsProgress: true)
+        let textOnlyFormItemA = ORKFormItem(identifier: "text-section-text-item-a", text: "Text Field A", answerFormat: ORKTextAnswerFormat())
+        let textOnlyFormItemB = ORKFormItem(identifier: "text-section-text-item-b", text: "Text Field B", answerFormat: ORKTimeIntervalAnswerFormat())
+        
+        let sesAnswerFormat = ORKSESAnswerFormat(topRungText: "Best Off", bottomRungText: "Worst Off")
+        let sesFormItem = ORKFormItem(identifier: "sesIdentifier", text: "Select where you are on the socioeconomic ladder.", answerFormat: sesAnswerFormat)
+        
+        //Start of section for scale question
+        let formItem03Text = TaskListRowStrings.exampleQuestionText
+        let scaleAnswerFormat = ORKContinuousScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0.0, maximumFractionDigits: 1)//ORKScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0, step: 1)
+        let formItem03 = ORKFormItem(identifier: String(describing: Identifier.formItem03), text: formItem03Text, detailText: nil, learnMoreItem: nil, showsProgress: true, answerFormat: scaleAnswerFormat, tagText: nil, optional: true)
+        
+        step.formItems = [
+            section01,
+            formItem01,
+            formItem02,
+            textOnlySection,
+            textOnlyFormItemA,
+            textOnlyFormItemB,
+            formItem03,
+            sesFormItem
+        ]
+        
+        return step
+    }
+    
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     static var heartRateExample: ORKFormStep {
         let heartRateType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!
         let heartRateAnswerFormat = ORKHealthKitQuantityTypeAnswerFormat(quantityType: heartRateType,
@@ -215,6 +266,7 @@ enum TaskListRowSteps {
         
         return heartRateFormStep
     }
+#endif
     
     static var heightExample: ORKFormStep {
         let stepIdentifier = String(describing: Identifier.heightQuestionFormStep1)
@@ -227,6 +279,7 @@ enum TaskListRowSteps {
         return formStep
     }
     
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     static var heightHealthKitExample: ORKFormStep {
         let stepIdentifier = String(describing: Identifier.heightQuestionFormStep4)
         let heightAnswerFormat = ORKHealthKitQuantityTypeAnswerFormat(quantityType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)!, unit: HKUnit.meterUnit(with: .centi), style: .decimal)
@@ -237,6 +290,7 @@ enum TaskListRowSteps {
         
         return formStep
     }
+#endif
     
     static var heightMetricSystemExample: ORKFormStep {
         let stepIdentifier = String(describing: Identifier.heightQuestionFormStep2)
@@ -292,6 +346,7 @@ enum TaskListRowSteps {
         return imageChoiceFormStep
     }
     
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
     static var locationExample: ORKFormStep {
         let locationAnswerFormat = ORKLocationAnswerFormat()
         let locationFormItem = ORKFormItem(identifier: String(describing: Identifier.locationQuestionFormItem),
@@ -305,6 +360,7 @@ enum TaskListRowSteps {
         
         return locationFormStep
     }
+#endif
     
     static var textAnswerExample: ORKFormStep {
         let textAnswerFormat = ORKTextAnswerFormat()
@@ -526,6 +582,7 @@ enum TaskListRowSteps {
         return formStep
     }
     
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     static var weightHealthKitBodyMassExample: ORKFormStep {
         let stepIdentifier = String(describing: Identifier.weightQuestionFormStep7)
         let weightAnswerFormat = ORKHealthKitQuantityTypeAnswerFormat(quantityType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMass)!, unit: HKUnit.gramUnit(with: .kilo), style: .decimal)
@@ -536,6 +593,7 @@ enum TaskListRowSteps {
         
         return formStep
     }
+#endif
     
     static var weightMetricSystemExample: ORKFormStep {
         let stepIdentifier = String(describing: Identifier.weightQuestionFormStep2)
@@ -612,25 +670,33 @@ enum TaskListRowSteps {
                                                     detailText: nil,
                                                     image: UIImage(systemName: "heart.fill"),
                                                     learnMoreItem: nil,
-                                                    bodyItemStyle: .image)
+                                                    bodyItemStyle: .image,
+                                                    useCardStyle: false,
+                                                    alignImageToTop: true)
         
         let completingTasksBodyItem = ORKBodyItem(text: "You will be asked to complete various tasks over the duration of the study.",
                                                   detailText: nil,
                                                   image: UIImage(systemName: "checkmark.circle.fill"),
                                                   learnMoreItem: nil,
-                                                  bodyItemStyle: .image)
+                                                  bodyItemStyle: .image,
+                                                  useCardStyle: false,
+                                                  alignImageToTop: true)
         
         let signatureBodyItem = ORKBodyItem(text: "Before joining, we will ask you to sign an informed consent document.",
                                             detailText: nil,
                                             image: UIImage(systemName: "signature"),
                                             learnMoreItem: nil,
-                                            bodyItemStyle: .image)
+                                            bodyItemStyle: .image,
+                                            useCardStyle: false,
+                                            alignImageToTop: true)
         
         let secureDataBodyItem = ORKBodyItem(text: "Your data is kept private and secure.",
                                              detailText: nil,
                                              image: UIImage(systemName: "lock.fill"),
                                              learnMoreItem: nil,
-                                             bodyItemStyle: .image)
+                                             bodyItemStyle: .image,
+                                             useCardStyle: false,
+                                             alignImageToTop: true)
         
         instructionStep.bodyItems = [
             sharingHealthDataBodyItem,
@@ -671,6 +737,8 @@ enum TaskListRowSteps {
         return webViewStep
     }
     
+
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     static var requestPermissionsStepExample: ORKRequestPermissionsStep {
         let healthKitTypesToWrite: Set<HKSampleType> = [
             HKObjectType.quantityType(forIdentifier: .bodyMassIndex)!,
@@ -690,6 +758,7 @@ enum TaskListRowSteps {
         
         return requestPermissionsStep
     }
+#endif
     
     static var consentCompletionStepExample: ORKCompletionStep {
         let completionStep = ORKCompletionStep(identifier: "completionId")

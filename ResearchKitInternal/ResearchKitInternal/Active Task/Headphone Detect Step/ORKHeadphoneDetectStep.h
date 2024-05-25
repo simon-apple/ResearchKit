@@ -55,6 +55,9 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic, assign) ORKHeadphoneTypes headphoneTypes;
 
+/// If this property is set, the HeadphoneDetectViewController will restrict the recognition to the specified type.
+@property (nonatomic, copy, nullable) ORKHeadphoneTypeIdentifier lockedToAppleHeadphoneType;
+
 - (instancetype)initWithIdentifier:(NSString *)identifier headphoneTypes:(ORKHeadphoneTypes)headphoneTypes;
 
 + (NSSet<ORKHeadphoneChipsetIdentifier> *)dBHLTypes;

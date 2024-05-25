@@ -41,13 +41,6 @@
 
 @end
 
-@implementation ORKIEnvironmentSPLMeterStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKIEnvironmentSPLMeterStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
 
 @implementation ORKdBHLToneAudiometryMethodOfAdjustmentStep (ViewControllerProviding)
 
@@ -65,6 +58,7 @@
 
 @end
 
+#if ORK_FEATURE_BLE_SCAN_PERIPHERALS
 @implementation ORKBLEScanPeripheralsStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
@@ -72,6 +66,7 @@
 }
 
 @end
+#endif
 
 @implementation ORKFaceDetectionStep (ViewControllerProviding)
 
@@ -145,37 +140,7 @@
 
 @end
 
-@implementation ORKISpeechInNoiseStep (ViewControllerProviding)
 
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKISpeechInNoiseStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
-
-@implementation ORKISpeechRecognitionStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKISpeechRecognitionStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
-
-@implementation ORKIInstructionStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKIInstructionStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
-
-@implementation ORKICompletionStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKICompletionStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
 
 @implementation ORKSensitiveURLLearnMoreInstructionStep (ViewControllerProviding)
 
@@ -193,10 +158,3 @@
 
 @end
 
-@implementation ORKIQuestionStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKIQuestionStepViewController alloc] initWithStep:self result:result];
-}
-
-@end

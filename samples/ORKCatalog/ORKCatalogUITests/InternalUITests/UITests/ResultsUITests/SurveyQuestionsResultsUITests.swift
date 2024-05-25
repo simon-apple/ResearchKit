@@ -31,6 +31,7 @@
 import Foundation
 import XCTest
 import ORKCatalog
+import CoreLocation
 
 final class SurveyQuestionsResultsUITests: BaseUITest {
     
@@ -59,15 +60,15 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.booleanQuestion.description)
         
-        let questionStep = FormStepScreen(id: String(describing: Identifier.booleanFormStep), itemIds: [String(describing: Identifier.booleanFormItem)], answer: answerCellIndex)
+        let questionStep = FormStepScreen(id: String(describing: Identifier.booleanFormStep), itemIds: [String(describing: Identifier.booleanFormItem)])
         
-        if answerCellIndex == nil {
+        if let answerCellIndex = answerCellIndex {
             questionStep
-                .tap(.skipButton)
+                .answerBooleanQuestion(withId: questionStep.itemIds[0], atIndex: answerCellIndex)
+                .tap(.continueButton)
         } else {
             questionStep
-                .answerBooleanQuestion(withId: questionStep.itemIds[0], atIndex: questionStep.answer as! Int)
-                .tap(.continueButton)
+                .tap(.skipButton)
         }
         
         let resultsTab = tabBar.navigateToResults()
@@ -95,11 +96,11 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.customBooleanQuestion.description)
         
-        let formStep = FormStepScreen(id: String(describing: Identifier.booleanFormStep), itemIds: [String(describing: Identifier.booleanFormItem)], answer: answerCellIndex)
+        let formStep = FormStepScreen(id: String(describing: Identifier.booleanFormStep), itemIds: [String(describing: Identifier.booleanFormItem)])
         
-        if answerCellIndex != nil {
+        if let answerCellIndex = answerCellIndex {
             formStep
-                .answerSingleChoiceTextQuestion(withId: formStep.itemIds[0], atIndex: formStep.answer as! Int)
+                .answerSingleChoiceTextQuestion(withId: formStep.itemIds[0], atIndex: answerCellIndex)
                 .tap(.continueButton)
         } else {
             formStep
@@ -136,17 +137,16 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
         
         tasksList.selectTaskByName(Task.textChoiceQuestion.description)
         
-        let formStep1 = FormStepScreen(id: String(describing: Identifier.formStep), itemIds: [String(describing: Identifier.formItem01)], answer: singleChoiceAnswerIndex)
-        let formStep2 = FormStepScreen(id: String(describing: Identifier.formStep02), itemIds: [String(describing: Identifier.formItem02)], answer: multiChoiceAnswerIndex)
+        let formStep1 = FormStepScreen(id: String(describing: Identifier.formStep), itemIds: [String(describing: Identifier.formItem01)])
+        let formStep2 = FormStepScreen(id: String(describing: Identifier.formStep02), itemIds: [String(describing: Identifier.formItem02)])
         
         // Answer question in form step 1
-        if singleChoiceAnswerIndex != nil {
-            let formStep1Answer = formStep1.answer as! Int
+        if let singleChoiceAnswerIndex = singleChoiceAnswerIndex {
             formStep1
                 .answerSingleChoiceTextQuestion(withId: formStep1.itemIds[0], atIndex: 0) /// Adding extra check for single choice question: selecting first index before next one
-                .answerSingleChoiceTextQuestion(withId: formStep1.itemIds[0], atIndex: formStep1Answer)
-            if inputText != nil {
-                formStep1.answerTextChoiceOtherQuestion(withId: formStep1.itemIds[0], atIndex: formStep1Answer, text: inputText!)
+                .answerSingleChoiceTextQuestion(withId: formStep1.itemIds[0], atIndex: singleChoiceAnswerIndex)
+            if let inputText = inputText {
+                formStep1.answerTextChoiceOtherQuestion(withId: formStep1.itemIds[0], atIndex: singleChoiceAnswerIndex, text: inputText)
             }
             formStep1.tap(.continueButton)
         } else {
@@ -154,12 +154,11 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
         }
         
         // Answer question in form step 2
-        if multiChoiceAnswerIndex != nil {
-            let formStep2Answer = formStep2.answer as! [Int]
+        if let multiChoiceAnswerIndex = multiChoiceAnswerIndex {
             formStep2
-                .answerMultipleChoiceTextQuestion(withId: formStep2.itemIds[0], indices: formStep2Answer)
-            if inputText != nil {
-                formStep2.answerTextChoiceOtherQuestion(withId: formStep2.itemIds[0], atIndex: formStep2Answer[0], text: inputText!)
+                .answerMultipleChoiceTextQuestion(withId: formStep2.itemIds[0], indices: multiChoiceAnswerIndex)
+            if let inputText = inputText {
+                formStep2.answerTextChoiceOtherQuestion(withId: formStep2.itemIds[0], atIndex: multiChoiceAnswerIndex[0], text: inputText)
             }
             formStep2.tap(.continueButton)
         } else {
@@ -209,12 +208,12 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
     func answerAndVerifyImageQuestion(answerCellIndex: Int?, expectedValue: String) {
         tasksList.selectTaskByName(Task.textChoiceQuestionWithImageTask.description)
         
-        let formStep = FormStepScreen(id: String(describing: Identifier.textChoiceFormStep), itemIds: [String(describing: Identifier.textChoiceFormItem)], answer: answerCellIndex)
+        let formStep = FormStepScreen(id: String(describing: Identifier.textChoiceFormStep), itemIds: [String(describing: Identifier.textChoiceFormItem)])
         
-        if answerCellIndex != nil {
+        if let answerCellIndex = answerCellIndex {
             formStep
                 .verifyStepView()
-                .answerSingleChoiceTextQuestion(withId: formStep.itemIds[0], atIndex: formStep.answer as! Int)
+                .answerSingleChoiceTextQuestion(withId: formStep.itemIds[0], atIndex: answerCellIndex)
                 .tap(.continueButton)
         } else {
             formStep.tap(.skipButton)
@@ -243,19 +242,19 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
         let formStep1 = FormStepScreen(id: String(describing: Identifier.imageChoiceFormStep1), itemIds: [String(describing: Identifier.imageChoiceFormItem)])
         let formStep2 = FormStepScreen(id: String(describing: Identifier.imageChoiceFormStep2), itemIds: [String(describing: Identifier.imageChoiceFormItem)])
         
-        if singleChoiceAnswerIndex != nil {
+        if let singleChoiceAnswerIndex = singleChoiceAnswerIndex {
             formStep1
                 .verifyStepView()
                 .answerImageChoiceQuestion(withId: formStep1.itemIds[0], imageIndex: 0)
-                .answerImageChoiceQuestion(withId: formStep1.itemIds[0], imageIndex: singleChoiceAnswerIndex!)
+                .answerImageChoiceQuestion(withId: formStep1.itemIds[0], imageIndex: singleChoiceAnswerIndex)
                 .tap(.continueButton)
         } else {
             formStep1.tap(.skipButton)
         }
         
-        if multiChoiceAnswerIndex != nil {
+        if let multiChoiceAnswerIndex = multiChoiceAnswerIndex {
             formStep2.verifyStepView()
-            for index in multiChoiceAnswerIndex! {
+            for index in multiChoiceAnswerIndex {
                 formStep2.answerImageChoiceQuestion(withId: formStep2.itemIds[0], imageIndex: index)
             }
             formStep2.tap(.continueButton)
@@ -285,5 +284,245 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
     
     func testImageChoiceQuestionSkipResult() {
         answerAndVerifyImageChoiceQuestionTask(singleChoiceAnswerIndex: nil, multiChoiceAnswerIndex: nil, singleChoiceExpectedValue: "nil", multiChoiceExpectedValue: "nil")
+    }
+    
+    // MARK: - Text Question
+    
+    func answerAndVerifyTextQuestionTask(textAnswer: String?, expectedValue: String) {
+        tasksList.selectTaskByName(Task.textQuestion.description)
+        
+        let formStep = FormStepScreen(id: String(describing: Identifier.textQuestionFormStep), itemIds: [String(describing: Identifier.textQuestionFormItem)])
+        
+        if let textAnswer = textAnswer {
+            formStep
+                .answerTextQuestionTextView(withId: formStep.itemIds[0], text: textAnswer)
+                .tap(.continueButton)
+        } else {
+            formStep.tap(.skipButton)
+        }
+        
+        let resultsTab = tabBar.navigateToResults()
+        resultsTab
+            .selectResultsCell(withId: formStep.id)
+            .selectResultsCell(withId: formStep.itemIds[0])
+            .verifyResultsCellValue(resultType: .textAnswer, expectedValue: expectedValue)
+    }
+    
+    func testTextQuestionResult() {
+        let inputText = Answers.loremIpsumMediumText
+        answerAndVerifyTextQuestionTask(textAnswer: inputText, expectedValue: inputText)
+    }
+    
+    func testTextQuestionSkipResult() {
+        answerAndVerifyTextQuestionTask(textAnswer: nil, expectedValue: "nil")
+    }
+    
+    // MARK: - Numeric Question
+    
+    func answerAndVerifyNumericQuestionTask(answer: Double?, expectedValue: String) {
+        tasksList.selectTaskByName(Task.numericQuestion.description)
+        
+        let formItemId = String(describing: Identifier.numericFormItem)
+        let formStep1 = FormStepScreen(id: String(describing: Identifier.numericQuestionFormStep), itemIds: [formItemId])
+        let formStep2 = FormStepScreen(id: String(describing: Identifier.numericNoUnitQuestionFormStep), itemIds: [formItemId])
+        let formStep3 = FormStepScreen(id:  String(describing: Identifier.numericDisplayUnitQuestionFormStep), itemIds: [formItemId])
+        
+        if let answer = answer {
+            formStep1
+                .selectFormItemCell(withID: formItemId)
+                .answerNumericQuestion(number: answer, dismissKeyboard: true)
+                .tap(.continueButton)
+            
+            formStep2
+                .selectFormItemCell(withID: formItemId)
+                .answerNumericQuestion(number: answer, dismissKeyboard: true)
+                .tap(.continueButton)
+            
+            formStep3
+                .selectFormItemCell(withID: formItemId)
+                .answerNumericQuestion(number: answer, dismissKeyboard: true)
+                .tap(.continueButton)
+            
+        } else {
+            formStep1
+                .selectFormItemCell(withID: formItemId) /// Adding extra check:  verify that the answer is not saved after it is entered and then skipped it
+                .answerNumericQuestion(number: Double(1), dismissKeyboard: true)
+                .tap(.skipButton)
+            formStep2.tap(.skipButton)
+            formStep3.tap(.skipButton)
+        }
+        
+        let resultsTab = tabBar.navigateToResults()
+        resultsTab
+            .selectResultsCell(withId: formStep1.id)
+            .selectResultsCell(withId: formStep1.itemIds[0])
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: expectedValue)
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "Your unit")
+            .verifyResultsCellValue(resultType: .displayUnit, expectedValue: "Your unit")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+            .selectResultsCell(withId: formStep2.id)
+            .selectResultsCell(withId: formStep2.itemIds[0])
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: expectedValue)
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "nil")
+            .verifyResultsCellValue(resultType: .displayUnit, expectedValue: "nil")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+            .selectResultsCell(withId: formStep3.id)
+            .selectResultsCell(withId: formStep3.itemIds[0])
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: expectedValue)
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "weeks")
+            .verifyResultsCellValue(resultType: .displayUnit, expectedValue: "semanas")
+    }
+    
+    func testNumericQuestionResults() {
+        let numericAnswer = 123.1
+        answerAndVerifyNumericQuestionTask(answer: numericAnswer, expectedValue: String(numericAnswer))
+    }
+    
+    func testNumericQuestionSkipResults() {
+        answerAndVerifyNumericQuestionTask(answer: nil, expectedValue: "nil")
+    }
+    
+    // MARK: - Value Picker Question
+    
+    func answerAndVerifyValuePickerQuestion(answer: String?, expectedValue: String) {
+        tasksList.selectTaskByName(Task.valuePickerChoiceQuestion.description)
+        
+        let formStep = FormStepScreen(id: String(describing: Identifier.valuePickerChoiceFormStep), itemIds: [String(describing: Identifier.valuePickerChoiceFormItem)])
+        
+        /// This issue required extra button tap to dismiss picker to continue rdar://111132091 ([Modularization] [ORKCatalog] Date Picker won't display on the question card)
+        let shouldUseUIPickerWorkaround = true
+        
+        if let answer = answer {
+            var dismissPicker = false
+            if shouldUseUIPickerWorkaround {
+                formStep.selectFormItemCell(withID: formStep.itemIds[0])
+                dismissPicker = true
+            }
+            formStep
+                .answerPickerValueChoiceQuestion(value: answer, dismissPicker: dismissPicker)
+                .tap(.continueButton)
+        } else {
+            formStep.tap(.skipButton)
+        }
+        
+        let resultsTab = tabBar.navigateToResults()
+        resultsTab
+            .selectResultsCell(withId: formStep.id)
+            .selectResultsCell(withId: formStep.itemIds[0])
+            .verifyResultsCellValue(resultType: .choices, expectedValue: expectedValue)
+    }
+    
+    func testValuePickerChoiceQuestionMinResult() {
+        let choiceIndex = 0
+        answerAndVerifyValuePickerQuestion(answer: textChoices[choiceIndex].text, expectedValue: textChoices[choiceIndex].value)
+    }
+    
+    func testValuePickerChoiceQuestionMaxResult() {
+        let choiceIndex = 4
+        answerAndVerifyValuePickerQuestion(answer: textChoices[choiceIndex].text, expectedValue: textChoices[choiceIndex].value)
+    }
+    
+    func testValuePickerChoiceQuestionSkipResult() {
+        answerAndVerifyValuePickerQuestion(answer: nil, expectedValue: "nil")
+    }
+    
+    // MARK: - Location Question
+    
+    func answerAndVerifyLocationQuestionTask(locationAnswer: (locationString: String, latitude: Double, longitude: Double)?, expectedValue: (locationString: String, latitude: String, longitude: String)) {
+        
+        tasksList.selectTaskByName(Task.locationQuestion.description)
+        
+        let formStep = FormStepScreen(id: String(describing: Identifier.locationQuestionFormStep))
+        let formItemId = String(describing: Identifier.locationQuestionFormItem)
+        
+        if let location = locationAnswer {
+            formStep
+                .tap(.title) /// Required for automatic detection and handling the location alert: see Helpers().monitorAlerts() method
+                .verifyCellTextFieldValue(withId: formItemId, expectedValue: location.locationString)
+                .tap(.continueButton)
+        } else {
+            formStep
+                .tap(.skipButton)
+        }
+        
+        let resultsTab = tabBar.navigateToResults()
+        resultsTab
+            .selectResultsCell(withId: formStep.id)
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .latitude, expectedValue: expectedValue.latitude)
+            .verifyResultsCellValue(resultType: .longitude, expectedValue: expectedValue.longitude)
+            .verifyResultsCellValue(resultType: .address, expectedValue: expectedValue.locationString)
+    }
+    
+    func testLocationQuestionResult() {
+        let simulatedLocation = (locationString: "Geary St San Francisco CA 94102 United States", latitude: 37.787354, longitude: -122.408243)
+        let simulatedLocationResultString = "Geary St\nSan Francisco CA 94102\nUnited States"
+        
+        /// https://developer.apple.com/documentation/xcode/simulating-location-in-tests
+        if #available(iOS 16.4, *) {
+            XCUIDevice.shared.location = XCUILocation(location: CLLocation(latitude: simulatedLocation.latitude, longitude: simulatedLocation.longitude))
+        }
+        
+        answerAndVerifyLocationQuestionTask(locationAnswer: (locationString: simulatedLocation.locationString, latitude: simulatedLocation.latitude, longitude: simulatedLocation.longitude), expectedValue: (locationString: simulatedLocationResultString, latitude: "\(simulatedLocation.latitude)", longitude: "\(simulatedLocation.longitude)"))
+    }
+    
+    func testLocationQuestionSkipResult() throws {
+        try XCTSkipIf(true, "Skipping this test for now due to crash after skipping question (126589758)") /// rdar://126589758 ([ORKCatalog] App crash when viewing location question result in Results tab after skipping question)
+        
+        answerAndVerifyLocationQuestionTask(locationAnswer: nil, expectedValue: (locationString: "nil", latitude: "nil", longitude: "nil"))
+    }
+    
+    // MARK: - Validated Text Question
+    
+    func answerAndVerifyValidatedTextQuestionTask(emailAnswer: String?, domainAnswer: String?, expectedEmail: String, expectedDomain: String) {
+        tasksList.selectTaskByName(Task.validatedTextQuestion.description)
+        
+        let formItemId = String(describing: Identifier.validatedTextFormItem)
+        // Email Step
+        let formStep1 = FormStepScreen(id: String(describing: Identifier.validatedTextFormStepEmail), itemIds: [formItemId])
+        // URL Step
+        let formStep2 = FormStepScreen(id: String(describing: Identifier.validatedTextFormStepDomain), itemIds: [formItemId])
+        
+        if let email = emailAnswer, let domain = domainAnswer {
+            formStep1
+                .selectFormItemCell(withID: formStep1.itemIds[0])
+                .typeEmail(email: email)
+                .tap(.continueButton)
+            
+            formStep2
+                .selectFormItemCell(withID: formStep2.itemIds[0])
+                .answerTextQuestion(text: domain, dismissKeyboard: true)
+                .tap(.continueButton)
+        } else {
+            formStep1
+                .tap(.skipButton)
+                .tap(.skipButton)
+        }
+        
+        let resultsTab = tabBar.navigateToResults()
+        resultsTab
+            .selectResultsCell(withId: formStep1.id)
+            .selectResultsCell(withId: formStep1.itemIds[0])
+            .verifyResultsCellValue(resultType: .textAnswer, expectedValue: expectedEmail)
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+            .selectResultsCell(withId: formStep2.id)
+            .selectResultsCell(withId: formStep2.itemIds[0])
+            .verifyResultsCellValue(resultType: .textAnswer, expectedValue: expectedDomain)
+    }
+    
+    func testValidatedTextQuestionResult() {
+        let email = Answers.exampleEmailCapitalized
+        let url = Answers.exampleDomainName
+        answerAndVerifyValidatedTextQuestionTask(emailAnswer: email, domainAnswer: url, expectedEmail: email, expectedDomain: url)
+    }
+    
+    func testValidatedTextQuestionSkipResult() {
+        answerAndVerifyValidatedTextQuestionTask(emailAnswer: nil, domainAnswer: nil, expectedEmail: "nil", expectedDomain: "nil")
     }
 }

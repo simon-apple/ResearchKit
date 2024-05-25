@@ -44,8 +44,10 @@
 #import "ResearchKit/ResearchKit-Swift.h"
 #endif
 
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
+#import <HealthKit/HealthKit.h>
+#endif
 
-@import HealthKit;
 @import MapKit;
 @import Contacts;
 
@@ -99,6 +101,7 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     NSMutableDictionary *_unitsTable;
 }
 
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
 @synthesize healthStore=_healthStore;
 
 + (instancetype)sourceWithHealthStore:(HKHealthStore *)healthStore {
@@ -207,8 +210,10 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
         [healthStore executeQuery:sampleQuery];
     });
 }
+#endif // ORK_FEATURE_HEALTHKIT_AUTHORIZATION
 
 - (void)fetchDefaultValueForAnswerFormat:(ORKAnswerFormat *)answerFormat handler:(void(^)(id defaultValue, NSError *error))handler {
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     HKObjectType *objectType = [answerFormat healthKitObjectType];
     BOOL handled = NO;
     if (objectType) {
@@ -229,8 +234,12 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     if (!handled) {
         handler(nil, nil);
     }
+#else
+    handler(nil, nil);
+#endif
 }
 
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
 - (HKUnit *)defaultHealthKitUnitForAnswerFormat:(ORKAnswerFormat *)answerFormat {
     __block HKUnit *unit = [answerFormat healthKitUnit];
     HKObjectType *objectType = [answerFormat healthKitObjectType];
@@ -272,10 +281,11 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
         [answerFormat setHealthKitUserUnit:healthKitDefault];
     }
 }
+#endif // ORK_FEATURE_HEALTHKIT_AUTHORIZATION
 
 @end
 
-#endif
+#endif // TARGET_OS_IOS
 
 #pragma mark - ORKAnswerFormat
 
@@ -481,9 +491,11 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
                                                        defaultValue:defaultValue];
 }
 
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 + (ORKLocationAnswerFormat *)locationAnswerFormat {
     return [ORKLocationAnswerFormat new];
 }
+#endif
 
 + (ORKSESAnswerFormat *)socioEconomicAnswerFormatWithTopRungText:(NSString *)topRungText
                                                                       bottomRungText:(NSString *)bottomRungText {
@@ -567,6 +579,7 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return NO;
 }
 
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
 - (HKObjectType *)healthKitObjectType {
     return nil;
 }
@@ -586,6 +599,7 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
 - (void)setHealthKitUserUnit:(HKUnit *)unit {
     
 }
+#endif
 
 - (ORKQuestionType)questionType {
     return ORKQuestionTypeNone;
@@ -1114,6 +1128,17 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 - (NSArray *)choices {
     return self.textChoices;
+}
+
+- (BOOL)isAnswerInvalid:(id)answer {
+    @try
+    {
+        [_helper selectedIndexesForAnswer: answer];
+        return NO;
+    } @catch(id anException) {
+        ORK_Log_Error("%@ exception thrown for isAnswerInvalid: for answer:%@", anException, answer);
+        return YES;
+    }
 }
 
 @end
@@ -4061,6 +4086,7 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
 @end
 // end-omit-internal-code
 
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 #pragma mark - ORKLocationAnswerFormat
 @implementation ORKLocationAnswerFormat
 
@@ -4131,6 +4157,7 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
 }
 
 @end
+#endif
 
 #pragma mark ORKSESAnswerFormat
 

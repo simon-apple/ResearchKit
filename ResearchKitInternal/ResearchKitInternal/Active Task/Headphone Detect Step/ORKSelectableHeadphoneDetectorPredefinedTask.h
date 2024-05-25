@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2023, Apple Inc. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,21 +27,15 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+// apple-internal
 
+#import <Foundation/Foundation.h>
+#import <ResearchKit/ORKNavigableOrderedTask.h>
 
-#import "ORKICompletionStep.h"
+NS_ASSUME_NONNULL_BEGIN
 
-
-@implementation ORKICompletionStep
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKICompletionStep *step = [super copyWithZone:zone];
-    return step;
-}
+@interface ORKSelectableHeadphoneDetectorPredefinedTask : ORKNavigableOrderedTask
 
 @end
 
+NS_ASSUME_NONNULL_END
