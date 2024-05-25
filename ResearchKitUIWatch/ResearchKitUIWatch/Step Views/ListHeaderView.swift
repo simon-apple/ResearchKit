@@ -10,7 +10,7 @@ import SwiftUI
 // TODO(x-plat): Add documentation.
 struct ListHeaderView: View {
     
-    @State
+    @ObservedObject
     private var viewModel: FormStepViewModel
     
     init(viewModel: FormStepViewModel) {
