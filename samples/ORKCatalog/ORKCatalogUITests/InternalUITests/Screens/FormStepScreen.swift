@@ -988,6 +988,7 @@ final class FormStepScreen: Step {
     
     // MARK: - Scale Answer Format
     
+    // Note: The slider can't be added into another section so its form step index is always 0 (no index argument in getFormItemCell method)
     // As per apple documentation: The adjustment is a “best effort” to move the indicator to the desired position; absolute fidelity is not guaranteed. https://developer.apple.com/documentation/xctest/xcuielement/1501022-adjust
     
     static var firstSlider = app.sliders.firstMatch
@@ -1003,11 +1004,10 @@ final class FormStepScreen: Step {
     /**
      Handles ORKContinuousScaleAnswerFormat
      - parameter formItemId: The string that identifies the form item, which should be unique within the form step
-     - parameter index: form item cell index. Usually form item cell index is 0 unless it's from item within a section
      */
     @discardableResult
-    func adjustQuestionSlider(withId formItemId: String, atIndex index: Int = 0, withNormalizedPosition: CGFloat) -> Self {
-        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+    func adjustQuestionSlider(withId formItemId: String, withNormalizedPosition: CGFloat) -> Self {
+        let cell = getFormItemCell(withId: formItemId)
         if !cell.visible {
             cell.scrollUntilVisible()
         }
@@ -1041,38 +1041,61 @@ final class FormStepScreen: Step {
     /**
      Adjusts slider and verifies slider result value. Handles  ORKAnswerFormat scale
      - parameter formItemId: The string that identifies the form item, which should be unique within the form step
-     - parameter index: form item cell index. Usually form item cell index is 0 unless it's from item within a section
      - parameter sliderValue: value that move slider to
      - parameter stepValue: slider step
      */
     @discardableResult
-    func answerScaleQuestion(withId formItemId: String, atIndex index: Int = 0, sliderValue: Double, stepValue: Double, minValue: Double, maxValue: Double) -> Self {
+    func answerScaleQuestion(withId formItemId: String, sliderValue: Double, stepValue: Double, minValue: Double, maxValue: Double) -> Self {
         
-        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+        let cell = getFormItemCell(withId: formItemId)
         let slider = cell.sliders.firstMatch
         wait(for: slider)
         let normalizedValue = normalizeSliderValue(sliderValue: sliderValue, stepValue: stepValue, minValue: minValue, maxValue :maxValue)
         UITestLogger.logDebugMessage("Normalized value: \(normalizedValue)")
         
         slider.adjust(toNormalizedSliderPosition: normalizedValue)
-        let actualSliderValue = slider.value as? String ?? ""
-        let actualSliderValueDouble = Double(actualSliderValue) ?? 0
+        var actualSliderValue = slider.value as? String ?? ""
+        var actualSliderValueDouble = Double(actualSliderValue) ?? 0
+        
+        var retry = 0
+        while actualSliderValueDouble != sliderValue && retry < 5 {
+            if retry > 0 { sleep(1) }
+            slider.adjust(toNormalizedSliderPosition: normalizedValue)
+            actualSliderValue = slider.value as? String ?? ""
+            actualSliderValueDouble = Double(actualSliderValue) ?? 0
+            retry += 1
+        }
         
         XCTAssertEqual(actualSliderValueDouble, sliderValue)
         return self
     }
     
+    /**
+     Adjusts slider and verifies slider result value. Handles  ORKAnswerFormat scale
+     - parameter formItemId: The string that identifies the form item, which should be unique within the form step
+     - parameter sliderValue: value that move slider to
+     - parameter stepValue: slider step
+     - parameter expectedSliderValue: text value that is displayed in UI
+     */
     @discardableResult
-    func answerTextScaleQuestion(withId formItemId: String, atIndex index: Int = 0, sliderValue: Double, expectedSliderValue: String, stepValue: Double, minValue: Double, maxValue: Double) -> Self {
+    func answerTextScaleQuestion(withId formItemId: String, sliderValue: Double, expectedSliderValue: String, stepValue: Double, minValue: Double, maxValue: Double) -> Self {
         
-        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+        let cell = getFormItemCell(withId: formItemId)
         let slider = cell.sliders.firstMatch
         wait(for: slider)
-        let normalizedValue = normalizeSliderValue(sliderValue: sliderValue, stepValue: stepValue, minValue: minValue, maxValue :maxValue)
+        let normalizedValue = normalizeSliderValue(sliderValue: sliderValue, stepValue: stepValue, minValue: minValue, maxValue: maxValue)
         UITestLogger.logDebugMessage("Normalized value: \(normalizedValue)")
         
         slider.adjust(toNormalizedSliderPosition: normalizedValue)
-        let actualSliderValue = slider.value as? String ?? ""
+        var actualSliderValue = slider.value as? String ?? ""
+        
+        var retry = 0
+        while actualSliderValue != expectedSliderValue && retry < 5 {
+            if retry > 0 { sleep(1) }
+            slider.adjust(toNormalizedSliderPosition: normalizedValue)
+            actualSliderValue = slider.value as? String ?? ""
+            retry += 1
+        }
         
         XCTAssertEqual(actualSliderValue, expectedSliderValue)
         return self
@@ -1080,8 +1103,9 @@ final class FormStepScreen: Step {
     
     /// ORKAnswerFormat continuousScale numberStyle = .percent
     @discardableResult
-    func answerScaleQuestionPercentStyle(withId formItemId: String, atIndex index: Int = 0, sliderValue: Int, stepValue: Double, minValue: Double, maxValue: Double) -> Self {
-        let formItemCell = getFormItemCell(withId: formItemId, atIndex: index)
+    func answerScaleQuestionPercentStyle(withId formItemId: String, sliderValue: Int, stepValue: Double, minValue: Double, maxValue: Double) -> Self {
+        
+        let formItemCell = getFormItemCell(withId: formItemId)
         let slider = formItemCell .sliders.firstMatch
         wait(for: slider)
         let normalizedValue = (Double(sliderValue) - minValue)/(maxValue - minValue)
@@ -1102,8 +1126,9 @@ final class FormStepScreen: Step {
     
     /// Vertical sliders don't work with XCUITest slider method (adjust(toNormalizedSliderPosition), so we have to use workaround with coords
     @discardableResult
-    func answerVerticalScaleQuestion(withId formItemId: String, atIndex index: Int = 0, expectedSliderValue: Double, dx: Double, dy: Double) -> Self {
-        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+    func answerVerticalScaleQuestion(withId formItemId: String, expectedSliderValue: Double, dx: Double, dy: Double) -> Self {
+        
+        let cell = getFormItemCell(withId: formItemId)
         let slider = cell.sliders.firstMatch
         wait(for: slider)
         let sliderCoordinate = slider.coordinate(withNormalizedOffset: CGVector(dx: dx, dy: dy))
@@ -1113,7 +1138,7 @@ final class FormStepScreen: Step {
         // As per apple documentation: The adjustment is a “best effort” to move the indicator to the desired position; absolute fidelity is not guaranteed. https://developer.apple.com/documentation/xctest/xcuielement/1501022-adjust
         // So we need to call slider adjustment method several times in order to set slider to desired position:
         var retry = 0
-        while  actualSliderValueDouble != expectedSliderValue && retry < 5 {
+        while actualSliderValueDouble != expectedSliderValue && retry < 5 {
             if retry > 0 { sleep(1) }
             sliderCoordinate.press(forDuration: 0.1)
             actualSliderValue = slider.value as? String ?? ""
@@ -1127,8 +1152,10 @@ final class FormStepScreen: Step {
     
     /// Adjusts slider to the end. Expected value of slider is Double
     /// Start and end positions won't work properly so we need separate workaround for those
-    func adjustVerticalSliderToEndPosition(withId formItemId: String, atIndex index: Int = 0, expectedValue: Double) -> Self {
-        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+    @discardableResult
+    func adjustVerticalSliderToEndPosition(withId formItemId: String, expectedValue: Double) -> Self {
+        
+        let cell = getFormItemCell(withId: formItemId)
         let slider = cell.sliders.firstMatch
         wait(for: slider)
         
@@ -1139,7 +1166,7 @@ final class FormStepScreen: Step {
         var actualSliderValueDouble = Double(actualSliderValue) ?? 0
         
         var retry = 0
-        while  actualSliderValueDouble != expectedValue && retry < 5 {
+        while actualSliderValueDouble != expectedValue && retry < 5 {
             if retry > 0 { sleep(1) }
             sliderCenter.press(forDuration: 0.1, thenDragTo: sliderEnd, withVelocity: .slow, thenHoldForDuration: 0.1)
             actualSliderValue = slider.value as? String ?? ""
@@ -1153,8 +1180,10 @@ final class FormStepScreen: Step {
     }
     
     /// Adjusts slider to the end. Expected value of slider is String
-    func adjustVerticalSliderToEndPosition(withId formItemId: String, atIndex index: Int = 0, expectedValue: String) -> Self {
-        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+    @discardableResult
+    func adjustVerticalSliderToEndPosition(withId formItemId: String, expectedValue: String) -> Self {
+        
+        let cell = getFormItemCell(withId: formItemId)
         let slider = cell.sliders.firstMatch
         wait(for: slider)
         
@@ -1175,9 +1204,64 @@ final class FormStepScreen: Step {
         return self
     }
     
+    /// Vertical sliders don't work with XCUITest slider method (adjust(toNormalizedSliderPosition), so we have to use workaround with coords
+    @discardableResult
+    func adjustVerticalSliderToStartPosition(withId formItemId: String, expectedValue: Double) -> Self {
+        
+        let cell = getFormItemCell(withId: formItemId)
+        let slider = cell.sliders.firstMatch
+        wait(for: slider)
+        
+        let sliderCenter = slider.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        let sliderEnd = slider.coordinate(withNormalizedOffset: CGVector(dx: 1, dy: 1))
+        // When we need to adjust slider to the end of the slider we set the target coordinate a little bit further to make sure that dragging will hit the end of the slider
+        var actualSliderValue = slider.value as? String ?? ""
+        var actualSliderValueDouble = Double(actualSliderValue) ?? 0
+        
+        var retry = 0
+        while actualSliderValueDouble != expectedValue && retry < 5 {
+            if retry > 0 { sleep(1) }
+            sliderCenter.press(forDuration: 0.1, thenDragTo: sliderEnd, withVelocity: .slow, thenHoldForDuration: 0.1)
+            actualSliderValue = slider.value as? String ?? ""
+            actualSliderValueDouble = Double(actualSliderValue) ?? 0
+            retry += 1
+        }
+        
+        XCTAssertEqual(actualSliderValueDouble, expectedValue)
+        
+        return self
+    }
+    
+    /// Vertical sliders don't work with XCUITest slider method (adjust(toNormalizedSliderPosition), so we have to use workaround with coords
+    @discardableResult
+    func adjustVerticalSliderToStartPosition(withId formItemId: String, expectedValue: String) -> Self {
+        
+        let cell = getFormItemCell(withId: formItemId)
+        let slider = cell.sliders.firstMatch
+        wait(for: slider)
+        
+        let sliderCenter = slider.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        let sliderEnd = slider.coordinate(withNormalizedOffset: CGVector(dx: 1, dy: 1))
+        // When we need to adjust slider to the end of the slider we set the target coordinate a little bit further to make sure that dragging will hit the end of the slider
+        var actualSliderValue = slider.value as? String ?? ""
+        
+        var retry = 0
+        while  actualSliderValue != expectedValue && retry < 5 {
+            if retry > 0 { sleep(1) }
+            sliderCenter.press(forDuration: 0.1, thenDragTo: sliderEnd, withVelocity: .slow, thenHoldForDuration: 0.1)
+            actualSliderValue = slider.value as? String ?? ""
+            retry += 1
+        }
+        
+        XCTAssertEqual(actualSliderValue, expectedValue)
+        
+        return self
+    }
+    
     /// Adjusts vertical slider without verifying resulting value
-    func adjustVerticalSlider(withId formItemId: String, atIndex index: Int = 0, dx: Double, dy: Double) -> Self {
-        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+    @discardableResult
+    func adjustVerticalSlider(withId formItemId: String, dx: Double, dy: Double) -> Self {
+        let cell = getFormItemCell(withId: formItemId)
         let slider = cell.sliders.firstMatch
         wait(for: slider)
         

@@ -22,5 +22,13 @@ struct Answers {
     static let passwordNumericPart = 123
 }
 
+// MARK: - Slider Values
+
+let formStepsSliderValues: [(minValue: Double, midValue: Double, maxValue: Double)] = [(1, 6, 10), (0, 50, 100), (1, 6, 10), (1, 3, 5), (1, 3, 5), (1, 3, 5)]
+let formStepsSliderResultValues: [(minValue: String, midValue: String, maxValue: String)] = [("1", "6",  "10"), ("0", "0.5", "1"), ("1", "6", "10"), ("1", "3", "5"), ("[1]", "[3]", "[5]"), ("[1]", "[3]", "[5]")]
+let defaultStep: Double = 1
+let textValues = ["Poor", "Fair", "Good", "Above Average", "Excellent"]
+
+// MARK: - Value Picker Choices
 // Value picker choices are based on textChoicesExample in ORKCatalog/TaskListRowSteps.swift
 let textChoices: [(text: String, value: String)] = [("Poor", "[1]"), ("Fair", "[2]") , ("Good", "[3]"), ("Above Average", "[10]"), ("Excellent", "[5]")]

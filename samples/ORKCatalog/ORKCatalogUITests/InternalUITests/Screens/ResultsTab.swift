@@ -43,4 +43,12 @@ final class ResultsTab {
         XCTAssertEqual(cellToSelect.label, expectedValue)
         return self
     }
+    
+    @discardableResult
+    func verifyResultsCellStartsWithValue(resultType: AccessibilityIdentifiers.ResultRow, expectedValue: String) -> Self {
+        let cellToSelect = Self.app.cells.staticTexts[resultType.detailTextLabelIdentifier]
+        wait(for: cellToSelect)
+        XCTAssertTrue(cellToSelect.label.starts(with: expectedValue))
+        return self
+    }
 }

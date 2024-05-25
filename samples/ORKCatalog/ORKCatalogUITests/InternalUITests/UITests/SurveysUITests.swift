@@ -149,8 +149,8 @@ final class SurveysUITests: BaseUITest {
         // Section that consist of 3 questions:
         formStep
             .verifyQuestionTitleExists(atIndex: 2)
-            .adjustQuestionSlider(withId: formStep.itemIds[2], atIndex: 0, withNormalizedPosition: 0.5)
-            .adjustQuestionSlider(withId: formStep.itemIds[2], atIndex: 0, withNormalizedPosition: 1)
+            .adjustQuestionSlider(withId: formStep.itemIds[2], withNormalizedPosition: 0.5)
+            .adjustQuestionSlider(withId: formStep.itemIds[2], withNormalizedPosition: 1)
             .selectFormItemCell(withID: formStep.itemIds[3], atIndex: 1)
             .answerIntegerQuestion(number: 578)
             .selectFormItemCell(withID: formStep.itemIds[4], atIndex: 2)
