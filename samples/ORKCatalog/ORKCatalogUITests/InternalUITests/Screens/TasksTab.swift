@@ -35,6 +35,7 @@ final class TasksTab {
 enum Task {
     case form
     case groupedForm
+    case groupedFormNoScroll
     case survey
     case dontknowSurvey
     case surveyWithMultipleOptions
@@ -118,13 +119,16 @@ enum Task {
     var description: String {
         switch self {
         case .form:
-            return NSLocalizedString("Form Survey Example", comment: "")
+            return NSLocalizedString("Form Survey", comment: "")
             
         case .groupedForm:
-            return NSLocalizedString("Grouped Form Survey Example", comment: "")
+            return NSLocalizedString("Grouped Form Survey", comment: "")
+            
+        case .groupedFormNoScroll:
+            return NSLocalizedString("Grouped Form Survey No AutoScroll", comment: "")
             
         case .survey:
-            return NSLocalizedString("Simple Survey Example", comment: "")
+            return NSLocalizedString("Simple Survey", comment: "")
             
         case .dontknowSurvey:
             return NSLocalizedString("Don't Know Survey", comment: "")
