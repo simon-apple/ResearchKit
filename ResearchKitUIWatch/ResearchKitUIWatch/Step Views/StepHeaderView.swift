@@ -29,20 +29,20 @@ struct StepHeaderView: View {
                     .fontWeight(.bold)
             }
             
-            if let text = viewModel.step.text {
-                Text(text)
+            if let stepDescription = viewModel.step.text {
+                Text(stepDescription)
                     .foregroundStyle(Color(uiColor: .label))
                     .font(.body)
             }
         }
         .textCase(.none)
 #else
-        if let text = viewModel.step.text {
+        if let stepDescription = viewModel.step.text {
             HStack {
                 Spacer()
                 
                 // TODO(x-plat): Ensure same colors are used as in ORKCatalog.
-                Text(text)
+                Text(stepDescription)
                     .multilineTextAlignment(.center)
                     .font(.body)
                     .fontWeight(.semibold)
