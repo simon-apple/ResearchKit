@@ -152,6 +152,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case methodOfAdjustmentdBHLToneAudiometryTask
     case newdBHLToneAudiometryTask
     case customStepTask
+    case settingStatusStepTask
     case studyPromoTask
     case studySignPostStep
     case familyHistoryReviewTask
@@ -274,6 +275,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .predefinedSpeechInNoiseTask,
                     .predefinedSelectableHeadphoneTask,
                     .predefinedTinnitusTask,
+                    .settingStatusStepTask,
                     .studyPromoTask,
                     .studySignPostStep,
                     .textQuestionPIIScrubbing,
@@ -540,6 +542,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .customStepTask:
             return NSLocalizedString("Custom Step Task", comment: "")
+            
+        case .settingStatusStepTask:
+            return NSLocalizedString("Setting Status Step Task", comment: "")
             
         case .studyPromoTask:
             return NSLocalizedString("Study Promo View Controller", comment: "")
@@ -808,6 +813,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .customStepTask:
             return customStepTask
+            
+        case .settingStatusStepTask:
+            return settingStatusStepTask
         
         case .studySignPostStep:
             return customStepTask
@@ -2160,6 +2168,15 @@ enum TaskListRow: Int, CustomStringConvertible {
     /// This task presents the dBHL Tone Audiometry new algorithm.
     private var newdBHLToneAudiometryTask: ORKTask {
         return ORKOrderedTask.newdBHLToneAudiometryTask(withIdentifier: String(describing: Identifier.newdBHLToneAudiometryTask), intendedUseDescription: nil, options: [])
+    }
+    
+    private var settingStatusStepTask: ORKTask {
+        let settingStatusStep = ORKSettingStatusStep(identifier: String(describing: Identifier.settingStatusStep), settingType: .reduceLoudSounds)
+        settingStatusStep.title = "Turn on Reduce Loud Sounds"
+        settingStatusStep.detailText = "Your iPhone will analyze headphone audio and reduce any sound that is over a set decible level."
+        settingStatusStep.isOptional = true
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.settingStatusStepTask), steps: [settingStatusStep])
     }
     
     private var customStepTask: ORKTask {

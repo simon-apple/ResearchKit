@@ -237,3 +237,9 @@
 
 /* ORKTaskViewController Discard Button Text*/
 "BUTTON_OPTION_DISCARD_CHANGES" = "Discard Changes";
+
+/* Setting Status Step */
+"SETTING_STATUS_STEP_TURNED_ON" = "Turned On";
+"SETTING_STATUS_STEP_TURNED_OFF" = "Turned Off";
+"SETTING_STATUS_STEP_GO_TO_SETTINGS" = "Go to Settings";
+"SETTING_STATUS_STEP_EDIT_SETTINGS" = "Edit Settings";

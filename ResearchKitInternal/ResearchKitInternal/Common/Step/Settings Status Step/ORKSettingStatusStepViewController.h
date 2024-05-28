@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2023, Apple Inc. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,44 +28,17 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitUI/ResearchKitUI.h>
 #import <ResearchKitUI/ORKStepViewController.h>
-
-@class ORKSensitiveURLLearnMoreInstructionStep;
-@class ORKSettingStatusStep;
-
-#define ORKSensitiveMicrophoneURLString "prefs:root=Privacy&path=MICROPHONE"
-#define ORKSensitiveMicrophoneApplicationString "com.apple.Preferences"
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString *ORKCompletionStepIdentifier NS_STRING_ENUM;
-ORK_EXTERN ORKCompletionStepIdentifier const ORKCompletionStepIdentifierMicrophoneLearnMore;
-ORK_EXTERN ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier;
-
-@protocol ORKITaskViewControllerDelegate <NSObject>
-
-- (void)taskViewController:(ORKTaskViewController *)taskViewController sensitiveURLLearnMoreButtonPressedWithStep:(ORKSensitiveURLLearnMoreInstructionStep *)sensitiveURLLearnMoreStep forStepViewController:(ORKStepViewController *)stepViewController;
-
-- (void)taskViewController:(ORKTaskViewController *)taskViewController goToSettingsButtonPressedWithSettingStatusStep:(ORKSettingStatusStep *)settingStatusStep sensitiveURLString:(NSString *)sensitiveURLString applicationString:(NSString *)applicationString;
-
-@end
-
-
-@interface ORKITaskViewController : ORKTaskViewController
-
 /**
- Locks the device volume to a specific value. Will ignore a new locked value if the method was called before.
+ The corresponding view controller that uses the setting status step
+ as its model object.
  */
-- (void)lockDeviceVolume:(float)volume;
 
-// Save the current system volume for restoration after the task end
-- (void)saveVolume;
-
-// will return YES if the sensitive URL step is shown
-- (BOOL)showSensitiveURLLearMoreStepViewControllerForStep:(ORKActiveStep *)step;
-
-@property (nonatomic, weak, nullable) id<ORKITaskViewControllerDelegate> internalDelegate;
+ORK_CLASS_AVAILABLE
+@interface ORKSettingStatusStepViewController : ORKStepViewController
 
 @end
 
