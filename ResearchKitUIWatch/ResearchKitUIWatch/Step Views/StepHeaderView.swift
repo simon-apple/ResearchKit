@@ -38,17 +38,10 @@ struct StepHeaderView: View {
         .textCase(.none)
 #else
         if let stepDescription = viewModel.step.text {
-            HStack {
-                Spacer()
-                
-                // TODO(x-plat): Ensure same colors are used as in ORKCatalog.
-                Text(stepDescription)
-                    .multilineTextAlignment(.center)
-                    .font(.body)
-                    .fontWeight(.semibold)
-                
-                Spacer()
-            }
+            // TODO(x-plat): Ensure same colors are used as in ORKCatalog.
+            Text(stepDescription)
+                .font(.body)
+                .fontWeight(.semibold)
         }
 #endif
     }
