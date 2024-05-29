@@ -25,7 +25,6 @@
 		E4DBF1B42B97C2980085D6A1 /* BooleanQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B32B97C2980085D6A1 /* BooleanQuestion.swift */; };
 		E4DBF1B62B97C2B30085D6A1 /* MultipleChoiceQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B52B97C2AC0085D6A1 /* MultipleChoiceQuestion.swift */; };
 		E4DBF1B92B97C3060085D6A1 /* TextChoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B82B97C3030085D6A1 /* TextChoiceCell.swift */; };
-		E4DBF1BB2B993B5C0085D6A1 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1BA2B993B5B0085D6A1 /* Card.swift */; };
 		E4DBF1BF2BA24AA40085D6A1 /* StickyScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1BE2BA24AA10085D6A1 /* StickyScrollView.swift */; };
 		E4DBF1C12BA24B190085D6A1 /* StickyFooterLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1C02BA24B150085D6A1 /* StickyFooterLayout.swift */; };
 		E4DBF1C32BA24B8B0085D6A1 /* StickyScrollView+StickyLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1C22BA24B860085D6A1 /* StickyScrollView+StickyLayout.swift */; };
@@ -67,7 +66,6 @@
 		E4DBF1B32B97C2980085D6A1 /* BooleanQuestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanQuestion.swift; sourceTree = "<group>"; };
 		E4DBF1B52B97C2AC0085D6A1 /* MultipleChoiceQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleChoiceQuestion.swift; sourceTree = "<group>"; };
 		E4DBF1B82B97C3030085D6A1 /* TextChoiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextChoiceCell.swift; sourceTree = "<group>"; };
-		E4DBF1BA2B993B5B0085D6A1 /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		E4DBF1BE2BA24AA10085D6A1 /* StickyScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyScrollView.swift; sourceTree = "<group>"; };
 		E4DBF1C02BA24B150085D6A1 /* StickyFooterLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyFooterLayout.swift; sourceTree = "<group>"; };
 		E4DBF1C22BA24B860085D6A1 /* StickyScrollView+StickyLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StickyScrollView+StickyLayout.swift"; sourceTree = "<group>"; };
@@ -175,7 +173,6 @@
 				E4DBF1C22BA24B860085D6A1 /* StickyScrollView+StickyLayout.swift */,
 				E4DBF1C02BA24B150085D6A1 /* StickyFooterLayout.swift */,
 				E4DBF1BE2BA24AA10085D6A1 /* StickyScrollView.swift */,
-				E4DBF1BA2B993B5B0085D6A1 /* Card.swift */,
 				E4DBF1B82B97C3030085D6A1 /* TextChoiceCell.swift */,
 			);
 			path = "Supporting Views";
@@ -273,7 +270,6 @@
 				E4E1CD522BED3AB20030D1F5 /* ViewModel.swift in Sources */,
 				0B7213442B4F397A00463E69 /* InstructionStepView.swift in Sources */,
 				E4E1CD592BED9ECE0030D1F5 /* FormRow.swift in Sources */,
-				E4DBF1BB2B993B5C0085D6A1 /* Card.swift in Sources */,
 				0B7213512B4F39CC00463E69 /* TaskView.swift in Sources */,
 				0B7213422B4F396B00463E69 /* CompletionStepView.swift in Sources */,
 				BA32DE9F2BCF34440041A937 /* ScaleSliderQuestion.swift in Sources */,

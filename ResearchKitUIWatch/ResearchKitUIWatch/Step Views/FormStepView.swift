@@ -57,8 +57,8 @@ internal struct FormStepView: View {
                 StepHeaderView(viewModel: viewModel)
             }
             
-            VStack {
-                Group {
+            ForEach($viewModel.formRows) { $formRow in
+                Section {
                     if let progress = viewModel.progress {
                         Text("\(progress.index) OF \(progress.count)".uppercased())
                             .foregroundColor(.gray)
@@ -67,43 +67,42 @@ internal struct FormStepView: View {
                             .padding(.bottom, Constants.bottomToProgressPadding)
                     }
                     
-                    ForEach($viewModel.formRows) { $formRow in
-                        switch formRow {
-                        case .multipleChoiceRow(let multipleChoiceValue):
-                            MultipleChoiceQuestionView(
-                                title: multipleChoiceValue.title,
-                                choices: multipleChoiceValue.choices,
-                                selectionType: multipleChoiceValue.selectionType,
-                                result: .init(
-                                    get: {
-                                        return multipleChoiceValue.result
-                                    },
-                                    set: { newValue in
-                                        formRow = .multipleChoiceRow(
-                                            MultipleChoiceQuestion(
-                                                id: multipleChoiceValue.id,
-                                                title: multipleChoiceValue.title,
-                                                choices: multipleChoiceValue.choices,
-                                                result: newValue,
-                                                selectionType: multipleChoiceValue.selectionType
-                                            )
+                    switch formRow {
+                    case .multipleChoiceRow(let multipleChoiceValue):
+                        MultipleChoiceQuestionView(
+                            title: multipleChoiceValue.title,
+                            choices: multipleChoiceValue.choices,
+                            selectionType: multipleChoiceValue.selectionType,
+                            result: .init(
+                                get: {
+                                    return multipleChoiceValue.result
+                                },
+                                set: { newValue in
+                                    formRow = .multipleChoiceRow(
+                                        MultipleChoiceQuestion(
+                                            id: multipleChoiceValue.id,
+                                            title: multipleChoiceValue.title,
+                                            choices: multipleChoiceValue.choices,
+                                            result: newValue,
+                                            selectionType: multipleChoiceValue.selectionType
                                         )
-                                    })
+                                    )
+                                }
                             )
-                        case .scale(let scaleQuestion):
-                            @Bindable var scaleQuestionBinding = scaleQuestion
-                            ScaleSliderQuestionView(
-                                identifier: scaleQuestion.id,
-                                title: scaleQuestion.title,
-                                scaleSelectionType: scaleQuestionBinding.selectionType,
-                                result: $scaleQuestionBinding.result
-                            )
-                        }
+                        )
+                    case .scale(let scaleQuestion):
+                        @Bindable var scaleQuestionBinding = scaleQuestion
+                        ScaleSliderQuestionView(
+                            identifier: scaleQuestion.id,
+                            title: scaleQuestion.title,
+                            scaleSelectionType: scaleQuestionBinding.selectionType,
+                            result: $scaleQuestionBinding.result
+                        )
                     }
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading)
         }
 #if os(visionOS)
         .navigationTitle(

@@ -33,17 +33,14 @@ public struct BooleanQuestion: View { // TODO: Do we even need a Boolean type? i
     private var result: Bool?
 
     public var body: some View {
-
-        CardView {
-            VStack(alignment: .leading) {
-                title
-                    .font(.title)
-                detail
-                TextChoiceCell(title: yesAnswerText, isSelected: isSelected(for: true)) { }
-                TextChoiceCell(title: noAnswerText, isSelected: isSelected(for: false)) { }
-            }
-            .padding()
+        VStack(alignment: .leading) {
+            title
+                .font(.title)
+            detail
+            TextChoiceCell(title: yesAnswerText, isSelected: isSelected(for: true)) { }
+            TextChoiceCell(title: noAnswerText, isSelected: isSelected(for: false)) { }
         }
+        .padding()
     }
 
     func isSelected(for choice: Bool) -> Bool {
