@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// TODO(x-plat): Add documentation.
 struct StepHeaderView: View {
     
     @ObservedObject
@@ -47,11 +46,3 @@ struct StepHeaderView: View {
     }
     
 }
-
-// TODO(x-plat): Update to make preview compile.
-//#Preview {
-//    @State
-//    private var viewModel = FormStepViewModel(step: ORKFOrmS, result: <#T##ORKStepResult#>)
-//    
-//    StepHeaderView()
-//}
