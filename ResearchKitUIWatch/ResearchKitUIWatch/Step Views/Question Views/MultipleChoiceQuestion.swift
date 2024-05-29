@@ -67,17 +67,18 @@ public struct MultipleChoiceQuestionView: View {
             Text(title)
                 .font(.title)
             detail
-            ForEach(
-                choices
-            ) { option in
-                TextChoiceCell(
-                    title: Text(option.choiceText),
-                    isSelected: result.contains(where: { choice in
-                        choice.id == option.id
-                    })
-                ) {
-                    choiceSelected(option)
-                }
+        }
+        
+        ForEach(
+            choices
+        ) { option in
+            TextChoiceCell(
+                title: Text(option.choiceText),
+                isSelected: result.contains(where: { choice in
+                    choice.id == option.id
+                })
+            ) {
+                choiceSelected(option)
             }
         }
     }
