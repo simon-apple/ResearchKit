@@ -105,5 +105,11 @@ internal struct FormStepView: View {
                 .padding(.leading)
             }
         }
+#if os(visionOS)
+        .navigationTitle(
+            // TODO(x-plat): Ensure font used is same as in ORKCatalog.
+            Text(viewModel.step.title ?? "")
+        )
+#endif
     }
 }
