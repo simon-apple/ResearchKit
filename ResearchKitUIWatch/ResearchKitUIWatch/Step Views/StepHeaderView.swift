@@ -19,9 +19,9 @@ struct StepHeaderView: View {
     
     var body: some View {
 #if os(iOS)
-        // TODO(x-plat): Make biz logic exactly like in ORKCatalog.
+        // TODO(rdar://128955005): Make biz logic exactly like in ORKCatalog.
         VStack(alignment: .leading) {
-            // TODO(x-plat): Ensure same colors are used as in ORKCatalog.
+            // TODO(rdar://128955005): Ensure same colors are used as in ORKCatalog.
             if let stepTitle = viewModel.step.title {
                 Text(stepTitle)
                     .foregroundStyle(Color(uiColor: .label))
@@ -38,7 +38,7 @@ struct StepHeaderView: View {
         .textCase(.none)
 #else
         if let stepDescription = viewModel.step.text {
-            // TODO(x-plat): Ensure same colors are used as in ORKCatalog.
+            // TODO(rdar://128955005): Ensure same colors are used as in ORKCatalog.
             Text(stepDescription)
                 .font(.body)
                 .fontWeight(.semibold)
