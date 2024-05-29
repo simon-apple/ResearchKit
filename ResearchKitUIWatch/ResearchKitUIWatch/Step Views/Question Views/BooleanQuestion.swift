@@ -40,7 +40,6 @@ public struct BooleanQuestion: View { // TODO: Do we even need a Boolean type? i
             TextChoiceCell(title: yesAnswerText, isSelected: isSelected(for: true)) { }
             TextChoiceCell(title: noAnswerText, isSelected: isSelected(for: false)) { }
         }
-        .padding()
     }
 
     func isSelected(for choice: Bool) -> Bool {
