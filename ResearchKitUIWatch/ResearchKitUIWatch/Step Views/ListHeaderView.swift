@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// TODO(x-plat): Add documentation.
 struct ListHeaderView<Content: View>: View {
     
     private let content: Content

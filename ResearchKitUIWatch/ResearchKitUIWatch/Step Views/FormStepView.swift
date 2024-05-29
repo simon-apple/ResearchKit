@@ -33,7 +33,6 @@
 import ResearchKit
 import SwiftUI
 
-// TODO(x-plat): Add documentation.
 internal struct FormStepView: View {
     
     enum Constants {
