@@ -198,6 +198,7 @@ internal struct TaskContentView<Content>: View where Content: View {
             }
         }
         .toolbar {
+            // TODO(rdar://128955364): Fix cancel button in this flow.
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     setDiscardedIfNeeded(taskManager: taskManager)
