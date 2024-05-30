@@ -31,12 +31,7 @@ struct StepSectionHeaderView: View {
                 Text(multipleChoiceValue.title)
             }
         }
-        .alignmentGuide(
-            .listRowSeparatorLeading,
-            computeValue: { dimension in
-                dimension[.leading] - 20
-            }
-        )
+        .listRowSeparatorSectionInsetStyle()
     }
     
 }
