@@ -3,9 +3,9 @@
 
 # Creating surveys
 
-A survey is a sequence of questions that you use to collect data from your users. In a ResearchKit app, a survey is composed of a <i>survey task</i> that has a collection of step objects (`ORKStep`). Each step object handles a specific question in the survey, such as "What medications are you taking?" or "How many hours did you sleep last night?".
+A survey is a sequence of questions that you use to collect data from your users. In a ResearchKit app, a survey is composed of a <i>survey task</i> that has a collection of step objects (``ORKStep``). Each step object handles a specific question in the survey, such as "What medications are you taking?" or "How many hours did you sleep last night?".
 
-You can collect results for the individual steps or for the task as a whole. There are two types of survey tasks: an ordered task (`ORKOrderedTask`) and a navigable ordered task (`ORKNavigableOrderedTask`).
+You can collect results for the individual steps or for the task as a whole. There are two types of survey tasks: an ordered task (``ORKOrderedTask``) and a navigable ordered task (``ORKNavigableOrderedTask``).
 
 In an ordered task, the order that the steps appear are always the same. 
 
@@ -25,16 +25,16 @@ The steps for creating a task to present a survey are:
 ## 1. Create steps
 
 The survey module provides a form step that can contain one or more questions
-(`ORKFormStep`). You can also use an instruction step
-(`ORKInstructionStep`) or a video instruction step (`ORKVideoInstructionStep`) to introduce the survey or provide instructions.
+(``ORKFormStep``). You can also use an instruction step
+(``ORKInstructionStep``) or a video instruction step (``ORKVideoInstructionStep``) to introduce the survey or provide instructions.
 
 ### Instruction step
 
 An instruction step explains the purpose of a task and provides
-instructions for the user. An `ORKInstructionStep` object includes an
+instructions for the user. An ``ORKInstructionStep`` object includes an
 identifier, title, text, detail text, and an image. An
 instruction step doesn't collect any data and yields an empty
-`ORKStepResult` that records how long the instruction was
+``ORKStepResult`` that records how long the instruction was
 on screen.
 
 ```swift
@@ -49,7 +49,7 @@ Creating a step as shown in the code above, including it in a task, and presenti
 
 ### Form Step
 
-Whether your survey has one question or several related questions, you can use a form step ([ORKFormStep](#)) to present them on one page. Each question in a form step is represented as a form item ([ORKFormItem](#)), each with its
+Whether your survey has one question or several related questions, you can use a form step (``ORKFormStep``) to present them on one page. Each question in a form step is represented as a form item (``ORKFormItem``), each with its
 own answer format.
 
 The result of a form step contains one question result for each form
@@ -81,8 +81,8 @@ In the ResearchKit™ framework, an answer format defines how the user should be
 answer a question or an item in a form.  For example, consider a
 survey question such as "On a scale of 1 to 10, how much pain do you
 feel?" The answer format for this question would naturally be a
-discrete scale on that range, so you can use scale answer format ([ORKScaleAnswerFormat](#)), 
-and set its [minimum]([ORKScaleAnswerFormat minimum]) and [maximum]([ORKScaleAnswerFormat maximum]) 
+discrete scale on that range, so you can use scale answer format (``ORKScaleAnswerFormat``), 
+and set its minimum and maximum
 properties to reflect the desired range.  
 
 The screenshots below show the standard answer formats that the ResearchKit framework provides.
@@ -97,7 +97,7 @@ The screenshots below show the standard answer formats that the ResearchKit fram
 
 ## 2. Create a survey task
 
-Once you create one or more steps, create an `ORKOrderedTask` object to
+Once you create one or more steps, create an ``ORKOrderedTask`` object to
 contain the steps. The code below shows the steps created above being added to a task.
 
 ```swift
@@ -124,11 +124,11 @@ To introduce conditional logic, you must either subclass
 `ORKOrderedTask` or implement the `ORKTask` protocol yourself.*
 
 ## 3. Collect Results
-The [result]([ORKTaskViewController result]) property of the task view controller gives you the results of the task.
+The result property of the task view controller gives you the results of the task.
 Each step view controller that the user views produces a step result
-([ORKStepResult](#)). The task view controller collates these results as
+(``ORKStepResult``). The task view controller collates these results as
 the user navigates through the task, in order to produce an
-[ORKTaskResult](#).
+``ORKTaskResult``.
 
 Both the task result and step result are collection results, in that
 they can contain other result objects. For example, a task result contains an array of step results.
@@ -146,7 +146,7 @@ model hierarchy of task and steps as you can see here:
 Among other properties, every result has an identifier. This
 identifier is what connects the result to the model object (task,
 step, form item, or recorder) that produced it. Every result also
-includes start and end times, using the [startDate]([ORKResult startDate]) and [endDate]([ORKResult endDate])
+includes start and end times, using the startDate and endDate
 properties respectively. Use these properties to infer how long the user
 spent on the step.
  
@@ -158,7 +158,7 @@ will likely include serializing the result hierarchy in some form,
 either using the built-in `NSSecureCoding` support, or another
 format appropriate for your application.
 
-If your task can produce file output, the files are generally referenced by an `ORKFileResult` object and they are placed in the output directory that you set on the task view controller. After you complete a task, one implementation might be to serialize the result hierarchy into the output directory, compress the entire output
+If your task can produce file output, the files are generally referenced by an ``ORKFileResult`` object and they are placed in the output directory that you set on the task view controller. After you complete a task, one implementation might be to serialize the result hierarchy into the output directory, compress the entire output
 directory, and share it.
 
 In the following example, the result is archived with
