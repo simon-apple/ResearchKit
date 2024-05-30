@@ -658,7 +658,7 @@ final class SurveyQuestionsUITests: BaseUITest {
     ///rdar://tsc/21847953 ([Survey Questions] Location Question) - Happy Path
     func testLocationQuestion() throws {
         if isRunningInXcodeCloud {
-            try XCTSkipIf(true, "Skipping this test when running on Xcode Cloud")
+            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment")
         }
         
         /// https://developer.apple.com/documentation/xcode/simulating-location-in-tests
