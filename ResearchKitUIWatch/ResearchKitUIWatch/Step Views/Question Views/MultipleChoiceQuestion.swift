@@ -63,10 +63,10 @@ public struct MultipleChoiceQuestionView: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading) {
-            Text(title)
-                .font(.title)
-            detail
+        if let detail = detail {
+            VStack(alignment: .leading) {
+                detail
+            }
         }
         
         ForEach(
