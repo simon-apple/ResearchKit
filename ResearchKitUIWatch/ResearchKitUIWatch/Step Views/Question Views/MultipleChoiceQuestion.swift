@@ -96,5 +96,6 @@ public struct MultipleChoiceQuestionView: View {
                 result.append(option)
             }
         }
-       }
+    }
+    
 }

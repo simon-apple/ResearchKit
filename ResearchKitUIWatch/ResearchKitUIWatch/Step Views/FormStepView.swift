@@ -54,38 +54,7 @@ internal struct FormStepView: View {
                 Section {
                     StepSectionHeaderView(viewModel: viewModel, formRow: formRow)
                     
-                    switch formRow {
-                    case .multipleChoiceRow(let multipleChoiceValue):
-                        MultipleChoiceQuestionView(
-                            title: multipleChoiceValue.title,
-                            choices: multipleChoiceValue.choices,
-                            selectionType: multipleChoiceValue.selectionType,
-                            result: .init(
-                                get: {
-                                    return multipleChoiceValue.result
-                                },
-                                set: { newValue in
-                                    formRow = .multipleChoiceRow(
-                                        MultipleChoiceQuestion(
-                                            id: multipleChoiceValue.id,
-                                            title: multipleChoiceValue.title,
-                                            choices: multipleChoiceValue.choices,
-                                            result: newValue,
-                                            selectionType: multipleChoiceValue.selectionType
-                                        )
-                                    )
-                                }
-                            )
-                        )
-                    case .scale(let scaleQuestion):
-                        @Bindable var scaleQuestionBinding = scaleQuestion
-                        ScaleSliderQuestionView(
-                            identifier: scaleQuestion.id,
-                            title: scaleQuestion.title,
-                            scaleSelectionType: scaleQuestionBinding.selectionType,
-                            result: $scaleQuestionBinding.result
-                        )
-                    }
+                    content(for: $formRow)
                 }
             }
         }
@@ -96,4 +65,42 @@ internal struct FormStepView: View {
         )
 #endif
     }
+    
+    @ViewBuilder
+    private func content(for formRow: Binding<FormRow>) -> some View {
+        switch formRow.wrappedValue {
+        case .multipleChoiceRow(let multipleChoiceValue):
+            MultipleChoiceQuestionView(
+                title: multipleChoiceValue.title,
+                choices: multipleChoiceValue.choices,
+                selectionType: multipleChoiceValue.selectionType,
+                result: .init(
+                    get: {
+                        return multipleChoiceValue.result
+                    },
+                    set: { newValue in
+                        formRow.wrappedValue = .multipleChoiceRow(
+                            MultipleChoiceQuestion(
+                                id: multipleChoiceValue.id,
+                                title: multipleChoiceValue.title,
+                                choices: multipleChoiceValue.choices,
+                                result: newValue,
+                                selectionType: multipleChoiceValue.selectionType
+                            )
+                        )
+                    }
+                )
+            )
+        case .scale(let scaleQuestion):
+            @Bindable 
+            var scaleQuestionBinding = scaleQuestion
+            
+            ScaleSliderQuestionView(
+                identifier: scaleQuestion.id,
+                scaleSelectionType: scaleQuestionBinding.selectionType,
+                result: $scaleQuestionBinding.result
+            )
+        }
+    }
+    
 }

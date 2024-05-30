@@ -27,11 +27,20 @@ struct StepSectionHeaderView: View {
                     .font(.subheadline)
             }
             
-            if case .multipleChoiceRow(let multipleChoiceValue) = formRow {
-                Text(multipleChoiceValue.title)
-            }
+            Text(title(for: formRow))
         }
         .listRowSeparatorSectionInsetStyle()
+    }
+    
+    private func title(for formRow: FormRow) -> String {
+        let title: String
+        switch formRow {
+        case .multipleChoiceRow(let multipleChoiceValue):
+            title = multipleChoiceValue.title
+        case .scale(let scaleSliderQuestion):
+            title = scaleSliderQuestion.title
+        }
+        return title
     }
     
 }
