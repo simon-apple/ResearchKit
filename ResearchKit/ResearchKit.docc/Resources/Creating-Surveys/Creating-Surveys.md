@@ -89,22 +89,11 @@ The screenshots below show the standard answer formats that the ResearchKit fram
 
 |   |   |
 |---|---|
-| ![Instruction Step](creating-surveys-instruction-step) | ![Instruction Step](creating-surveys-instruction-step) |
-| ![Instruction Step](creating-surveys-instruction-step) | ![Instruction Step](creating-surveys-instruction-step) |
-
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="creating-surveys-instruction-step@3x.png" style="width: 100%;border: solid black 1px; ">Scale answer format</p><p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SurveyImages/BooleanAnswerFormat.png" style="width: 100%;border: solid black 1px;">Boolean answer format</p><p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="SurveyImages/ValuePickerAnswerFormat.png" style="width: 100%;border: solid black 1px;">Value picker answer format  </p>
-<p style="clear: both;">
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SurveyImages/ImageChoiceAnswerFormat.png" style="width: 100%;border: solid black 1px; ">Image choice answer format  </p><p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SurveyImages/TextChoiceAnswerFormat_1.png" style="width: 100%;border: solid black 1px;">Text choice answer format (single text choice answer) </p><p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="SurveyImages/TextChoiceAnswerFormat_2.png" style="width: 100%;border: solid black 1px;">Text choice answer format (multiple text choice answer) </p>
-<p style="clear: both;">
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SurveyImages/NumericAnswerFormat.png" style="width: 100%;border: solid black 1px; ">Numeric answer format</p><p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SurveyImages/TimeOfTheDayAnswerFormat.png" style="width: 100%;border: solid black 1px;">TimeOfTheDay answer format</p><p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="SurveyImages/DateAnswerFormat.png" style="width: 100%;border: solid black 1px;">Date answer format</p>
-<p style="clear: both;">
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SurveyImages/TextAnswerFormat_1.png" style="width: 100%;border: solid black 1px; ">Text answer format (unlimited text entry)</p><p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SurveyImages/TextAnswerFormat_2.png" style="width: 100%;border: solid black 1px;">Text answer format (limited text entry) </p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SurveyImages/ValidatedTextAnswerFormat.png" style="width: 100%;border: solid black 1px;"> Validated text answer format</p>
-<p style="clear: both;">
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SurveyImages/VerticalSliderAnswerFormat.png" style="width: 100%;border: solid black 1px;"> Scale answer format (vertical)</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SurveyImages/EmailAnswerFormat.png" style="width: 100%;border: solid black 1px;"> Email answer format</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SurveyImages/LocationAnswerFormat.png" style="width: 100%;border: solid black 1px;"> Location answer format</p>
-<p style="clear: both;">
+| ![Background Check Question](creating-surveys-background-check) | ![Blood Type Question](creating-surveys-blood-type) |
+| ![Symptoms Question](creating-surveys-symptom-choice) | ![Age Question](creating-surveys-age) |
+| ![Time of Day Question](creating-surveys-time-of-day) | ![Next Meeting Question](creating-surveys-next-meeting) |
+| ![Text Entry Question](creating-survyes-feeling-text-entry) | ![Mood Question](creating-surveys-slider) |
+| ![Email Question](creating-surveys-email) | ![Location Question](creating-surveys-location) |
 
 ## 2. Create a survey task
 
@@ -152,13 +141,7 @@ one result for each recorder.
 The hierarchy of results corresponds closely to the input
 model hierarchy of task and steps as you can see here:
 
-<center>
-<figure>
-<img src="SurveyImages/ResultsHierarchy.png" width="50%" alt="Completion step" align="middle" style="border: solid black 1px;">
-  <figcaption> <center>Example of a result hierarchy</center>
-  </figcaption>
-</figure>
-</center>
+![Results Hierarchy](creating-surveys-results-hierarchy)
 
 Among other properties, every result has an identifier. This
 identifier is what connects the result to the model object (task,
@@ -186,8 +169,8 @@ would later be needed to restore the task.
 
 ```swift
  func taskViewController(_ taskViewController: ORKTaskViewController, 
- 			             didFinishWith reason: ORKTaskFinishReason, 
- 			             error: Error?) {
+                         didFinishWith reason: ORKTaskFinishReason, 
+                         error: Error?) {
 	switch reason {
 	case .completed:
 	    // Archive the result object first
