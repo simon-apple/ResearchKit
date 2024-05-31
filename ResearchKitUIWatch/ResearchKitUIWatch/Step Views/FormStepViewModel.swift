@@ -34,6 +34,10 @@ class FormStepViewModel: ObservableObject {
             }
         }
     }
+    
+    var numberOfQuestions: Int {
+        step.formItems?.count ?? 0
+    }
 
     init(step: ORKFormStep, result: ORKStepResult) {
         self.step = step
@@ -146,4 +150,17 @@ class FormStepViewModel: ObservableObject {
             self.result.results = resultArray
         }
     }
+    
+    func questionNumber(for formRow: FormRow) -> Int? {
+        let answerOptionNumber: Int?
+        if let index = step.formItems?.firstIndex(where: { formItem in
+            formItem.identifier == formRow.id
+        }) {
+            answerOptionNumber = index + 1
+        } else {
+            answerOptionNumber = nil
+        }
+        return answerOptionNumber
+    }
+    
 }

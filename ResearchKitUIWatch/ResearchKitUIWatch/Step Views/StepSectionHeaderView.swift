@@ -21,8 +21,8 @@ struct StepSectionHeaderView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            if let progress = viewModel.progress {
-                Text("Question \(progress.index) of \(progress.count)")
+            if let questionNumber = viewModel.questionNumber(for: formRow) {
+                Text("Question \(questionNumber) of \(viewModel.numberOfQuestions)")
                     .foregroundColor(.gray)
                     .font(.subheadline)
             }
