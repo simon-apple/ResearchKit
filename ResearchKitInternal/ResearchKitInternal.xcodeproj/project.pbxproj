@@ -28,6 +28,8 @@
 		51274A692BFD27A70033E905 /* ORKSettingStatusCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 51274A672BFD27A70033E905 /* ORKSettingStatusCollector.m */; };
 		51274A6C2BFD2E7C0033E905 /* ORKSettingStatusSnapshot.h in Headers */ = {isa = PBXBuildFile; fileRef = 51274A6A2BFD2E7C0033E905 /* ORKSettingStatusSnapshot.h */; };
 		51274A6D2BFD2E7C0033E905 /* ORKSettingStatusSnapshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 51274A6B2BFD2E7C0033E905 /* ORKSettingStatusSnapshot.m */; };
+		51274A702C0697ED0033E905 /* ORKSettingStatusResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 51274A6F2C0697ED0033E905 /* ORKSettingStatusResult.m */; };
+		51274A712C0697ED0033E905 /* ORKSettingStatusResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 51274A6E2C0697ED0033E905 /* ORKSettingStatusResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		518100042B8FED800092A1C6 /* ORKInternalClassMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 518100022B8FED800092A1C6 /* ORKInternalClassMapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		518100052B8FED800092A1C6 /* ORKInternalClassMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 518100032B8FED800092A1C6 /* ORKInternalClassMapper.m */; };
 		5192BF0C2AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF062AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m */; };
@@ -309,6 +311,8 @@
 		51274A672BFD27A70033E905 /* ORKSettingStatusCollector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSettingStatusCollector.m; sourceTree = "<group>"; };
 		51274A6A2BFD2E7C0033E905 /* ORKSettingStatusSnapshot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSettingStatusSnapshot.h; sourceTree = "<group>"; };
 		51274A6B2BFD2E7C0033E905 /* ORKSettingStatusSnapshot.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSettingStatusSnapshot.m; sourceTree = "<group>"; };
+		51274A6E2C0697ED0033E905 /* ORKSettingStatusResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSettingStatusResult.h; sourceTree = "<group>"; };
+		51274A6F2C0697ED0033E905 /* ORKSettingStatusResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSettingStatusResult.m; sourceTree = "<group>"; };
 		518100022B8FED800092A1C6 /* ORKInternalClassMapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKInternalClassMapper.h; sourceTree = "<group>"; };
 		518100032B8FED800092A1C6 /* ORKInternalClassMapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKInternalClassMapper.m; sourceTree = "<group>"; };
 		5192BF062AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKFamilyHistoryRelatedPersonCell.m; sourceTree = "<group>"; };
@@ -714,6 +718,8 @@
 				51A11FB52BE688410060C07E /* ORKSettingStatusStepViewController.m */,
 				512749F82BF52FC60033E905 /* ORKSettingStatusStepContentView.h */,
 				512749F92BF52FC60033E905 /* ORKSettingStatusStepContentView.m */,
+				51274A6E2C0697ED0033E905 /* ORKSettingStatusResult.h */,
+				51274A6F2C0697ED0033E905 /* ORKSettingStatusResult.m */,
 			);
 			path = "Settings Status Step";
 			sourceTree = "<group>";
@@ -1418,6 +1424,7 @@
 				51BD900329D88FD30001D54E /* AVOutputDeviceModelSpecificKeys.h in Headers */,
 				5192BF3B2AE04B16006E43FB /* ORKRelativeGroup.h in Headers */,
 				51BD8FA529CD12FE0001D54E /* ORKContext.h in Headers */,
+				51274A712C0697ED0033E905 /* ORKSettingStatusResult.h in Headers */,
 				CA0AC55B28BD42E800E80040 /* ORKBLEScanPeripheralsStepViewController.h in Headers */,
 				CA47EAF128BD334B00D91C0E /* ORKVolumeCalibrationContentView.h in Headers */,
 				CA5B6DA428BD27FC002C3BA4 /* ORKHeadphoneDetectStep.h in Headers */,
@@ -1583,6 +1590,7 @@
 				CA58F8A628B5330E00761769 /* subalgorithms.c in Sources */,
 				CA77D2A228AFFB4700400292 /* ORKFlamesView.m in Sources */,
 				5192BF3F2AE04B16006E43FB /* ORKFamilyHistoryReviewController.m in Sources */,
+				51274A702C0697ED0033E905 /* ORKSettingStatusResult.m in Sources */,
 				CA58F8A928B5330E00761769 /* print.c in Sources */,
 				5192BF382AE04B16006E43FB /* ORKFamilyHistoryStep.m in Sources */,
 				511E8D692996FEC200A384A5 /* ORKITaskViewController.m in Sources */,

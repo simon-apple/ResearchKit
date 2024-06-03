@@ -32,6 +32,7 @@
 
 #import "ORKITaskViewController.h"
 #import "ORKSettingStatusCollector.h"
+#import "ORKSettingStatusResult.h"
 #import "ORKSettingStatusSnapshot.h"
 #import "ORKSettingStatusStep.h"
 #import "ORKSettingStatusStepContentView.h"
@@ -44,13 +45,26 @@
     ORKSettingStatusCollector *_settingStatusCollector;
     ORKSettingStatusStepContentView *_settingsStatusStepContentView;
     NSArray<NSLayoutConstraint *> *_contentViewConstraints;
+    
+    BOOL _initialEnabledStatusCollected;
+    BOOL _initialEnabledStatus;
 }
 
 - (instancetype)ORKSettingStatusStepViewController_initWithResult:(ORKResult *)result {
-    if (result) {
-        // TODO: HANDLE PREVIOUS RESULT
-        // radar: rdar://127395093 (create transparency step result)
+    ORKStepResult *stepResult = (ORKStepResult *)result;
+    
+    if (stepResult && stepResult.results.count > 0) {
+        ORKSettingStatusResult *settingStatusResult = (ORKSettingStatusResult *)stepResult.firstResult;
+        
+        if (settingStatusResult) {
+            _initialEnabledStatusCollected = YES;
+            _initialEnabledStatus = settingStatusResult.isEnabledAtStart;
+            return self;
+        }
     }
+    
+    _initialEnabledStatusCollected = NO;
+    _initialEnabledStatus = NO;
     return self;
 }
 
@@ -80,6 +94,23 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (ORKStepResult *)result {
+    ORKStepResult *stepResult = [super result];
+    NSMutableArray *results = [NSMutableArray arrayWithArray:stepResult.results];
+    
+    ORKSettingStatusStep *settingStatusStep = [self _orkSettingStatusStep];
+    
+    ORKSettingStatusResult *settingStatusResult = [[ORKSettingStatusResult alloc] initWithIdentifier:settingStatusStep.identifier];
+    settingStatusResult.isEnabledAtStart = _initialEnabledStatus;
+    settingStatusResult.isEnabledAtEnd = _settingsStatusStepContentView.isSettingEnabled;
+    settingStatusResult.settingType = settingStatusStep.settingType;
+
+    [results addObject:settingStatusResult];
+    stepResult.results = [results copy];
+
+    return stepResult;
 }
 
 - (void)_setupContentView {
@@ -131,6 +162,11 @@
         ORKSettingStatusStep *settingStatusStep = [self _orkSettingStatusStep];
         ORKSettingStatusSnapshot *settingStatusSnapshot = [_settingStatusCollector getSettingStatusForSettingType:settingStatusStep.settingType];
         [_settingsStatusStepContentView setIsSettingEnabled:settingStatusSnapshot.isEnabled];
+        
+        if (!_initialEnabledStatusCollected) {
+            _initialEnabledStatusCollected = YES;
+            _initialEnabledStatus = settingStatusSnapshot.isEnabled;
+        }
     }
 }
 

@@ -2176,7 +2176,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         settingStatusStep.detailText = "Your iPhone will analyze headphone audio and reduce any sound that is over a set decible level."
         settingStatusStep.isOptional = true
         
-        return ORKOrderedTask(identifier: String(describing: Identifier.settingStatusStepTask), steps: [settingStatusStep])
+        let completionStep = TaskListRowSteps.completionStepExample
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.settingStatusStepTask), steps: [settingStatusStep, completionStep])
     }
     
     private var customStepTask: ORKTask {
