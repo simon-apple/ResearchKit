@@ -29,6 +29,9 @@ struct StepSectionHeaderView: View {
             }
             
             Text(title(for: formRow))
+                .foregroundStyle(Color(.label))
+                .font(.body)
+                .fontWeight(.bold)
         }
         .listRowSeparatorSectionInsetStyle()
     }
