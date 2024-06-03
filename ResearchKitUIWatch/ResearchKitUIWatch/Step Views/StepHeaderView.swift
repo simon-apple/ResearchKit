@@ -22,6 +22,9 @@ struct StepHeaderView: View {
         VStack(alignment: .leading) {
             // TODO(rdar://128955005): Ensure same colors are used as in ORKCatalog.
             if let stepTitle = viewModel.step.title {
+                Spacer()
+                    .frame(height: 15)
+                
                 Text(stepTitle)
                     .foregroundStyle(Color(uiColor: .label))
                     .font(.largeTitle)
@@ -29,6 +32,9 @@ struct StepHeaderView: View {
             }
             
             if let stepDescription = viewModel.step.text {
+                Spacer()
+                    .frame(height: 15)
+                
                 Text(stepDescription)
                     .foregroundStyle(Color(uiColor: .label))
                     .font(.body)
