@@ -23,8 +23,9 @@ struct StepSectionHeaderView: View {
         VStack(alignment: .leading) {
             if let questionNumber = viewModel.questionNumber(for: formRow) {
                 Text("Question \(questionNumber) of \(viewModel.numberOfQuestions)")
-                    .foregroundColor(.gray)
-                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .font(.footnote)
+                    .fontWeight(.bold)
             }
             
             Text(title(for: formRow))
