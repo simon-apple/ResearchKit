@@ -9,11 +9,11 @@ import SwiftUI
 
 struct StepHeaderView: View {
     
-    @ObservedObject
-    private var viewModel: FormStepViewModel
-    
     private let stepTitleTopSpacing: CGFloat = 15
     private let stepDescriptionTopSpacing: CGFloat = 15
+    
+    @ObservedObject
+    private var viewModel: FormStepViewModel
     
     init(viewModel: FormStepViewModel) {
         self.viewModel = viewModel
