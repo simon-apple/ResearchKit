@@ -12,6 +12,9 @@ struct StepHeaderView: View {
     @ObservedObject
     private var viewModel: FormStepViewModel
     
+    private let stepTitleTopSpacing: CGFloat = 15
+    private let stepDescriptionTopSpacing: CGFloat = 15
+    
     init(viewModel: FormStepViewModel) {
         self.viewModel = viewModel
     }
@@ -23,7 +26,7 @@ struct StepHeaderView: View {
             // TODO(rdar://128955005): Ensure same colors are used as in ORKCatalog.
             if let stepTitle = viewModel.step.title {
                 Spacer()
-                    .frame(height: 15)
+                    .frame(height: stepTitleTopSpacing)
                 
                 Text(stepTitle)
                     .foregroundStyle(Color(uiColor: .label))
@@ -33,7 +36,7 @@ struct StepHeaderView: View {
             
             if let stepDescription = viewModel.step.text {
                 Spacer()
-                    .frame(height: 15)
+                    .frame(height: stepDescriptionTopSpacing)
                 
                 Text(stepDescription)
                     .foregroundStyle(Color(uiColor: .label))
