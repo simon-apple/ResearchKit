@@ -27,21 +27,26 @@ struct StepHeaderView: View {
                     .fontWeight(.bold)
             }
             
-            if let stepDescription = viewModel.step.text {
-                Text(stepDescription)
-                    .foregroundStyle(Color(uiColor: .label))
-                    .font(.body)
-            }
+            stepDescriptionView(for: viewModel)
         }
         .textCase(.none)
 #elseif os(visionOS)
+        stepDescriptionView(for: viewModel)
+#endif
+    }
+    
+    @ViewBuilder
+    private func stepDescriptionView(for viewModel: FormStepViewModel) -> some View {
         if let stepDescription = viewModel.step.text {
-            // TODO(rdar://128955005): Ensure same colors are used as in ORKCatalog.
             Text(stepDescription)
+#if os(iOS)
+                .foregroundStyle(Color(uiColor: .label))
+                .font(.body)
+#elseif os(visionOS)
                 .font(.body)
                 .fontWeight(.semibold)
-        }
 #endif
+        }
     }
     
 }
