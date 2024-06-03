@@ -34,7 +34,7 @@ struct StepHeaderView: View {
             }
         }
         .textCase(.none)
-#else
+#elseif os(visionOS)
         if let stepDescription = viewModel.step.text {
             // TODO(rdar://128955005): Ensure same colors are used as in ORKCatalog.
             Text(stepDescription)
