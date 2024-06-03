@@ -1,4 +1,3 @@
-//
 //  ListHeaderView.swift
 //  ResearchKitUI(Watch)
 //
