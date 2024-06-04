@@ -154,55 +154,51 @@ internal struct TaskContentView<Content>: View where Content: View {
     }
       
     var body: some View {
-        ScrollView {
-            if hasNextStep {
-                hiddenNavigationButton
-            }
-            ORKScrollViewReader { value in
-                content(currentStep, currentResult)
-                    .onAppear {
-                        currentResult.startDate = Date()
+        ORKScrollViewReader { value in
+            content(currentStep, currentResult)
+                .onAppear {
+                    currentResult.startDate = Date()
+                }
+                .environment(\.progress, taskManager.progressForQuestionStep(currentStep))
+                .environment((\.completion), completion)
+                .whenChanged(forceScrollToggle) { _ in
+                    withAnimation(Animation.easeInOut(duration: 1)) {
+                        value.scrollToID(Constants.CTA, anchor: nil)
                     }
-                    .environment(\.progress, taskManager.progressForQuestionStep(currentStep))
-                    .environment((\.completion), completion)
-                    .whenChanged(forceScrollToggle) { _ in
-                        withAnimation(Animation.easeInOut(duration: 1)) {
-                            value.scrollToID(Constants.CTA, anchor: nil)
-                        }
+                }
+            HStack {
+                if isSkippable && hasNextStep {
+                    Button {
+                        goNext = true
+                    } label: {
+                        Text("Skip")
                     }
-                HStack {
-                    if isSkippable && hasNextStep {
+                }
+                if hasNextStep {
+                    if shouldScrollToCTA || !(currentStep is ORKFormStep) {
                         Button {
                             goNext = true
                         } label: {
-                            Text("Skip")
-                        }
-                    }
-                    if hasNextStep {
-                        if shouldScrollToCTA || !(currentStep is ORKFormStep) {
-                            Button {
-                                goNext = true
-                            } label: {
-                                Text("Next").bold()
-                            }
-                            .id(Constants.CTA)
-                            .padding(.top, buttonTopPadding)
-                        }
-                    } else {
-                        Button {
-                            completion(true)
-                            taskManager.finishReason = .completed
-                        } label: {
-                            Text("Done").bold()
+                            Text("Next").bold()
                         }
                         .id(Constants.CTA)
-                        .disabled(!shouldScrollToCTA && currentStep is ORKQuestionStep)
                         .padding(.top, buttonTopPadding)
                     }
+                } else {
+                    Button {
+                        completion(true)
+                        taskManager.finishReason = .completed
+                    } label: {
+                        Text("Done").bold()
+                    }
+                    .id(Constants.CTA)
+                    .disabled(!shouldScrollToCTA && currentStep is ORKQuestionStep)
+                    .padding(.top, buttonTopPadding)
                 }
             }
         }
         .toolbar {
+            // TODO(rdar://128955364): Fix cancel button in this flow.
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     setDiscardedIfNeeded(taskManager: taskManager)

@@ -73,8 +73,6 @@ public struct TaskView<Content>: View where Content: View {
             }
             navigationDelegate?.taskDidFinishWithReason(reason)
         })
-
-        .padding()
     }
 }
 

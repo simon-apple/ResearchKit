@@ -54,18 +54,15 @@ struct ScaleSliderQuestionView<ResultType>: View {
     var result: ResultType
 
     public var body: some View {
-        CardView {
-            VStack(alignment: .leading) {
-                Text(title)
-                    .font(.title)
-                if let detail {
-                    Text(detail)
-                }
-
-                scaleView(selectionType: scaleSelectionType)
-
+        VStack(alignment: .leading) {
+            Text(title)
+                .font(.title)
+            if let detail {
+                Text(detail)
             }
-            .padding()
+
+            scaleView(selectionType: scaleSelectionType)
+
         }
     }
 
