@@ -266,6 +266,7 @@ static NSString *ORKMeasurementSystemToString(ORKMeasurementSystem measurementSy
     return tableMapForward(measurementSystem, ORKMeasurementSystemTable());
 }
 
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 static NSDictionary *dictionaryFromCircularRegion(CLCircularRegion *region) {
     NSDictionary *dictionary = region ?
     @{
@@ -280,11 +281,13 @@ static NSDictionary *dictionaryFromCircularRegion(CLCircularRegion *region) {
 static NSDictionary *dictionaryFromPostalAddress(CNPostalAddress *address) {
    return @{ @"city": address.city, @"street": address.street };
 }
+#endif
 
 static NSString *identifierFromClinicalType(HKClinicalType *type) {
     return type.identifier;
 }
 
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 static CLCircularRegion *circularRegionFromDictionary(NSDictionary *dict) {
     CLCircularRegion *circularRegion;
     if (dict.count == 3) {
@@ -294,6 +297,7 @@ static CLCircularRegion *circularRegionFromDictionary(NSDictionary *dict) {
     }
     return circularRegion;
 }
+#endif
 
 static NSArray *arrayFromRegularExpressionOptions(NSRegularExpressionOptions regularExpressionOptions) {
     NSMutableArray *optionsArray = [NSMutableArray new];
@@ -386,12 +390,14 @@ static UITextInputPasswordRules *passwordRulesFromDictionary(NSDictionary *dict)
     return passwordRules;
 }
 
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 static CNPostalAddress *postalAddressFromDictionary(NSDictionary *dict) {
     CNMutablePostalAddress *postalAddress = [[CNMutablePostalAddress alloc] init];
     postalAddress.city = dict[@"city"];
     postalAddress.street = dict[@"street"];
     return [postalAddress copy];
 }
+#endif
 
 static HKClinicalType *typeFromIdentifier(NSString *identifier) {
     return [HKClinicalType clinicalTypeForIdentifier:identifier];
@@ -2559,7 +2565,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                                                            sectionTitle:GETPROP(dict, sectionTitle)
                                                       sectionDetailText:GETPROP(dict, sectionDetailText)
                                                  identifierForCellTitle:GETPROP(dict, identifierForCellTitle)
-                                                             maxAllowed:[GETPROP(dict, maxAllowed) integerValue]
+                                                             maxAllowed:[GETPROP(dict, maxAllowed) unsignedIntegerValue]
                                                               formSteps:GETPROP(dict, formSteps)
                                                   detailTextIdentifiers:GETPROP(dict, detailTextIdentifiers)];
                  },
