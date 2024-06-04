@@ -47,6 +47,8 @@ ORK_EXTERN ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdenti
 
 - (void)taskViewController:(ORKTaskViewController *)taskViewController sensitiveURLLearnMoreButtonPressedWithStep:(ORKSensitiveURLLearnMoreInstructionStep *)sensitiveURLLearnMoreStep forStepViewController:(ORKStepViewController *)stepViewController;
 
+@optional
+
 - (void)taskViewController:(ORKTaskViewController *)taskViewController goToSettingsButtonPressedWithSettingStatusStep:(ORKSettingStatusStep *)settingStatusStep sensitiveURLString:(NSString *)sensitiveURLString applicationString:(NSString *)applicationString;
 
 @end
