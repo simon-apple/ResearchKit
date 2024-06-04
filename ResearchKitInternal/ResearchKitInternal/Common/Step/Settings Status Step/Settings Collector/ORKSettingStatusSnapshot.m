@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,56 +28,8 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "ORKSettingStatusSnapshot.h"
 
-#import "ORKLabel.h"
-
-#import "ORKHelpers_Internal.h"
-
-
-@implementation ORKLabel
-
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        [self init_ORKLabel];
-    }
-    return self;
-}
-
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self init_ORKLabel];
-    }
-    return self;
-}
-
-- (void)init_ORKLabel {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateAppearance)
-                                                 name:UIContentSizeCategoryDidChangeNotification
-                                               object:nil];
-    self.font = [[self class] defaultFont];
-    [self updateAppearance];
-}
-
-- (void)willMoveToWindow:(UIWindow *)newWindow {
-    [super willMoveToWindow:newWindow];
-    [self updateAppearance];
-}
-
-- (void)updateAppearance {
-    self.font = [[self class] defaultFont];
-    [self invalidateIntrinsicContentSize];
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-+ (UIFont *)defaultFont {
-    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
-    return ORKMediumFontWithSize(((NSNumber *)[descriptor objectForKey: UIFontDescriptorSizeAttribute]).doubleValue + 3.0);
-}
+@implementation ORKSettingStatusSnapshot
 
 @end

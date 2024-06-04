@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,56 +28,18 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <ResearchKitUI/ORKStepViewController.h>
 
-#import "ORKLabel.h"
+NS_ASSUME_NONNULL_BEGIN
 
-#import "ORKHelpers_Internal.h"
+/**
+ The corresponding view controller that uses the setting status step
+ as its model object.
+ */
 
-
-@implementation ORKLabel
-
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        [self init_ORKLabel];
-    }
-    return self;
-}
-
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self init_ORKLabel];
-    }
-    return self;
-}
-
-- (void)init_ORKLabel {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateAppearance)
-                                                 name:UIContentSizeCategoryDidChangeNotification
-                                               object:nil];
-    self.font = [[self class] defaultFont];
-    [self updateAppearance];
-}
-
-- (void)willMoveToWindow:(UIWindow *)newWindow {
-    [super willMoveToWindow:newWindow];
-    [self updateAppearance];
-}
-
-- (void)updateAppearance {
-    self.font = [[self class] defaultFont];
-    [self invalidateIntrinsicContentSize];
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-+ (UIFont *)defaultFont {
-    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
-    return ORKMediumFontWithSize(((NSNumber *)[descriptor objectForKey: UIFontDescriptorSizeAttribute]).doubleValue + 3.0);
-}
+ORK_CLASS_AVAILABLE
+@interface ORKSettingStatusStepViewController : ORKStepViewController
 
 @end
+
+NS_ASSUME_NONNULL_END

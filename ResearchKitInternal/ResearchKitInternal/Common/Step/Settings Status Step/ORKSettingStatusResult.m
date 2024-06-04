@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,56 +28,57 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "ORKSettingStatusResult.h"
 
-#import "ORKLabel.h"
+#import <ResearchKit/ORKHelpers_Internal.h>
+#import <ResearchKit/ORKResult_Private.h>
 
-#import "ORKHelpers_Internal.h"
 
+@implementation ORKSettingStatusResult
 
-@implementation ORKLabel
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_BOOL(aCoder, isEnabledAtStart);
+    ORK_ENCODE_BOOL(aCoder, isEnabledAtEnd);
+    ORK_ENCODE_ENUM(aCoder, settingType);
+}
 
-- (instancetype)init {
-    self = [super init];
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
     if (self) {
-        [self init_ORKLabel];
+        ORK_DECODE_BOOL(aDecoder, isEnabledAtStart);
+        ORK_DECODE_BOOL(aDecoder, isEnabledAtEnd);
+        ORK_DECODE_ENUM(aDecoder, settingType);
     }
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self init_ORKLabel];
-    }
-    return self;
++ (BOOL)supportsSecureCoding {
+    return YES;
 }
 
-- (void)init_ORKLabel {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateAppearance)
-                                                 name:UIContentSizeCategoryDidChangeNotification
-                                               object:nil];
-    self.font = [[self class] defaultFont];
-    [self updateAppearance];
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            self.isEnabledAtStart == castObject.isEnabledAtStart &&
+            self.isEnabledAtEnd == castObject.isEnabledAtEnd &&
+            self.settingType == castObject.settingType);
 }
 
-- (void)willMoveToWindow:(UIWindow *)newWindow {
-    [super willMoveToWindow:newWindow];
-    [self updateAppearance];
+- (instancetype)copyWithZone:(NSZone *)zone {
+    __typeof(self) result = [super copyWithZone:zone];
+
+    result.isEnabledAtStart = self.isEnabledAtStart;
+    result.isEnabledAtEnd = self.isEnabledAtEnd;
+    result.settingType = self.settingType;
+
+    return result;
 }
 
-- (void)updateAppearance {
-    self.font = [[self class] defaultFont];
-    [self invalidateIntrinsicContentSize];
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-+ (UIFont *)defaultFont {
-    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
-    return ORKMediumFontWithSize(((NSNumber *)[descriptor objectForKey: UIFontDescriptorSizeAttribute]).doubleValue + 3.0);
+- (NSUInteger)hash {
+    return super.hash ^ self.isEnabledAtStart ^ self.isEnabledAtEnd ^ self.settingType;
 }
 
 @end

@@ -307,6 +307,8 @@ enum Identifier {
     case methodOfAdjustmentdBHLToneAudiometryTask
     case newdBHLToneAudiometryTask
     case customStepTask
+    case settingStatusStep
+    case settingStatusStepTask
     case studyPromoTask
     case studySignPostStep
     case familyHistoryReviewController

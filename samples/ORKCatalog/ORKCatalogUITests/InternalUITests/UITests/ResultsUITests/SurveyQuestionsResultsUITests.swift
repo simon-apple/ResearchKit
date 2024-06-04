@@ -458,7 +458,11 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
             .verifyResultsCellValue(resultType: .address, expectedValue: expectedValue.locationString)
     }
     
-    func testLocationQuestionResult() {
+    func testLocationQuestionResult() throws {
+        if isRunningInXcodeCloud {
+            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment")
+        }
+        
         let simulatedLocation = (locationString: "Geary St San Francisco CA 94102 United States", latitude: 37.787354, longitude: -122.408243)
         let simulatedLocationResultString = "Geary St\nSan Francisco CA 94102\nUnited States"
         
@@ -472,6 +476,10 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
     
     func testLocationQuestionSkipResult() throws {
         try XCTSkipIf(true, "Skipping this test for now due to crash after skipping question (126589758)") /// rdar://126589758 ([ORKCatalog] App crash when viewing location question result in Results tab after skipping question)
+        
+        if isRunningInXcodeCloud {
+            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment")
+        }
         
         answerAndVerifyLocationQuestionTask(locationAnswer: nil, expectedValue: (locationString: "nil", latitude: "nil", longitude: "nil"))
     }
@@ -524,5 +532,246 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
     
     func testValidatedTextQuestionSkipResult() {
         answerAndVerifyValidatedTextQuestionTask(emailAnswer: nil, domainAnswer: nil, expectedEmail: "nil", expectedDomain: "nil")
+    }
+    
+    // MARK: - Scale Question
+    
+    enum ScaleValue {
+        case maxValue, minValue, middleValue
+        
+        var getSliderValues: [Double] {
+            switch self {
+            case .maxValue:
+                return formStepsSliderValues.map {$0.maxValue}
+            case .minValue:
+                return formStepsSliderValues.map {$0.minValue}
+            case .middleValue:
+                return formStepsSliderValues.map {$0.midValue}
+            }
+        }
+    }
+    
+    // Scale control with 10 discrete ticks
+    func answerDiscreteScaleFormStep(answer: ScaleValue, stepIndex: Int, formStep: FormStepScreen = FormStepScreen(), formItemId: String) {
+        let currentSliderMinValue = formStepsSliderValues[stepIndex].minValue
+        let currentSliderMaxValue = formStepsSliderValues[stepIndex].maxValue
+        let currentSliderMidValue = formStepsSliderValues[stepIndex].midValue
+        
+        switch answer {
+        case .maxValue:
+            formStep.answerScaleQuestion(withId: formItemId, sliderValue: currentSliderMaxValue, stepValue: defaultStep, minValue: currentSliderMinValue, maxValue: currentSliderMaxValue)
+        case .middleValue:
+            formStep.answerScaleQuestion(withId: formItemId, sliderValue: currentSliderMidValue, stepValue: defaultStep, minValue: currentSliderMinValue, maxValue: currentSliderMaxValue)
+        case .minValue:
+            // In order to adjust slider to min value, we need to move it first
+            formStep
+                .answerScaleQuestion(withId: formItemId, sliderValue: currentSliderMidValue, stepValue: defaultStep, minValue: currentSliderMinValue, maxValue: currentSliderMaxValue)
+                .answerScaleQuestion(withId: formItemId, sliderValue: currentSliderMinValue, stepValue: defaultStep, minValue: currentSliderMinValue, maxValue: currentSliderMaxValue)
+        }
+    }
+    
+    // Scale control that allows continuous movement with a percent formatter
+    func answerContinuousScaleFormStep(answer: ScaleValue, stepIndex: Int, formStep: FormStepScreen = FormStepScreen(), formItemId: String) {
+        let currentSliderMinValue = formStepsSliderValues[stepIndex].minValue
+        let currentSliderMaxValue = formStepsSliderValues[stepIndex].maxValue
+        let currentSliderMidValue = formStepsSliderValues[stepIndex].midValue
+        
+        switch answer {
+        case .maxValue:
+            formStep.answerScaleQuestionPercentStyle(withId: formItemId, sliderValue: Int(currentSliderMaxValue), stepValue: defaultStep, minValue: currentSliderMinValue, maxValue: currentSliderMaxValue)
+        case .middleValue:
+            formStep.answerScaleQuestionPercentStyle(withId: formItemId, sliderValue: Int(currentSliderMidValue), stepValue: defaultStep, minValue: currentSliderMinValue, maxValue: currentSliderMaxValue)
+        case .minValue:
+            // In order to adjust slider to min value, we need to move it first
+            formStep.answerScaleQuestionPercentStyle(withId: formItemId, sliderValue: Int(currentSliderMidValue), stepValue: defaultStep, minValue: currentSliderMinValue, maxValue: currentSliderMaxValue)
+            formStep.answerScaleQuestionPercentStyle(withId: formItemId, sliderValue: Int(currentSliderMinValue), stepValue: defaultStep, minValue: currentSliderMinValue, maxValue: currentSliderMaxValue)
+        }
+    }
+    
+    // Vertical scale control with 10 discrete ticks
+    func answerDiscreteVerticalScaleFormStep(answer: ScaleValue, stepIndex: Int, formStep: FormStepScreen = FormStepScreen(), formItemId: String) {
+        let currentSliderMinValue = formStepsSliderValues[stepIndex].minValue
+        let currentSliderMaxValue = formStepsSliderValues[stepIndex].maxValue
+        
+        switch answer {
+        case .maxValue:
+            formStep.adjustVerticalSliderToEndPosition(withId: formItemId, expectedValue: currentSliderMaxValue)
+        case .minValue:
+            // In order to adjust slider to min value, we need to move it first
+            formStep
+                .adjustVerticalSlider(withId: formItemId, dx: 0.5, dy: 0.5)
+                .adjustVerticalSliderToStartPosition(withId: formItemId, expectedValue: currentSliderMinValue)
+        case .middleValue:
+            formStep
+                .adjustVerticalSlider(withId: formItemId, dx: 0.5, dy: 0.5)
+        }
+    }
+    
+    // Vertical scale control that allows continuous movement
+    func answerContinuousVerticalScaleFormStep(answer: ScaleValue, stepIndex: Int, formStep: FormStepScreen = FormStepScreen(), formItemId: String) {
+        let currentSliderMinValue = formStepsSliderValues[stepIndex].minValue
+        let currentSliderMaxValue = formStepsSliderValues[stepIndex].maxValue
+        
+        switch answer {
+        case .maxValue:
+            formStep.adjustVerticalSliderToEndPosition(withId: formItemId, expectedValue: currentSliderMaxValue)
+        case .minValue:
+            // In order to adjust slider to min value, we need to move it first
+            formStep
+                .adjustVerticalSlider(withId: formItemId, dx: 0.5, dy: 0.5)
+                .adjustVerticalSliderToStartPosition(withId: formItemId, expectedValue: currentSliderMinValue)
+        case .middleValue:
+            formStep
+                .adjustVerticalSlider(withId: formItemId, dx: 0.5, dy: 0.5)
+        }
+    }
+    
+    // Scale control that allows text choices
+    func answerTextScaleFormStep(answer: ScaleValue, stepIndex: Int, formStep: FormStepScreen = FormStepScreen(), formItemId: String) {
+        let currentSliderMinValue = formStepsSliderValues[stepIndex].minValue
+        let currentSliderMaxValue = formStepsSliderValues[stepIndex].maxValue
+        let currentSliderMidValue = formStepsSliderValues[stepIndex].midValue
+        
+        switch answer {
+        case .maxValue:
+            formStep
+                .answerTextScaleQuestion(withId: formItemId, sliderValue: currentSliderMaxValue, expectedSliderValue: textValues[4], stepValue: defaultStep, minValue: currentSliderMinValue, maxValue: currentSliderMaxValue)
+        case .minValue:
+            // In order to adjust slider to min value, we need to move it first
+            formStep
+                .answerTextScaleQuestion(withId: formItemId, sliderValue: currentSliderMidValue, expectedSliderValue: textValues[2], stepValue: defaultStep, minValue: currentSliderMinValue, maxValue: currentSliderMaxValue)
+                .answerTextScaleQuestion(withId: formItemId, sliderValue: currentSliderMinValue, expectedSliderValue: textValues[0], stepValue: defaultStep, minValue: currentSliderMinValue, maxValue: currentSliderMaxValue)
+        case .middleValue:
+            formStep
+                .answerTextScaleQuestion(withId: formItemId, sliderValue: currentSliderMidValue, expectedSliderValue: textValues[2], stepValue: defaultStep, minValue: currentSliderMinValue, maxValue: currentSliderMaxValue)
+        }
+    }
+    
+    // Vertical scale control that allows text choices
+    func answerVerticalTextScaleFormStep(answer: ScaleValue, stepIndex: Int, formStep: FormStepScreen = FormStepScreen(), formItemId: String) {
+        switch answer {
+        case .maxValue:
+            formStep
+                .adjustVerticalSliderToEndPosition(withId: formItemId, expectedValue: textValues[4])
+        case .minValue:
+            // In order to adjust slider to min value, we need to move it first
+            formStep
+                .adjustVerticalSlider(withId: formItemId, dx: 0.5, dy: 0.5)
+                .adjustVerticalSliderToStartPosition(withId: formItemId, expectedValue: textValues[0])
+        case .middleValue:
+            formStep
+                .adjustVerticalSlider(withId: formItemId, dx: 0.5, dy: 0.5)
+        }
+    }
+    
+    func navigateAndAnswerScaleTask(answer: ScaleValue?, expectedValues: [String]) {
+        tasksList.selectTaskByName(Task.scaleQuestion.description)
+        
+        let formItemId = String(describing: Identifier.scaleFormItem)
+        let discreteScale = String(describing: Identifier.discreteScaleFormStep)
+        let continuousScale = String(describing: Identifier.continuousScaleFormStep)
+        let discreteVerticalScale = String(describing: Identifier.discreteVerticalScaleFormStep)
+        let continuousVerticalScale = String(describing: Identifier.continuousVerticalScaleFormStep)
+        let textScale = String(describing: Identifier.textScaleFormStep)
+        let textVerticalScale = String(describing: Identifier.textVerticalScaleFormStep)
+        let formStep0 = FormStepScreen(id: discreteScale)
+        let formStep1 = FormStepScreen(id: continuousScale)
+        let formStep2 = FormStepScreen(id: discreteVerticalScale)
+        let formStep3 = FormStepScreen(id: continuousVerticalScale)
+        let formStep4 = FormStepScreen(id: textScale)
+        let formStep5 = FormStepScreen(id: textVerticalScale)
+        
+        let task = [formStep0, formStep1, formStep2, formStep3, formStep4, formStep5]
+        
+        if let answer = answer {
+            for formStep in task {
+                switch formStep.id {
+                case discreteScale:
+                    answerDiscreteScaleFormStep(answer: answer, stepIndex: 0, formItemId: formItemId)
+                case continuousScale:
+                    answerContinuousScaleFormStep(answer: answer, stepIndex: 1, formItemId: formItemId)
+                case discreteVerticalScale:
+                    answerDiscreteVerticalScaleFormStep(answer: answer, stepIndex: 2, formItemId: formItemId)
+                case continuousVerticalScale:
+                    answerContinuousVerticalScaleFormStep(answer: answer, stepIndex: 3, formItemId: formItemId)
+                case textScale:
+                    answerTextScaleFormStep(answer: answer, stepIndex: 4, formItemId: formItemId)
+                case textVerticalScale:
+                    answerVerticalTextScaleFormStep(answer:answer, stepIndex: 5, formItemId: formItemId)
+                default:
+                    XCTFail("Unknown step id")
+                }
+                formStep.tap(.continueButton)
+            }
+        } else {
+            for formStep in task {
+                formStep
+                    .verifyStepView()
+                    .tap(.skipButton)
+            }
+        }
+        
+        let resultsTab = tabBar.navigateToResults()
+            .selectResultsCell(withId: formStep0.id)
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .scaleAnswer, expectedValue: expectedValues[0])
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+            .selectResultsCell(withId: formStep1.id)
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .scaleAnswer, expectedValue: expectedValues[1])
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+            .selectResultsCell(withId: formStep2.id)
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .scaleAnswer, expectedValue: expectedValues[2])
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+            .selectResultsCell(withId: formStep3.id)
+            .selectResultsCell(withId: formItemId)
+        if answer == .middleValue {
+            // Currently there is no way to get consistent results for vertical slider due to screen sizes affecting result. Workaround is used
+            resultsTab.verifyResultsCellStartsWithValue(resultType: .scaleAnswer, expectedValue: expectedValues[3])
+        } else {
+            resultsTab.verifyResultsCellValue(resultType: .scaleAnswer, expectedValue: expectedValues[3])
+        }
+        resultsTab
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+            .selectResultsCell(withId: formStep4.id)
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .choices, expectedValue: expectedValues[4])
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+            .selectResultsCell(withId: formStep5.id)
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .choices, expectedValue:  expectedValues[5])
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+    }
+    
+    func testScaleQuestionMaxValueResults() {
+        let expectedValues = formStepsSliderResultValues.map { $0.maxValue }
+        navigateAndAnswerScaleTask(answer: .maxValue, expectedValues: expectedValues)
+    }
+    
+    func testScaleQuestionMinValueResults() {
+        let expectedValues = formStepsSliderResultValues.map { $0.minValue }
+        navigateAndAnswerScaleTask(answer: .minValue, expectedValues: expectedValues)
+    }
+    
+    func testScaleQuestionMidValueResults() {
+        let expectedValues = formStepsSliderResultValues.map { $0.midValue }
+        navigateAndAnswerScaleTask(answer: .middleValue, expectedValues: expectedValues)
+    }
+    
+    func testScaleQuestionSkipResults() {
+        let expectedValues = Array(repeating: "nil", count: formStepsSliderResultValues.count)
+        navigateAndAnswerScaleTask(answer: nil, expectedValues: expectedValues)
     }
 }

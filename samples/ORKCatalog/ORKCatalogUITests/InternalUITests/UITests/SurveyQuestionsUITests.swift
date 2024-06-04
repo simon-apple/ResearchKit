@@ -656,7 +656,11 @@ final class SurveyQuestionsUITests: BaseUITest {
     }
     
     ///rdar://tsc/21847953 ([Survey Questions] Location Question) - Happy Path
-    func testLocationQuestion() {
+    func testLocationQuestion() throws {
+        if isRunningInXcodeCloud {
+            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment")
+        }
+        
         /// https://developer.apple.com/documentation/xcode/simulating-location-in-tests
         if #available(iOS 16.4, *) {
             XCUIDevice.shared.location = XCUILocation(location: CLLocation(latitude: 37.787354, longitude: -122.408243))
@@ -688,7 +692,10 @@ final class SurveyQuestionsUITests: BaseUITest {
     }
     
     /// rdar://tsc/21847953 ([Survey Questions] Location Question) - Negative Path
-    func testLocationQuestionInvalidAddress() {
+    func testLocationQuestionInvalidAddress() throws {
+        if isRunningInXcodeCloud {
+            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment")
+        }
         /// https://developer.apple.com/documentation/xcode/simulating-location-in-tests
         if #available(iOS 16.4, *) {
             XCUIDevice.shared.location = XCUILocation(location: CLLocation(latitude: 37.787354, longitude: -122.408243))

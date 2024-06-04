@@ -107,7 +107,6 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     _environmentSPLMeterContentView = [ORKEnvironmentSPLMeterContentView new];
-    [self setNavigationFooterView];
     _environmentSPLMeterContentView.voiceOverDelegate = self;
     _environmentSPLMeterContentView.ringView.delegate = self;
     self.activeStepView.activeCustomView = _environmentSPLMeterContentView;
@@ -137,6 +136,7 @@ static const NSTimeInterval SPL_METER_PLAY_DELAY_VOICEOVER = 3.0;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    [self setNavigationFooterView];
     if (!_audioEngine.isRunning) {
         [self saveAudioSession];
         _sensitivityOffset = [self sensitivityOffsetForDevice];

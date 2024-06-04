@@ -203,7 +203,9 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
     
     case is ORKIdBHLToneAudiometryResult:
         providerType = dBHLInternalResultTableViewProvider.self
-    
+        
+    case is ORKSettingStatusResult:
+        providerType = SettingStatusResultTableViewProvider.self
     #endif
       
     case is ORKVideoInstructionStepResult:
@@ -1374,7 +1376,8 @@ class HeadphoneDetectStepResultTableViewProvider: ResultTableViewProvider {
                 ResultRow(text: "headphoneType", detail: headphoneDetectStepResult.headphoneType),
                 ResultRow(text: "vendorID", detail: headphoneDetectStepResult.vendorID),
                 ResultRow(text: "productID", detail: headphoneDetectStepResult.productID),
-                ResultRow(text: "deviceSubType", detail: headphoneDetectStepResult.deviceSubType)
+                ResultRow(text: "deviceSubType", detail: headphoneDetectStepResult.deviceSubType),
+                ResultRow(text: "isMonoAudio", detail: headphoneDetectStepResult.isMonoAudioEnabled ? "Yes" : "No")
             ]
         }
         
@@ -1724,6 +1727,27 @@ class BLEScanPeripheralsStepResultTableViewProvider: ResultTableViewProvider {
             for peripheral in bleScanPeripheralsStepResult.connectedPeripherals {
                 rows.append(ResultRow(text: "\(peripheral.name ?? "")", detail: "\(peripheral.state.rawValue == 2 ? "connected" : "not connected")"))
             }
+        }
+        
+        return rows
+    }
+}
+
+/// Table view provider specific to an `ORKSettingStatusResult` instance.
+class SettingStatusResultTableViewProvider: ResultTableViewProvider {
+    // MARK: ResultTableViewProvider
+    
+    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
+        let settingStatusResult = result as! ORKSettingStatusResult
+        
+        let rows = super.resultRowsForSection(section)
+        
+        if section == 0 {
+            return rows + [
+                ResultRow(text: "isEnabledAtStart", detail: "\(settingStatusResult.isEnabledAtStart)"),
+                ResultRow(text: "isEnabledAtEnd", detail: "\(settingStatusResult.isEnabledAtEnd)"),
+                ResultRow(text: "settingType", detail: "\(settingStatusResult.settingType.rawValue.description)"),
+            ]
         }
         
         return rows

@@ -797,6 +797,17 @@ enum TaskListRowSteps {
         return usdzModelStep
     }
     
+    // MARK: - ORKCompletionStep
+    
+    static var completionStepExample: ORKCompletionStep {
+        let completionStep = ORKCompletionStep(identifier: String(describing: Identifier.completionStep))
+        completionStep.iconImage = UIImage(systemName: "checkmark.circle.fill")
+        completionStep.title = "Task Completed"
+        completionStep.text = "Thank you for completing the task."
+        
+        return completionStep
+    }
+    
     // MARK: - Helpers
     
     private static var formItemSectionHeaderExample: ORKFormItem {

@@ -32,6 +32,7 @@
 #import <ResearchKitUI/ORKStepViewController.h>
 
 @class ORKSensitiveURLLearnMoreInstructionStep;
+@class ORKSettingStatusStep;
 
 #define ORKSensitiveMicrophoneURLString "prefs:root=Privacy&path=MICROPHONE"
 #define ORKSensitiveMicrophoneApplicationString "com.apple.Preferences"
@@ -45,6 +46,8 @@ ORK_EXTERN ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdenti
 @protocol ORKITaskViewControllerDelegate <NSObject>
 
 - (void)taskViewController:(ORKTaskViewController *)taskViewController sensitiveURLLearnMoreButtonPressedWithStep:(ORKSensitiveURLLearnMoreInstructionStep *)sensitiveURLLearnMoreStep forStepViewController:(ORKStepViewController *)stepViewController;
+
+- (void)taskViewController:(ORKTaskViewController *)taskViewController goToSettingsButtonPressedWithSettingStatusStep:(ORKSettingStatusStep *)settingStatusStep sensitiveURLString:(NSString *)sensitiveURLString applicationString:(NSString *)applicationString;
 
 @end
 

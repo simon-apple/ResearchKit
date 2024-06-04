@@ -141,7 +141,6 @@
 @end
 
 
-
 @implementation ORKSensitiveURLLearnMoreInstructionStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
@@ -158,3 +157,10 @@
 
 @end
 
+@implementation ORKSettingStatusStep (ViewControllerProviding)
+
+- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
+    return [[ORKSettingStatusStepViewController alloc] initWithStep:self result:result];
+}
+
+@end

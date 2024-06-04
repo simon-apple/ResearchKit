@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,56 +28,54 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "ORKSettingStatusStep.h"
 
-#import "ORKLabel.h"
+#import <ResearchKit/ORKHelpers_Internal.h>
 
-#import "ORKHelpers_Internal.h"
+@implementation ORKSettingStatusStep
 
-
-@implementation ORKLabel
-
-- (instancetype)init {
-    self = [super init];
+- (instancetype)initWithIdentifier:(NSString *)identifier settingType:(ORKSettingType)settingType {
+    self = [self initWithIdentifier: identifier];
+    
     if (self) {
-        [self init_ORKLabel];
+        _settingType = settingType;
     }
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
     if (self) {
-        [self init_ORKLabel];
+        ORK_DECODE_ENUM(aDecoder, settingType);
     }
     return self;
 }
 
-- (void)init_ORKLabel {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateAppearance)
-                                                 name:UIContentSizeCategoryDidChangeNotification
-                                               object:nil];
-    self.font = [[self class] defaultFont];
-    [self updateAppearance];
+- (void)encodeWithCoder:(nonnull NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_ENUM(aCoder, settingType);
 }
 
-- (void)willMoveToWindow:(UIWindow *)newWindow {
-    [super willMoveToWindow:newWindow];
-    [self updateAppearance];
+- (nonnull id)copyWithZone:(nullable NSZone *)zone {
+    __typeof(self) step = [super copyWithZone:zone];
+    step.settingType = self.settingType;
+    return step;
 }
 
-- (void)updateAppearance {
-    self.font = [[self class] defaultFont];
-    [self invalidateIntrinsicContentSize];
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame && (self.settingType == castObject.settingType));
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (NSUInteger)hash {
+    return [super hash] ^ self.settingType;
 }
 
-+ (UIFont *)defaultFont {
-    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
-    return ORKMediumFontWithSize(((NSNumber *)[descriptor objectForKey: UIFontDescriptorSizeAttribute]).doubleValue + 3.0);
-}
 
 @end

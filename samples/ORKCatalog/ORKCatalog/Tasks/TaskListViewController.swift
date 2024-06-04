@@ -378,6 +378,10 @@ extension TaskListViewController: ORKITaskViewControllerDelegate {
     func taskViewController(_ taskViewController: ORKTaskViewController, sensitiveURLLearnMoreButtonPressedWith sensitiveURLLearnMoreStep: ORKSensitiveURLLearnMoreInstructionStep, for stepViewController: ORKStepViewController) {
         UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
     }
+    
+    func taskViewController(_ taskViewController: ORKTaskViewController, goToSettingsButtonPressedWith settingStatusStep: ORKSettingStatusStep, sensitiveURLString: String, applicationString: String) {
+        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
+    }
 }
 
 extension TaskListViewController: ORKStepViewControllerDelegate {

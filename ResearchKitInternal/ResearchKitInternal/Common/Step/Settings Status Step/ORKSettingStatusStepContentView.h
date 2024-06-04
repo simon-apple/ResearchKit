@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,56 +28,39 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+@import UIKit;
 
-#import "ORKLabel.h"
+NS_ASSUME_NONNULL_BEGIN
 
-#import "ORKHelpers_Internal.h"
+typedef NS_ENUM(NSUInteger, ORKSettingStatusStepContentViewEvent) {
+    ORKSettingStatusStepContentViewEventSkipButtonPressed = 0,
+    ORKSettingStatusStepContentViewEventGoToSettingsPressed,
+    ORKSettingStatusStepContentViewEventGoForwardPressed
+};
 
+typedef void (^ORKSettingStatusStepContentViewEventHandler)(ORKSettingStatusStepContentViewEvent);
 
-@implementation ORKLabel
+/**
+ The UIView used by the settings status step view controller
+ to present its content.
+ */
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        [self init_ORKLabel];
-    }
-    return self;
-}
+@interface ORKSettingStatusStepContentView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self init_ORKLabel];
-    }
-    return self;
-}
++ (instancetype)new NS_UNAVAILABLE;
 
-- (void)init_ORKLabel {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateAppearance)
-                                                 name:UIContentSizeCategoryDidChangeNotification
-                                               object:nil];
-    self.font = [[self class] defaultFont];
-    [self updateAppearance];
-}
+- (instancetype)init NS_UNAVAILABLE;
 
-- (void)willMoveToWindow:(UIWindow *)newWindow {
-    [super willMoveToWindow:newWindow];
-    [self updateAppearance];
-}
+- (instancetype)initWithTitle:(NSString *)title
+                         text:(NSString *)text;
 
-- (void)updateAppearance {
-    self.font = [[self class] defaultFont];
-    [self invalidateIntrinsicContentSize];
-}
+- (void)setViewEventHandler:(ORKSettingStatusStepContentViewEventHandler)handler;
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-+ (UIFont *)defaultFont {
-    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
-    return ORKMediumFontWithSize(((NSNumber *)[descriptor objectForKey: UIFontDescriptorSizeAttribute]).doubleValue + 3.0);
-}
+@property (nonatomic) BOOL isSettingEnabled;
+@property (nonatomic, readonly) UIBarButtonItem *skipButtonItem;
+@property (nonatomic, readonly) UIBarButtonItem *goToSettingsButtonItem;
+@property (nonatomic, readonly) UIBarButtonItem *goForwardButtonItem;
 
 @end
+
+NS_ASSUME_NONNULL_END

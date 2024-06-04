@@ -1736,7 +1736,8 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
         @"ORKTinnitusMaskingSoundStepViewController":@"ORKTinnitusMaskingSoundStep",
         @"ORKdBHLToneAudiometryMethodOfAdjustmentStepViewController": @"ORKdBHLToneAudiometryMethodOfAdjustmentStep",
         @"ORKHeadphoneDetectStepViewController" : @"ORKHeadphoneDetectStep",
-        @"ORKHeadphonesRequiredCompletionStepViewController" : @"ORKHeadphonesRequiredCompletionStep"
+        @"ORKHeadphonesRequiredCompletionStepViewController" : @"ORKHeadphonesRequiredCompletionStep",
+        @"ORKSettingStatusStepViewController" : @"ORKSettingStatusStep"
     }];
     
     mapStepClassForViewController = [internalMapStepClassForViewController copy];

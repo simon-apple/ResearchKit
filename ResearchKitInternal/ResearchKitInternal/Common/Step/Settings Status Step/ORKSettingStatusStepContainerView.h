@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, Apple Inc. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,56 +28,19 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-#import "ORKLabel.h"
-
-#import "ORKHelpers_Internal.h"
+#import <ResearchKitUI/ORKStepContainerView.h>
 
 
-@implementation ORKLabel
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        [self init_ORKLabel];
-    }
-    return self;
-}
+@class ORKSettingStatusStepContentView;
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self init_ORKLabel];
-    }
-    return self;
-}
+@interface ORKSettingStatusStepContainerView : ORKStepContainerView
 
-- (void)init_ORKLabel {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateAppearance)
-                                                 name:UIContentSizeCategoryDidChangeNotification
-                                               object:nil];
-    self.font = [[self class] defaultFont];
-    [self updateAppearance];
-}
+- (instancetype)initWithStatusStepContentView:(ORKSettingStatusStepContentView *)contentView;
 
-- (void)willMoveToWindow:(UIWindow *)newWindow {
-    [super willMoveToWindow:newWindow];
-    [self updateAppearance];
-}
-
-- (void)updateAppearance {
-    self.font = [[self class] defaultFont];
-    [self invalidateIntrinsicContentSize];
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-+ (UIFont *)defaultFont {
-    UIFontDescriptor *descriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleSubheadline];
-    return ORKMediumFontWithSize(((NSNumber *)[descriptor objectForKey: UIFontDescriptorSizeAttribute]).doubleValue + 3.0);
-}
+@property (nonatomic) BOOL isSettingEnabled;
 
 @end
+
+NS_ASSUME_NONNULL_END

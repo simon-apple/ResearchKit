@@ -1206,6 +1206,21 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(sourceOfInteraction, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(timeStamp, NSNumber, NSObject, NO, nil, nil),
                     })),
+           ENTRY(ORKSettingStatusStep,
+                 ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
+                    ORKSettingStatusStep *settingStatusStep = [[ORKSettingStatusStep alloc] initWithIdentifier:GETPROP(dict, identifier) settingType:GETPROP(dict, settingType)];
+                    return settingStatusStep;
+                 },
+                 (@{
+                    PROPERTY(settingType, NSNumber, NSObject, YES, nil, nil),
+                    })),
+           ENTRY(ORKSettingStatusResult,
+                 nil,
+                 (@{
+                    PROPERTY(isEnabledAtStart, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(isEnabledAtEnd, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(settingType, NSNumber, NSObject, YES, nil, nil),
+                    })),
 #endif
            ENTRY(ORKHolePegTestPlaceStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
