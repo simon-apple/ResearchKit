@@ -50,8 +50,8 @@ struct StepHeaderView: View {
 #else
         if let stepDescription = viewModel.step.text {
             VStack {
-                // TODO(rdar://128955005): Ensure same colors are used as in ORKCatalog.
                 Text(stepDescription)
+                    .foregroundStyle(Color(uiColor: .label))
                     .font(.body)
                     .fontWeight(.semibold)
                 
