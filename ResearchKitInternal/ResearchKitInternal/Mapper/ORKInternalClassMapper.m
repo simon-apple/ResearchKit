@@ -179,7 +179,7 @@ NSString * const ORKUseInternalClassMapperKey = @"ORKUseInternalClassMapperKey";
         ORK_Log_Debug("mapping ORKIEnvironmentSPLMeterStepViewController");
         return [[ORKIEnvironmentSPLMeterStepViewController alloc] initWithStep:step result:result];
     } 
-    ORK_Log_Debug("no class found for %@ - %@", step.class, step.superclass);
+   
     return nil;
 }
 

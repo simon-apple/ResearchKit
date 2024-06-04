@@ -325,8 +325,6 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
 #else
         taskViewController.dismiss(animated: true, completion: nil)
 #endif
-        
-        
     }
     
     func taskViewController(_ taskViewController: ORKTaskViewController, stepViewControllerWillAppear stepViewController: ORKStepViewController) {
