@@ -35,15 +35,20 @@
 #import "ORKSettingStatusResult.h"
 #import "ORKSettingStatusSnapshot.h"
 #import "ORKSettingStatusStep.h"
+#import "ORKSettingStatusStepContainerView.h"
 #import "ORKSettingStatusStepContentView.h"
 #import "ORKSettingStatusStepViewController.h"
+
+#import <ResearchKitUI/ORKStepContainerView_Private.h>
 
 #define ORKSettingStatusReduceLoudSoundsSensitiveURLString "prefs:root=Sounds&path=HEADPHONE_LEVEL_LIMIT_SETTING"
 #define ORKSettingStatusApplicationString "com.apple.Preferences"
 
+
 @implementation ORKSettingStatusStepViewController {
     ORKSettingStatusCollector *_settingStatusCollector;
     ORKSettingStatusStepContentView *_settingsStatusStepContentView;
+    ORKSettingStatusStepContainerView *_stepContainerView;
     NSArray<NSLayoutConstraint *> *_contentViewConstraints;
     
     BOOL _initialEnabledStatusCollected;
@@ -82,6 +87,7 @@
     [super viewDidLoad];
     
     [self _setupContentView];
+    [self _setupStepContainerView];
     [self _setupConstraints];
     [self _setupSettingStatusCollector];
     [self _checkSettingStatus];
@@ -90,6 +96,12 @@
                                              selector:@selector(_checkSettingStatus)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self.taskViewController setNavigationBarColor:self.view.backgroundColor];
 }
 
 - (void)dealloc {
@@ -104,7 +116,7 @@
     
     ORKSettingStatusResult *settingStatusResult = [[ORKSettingStatusResult alloc] initWithIdentifier:settingStatusStep.identifier];
     settingStatusResult.isEnabledAtStart = _initialEnabledStatus;
-    settingStatusResult.isEnabledAtEnd = _settingsStatusStepContentView.isSettingEnabled;
+    settingStatusResult.isEnabledAtEnd = _stepContainerView.isSettingEnabled;
     settingStatusResult.settingType = settingStatusStep.settingType;
 
     [results addObject:settingStatusResult];
@@ -116,16 +128,22 @@
 - (void)_setupContentView {
     if (!_settingsStatusStepContentView) {
         ORKSettingStatusStep *settingStatusStep = [self _orkSettingStatusStep];
-        _settingsStatusStepContentView = [[ORKSettingStatusStepContentView alloc] initWithTitle:settingStatusStep.title 
-                                                                                     detailText:settingStatusStep.detailText];
+        _settingsStatusStepContentView = [[ORKSettingStatusStepContentView alloc] initWithTitle:settingStatusStep.title
+                                                                                           text:settingStatusStep.text];
     }
     
     __weak typeof(self) weakSelf = self;
     [_settingsStatusStepContentView setViewEventHandler:^(ORKSettingStatusStepContentViewEvent event) {
         [weakSelf _handleContentViewEvent:event];
     }];
-    
-    [self.view addSubview:_settingsStatusStepContentView];
+}
+
+- (void)_setupStepContainerView {
+    if (!_stepContainerView) {
+        _stepContainerView = [[ORKSettingStatusStepContainerView alloc] initWithStatusStepContentView:_settingsStatusStepContentView];
+        
+        [self.view addSubview:_stepContainerView];
+    }
 }
 
 - (void)_setupConstraints {
@@ -135,10 +153,10 @@
     }
     
     _contentViewConstraints = @[
-        [[_settingsStatusStepContentView topAnchor] constraintEqualToAnchor:self.view.topAnchor],
-        [[_settingsStatusStepContentView bottomAnchor] constraintEqualToAnchor:self.view.bottomAnchor],
-        [[_settingsStatusStepContentView leadingAnchor] constraintEqualToAnchor:self.view.leadingAnchor],
-        [[_settingsStatusStepContentView trailingAnchor] constraintEqualToAnchor:self.view.trailingAnchor]
+        [[_stepContainerView topAnchor] constraintEqualToAnchor:self.view.topAnchor],
+        [[_stepContainerView bottomAnchor] constraintEqualToAnchor:self.view.bottomAnchor],
+        [[_stepContainerView leadingAnchor] constraintEqualToAnchor:self.view.leadingAnchor],
+        [[_stepContainerView trailingAnchor] constraintEqualToAnchor:self.view.trailingAnchor]
     ];
     
     [NSLayoutConstraint activateConstraints:_contentViewConstraints];
@@ -161,7 +179,7 @@
     if (_settingStatusCollector) {
         ORKSettingStatusStep *settingStatusStep = [self _orkSettingStatusStep];
         ORKSettingStatusSnapshot *settingStatusSnapshot = [_settingStatusCollector getSettingStatusForSettingType:settingStatusStep.settingType];
-        [_settingsStatusStepContentView setIsSettingEnabled:settingStatusSnapshot.isEnabled];
+        [_stepContainerView setIsSettingEnabled:settingStatusSnapshot.isEnabled];
         
         if (!_initialEnabledStatusCollected) {
             _initialEnabledStatusCollected = YES;

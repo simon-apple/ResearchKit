@@ -33,6 +33,7 @@
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ORKResult_Private.h>
 
+
 @implementation ORKSettingStatusResult
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {

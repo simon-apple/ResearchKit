@@ -61,6 +61,7 @@
 #import <ResearchKitInternal/ORKOrderedTask+ResearchKitInternal.h>
 #import <ResearchKitInternal/ORKSettingStatusResult.h>
 #import <ResearchKitInternal/ORKSettingStatusStep.h>
+#import <ResearchKitInternal/ORKSettingStatusResult.h>
 #import <ResearchKitInternal/ORKSettingStatusStepViewController.h>
 #import <ResearchKitInternal/ORKTinnitusMaskingSoundResult.h>
 #import <ResearchKitInternal/ORKTinnitusMaskingSoundStepViewController.h>
