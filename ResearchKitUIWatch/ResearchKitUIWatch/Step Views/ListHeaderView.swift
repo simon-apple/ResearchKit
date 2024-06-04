@@ -24,15 +24,8 @@ struct ListHeaderView<Content: View>: View {
                 content
             }
         )
-        .listRowInsets(
-            EdgeInsets(
-                top: 0,
-                leading: 0,
-                bottom: 0,
-                trailing: 0
-            )
-        )
         .listSectionSpacing(.custom(0))
+        .listRowInsets(EdgeInsets())
     }
     
 }
