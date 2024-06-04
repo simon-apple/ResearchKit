@@ -1,4 +1,3 @@
-//
 //  StepSectionHeaderView.swift
 //  ResearchKitUI(Watch)
 //
