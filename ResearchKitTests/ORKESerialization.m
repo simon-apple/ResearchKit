@@ -1208,7 +1208,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     })),
            ENTRY(ORKSettingStatusStep,
                  ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
-                    ORKSettingStatusStep *settingStatusStep = [[ORKSettingStatusStep alloc] initWithIdentifier:GETPROP(dict, identifier) settingType:GETPROP(dict, settingType)];
+                    ORKSettingStatusStep *settingStatusStep = [[ORKSettingStatusStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
                     return settingStatusStep;
                  },
                  (@{
