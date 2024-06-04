@@ -13,4 +13,9 @@ extension XCTestCase {
     func test(_ description: String, block: () throws -> Void) rethrows {
         try XCTContext.runActivity(named: description, block: { _ in try block() })
     }
+    
+    /// https://developer.apple.com/documentation/xcode/environment-variable-reference#Variables-that-are-always-available
+    var isRunningInXcodeCloud: Bool {
+        return ProcessInfo.processInfo.environment["CI_XCODE_CLOUD"] != nil
+    }
 }
