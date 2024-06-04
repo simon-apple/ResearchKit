@@ -21,9 +21,7 @@ struct StepHeaderView: View {
     
     var body: some View {
 #if os(iOS)
-        // TODO(rdar://128955005): Make biz logic exactly like in ORKCatalog.
         VStack(alignment: .leading) {
-            // TODO(rdar://128955005): Ensure same colors are used as in ORKCatalog.
             if let stepTitle = viewModel.step.title {
                 Spacer()
                     .frame(height: stepTitleTopSpacing)
