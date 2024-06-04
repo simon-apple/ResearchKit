@@ -71,21 +71,20 @@ class FormStepViewModel: ObservableObject {
                          )
                      )
                 case let scaleAnswerFormat as ORKScaleAnswerFormat:
-                    return FormRow.scale(
+
+                    return FormRow.numericalSliderStep(
                         ScaleSliderQuestion(
-                            title: questionText,
                             id: formItem.identifier,
-                            selectionType: .integerRange(scaleAnswerFormat.minimum...scaleAnswerFormat.maximum),
-                            result: 1
+                            title: questionText,
+                            selectionType: .integerRange(scaleAnswerFormat.minimum...scaleAnswerFormat.maximum)
                         )
                     )
                 case let continuousScaleAnswerFormat as ORKContinuousScaleAnswerFormat:
-                    return FormRow.scale(
+                    return FormRow.numericalSliderStep(
                         ScaleSliderQuestion(
-                            title: questionText,
                             id: formItem.identifier,
-                            selectionType: .doubleRange(continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum),
-                            result: 1
+                            title: questionText,
+                            selectionType: .doubleRange(continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum)
                         )
                     )
 
@@ -97,12 +96,11 @@ class FormStepViewModel: ObservableObject {
                             choiceText: textChoice.text
                         )
                     }
-                    return FormRow.scale(
+                    return FormRow.textSliderStep(
                         ScaleSliderQuestion(
-                            title: questionText,
                             id: formItem.identifier,
-                            selectionType: .textChoice(answerOptions),
-                            result: MultipleChoiceOption(id: UUID().uuidString, choiceText: "")
+                            title: questionText,
+                            selectionType: .textChoice(answerOptions)
                         )
                     )
             default:
@@ -126,18 +124,15 @@ class FormStepViewModel: ObservableObject {
                 result.choiceAnswers = multipleChoiceRow.result.map { $0.choiceText as NSString }
                 resultArray.append(result)
 
-            case .scale(let scaleRow):
-                switch scaleRow.selectionType {
-                case .textChoice(_):
-                    let result = ORKTextQuestionResult(identifier: scaleRow.id)
-                    result.textAnswer = scaleRow.result as? String
-                    resultArray.append(result)
+            case .numericalSliderStep(let numericalScaleRow):
+                let result = ORKScaleQuestionResult(identifier: numericalScaleRow.id)
+                result.scaleAnswer = numericalScaleRow.result as? NSNumber
+                resultArray.append(result)
 
-                case .integerRange(_), .doubleRange(_):
-                    let result = ORKScaleQuestionResult(identifier: scaleRow.id)
-                    result.scaleAnswer = scaleRow.result as? NSNumber
-                    resultArray.append(result)
-                }
+            case .textSliderStep(let textSliderRow):
+                let result = ORKTextQuestionResult(identifier: textSliderRow.id)
+                result.textAnswer = textSliderRow.result?.choiceText as? String
+                resultArray.append(result)
             }
         }
 

@@ -7,16 +7,20 @@
 import Foundation
 
 /// Enumeration to cover all the different question types for FormStep
+/// Enumeration to cover all the different question types for FormStep
 enum FormRow: Identifiable {
     case multipleChoiceRow(MultipleChoiceQuestion)
-    case scale(ScaleSliderQuestion<Any>)
+    case numericalSliderStep(ScaleSliderQuestion<Double>)
+    case textSliderStep(ScaleSliderQuestion<MultipleChoiceOption>)
 
     var id: String {
         switch self {
-            case .multipleChoiceRow(let multipleChoiceValue):
-                multipleChoiceValue.id
-            case .scale(let scaleQuestion):
-                scaleQuestion.id
+        case .multipleChoiceRow(let multipleChoiceValue):
+            multipleChoiceValue.id
+        case .numericalSliderStep(let doubleSlider):
+            doubleSlider.id
+        case .textSliderStep(let textSlider):
+            textSlider.id
         }
     }
 }

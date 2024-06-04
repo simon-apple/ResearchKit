@@ -21,14 +21,12 @@ enum ScaleSelectionType {
 
 @Observable
 class ScaleSliderQuestion<ResultType>: Identifiable {
-
-    public var title: String
     public var id: String
+    public var title: String
     public let selectionType: ScaleSelectionType
-    public var result: ResultType
+    public var result: ResultType?
 
-
-    init(title: String, id: String, selectionType: ScaleSelectionType, result: ResultType) {
+    init(id: String, title: String, selectionType: ScaleSelectionType, result: ResultType? = nil) {
         self.title = title
         self.id = id
         self.selectionType = selectionType
@@ -47,8 +45,9 @@ struct ScaleSliderQuestionView<ResultType>: View {
 
     var scaleSelectionType: ScaleSelectionType
 
+    // Actual underlying value of the slider
     @State
-    var value = 0.0
+    private var value = 0.0
 
     @Binding
     var result: ResultType
@@ -61,17 +60,17 @@ struct ScaleSliderQuestionView<ResultType>: View {
                 if let detail {
                     Text(detail)
                 }
-
                 scaleView(selectionType: scaleSelectionType)
-
+                    .onChange(of: value) { _, _ in
+                        updateResult()
+                    }
             }
             .padding()
         }
     }
 
-
     @ViewBuilder
-    func scaleView(selectionType: ScaleSelectionType) -> some View {
+    private func scaleView(selectionType: ScaleSelectionType) -> some View {
 
         switch selectionType {
             case .integerRange(let range):
@@ -118,10 +117,21 @@ struct ScaleSliderQuestionView<ResultType>: View {
                         } maximumValueLabel: {
                             Text("Max")
                         }
-
                 }
         }
     }
 
+    // MARK: Helpers
+    private func updateResult() {
+        switch self.scaleSelectionType {
+        case .textChoice(let array):
+            let index = Int(self.value)
+            $result.wrappedValue = array[index] as! ResultType
+        case .integerRange(_):
+            $result.wrappedValue = Int(value) as! ResultType
+        case .doubleRange(_):
+            $result.wrappedValue = value as! ResultType
+        }
+    }
 }
 

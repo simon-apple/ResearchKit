@@ -93,14 +93,43 @@ internal struct FormStepView: View {
                                         )
                                     })
                             )
-                        case .scale(let scaleQuestion):
-                            @Bindable var scaleQuestionBinding = scaleQuestion
+
+                        case .numericalSliderStep(let numericalScaleQuestion):
                             ScaleSliderQuestionView(
-                                identifier: scaleQuestion.id,
-                                title: scaleQuestion.title,
-                                scaleSelectionType: scaleQuestionBinding.selectionType,
-                                result: $scaleQuestionBinding.result
+                                identifier: numericalScaleQuestion.id,
+                                title: numericalScaleQuestion.title,
+                                scaleSelectionType: .doubleRange(0...10),
+                                result: .init(get: {
+                                    return numericalScaleQuestion.result
+                                }, set: { newValue in
+                                    formRow = .numericalSliderStep(
+                                        ScaleSliderQuestion(
+                                            id: numericalScaleQuestion.id,
+                                            title: numericalScaleQuestion.title,
+                                            selectionType: numericalScaleQuestion.selectionType,
+                                            result: newValue
+                                        )
+                                    )
+                                })
                             )
+
+                        case .textSliderStep(let textSliderQuestion):
+                            ScaleSliderQuestionView(
+                                identifier: textSliderQuestion.id,
+                                title: textSliderQuestion.title,
+                                scaleSelectionType: textSliderQuestion.selectionType,
+                                result: .init(get: {
+                                    return textSliderQuestion.result
+                                }, set: { newValue in
+                                    formRow = .textSliderStep(
+                                        ScaleSliderQuestion(
+                                            id: textSliderQuestion.id,
+                                            title: textSliderQuestion.title,
+                                            selectionType: textSliderQuestion.selectionType,
+                                            result: newValue
+                                        )
+                                    )
+                                }))
                         }
                     }
                 }
