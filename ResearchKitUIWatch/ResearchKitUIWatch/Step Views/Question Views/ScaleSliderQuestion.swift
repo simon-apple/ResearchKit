@@ -9,18 +9,13 @@ import Foundation
 import ResearchKit
 import SwiftUI
 
-enum ScaleAxis {
-    case horizontal, verticle
-}
-
 enum ScaleSelectionType {
     case textChoice([MultipleChoiceOption])
     case integerRange(ClosedRange<Int>)
     case doubleRange(ClosedRange<Double>)
 }
 
-@Observable
-class ScaleSliderQuestion<ResultType>: Identifiable {
+struct ScaleSliderQuestion<ResultType>: Identifiable {
     public var id: String
     public var title: String
     public let selectionType: ScaleSelectionType
@@ -30,14 +25,11 @@ class ScaleSliderQuestion<ResultType>: Identifiable {
         self.title = title
         self.id = id
         self.selectionType = selectionType
-        _result = result
+        self.result = result
     }
-
 }
 
 struct ScaleSliderQuestionView<ResultType>: View {
-
-    let identifier: String
 
     var title: String
 
@@ -59,11 +51,10 @@ struct ScaleSliderQuestionView<ResultType>: View {
             if let detail {
                 Text(detail)
             }
-
             scaleView(selectionType: scaleSelectionType)
-                .onChange(of: value) { _, _ in
-                    updateResult()
-            }
+                .onChange(of: value) { _, newValue in
+                    updateResult(updatedValue: newValue)
+                }
         }
     }
 
@@ -76,14 +67,14 @@ struct ScaleSliderQuestionView<ResultType>: View {
                     Text("\(Int(value))")
                     Slider(
                         value: $value,
-                        in: 0...100,
+                        in: Double(range.lowerBound)...Double(range.upperBound),
                         step: 1
                     ) {
                         Text("Replace This Text")
                     } minimumValueLabel: {
-                        Text("min")
+                        Text("\(range.lowerBound)")
                     } maximumValueLabel: {
-                        Text("max")
+                        Text("\(range.upperBound)")
                     }
                 }
             case .doubleRange(let range):
@@ -91,14 +82,13 @@ struct ScaleSliderQuestionView<ResultType>: View {
                     Text("\(value)")
                     Slider(
                         value: $value,
-                        in: 0...5,
+                        in: range.lowerBound...range.upperBound,
                         step: 0.01
                     ) {
-                        Text("Replace This Text")
                     } minimumValueLabel: {
-                        Text("min")
+                        Text("\(range.lowerBound)")
                     } maximumValueLabel: {
-                        Text("max")
+                        Text("\(range.lowerBound)")
                     }
                 }
             case .textChoice(let choices):
@@ -109,12 +99,15 @@ struct ScaleSliderQuestionView<ResultType>: View {
                         in: 0...Double(choices.count - 1),
                         step: 1
                     ) {
-                            Text("Choices")
-                        } minimumValueLabel: {
-                            Text("Min")
-                        } maximumValueLabel: {
-                            Text("Max")
+                    } minimumValueLabel: {
+                        if let minimumLabelText = choices.first?.choiceText {
+                            Text(minimumLabelText)
                         }
+                    } maximumValueLabel: {
+                        if let maximumLabelText = choices.last?.choiceText {
+                            Text(maximumLabelText)
+                        }
+                    }
                 }
         }
     }

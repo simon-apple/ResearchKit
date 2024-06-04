@@ -7,7 +7,6 @@
 import Foundation
 
 /// Enumeration to cover all the different question types for FormStep
-/// Enumeration to cover all the different question types for FormStep
 enum FormRow: Identifiable {
     case multipleChoiceRow(MultipleChoiceQuestion)
     case numericalSliderStep(ScaleSliderQuestion<Double>)

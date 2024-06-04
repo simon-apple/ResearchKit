@@ -90,9 +90,8 @@ internal struct FormStepView: View {
                         )
                     case .numericalSliderStep(let numericalScaleQuestion):
                         ScaleSliderQuestionView(
-                            identifier: numericalScaleQuestion.id,
                             title: numericalScaleQuestion.title,
-                            scaleSelectionType: .doubleRange(0...10),
+                            scaleSelectionType: numericalScaleQuestion.selectionType,
                             result: .init(get: {
                                 return numericalScaleQuestion.result
                             }, set: { newValue in
@@ -109,7 +108,6 @@ internal struct FormStepView: View {
 
                     case .textSliderStep(let textSliderQuestion):
                         ScaleSliderQuestionView(
-                            identifier: textSliderQuestion.id,
                             title: textSliderQuestion.title,
                             scaleSelectionType: textSliderQuestion.selectionType,
                             result: .init(get: {
