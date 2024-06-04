@@ -38,7 +38,7 @@ public struct TextChoiceCell: View {
                     .foregroundColor(isSelected ? .blue : deselectedCheckmarkColor)
                     .font(.body)
             }
-        }.buttonBorderShape(.roundedRectangle)
+        }
     }
     
     // TODO(rdar://129073682): Update checkmark to more accurately match designs for both iOS and visionOS.
