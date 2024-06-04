@@ -11,6 +11,7 @@ struct StepHeaderView: View {
     
     private let stepTitleTopSpacing: CGFloat = 15
     private let stepDescriptionTopSpacing: CGFloat = 15
+    private let bottomSpacing: CGFloat = 35
     
     @ObservedObject
     private var viewModel: FormStepViewModel
@@ -42,7 +43,7 @@ struct StepHeaderView: View {
             }
             
             Spacer()
-                .frame(height: 35)
+                .frame(height: bottomSpacing)
         }
         .textCase(.none)
 #else
@@ -54,7 +55,7 @@ struct StepHeaderView: View {
                     .fontWeight(.semibold)
                 
                 Spacer()
-                    .frame(height: 35)
+                    .frame(height: bottomSpacing)
             }
         }
 #endif
