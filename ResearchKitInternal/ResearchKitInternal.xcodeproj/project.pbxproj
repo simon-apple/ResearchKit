@@ -32,6 +32,8 @@
 		51274A712C0697ED0033E905 /* ORKSettingStatusResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 51274A6E2C0697ED0033E905 /* ORKSettingStatusResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51274A882C0FA6460033E905 /* ORKReadOnlyReviewViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51274A862C0FA6460033E905 /* ORKReadOnlyReviewViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51274A892C0FA6460033E905 /* ORKReadOnlyReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51274A872C0FA6460033E905 /* ORKReadOnlyReviewViewController.m */; };
+		51274A742C093FBA0033E905 /* ORKSettingStatusStepContainerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 51274A722C093FBA0033E905 /* ORKSettingStatusStepContainerView.h */; };
+		51274A752C093FBA0033E905 /* ORKSettingStatusStepContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51274A732C093FBA0033E905 /* ORKSettingStatusStepContainerView.m */; };
 		518100042B8FED800092A1C6 /* ORKInternalClassMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 518100022B8FED800092A1C6 /* ORKInternalClassMapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		518100052B8FED800092A1C6 /* ORKInternalClassMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 518100032B8FED800092A1C6 /* ORKInternalClassMapper.m */; };
 		5192BF0C2AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF062AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m */; };
@@ -317,6 +319,8 @@
 		51274A6F2C0697ED0033E905 /* ORKSettingStatusResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSettingStatusResult.m; sourceTree = "<group>"; };
 		51274A862C0FA6460033E905 /* ORKReadOnlyReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKReadOnlyReviewViewController.h; sourceTree = "<group>"; };
 		51274A872C0FA6460033E905 /* ORKReadOnlyReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKReadOnlyReviewViewController.m; sourceTree = "<group>"; };
+		51274A722C093FBA0033E905 /* ORKSettingStatusStepContainerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSettingStatusStepContainerView.h; sourceTree = "<group>"; };
+		51274A732C093FBA0033E905 /* ORKSettingStatusStepContainerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSettingStatusStepContainerView.m; sourceTree = "<group>"; };
 		518100022B8FED800092A1C6 /* ORKInternalClassMapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKInternalClassMapper.h; sourceTree = "<group>"; };
 		518100032B8FED800092A1C6 /* ORKInternalClassMapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKInternalClassMapper.m; sourceTree = "<group>"; };
 		5192BF062AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKFamilyHistoryRelatedPersonCell.m; sourceTree = "<group>"; };
@@ -742,6 +746,8 @@
 				512749F92BF52FC60033E905 /* ORKSettingStatusStepContentView.m */,
 				51274A6E2C0697ED0033E905 /* ORKSettingStatusResult.h */,
 				51274A6F2C0697ED0033E905 /* ORKSettingStatusResult.m */,
+				51274A722C093FBA0033E905 /* ORKSettingStatusStepContainerView.h */,
+				51274A732C093FBA0033E905 /* ORKSettingStatusStepContainerView.m */,
 			);
 			path = "Settings Status Step";
 			sourceTree = "<group>";
@@ -1389,6 +1395,7 @@
 				5192BF372AE04B16006E43FB /* ORKHealthCondition.h in Headers */,
 				62C821362BA7119C00BAAD59 /* ORKdBHLToneAudiometryMethodOfAdjustmentContentView.h in Headers */,
 				CA77D2A828AFFB4700400292 /* ORKAudioLevelSmoother.h in Headers */,
+				51274A742C093FBA0033E905 /* ORKSettingStatusStepContainerView.h in Headers */,
 				CA3FF9DD28B56A8300A33B6B /* ORKAVJournalingStepContentView.h in Headers */,
 				51AEAABE2B7454A200F4D107 /* ORKIQuestionStepViewController.h in Headers */,
 				CA77D2A328AFFB4700400292 /* ORKIndexCacheEntry.h in Headers */,
@@ -1611,6 +1618,7 @@
 				62C8213E2BA711BE00BAAD59 /* ORKdBHLToneAudiometryMethodOfAdjustmentView.swift in Sources */,
 				51274A6D2BFD2E7C0033E905 /* ORKSettingStatusSnapshot.m in Sources */,
 				512749FA2BF52FC60033E905 /* ORKSettingStatusStepContentView.m in Sources */,
+				51274A752C093FBA0033E905 /* ORKSettingStatusStepContainerView.m in Sources */,
 				CA58F8A628B5330E00761769 /* subalgorithms.c in Sources */,
 				CA77D2A228AFFB4700400292 /* ORKFlamesView.m in Sources */,
 				5192BF3F2AE04B16006E43FB /* ORKFamilyHistoryReviewController.m in Sources */,

@@ -35,16 +35,18 @@
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ORKSkin.h>
 
-#import <ResearchKitUI/ORKNavigationContainerView_Internal.h>
+#import <ResearchKitUI/ORKBodyLabel.h>
 #import <ResearchKitUI/ORKStepViewController_Internal.h>
+#import <ResearchKitUI/ORKTextButton.h>
+#import <ResearchKitUI/ORKTitleLabel.h>
 
+#import <ResearchKitUI/ORKTintedImageView.h>
 
 double const ContentViewLabelBottomPadding = 15.0;
 double const ContentViewLeftRightPadding = 10.0;
-double const ContentViewTopPadding = 10.0;
-double const NavigationFooterViewTopMargin = 5.0;
-double const NavigationFooterViewBottomMargin = 15.0;
-double const SettingStatusIconRightPadding = 8.0;
+double const ContentViewTopPadding = 5.0;
+double const SettingStatusIconRightPadding = 5.0;
+double const TextLabelBottomPadding = 8.0;
 
 
 @interface ORKSettingStatusStepContentView ()
@@ -55,22 +57,20 @@ double const SettingStatusIconRightPadding = 8.0;
 
 @implementation ORKSettingStatusStepContentView {
     NSString *_title;
-    NSString *_detailText;
+    NSString *_text;
     
-    UILabel *_titleLabel;
-    UILabel *_detailTextLabel;
+    ORKTitleLabel *_titleLabel;
+    ORKBodyLabel *_textLabel;
     
-    UIImageView *_settingStatusImageView;
-    UILabel *_settingStatusTextLabel;
+    ORKTintedImageView *_settingStatusImageView;
+    ORKLabel *_settingStatusTextLabel;
     
-    UIButton *_editSettingsButton;
-    
-    ORKNavigationContainerView *_navigationFooterView;
+    ORKTextButton *_editSettingsButton;
     
     NSMutableArray<NSLayoutConstraint *> *_layoutConstraints;
 }
 
-- (instancetype)initWithTitle:(NSString *)title detailText:(NSString *)detailText {
+- (instancetype)initWithTitle:(NSString *)title text:(NSString *)text {
     self = [super initWithFrame:CGRectZero];
     self.layoutMargins = ORKStandardFullScreenLayoutMarginsForView(self);
     
@@ -78,7 +78,12 @@ double const SettingStatusIconRightPadding = 8.0;
         self.translatesAutoresizingMaskIntoConstraints = NO;
         _isSettingEnabled = NO;
         _title = title;
-        _detailText = detailText;
+        _text = text;
+        _skipButtonItem = [self _skipButtonItem];
+        _goToSettingsButtonItem = [self _goToSettingsBarButtonItem];
+        _goForwardButtonItem = [self _goForwardButtonItem];
+
+        [self setBackgroundColor:ORKColor(ORKBackgroundColorKey)];
         
         [self _setupSubviews];
         [self _setupConstraints];
@@ -108,14 +113,13 @@ double const SettingStatusIconRightPadding = 8.0;
 - (void)_setupSubviews {
     [self _setupTitleLabel];
     [self _setupStatusIconLabel];
-    [self _setupDetailTextLabel];
+    [self _setupTextLabel];
     [self _setupEditSettingsButton];
-    [self _setupNavigationFooterView];
 }
 
 - (void)_setupTitleLabel {
     if (!_titleLabel) {
-        _titleLabel = [UILabel new];
+        _titleLabel = [ORKTitleLabel new];
         _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _titleLabel.text = _title;
         _titleLabel.textAlignment = NSTextAlignmentLeft;
@@ -128,59 +132,48 @@ double const SettingStatusIconRightPadding = 8.0;
 
 - (void)_setupStatusIconLabel {
     if (!_settingStatusImageView) {
-        _settingStatusImageView = [UIImageView new];
+        _settingStatusImageView = [ORKTintedImageView new];
+        _settingStatusImageView.shouldApplyTint = NO;
+        _settingStatusImageView.enableTintedImageCaching = NO;
         _settingStatusImageView.translatesAutoresizingMaskIntoConstraints = NO;
         
         [self addSubview:_settingStatusImageView];
     }
     
     if (!_settingStatusTextLabel) {
-        _settingStatusTextLabel = [UILabel new];
+        _settingStatusTextLabel = [ORKLabel new];
+        _settingStatusTextLabel.textColor = [UIColor systemGrayColor];
         _settingStatusTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
         
         [self addSubview:_settingStatusTextLabel];
     }
 }
 
-- (void)_setupDetailTextLabel {
-    if (!_detailTextLabel) {
-        _detailTextLabel = [UILabel new];
-        _detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _detailTextLabel.text = _detailText;
-        _detailTextLabel.textAlignment = NSTextAlignmentLeft;
-        _detailTextLabel.numberOfLines = 0;
-        _detailTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
+- (void)_setupTextLabel {
+    if (!_textLabel) {
+        _textLabel = [ORKBodyLabel new];
+        _textLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _textLabel.text = _text;
+        _textLabel.textAlignment = NSTextAlignmentLeft;
+        _textLabel.numberOfLines = 0;
+        _textLabel.lineBreakMode = NSLineBreakByWordWrapping;
         
-        [self addSubview:_detailTextLabel];
+        [self addSubview:_textLabel];
     }
 }
 
 - (void)_setupEditSettingsButton {
     if (!_editSettingsButton) {
-        _editSettingsButton = [UIButton new];
+        _editSettingsButton = [ORKTextButton new];
         _editSettingsButton.translatesAutoresizingMaskIntoConstraints = NO;
         [_editSettingsButton setTitle:ORKILocalizedString(@"SETTING_STATUS_STEP_EDIT_SETTINGS", @"")
                              forState:UIControlStateNormal];
-        [_editSettingsButton setTitleColor:self.tintColor forState:UIControlStateNormal];
-        _editSettingsButton.backgroundColor = [UIColor clearColor];
+        
         [_editSettingsButton addTarget:self
                                 action:@selector(_goToSettingsButtonPressed)
                       forControlEvents:UIControlEventTouchUpInside];
         
         [self addSubview:_editSettingsButton];
-    }
-}
-
-- (void)_setupNavigationFooterView {
-    if (!_navigationFooterView) {
-        _navigationFooterView = [ORKNavigationContainerView new];
-        _navigationFooterView.translatesAutoresizingMaskIntoConstraints = NO;
-        _navigationFooterView.continueEnabled = YES;
-        _navigationFooterView.topMargin = NavigationFooterViewTopMargin;
-        _navigationFooterView.bottomMargin = NavigationFooterViewBottomMargin;
-        _navigationFooterView.backgroundColor = ORKColor(ORKNavigationContainerColorKey);
-        
-        [self addSubview:_navigationFooterView];
     }
 }
 
@@ -194,9 +187,8 @@ double const SettingStatusIconRightPadding = 8.0;
     
     [_layoutConstraints addObjectsFromArray:[self _titleLabelConstraints]];
     [_layoutConstraints addObjectsFromArray:[self _statusIconLabelConstraints]];
-    [_layoutConstraints addObjectsFromArray:[self _detailTextLabelConstraints]];
+    [_layoutConstraints addObjectsFromArray:[self _textLabelConstraints]];
     [_layoutConstraints addObjectsFromArray:[self _editSettingsButtonConstraints]];
-    [_layoutConstraints addObjectsFromArray:[self _navigationFooterViewConstraints]];
     
     [NSLayoutConstraint activateConstraints:_layoutConstraints];
 }
@@ -218,26 +210,19 @@ double const SettingStatusIconRightPadding = 8.0;
     ];
 }
 
-- (NSArray<NSLayoutConstraint *> *)_detailTextLabelConstraints {
+- (NSArray<NSLayoutConstraint *> *)_textLabelConstraints {
     return @[
-        [_detailTextLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:ContentViewLeftRightPadding],
-        [_detailTextLabel.topAnchor constraintEqualToAnchor:_settingStatusImageView.bottomAnchor constant:ContentViewLabelBottomPadding],
-        [_detailTextLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-ContentViewLeftRightPadding]
+        [_textLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:ContentViewLeftRightPadding],
+        [_textLabel.topAnchor constraintEqualToAnchor:_settingStatusImageView.bottomAnchor constant:ContentViewLabelBottomPadding],
+        [_textLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-ContentViewLeftRightPadding]
     ];
 }
 
-- (NSArray<NSLayoutConstraint *> *)_editSettingsButtonConstraints {
+- (NSArray<NSLayoutConstraint *> *)_editSettingsButtonConstraints {    
     return @[
         [_editSettingsButton.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:ContentViewLeftRightPadding],
-        [_editSettingsButton.topAnchor constraintEqualToAnchor:_detailTextLabel.bottomAnchor constant:ContentViewLabelBottomPadding]
-    ];
-}
-
-- (NSArray<NSLayoutConstraint *> *)_navigationFooterViewConstraints {
-    return @[
-        [_navigationFooterView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
-        [_navigationFooterView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor],
-        [_navigationFooterView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor]
+        [_editSettingsButton.topAnchor constraintEqualToAnchor:_textLabel.bottomAnchor constant:TextLabelBottomPadding],
+        [self.bottomAnchor constraintGreaterThanOrEqualToAnchor:_editSettingsButton.bottomAnchor constant:-ContentViewTopPadding]
     ];
 }
 
@@ -275,19 +260,11 @@ double const SettingStatusIconRightPadding = 8.0;
         _settingStatusTextLabel.text = ORKILocalizedString(@"SETTING_STATUS_STEP_TURNED_OFF", @"");
         
         _editSettingsButton.hidden = YES;
-        
-        _navigationFooterView.continueButtonItem = [self _goToSettingsBarButtonItem];
-        _navigationFooterView.skipButtonItem = [self _skipButtonItem];
-        _navigationFooterView.optional = YES;
     } else {
         _settingStatusImageView.image = [UIImage systemImageNamed:@"checkmark.circle.fill"];
-        _settingStatusImageView.tintColor = [UIColor greenColor];
+        _settingStatusImageView.tintColor = [UIColor systemGreenColor];
         
         _editSettingsButton.hidden = NO;
-        
-        _settingStatusTextLabel.text = ORKILocalizedString(@"SETTING_STATUS_STEP_TURNED_ON", @"");
-        _navigationFooterView.continueButtonItem = [self _goForwardButtonItem];
-        _navigationFooterView.skipButtonItem = nil;
     }
 }
 

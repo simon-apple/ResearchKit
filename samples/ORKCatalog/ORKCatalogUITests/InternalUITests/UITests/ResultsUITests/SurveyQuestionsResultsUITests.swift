@@ -458,7 +458,11 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
             .verifyResultsCellValue(resultType: .address, expectedValue: expectedValue.locationString)
     }
     
-    func testLocationQuestionResult() {
+    func testLocationQuestionResult() throws {
+        if isRunningInXcodeCloud {
+            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment")
+        }
+        
         let simulatedLocation = (locationString: "Geary St San Francisco CA 94102 United States", latitude: 37.787354, longitude: -122.408243)
         let simulatedLocationResultString = "Geary St\nSan Francisco CA 94102\nUnited States"
         
@@ -472,6 +476,10 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
     
     func testLocationQuestionSkipResult() throws {
         try XCTSkipIf(true, "Skipping this test for now due to crash after skipping question (126589758)") /// rdar://126589758 ([ORKCatalog] App crash when viewing location question result in Results tab after skipping question)
+        
+        if isRunningInXcodeCloud {
+            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment")
+        }
         
         answerAndVerifyLocationQuestionTask(locationAnswer: nil, expectedValue: (locationString: "nil", latitude: "nil", longitude: "nil"))
     }

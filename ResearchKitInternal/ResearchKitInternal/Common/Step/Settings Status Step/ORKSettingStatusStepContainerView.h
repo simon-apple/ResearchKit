@@ -28,38 +28,18 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import UIKit;
+#import <ResearchKitUI/ORKStepContainerView.h>
+
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, ORKSettingStatusStepContentViewEvent) {
-    ORKSettingStatusStepContentViewEventSkipButtonPressed = 0,
-    ORKSettingStatusStepContentViewEventGoToSettingsPressed,
-    ORKSettingStatusStepContentViewEventGoForwardPressed
-};
+@class ORKSettingStatusStepContentView;
 
-typedef void (^ORKSettingStatusStepContentViewEventHandler)(ORKSettingStatusStepContentViewEvent);
+@interface ORKSettingStatusStepContainerView : ORKStepContainerView
 
-/**
- The UIView used by the settings status step view controller
- to present its content.
- */
-
-@interface ORKSettingStatusStepContentView : UIView
-
-+ (instancetype)new NS_UNAVAILABLE;
-
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithTitle:(NSString *)title
-                         text:(NSString *)text;
-
-- (void)setViewEventHandler:(ORKSettingStatusStepContentViewEventHandler)handler;
+- (instancetype)initWithStatusStepContentView:(ORKSettingStatusStepContentView *)contentView;
 
 @property (nonatomic) BOOL isSettingEnabled;
-@property (nonatomic, readonly) UIBarButtonItem *skipButtonItem;
-@property (nonatomic, readonly) UIBarButtonItem *goToSettingsButtonItem;
-@property (nonatomic, readonly) UIBarButtonItem *goForwardButtonItem;
 
 @end
 
