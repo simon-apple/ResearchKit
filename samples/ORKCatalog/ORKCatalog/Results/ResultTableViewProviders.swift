@@ -1376,7 +1376,8 @@ class HeadphoneDetectStepResultTableViewProvider: ResultTableViewProvider {
                 ResultRow(text: "headphoneType", detail: headphoneDetectStepResult.headphoneType),
                 ResultRow(text: "vendorID", detail: headphoneDetectStepResult.vendorID),
                 ResultRow(text: "productID", detail: headphoneDetectStepResult.productID),
-                ResultRow(text: "deviceSubType", detail: headphoneDetectStepResult.deviceSubType)
+                ResultRow(text: "deviceSubType", detail: headphoneDetectStepResult.deviceSubType),
+                ResultRow(text: "isMonoAudio", detail: headphoneDetectStepResult.isMonoAudioEnabled ? "Yes" : "No")
             ]
         }
         
