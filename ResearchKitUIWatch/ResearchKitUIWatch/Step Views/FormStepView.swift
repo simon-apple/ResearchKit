@@ -57,6 +57,7 @@ internal struct FormStepView: View {
                     content(for: $formRow)
                 }
             }
+            .listSectionSpacing(.compact)
         }
 #if os(visionOS)
         .navigationTitle(
