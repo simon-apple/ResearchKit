@@ -32,6 +32,7 @@ struct ListHeaderView<Content: View>: View {
                 trailing: 0
             )
         )
+        .listSectionSpacing(.custom(0))
     }
     
 }

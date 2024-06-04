@@ -42,14 +42,22 @@ struct StepHeaderView: View {
                     .foregroundStyle(Color(uiColor: .label))
                     .font(.body)
             }
+            
+            Spacer()
+                .frame(height: 35)
         }
         .textCase(.none)
 #else
         if let stepDescription = viewModel.step.text {
-            // TODO(rdar://128955005): Ensure same colors are used as in ORKCatalog.
-            Text(stepDescription)
-                .font(.body)
-                .fontWeight(.semibold)
+            VStack {
+                // TODO(rdar://128955005): Ensure same colors are used as in ORKCatalog.
+                Text(stepDescription)
+                    .font(.body)
+                    .fontWeight(.semibold)
+                
+                Spacer()
+                    .frame(height: 35)
+            }
         }
 #endif
     }
