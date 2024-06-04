@@ -160,6 +160,8 @@ enum TaskListRow: Int, CustomStringConvertible {
     case colorChoiceQuestion
     case familyHistory
     case booleanConditionalFormTask
+    case readOnlyFormStepTask
+    case readOnlyFamilyHistoryTask
     #endif
     
     class TaskListRowSection {
@@ -275,6 +277,8 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .predefinedSpeechInNoiseTask,
                     .predefinedSelectableHeadphoneTask,
                     .predefinedTinnitusTask,
+                    .readOnlyFamilyHistoryTask,
+                    .readOnlyFormStepTask,
                     .settingStatusStepTask,
                     .studyPromoTask,
                     .studySignPostStep,
@@ -566,8 +570,14 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .booleanConditionalFormTask:
             return NSLocalizedString("Boolean Conditional Form Task", comment: "")
-
+            
+        case .readOnlyFormStepTask:
+            return NSLocalizedString("Read Only Form Step Task", comment: "")
+            
+        case .readOnlyFamilyHistoryTask:
+            return NSLocalizedString("Read Only Family History Step Task", comment: "")
         #endif
+            
         case .surveyWithMultipleOptions:
             return NSLocalizedString("Survey With Multiple Options", comment: "")
         }
@@ -837,6 +847,12 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .booleanConditionalFormTask:
             return booleanConditionalFormTask
+            
+        case .readOnlyFormStepTask:
+            return readOnlyFormStepTask
+            
+        case .readOnlyFamilyHistoryTask:
+            return readonlyFamilyHistoryTask
             
         #endif
         case .textChoiceQuestionWithImageTask:
@@ -2284,6 +2300,21 @@ enum TaskListRow: Int, CustomStringConvertible {
         ]
         
         return ORKOrderedTask(identifier: String(describing: Identifier.familyHistoryStep), steps: [parentFormStep])
+    }
+    
+    private var readOnlyFormStepTask: ORKTask {
+        let instructionStep = ORKInstructionStep(identifier: "InstructionStepIdentifier")
+        instructionStep.title = "Your title here"
+        instructionStep.text = "your text here."
+        
+        let formStep = TaskListRowSteps.groupFormExample
+        let completionStep = TaskListRowSteps.completionStepExample
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.readOnlyFormStepTask), steps: [instructionStep, formStep, completionStep])
+    }
+    
+    private var readonlyFamilyHistoryTask: ORKTask {
+        return familyHistoryTask
     }
     
     /**

@@ -59,6 +59,7 @@
 #import <ResearchKitInternal/ORKInternalClassMapper.h>
 #import <ResearchKitInternal/ORKNewAudiometryMinimizer.h>
 #import <ResearchKitInternal/ORKOrderedTask+ResearchKitInternal.h>
+#import <ResearchKitInternal/ORKReadOnlyReviewViewController.h>
 #import <ResearchKitInternal/ORKSettingStatusResult.h>
 #import <ResearchKitInternal/ORKSettingStatusStep.h>
 #import <ResearchKitInternal/ORKSettingStatusStepViewController.h>
