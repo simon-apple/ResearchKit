@@ -34,27 +34,29 @@ import ResearchKit
 import SwiftUI
 
 internal struct FormStepView: View {
-
+    
     enum Constants {
         static let topToProgressPadding: CGFloat = 4.0
         static let bottomToProgressPadding: CGFloat = 4.0
         static let questionToAnswerPadding: CGFloat = 12.0
     }
-
+    
     @ObservedObject
     private var viewModel: FormStepViewModel
-
+    
     @Environment(\.completion) var completion
-
+    
     init(viewModel: FormStepViewModel) {
         self.viewModel = viewModel
     }
-
+    
     var body: some View {
-
-        ScrollView {
-            VStack {
-                Group {
+        List {
+            ListHeaderView {
+                StepHeaderView(viewModel: viewModel)
+            }
+            ForEach($viewModel.formRows) { $formRow in
+                Section {
                     if let progress = viewModel.progress {
                         Text("\(progress.index) OF \(progress.count)".uppercased())
                             .foregroundColor(.gray)
@@ -63,79 +65,77 @@ internal struct FormStepView: View {
                             .padding(.bottom, Constants.bottomToProgressPadding)
                     }
                     
-                    if let stepTitle = viewModel.step.title {
-                        Text(stepTitle)
-                            .font(.body)
-                            .fontWeight(.semibold)
-                            .multilineTextAlignment(.leading)
-                            .padding(.bottom, Constants.questionToAnswerPadding)
-                    }
-                    ForEach($viewModel.formRows) { $formRow in
-                        switch formRow {
-                        case .multipleChoiceRow(let multipleChoiceValue):
-                            MultipleChoiceQuestionView(
-                                title: multipleChoiceValue.title,
-                                choices: multipleChoiceValue.choices,
-                                selectionType: multipleChoiceValue.selectionType,
-                                result: .init(
-                                    get: {
-                                        return multipleChoiceValue.result
-                                    },
-                                    set: { newValue in
-                                        formRow = .multipleChoiceRow(
-                                            MultipleChoiceQuestion(
-                                                id: multipleChoiceValue.id,
-                                                title: multipleChoiceValue.title,
-                                                choices: multipleChoiceValue.choices,
-                                                result: newValue,
-                                                selectionType: multipleChoiceValue.selectionType
-                                            )
-                                        )
-                                    })
-                            )
-
-                        case .numericalSliderStep(let numericalScaleQuestion):
-                            ScaleSliderQuestionView(
-                                identifier: numericalScaleQuestion.id,
-                                title: numericalScaleQuestion.title,
-                                scaleSelectionType: .doubleRange(0...10),
-                                result: .init(get: {
-                                    return numericalScaleQuestion.result
-                                }, set: { newValue in
-                                    formRow = .numericalSliderStep(
-                                        ScaleSliderQuestion(
-                                            id: numericalScaleQuestion.id,
-                                            title: numericalScaleQuestion.title,
-                                            selectionType: numericalScaleQuestion.selectionType,
-                                            result: newValue
+                    switch formRow {
+                    case .multipleChoiceRow(let multipleChoiceValue):
+                        MultipleChoiceQuestionView(
+                            title: multipleChoiceValue.title,
+                            choices: multipleChoiceValue.choices,
+                            selectionType: multipleChoiceValue.selectionType,
+                            result: .init(
+                                get: {
+                                    return multipleChoiceValue.result
+                                },
+                                set: { newValue in
+                                    formRow = .multipleChoiceRow(
+                                        MultipleChoiceQuestion(
+                                            id: multipleChoiceValue.id,
+                                            title: multipleChoiceValue.title,
+                                            choices: multipleChoiceValue.choices,
+                                            result: newValue,
+                                            selectionType: multipleChoiceValue.selectionType
                                         )
                                     )
-                                })
+                                }
                             )
-
-                        case .textSliderStep(let textSliderQuestion):
-                            ScaleSliderQuestionView(
-                                identifier: textSliderQuestion.id,
-                                title: textSliderQuestion.title,
-                                scaleSelectionType: textSliderQuestion.selectionType,
-                                result: .init(get: {
-                                    return textSliderQuestion.result
-                                }, set: { newValue in
-                                    formRow = .textSliderStep(
-                                        ScaleSliderQuestion(
-                                            id: textSliderQuestion.id,
-                                            title: textSliderQuestion.title,
-                                            selectionType: textSliderQuestion.selectionType,
-                                            result: newValue
-                                        )
+                        )
+                    case .numericalSliderStep(let numericalScaleQuestion):
+                        ScaleSliderQuestionView(
+                            identifier: numericalScaleQuestion.id,
+                            title: numericalScaleQuestion.title,
+                            scaleSelectionType: .doubleRange(0...10),
+                            result: .init(get: {
+                                return numericalScaleQuestion.result
+                            }, set: { newValue in
+                                formRow = .numericalSliderStep(
+                                    ScaleSliderQuestion(
+                                        id: numericalScaleQuestion.id,
+                                        title: numericalScaleQuestion.title,
+                                        selectionType: numericalScaleQuestion.selectionType,
+                                        result: newValue
                                     )
-                                }))
-                        }
+                                )
+                            })
+                        )
+
+                    case .textSliderStep(let textSliderQuestion):
+                        ScaleSliderQuestionView(
+                            identifier: textSliderQuestion.id,
+                            title: textSliderQuestion.title,
+                            scaleSelectionType: textSliderQuestion.selectionType,
+                            result: .init(get: {
+                                return textSliderQuestion.result
+                            }, set: { newValue in
+                                formRow = .textSliderStep(
+                                    ScaleSliderQuestion(
+                                        id: textSliderQuestion.id,
+                                        title: textSliderQuestion.title,
+                                        selectionType: textSliderQuestion.selectionType,
+                                        result: newValue
+                                    )
+                                )
+                            })
+                        )
                     }
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading)
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.leading)
+#if os(visionOS)
+        .navigationTitle(
+            // TODO(rdar://128955005): Ensure font used is same as in ORKCatalog.
+            Text(viewModel.step.title ?? "")
+        )
+#endif
     }
 }
