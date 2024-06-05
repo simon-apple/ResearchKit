@@ -8,51 +8,7 @@
 import Foundation
 import XCTest
 
-final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
-    
-    let tasksList = TasksTab()
-    var measurementSystem: String = ""
-    var hourCycle: String = ""
-    var dismissPicker = false
-    
-    let metricSignature = "metric"
-    let usSignature = "ussystem"
-    let continentalTimeSignature = "h23"
-    let usTimeSignature = "h12"
-    
-    /// rdar://111132091 ([Modularization] [ORKCatalog] Date Picker won't display on the question card)
-    /// This issue required extra button tap to dismiss picker to continue
-    let shouldUseUIPickerWorkaround = true
-    
-    let expectingNonOptionalStep = false
-    
-    override func setUpWithError() throws {
-        /// Start with clean state. Reset authorization status for health and location
-        app.resetAuthorizationStatus(for: .location)
-        if #available(iOS 14.0, *) { app.resetAuthorizationStatus(for: .health) }
-        
-        if #available(iOS 16, *) {
-            measurementSystem = String(Locale.current.measurementSystem.identifier) // "ussystem" or "metric"
-            hourCycle = String(Locale.current.hourCycle.rawValue) // "h12" or "h23"
-        } else {
-            measurementSystem = usSignature
-            hourCycle = usTimeSignature
-        }
-        
-        try super.setUpWithError()
-        // Verify that before we start our test we are on Tasks tab
-        tasksList
-            .assertTitle()
-    }
-    
-    override func tearDownWithError() throws {
-        if testRun?.hasSucceeded == false {
-            return
-        }
-        // Verify that after test is completed, we end up on Tasks tab
-        tasksList
-            .assertTitle()
-    }
+final class SurveyQuestionsLocaleDependentUITests: LocaleDependentBaseUITests {
     
     /// <rdar://tsc/21847950> [Survey Questions] Height Question
     func testHeightQuestion() {
@@ -767,8 +723,8 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
         }
         
         questionStep
-            .verifyDatePickerDefaultsToCurrentDate()
-            .answerDateQuestion(offsetDays: -3, offsetYears: 0, dismissPicker: dismissPicker)
+            .verifyDatePickerDefaultsToCurrentDate(isUSTimeZone: isUSTimeZone)
+            .answerDateQuestion(offsetDays: -3, offsetYears: 0, isUSTimeZone: isUSTimeZone, dismissPicker: dismissPicker)
             .verify(.continueButton, isEnabled: true)
         
         if shouldUseUIPickerWorkaround {
@@ -777,9 +733,9 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
         }
         
         questionStep
-            .answerDateQuestion(offsetDays: 3, offsetYears: 0)
-            .verifyDatePickerRestrictedTo3days(offsetDays: -4, offsetYears: 0)
-            .verifyDatePickerRestrictedTo3days(offsetDays: 4, offsetYears: 0, dismissPicker: dismissPicker)
+            .answerDateQuestion(offsetDays: 3, offsetYears: 0, isUSTimeZone: isUSTimeZone)
+            .verifyDatePickerRestrictedTo3days(offsetDays: -4, offsetYears: 0, isUSTimeZone: isUSTimeZone)
+            .verifyDatePickerRestrictedTo3days(offsetDays: 4, offsetYears: 0, isUSTimeZone: isUSTimeZone, dismissPicker: dismissPicker)
             .verify(.continueButton,isEnabled: true)
         
         // TODO: Verifying entered values is blocked by rdar://120826508 ([Accessibility][ORKCatalog] Unable to access cell value after entering it)

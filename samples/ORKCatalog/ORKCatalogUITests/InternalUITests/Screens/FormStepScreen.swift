@@ -514,19 +514,19 @@ final class FormStepScreen: Step {
             XCTFail("The time interval should be less than 24 hours")
             return self
         }
-        adjustPickerWheels(hours: hours, minutes: minutes, dismissPicker: dismissPicker)
+        adjustPickerWheels(hours: String(hours), minutes: String(minutes), dismissPicker: dismissPicker)
         return self
     }
     
-    func adjustPickerWheels(hours: Int, minutes: Int, dismissPicker: Bool = false) {
+    func adjustPickerWheels(hours: String, minutes: String, dismissPicker: Bool = false) {
         let picker = Self.firstPicker
         wait(for: picker, withTimeout: uiPickerTimeout)
         let hourWheel = picker.pickerWheels.element(boundBy: 0)
         wait(for: hourWheel, withTimeout: uiPickerTimeout)
         let minuteWheel = picker.pickerWheels.element(boundBy: 1)
         
-        hourWheel.adjust(toPickerWheelValue: String(hours))
-        minuteWheel.adjust(toPickerWheelValue: String(minutes))
+        hourWheel.adjust(toPickerWheelValue: hours)
+        minuteWheel.adjust(toPickerWheelValue: minutes)
         if dismissPicker {
             Keyboards.tapDoneButtonOnToolbar()
         }
@@ -560,14 +560,22 @@ final class FormStepScreen: Step {
      - parameter dismissPicker: whether the ui picker should be dismissed after selection
      */
     @discardableResult
-    func answerDateQuestion(year: String, month: String, day: String, dismissPicker: Bool = false) -> Self {
+    func answerDateQuestion(year: String, month: String, day: String, isUSTimeZone: Bool = true, dismissPicker: Bool = false) -> Self {
         let picker = Self.firstPicker
         wait(for: picker, withTimeout: uiPickerTimeout)
         let yearPickerWheel = picker.pickerWheels.element(boundBy: 2)
         wait(for: yearPickerWheel, withTimeout: uiPickerTimeout)
         picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: year)
-        picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
-        picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
+        
+        // Month and Date picker wheels look different for different locales. For US month goes first and vice versa
+        if isUSTimeZone {
+            picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
+            picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
+        } else {
+            picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: month)
+            picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: day)
+        }
+    
         if dismissPicker {
             Keyboards.tapDoneButtonOnToolbar()
         }
@@ -581,16 +589,10 @@ final class FormStepScreen: Step {
      - parameter offsetYears: the number of years to add to the current date. A positive value moves forward in time, a negative value moves backward
      - parameter dismissPicker: whether the ui picker should be dismissed after selection
      */
-    func answerDateQuestion(offsetDays: Int, offsetYears: Int, dismissPicker: Bool = false) -> Self {
+    @discardableResult
+    func answerDateQuestion(offsetDays: Int, offsetYears: Int, isUSTimeZone: Bool, dismissPicker: Bool = false) -> Self {
         let (month, day, year) = getPickerValues(offsetDays: offsetDays, offsetYears: offsetYears)
-        let picker = Self.firstPicker
-        wait(for: picker, withTimeout: uiPickerTimeout)
-        picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
-        picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
-        picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: year)
-        if dismissPicker {
-            Keyboards.tapDoneButtonOnToolbar()
-        }
+        answerDateQuestion(year: year, month: month, day: day, isUSTimeZone: isUSTimeZone, dismissPicker: dismissPicker)
         return self
     }
     
@@ -653,15 +655,17 @@ final class FormStepScreen: Step {
      - parameter dismissPicker: whether the ui picker should be dismissed after selection
      */
     @discardableResult
-    func answerDateAndTimeQuestion(offsetDays: Int, offsetHours: Int, isUSTimeZone: Bool, dismissPicker: Bool = false) -> Self {
+    func answerDateAndTimeQuestion(offsetDays: Int, offsetHours: Int, isUSTimeZone: Bool, dismissPicker: Bool = false, date: Date = Date()) -> Self {
         let picker = Self.firstPicker
         wait(for: picker, withTimeout: uiPickerTimeout)
-        let (day, hour, minute, amPm) = getPickerValues(offsetDays: offsetDays, offsetHours: offsetHours)
+        let (day, hour, minute, amPm) = getPickerValues(offsetDays: offsetDays, offsetHours: offsetHours, isUSTimeZone: isUSTimeZone, date: date)
+        
         var formattedHours = hour
         if !isUSTimeZone {
             // Add leading zeroes for continental Time Zone
             formattedHours = String(format: "%02d", Int(hour) ?? 0)
         }
+        
         picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: day)
         picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: formattedHours)
         picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: minute)
@@ -687,15 +691,22 @@ final class FormStepScreen: Step {
         return self
     }
     
-    func verifyDatePickerRestrictedTo3days(offsetDays: Int, offsetYears: Int, dismissPicker: Bool = false) -> Self {
+    func verifyDatePickerRestrictedTo3days(offsetDays: Int, offsetYears: Int, isUSTimeZone: Bool, dismissPicker: Bool = false) -> Self {
+        
         let (month, day, year) = getPickerValues(offsetDays: offsetDays, offsetYears: offsetYears)
+        answerDateQuestion(year: year, month: month, day: day, isUSTimeZone: isUSTimeZone, dismissPicker: false)
+        
         let picker = Self.firstPicker
         wait(for: picker, withTimeout: uiPickerTimeout)
-        picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
-        picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
-        picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: year)
         
-        let dayDisplayed = picker.pickerWheels.element(boundBy: 1).value as? String ?? ""
+        // For US day picker wheel goes second
+        let dayDisplayed: String
+        if isUSTimeZone {
+            dayDisplayed = picker.pickerWheels.element(boundBy: 1).value as? String ?? ""
+        } else {
+            dayDisplayed = picker.pickerWheels.element(boundBy: 0).value as? String ?? ""
+        }
+ 
         XCTAssertNotEqual(day, dayDisplayed, "The date picker should be restricted to 3 days")
         if dismissPicker {
             Keyboards.tapDoneButtonOnToolbar()
@@ -705,22 +716,28 @@ final class FormStepScreen: Step {
     
     /// Verifies that the UI date picker defaults to the current date
     @discardableResult
-    func verifyDatePickerDefaultsToCurrentDate() -> Self {
+    func verifyDatePickerDefaultsToCurrentDate(isUSTimeZone: Bool = true) -> Self {
         let currentDate = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM d yyyy"
-        let currentDateComponents = formatter.string(from: currentDate).components(separatedBy: " ")
-        let expectedMonth = currentDateComponents[0]
-        let expectedDay = currentDateComponents[1]
-        let expectedYear = currentDateComponents[2]
+        let (expectedMonth, expectedDay, expectedYear) =  DateFormatterManager.shared.dateStrings(from: currentDate)
         
         let picker = Self.firstPicker
         wait(for: picker, withTimeout: uiPickerTimeout)
         let yearPickerWheel = picker.pickerWheels.element(boundBy: 2)
         wait(for: yearPickerWheel, withTimeout: uiPickerTimeout)
+        
         let actualYear = picker.pickerWheels.element(boundBy: 2).value as? String ?? ""
-        let actualDay = picker.pickerWheels.element(boundBy: 1).value as? String ?? ""
-        let actualMonth = picker.pickerWheels.element(boundBy: 0).value as? String ?? ""
+        let actualDay: String
+        let actualMonth: String
+        
+        // Month and Date picker wheels look different for different locales. For US month goes first and vice versa
+        if isUSTimeZone {
+            actualDay = picker.pickerWheels.element(boundBy: 1).value as? String ?? ""
+            actualMonth = picker.pickerWheels.element(boundBy: 0).value as? String ?? ""
+        } else {
+            actualDay = picker.pickerWheels.element(boundBy: 0).value as? String ?? ""
+            actualMonth = picker.pickerWheels.element(boundBy: 1).value as? String ?? ""
+        }
+        
         XCTAssertEqual(actualYear, expectedYear, "The year picker wheel is not showing correct value. Expected \(expectedYear) but got \(actualYear)")
         XCTAssertEqual(actualDay, expectedDay, "The day picker wheel is not showing correct value. Expected \(expectedDay) but got \(actualDay)")
         XCTAssertEqual(actualMonth, expectedMonth, "The month picker wheel is not showing correct value. Expected \(expectedMonth) but got \(actualMonth)")
@@ -731,29 +748,23 @@ final class FormStepScreen: Step {
      Gets picker wheels values based on offsets from the current date
      - parameter offsetDays: the number of days to add to the current date . A positive value moves forward in time, a negative value moves backward
      - parameter offsetHours: the number of hours to add to the current date. A positive value moves forward in time, a negative value moves backward
+     - parameter date: by default we use current date to calculate picker values
      */
-    func getPickerValues(offsetDays: Int, offsetHours: Int) -> (day: String, hour: String, minute: String, amPm: String) {
+    func getPickerValues(offsetDays: Int, offsetHours: Int, isUSTimeZone: Bool, date: Date = Date()) -> (day: String, hour: String, minute: String, amPm: String) {
         let calendar = Calendar.current
-        let now = Date()
-        let adjustedDate = calendar.date(byAdding: .day, value: offsetDays, to: now)!
+        let adjustedDate = calendar.date(byAdding: .day, value: offsetDays, to: date)!
         let adjustedDateTime = calendar.date(byAdding: .hour, value: offsetHours, to: adjustedDate)!
-        let dateFormatter = DateFormatter()
+        let day = DateFormatterManager.shared.monthDayString(from: adjustedDateTime)
+        let minute = DateFormatterManager.shared.minutesString(from: adjustedDateTime)
+        var hour: String
+        var amPm: String = ""
+        if isUSTimeZone {
+            hour = DateFormatterManager.shared.hour12String(from: adjustedDateTime)
+            amPm = DateFormatterManager.shared.amPmString(from: adjustedDateTime)
+        } else {
+            hour = DateFormatterManager.shared.hour24String(from: adjustedDateTime)
+        }
 
-        dateFormatter.dateFormat = "MMM d"
-        let day = dateFormatter.string(from: adjustedDateTime)
-        
-        let hourFormatter = DateFormatter()
-        hourFormatter.dateFormat = "h"
-        let hour = hourFormatter.string(from: adjustedDateTime)
-        
-        let minuteFormatter = DateFormatter()
-        minuteFormatter.dateFormat = "mm"
-        let minute = minuteFormatter.string(from: adjustedDateTime)
-        
-        let amPmFormatter = DateFormatter()
-        amPmFormatter.dateFormat = "a"
-        let amPm = amPmFormatter.string(from: adjustedDateTime)
-        
         return (day, hour, minute, amPm)
     }
     
@@ -761,24 +772,13 @@ final class FormStepScreen: Step {
      Gets picker wheels values based on offsets from the current date
      - parameter offsetDays: the number of days to add to the current date . A positive value moves forward in time, a negative value moves backward
      - parameter offsetYears: the number of years to add to the current date. A positive value moves forward in time, a negative value moves backward
+     - parameter date: by default we use current date to calculate picker values
      */
-    func getPickerValues(offsetDays: Int, offsetYears: Int) -> (month: String, day: String, year: String) {
+    func getPickerValues(offsetDays: Int, offsetYears: Int, date: Date = Date()) -> (month: String, day: String, year: String) {
         let calendar = Calendar.current
-        let now = Date()
-        let adjustedDate = calendar.date(byAdding: .day, value: offsetDays, to: now)!
+        let adjustedDate = calendar.date(byAdding: .day, value: offsetDays, to: date)!
         let adjustedDateTime = calendar.date(byAdding: .year, value: offsetYears, to: adjustedDate)!
-        
-        let monthFormatter = DateFormatter()
-        monthFormatter.dateFormat = "MMMM"
-        let month = monthFormatter.string(from: adjustedDateTime)
-        
-        let dayFormatter = DateFormatter()
-        dayFormatter.dateFormat = "d"
-        let day = dayFormatter.string(from: adjustedDateTime)
-        
-        let yearFormatter = DateFormatter()
-        yearFormatter.dateFormat = "yyyy"
-        let year = yearFormatter.string(from: adjustedDateTime)
+        let (month, day, year) =  DateFormatterManager.shared.dateStrings(from: adjustedDateTime)
         
         return (month, day, year)
     }
