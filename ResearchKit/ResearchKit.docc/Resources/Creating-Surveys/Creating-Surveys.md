@@ -1,6 +1,3 @@
-# 
-<sub>These materials are for informational purposes only and do not constitute legal advice. You should contact an attorney to obtain advice with respect to the development of a research app and any applicable laws.</sub>
-
 # Creating surveys
 
 A survey is a sequence of questions that you use to collect data from your users. In a ResearchKit app, a survey is composed of a <i>survey task</i> that has a collection of step objects (``ORKStep``). Each step object handles a specific question in the survey, such as "What medications are you taking?" or "How many hours did you sleep last night?".
@@ -200,4 +197,3 @@ would later be needed to restore the task.
 	taskViewController.dismiss(animated: true, completion: nil)
 }
 ```
-
