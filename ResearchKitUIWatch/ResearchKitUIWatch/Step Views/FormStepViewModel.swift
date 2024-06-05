@@ -75,15 +75,25 @@ class FormStepViewModel: ObservableObject {
                         ScaleSliderQuestion(
                             id: formItem.identifier,
                             title: questionText,
-                            selectionType: .integerRange(scaleAnswerFormat.minimum...scaleAnswerFormat.maximum)
+                            selectionType: .integerRange(scaleAnswerFormat.minimum...scaleAnswerFormat.maximum), 
+                            step: Double(scaleAnswerFormat.step)
                         )
                     )
                 case let continuousScaleAnswerFormat as ORKContinuousScaleAnswerFormat:
+
+                    // Current ORKContinuousScaleAnswerFormat does not allow user to specify step size so we can create an approximation,
+                    // falling back on 0.01 as our step size if required.
+                    var stepSize = 0.01
+                    let numberOfValues = continuousScaleAnswerFormat.maximum - continuousScaleAnswerFormat.minimum
+                    if numberOfValues > 0 {
+                        stepSize = 1.0 / numberOfValues
+                    }
                     return FormRow.doubleSliderRow(
                         ScaleSliderQuestion(
                             id: formItem.identifier,
                             title: questionText,
-                            selectionType: .doubleRange(continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum)
+                            selectionType: .doubleRange(continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum),
+                            step: stepSize
                         )
                     )
 
@@ -99,7 +109,8 @@ class FormStepViewModel: ObservableObject {
                         ScaleSliderQuestion(
                             id: formItem.identifier,
                             title: questionText,
-                            selectionType: .textChoice(answerOptions)
+                            selectionType: .textChoice(answerOptions),
+                            step: 1
                         )
                     )
             default:

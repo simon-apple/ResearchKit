@@ -88,18 +88,20 @@ internal struct FormStepView: View {
                                 }
                             )
                         )
-                    case .doubleSliderRow(let numericalScaleQuestion):
+                    case .doubleSliderRow(let doubleSliderQuestion):
                         ScaleSliderQuestionView(
-                            title: numericalScaleQuestion.title,
-                            scaleSelectionType: numericalScaleQuestion.selectionType,
+                            title: doubleSliderQuestion.title,
+                            scaleSelectionType: doubleSliderQuestion.selectionType,
+                            step: doubleSliderQuestion.step,
                             result: .init(get: {
-                                return numericalScaleQuestion.result
+                                return doubleSliderQuestion.result
                             }, set: { newValue in
                                 formRow = .doubleSliderRow(
                                     ScaleSliderQuestion(
-                                        id: numericalScaleQuestion.id,
-                                        title: numericalScaleQuestion.title,
-                                        selectionType: numericalScaleQuestion.selectionType,
+                                        id: doubleSliderQuestion.id,
+                                        title: doubleSliderQuestion.title,
+                                        selectionType: doubleSliderQuestion.selectionType,
+                                        step: doubleSliderQuestion.step,
                                         result: newValue
                                     )
                                 )
@@ -110,6 +112,7 @@ internal struct FormStepView: View {
                         ScaleSliderQuestionView(
                             title: intSliderQuestion.title,
                             scaleSelectionType: intSliderQuestion.selectionType,
+                            step: intSliderQuestion.step,
                             result: .init(get: {
                                 return intSliderQuestion.result
                             }, set: { newValue in
@@ -118,7 +121,8 @@ internal struct FormStepView: View {
                                         id: intSliderQuestion.id,
                                         title: intSliderQuestion.title,
                                         selectionType: intSliderQuestion.selectionType,
-                                        result: newValue 
+                                        step: intSliderQuestion.step,
+                                        result: newValue
                                     )
                                 )
                             })
@@ -128,6 +132,7 @@ internal struct FormStepView: View {
                         ScaleSliderQuestionView(
                             title: textSliderQuestion.title,
                             scaleSelectionType: textSliderQuestion.selectionType,
+                            step: textSliderQuestion.step,
                             result: .init(get: {
                                 return textSliderQuestion.result
                             }, set: { newValue in
@@ -136,6 +141,7 @@ internal struct FormStepView: View {
                                         id: textSliderQuestion.id,
                                         title: textSliderQuestion.title,
                                         selectionType: textSliderQuestion.selectionType,
+                                        step: textSliderQuestion.step,
                                         result: newValue
                                     )
                                 )

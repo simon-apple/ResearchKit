@@ -16,15 +16,22 @@ enum ScaleSelectionType {
 }
 
 struct ScaleSliderQuestion<ResultType>: Identifiable {
-    public var id: String
-    public var title: String
+    public let id: String
+    public let title: String
     public let selectionType: ScaleSelectionType
+    public let step: Double
     public var result: ResultType?
 
-    init(id: String, title: String, selectionType: ScaleSelectionType, result: ResultType? = nil) {
+    init(id: String, 
+         title: String,
+         selectionType: ScaleSelectionType,
+         step: Double,
+         result: ResultType? = nil
+    ) {
         self.title = title
         self.id = id
         self.selectionType = selectionType
+        self.step = step
         self.result = result
     }
 }
@@ -36,6 +43,8 @@ struct ScaleSliderQuestionView<ResultType>: View {
     var detail: String?
 
     var scaleSelectionType: ScaleSelectionType
+
+    let step: Double
 
     // Actual underlying value of the slider
     @State
@@ -68,7 +77,7 @@ struct ScaleSliderQuestionView<ResultType>: View {
                     Slider(
                         value: $value,
                         in: Double(range.lowerBound)...Double(range.upperBound),
-                        step: 1
+                        step: step
                     ) {
                         Text("Replace This Text")
                     } minimumValueLabel: {
@@ -83,7 +92,7 @@ struct ScaleSliderQuestionView<ResultType>: View {
                     Slider(
                         value: $value,
                         in: range.lowerBound...range.upperBound,
-                        step: 0.01
+                        step: step
                     ) {
                     } minimumValueLabel: {
                         Text("\(range.lowerBound)")
