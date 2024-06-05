@@ -44,11 +44,13 @@
     ORKThrowMethodUnavailableException();
 }
 
-- (instancetype)initWithReviewCards:(NSArray<ORKReviewCard *> *)reviewCards {
+- (instancetype)initWithTitle:(nullable NSString *)title
+                  reviewCards:(NSArray<ORKReviewCard *> *)reviewCards {
     self = [super init];
     
     if (self) {
-        _reviewCards = reviewCards;
+        _title = [title copy];
+        _reviewCards = [reviewCards copy];
     }
     
     return self;
