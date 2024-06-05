@@ -67,6 +67,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // create review card item objects
+    // create review card objects
+    // create review card section object
+    
+    // create review result model
+    
 }
 
 - (NSArray<ORKStep *> *)_getStepsToParseForResults {
