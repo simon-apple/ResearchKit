@@ -71,8 +71,7 @@ class FormStepViewModel: ObservableObject {
                          )
                      )
                 case let scaleAnswerFormat as ORKScaleAnswerFormat:
-
-                    return FormRow.numericalSliderStep(
+                    return FormRow.intSliderRow(
                         ScaleSliderQuestion(
                             id: formItem.identifier,
                             title: questionText,
@@ -80,7 +79,7 @@ class FormStepViewModel: ObservableObject {
                         )
                     )
                 case let continuousScaleAnswerFormat as ORKContinuousScaleAnswerFormat:
-                    return FormRow.numericalSliderStep(
+                    return FormRow.doubleSliderRow(
                         ScaleSliderQuestion(
                             id: formItem.identifier,
                             title: questionText,
@@ -123,22 +122,27 @@ class FormStepViewModel: ObservableObject {
                 let result = ORKChoiceQuestionResult(identifier: multipleChoiceRow.id)
                 result.choiceAnswers = multipleChoiceRow.result.map { $0.choiceText as NSString }
                 resultArray.append(result)
-
-            case .numericalSliderStep(let numericalScaleRow):
-                let result = ORKScaleQuestionResult(identifier: numericalScaleRow.id)
-                result.scaleAnswer = numericalScaleRow.result as? NSNumber
+                
+            case .doubleSliderRow(let doubleScaleRow):
+                let result = ORKScaleQuestionResult(identifier: doubleScaleRow.id)
+                result.scaleAnswer = doubleScaleRow.result as? NSNumber
                 resultArray.append(result)
-
+                
+            case .intSliderRow(let intSliderRow):
+                let result = ORKScaleQuestionResult(identifier: intSliderRow.id)
+                result.scaleAnswer = intSliderRow.result as? NSNumber
+                resultArray.append(result)
+                
             case .textSliderStep(let textSliderRow):
                 let result = ORKTextQuestionResult(identifier: textSliderRow.id)
                 result.textAnswer = textSliderRow.result?.choiceText as? String
                 resultArray.append(result)
             }
-        }
-
-        // Step result may be nil if the user skipped a step
-        if resultArray.isEmpty == false {
-            self.result.results = resultArray
+            
+            // Step result may be nil if the user skipped a step
+            if resultArray.isEmpty == false {
+                self.result.results = resultArray
+            }
         }
     }
 }

@@ -52,8 +52,8 @@ struct ScaleSliderQuestionView<ResultType>: View {
                 Text(detail)
             }
             scaleView(selectionType: scaleSelectionType)
-                .onChange(of: value) { _, newValue in
-                    updateResult(updatedValue: newValue)
+                .onChange(of: value) { _, _ in
+                    updateResult()
                 }
         }
     }
@@ -113,15 +113,23 @@ struct ScaleSliderQuestionView<ResultType>: View {
     }
 
     // MARK: Helpers
+    
     private func updateResult() {
         switch self.scaleSelectionType {
         case .textChoice(let array):
             let index = Int(self.value)
-            $result.wrappedValue = array[index] as! ResultType
+            if let newValue = array[index] as? ResultType {
+                $result.wrappedValue = newValue
+            }
         case .integerRange(_):
-            $result.wrappedValue = Int(value) as! ResultType
+            // value is a double for the sake of the SwiftUI Slider, so cast to an Int
+            if let newValue = Int(value) as? ResultType {
+                $result.wrappedValue = newValue
+            }
         case .doubleRange(_):
-            $result.wrappedValue = value as! ResultType
+            if let newValue = value as? ResultType {
+                $result.wrappedValue = newValue
+            }
         }
     }
 }

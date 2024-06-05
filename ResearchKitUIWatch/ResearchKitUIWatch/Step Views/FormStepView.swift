@@ -88,14 +88,14 @@ internal struct FormStepView: View {
                                 }
                             )
                         )
-                    case .numericalSliderStep(let numericalScaleQuestion):
+                    case .doubleSliderRow(let numericalScaleQuestion):
                         ScaleSliderQuestionView(
                             title: numericalScaleQuestion.title,
                             scaleSelectionType: numericalScaleQuestion.selectionType,
                             result: .init(get: {
                                 return numericalScaleQuestion.result
                             }, set: { newValue in
-                                formRow = .numericalSliderStep(
+                                formRow = .doubleSliderRow(
                                     ScaleSliderQuestion(
                                         id: numericalScaleQuestion.id,
                                         title: numericalScaleQuestion.title,
@@ -105,7 +105,25 @@ internal struct FormStepView: View {
                                 )
                             })
                         )
-
+                        
+                    case .intSliderRow(let intSliderQuestion):
+                        ScaleSliderQuestionView(
+                            title: intSliderQuestion.title,
+                            scaleSelectionType: intSliderQuestion.selectionType,
+                            result: .init(get: {
+                                return intSliderQuestion.result
+                            }, set: { newValue in
+                                formRow = .intSliderRow(
+                                    ScaleSliderQuestion(
+                                        id: intSliderQuestion.id,
+                                        title: intSliderQuestion.title,
+                                        selectionType: intSliderQuestion.selectionType,
+                                        result: newValue 
+                                    )
+                                )
+                            })
+                        )
+                        
                     case .textSliderStep(let textSliderQuestion):
                         ScaleSliderQuestionView(
                             title: textSliderQuestion.title,
