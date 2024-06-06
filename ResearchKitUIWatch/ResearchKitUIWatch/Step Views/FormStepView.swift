@@ -35,12 +35,6 @@ import SwiftUI
 
 internal struct FormStepView: View {
     
-    enum Constants {
-        static let topToProgressPadding: CGFloat = 4.0
-        static let bottomToProgressPadding: CGFloat = 4.0
-        static let questionToAnswerPadding: CGFloat = 12.0
-    }
-    
     @ObservedObject
     private var viewModel: FormStepViewModel
     
@@ -57,13 +51,7 @@ internal struct FormStepView: View {
             }
             ForEach($viewModel.formRows) { $formRow in
                 Section {
-                    if let progress = viewModel.progress {
-                        Text("\(progress.index) OF \(progress.count)".uppercased())
-                            .foregroundColor(.gray)
-                            .font(.subheadline)
-                            .padding(.top, Constants.topToProgressPadding)
-                            .padding(.bottom, Constants.bottomToProgressPadding)
-                    }
+                    StepSectionHeaderView(viewModel: viewModel, formRow: formRow)
                     
                     switch formRow {
                     case .multipleChoiceRow(let multipleChoiceValue):

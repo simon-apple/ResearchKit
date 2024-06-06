@@ -30,37 +30,34 @@
 
 import SwiftUI
 
-struct ListHeaderView<Content: View>: View {
+extension View {
     
-    private let content: Content
-    
-    init(@ViewBuilder content: () -> Content) {
-        self.content = content()
-    }
-    
-    var body: some View {
-        Section(
-            content: {
-                EmptyView()
-            },
-            header: {
-                content
-            }
-        )
-        .listRowInsets(
-            EdgeInsets(
-                top: 0,
-                leading: 0,
-                bottom: 0,
-                trailing: 0
-            )
+    /// This style is applicable to the List type. It modifies the list row separator associated with the modified view
+    /// such that the leading edge of said list row separator extends to the leading edge of the list containing
+    /// the modified view.
+    ///
+    /// While this style serves a very specific purpose at the time of writing, it can be generalized to account for
+    /// additional use cases.
+    func listRowSeparatorSectionInsetStyle() -> some View {
+        modifier(
+            ListRowSeparatorSectionInsetStyle()
         )
     }
     
 }
 
-#Preview {
-    ListHeaderView {
-        Text("List header")
+struct ListRowSeparatorSectionInsetStyle: ViewModifier {
+    
+    private let defaultLeadingPadding: CGFloat = 20
+    
+    func body(content: Content) -> some View {
+        content
+            .alignmentGuide(
+                .listRowSeparatorLeading,
+                computeValue: { dimension in
+                    dimension[.leading] - defaultLeadingPadding
+                }
+            )
     }
+    
 }
