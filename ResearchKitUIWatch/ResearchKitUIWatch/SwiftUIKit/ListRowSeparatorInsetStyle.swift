@@ -46,12 +46,6 @@ extension View {
     
 }
 
-/// This style is applicable to the List type. It modifies the list row separator associated with the modified view
-/// such that the leading edge of said list row separator extends to the leading edge of the list containing
-/// the modified view.
-///
-/// While this style serves a very specific purpose at the time of writing, it can be generalized to account for
-/// additional use cases.
 struct ListRowSeparatorSectionInsetStyle: ViewModifier {
     
     private let defaultLeadingPadding: CGFloat = 20
