@@ -120,6 +120,7 @@ internal struct TaskContentView<Content>: View where Content: View {
             switch viewModel {
             case .formStep(let formStepViewModel):
                 formStepViewModel.createORKResult()
+                debugPrint(self.currentResult)
                 // TODO: serialize these results to JSON by pulling in serializer:
                 // rdar://126868123 (Serialize results from SwiftUI Question Views)
                 break
