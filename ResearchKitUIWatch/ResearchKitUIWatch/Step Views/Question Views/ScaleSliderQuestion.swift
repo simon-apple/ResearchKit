@@ -64,54 +64,70 @@ struct ScaleSliderQuestionView<ResultType>: View {
 
     @ViewBuilder
     func scaleView(selectionType: ScaleSelectionType) -> some View {
-        switch selectionType {
-        case .integerRange(let range):
-            VStack {
-                Text("\(Int(value))")
-                Slider(
-                    value: $value,
-                    in: 0...100,
-                    step: 1
-                ) {
-                    Text("Replace This Text")
-                } minimumValueLabel: {
-                    Text("min")
-                } maximumValueLabel: {
-                    Text("max")
+        VStack {
+            Text("\(value(for: selectionType))")
+                .font(.title2)
+                .fontWeight(.bold)
+                .foregroundStyle(.blue)
+            
+            switch selectionType {
+            case .integerRange(let range):
+                VStack {
+                    Slider(
+                        value: $value,
+                        in: 0...100,
+                        step: 1
+                    ) {
+                        Text("Replace This Text")
+                    } minimumValueLabel: {
+                        Text("min")
+                    } maximumValueLabel: {
+                        Text("max")
+                    }
                 }
-            }
-        case .doubleRange(let range):
-            VStack {
-                Text("\(value)")
-                Slider(
-                    value: $value,
-                    in: 0...5,
-                    step: 0.01
-                ) {
-                    Text("Replace This Text")
-                } minimumValueLabel: {
-                    Text("min")
-                } maximumValueLabel: {
-                    Text("max")
+            case .doubleRange(let range):
+                VStack {
+                    Slider(
+                        value: $value,
+                        in: 0...5,
+                        step: 0.01
+                    ) {
+                        Text("Replace This Text")
+                    } minimumValueLabel: {
+                        Text("min")
+                    } maximumValueLabel: {
+                        Text("max")
+                    }
                 }
-            }
-        case .textChoice(let choices):
-            VStack {
-                Text("\(choices[Int(value)].choiceText)")
-                Slider(
-                    value: $value,
-                    in: 0...Double(choices.count - 1),
-                    step: 1
-                ) {
-                    Text("Choices")
-                } minimumValueLabel: {
-                    Text("Min")
-                } maximumValueLabel: {
-                    Text("Max")
+            case .textChoice(let choices):
+                VStack {
+                    Slider(
+                        value: $value,
+                        in: 0...Double(choices.count - 1),
+                        step: 1
+                    ) {
+                        Text("Choices")
+                    } minimumValueLabel: {
+                        Text("Min")
+                    } maximumValueLabel: {
+                        Text("Max")
+                    }
                 }
-                
             }
         }
+    }
+    
+    private func value(for selectionType: ScaleSelectionType) -> any CustomStringConvertible {
+        let value: any CustomStringConvertible
+        switch selectionType {
+        case .integerRange(_):
+            value = Int(self.value)
+        case .doubleRange(_):
+            value = self.value
+        case .textChoice(let choices):
+            value = choices[Int(self.value)].choiceText
+        }
+        return value
     }
 
 }
