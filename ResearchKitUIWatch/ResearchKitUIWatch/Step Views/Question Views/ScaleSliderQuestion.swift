@@ -68,11 +68,7 @@ struct ScaleSliderQuestionView<ResultType>: View {
             Text("\(value(for: selectionType))")
                 .font(.title2)
                 .fontWeight(.bold)
-#if os(iOS)
-                .foregroundStyle(.blue)
-#elseif os(visionOS)
-                .foregroundStyle(Color(.label))
-#endif
+                .sliderValueForegroundStyle()
             
             Slider(
                 value: $value,
