@@ -32,37 +32,34 @@ import Foundation
 import ResearchKit
 import SwiftUI
 
-enum ScaleAxis {
-    case horizontal, verticle
-}
-
 enum ScaleSelectionType {
     case textChoice([MultipleChoiceOption])
     case integerRange(ClosedRange<Int>)
     case doubleRange(ClosedRange<Double>)
 }
 
-@Observable
-class ScaleSliderQuestion<ResultType>: Identifiable {
-
-    public var title: String
-    public var id: String
+struct ScaleSliderQuestion<ResultType>: Identifiable {
+    public let id: String
+    public let title: String
     public let selectionType: ScaleSelectionType
-    public var result: ResultType
+    public let step: Double
+    public var result: ResultType?
 
-
-    init(title: String, id: String, selectionType: ScaleSelectionType, result: ResultType) {
+    init(id: String, 
+         title: String,
+         selectionType: ScaleSelectionType,
+         step: Double,
+         result: ResultType? = nil
+    ) {
         self.title = title
         self.id = id
         self.selectionType = selectionType
-        _result = result
+        self.step = step
+        self.result = result
     }
-
 }
 
 struct ScaleSliderQuestionView<ResultType>: View {
-
-    let identifier: String
 
     var title: String
 
@@ -70,8 +67,11 @@ struct ScaleSliderQuestionView<ResultType>: View {
 
     var scaleSelectionType: ScaleSelectionType
 
+    let step: Double
+
+    // Actual underlying value of the slider
     @State
-    var value = 0.0
+    private var value = 0.0
 
     @Binding
     var result: ResultType
@@ -83,15 +83,15 @@ struct ScaleSliderQuestionView<ResultType>: View {
             if let detail {
                 Text(detail)
             }
-
             scaleView(selectionType: scaleSelectionType)
-
+                .onChange(of: value) { _, _ in
+                    updateResult()
+                }
         }
     }
 
-
     @ViewBuilder
-    func scaleView(selectionType: ScaleSelectionType) -> some View {
+    private func scaleView(selectionType: ScaleSelectionType) -> some View {
 
         switch selectionType {
             case .integerRange(let range):
@@ -99,14 +99,14 @@ struct ScaleSliderQuestionView<ResultType>: View {
                     Text("\(Int(value))")
                     Slider(
                         value: $value,
-                        in: 0...100,
-                        step: 1
+                        in: Double(range.lowerBound)...Double(range.upperBound),
+                        step: step
                     ) {
                         Text("Replace This Text")
                     } minimumValueLabel: {
-                        Text("min")
+                        Text("\(range.lowerBound)")
                     } maximumValueLabel: {
-                        Text("max")
+                        Text("\(range.upperBound)")
                     }
                 }
             case .doubleRange(let range):
@@ -114,14 +114,13 @@ struct ScaleSliderQuestionView<ResultType>: View {
                     Text("\(value)")
                     Slider(
                         value: $value,
-                        in: 0...5,
-                        step: 0.01
+                        in: range.lowerBound...range.upperBound,
+                        step: step
                     ) {
-                        Text("Replace This Text")
                     } minimumValueLabel: {
-                        Text("min")
+                        Text("\(range.lowerBound)")
                     } maximumValueLabel: {
-                        Text("max")
+                        Text("\(range.lowerBound)")
                     }
                 }
             case .textChoice(let choices):
@@ -132,16 +131,38 @@ struct ScaleSliderQuestionView<ResultType>: View {
                         in: 0...Double(choices.count - 1),
                         step: 1
                     ) {
-                            Text("Choices")
-                        } minimumValueLabel: {
-                            Text("Min")
-                        } maximumValueLabel: {
-                            Text("Max")
+                    } minimumValueLabel: {
+                        if let minimumLabelText = choices.first?.choiceText {
+                            Text(minimumLabelText)
                         }
-
+                    } maximumValueLabel: {
+                        if let maximumLabelText = choices.last?.choiceText {
+                            Text(maximumLabelText)
+                        }
+                    }
                 }
         }
     }
 
+    // MARK: Helpers
+    
+    private func updateResult() {
+        switch self.scaleSelectionType {
+        case .textChoice(let array):
+            let index = Int(self.value)
+            if let newValue = array[index] as? ResultType {
+                $result.wrappedValue = newValue
+            }
+        case .integerRange(_):
+            // value is a double for the sake of the SwiftUI Slider, so cast to an Int
+            if let newValue = Int(value) as? ResultType {
+                $result.wrappedValue = newValue
+            }
+        case .doubleRange(_):
+            if let newValue = value as? ResultType {
+                $result.wrappedValue = newValue
+            }
+        }
+    }
 }
 

@@ -49,7 +49,6 @@ internal struct FormStepView: View {
             ListHeaderView {
                 StepHeaderView(viewModel: viewModel)
             }
-            
             ForEach($viewModel.formRows) { $formRow in
                 Section {
                     StepSectionHeaderView(viewModel: viewModel, formRow: formRow)
@@ -77,18 +76,71 @@ internal struct FormStepView: View {
                                 }
                             )
                         )
-                    case .scale(let scaleQuestion):
-                        @Bindable var scaleQuestionBinding = scaleQuestion
+                    case .doubleSliderRow(let doubleSliderQuestion):
                         ScaleSliderQuestionView(
-                            identifier: scaleQuestion.id,
-                            title: scaleQuestion.title,
-                            scaleSelectionType: scaleQuestionBinding.selectionType,
-                            result: $scaleQuestionBinding.result
+                            title: doubleSliderQuestion.title,
+                            scaleSelectionType: doubleSliderQuestion.selectionType,
+                            step: doubleSliderQuestion.step,
+                            result: .init(get: {
+                                return doubleSliderQuestion.result
+                            }, set: { newValue in
+                                formRow = .doubleSliderRow(
+                                    ScaleSliderQuestion(
+                                        id: doubleSliderQuestion.id,
+                                        title: doubleSliderQuestion.title,
+                                        selectionType: doubleSliderQuestion.selectionType,
+                                        step: doubleSliderQuestion.step,
+                                        result: newValue
+                                    )
+                                )
+                            })
+                        )
+                        
+                    case .intSliderRow(let intSliderQuestion):
+                        ScaleSliderQuestionView(
+                            title: intSliderQuestion.title,
+                            scaleSelectionType: intSliderQuestion.selectionType,
+                            step: intSliderQuestion.step,
+                            result: .init(get: {
+                                return intSliderQuestion.result
+                            }, set: { newValue in
+                                formRow = .intSliderRow(
+                                    ScaleSliderQuestion(
+                                        id: intSliderQuestion.id,
+                                        title: intSliderQuestion.title,
+                                        selectionType: intSliderQuestion.selectionType,
+                                        step: intSliderQuestion.step,
+                                        result: newValue
+                                    )
+                                )
+                            })
+                        )
+                        
+                    case .textSliderStep(let textSliderQuestion):
+                        ScaleSliderQuestionView(
+                            title: textSliderQuestion.title,
+                            scaleSelectionType: textSliderQuestion.selectionType,
+                            step: textSliderQuestion.step,
+                            result: .init(get: {
+                                return textSliderQuestion.result
+                            }, set: { newValue in
+                                formRow = .textSliderStep(
+                                    ScaleSliderQuestion(
+                                        id: textSliderQuestion.id,
+                                        title: textSliderQuestion.title,
+                                        selectionType: textSliderQuestion.selectionType,
+                                        step: textSliderQuestion.step,
+                                        result: newValue
+                                    )
+                                )
+                            })
                         )
                     }
                 }
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.leading)
 #if os(visionOS)
         .navigationTitle(
             // TODO(rdar://128955005): Ensure font used is same as in ORKCatalog.
