@@ -70,49 +70,22 @@ struct ScaleSliderQuestionView<ResultType>: View {
                 .fontWeight(.bold)
                 .foregroundStyle(.blue)
             
-            switch selectionType {
-            case .integerRange(let range):
-                VStack {
-                    Slider(
-                        value: $value,
-                        in: 0...100,
-                        step: 1
-                    ) {
-                        Text("Replace This Text")
-                    } minimumValueLabel: {
-                        Text("min")
-                    } maximumValueLabel: {
-                        Text("max")
-                    }
-                }
-            case .doubleRange(let range):
-                VStack {
-                    Slider(
-                        value: $value,
-                        in: 0...5,
-                        step: 0.01
-                    ) {
-                        Text("Replace This Text")
-                    } minimumValueLabel: {
-                        Text("min")
-                    } maximumValueLabel: {
-                        Text("max")
-                    }
-                }
-            case .textChoice(let choices):
-                VStack {
-                    Slider(
-                        value: $value,
-                        in: 0...Double(choices.count - 1),
-                        step: 1
-                    ) {
-                        Text("Choices")
-                    } minimumValueLabel: {
-                        Text("Min")
-                    } maximumValueLabel: {
-                        Text("Max")
-                    }
-                }
+            Slider(
+                value: $value,
+                in: sliderBounds(for: selectionType),
+                step: sliderStep(for: selectionType)
+            ) {
+                Text(labelDescription(for: selectionType))
+            } minimumValueLabel: {
+                Text(minimumValueDescription(for: selectionType))
+                    .foregroundStyle(Color(.label))
+                    .font(.subheadline)
+                    .fontWeight(.bold)
+            } maximumValueLabel: {
+                Text(maximumValueDescription(for: selectionType))
+                    .foregroundStyle(Color(.label))
+                    .font(.subheadline)
+                    .fontWeight(.bold)
             }
         }
     }
@@ -129,5 +102,70 @@ struct ScaleSliderQuestionView<ResultType>: View {
         }
         return value
     }
+    
+    private func sliderBounds(for selectionType: ScaleSelectionType) -> ClosedRange<Double> {
+        let sliderBounds: ClosedRange<Double>
+        switch selectionType {
+        case .textChoice(let choices):
+            sliderBounds = 0...Double(choices.count - 1)
+        case .integerRange(let closedRange):
+            sliderBounds = 0...100
+        case .doubleRange(let closedRange):
+            sliderBounds = 0...5
+        }
+        return sliderBounds
+    }
+    
+    private func sliderStep(for selectionType: ScaleSelectionType) -> Double.Stride {
+        let sliderStep: Double.Stride
+        switch selectionType {
+        case .textChoice(_):
+            fallthrough
+        case .integerRange(_):
+            sliderStep = 1
+        case .doubleRange(_):
+            sliderStep = 0.01
+        }
+        return sliderStep
+    }
+    
+    private func labelDescription(for selectionType: ScaleSelectionType) -> String {
+        let labelDescription: String
+        switch selectionType {
+        case .textChoice(let array):
+            labelDescription = "Choices"
+        case .integerRange(_):
+            fallthrough
+        case .doubleRange(_):
+            labelDescription = "Replace This Text"
+        }
+        return labelDescription
+    }
+    
+    private func minimumValueDescription(for selectionType: ScaleSelectionType) -> String {
+        let minimumValueLabel: String
+        switch selectionType {
+        case .textChoice(let array):
+            minimumValueLabel = "Min"
+        case .integerRange(_):
+            fallthrough
+        case .doubleRange(_):
+            minimumValueLabel = "min"
+        }
+        return minimumValueLabel
+    }
 
+    private func maximumValueDescription(for selectionType: ScaleSelectionType) -> String {
+        let maximumValueDescription: String
+        switch selectionType {
+        case .textChoice(let array):
+            maximumValueDescription = "Max"
+        case .integerRange(_):
+            fallthrough
+        case .doubleRange(_):
+            maximumValueDescription = "max"
+        }
+        return maximumValueDescription
+    }
+    
 }
