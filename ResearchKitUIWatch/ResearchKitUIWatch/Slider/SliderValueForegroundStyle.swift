@@ -41,7 +41,6 @@ extension View {
     
 }
 
-/// This foreground style is used for labels that display values associated with sliders.
 struct SliderValueForegroundStyle: ViewModifier {
     
     func body(content: Content) -> some View {
