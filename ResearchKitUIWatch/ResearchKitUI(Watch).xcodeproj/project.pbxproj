@@ -125,7 +125,6 @@
 				5EDFA9D62BFFFA2B0044C156 /* StepHeaderView.swift */,
 				5EDFAA0E2C08082E0044C156 /* StepSectionHeaderView.swift */,
 				0B72133F2B4F395C00463E69 /* TaskManager.swift */,
-				5E507F802C1141F2002958E2 /* SliderValueForegroundStyle.swift */,
 			);
 			path = "Step Views";
 			sourceTree = "<group>";
@@ -159,6 +158,7 @@
 				0B72134D2B4F39CC00463E69 /* View+OnChange.swift */,
 				0B72134C2B4F39CC00463E69 /* ORKScrollViewReader.swift */,
 				0B7213472B4F39A500463E69 /* Step Views */,
+				5E507F822C1144DE002958E2 /* Slider */,
 				5E507F7D2C08E9E4002958E2 /* SwiftUIKit */,
 				0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */,
 			);
@@ -171,6 +171,14 @@
 				5E507F7E2C08EA5F002958E2 /* ListRowSeparatorInsetStyle.swift */,
 			);
 			path = SwiftUIKit;
+			sourceTree = "<group>";
+		};
+		5E507F822C1144DE002958E2 /* Slider */ = {
+			isa = PBXGroup;
+			children = (
+				5E507F802C1141F2002958E2 /* SliderValueForegroundStyle.swift */,
+			);
+			path = Slider;
 			sourceTree = "<group>";
 		};
 		E4DBF1B22B97C27E0085D6A1 /* Question Views */ = {
