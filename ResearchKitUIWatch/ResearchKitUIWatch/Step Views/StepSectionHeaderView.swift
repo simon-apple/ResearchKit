@@ -89,7 +89,11 @@ struct StepSectionHeaderView: View {
         switch formRow {
         case .multipleChoiceRow(let multipleChoiceValue):
             title = multipleChoiceValue.title
-        case .scale(let scaleSliderQuestion):
+        case .doubleSliderRow(let scaleSliderQuestion):
+            title = scaleSliderQuestion.title
+        case .intSliderRow(let scaleSliderQuestion):
+            title = scaleSliderQuestion.title
+        case .textSliderStep(let scaleSliderQuestion):
             title = scaleSliderQuestion.title
         }
         return title
