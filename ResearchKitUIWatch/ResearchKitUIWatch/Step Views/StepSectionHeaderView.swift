@@ -30,37 +30,31 @@
 
 import SwiftUI
 
-struct ListHeaderView<Content: View>: View {
+struct StepSectionHeaderView: View {
     
-    private let content: Content
+    @ObservedObject
+    private var viewModel: FormStepViewModel
     
-    init(@ViewBuilder content: () -> Content) {
-        self.content = content()
+    private let formRow: FormRow
+    
+    init(viewModel: FormStepViewModel, formRow: FormRow) {
+        self.viewModel = viewModel
+        self.formRow = formRow
     }
     
     var body: some View {
-        Section(
-            content: {
-                EmptyView()
-            },
-            header: {
-                content
+        VStack(alignment: .leading) {
+            if let progress = viewModel.progress {
+                Text("Question \(progress.index) of \(progress.count)")
+                    .foregroundColor(.gray)
+                    .font(.subheadline)
             }
-        )
-        .listRowInsets(
-            EdgeInsets(
-                top: 0,
-                leading: 0,
-                bottom: 0,
-                trailing: 0
-            )
-        )
+            
+            if case .multipleChoiceRow(let multipleChoiceValue) = formRow {
+                Text(multipleChoiceValue.title)
+            }
+        }
+        .listRowSeparatorSectionInsetStyle()
     }
     
-}
-
-#Preview {
-    ListHeaderView {
-        Text("List header")
-    }
 }
