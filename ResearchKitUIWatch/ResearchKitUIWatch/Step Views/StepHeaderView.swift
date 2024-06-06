@@ -1,9 +1,32 @@
-//
-//  StepHeaderView.swift
-//  ResearchKitUI(Watch)
-//
-//  Created by Simon Tsai on 5/23/24.
-//
+/*
+ Copyright (c) 2024, Apple Inc. All rights reserved.
+ 
+ Redistribution and use in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+ 
+ 1.  Redistributions of source code must retain the above copyright notice, this
+ list of conditions and the following disclaimer.
+ 
+ 2.  Redistributions in binary form must reproduce the above copyright notice,
+ this list of conditions and the following disclaimer in the documentation and/or
+ other materials provided with the distribution.
+ 
+ 3.  Neither the name of the copyright holder(s) nor the names of any contributors
+ may be used to endorse or promote products derived from this software without
+ specific prior written permission. No license is granted to the trademarks of
+ the copyright holders even if such marks are included in this software.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 import SwiftUI
 
@@ -21,8 +44,8 @@ struct StepHeaderView: View {
     }
     
     var body: some View {
+        VStack(alignment: alignment) {
 #if os(iOS)
-        VStack(alignment: .leading) {
             if let stepTitle = viewModel.step.title {
                 Spacer()
                     .frame(height: stepTitleTopSpacing)
@@ -32,32 +55,49 @@ struct StepHeaderView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
             }
+#endif
             
             if let stepDescription = viewModel.step.text {
-                Spacer()
-                    .frame(height: stepDescriptionTopSpacing)
+                topSpacingForStepDescription()
                 
-                Text(stepDescription)
-                    .foregroundStyle(Color(uiColor: .label))
-                    .font(.body)
-            }
-            
-            Spacer()
-                .frame(height: bottomSpacing)
-        }
-        .textCase(.none)
-#else
-        if let stepDescription = viewModel.step.text {
-            VStack {
-                Text(stepDescription)
-                    .foregroundStyle(Color(uiColor: .label))
-                    .font(.body)
-                    .fontWeight(.semibold)
+                text(for: stepDescription)
                 
                 Spacer()
                     .frame(height: bottomSpacing)
             }
         }
+        .textCase(.none)
+    }
+    
+    private var alignment: HorizontalAlignment {
+#if os(iOS)
+        .leading
+#elseif os(visionOS)
+        .center
+#endif
+    }
+    
+    @ViewBuilder
+    private func topSpacingForStepDescription() -> some View {
+#if os(iOS)
+        Spacer()
+            .frame(height: stepDescriptionTopSpacing)
+#elseif os(visionOS)
+        EmptyView()
+#endif
+    }
+    
+    @ViewBuilder
+    private func text(for stepDescription: String) -> some View {
+#if os(iOS)
+        Text(stepDescription)
+            .foregroundStyle(Color(uiColor: .label))
+            .font(.body)
+#elseif os(visionOS)
+        Text(stepDescription)
+            .foregroundStyle(Color(uiColor: .label))
+            .font(.body)
+            .fontWeight(.semibold)
 #endif
     }
     
