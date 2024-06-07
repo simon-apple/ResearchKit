@@ -110,13 +110,11 @@ internal struct FormStepView: View {
             ))
             
         case .intSliderRow(let intSliderQuestion):
-
             ScaleSliderQuestionView(
                 title: intSliderQuestion.title,
                 range: intSliderQuestion.range,
-                step: intSliderQuestion.step,
                 selection: .init(get: {
-                    return Double(intSliderQuestion.result)
+                    return intSliderQuestion.result
                 }, set: { newValue in
                     formRow.wrappedValue = .intSliderRow(
                         ScaleSliderQuestion(
@@ -130,7 +128,6 @@ internal struct FormStepView: View {
             )
 
         case .textSliderStep(let textSliderQuestion):
-
             ScaleSliderQuestionView(
                 title: textSliderQuestion.title,
                 multipleChoiceOptions: textSliderQuestion.multipleChoiceOptions,

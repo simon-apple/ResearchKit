@@ -72,6 +72,14 @@ extension ScaleSliderQuestion where ResultType == Int {
     var result: Int {
         return Int(value)
     }
+    
+    var step: Int {
+        return Int(step)
+    }
+    
+    var range: ClosedRange<Int> {
+        return Int(range.lowerBound)...Int(range.upperBound)
+    }
 
     init(
         id: String,
