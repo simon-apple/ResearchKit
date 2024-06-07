@@ -133,6 +133,11 @@ ORK_CLASS_AVAILABLE
  */
 @property (nonatomic, copy, nullable) NSDictionary *userInfo;
 
+/**
+ The string representation of the result's value.
+ */
+- (nullable NSString *)stringValue;
+
 @end
 
 NS_ASSUME_NONNULL_END

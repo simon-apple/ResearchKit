@@ -30,16 +30,21 @@
 
 #import <Foundation/Foundation.h>
 
+
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKReviewCardSection;
 @class ORKFormStep;
+@class ORKReviewCardSection;
+@class ORKStep;
 @class ORKTaskResult;
 
 @interface ORKFormStepResultModel : NSObject
 
 + (NSArray<ORKReviewCardSection *> *)getReviewCardSectionsWithFormSteps:(NSArray<ORKFormStep *> *)formSteps
                                                              taskResult:(ORKTaskResult *)taskResult;
+
++ (NSArray<ORKReviewCardSection *> *)getReviewCardSectionsWithSurveySteps:(NSArray<ORKStep *> *)surveySteps
+                                                               taskResult:(ORKTaskResult *)taskResult;
 
 @end
 

@@ -45,4 +45,9 @@
     return [ORKFormStepResultModel getReviewCardSectionsWithFormSteps:formSteps taskResult:taskResult];
 }
 
++ (NSArray<ORKReviewCardSection *> *)getReviewCardSectionsWithSurveySteps:(NSArray *)surveySteps 
+                                                               taskResult:(ORKTaskResult *)taskResult {
+    return [ORKFormStepResultModel getReviewCardSectionsWithSurveySteps:surveySteps taskResult:taskResult];
+}
+    
 @end

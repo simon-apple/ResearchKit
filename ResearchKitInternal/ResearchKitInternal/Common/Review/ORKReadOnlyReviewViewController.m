@@ -36,6 +36,7 @@
 
 #import <ResearchKit/ORKCollectionResult.h>
 #import <ResearchKit/ORKFormStep.h>
+#import <ResearchKit/ORKQuestionStep.h>
 #import <ResearchKit/ORKOrderedTask.h>
 #import <ResearchKit/ORKStep.h>
 
@@ -88,6 +89,10 @@
             return [self _getStepsOfClass:[ORKFormStep class]];
             break;
             
+        case ORKReadOnlyStepTypeSurveyStep:
+            return [self _getSurveyTypeSteps];
+            break;
+            
         case ORKReadOnlyStepTypeFamilyHistoryStep:
             return [self _getStepsOfClass:[ORKFamilyHistoryStep class]];
             break;
@@ -95,6 +100,13 @@
         default:
             break;
     }
+}
+
+- (NSArray<ORKStep *> *)_getSurveyTypeSteps {
+    NSArray<ORKStep *> *formSteps = [self _getStepsOfClass:[ORKFormStep class]];
+    NSArray<ORKStep *> *questionSteps = [self _getStepsOfClass:[ORKQuestionStep class]];
+    
+    return [formSteps arrayByAddingObjectsFromArray:questionSteps];
 }
 
 - (NSArray<ORKStep *> *)_getStepsOfClass:(Class)class {
@@ -114,6 +126,10 @@
     switch (_readOnlyStepType) {
         case ORKReadOnlyStepTypeFormStep:
             return [ORKReviewResultModel getReviewCardSectionsWithFormSteps:[self _getCastedFormSteps] taskResult:_taskResult];
+            break;
+            
+        case ORKReadOnlyStepTypeSurveyStep:
+            return [NSArray new];
             break;
             
         case ORKReadOnlyStepTypeFamilyHistoryStep:

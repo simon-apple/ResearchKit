@@ -115,4 +115,8 @@ const NSUInteger NumberOfPaddingSpacesForIndentationLevel = 4;
     return [self descriptionWithNumberOfPaddingSpaces:0];
 }
 
+- (NSString *)stringValue {
+    return nil;
+}
+
 @end

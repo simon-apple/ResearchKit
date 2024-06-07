@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class ORKReviewCardSection;
 @class ORKFormStep;
+@class ORKStep;
 @class ORKTaskResult;
 
 @interface ORKReviewResultModel : NSObject
@@ -41,6 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray<ORKReviewCardSection *> *)getReviewCardSectionsWithFormSteps:(NSArray<ORKFormStep *> *)formSteps
                                                              taskResult:(ORKTaskResult *)taskResult;
 
++ (NSArray<ORKReviewCardSection *> *)getReviewCardSectionsWithSurveySteps:(NSArray<ORKStep *> *)surveySteps
+                                                               taskResult:(ORKTaskResult *)taskResult;
 @end
 
 NS_ASSUME_NONNULL_END

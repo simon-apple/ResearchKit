@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, ORKReadOnlyStepType) {
     ORKReadOnlyStepTypeFormStep,
+    ORKReadOnlyStepTypeSurveyStep,
     ORKReadOnlyStepTypeFamilyHistoryStep
 } ORK_ENUM_AVAILABLE;
 
