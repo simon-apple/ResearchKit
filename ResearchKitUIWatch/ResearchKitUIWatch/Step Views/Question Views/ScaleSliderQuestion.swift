@@ -32,85 +32,265 @@ import Foundation
 import ResearchKit
 import SwiftUI
 
-enum ScaleSelectionType {
+enum ScaleSelectionConfiguration {
     case textChoice([MultipleChoiceOption])
     case integerRange(ClosedRange<Int>)
     case doubleRange(ClosedRange<Double>)
 }
 
 struct ScaleSliderQuestion<ResultType>: Identifiable {
+
     public let id: String
     public let title: String
-    public let selectionType: ScaleSelectionType
+    public let detail: String?
     public let step: Double
-    public var result: ResultType?
+    public let value: Double
+    public let range: ClosedRange<Double>
+    public let configuration: ScaleSelectionConfiguration
 
-    init(id: String, 
-         title: String,
-         selectionType: ScaleSelectionType,
-         step: Double,
-         result: ResultType? = nil
+    init(
+        id: String,
+        title: String,
+        detail: String? = nil,
+        step: Double = 1.0,
+        range: ClosedRange<Double>,
+        value: Double
     ) {
-        self.title = title
         self.id = id
-        self.selectionType = selectionType
+        self.title = title
+        self.detail = detail
         self.step = step
-        self.result = result
+        self.range = range
+        self.configuration = .doubleRange(range)
+        self.value = value
+    }
+
+}
+
+extension ScaleSliderQuestion where ResultType == Int {
+
+    var result: Int {
+        return Int(value)
+    }
+
+    init(
+        id: String,
+        title: String,
+        detail: String? = nil,
+        step: Double = 1.0,
+        range: ClosedRange<Int>,
+        value: Int
+    ) {
+        self.id = id
+        self.title = title
+        self.detail = detail
+        self.step = step
+        self.range = Double(range.lowerBound) ... Double(range.upperBound)
+        self.configuration = .integerRange(range)
+        self.value = Double(value)
     }
 }
 
+extension ScaleSliderQuestion where ResultType == Double {
+
+    var result: Double {
+        return value
+    }
+
+}
+
+extension ScaleSliderQuestion where ResultType == MultipleChoiceOption {
+
+    var result: MultipleChoiceOption {
+        switch configuration {
+            case .textChoice(let choices):
+                return choices[Int(value)]
+            default:
+                fatalError("Oh no")
+        }
+    }
+
+    var multipleChoiceOptions: [MultipleChoiceOption] {
+        switch configuration {
+            case .textChoice(let options):
+                return options
+            default:
+                fatalError("Nooo")
+        }
+    }
+
+    init(
+        id: String,
+        title: String,
+        detail: String? = nil,
+        options: [MultipleChoiceOption],
+        selectedMultipleChoiceOption: MultipleChoiceOption
+    ) {
+        self.id = id
+        self.title = title
+        self.detail = detail
+        self.step = 1.0
+        self.configuration = .textChoice(options)
+        let index = options.firstIndex(where: { $0.id == selectedMultipleChoiceOption.id }) ?? 0
+        self.range = Double(0) ... Double(options.count - 1)
+        self.value = Double(index)
+    }
+
+}
+
 // TODO(rdar://129033515): Update name of this module to reflect just the slider without the header.
-struct ScaleSliderQuestionView<ResultType>: View {
+struct ScaleSliderQuestionView: View {
 
     var title: String
 
     var detail: String?
 
-    var scaleSelectionType: ScaleSelectionType
+    var scaleSelectionConfiguration: ScaleSelectionConfiguration
 
     let step: Double
 
     // Actual underlying value of the slider
     @State
-    private var value = 0.0
+    private var sliderUIValue: Double
 
-    @Binding
-    var result: ResultType
+    private var selection: ScaleSelectionValue
+
+    private enum ScaleSelectionValue: Equatable {
+        static func == (
+            lhs: ScaleSliderQuestionView.ScaleSelectionValue,
+            rhs: ScaleSliderQuestionView.ScaleSelectionValue
+        ) -> Bool {
+
+            switch lhs {
+                case .textChoice(let binding):
+                    guard case .textChoice(let rhsBinding) = rhs else {
+                        return false
+                    }
+                    return rhsBinding.wrappedValue.id == binding.wrappedValue.id
+                case .int(let binding):
+                    guard case .int(let rhsBinding) = rhs else {
+                        return false
+                    }
+                    return rhsBinding.wrappedValue == binding.wrappedValue
+                case .double(let binding):
+                    guard case .double(let rhsBinding) = rhs else {
+                        return false
+                    }
+                    return rhsBinding.wrappedValue == binding.wrappedValue
+            }
+
+        }
+
+        case textChoice(Binding<MultipleChoiceOption>)
+        case int(Binding<Int>)
+        case double(Binding<Double>)
+    }
+
+    init(
+        title: String,
+        detail: String? = nil,
+        range: ClosedRange<Double>,
+        step: Double = 1.0,
+        selection: Binding<Double>
+    ) {
+        self.title = title
+        self.detail = detail
+        self.scaleSelectionConfiguration = .doubleRange(range)
+        self.step = step
+        self.selection = .double(selection)
+        self._sliderUIValue = State(wrappedValue: selection.wrappedValue)
+    }
+
+    // The int version
+    init(
+        title: String,
+        detail: String? = nil,
+        range: ClosedRange<Int>,
+        step: Double = 1.0,
+        selection: Binding<Int>
+    ) {
+        self.title = title
+        self.detail = detail
+        self.scaleSelectionConfiguration = .integerRange(range)
+        self.step = step
+        self.selection = .int(selection)
+        self._sliderUIValue = State(wrappedValue: Double(selection.wrappedValue))
+    }
+
+    // The multi choice version
+    init(
+        title: String,
+        detail: String? = nil,
+        multipleChoiceOptions: [MultipleChoiceOption],
+        selection: Binding<MultipleChoiceOption>
+    ) {
+        self.title = title
+        self.detail = detail
+        self.scaleSelectionConfiguration = .textChoice(multipleChoiceOptions)
+        self.step = 1.0
+        self.selection = .textChoice(selection)
+        self._sliderUIValue = State(wrappedValue: Double(multipleChoiceOptions.firstIndex(where: { selection.id == $0.id }) ?? Array<MultipleChoiceOption>.Index(0.0)))
+    }
 
     public var body: some View {
         VStack(alignment: .leading) {
             if let detail {
                 Text(detail)
             }
-            scaleView(selectionType: scaleSelectionType)
-                .onChange(of: value) { _, _ in
-                    updateResult()
+            scaleView(selectionConfiguration: scaleSelectionConfiguration)
+                .onChange(of: sliderUIValue) { oldValue, newValue in
+                    switch selection {
+                        case .double(let doubleBinding):
+                            doubleBinding.wrappedValue = newValue
+                        case .int(let intBinding):
+                            intBinding.wrappedValue = Int(newValue)
+                        case .textChoice(let textChoiceBinding):
+                            guard case let .textChoice(array) = scaleSelectionConfiguration else {
+                                return
+                            }
+                            let index = Int(newValue)
+                            textChoiceBinding.wrappedValue = array[index]
+                    }
+                }
+                .onChange(of: selection) { oldValue, newValue in
+                    switch newValue {
+                        case .textChoice(let binding):
+                            guard case let .textChoice(array) = scaleSelectionConfiguration else {
+                                return
+                            }
+                            let selectedIndex = array.firstIndex(where: { $0.id == binding.wrappedValue.id }) ?? 0
+                            sliderUIValue = Double(selectedIndex)
+                        case .int(let binding):
+                            sliderUIValue = Double(binding.wrappedValue)
+                        case .double(let binding):
+                            sliderUIValue = binding.wrappedValue
+                    }
                 }
         }
     }
 
     @ViewBuilder
-    private func scaleView(selectionType: ScaleSelectionType) -> some View {
+    private func scaleView(selectionConfiguration: ScaleSelectionConfiguration) -> some View {
         VStack {
-            Text("\(value(for: selectionType))")
+            Text("\(value(for: selectionConfiguration))")
                 .font(.title2)
                 .fontWeight(.bold)
                 .sliderValueForegroundStyle()
             
             Slider(
-                value: $value,
-                in: sliderBounds(for: selectionType),
-                step: sliderStep(for: selectionType)
+                value: $sliderUIValue,
+                in: sliderBounds(for: selectionConfiguration),
+                step: sliderStep(for: selectionConfiguration)
             ) {
                 Text("Replace This Text")
             } minimumValueLabel: {
-                Text("\(minimumValueDescription(for: selectionType))")
+                Text("\(minimumValueDescription(for: selectionConfiguration))")
                     .fixedSize()
                     .foregroundStyle(Color(.label))
                     .font(.subheadline)
                     .fontWeight(.bold)
             } maximumValueLabel: {
-                Text("\(maximumValueDescription(for: selectionType))")
+                Text("\(maximumValueDescription(for: selectionConfiguration))")
                     .fixedSize()
                     .foregroundStyle(Color(.label))
                     .font(.subheadline)
@@ -119,22 +299,22 @@ struct ScaleSliderQuestionView<ResultType>: View {
         }
     }
     
-    private func value(for selectionType: ScaleSelectionType) -> any CustomStringConvertible {
+    private func value(for selectionConfiguration: ScaleSelectionConfiguration) -> any CustomStringConvertible {
         let value: any CustomStringConvertible
-        switch selectionType {
+        switch selectionConfiguration {
         case .integerRange(_):
-            value = Int(self.value)
+            value = Int(sliderUIValue)
         case .doubleRange(_):
-            value = self.value
+            value = sliderUIValue
         case .textChoice(let choices):
-            value = choices[Int(self.value)].choiceText
+            value = choices[Int(sliderUIValue)].choiceText
         }
         return value
     }
     
-    private func sliderBounds(for selectionType: ScaleSelectionType) -> ClosedRange<Double> {
+    private func sliderBounds(for selectionConfiguration: ScaleSelectionConfiguration) -> ClosedRange<Double> {
         let sliderBounds: ClosedRange<Double>
-        switch selectionType {
+        switch selectionConfiguration {
         case .textChoice(let choices):
             sliderBounds = 0...Double(choices.count - 1)
         case .integerRange(let range):
@@ -145,9 +325,9 @@ struct ScaleSliderQuestionView<ResultType>: View {
         return sliderBounds
     }
     
-    private func sliderStep(for selectionType: ScaleSelectionType) -> Double.Stride {
+    private func sliderStep(for selectionConfiguration: ScaleSelectionConfiguration) -> Double.Stride {
         let sliderStep: Double.Stride
-        switch selectionType {
+        switch selectionConfiguration {
         case .textChoice(_):
             fallthrough
         case .integerRange(_):
@@ -158,9 +338,9 @@ struct ScaleSliderQuestionView<ResultType>: View {
         return sliderStep
     }
     
-    private func minimumValueDescription(for selectionType: ScaleSelectionType) -> any CustomStringConvertible {
+    private func minimumValueDescription(for selectionConfiguration: ScaleSelectionConfiguration) -> any CustomStringConvertible {
         let minimumValueLabel: any CustomStringConvertible
-        switch selectionType {
+        switch selectionConfiguration {
         case .textChoice(let choices):
             minimumValueLabel = choices.first?.choiceText ?? ""
         case .integerRange(let range):
@@ -171,9 +351,9 @@ struct ScaleSliderQuestionView<ResultType>: View {
         return minimumValueLabel
     }
 
-    private func maximumValueDescription(for selectionType: ScaleSelectionType) -> any CustomStringConvertible {
+    private func maximumValueDescription(for selectionConfiguration: ScaleSelectionConfiguration) -> any CustomStringConvertible {
         let maximumValueDescription: any CustomStringConvertible
-        switch selectionType {
+        switch selectionConfiguration {
         case .textChoice(let choices):
             maximumValueDescription = choices.last?.choiceText ?? ""
         case .integerRange(let range):
@@ -182,27 +362,6 @@ struct ScaleSliderQuestionView<ResultType>: View {
             maximumValueDescription = range.upperBound
         }
         return maximumValueDescription
-    }
-    
-    // MARK: Helpers
-    
-    private func updateResult() {
-        switch self.scaleSelectionType {
-        case .textChoice(let array):
-            let index = Int(self.value)
-            if let newValue = array[index] as? ResultType {
-                $result.wrappedValue = newValue
-            }
-        case .integerRange(_):
-            // value is a double for the sake of the SwiftUI Slider, so cast to an Int
-            if let newValue = Int(value) as? ResultType {
-                $result.wrappedValue = newValue
-            }
-        case .doubleRange(_):
-            if let newValue = value as? ResultType {
-                $result.wrappedValue = newValue
-            }
-        }
     }
     
 }

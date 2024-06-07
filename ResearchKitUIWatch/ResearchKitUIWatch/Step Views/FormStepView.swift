@@ -93,58 +93,56 @@ internal struct FormStepView: View {
         case .doubleSliderRow(let doubleSliderQuestion):
             ScaleSliderQuestionView(
                 title: doubleSliderQuestion.title,
-                scaleSelectionType: doubleSliderQuestion.selectionType,
+                range: doubleSliderQuestion.range,
                 step: doubleSliderQuestion.step,
-                result: .init(get: {
+                selection: .init(get: {
                     return doubleSliderQuestion.result
                 }, set: { newValue in
                     formRow.wrappedValue = .doubleSliderRow(
                         ScaleSliderQuestion(
                             id: doubleSliderQuestion.id,
                             title: doubleSliderQuestion.title,
-                            selectionType: doubleSliderQuestion.selectionType,
-                            step: doubleSliderQuestion.step,
-                            result: newValue
+                            range: doubleSliderQuestion.range,
+                            value: newValue
                         )
                     )
-                })
-            )
+                }
+            ))
             
         case .intSliderRow(let intSliderQuestion):
+
             ScaleSliderQuestionView(
                 title: intSliderQuestion.title,
-                scaleSelectionType: intSliderQuestion.selectionType,
+                range: intSliderQuestion.range,
                 step: intSliderQuestion.step,
-                result: .init(get: {
-                    return intSliderQuestion.result
+                selection: .init(get: {
+                    return Double(intSliderQuestion.result)
                 }, set: { newValue in
                     formRow.wrappedValue = .intSliderRow(
                         ScaleSliderQuestion(
                             id: intSliderQuestion.id,
                             title: intSliderQuestion.title,
-                            selectionType: intSliderQuestion.selectionType,
-                            step: intSliderQuestion.step,
-                            result: newValue
+                            range: intSliderQuestion.range,
+                            value: newValue
                         )
                     )
                 })
             )
-            
+
         case .textSliderStep(let textSliderQuestion):
+
             ScaleSliderQuestionView(
                 title: textSliderQuestion.title,
-                scaleSelectionType: textSliderQuestion.selectionType,
-                step: textSliderQuestion.step,
-                result: .init(get: {
+                multipleChoiceOptions: textSliderQuestion.multipleChoiceOptions,
+                selection: .init(get: {
                     return textSliderQuestion.result
                 }, set: { newValue in
                     formRow.wrappedValue = .textSliderStep(
                         ScaleSliderQuestion(
                             id: textSliderQuestion.id,
                             title: textSliderQuestion.title,
-                            selectionType: textSliderQuestion.selectionType,
-                            step: textSliderQuestion.step,
-                            result: newValue
+                            options: textSliderQuestion.multipleChoiceOptions,
+                            selectedMultipleChoiceOption: newValue
                         )
                     )
                 })
