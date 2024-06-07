@@ -102,7 +102,7 @@ struct ScaleSliderQuestionView<ResultType>: View {
                 in: sliderBounds(for: selectionType),
                 step: sliderStep(for: selectionType)
             ) {
-                label(for: selectionType)
+                Text("Replace This Text")
             } minimumValueLabel: {
                 Text("\(minimumValueDescription(for: selectionType))")
                     .foregroundStyle(Color(.label))
@@ -154,18 +154,6 @@ struct ScaleSliderQuestionView<ResultType>: View {
             sliderStep = 0.01
         }
         return sliderStep
-    }
-    
-    @ViewBuilder
-    private func label(for selectionType: ScaleSelectionType) -> some View {
-        switch selectionType {
-        case .integerRange(_):
-            Text("Replace This Text")
-        case .doubleRange(_):
-            EmptyView()
-        case .textChoice(_):
-            EmptyView()
-        }
     }
     
     private func minimumValueDescription(for selectionType: ScaleSelectionType) -> any CustomStringConvertible {
