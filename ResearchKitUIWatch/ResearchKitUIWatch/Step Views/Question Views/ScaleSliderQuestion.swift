@@ -105,11 +105,13 @@ struct ScaleSliderQuestionView<ResultType>: View {
                 Text("Replace This Text")
             } minimumValueLabel: {
                 Text("\(minimumValueDescription(for: selectionType))")
+                    .fixedSize()
                     .foregroundStyle(Color(.label))
                     .font(.subheadline)
                     .fontWeight(.bold)
             } maximumValueLabel: {
                 Text("\(maximumValueDescription(for: selectionType))")
+                    .fixedSize()
                     .foregroundStyle(Color(.label))
                     .font(.subheadline)
                     .fontWeight(.bold)
