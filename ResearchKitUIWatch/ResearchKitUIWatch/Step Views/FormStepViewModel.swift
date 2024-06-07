@@ -104,7 +104,7 @@ class FormStepViewModel: ObservableObject {
                             title: questionText,
                             step: scaleAnswerFormat.step,
                             range: scaleAnswerFormat.minimum...scaleAnswerFormat.maximum,
-                            value: 0
+                            value: scaleAnswerFormat.defaultValue
                         )
                     )
                 case let continuousScaleAnswerFormat as ORKContinuousScaleAnswerFormat:
@@ -122,7 +122,7 @@ class FormStepViewModel: ObservableObject {
                             title: questionText,
                             step: stepSize,
                             range: continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum,
-                            value: 0.0
+                            value: continuousScaleAnswerFormat.defaultValue
                         )
                     )
 
@@ -133,12 +133,19 @@ class FormStepViewModel: ObservableObject {
                             choiceText: textChoice.text
                         )
                     }
+                    guard var defaultOption = answerOptions.first else {
+                        fatalError("Invalid Choice Array for ORKTextScaleAnswerFormat")
+                    }
+                    if answerOptions.indices.contains(textChoiceScaleAnswerFormat.defaultIndex) {
+                        defaultOption = answerOptions[textChoiceScaleAnswerFormat.defaultIndex]
+                    }
+
                     return FormRow.textSliderStep(
                         ScaleSliderQuestion(
                             id: formItem.identifier,
                             title: questionText,
                             options: answerOptions,
-                            selectedMultipleChoiceOption: answerOptions.first!
+                            selectedMultipleChoiceOption: defaultOption
                         )
                     )
             default:
