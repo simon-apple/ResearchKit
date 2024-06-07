@@ -102,7 +102,7 @@ class FormStepViewModel: ObservableObject {
                         ScaleSliderQuestion(
                             id: formItem.identifier,
                             title: questionText,
-                            step: Double(scaleAnswerFormat.step),
+                            step: scaleAnswerFormat.step,
                             range: scaleAnswerFormat.minimum...scaleAnswerFormat.maximum,
                             value: 0
                         )
