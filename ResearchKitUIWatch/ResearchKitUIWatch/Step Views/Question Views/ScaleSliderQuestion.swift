@@ -333,11 +333,11 @@ struct ScaleSliderQuestionView: View {
         let sliderStep: Double.Stride
         switch selectionConfiguration {
         case .textChoice(_):
-            fallthrough
-        case .integerRange(_):
             sliderStep = 1
+        case .integerRange(_):
+            fallthrough
         case .doubleRange(_):
-            sliderStep = 0.01
+            sliderStep = step
         }
         return sliderStep
     }
