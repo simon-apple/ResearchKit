@@ -31,6 +31,8 @@
 #import "ORKReadOnlyReviewViewController.h"
 
 #import "ORKFamilyHistoryStep.h"
+#import "ORKReviewCardSection.h"
+#import "ORKReviewResultModel.h"
 
 #import <ResearchKit/ORKCollectionResult.h>
 #import <ResearchKit/ORKFormStep.h>
@@ -44,6 +46,7 @@
     ORKReadOnlyStepType _readOnlyStepType;
     
     NSArray<ORKStep *> *_stepsToParse;
+    NSArray<ORKReviewCardSection *> *_reviewCardSections;
 }
 
 
@@ -57,6 +60,7 @@
         _taskResult = [result copy];
         _readOnlyStepType = readOnlyStepType;
         _stepsToParse = [self _getStepsToParseForResults];
+        _reviewCardSections = [self _getReviewCardSections];
         
         self.view.backgroundColor = [UIColor systemGrayColor];
     }
@@ -67,11 +71,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // create review card item objects
-    // create review card objects
-    // create review card section object
+    // create review card item objects - done
+    // create review card objects - done
+    // create review card section object -done
     
-    // create review result model
+    // create review result model - done
+    // create formStep review result model - done
+    
+    // call review result model with casted array
     
 }
 
@@ -103,5 +110,30 @@
     return steps;
 }
 
+- (NSArray<ORKReviewCardSection *> *)_getReviewCardSections {
+    switch (_readOnlyStepType) {
+        case ORKReadOnlyStepTypeFormStep:
+            return [ORKReviewResultModel getReviewCardSectionsWithFormSteps:[self _getCastedFormSteps] taskResult:_taskResult];
+            break;
+            
+        case ORKReadOnlyStepTypeFamilyHistoryStep:
+            // TODO: rdar://128870162 (Create model object for organizing ORKFamilyHistoryStep results)
+            return [NSArray new];
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (NSArray<ORKFormStep *> *)_getCastedFormSteps {
+    NSArray<ORKFormStep *> *formSteps = (NSArray<ORKFormStep *> *)_stepsToParse;
+    
+    if (!formSteps) {
+        @throw [NSException exceptionWithName:NSGenericException reason:@"Failed to cast collected steps to ORKFormSteps" userInfo:nil];
+    }
+    
+    return formSteps;
+}
 
 @end
