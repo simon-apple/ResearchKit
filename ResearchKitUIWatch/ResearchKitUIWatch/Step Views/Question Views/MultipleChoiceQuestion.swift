@@ -67,6 +67,7 @@ public struct MultipleChoiceQuestion: Identifiable {
     }
 }
 
+// TODO(rdar://129033515): Update name of this module to reflect just the choice options without the header.
 public struct MultipleChoiceQuestionView: View {
 
     let title: String
@@ -78,6 +79,7 @@ public struct MultipleChoiceQuestionView: View {
 
     let detail: Text? = nil
 
+    // TODO(rdar://129033515): Remove title parameter from initializer since the body reflects just the options.
     public init(title: String, choices: [MultipleChoiceOption], selectionType: MultipleChoiceQuestion.ChoiceSelectionType, result: Binding<[MultipleChoiceOption]>) {
         self.title = title
         self.choices = choices
@@ -119,5 +121,6 @@ public struct MultipleChoiceQuestionView: View {
                 result.append(option)
             }
         }
-       }
+    }
+    
 }

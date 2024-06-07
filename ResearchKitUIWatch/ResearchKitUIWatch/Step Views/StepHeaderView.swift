@@ -32,6 +32,10 @@ import SwiftUI
 
 struct StepHeaderView: View {
     
+    private let stepTitleTopSpacing: CGFloat = 15
+    private let stepDescriptionTopSpacing: CGFloat = 15
+    private let bottomSpacing: CGFloat = 35
+    
     @ObservedObject
     private var viewModel: FormStepViewModel
     
@@ -40,37 +44,61 @@ struct StepHeaderView: View {
     }
     
     var body: some View {
+        VStack(alignment: alignment) {
 #if os(iOS)
-        // TODO(rdar://128955005): Make biz logic exactly like in ORKCatalog.
-        VStack(alignment: .leading) {
-            // TODO(rdar://128955005): Ensure same colors are used as in ORKCatalog.
             if let stepTitle = viewModel.step.title {
+                Spacer()
+                    .frame(height: stepTitleTopSpacing)
+                
                 Text(stepTitle)
                     .foregroundStyle(Color(uiColor: .label))
                     .font(.largeTitle)
                     .fontWeight(.bold)
             }
+#endif
             
-            stepDescriptionView(for: viewModel)
+            if let stepDescription = viewModel.step.text {
+                topSpacingForStepDescription()
+                
+                text(for: stepDescription)
+                
+                Spacer()
+                    .frame(height: bottomSpacing)
+            }
         }
         .textCase(.none)
+    }
+    
+    private var alignment: HorizontalAlignment {
+#if os(iOS)
+        .leading
 #elseif os(visionOS)
-        stepDescriptionView(for: viewModel)
+        .center
 #endif
     }
     
     @ViewBuilder
-    private func stepDescriptionView(for viewModel: FormStepViewModel) -> some View {
-        if let stepDescription = viewModel.step.text {
-            Text(stepDescription)
+    private func topSpacingForStepDescription() -> some View {
 #if os(iOS)
-                .foregroundStyle(Color(uiColor: .label))
-                .font(.body)
+        Spacer()
+            .frame(height: stepDescriptionTopSpacing)
 #elseif os(visionOS)
-                .font(.body)
-                .fontWeight(.semibold)
+        EmptyView()
 #endif
-        }
+    }
+    
+    @ViewBuilder
+    private func text(for stepDescription: String) -> some View {
+#if os(iOS)
+        Text(stepDescription)
+            .foregroundStyle(Color(uiColor: .label))
+            .font(.body)
+#elseif os(visionOS)
+        Text(stepDescription)
+            .foregroundStyle(Color(uiColor: .label))
+            .font(.body)
+            .fontWeight(.semibold)
+#endif
     }
     
 }

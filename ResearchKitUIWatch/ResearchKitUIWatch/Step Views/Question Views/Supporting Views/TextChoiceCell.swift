@@ -51,15 +51,25 @@ public struct TextChoiceCell: View {
         }) {
             HStack {
                 title
-                    .fontWeight(.medium)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(.body)
+                    .font(.subheadline)
+                    .foregroundStyle(Color(.label))
+                
+                Spacer()
+                
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                    .frame(alignment: .trailing)
                     .imageScale(.large)
-                    .foregroundColor(isSelected ? .blue : .gray)
+                    .foregroundColor(isSelected ? .blue : deselectedCheckmarkColor)
                     .font(.body)
             }
-        }.buttonBorderShape(.roundedRectangle)
+        }
+    }
+    
+    // TODO(rdar://129073682): Update checkmark to more accurately match designs for both iOS and visionOS.
+    private var deselectedCheckmarkColor: Color {
+#if os(iOS)
+        Color(.systemGray3)
+#else
+        .gray
+#endif
     }
 }

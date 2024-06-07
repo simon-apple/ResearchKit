@@ -32,6 +32,13 @@ import SwiftUI
 
 struct StepSectionHeaderView: View {
     
+    private let topPadding: CGFloat = 16
+    private let bottomPadding: CGFloat = 24
+    
+    private let questionPadding: CGFloat = 4
+    
+    private let defaultHorizontalSpacing: CGFloat = 20
+    
     @ObservedObject
     private var viewModel: FormStepViewModel
     
@@ -44,17 +51,52 @@ struct StepSectionHeaderView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            if let progress = viewModel.progress {
-                Text("Question \(progress.index) of \(progress.count)")
-                    .foregroundColor(.gray)
-                    .font(.subheadline)
+            Spacer()
+                .frame(height: topPadding)
+            
+            if let questionNumber = viewModel.questionNumber(for: formRow) {
+                Text("Question \(questionNumber) of \(viewModel.numberOfQuestions)")
+                    .foregroundColor(.secondary)
+                    .font(.footnote)
+                    .fontWeight(.bold)
+                
+                Spacer()
+                    .frame(height: questionPadding)
             }
             
-            if case .multipleChoiceRow(let multipleChoiceValue) = formRow {
-                Text(multipleChoiceValue.title)
-            }
+            Text(title(for: formRow))
+                .foregroundStyle(Color(.label))
+                .font(.body)
+                .fontWeight(.bold)
+            
+            Spacer()
+                .frame(height: bottomPadding)
         }
         .listRowSeparatorSectionInsetStyle()
+        .listRowInsets(
+            EdgeInsets(
+                top: 0,
+                leading: defaultHorizontalSpacing,
+                bottom: 0,
+                trailing: defaultHorizontalSpacing
+            )
+        )
+        
+    }
+    
+    private func title(for formRow: FormRow) -> String {
+        let title: String
+        switch formRow {
+        case .multipleChoiceRow(let multipleChoiceValue):
+            title = multipleChoiceValue.title
+        case .doubleSliderRow(let scaleSliderQuestion):
+            title = scaleSliderQuestion.title
+        case .intSliderRow(let scaleSliderQuestion):
+            title = scaleSliderQuestion.title
+        case .textSliderStep(let scaleSliderQuestion):
+            title = scaleSliderQuestion.title
+        }
+        return title
     }
     
 }

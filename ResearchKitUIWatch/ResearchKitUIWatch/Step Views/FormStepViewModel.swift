@@ -58,6 +58,10 @@ class FormStepViewModel: ObservableObject {
             }
         }
     }
+    
+    var numberOfQuestions: Int {
+        step.formItems?.count ?? 0
+    }
 
     init(step: ORKFormStep, result: ORKStepResult) {
         self.step = step
@@ -73,7 +77,6 @@ class FormStepViewModel: ObservableObject {
         }
 
         let formRows = formItems.compactMap { formItem in
-            #warning("[AY] Handle optional string")
             let questionText = formItem.text ?? ""
             switch formItem.answerFormat {
                 case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
@@ -99,8 +102,9 @@ class FormStepViewModel: ObservableObject {
                         ScaleSliderQuestion(
                             id: formItem.identifier,
                             title: questionText,
-                            selectionType: .integerRange(scaleAnswerFormat.minimum...scaleAnswerFormat.maximum), 
-                            step: Double(scaleAnswerFormat.step)
+                            step: scaleAnswerFormat.step,
+                            range: scaleAnswerFormat.minimum...scaleAnswerFormat.maximum,
+                            value: scaleAnswerFormat.defaultValue
                         )
                     )
                 case let continuousScaleAnswerFormat as ORKContinuousScaleAnswerFormat:
@@ -116,25 +120,32 @@ class FormStepViewModel: ObservableObject {
                         ScaleSliderQuestion(
                             id: formItem.identifier,
                             title: questionText,
-                            selectionType: .doubleRange(continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum),
-                            step: stepSize
+                            step: stepSize,
+                            range: continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum,
+                            value: continuousScaleAnswerFormat.defaultValue
                         )
                     )
 
                 case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
-                    #warning("[AY] remove uuid string as identifier")
                     let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
                         MultipleChoiceOption(
                             id: UUID().uuidString,
                             choiceText: textChoice.text
                         )
                     }
+                    guard var defaultOption = answerOptions.first else {
+                        fatalError("Invalid Choice Array for ORKTextScaleAnswerFormat")
+                    }
+                    if answerOptions.indices.contains(textChoiceScaleAnswerFormat.defaultIndex) {
+                        defaultOption = answerOptions[textChoiceScaleAnswerFormat.defaultIndex]
+                    }
+
                     return FormRow.textSliderStep(
                         ScaleSliderQuestion(
                             id: formItem.identifier,
                             title: questionText,
-                            selectionType: .textChoice(answerOptions),
-                            step: 1
+                            options: answerOptions,
+                            selectedMultipleChoiceOption: defaultOption
                         )
                     )
             default:
@@ -160,17 +171,17 @@ class FormStepViewModel: ObservableObject {
                 
             case .doubleSliderRow(let doubleScaleRow):
                 let result = ORKScaleQuestionResult(identifier: doubleScaleRow.id)
-                result.scaleAnswer = doubleScaleRow.result as? NSNumber
+                result.scaleAnswer = doubleScaleRow.result as NSNumber
                 resultArray.append(result)
                 
             case .intSliderRow(let intSliderRow):
                 let result = ORKScaleQuestionResult(identifier: intSliderRow.id)
-                result.scaleAnswer = intSliderRow.result as? NSNumber
+                result.scaleAnswer = intSliderRow.result as NSNumber
                 resultArray.append(result)
                 
             case .textSliderStep(let textSliderRow):
                 let result = ORKTextQuestionResult(identifier: textSliderRow.id)
-                result.textAnswer = textSliderRow.result?.choiceText as? String
+                result.textAnswer = textSliderRow.result.choiceText as String
                 resultArray.append(result)
             }
             
@@ -180,4 +191,17 @@ class FormStepViewModel: ObservableObject {
             }
         }
     }
+    
+    func questionNumber(for formRow: FormRow) -> Int? {
+        let answerOptionNumber: Int?
+        if let index = step.formItems?.firstIndex(where: { formItem in
+            formItem.identifier == formRow.id
+        }) {
+            answerOptionNumber = index + 1
+        } else {
+            answerOptionNumber = nil
+        }
+        return answerOptionNumber
+    }
+    
 }

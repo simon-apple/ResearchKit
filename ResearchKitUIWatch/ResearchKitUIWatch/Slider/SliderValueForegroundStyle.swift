@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2024, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -30,31 +30,26 @@
 
 import SwiftUI
 
-struct ListHeaderView<Content: View>: View {
+extension View {
     
-    private let content: Content
-    
-    init(@ViewBuilder content: () -> Content) {
-        self.content = content()
-    }
-    
-    var body: some View {
-        Section(
-            content: {
-                EmptyView()
-            },
-            header: {
-                content
-            }
+    /// This foreground style is used for labels that display values associated with sliders.
+    func sliderValueForegroundStyle() -> some View {
+        modifier(
+            SliderValueForegroundStyle()
         )
-        .listSectionSpacing(.custom(0))
-        .listRowInsets(EdgeInsets())
     }
     
 }
 
-#Preview {
-    ListHeaderView {
-        Text("List header")
+struct SliderValueForegroundStyle: ViewModifier {
+    
+    func body(content: Content) -> some View {
+        content
+#if os(iOS)
+            .foregroundStyle(.blue)
+#elseif os(visionOS)
+            .foregroundStyle(Color(.label))
+#endif
     }
+    
 }
