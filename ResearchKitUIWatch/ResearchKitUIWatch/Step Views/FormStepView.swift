@@ -49,10 +49,14 @@ internal struct FormStepView: View {
             ListHeaderView {
                 StepHeaderView(viewModel: viewModel)
             }
-            ForEach($viewModel.formRows) { $formRow in
+            ForEach(Array($viewModel.formRows.enumerated()), id: \.offset) { index, $formRow in
                 Section {
-                    StepSectionHeaderView(viewModel: viewModel, formRow: formRow)
-                    
+                    StepSectionHeaderView(
+                        stepNumber: index + 1,
+                        totalStepCount: viewModel.formRows.count,
+                        title: formRow.title
+                    )
+
                     content(for: $formRow)
                 }
             }

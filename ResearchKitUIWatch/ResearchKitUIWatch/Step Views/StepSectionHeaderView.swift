@@ -31,40 +31,46 @@
 import SwiftUI
 
 struct StepSectionHeaderView: View {
-    
+
     private let topPadding: CGFloat = 16
     private let bottomPadding: CGFloat = 24
     
     private let questionPadding: CGFloat = 4
     
     private let defaultHorizontalSpacing: CGFloat = 20
-    
-    @ObservedObject
-    private var viewModel: FormStepViewModel
-    
-    private let formRow: FormRow
-    
-    init(viewModel: FormStepViewModel, formRow: FormRow) {
-        self.viewModel = viewModel
-        self.formRow = formRow
+
+    private(set) var stepNumber: Int?
+    private(set) var totalStepCount: Int?
+
+    private let title: String
+
+    init(
+        stepNumber: Int? = nil,
+        totalStepCount: Int? = nil,
+        title: String
+    ) {
+        self.stepNumber = stepNumber
+        self.totalStepCount = totalStepCount
+        self.title = title
     }
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             Spacer()
                 .frame(height: topPadding)
-            
-            if let questionNumber = viewModel.questionNumber(for: formRow) {
-                Text("Question \(questionNumber) of \(viewModel.numberOfQuestions)")
+
+            if let stepNumber,
+               let totalStepCount {
+                Text("Question \(stepNumber) of \(totalStepCount)")
                     .foregroundColor(.secondary)
                     .font(.footnote)
                     .fontWeight(.bold)
-                
-                Spacer()
-                    .frame(height: questionPadding)
             }
-            
-            Text(title(for: formRow))
+
+            Spacer()
+                .frame(height: questionPadding)
+
+            Text(title)
                 .foregroundStyle(Color(.label))
                 .font(.body)
                 .fontWeight(.bold)
@@ -81,22 +87,15 @@ struct StepSectionHeaderView: View {
                 trailing: defaultHorizontalSpacing
             )
         )
-        
     }
-    
-    private func title(for formRow: FormRow) -> String {
-        let title: String
-        switch formRow {
-        case .multipleChoiceRow(let multipleChoiceValue):
-            title = multipleChoiceValue.title
-        case .doubleSliderRow(let scaleSliderQuestion):
-            title = scaleSliderQuestion.title
-        case .intSliderRow(let scaleSliderQuestion):
-            title = scaleSliderQuestion.title
-        case .textSliderStep(let scaleSliderQuestion):
-            title = scaleSliderQuestion.title
-        }
-        return title
+}
+
+struct StepSectionHeaderView_Previews: PreviewProvider {
+    static var previews: some View {
+        StepSectionHeaderView(
+            stepNumber: 1,
+            totalStepCount: 3,
+            title: "This is a preview question title"
+        )
     }
-    
 }
