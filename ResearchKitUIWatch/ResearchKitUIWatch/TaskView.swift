@@ -34,14 +34,6 @@ import ResearchKit
 import SwiftUI
 import UIKit
 
-public struct TaskNavigationDelegate {
-    public var taskDidFinishWithReason: (TaskManager.FinishReason) -> ()
-
-    public init(taskDidFinishWithReason: @escaping (TaskManager.FinishReason) -> Void) {
-        self.taskDidFinishWithReason = taskDidFinishWithReason
-    }
-}
-
 public struct TaskView<Content>: View where Content: View {
 
     @ObservedObject
@@ -49,16 +41,12 @@ public struct TaskView<Content>: View where Content: View {
 
     private let content: (ORKStep, ORKStepResult) -> Content
 
-    let navigationDelegate: TaskNavigationDelegate?
-
     #warning("Update to TaskManagerDelegate. Changes stashed")
 
     public init(taskManager: TaskManager,
-                navigationDelegate: TaskNavigationDelegate? = nil,
                 @ViewBuilder _ content: @escaping (ORKStep, ORKStepResult) -> Content) {
         self.taskManager = taskManager
         self.content = content
-        self.navigationDelegate = navigationDelegate
         self.taskManager.result.startDate = Date()
     }
 
@@ -67,19 +55,13 @@ public struct TaskView<Content>: View where Content: View {
             TaskContentView(index: 0, content)
                 .environmentObject(self.taskManager)
         }
-        .onChange(of: taskManager.finishReason, { oldValue, newValue in
-            guard let reason = taskManager.finishReason else {
-                return
-            }
-            navigationDelegate?.taskDidFinishWithReason(reason)
-        })
     }
 }
 
 public extension TaskView where Content == DefaultStepView {
 
-    init(taskManager: TaskManager, navigationDelegate: TaskNavigationDelegate? = nil) {
-        self.init(taskManager: taskManager, navigationDelegate: navigationDelegate) {
+    init(taskManager: TaskManager) {
+        self.init(taskManager: taskManager) {
             DefaultStepView($0,
                             viewModel: taskManager.viewModelForStep($0),
                             result: $1
