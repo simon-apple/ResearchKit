@@ -189,6 +189,7 @@ internal struct TaskContentView<Content>: View where Content: View {
                     Button {
                         completion(true)
                         taskManager.finishReason = .completed
+                        dismiss()
                     } label: {
                         Text("Done").bold()
                     }
@@ -203,6 +204,7 @@ internal struct TaskContentView<Content>: View where Content: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     setDiscardedIfNeeded(taskManager: taskManager)
+                    dismiss()
                 } label: {
                     Text("Cancel")
                 }
