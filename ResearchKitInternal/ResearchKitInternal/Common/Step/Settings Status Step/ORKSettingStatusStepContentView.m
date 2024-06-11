@@ -263,6 +263,7 @@ double const TextLabelBottomPadding = 8.0;
     } else {
         _settingStatusImageView.image = [UIImage systemImageNamed:@"checkmark.circle.fill"];
         _settingStatusImageView.tintColor = [UIColor systemGreenColor];
+        _settingStatusTextLabel.text = ORKILocalizedString(@"SETTING_STATUS_STEP_TURNED_ON", @"");
         
         _editSettingsButton.hidden = NO;
     }
