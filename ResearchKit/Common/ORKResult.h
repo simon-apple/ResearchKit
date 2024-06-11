@@ -40,6 +40,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class ORKAnswerFormat;
+
 /**
  A class that defines the attributes of a result from one step or a group
  of steps.
@@ -136,7 +138,7 @@ ORK_CLASS_AVAILABLE
 /**
  The string representation of the result's value.
  */
-- (nullable NSString *)stringValue;
+- (nullable NSArray<NSString *> *)stringValuesForAnswerFormat:(ORKAnswerFormat *)answerFormat;
 
 @end
 

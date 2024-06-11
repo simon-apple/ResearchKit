@@ -40,11 +40,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKFormStepResultModel : NSObject
 
-+ (NSArray<ORKReviewCardSection *> *)getReviewCardSectionsWithFormSteps:(NSArray<ORKFormStep *> *)formSteps
-                                                             taskResult:(ORKTaskResult *)taskResult;
+- (instancetype)initWithFormSteps:(NSArray<ORKFormStep *> *)formSteps
+                       taskResult:(ORKTaskResult *)taskResult;
 
-+ (NSArray<ORKReviewCardSection *> *)getReviewCardSectionsWithSurveySteps:(NSArray<ORKStep *> *)surveySteps
-                                                               taskResult:(ORKTaskResult *)taskResult;
+- (instancetype)initWithSurveySteps:(NSArray<ORKStep *> *)surveySteps
+                         taskResult:(ORKTaskResult *)taskResult;
+
+- (NSArray<ORKReviewCardSection *> *)getReviewCards;
 
 @end
 

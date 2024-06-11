@@ -4083,6 +4083,7 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
 + (BOOL)supportsSecureCoding {
     return YES;
 }
+
 @end
 // end-omit-internal-code
 

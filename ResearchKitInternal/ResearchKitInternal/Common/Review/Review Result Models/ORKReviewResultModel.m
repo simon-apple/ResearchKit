@@ -42,12 +42,16 @@
 
 + (NSArray<ORKReviewCardSection *> *)getReviewCardSectionsWithFormSteps:(NSArray<ORKFormStep *> *)formSteps
                                                              taskResult:(ORKTaskResult *)taskResult {
-    return [ORKFormStepResultModel getReviewCardSectionsWithFormSteps:formSteps taskResult:taskResult];
+    ORKFormStepResultModel *formStepResultModel = [[ORKFormStepResultModel alloc] initWithFormSteps:formSteps 
+                                                                                         taskResult:taskResult];
+    return [formStepResultModel getReviewCards];
 }
-
-+ (NSArray<ORKReviewCardSection *> *)getReviewCardSectionsWithSurveySteps:(NSArray *)surveySteps 
+    
++ (NSArray<ORKReviewCardSection *> *)getReviewCardSectionsWithSurveySteps:(NSArray *)surveySteps
                                                                taskResult:(ORKTaskResult *)taskResult {
-    return [ORKFormStepResultModel getReviewCardSectionsWithSurveySteps:surveySteps taskResult:taskResult];
+    ORKFormStepResultModel *formStepResultModel = [[ORKFormStepResultModel alloc] initWithSurveySteps:surveySteps
+                                                                                           taskResult:taskResult];
+    return [formStepResultModel getReviewCards];
 }
     
 @end

@@ -2304,7 +2304,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     
     private var readOnlyFormStepTask: ORKTask {
         let instructionStep = TaskListRowSteps.readOnlyInstructionStepExample
-        let formStep = TaskListRowSteps.groupFormExample
+        let formStep = TaskListRowSteps.readOnlyFormStepExample
         let completionStep = TaskListRowSteps.completionStepExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.readOnlyFormStepTask), steps: [instructionStep, formStep, completionStep])

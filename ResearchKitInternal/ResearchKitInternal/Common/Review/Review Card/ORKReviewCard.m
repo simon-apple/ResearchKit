@@ -45,11 +45,11 @@
     ORKThrowMethodUnavailableException();
 }
 
-- (nonnull instancetype)initWithReviewItems:(nonnull NSArray<ORKReviewItem *> *)reviewItems {
+- (nonnull instancetype)initWithReviewCardItems:(nonnull NSArray<ORKReviewCardItem *> *)reviewCardItems {
     self = [super init];
     
     if (self) {
-        _reviewItems = [reviewItems copy];
+        _reviewCardItems = [reviewCardItems copy];
     }
     
     return self;

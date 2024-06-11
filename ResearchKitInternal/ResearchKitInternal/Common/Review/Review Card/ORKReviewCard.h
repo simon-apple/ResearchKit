@@ -32,16 +32,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKReviewItem;
+@class ORKReviewCardItem;
 
 @interface ORKReviewCard : NSObject
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithReviewItems:(NSArray<ORKReviewItem *> *)reviewItems NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithReviewCardItems:(NSArray<ORKReviewCardItem *> *)reviewCardItems NS_DESIGNATED_INITIALIZER;
 
-@property (nonatomic, readonly) NSArray<ORKReviewItem *> *reviewItems;
+@property (nonatomic, readonly) NSArray<ORKReviewCardItem *> *reviewCardItems;
 
 @end
 

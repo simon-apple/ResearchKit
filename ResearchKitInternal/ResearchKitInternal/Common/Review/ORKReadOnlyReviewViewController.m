@@ -71,16 +71,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // create review card item objects - done
-    // create review card objects - done
-    // create review card section object -done
-    
-    // create review result model - done
-    // create formStep review result model - done
-    
-    // call review result model with casted array
-    
 }
 
 - (NSArray<ORKStep *> *)_getStepsToParseForResults {

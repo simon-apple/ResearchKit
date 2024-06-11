@@ -115,7 +115,7 @@ const NSUInteger NumberOfPaddingSpacesForIndentationLevel = 4;
     return [self descriptionWithNumberOfPaddingSpaces:0];
 }
 
-- (NSString *)stringValue {
+- (NSArray<NSString *> *)stringValuesForAnswerFormat:(ORKAnswerFormat *)answerFormat {
     return nil;
 }
 
