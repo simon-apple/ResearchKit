@@ -39,8 +39,8 @@ struct StepSectionHeaderView: View {
     
     private let defaultHorizontalSpacing: CGFloat = 20
 
-    private(set) var stepNumber: Int?
-    private(set) var totalStepCount: Int?
+    private let stepNumber: Int?
+    private let totalStepCount: Int?
 
     private let title: String
 
