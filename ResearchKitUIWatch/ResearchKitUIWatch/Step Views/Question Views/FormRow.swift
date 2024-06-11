@@ -49,4 +49,19 @@ enum FormRow: Identifiable {
             textSlider.id
         }
     }
+
+    var title: String {
+        let title: String
+        switch self {
+        case .multipleChoiceRow(let multipleChoiceValue):
+            title = multipleChoiceValue.title
+        case .doubleSliderRow(let scaleSliderQuestion):
+            title = scaleSliderQuestion.title
+        case .intSliderRow(let scaleSliderQuestion):
+            title = scaleSliderQuestion.title
+        case .textSliderStep(let scaleSliderQuestion):
+            title = scaleSliderQuestion.title
+        }
+        return title
+    }
 }
