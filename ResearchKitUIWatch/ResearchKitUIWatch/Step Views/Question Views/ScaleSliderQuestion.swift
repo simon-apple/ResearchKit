@@ -306,9 +306,9 @@ struct ScaleSliderQuestionView: View {
     private func value(for selectionConfiguration: ScaleSelectionConfiguration) -> any CustomStringConvertible {
         let value: any CustomStringConvertible
         switch selectionConfiguration {
-        case .integerRange(_):
+        case .integerRange:
             value = Int(sliderUIValue)
-        case .doubleRange(_):
+        case .doubleRange:
             value = sliderUIValue
         case .textChoice(let choices):
             value = choices[Int(sliderUIValue)].choiceText
@@ -332,11 +332,9 @@ struct ScaleSliderQuestionView: View {
     private func sliderStep(for selectionConfiguration: ScaleSelectionConfiguration) -> Double.Stride {
         let sliderStep: Double.Stride
         switch selectionConfiguration {
-        case .textChoice(_):
+        case .textChoice:
             sliderStep = 1
-        case .integerRange(_):
-            fallthrough
-        case .doubleRange(_):
+        case .integerRange, .doubleRange:
             sliderStep = step
         }
         return sliderStep
