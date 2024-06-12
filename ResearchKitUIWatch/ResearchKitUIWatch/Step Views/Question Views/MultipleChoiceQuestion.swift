@@ -70,40 +70,43 @@ public struct MultipleChoiceQuestion: Identifiable {
 // TODO(rdar://129033515): Update name of this module to reflect just the choice options without the header.
 public struct MultipleChoiceQuestionView: View {
 
-    let title: String
+    let title: Text?
     let choices: [MultipleChoiceOption]
     let selectionType: MultipleChoiceQuestion.ChoiceSelectionType
 
     @Binding
     var result: [MultipleChoiceOption]
 
-    let detail: Text? = nil
+    let detail: Text?
 
     // TODO(rdar://129033515): Remove title parameter from initializer since the body reflects just the options.
-    public init(title: String, choices: [MultipleChoiceOption], selectionType: MultipleChoiceQuestion.ChoiceSelectionType, result: Binding<[MultipleChoiceOption]>) {
+    public init(
+        title: Text?,
+        detail: Text?,
+        choices: [MultipleChoiceOption],
+        selectionType: MultipleChoiceQuestion.ChoiceSelectionType,
+        result: Binding<[MultipleChoiceOption]>
+    ) {
         self.title = title
+        self.detail = detail
         self.choices = choices
         self.selectionType = selectionType
         _result = result
     }
 
     public var body: some View {
-        if let detail = detail {
-            VStack(alignment: .leading) {
-                detail
-            }
-        }
-        
-        ForEach(
-            choices
-        ) { option in
-            TextChoiceCell(
-                title: Text(option.choiceText),
-                isSelected: result.contains(where: { choice in
-                    choice.id == option.id
-                })
-            ) {
-                choiceSelected(option)
+        TaskCardView(title: title, detail: detail) {
+            ForEach(
+                choices
+            ) { option in
+                TextChoiceCell(
+                    title: Text(option.choiceText),
+                    isSelected: result.contains(where: { choice in
+                        choice.id == option.id
+                    })
+                ) {
+                    choiceSelected(option)
+                }
             }
         }
     }

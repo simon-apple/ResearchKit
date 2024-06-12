@@ -31,7 +31,7 @@
 import ResearchKit
 import SwiftUI
 
-class FormStepViewModel: ObservableObject {
+public class FormStepViewModel: ObservableObject {
 
     @ObservedObject
     private(set) var step: ORKFormStep
@@ -63,7 +63,7 @@ class FormStepViewModel: ObservableObject {
         step.formItems?.count ?? 0
     }
 
-    init(step: ORKFormStep, result: ORKStepResult) {
+    public init(step: ORKFormStep, result: ORKStepResult) {
         self.step = step
         self.result = result
         self.formRows = Self.createFormRowsFromORKStep(step)

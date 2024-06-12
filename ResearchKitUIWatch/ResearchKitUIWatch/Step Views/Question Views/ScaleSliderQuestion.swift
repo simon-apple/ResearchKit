@@ -145,9 +145,9 @@ extension ScaleSliderQuestion where ResultType == MultipleChoiceOption {
 // TODO(rdar://129033515): Update name of this module to reflect just the slider without the header.
 struct ScaleSliderQuestionView: View {
 
-    var title: String
+    var title: Text
 
-    var detail: String?
+    var detail: Text?
 
     var scaleSelectionConfiguration: ScaleSelectionConfiguration
 
@@ -191,8 +191,8 @@ struct ScaleSliderQuestionView: View {
     }
 
     init(
-        title: String,
-        detail: String? = nil,
+        title: Text,
+        detail: Text? = nil,
         range: ClosedRange<Double>,
         step: Double = 1.0,
         selection: Binding<Double>
@@ -207,8 +207,8 @@ struct ScaleSliderQuestionView: View {
 
     // The int version
     init(
-        title: String,
-        detail: String? = nil,
+        title: Text,
+        detail: Text? = nil,
         range: ClosedRange<Int>,
         step: Double = 1.0,
         selection: Binding<Int>
@@ -223,8 +223,8 @@ struct ScaleSliderQuestionView: View {
 
     // The multi choice version
     init(
-        title: String,
-        detail: String? = nil,
+        title: Text,
+        detail: Text? = nil,
         multipleChoiceOptions: [MultipleChoiceOption],
         selection: Binding<MultipleChoiceOption>
     ) {
@@ -237,10 +237,7 @@ struct ScaleSliderQuestionView: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading) {
-            if let detail {
-                Text(detail)
-            }
+        TaskCardView(title: title, detail: detail) {
             scaleView(selectionConfiguration: scaleSelectionConfiguration)
                 .onChange(of: sliderUIValue) { oldValue, newValue in
                     switch selection {
