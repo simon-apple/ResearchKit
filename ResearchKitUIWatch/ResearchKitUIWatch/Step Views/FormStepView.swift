@@ -33,48 +33,52 @@
 import ResearchKit
 import SwiftUI
 
-internal struct FormStepView: View {
-    
+struct FormStepView: View {
+
     @ObservedObject
     private var viewModel: FormStepViewModel
     
     @Environment(\.completion) var completion
     
-    init(viewModel: FormStepViewModel) {
+    public init(viewModel: FormStepViewModel) {
         self.viewModel = viewModel
     }
     
     var body: some View {
-        List {
-            ListHeaderView {
-                StepHeaderView(viewModel: viewModel)
-            }
-            ForEach(Array($viewModel.formRows.enumerated()), id: \.offset) { index, $formRow in
-                Section {
-                    StepSectionHeaderView(
-                        stepNumber: index + 1,
-                        totalStepCount: viewModel.formRows.count,
-                        title: formRow.title
+        ScrollView {
+            VStack(alignment: .leading) {
+                ListHeaderView {
+                    StepHeaderView(viewModel: viewModel)
+                }
+                ForEach(Array($viewModel.formRows.enumerated()), id: \.offset) { index, $formRow in
+                    content(
+                        title: Text("\(formRow.title)"),
+                        detail: Text("Step \(index + 1) of \(viewModel.formRows.count)"),
+                        for: $formRow
                     )
-
-                    content(for: $formRow)
                 }
             }
-            .listSectionSpacing(.compact)
+            .padding()
+    #if os(visionOS)
+            .navigationTitle(
+                Text(viewModel.step.title ?? "")
+            )
+    #endif
         }
-#if os(visionOS)
-        .navigationTitle(
-            Text(viewModel.step.title ?? "")
-        )
-#endif
+        .background(Color(uiColor: .secondarySystemBackground))
     }
     
     @ViewBuilder
-    private func content(for formRow: Binding<FormRow>) -> some View {
+    private func content(
+        title: Text,
+        detail: Text,
+        for formRow: Binding<FormRow>
+    ) -> some View {
         switch formRow.wrappedValue {
         case .multipleChoiceRow(let multipleChoiceValue):
             MultipleChoiceQuestionView(
-                title: multipleChoiceValue.title,
+                title: title,
+                detail: detail,
                 choices: multipleChoiceValue.choices,
                 selectionType: multipleChoiceValue.selectionType,
                 result: .init(
@@ -96,7 +100,8 @@ internal struct FormStepView: View {
             )
         case .doubleSliderRow(let doubleSliderQuestion):
             ScaleSliderQuestionView(
-                title: doubleSliderQuestion.title,
+                title: title,
+                detail: detail,
                 range: doubleSliderQuestion.range,
                 step: doubleSliderQuestion.step,
                 selection: .init(get: {
@@ -115,7 +120,8 @@ internal struct FormStepView: View {
             
         case .intSliderRow(let intSliderQuestion):
             ScaleSliderQuestionView(
-                title: intSliderQuestion.title,
+                title: title,
+                detail: detail,
                 range: intSliderQuestion.range,
                 selection: .init(get: {
                     return intSliderQuestion.result
@@ -133,7 +139,8 @@ internal struct FormStepView: View {
 
         case .textSliderStep(let textSliderQuestion):
             ScaleSliderQuestionView(
-                title: textSliderQuestion.title,
+                title: title,
+                detail: detail,
                 multipleChoiceOptions: textSliderQuestion.multipleChoiceOptions,
                 selection: .init(get: {
                     return textSliderQuestion.result
