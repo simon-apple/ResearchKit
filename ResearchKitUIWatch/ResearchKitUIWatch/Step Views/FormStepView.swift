@@ -39,6 +39,7 @@ struct FormStepView: View {
     private var viewModel: FormStepViewModel
     
     @Environment(\.completion) var completion
+    @Environment(\.dismiss) var dismiss
     
     public init(viewModel: FormStepViewModel) {
         self.viewModel = viewModel
@@ -57,6 +58,20 @@ struct FormStepView: View {
                         for: $formRow
                     )
                 }
+                Button {
+                    completion(true)
+                    dismiss()
+                } label: {
+                    HStack {
+                        Spacer()
+                        
+                        Text("Done")
+                            .bold()
+                        
+                        Spacer()
+                    }
+                }
+                .padding(.top, 16)
             }
             .padding()
     #if os(visionOS)
