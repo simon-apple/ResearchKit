@@ -119,7 +119,7 @@ extension ScaleSliderQuestion where ResultType == MultipleChoiceOption {
         case .textChoice(let options):
             return options
         default:
-            fatalError("Unsupported configuration detected for MultipleChoiceOption when querying multiple-choice options")
+            fatalError("Unsupported configuration detected for MultipleChoiceOption when querying multiple choice options")
         }
     }
 
