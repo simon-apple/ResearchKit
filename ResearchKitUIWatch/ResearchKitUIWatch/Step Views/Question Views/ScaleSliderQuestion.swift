@@ -32,13 +32,13 @@ import Foundation
 import ResearchKit
 import SwiftUI
 
-enum ScaleSelectionConfiguration {
+public enum ScaleSelectionConfiguration {
     case textChoice([MultipleChoiceOption])
     case integerRange(ClosedRange<Int>)
     case doubleRange(ClosedRange<Double>)
 }
 
-struct ScaleSliderQuestion<ResultType>: Identifiable {
+public struct ScaleSliderQuestion<ResultType>: Identifiable {
 
     public let id: String
     public let title: String
