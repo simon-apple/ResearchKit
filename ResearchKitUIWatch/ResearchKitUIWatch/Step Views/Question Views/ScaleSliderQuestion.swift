@@ -279,7 +279,7 @@ struct ScaleSliderQuestionView: View {
             Text("\(value(for: selectionConfiguration))")
                 .font(.title2)
                 .fontWeight(.bold)
-                .sliderValueForegroundStyle()
+                .foregroundStyle(.sliderValueForegroundStyle)
             
             Slider(
                 value: $sliderUIValue,
