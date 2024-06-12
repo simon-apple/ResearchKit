@@ -817,7 +817,7 @@ enum TaskListRowSteps {
     static var readOnlyInstructionStepExample: ORKInstructionStep {
         let instructionStep = ORKInstructionStep(identifier: String(describing: Identifier.surveyTask))
         instructionStep.title = "Read Only View Example"
-        instructionStep.text = "After you finish this task it will be dismissed before a another view is presented to show it's results."
+        instructionStep.text = "After you finish this task it will be dismissed before a another view is presented to show its results."
 
         return instructionStep
     }

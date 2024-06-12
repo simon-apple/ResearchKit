@@ -57,8 +57,6 @@
         _taskResult = [result copy];
         _readOnlyStepType = readOnlyStepType;
         _stepsToParse = [self _getStepsToParseForResults];
-        
-        self.view.backgroundColor = [UIColor systemGrayColor];
     }
     
     return self;
@@ -66,7 +64,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.view.backgroundColor = [UIColor systemGrayColor];
 }
 
 - (NSArray<ORKStep *> *)_getStepsToParseForResults {
