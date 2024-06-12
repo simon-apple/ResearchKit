@@ -107,19 +107,19 @@ extension ScaleSliderQuestion where ResultType == MultipleChoiceOption {
 
     var result: MultipleChoiceOption {
         switch configuration {
-            case .textChoice(let choices):
-                return choices[Int(value)]
-            default:
-                fatalError("Unsupported configuration detected for MultipleChoiceOption when querying result")
+        case .textChoice(let choices):
+            return choices[Int(value)]
+        default:
+            fatalError("Unsupported configuration detected for MultipleChoiceOption when querying result")
         }
     }
-
+    
     var multipleChoiceOptions: [MultipleChoiceOption] {
         switch configuration {
-            case .textChoice(let options):
-                return options
-            default:
-                fatalError("Unsupported configuration detected for MultipleChoiceOption when querying multiple-choice options")
+        case .textChoice(let options):
+            return options
+        default:
+            fatalError("Unsupported configuration detected for MultipleChoiceOption when querying multiple-choice options")
         }
     }
 
