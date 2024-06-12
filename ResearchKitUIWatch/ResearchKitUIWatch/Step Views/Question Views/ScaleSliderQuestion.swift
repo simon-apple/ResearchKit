@@ -286,7 +286,7 @@ struct ScaleSliderQuestionView: View {
                 in: sliderBounds(for: selectionConfiguration),
                 step: sliderStep(for: selectionConfiguration)
             ) {
-                Text("Replace This Text")
+                Text("Slider for \(selectionConfiguration)")
             } minimumValueLabel: {
                 Text("\(minimumValueDescription(for: selectionConfiguration))")
                     .fixedSize()
