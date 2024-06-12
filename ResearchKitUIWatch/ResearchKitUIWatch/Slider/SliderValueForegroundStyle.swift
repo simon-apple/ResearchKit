@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -30,25 +30,22 @@
 
 import SwiftUI
 
-extension View {
+extension ShapeStyle where Self == SliderValueForegroundStyle {
     
     /// This foreground style is used for labels that display values associated with sliders.
-    func sliderValueForegroundStyle() -> some View {
-        modifier(
-            SliderValueForegroundStyle()
-        )
+    static var sliderValueForegroundStyle: SliderValueForegroundStyle {
+        SliderValueForegroundStyle()
     }
     
 }
 
-struct SliderValueForegroundStyle: ViewModifier {
+struct SliderValueForegroundStyle: ShapeStyle {
     
-    func body(content: Content) -> some View {
-        content
+    func resolve(in environment: EnvironmentValues) -> some ShapeStyle {
 #if os(iOS)
-            .foregroundStyle(.blue)
+        .blue
 #elseif os(visionOS)
-            .foregroundStyle(Color(.label))
+        Color(.label)
 #endif
     }
     

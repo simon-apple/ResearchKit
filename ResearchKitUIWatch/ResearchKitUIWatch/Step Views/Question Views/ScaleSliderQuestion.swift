@@ -107,19 +107,19 @@ extension ScaleSliderQuestion where ResultType == MultipleChoiceOption {
 
     var result: MultipleChoiceOption {
         switch configuration {
-            case .textChoice(let choices):
-                return choices[Int(value)]
-            default:
-                fatalError("Oh no")
+        case .textChoice(let choices):
+            return choices[Int(value)]
+        default:
+            fatalError("Unsupported configuration detected for MultipleChoiceOption when querying result")
         }
     }
-
+    
     var multipleChoiceOptions: [MultipleChoiceOption] {
         switch configuration {
-            case .textChoice(let options):
-                return options
-            default:
-                fatalError("Nooo")
+        case .textChoice(let options):
+            return options
+        default:
+            fatalError("Unsupported configuration detected for MultipleChoiceOption when querying multiple choice options")
         }
     }
 
@@ -276,14 +276,14 @@ struct ScaleSliderQuestionView: View {
             Text("\(value(for: selectionConfiguration))")
                 .font(.title2)
                 .fontWeight(.bold)
-                .sliderValueForegroundStyle()
+                .foregroundStyle(.sliderValueForegroundStyle)
             
             Slider(
                 value: $sliderUIValue,
                 in: sliderBounds(for: selectionConfiguration),
                 step: sliderStep(for: selectionConfiguration)
             ) {
-                Text("Replace This Text")
+                Text("Slider for \(selectionConfiguration)")
             } minimumValueLabel: {
                 Text("\(minimumValueDescription(for: selectionConfiguration))")
                     .fixedSize()
@@ -303,9 +303,9 @@ struct ScaleSliderQuestionView: View {
     private func value(for selectionConfiguration: ScaleSelectionConfiguration) -> any CustomStringConvertible {
         let value: any CustomStringConvertible
         switch selectionConfiguration {
-        case .integerRange(_):
+        case .integerRange:
             value = Int(sliderUIValue)
-        case .doubleRange(_):
+        case .doubleRange:
             value = sliderUIValue
         case .textChoice(let choices):
             value = choices[Int(sliderUIValue)].choiceText
@@ -329,11 +329,9 @@ struct ScaleSliderQuestionView: View {
     private func sliderStep(for selectionConfiguration: ScaleSelectionConfiguration) -> Double.Stride {
         let sliderStep: Double.Stride
         switch selectionConfiguration {
-        case .textChoice(_):
+        case .textChoice:
             sliderStep = 1
-        case .integerRange(_):
-            fallthrough
-        case .doubleRange(_):
+        case .integerRange, .doubleRange:
             sliderStep = step
         }
         return sliderStep
