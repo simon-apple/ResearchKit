@@ -33,7 +33,7 @@
 import ResearchKit
 import SwiftUI
 
-public struct FormStepView: View {
+struct FormStepView: View {
 
     @ObservedObject
     private var viewModel: FormStepViewModel
@@ -44,7 +44,7 @@ public struct FormStepView: View {
         self.viewModel = viewModel
     }
     
-    public var body: some View {
+    var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
                 ListHeaderView {

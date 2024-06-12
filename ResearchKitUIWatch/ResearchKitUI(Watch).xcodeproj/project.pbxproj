@@ -19,7 +19,6 @@
 		0B7213532B4F39CC00463E69 /* View+OnChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72134D2B4F39CC00463E69 /* View+OnChange.swift */; };
 		0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */ = {isa = PBXBuildFile; fileRef = 0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */; };
 		38CD26102C1909CC000FDBB0 /* TaskCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CD260F2C1909CC000FDBB0 /* TaskCardView.swift */; };
-		5E507F7F2C08EA5F002958E2 /* ListRowSeparatorInsetStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E507F7E2C08EA5F002958E2 /* ListRowSeparatorInsetStyle.swift */; };
 		5E507F812C1141F2002958E2 /* SliderValueForegroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E507F802C1141F2002958E2 /* SliderValueForegroundStyle.swift */; };
 		5E7596BD2BE049B90088F7B7 /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7596BC2BE049B90088F7B7 /* ResearchKit.framework */; };
 		5EDFA9D72BFFFA2B0044C156 /* StepHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDFA9D62BFFFA2B0044C156 /* StepHeaderView.swift */; };
@@ -63,7 +62,6 @@
 		0BF86B1D2B4F360000E3790E /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ResearchKitUIWatch.docc; sourceTree = "<group>"; };
 		38CD260F2C1909CC000FDBB0 /* TaskCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCardView.swift; sourceTree = "<group>"; };
-		5E507F7E2C08EA5F002958E2 /* ListRowSeparatorInsetStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRowSeparatorInsetStyle.swift; sourceTree = "<group>"; };
 		5E507F802C1141F2002958E2 /* SliderValueForegroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderValueForegroundStyle.swift; sourceTree = "<group>"; };
 		5E7596BC2BE049B90088F7B7 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EDFA9D62BFFFA2B0044C156 /* StepHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepHeaderView.swift; sourceTree = "<group>"; };
@@ -167,7 +165,6 @@
 		5E507F7D2C08E9E4002958E2 /* SwiftUIKit */ = {
 			isa = PBXGroup;
 			children = (
-				5E507F7E2C08EA5F002958E2 /* ListRowSeparatorInsetStyle.swift */,
 			);
 			path = SwiftUIKit;
 			sourceTree = "<group>";
@@ -287,7 +284,6 @@
 				0B7213522B4F39CC00463E69 /* ORKScrollViewReader.swift in Sources */,
 				E4DBF1BF2BA24AA40085D6A1 /* StickyScrollView.swift in Sources */,
 				E4FC4FAB2BC88F3F00E0AEBF /* FormStepViewModel.swift in Sources */,
-				5E507F7F2C08EA5F002958E2 /* ListRowSeparatorInsetStyle.swift in Sources */,
 				0B7213462B4F398500463E69 /* FormStepView.swift in Sources */,
 				0B7213532B4F39CC00463E69 /* View+OnChange.swift in Sources */,
 				E4DBF1B62B97C2B30085D6A1 /* MultipleChoiceQuestion.swift in Sources */,
