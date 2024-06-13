@@ -70,7 +70,7 @@ public struct TextChoiceCell: View {
 #if os(iOS)
         Color(.systemGray3)
 #else
-        .gray
+        Color(.lightGray)
 #endif
     }
 }
