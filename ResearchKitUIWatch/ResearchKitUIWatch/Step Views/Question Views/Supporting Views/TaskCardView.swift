@@ -69,20 +69,20 @@ struct TaskCardView<Content: View>: View {
             content
         }
         .padding()
-        .background(.card)
+        .background(.cardColor)
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
-extension ShapeStyle where Self == Card {
+extension ShapeStyle where Self == CardColor {
     
-    static var card: Card {
-        Card()
+    static var cardColor: CardColor {
+        CardColor()
     }
     
 }
 
-struct Card: ShapeStyle {
+struct CardColor: ShapeStyle {
     
     func resolve(in environment: EnvironmentValues) -> some ShapeStyle {
 #if os(iOS)
