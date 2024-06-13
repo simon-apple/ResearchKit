@@ -76,8 +76,16 @@ struct TaskCardView<Content: View>: View {
 
 struct TaskCardView_Previews: PreviewProvider {
     static var previews: some View {
-        TaskCardView(title: Text("What is your name?"), detail: Text("Question 1 of 3")) {
-            Text("Specific component content will show up here")
+        VStack {
+            Spacer()
+            TaskCardView(title: Text("What is your name?"), detail: Text("Question 1 of 3")) {
+                Text("Specific component content will show up here")
+            }
+            Spacer()
         }
+        .background {
+            Color(.secondarySystemBackground)
+        }
+        .ignoresSafeArea()
     }
 }
