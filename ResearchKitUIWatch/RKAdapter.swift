@@ -103,6 +103,17 @@ public class RKAdapter {
                         selectedMultipleChoiceOption: defaultOption
                     )
                 )
+            case let textAnswerFormat as ORKTextAnswerFormat:
+            return FormRow.textRow(
+                TextQuestion(
+                    title: item.text ?? "",
+                    id: item.identifier,
+                    text: "",
+                    prompt: textAnswerFormat.placeholder ?? "",
+                    textFieldType: textAnswerFormat.multipleLines ? .multiline : .singleLine,
+                    characterLimit: textAnswerFormat.maximumLength
+                )
+            )
         default:
             return nil
         }

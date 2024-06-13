@@ -155,6 +155,28 @@ struct FormStepView: View {
                     )
                 })
             )
+        case .textRow(let textQuestion):
+            TextQuestionView(
+                text: .init(get: {
+                    return textQuestion.text
+                }, set: { newValue in
+                    formRow.wrappedValue = .textRow(
+                        TextQuestion(
+                            title: textQuestion.title,
+                            id: textQuestion.id,
+                            text: newValue,
+                            prompt: textQuestion.prompt,
+                            textFieldType: textQuestion.textFieldType,
+                            characterLimit: textQuestion.characterLimit
+                        )
+                    )
+                }),
+                title: title,
+                detail: detail,
+                prompt: textQuestion.prompt,
+                textFieldType: textQuestion.textFieldType,
+                characterLimit: textQuestion.characterLimit
+            )
         }
     }
     
