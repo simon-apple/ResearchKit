@@ -74,7 +74,7 @@ internal struct FormStepView: View {
         switch formRow.wrappedValue {
         case .multipleChoiceRow(let multipleChoiceValue):
             MultipleChoiceQuestionView(
-                title: multipleChoiceValue.title,
+                title: multipleChoiceValue.title ?? "",
                 choices: multipleChoiceValue.choices,
                 selectionType: multipleChoiceValue.selectionType,
                 result: .init(
@@ -118,7 +118,7 @@ internal struct FormStepView: View {
                 title: intSliderQuestion.title,
                 range: intSliderQuestion.range,
                 selection: .init(get: {
-                    return intSliderQuestion.result
+                    return intSliderQuestion.intResult
                 }, set: { newValue in
                     formRow.wrappedValue = .intSliderRow(
                         ScaleSliderQuestion(
