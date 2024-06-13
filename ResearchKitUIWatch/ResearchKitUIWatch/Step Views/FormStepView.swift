@@ -46,7 +46,7 @@ struct FormStepView: View {
     }
     
     var body: some View {
-        ScrollView {
+        StickyScrollView(allowsExtendedLayout: true) {
             VStack(alignment: .leading) {
                 ListHeaderView {
                     StepHeaderView(viewModel: viewModel)
@@ -58,20 +58,6 @@ struct FormStepView: View {
                         for: $formRow
                     )
                 }
-                Button {
-                    completion(true)
-                    dismiss()
-                } label: {
-                    HStack {
-                        Spacer()
-                        
-                        Text("Done")
-                            .bold()
-                        
-                        Spacer()
-                    }
-                }
-                .padding(.top, 16)
             }
             .padding()
     #if os(visionOS)
@@ -79,6 +65,21 @@ struct FormStepView: View {
                 Text(viewModel.step.title ?? "")
             )
     #endif
+        } footerContent: {
+            Button {
+                completion(true)
+                dismiss()
+            } label: {
+                HStack {
+                    Spacer()
+                    
+                    Text("Done")
+                        .bold()
+                    
+                    Spacer()
+                }
+            }
+            .padding(.top, 16)
         }
         .background(Color(uiColor: .secondarySystemBackground))
     }
