@@ -69,9 +69,29 @@ struct TaskCardView<Content: View>: View {
             content
         }
         .padding()
-        .background(colorScheme == .dark ? Color(uiColor: .systemGray5) : .white)
+        .background(.card)
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
+}
+
+extension ShapeStyle where Self == Card {
+    
+    static var card: Card {
+        Card()
+    }
+    
+}
+
+struct Card: ShapeStyle {
+    
+    func resolve(in environment: EnvironmentValues) -> some ShapeStyle {
+#if os(iOS)
+        environment.colorScheme == .dark ? Color(uiColor: .systemGray5) : .white
+#elseif os(visionOS)
+        .regularMaterial
+#endif
+    }
+    
 }
 
 struct TaskCardView_Previews: PreviewProvider {
