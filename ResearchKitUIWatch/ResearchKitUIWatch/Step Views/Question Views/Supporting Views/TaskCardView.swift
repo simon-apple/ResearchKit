@@ -64,6 +64,7 @@ public struct TaskCardView<Content: View>: View {
 
             if title != nil || detail != nil {
                 Divider()
+                    .padding(.vertical, 8)
             }
 
             content
