@@ -140,7 +140,7 @@ struct FormStepView: View {
                 detail: detail,
                 range: intSliderQuestion.range,
                 selection: .init(get: {
-                    return intSliderQuestion.result
+                    return intSliderQuestion.intResult
                 }, set: { newValue in
                     formRow.wrappedValue = .intSliderRow(
                         ScaleSliderQuestion(

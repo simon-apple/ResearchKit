@@ -42,15 +42,15 @@ public struct MultipleChoiceOption: Identifiable {
 
 public struct MultipleChoiceQuestion: Identifiable {
 
-    var title: String
+    public var title: String?
     public var id: String
-    var choices: [MultipleChoiceOption]
-    var result: [MultipleChoiceOption]
-    var selectionType: ChoiceSelectionType
+    public var choices: [MultipleChoiceOption]
+    public var result: [MultipleChoiceOption]
+    public var selectionType: ChoiceSelectionType
 
-    init(
+    public init(
         id: ID,
-        title: String,
+        title: String?,
         choices: [MultipleChoiceOption],
         result: [MultipleChoiceOption] = [],
         selectionType: ChoiceSelectionType
