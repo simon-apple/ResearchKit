@@ -132,6 +132,8 @@ internal struct TaskContentView<Content>: View where Content: View {
             taskManager.mark(currentStep, answered: false)
             shouldScrollToCTA = false
         }
+        
+        taskManager.finishReason = .completed
     }
     
     init(index: Int, @ViewBuilder _ content: @escaping (ORKStep, ORKStepResult) -> Content) {
@@ -185,17 +187,6 @@ internal struct TaskContentView<Content>: View where Content: View {
                         .id(Constants.CTA)
                         .padding(.top, buttonTopPadding)
                     }
-                } else {
-                    Button {
-                        completion(true)
-                        taskManager.finishReason = .completed
-                        dismiss()
-                    } label: {
-                        Text("Done").bold()
-                    }
-                    .id(Constants.CTA)
-                    .disabled(!shouldScrollToCTA && currentStep is ORKQuestionStep)
-                    .padding(.top, buttonTopPadding)
                 }
             }
         }
