@@ -71,12 +71,9 @@ struct FormStepView: View {
                 dismiss()
             } label: {
                 HStack {
-                    Spacer()
-                    
                     Text("Done")
-                        .bold()
-                    
-                    Spacer()
+                        .fontWeight(.bold)
+                        .frame(maxWidth: .infinity)
                 }
                 .padding(.vertical, 8)
             }
