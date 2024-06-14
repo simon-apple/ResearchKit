@@ -70,15 +70,43 @@ public struct TaskCardView<Content: View>: View {
             content
         }
         .padding()
-        .background(colorScheme == .dark ? Color(uiColor: .systemGray5) : .white)
+        .background(.cardColor)
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
+extension ShapeStyle where Self == CardColor {
+    
+    static var cardColor: CardColor {
+        CardColor()
+    }
+    
+}
+
+struct CardColor: ShapeStyle {
+    
+    func resolve(in environment: EnvironmentValues) -> some ShapeStyle {
+#if os(iOS)
+        environment.colorScheme == .dark ? Color(uiColor: .systemGray5) : .white
+#elseif os(visionOS)
+        .regularMaterial
+#endif
+    }
+    
+}
+
 struct TaskCardView_Previews: PreviewProvider {
     static var previews: some View {
-        TaskCardView(title: Text("What is your name?"), detail: Text("Question 1 of 3")) {
-            Text("Specific component content will show up here")
+        VStack {
+            Spacer()
+            TaskCardView(title: Text("What is your name?"), detail: Text("Question 1 of 3")) {
+                Text("Specific component content will show up here")
+            }
+            Spacer()
         }
+        .background {
+            Color(.secondarySystemBackground)
+        }
+        .ignoresSafeArea()
     }
 }
