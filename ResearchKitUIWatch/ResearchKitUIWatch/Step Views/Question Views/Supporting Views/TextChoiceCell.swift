@@ -62,6 +62,7 @@ public struct TextChoiceCell: View {
                     .font(.body)
             }
         }
+        .buttonStyle(.borderless)
     }
     
     // TODO(rdar://129073682): Update checkmark to more accurately match designs for both iOS and visionOS.
@@ -69,7 +70,7 @@ public struct TextChoiceCell: View {
 #if os(iOS)
         Color(.systemGray3)
 #else
-        .gray
+        Color(.lightGray)
 #endif
     }
 }

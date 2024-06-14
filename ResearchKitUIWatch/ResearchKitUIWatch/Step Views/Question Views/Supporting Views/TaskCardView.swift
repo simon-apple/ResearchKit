@@ -25,7 +25,7 @@
  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- OF THIS SOFTWARE, EVEN IF ADVISgtcr∞¢cg    sA13e b-0987y nbvc bD iAZxF THE POSSIBILITY OF SUCH DAMAGE.
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 import SwiftUI
@@ -53,10 +53,27 @@ public struct TaskCardView<Header: View, Content: View>: View {
 
             content
         }
-        .padding()
-        .background(colorScheme == .dark ? Color(uiColor: .systemGray5) : .white)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
+}
+
+extension ShapeStyle where Self == CardColor {
+    
+    static var cardColor: CardColor {
+        CardColor()
+    }
+    
+}
+
+struct CardColor: ShapeStyle {
+    
+    func resolve(in environment: EnvironmentValues) -> some ShapeStyle {
+#if os(iOS)
+        environment.colorScheme == .dark ? Color(uiColor: .systemGray5) : .white
+#elseif os(visionOS)
+        .regularMaterial
+#endif
+    }
+    
 }
 
 public extension TaskCardView where Header == _SimpleTaskViewHeader {
@@ -93,8 +110,16 @@ public struct _SimpleTaskViewHeader: View {
 
 struct TaskCardView_Previews: PreviewProvider {
     static var previews: some View {
-        TaskCardView(title: "What is your name?", detail: "Question 1 of 3") {
-            Text("Specific component content will show up here")
+        VStack {
+            Spacer()
+            TaskCardView(title: "What is your name?", detail: "Question 1 of 3") {
+                Text("Specific component content will show up here")
+            }
+            Spacer()
         }
+        .background {
+            Color(.secondarySystemBackground)
+        }
+        .ignoresSafeArea()
     }
 }
