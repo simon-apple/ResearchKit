@@ -81,7 +81,7 @@
     
     reviewCardSections = [reviewCardSections arrayByAddingObjectsFromArray:[self _getReviewCardSectionsFromFormSteps]];
     
-    return [NSArray new];
+    return reviewCardSections;
 }
 
 - (void)_validateSurveySteps {

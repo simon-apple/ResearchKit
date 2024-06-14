@@ -38,6 +38,7 @@
 		5DD2B46B249974AC00FF17F5 /* QuestionList1 in Resources */ = {isa = PBXBuildFile; fileRef = 5DD2B46A249974AC00FF17F5 /* QuestionList1 */; };
 		863CCD821ACF545E009FD3B4 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863CCD811ACF545E009FD3B4 /* HealthKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		86B89AA51AB2C0A5001626A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B89A9C1AB2C0A5001626A4 /* AppDelegate.swift */; };
+		8C1F9E9E2C0F857100A6C0D5 /* DateFormatterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1F9E9D2C0F857100A6C0D5 /* DateFormatterManager.swift */; };
 		8C49088C2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C49088B2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift */; };
 		8C49088E2B7ECEEB00DA6E2D /* OpenAndCancelActiveTasksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelActiveTasksUITests.swift */; };
 		8C4908962B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908952B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestionUITests.swift */; };
@@ -52,6 +53,7 @@
 		8C7C54282B4F67E200A2E513 /* Springboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54272B4F67E200A2E513 /* Springboard.swift */; };
 		8C7C542A2B4F680B00A2E513 /* RequestPermissionsStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */; };
 		8C89CD592BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */; };
+		8CBA19C72BE14AF3000E7205 /* LocaleDependentBaseUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBA19C62BE14AF3000E7205 /* LocaleDependentBaseUITest.swift */; };
 		8CCB03732B86AA8A00096C86 /* UITestLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCB03722B86AA8A00096C86 /* UITestLogger.swift */; };
 		8CECC5EB2B978265002266B9 /* OnboardingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */; };
 		8CECC5ED2B978683002266B9 /* InstructionStepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EC2B978683002266B9 /* InstructionStepUITests.swift */; };
@@ -245,6 +247,7 @@
 		869230BE1AAA890A00BFE11B /* ORKCatalog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORKCatalog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86B89A981AB2C0A5001626A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86B89A9C1AB2C0A5001626A4 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ORKCatalog/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
+		8C1F9E9D2C0F857100A6C0D5 /* DateFormatterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterManager.swift; sourceTree = "<group>"; };
 		8C49088B2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelBaseUITest.swift; sourceTree = "<group>"; };
 		8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelActiveTasksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelActiveTasksUITests.swift; sourceTree = "<group>"; };
 		8C4908952B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestionUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelSurveyQuestionUITests.swift; sourceTree = "<group>"; };
@@ -260,6 +263,7 @@
 		8C7C54272B4F67E200A2E513 /* Springboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Springboard.swift; sourceTree = "<group>"; };
 		8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPermissionsStepScreen.swift; sourceTree = "<group>"; };
 		8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsResultsUITests.swift; sourceTree = "<group>"; };
+		8CBA19C62BE14AF3000E7205 /* LocaleDependentBaseUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocaleDependentBaseUITest.swift; sourceTree = "<group>"; };
 		8CCB03722B86AA8A00096C86 /* UITestLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestLogger.swift; sourceTree = "<group>"; };
 		8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingUITests.swift; sourceTree = "<group>"; };
 		8CECC5EC2B978683002266B9 /* InstructionStepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionStepUITests.swift; sourceTree = "<group>"; };
@@ -471,6 +475,15 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		8C1F9E9F2C0F8A5A00A6C0D5 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				8C1F9E9D2C0F857100A6C0D5 /* DateFormatterManager.swift */,
+				8CFF29052AE9BE73000DC99E /* Extensions */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		8C89CD572BCD08F000C61F8A /* ResultsUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -493,7 +506,7 @@
 		8CD81ABC2AFD910A00ABCA39 /* InternalUITests */ = {
 			isa = PBXGroup;
 			children = (
-				8CFF29052AE9BE73000DC99E /* Extensions */,
+				8C1F9E9F2C0F8A5A00A6C0D5 /* Utils */,
 				9622283724F04D850056E74D /* Screens */,
 				8CFF291F2AE9CAEB000DC99E /* UITests */,
 				8CFF290E2AE9C24A000DC99E /* AccessibilityIdentifiers.swift */,
@@ -531,6 +544,7 @@
 			isa = PBXGroup;
 			children = (
 				8CFF29202AE9CB00000DC99E /* BaseUITest.swift */,
+				8CBA19C62BE14AF3000E7205 /* LocaleDependentBaseUITest.swift */,
 				8CFF29222AE9CB20000DC99E /* SurveysUITests.swift */,
 				8CFF29242AE9CB4A000DC99E /* SurveyQuestionsUITests.swift */,
 				8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */,
@@ -942,6 +956,7 @@
 				8C7C541D2B4F5CF900A2E513 /* Answers.swift in Sources */,
 				8CFF29182AE9C674000DC99E /* InstructionStepScreen.swift in Sources */,
 				8C67958C2BC3B09B00DE7286 /* TaskListRowConstants.swift in Sources */,
+				8CBA19C72BE14AF3000E7205 /* LocaleDependentBaseUITest.swift in Sources */,
 				9622284124F04EEF0056E74D /* PreSubmissionTests.swift in Sources */,
 				8CFF29232AE9CB20000DC99E /* SurveysUITests.swift in Sources */,
 				8C49089A2B7ECF9400DA6E2D /* ActiveStepScreen.swift in Sources */,
@@ -956,6 +971,7 @@
 				8CFF29162AE9C452000DC99E /* Step.swift in Sources */,
 				8CECC5F32B97A78E002266B9 /* WaitStepScreen.swift in Sources */,
 				8C7C54202B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift in Sources */,
+				8C1F9E9E2C0F857100A6C0D5 /* DateFormatterManager.swift in Sources */,
 				8CECC5FD2B97AFB7002266B9 /* CustomStepScreen.swift in Sources */,
 				8CECC5FB2B97ACFE002266B9 /* VerificationStepScreen.swift in Sources */,
 				8CFF291E2AE9CA95000DC99E /* FormStepScreen.swift in Sources */,

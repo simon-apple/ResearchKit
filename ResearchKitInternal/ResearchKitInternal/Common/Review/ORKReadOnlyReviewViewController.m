@@ -38,20 +38,25 @@
 #import <ResearchKit/ORKFormStep.h>
 #import <ResearchKit/ORKQuestionStep.h>
 #import <ResearchKit/ORKOrderedTask.h>
+#import <ResearchKit/ORKSkin.h>
 #import <ResearchKit/ORKStep.h>
 
-#import <ResearchKitUI/ORKTableContainerView.h>
+
+NSString * const ORKReviewCardCellIdentifier = @"ORKReviewCardCellIdentifier";
+
+double const TableViewSectionHeaderHeight = 30.0;
 
 
-@interface ORKReadOnlyReviewViewController ()
-
-@property (nonatomic, strong) ORKTableContainerView *tableContainer;
-@property (nonatomic, strong) UITableView *tableView;
+@interface ORKReadOnlyReviewViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @end
 
 
 @implementation ORKReadOnlyReviewViewController {
+    NSArray<NSLayoutConstraint *> *_constraints;
+    
+    UITableView *_tableView;
+    
     ORKOrderedTask *_orderedTask;
     ORKTaskResult *_taskResult;
     ORKReadOnlyStepType _readOnlyStepType;
@@ -72,8 +77,6 @@
         _readOnlyStepType = readOnlyStepType;
         _stepsToParse = [self _getStepsToParseForResults];
         _reviewCardSections = [self _getReviewCardSections];
-        
-        self.view.backgroundColor = [UIColor systemGrayColor];
     }
     
     return self;
@@ -81,6 +84,52 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor systemGrayColor];
+    
+    [self _setupTableView];
+    [self _setupConstraints];
+    
+    [_tableView reloadData];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [_tableView reloadData];
+}
+
+- (void)_setupTableView {
+    if (!_tableView) {
+        _tableView = [UITableView new];
+        _tableView.translatesAutoresizingMaskIntoConstraints = NO;
+        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:ORKReviewCardCellIdentifier];
+        _tableView.separatorColor = [UIColor clearColor];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.clipsToBounds = YES;
+        _tableView.rowHeight = UITableViewAutomaticDimension;
+        _tableView.sectionHeaderHeight = UITableViewAutomaticDimension;
+        _tableView.estimatedRowHeight = ORKGetMetricForWindow(ORKScreenMetricTableCellDefaultHeight, self.view.window);
+        _tableView.estimatedSectionHeaderHeight = TableViewSectionHeaderHeight;
+        
+        [self.view addSubview:_tableView];
+    }
+}
+
+- (void)_setupConstraints {
+    if (_constraints) {
+        [NSLayoutConstraint deactivateConstraints:_constraints];
+    }
+    _constraints = nil;
+
+    _constraints = @[
+        [_tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        [_tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [_tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [_tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+    ];
+    
+    [NSLayoutConstraint activateConstraints:_constraints];
 }
 
 - (NSArray<ORKStep *> *)_getStepsToParseForResults {
@@ -150,6 +199,35 @@
     }
     
     return formSteps;
+}
+
+#pragma mark UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return _reviewCardSections.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    ORKReviewCardSection *reviewCardSection = [_reviewCardSections objectAtIndex:section];
+    return reviewCardSection.reviewCards.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    ORKReviewCardSection *reviewCardSection = [_reviewCardSections objectAtIndex:indexPath.section];
+    
+    // present a related person cell
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ORKReviewCardCellIdentifier];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    
+    cell.textLabel.text = @"lorem";
+    
+    return cell;
+}
+
+#pragma mark UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewAutomaticDimension;
 }
 
 @end

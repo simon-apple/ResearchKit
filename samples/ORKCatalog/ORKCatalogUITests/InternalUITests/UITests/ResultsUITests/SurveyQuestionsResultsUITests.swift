@@ -38,6 +38,8 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
     let tasksList = TasksTab()
     let tabBar = TabBar()
     
+    let shouldUseUIPickerWorkaround = true /// This issue required extra button tap to dismiss picker to continue: rdar://111132091 ([Modularization] [ORKCatalog] Date Picker won't display on the question card)
+    
     override func setUpWithError() throws {
         try super.setUpWithError()
         // Verify that before we start our test we are on Tasks tab
@@ -393,9 +395,6 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
         
         let formStep = FormStepScreen(id: String(describing: Identifier.valuePickerChoiceFormStep), itemIds: [String(describing: Identifier.valuePickerChoiceFormItem)])
         
-        /// This issue required extra button tap to dismiss picker to continue rdar://111132091 ([Modularization] [ORKCatalog] Date Picker won't display on the question card)
-        let shouldUseUIPickerWorkaround = true
-        
         if let answer = answer {
             var dismissPicker = false
             if shouldUseUIPickerWorkaround {
@@ -417,12 +416,12 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
     }
     
     func testValuePickerChoiceQuestionMinResult() {
-        let choiceIndex = 0
+        let choiceIndex = textChoicesMinValueIndex
         answerAndVerifyValuePickerQuestion(answer: textChoices[choiceIndex].text, expectedValue: textChoices[choiceIndex].value)
     }
     
     func testValuePickerChoiceQuestionMaxResult() {
-        let choiceIndex = 4
+        let choiceIndex = textChoicesMaxValueIndex
         answerAndVerifyValuePickerQuestion(answer: textChoices[choiceIndex].text, expectedValue: textChoices[choiceIndex].value)
     }
     
@@ -773,5 +772,211 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
     func testScaleQuestionSkipResults() {
         let expectedValues = Array(repeating: "nil", count: formStepsSliderResultValues.count)
         navigateAndAnswerScaleTask(answer: nil, expectedValues: expectedValues)
+    }
+    
+    // MARK: - Time Interval Question
+    
+    func answerAndVerifyTimeIntervalQuestion(answer: (hours: Int, minutes: Int)?, expectedResult: String) {
+        tasksList.selectTaskByName(Task.timeIntervalQuestion.description)
+        
+        let formStep = FormStepScreen(id: String(describing: Identifier.timeIntervalFormStep))
+        let formItemId = String(describing: Identifier.timeIntervalFormItem)
+        
+        if let answer = answer {
+            var dismissPicker = false
+            if shouldUseUIPickerWorkaround {
+                formStep.selectFormItemCell(withID: formItemId)
+                dismissPicker = true
+            }
+            formStep.answerTimeIntervalQuestion(hours: answer.hours, minutes: answer.minutes, dismissPicker: dismissPicker)
+            sleep(5) // Allow the UI to settle for subsequent
+            formStep.tap(.continueButton)
+        } else {
+            formStep.tap(.skipButton)
+        }
+        
+        tabBar
+            .navigateToResults()
+            .selectResultsCell(withId: formStep.id)
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .intervalAnswer, expectedValue: expectedResult)
+    }
+    
+    func testTimeIntervalQuestionResult() {
+        let hours = 23
+        let minutes = 59
+        let resultInSeconds = convertToSeconds(hours: hours, minutes: minutes)
+        answerAndVerifyTimeIntervalQuestion(answer: (hours, minutes), expectedResult: String(resultInSeconds))
+    }
+    
+    func testTimeIntervalQuestionSkipResult() {
+        answerAndVerifyTimeIntervalQuestion(answer: nil, expectedResult: "nil")
+    }
+    
+    private func convertToSeconds(hours: Int, minutes: Int) -> Int {
+        return (hours * 3600) + (minutes * 60)
+    }
+}
+
+final class SurveyQuestionsLocaleDependentResultsUITests: LocaleDependentBaseUITests {
+    
+    let tabBar = TabBar()
+    
+    // MARK: - Time of Day Question
+    
+    func answerAndVerifyTimeOfDayQuestion(answer: (hours: Int, minutes: Int)?, isUSTimeZone: Bool, isAM: Bool = false, expectedResult: String) {
+        tasksList.selectTaskByName(Task.timeOfDayQuestion.description)
+        
+        let formStep = FormStepScreen(id: String(describing: Identifier.timeOfDayQuestionFormStep), itemIds: [String(describing: Identifier.timeOfDayFormItem)])
+        
+        if let answer = answer {
+            if shouldUseUIPickerWorkaround {
+                formStep.selectFormItemCell(withID: formStep.itemIds[0])
+                dismissPicker = true
+            }
+            
+            formStep
+                .answerTimeOfDayQuestion(hours: answer.hours, minutes: answer.minutes, isUSTimeZone: isUSTimeZone, isAM: isAM, dismissPicker: dismissPicker)
+                .tap(.continueButton)
+        } else {
+            formStep.tap(.skipButton)
+        }
+        
+        let resultsTab = TabBar().navigateToResults()
+            .selectResultsCell(withId: formStep.id)
+            .selectResultsCell(withId: formStep.itemIds[0])
+        
+        resultsTab
+            .verifyResultsCellValue(resultType: .dateComponentsAnswer, expectedValue: expectedResult)
+    }
+    
+    func testTimeOfDayQuestionResult() {
+        // Result values are in 24-hour format (in Result Tab)
+        let minutes = 59
+        let hours = 23
+        let expectedResult = "\(hours) hours, \(minutes) minutes"
+        
+        if isUSTimeZone {
+            guard let (hour, amPm) = convertTimeTo12HourFormatHourOnly(time: "\(hours):\(minutes)") else {
+                XCTFail("Unexpected nil when converting time to 12 hour format for \(hours):\(minutes)")
+                return
+            }
+            let isAm = amPm == "AM" ? true : false
+            answerAndVerifyTimeOfDayQuestion(answer: (Int(hour) ?? -1, minutes), isUSTimeZone: true, isAM: isAm, expectedResult: expectedResult)
+        } else {
+            answerAndVerifyTimeOfDayQuestion(answer: (hours, minutes), isUSTimeZone: false, expectedResult: expectedResult)
+        }
+    }
+    
+    func testTimeOfDayQuestionSkipResult() throws {
+        try XCTSkipIf(true, "Skipping this test for now due to crash after skipping question (127274065)") /// rdar://127274065 ([ORKCatalog] Results tab - App crash when viewing result for Time of Day Question after skipping question)
+        
+        answerAndVerifyTimeOfDayQuestion(answer: nil, isUSTimeZone: false, expectedResult: "nil")
+    }
+    
+    // MARK: - Date Question
+    
+    func answerAndVerifyDateQuestion(answer: (offsetDays: Int, offsetYears: Int)?, isUSTimeZone: Bool, expectedResult: String) {
+        tasksList.selectTaskByName(Task.dateQuestion.description)
+        
+        let formStep = FormStepScreen(id: String(describing: Identifier.dateQuestionStep), itemIds: [String(describing: Identifier.dateQuestionFormItem)])
+        
+        if let answer = answer {
+            if shouldUseUIPickerWorkaround {
+                formStep.selectFormItemCell(withID: formStep.itemIds[0])
+                dismissPicker = true
+            }
+            formStep
+                .answerDateQuestion(offsetDays: answer.offsetDays, offsetYears: answer.offsetYears, isUSTimeZone: isUSTimeZone, dismissPicker: dismissPicker)
+                .tap(.continueButton)
+        } else {
+            formStep.tap(.skipButton)
+        }
+        
+        let resultsTab = tabBar.navigateToResults()
+        resultsTab
+            .selectResultsCell(withId: formStep.id)
+            .selectResultsCell(withId: formStep.itemIds[0])
+        // Here we need to specifically use CellContains because we need to omit timestamp, and only verify date
+            .verifyResultsCellContainsValue(resultType: .dateAnswer, expectedValue: expectedResult)
+    }
+    
+    func testDateQuestionResult() {
+        let offsetDays = -5
+        let offsetYears = -5
+        let gmtDate = convertDateToGMT(offsetDays: offsetDays, offsetYears: offsetYears, date: Date())
+        answerAndVerifyDateQuestion(answer: (offsetDays, offsetYears), isUSTimeZone: isUSTimeZone, expectedResult: gmtDate)
+    }
+    
+    func testDateQuestionSkipResult() {
+        answerAndVerifyDateQuestion(answer: nil, isUSTimeZone: isUSTimeZone, expectedResult: "nil")
+    }
+    
+    // MARK: - Date and Time Question
+    
+    func answerAndVerifyDateAndTimeQuestion(answer: (offsetDays: Int, offsetHours: Int)?, isUSTimeZone: Bool, date: Date = Date(), expectedResult: String) {
+        tasksList.selectTaskByName(Task.dateTimeQuestion.description)
+        
+        let formStep = FormStepScreen(id: String(describing: Identifier.dateTimeQuestionFormItem), itemIds: [String(describing: Identifier.dateTimeQuestionFormStep)])
+        
+        if let answer = answer {
+            if shouldUseUIPickerWorkaround {
+                formStep.selectFormItemCell(withID: formStep.itemIds[0])
+                dismissPicker = true
+            }
+            formStep
+                .answerDateAndTimeQuestion(offsetDays: answer.offsetDays, offsetHours: answer.offsetHours, isUSTimeZone: isUSTimeZone, dismissPicker: dismissPicker, date: date)
+                .tap(.continueButton)
+        } else {
+            formStep.tap(.skipButton)
+        }
+        
+        let resultsTab = tabBar.navigateToResults()
+        resultsTab
+            .selectResultsCell(withId: formStep.id)
+            .selectResultsCell(withId: formStep.itemIds[0])
+        // Here we need to specifically use CellContains because we need to omit seconds, and only verify date and time
+            .verifyResultsCellContainsValue(resultType: .dateAnswer, expectedValue: expectedResult)
+    }
+    
+    // Note: This task is called "Date and Time" but it only contains days and hours picker wheels, the year picker wheel is not displayed (rdar://126878143)
+    func testDateAndTimeQuestionResult() {
+        let offsetDays = -7
+        let offsetHours = -10
+        let now = Date()
+        let dateAndTimeGMT = convertDateAndTimeToGMT(offsetDays: offsetDays, offsetHours: offsetHours, date: now)
+        answerAndVerifyDateAndTimeQuestion(answer: (offsetDays, offsetHours), isUSTimeZone: isUSTimeZone, date: now, expectedResult: dateAndTimeGMT)
+    }
+    
+    func testDateAndTimeQuestionSkipResult() {
+        answerAndVerifyDateAndTimeQuestion(answer: nil, isUSTimeZone: isUSTimeZone, expectedResult: "nil")
+    }
+    
+    // MARK: Helper methods
+    
+    private func convertTimeTo12HourFormatHourOnly(time: String) -> (String, String)? {
+        guard let (hourString, periodString) = DateFormatterManager.shared.hourMinutesString(from: time) else {
+            return nil
+        }
+        
+        return (hourString, periodString)
+    }
+    
+    private func convertDateAndTimeToGMT(offsetDays: Int, offsetHours: Int, date: Date) -> String {
+        let calendar = Calendar.current
+        let adjustedDate = calendar.date(byAdding: .day, value: offsetDays, to: date)!
+        let adjustedDateTime = calendar.date(byAdding: .hour, value: offsetHours, to: adjustedDate)!
+        let gmtTimeAndDate = DateFormatterManager.shared.gmtDateAndTimeString(from: adjustedDateTime)
+        
+        return gmtTimeAndDate
+    }
+    
+    private func convertDateToGMT(offsetDays: Int, offsetYears: Int, date: Date) -> String {
+        let calendar = Calendar.current
+        let adjustedDate = calendar.date(byAdding: .day, value: offsetDays, to: date)!
+        let adjustedDateTime = calendar.date(byAdding: .year, value: offsetYears, to: adjustedDate)!
+        let gmtDate = DateFormatterManager.shared.gmtDateAndTimeString(from: adjustedDateTime)
+        
+        return gmtDate
     }
 }
