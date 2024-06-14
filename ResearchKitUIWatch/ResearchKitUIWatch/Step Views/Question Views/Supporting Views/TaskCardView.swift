@@ -48,6 +48,27 @@ struct TaskCardView<Content: View>: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
+            stepSectionHeaderView()
+                .padding(.top)
+                .padding(.horizontal)
+
+            if title != nil || detail != nil {
+                Divider()
+            }
+
+            VStack {
+                content
+            }
+            .padding(.horizontal)
+            .padding(.bottom)
+        }
+        .background(.cardColor)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+    
+    @ViewBuilder
+    private func stepSectionHeaderView() -> some View {
+        VStack(alignment: .leading, spacing: 8) {
             if let detail {
                 detail
                     .foregroundColor(.secondary)
@@ -61,16 +82,7 @@ struct TaskCardView<Content: View>: View {
                     .font(.body)
                     .fontWeight(.bold)
             }
-
-            if title != nil || detail != nil {
-                Divider()
-            }
-
-            content
         }
-        .padding()
-        .background(.cardColor)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
