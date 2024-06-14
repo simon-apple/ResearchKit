@@ -32,13 +32,13 @@ import Foundation
 import ResearchKit
 import SwiftUI
 
-enum ScaleSelectionConfiguration {
+public enum ScaleSelectionConfiguration {
     case textChoice([MultipleChoiceOption])
     case integerRange(ClosedRange<Int>)
     case doubleRange(ClosedRange<Double>)
 }
 
-struct ScaleSliderQuestion<ResultType>: Identifiable {
+public struct ScaleSliderQuestion<ResultType>: Identifiable {
 
     public let id: String
     public let title: String
@@ -48,7 +48,7 @@ struct ScaleSliderQuestion<ResultType>: Identifiable {
     public let range: ClosedRange<Double>
     public let configuration: ScaleSelectionConfiguration
 
-    init(
+    public init(
         id: String,
         title: String,
         detail: String? = nil,
@@ -69,7 +69,7 @@ struct ScaleSliderQuestion<ResultType>: Identifiable {
 
 extension ScaleSliderQuestion where ResultType == Int {
 
-    var result: Int {
+    public var intResult: Int {
         return Int(value)
     }
 
@@ -77,7 +77,7 @@ extension ScaleSliderQuestion where ResultType == Int {
         return Int(range.lowerBound)...Int(range.upperBound)
     }
 
-    init(
+    public init(
         id: String,
         title: String,
         detail: String? = nil,
@@ -97,7 +97,7 @@ extension ScaleSliderQuestion where ResultType == Int {
 
 extension ScaleSliderQuestion where ResultType == Double {
 
-    var result: Double {
+    public var result: Double {
         return value
     }
 
@@ -105,7 +105,7 @@ extension ScaleSliderQuestion where ResultType == Double {
 
 extension ScaleSliderQuestion where ResultType == MultipleChoiceOption {
 
-    var result: MultipleChoiceOption {
+    public var result: MultipleChoiceOption {
         switch configuration {
         case .textChoice(let choices):
             return choices[Int(value)]
@@ -113,8 +113,8 @@ extension ScaleSliderQuestion where ResultType == MultipleChoiceOption {
             fatalError("Unsupported configuration detected for MultipleChoiceOption when querying result")
         }
     }
-    
-    var multipleChoiceOptions: [MultipleChoiceOption] {
+
+    public var multipleChoiceOptions: [MultipleChoiceOption] {
         switch configuration {
         case .textChoice(let options):
             return options
@@ -123,7 +123,7 @@ extension ScaleSliderQuestion where ResultType == MultipleChoiceOption {
         }
     }
 
-    init(
+    public init(
         id: String,
         title: String,
         detail: String? = nil,
@@ -143,7 +143,7 @@ extension ScaleSliderQuestion where ResultType == MultipleChoiceOption {
 }
 
 // TODO(rdar://129033515): Update name of this module to reflect just the slider without the header.
-struct ScaleSliderQuestionView: View {
+public struct ScaleSliderQuestionView: View {
 
     var title: Text
 
@@ -190,7 +190,7 @@ struct ScaleSliderQuestionView: View {
         case double(Binding<Double>)
     }
 
-    init(
+    public init(
         title: Text,
         detail: Text? = nil,
         range: ClosedRange<Double>,
@@ -206,7 +206,7 @@ struct ScaleSliderQuestionView: View {
     }
 
     // The int version
-    init(
+    public init(
         title: Text,
         detail: Text? = nil,
         range: ClosedRange<Int>,
@@ -222,7 +222,7 @@ struct ScaleSliderQuestionView: View {
     }
 
     // The multi choice version
-    init(
+    public init(
         title: Text,
         detail: Text? = nil,
         multipleChoiceOptions: [MultipleChoiceOption],
