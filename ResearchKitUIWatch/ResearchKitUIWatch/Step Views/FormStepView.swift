@@ -73,7 +73,7 @@ struct FormStepView: View {
                 HStack {
                     Text("Done")
                         .fontWeight(.bold)
-                        .frame(maxWidth: .infinity)
+                        .frame(maxWidth: maxWidthForDoneButton)
                 }
                 .padding(.vertical, 8)
             }
@@ -171,6 +171,14 @@ struct FormStepView: View {
                 })
             )
         }
+    }
+    
+    private var maxWidthForDoneButton: CGFloat {
+#if os(iOS)
+        .infinity
+#elseif os(visionOS)
+        300
+#endif
     }
     
 }
