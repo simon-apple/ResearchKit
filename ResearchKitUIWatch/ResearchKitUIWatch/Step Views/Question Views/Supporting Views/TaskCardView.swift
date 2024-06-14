@@ -30,14 +30,14 @@
 
 import SwiftUI
 
-struct TaskCardView<Content: View>: View {
+public struct TaskCardView<Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
 
     let title: Text?
     let detail: Text?
     let content: Content
 
-    init(title: Text?,
+    public init(title: Text?,
          detail: Text?,
          @ViewBuilder content: () -> Content
     ) {
@@ -46,7 +46,7 @@ struct TaskCardView<Content: View>: View {
         self.detail = detail
     }
 
-    var body: some View {
+    public var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             if let detail {
                 detail
@@ -64,6 +64,7 @@ struct TaskCardView<Content: View>: View {
 
             if title != nil || detail != nil {
                 Divider()
+                    .padding(.vertical, 8)
             }
 
             content
