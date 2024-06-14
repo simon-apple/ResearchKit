@@ -40,6 +40,16 @@
 #import <ResearchKit/ORKOrderedTask.h>
 #import <ResearchKit/ORKStep.h>
 
+#import <ResearchKitUI/ORKTableContainerView.h>
+
+
+@interface ORKReadOnlyReviewViewController ()
+
+@property (nonatomic, strong) ORKTableContainerView *tableContainer;
+@property (nonatomic, strong) UITableView *tableView;
+
+@end
+
 
 @implementation ORKReadOnlyReviewViewController {
     ORKOrderedTask *_orderedTask;
