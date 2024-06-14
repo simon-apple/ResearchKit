@@ -78,7 +78,9 @@ struct FormStepView: View {
                     
                     Spacer()
                 }
+                .padding(.vertical, 8)
             }
+            .buttonStyle(.borderedProminent)
             .padding(.top, 16)
         }
         .background(Color(uiColor: .secondarySystemBackground))
