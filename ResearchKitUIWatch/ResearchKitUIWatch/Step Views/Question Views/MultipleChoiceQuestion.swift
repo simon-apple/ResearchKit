@@ -96,16 +96,20 @@ public struct MultipleChoiceQuestionView: View {
 
     public var body: some View {
         TaskCardView(title: title, detail: detail) {
-            ForEach(
-                choices
-            ) { option in
-                TextChoiceCell(
-                    title: Text(option.choiceText),
-                    isSelected: result.contains(where: { choice in
-                        choice.id == option.id
-                    })
-                ) {
-                    choiceSelected(option)
+            ForEach(Array(choices.enumerated()), id: \.offset) { index, option in
+                VStack(spacing: 8) {
+                    if index != 0 {
+                        Divider()
+                    }
+                    
+                    TextChoiceCell(
+                        title: Text(option.choiceText),
+                        isSelected: result.contains(where: { choice in
+                            choice.id == option.id
+                        })
+                    ) {
+                        choiceSelected(option)
+                    }
                 }
             }
         }
