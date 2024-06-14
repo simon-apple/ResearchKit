@@ -43,6 +43,8 @@ public struct TextQuestion: Identifiable {
     public var prompt: String
     public var textFieldType: TextFieldType
     public var characterLimit: Int
+    public var hideCharacterCountLabel: Bool
+    public var hideClearButton: Bool
 
     public init(
         title: String,
@@ -50,7 +52,9 @@ public struct TextQuestion: Identifiable {
         text: String,
         prompt: String,
         textFieldType: TextFieldType,
-        characterLimit: Int
+        characterLimit: Int,
+        hideCharacterCountLabel: Bool,
+        hideClearButton: Bool
     ) {
         self.title = title
         self.id = id
@@ -58,32 +62,38 @@ public struct TextQuestion: Identifiable {
         self.prompt = prompt
         self.textFieldType = textFieldType
         self.characterLimit = characterLimit
+        self.hideCharacterCountLabel = hideCharacterCountLabel
+        self.hideClearButton = hideClearButton
     }
 }
 
-public struct TextQuestionView: View {
+public struct TextQuestionView<Header: View>: View {
+    let header: Header
+
     @FocusState var isInputActive: Bool
     @Binding var text: String
-    let title: Text?
-    let detail: Text?
     let prompt: String?
     let textFieldType: TextFieldType
     let characterLimit: Int
+    let hideCharacterCountLabel: Bool
+    let hideClearButton: Bool
 
-    public init(
+    init(
+        @ViewBuilder header: () -> Header,
         text: Binding<String>,
-        title: Text?,
-        detail: Text?,
         prompt: String?,
         textFieldType: TextFieldType,
-        characterLimit: Int
+        characterLimit: Int,
+        hideCharacterCountLabel: Bool = false,
+        hideClearButton: Bool = false
     ) {
+        self.header = header()
         self._text = text
-        self.title = title
-        self.detail = detail
         self.prompt = prompt
         self.textFieldType = textFieldType
         self.characterLimit = characterLimit
+        self.hideCharacterCountLabel = hideCharacterCountLabel
+        self.hideClearButton = hideClearButton
     }
 
     private var axis: Axis {
@@ -104,19 +114,26 @@ public struct TextQuestionView: View {
     }
 
     public var body: some View {
-        TaskCardView(title: title, detail: detail) {
+        TaskCardView {
+            header
+        } content: {
             VStack {
                 TextField("", text: $text, prompt: placeholder, axis: axis)
                     .padding(.bottom, axis == .vertical ? 54 : .zero)
                     .contentShape(Rectangle())
 
                 HStack {
-                    Text("\(text.count)/\(characterLimit)")
+                    if !hideCharacterCountLabel {
+                        Text("\(text.count)/\(characterLimit)")
+                    }
                     Spacer()
-                    Button {
-                        text = ""
-                    } label: {
-                        Text("Clear")
+
+                    if !hideClearButton {
+                        Button {
+                            text = ""
+                        } label: {
+                            Text("Clear")
+                        }
                     }
                 }
                 .toolbar {
@@ -137,11 +154,32 @@ public struct TextQuestionView: View {
     }
 }
 
+public extension TextQuestionView where Header == _SimpleTaskViewHeader {
+    init(
+        text: Binding<String>,
+        title: String,
+        detail: String?,
+        prompt: String?,
+        textFieldType: TextFieldType,
+        characterLimit: Int,
+        hideCharacterCountLabel: Bool = false,
+        hideClearButton: Bool = false
+    ) {
+        self.header = _SimpleTaskViewHeader(title: title, detail: detail)
+        self._text = text
+        self.prompt = prompt
+        self.textFieldType = textFieldType
+        self.characterLimit = characterLimit
+        self.hideCharacterCountLabel = hideCharacterCountLabel
+        self.hideClearButton = hideClearButton
+    }
+}
+
 struct TextQuestionView_Previews: PreviewProvider {
     static var previews: some View {
         TextQuestionView(
             text: .constant("Hello world!"),
-            title: Text("What is your name?"),
+            title: "What is your name?",
             detail: nil,
             prompt: "Tap to write",
             textFieldType: .multiline,

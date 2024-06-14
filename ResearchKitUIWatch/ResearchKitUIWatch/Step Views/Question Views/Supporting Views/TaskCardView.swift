@@ -25,46 +25,31 @@
  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ OF THIS SOFTWARE, EVEN IF ADVISgtcr∞¢cg    sA13e b-0987y nbvc bD iAZxF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 import SwiftUI
 
-public struct TaskCardView<Content: View>: View {
-    @Environment(\.colorScheme) var colorScheme
+/// A card that displays a header view, a divider line, and an answer view.
 
-    let title: Text?
-    let detail: Text?
+public struct TaskCardView<Header: View, Content: View>: View {
+    @Environment(\.colorScheme) var colorScheme
+    let header: Header
     let content: Content
 
-    public init(title: Text?,
-         detail: Text?,
-         @ViewBuilder content: () -> Content
+    init(
+        @ViewBuilder header: () -> Header,
+        @ViewBuilder content: () -> Content
     ) {
+        self.header = header()
         self.content = content()
-        self.title = title
-        self.detail = detail
     }
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            if let detail {
-                detail
-                    .foregroundColor(.secondary)
-                    .font(.footnote)
-                    .fontWeight(.bold)
-            }
+            header
 
-            if let title {
-                title
-                    .foregroundStyle(Color(.label))
-                    .font(.body)
-                    .fontWeight(.bold)
-            }
-
-            if title != nil || detail != nil {
-                Divider()
-            }
+            Divider()
 
             content
         }
@@ -74,9 +59,41 @@ public struct TaskCardView<Content: View>: View {
     }
 }
 
+public extension TaskCardView where Header == _SimpleTaskViewHeader {
+    init(
+        title: String,
+        detail: String?,
+        content: () -> Content
+    ) {
+        self.header = _SimpleTaskViewHeader(title: title, detail: detail)
+        self.content = content()
+    }
+}
+
+/// The default header used by a `TaskCardView`
+public struct _SimpleTaskViewHeader: View {
+
+    let title: String
+    let detail: String?
+
+    public var body: some View {
+        if let detail {
+            Text(detail)
+                .foregroundColor(.secondary)
+                .font(.footnote)
+                .fontWeight(.bold)
+        }
+
+        Text(title)
+            .foregroundStyle(Color(.label))
+            .font(.body)
+            .fontWeight(.bold)
+    }
+}
+
 struct TaskCardView_Previews: PreviewProvider {
     static var previews: some View {
-        TaskCardView(title: Text("What is your name?"), detail: Text("Question 1 of 3")) {
+        TaskCardView(title: "What is your name?", detail: "Question 1 of 3") {
             Text("Specific component content will show up here")
         }
     }

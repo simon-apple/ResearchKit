@@ -111,7 +111,9 @@ public class RKAdapter {
                     text: "",
                     prompt: textAnswerFormat.placeholder ?? "",
                     textFieldType: textAnswerFormat.multipleLines ? .multiline : .singleLine,
-                    characterLimit: textAnswerFormat.maximumLength
+                    characterLimit: textAnswerFormat.maximumLength,
+                    hideCharacterCountLabel: textAnswerFormat.hideCharacterCountLabel,
+                    hideClearButton: textAnswerFormat.hideClearButton
                 )
             )
         default:

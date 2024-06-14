@@ -52,8 +52,8 @@ struct FormStepView: View {
                 }
                 ForEach(Array($viewModel.formRows.enumerated()), id: \.offset) { index, $formRow in
                     content(
-                        title: Text("\(formRow.title)"),
-                        detail: Text("Step \(index + 1) of \(viewModel.formRows.count)"),
+                        title: "\(formRow.title)",
+                        detail: "Step \(index + 1) of \(viewModel.formRows.count)",
                         for: $formRow
                     )
                 }
@@ -70,8 +70,8 @@ struct FormStepView: View {
     
     @ViewBuilder
     private func content(
-        title: Text,
-        detail: Text,
+        title: String,
+        detail: String,
         for formRow: Binding<FormRow>
     ) -> some View {
         switch formRow.wrappedValue {
@@ -167,7 +167,9 @@ struct FormStepView: View {
                             text: newValue,
                             prompt: textQuestion.prompt,
                             textFieldType: textQuestion.textFieldType,
-                            characterLimit: textQuestion.characterLimit
+                            characterLimit: textQuestion.characterLimit,
+                            hideCharacterCountLabel: textQuestion.hideCharacterCountLabel,
+                            hideClearButton: textQuestion.hideClearButton
                         )
                     )
                 }),
@@ -179,5 +181,4 @@ struct FormStepView: View {
             )
         }
     }
-    
 }
