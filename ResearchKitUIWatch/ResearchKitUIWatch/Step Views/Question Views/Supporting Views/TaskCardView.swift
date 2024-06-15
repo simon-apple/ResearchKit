@@ -53,6 +53,9 @@ public struct TaskCardView<Header: View, Content: View>: View {
 
             content
         }
+        .padding()
+        .background(.cardColor)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
