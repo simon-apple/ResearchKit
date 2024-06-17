@@ -34,7 +34,7 @@
 		0B9A990F2A8AC47500D64C40 /* NSObject+TestingSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9A990E2A8AC47500D64C40 /* NSObject+TestingSupport.m */; };
 		0B9CC5672A68C02C00080E29 /* UIImageView+ResearchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B9CC5652A68C02C00080E29 /* UIImageView+ResearchKit.h */; platformFilter = ios; };
 		0B9CC5682A68C02C00080E29 /* UIImageView+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9CC5662A68C02C00080E29 /* UIImageView+ResearchKit.m */; platformFilter = ios; };
-		0BCC4B9A28663895001E316F /* PIIScrubber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCC4B9928663895001E316F /* PIIScrubber.swift */; platformFilter = ios; };
+		0BCC4B9A28663895001E316F /* PIIScrubber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCC4B9928663895001E316F /* PIIScrubber.swift */; };
 		0BD9B60D2B75991B00A64EF9 /* Sentence1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6620BF6A3A00D7A6BB /* Sentence1.wav */; };
 		0BD9B60E2B75991F00A64EF9 /* Sentence2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6520BF6A3A00D7A6BB /* Sentence2.wav */; };
 		0BD9B60F2B75992200A64EF9 /* Sentence3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6420BF6A3A00D7A6BB /* Sentence3.wav */; };
