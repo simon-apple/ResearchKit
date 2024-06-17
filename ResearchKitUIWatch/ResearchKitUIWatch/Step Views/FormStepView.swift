@@ -195,6 +195,17 @@ struct FormStepView: View {
                 textFieldType: textQuestion.textFieldType,
                 characterLimit: textQuestion.characterLimit
             )
+        case .dateRow(let dateQuestion):
+            DateTimeView(
+                title: dateQuestion.title,
+                detail: dateQuestion.,
+                selection: .init(get: {
+                    return dateQuestion.
+                }, set: <#T##(Date) -> Void#>),
+                pickerPrompt: <#T##String#>,
+                displayedComponents: <#T##DatePickerComponents#>,
+                range: <#T##ClosedRange<Date>#>
+            )
         }
     }
 }

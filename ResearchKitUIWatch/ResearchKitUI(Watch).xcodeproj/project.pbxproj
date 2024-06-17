@@ -18,6 +18,7 @@
 		0B7213522B4F39CC00463E69 /* ORKScrollViewReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72134C2B4F39CC00463E69 /* ORKScrollViewReader.swift */; };
 		0B7213532B4F39CC00463E69 /* View+OnChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72134D2B4F39CC00463E69 /* View+OnChange.swift */; };
 		0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */ = {isa = PBXBuildFile; fileRef = 0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */; };
+		3815C0142C2081CE00A29CD3 /* DateTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3815C0132C2081CE00A29CD3 /* DateTimeView.swift */; };
 		38CD26102C1909CC000FDBB0 /* TaskCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CD260F2C1909CC000FDBB0 /* TaskCardView.swift */; };
 		38CD26392C1B90F3000FDBB0 /* RKAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CD26382C1B90F3000FDBB0 /* RKAdapter.swift */; };
 		38CD263B2C1BA6EA000FDBB0 /* TextQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CD263A2C1BA6EA000FDBB0 /* TextQuestionView.swift */; };
@@ -63,6 +64,7 @@
 		0B72136A2B4F3D1D00463E69 /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF86B1D2B4F360000E3790E /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ResearchKitUIWatch.docc; sourceTree = "<group>"; };
+		3815C0132C2081CE00A29CD3 /* DateTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeView.swift; sourceTree = "<group>"; };
 		38CD260F2C1909CC000FDBB0 /* TaskCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCardView.swift; sourceTree = "<group>"; };
 		38CD26382C1B90F3000FDBB0 /* RKAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKAdapter.swift; sourceTree = "<group>"; };
 		38CD263A2C1BA6EA000FDBB0 /* TextQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextQuestionView.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 				E4DBF1B32B97C2980085D6A1 /* BooleanQuestion.swift */,
 				BA32DE9E2BCF34440041A937 /* ScaleSliderQuestion.swift */,
 				38CD263A2C1BA6EA000FDBB0 /* TextQuestionView.swift */,
+				3815C0132C2081CE00A29CD3 /* DateTimeView.swift */,
 			);
 			path = "Question Views";
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 				5E507F812C1141F2002958E2 /* SliderValueForegroundStyle.swift in Sources */,
 				38CD26102C1909CC000FDBB0 /* TaskCardView.swift in Sources */,
 				E4DBF1B92B97C3060085D6A1 /* TextChoiceCell.swift in Sources */,
+				3815C0142C2081CE00A29CD3 /* DateTimeView.swift in Sources */,
 				E4E1CD522BED3AB20030D1F5 /* ViewModel.swift in Sources */,
 				0B7213442B4F397A00463E69 /* InstructionStepView.swift in Sources */,
 				E4E1CD592BED9ECE0030D1F5 /* FormRow.swift in Sources */,

@@ -30,6 +30,7 @@
 
 import Foundation
 import ResearchKit
+import SwiftUI
 
 public class RKAdapter {
     public static func createFormRow(from item: ORKFormItem) -> FormRow? {
@@ -114,6 +115,48 @@ public class RKAdapter {
                     characterLimit: textAnswerFormat.maximumLength,
                     hideCharacterCountLabel: textAnswerFormat.hideCharacterCountLabel,
                     hideClearButton: textAnswerFormat.hideClearButton
+                )
+            )
+        case let dateTimeAnswerFormat as ORKDateAnswerFormat:
+            let prompt: String = {
+                if let placeholder = item.placeholder {
+                    return placeholder
+                }
+                return "Select Date and Time"
+            }()
+
+            let startDate: Date = {
+                if let date = dateTimeAnswerFormat.minimumDate {
+                    return date
+                }
+                return Date.distantPast
+            }()
+
+            let endDate: Date = {
+                if let date = dateTimeAnswerFormat.maximumDate {
+                    return date
+                }
+                return Date.distantFuture
+            }()
+
+            let components: DatePicker.Components = {
+                switch dateTimeAnswerFormat.style {
+                case .date:
+                    return [.date]
+                case .dateAndTime:
+                    return [.date, .hourAndMinute]
+                default:
+                    return [.date]
+                }
+            }()
+
+            return FormRow.dateRow(
+                DateQuestion(
+                    id: item.identifier,
+                    title: item.text ?? "",
+                    pickerPrompt: prompt,
+                    displayedComponents: components,
+                    range: startDate...endDate
                 )
             )
         default:
