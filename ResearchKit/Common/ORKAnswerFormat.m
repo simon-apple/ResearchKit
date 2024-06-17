@@ -41,8 +41,8 @@
 #import "ORKHelpers_Internal.h"
 #if TARGET_OS_IOS
 #import "ORKHealthAnswerFormat.h"
-#import "ResearchKit/ResearchKit-Swift.h"
 #endif
+#import "ResearchKit/ResearchKit-Swift.h"
 
 
 @import HealthKit;
@@ -281,6 +281,14 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
 
 @implementation ORKAnswerFormat
 
+#if TARGET_OS_IOS || TARGET_OS_VISION
+
++ (ORKTextAnswerFormat *)textAnswerFormatWithMaximumLength:(NSInteger)maximumLength {
+    return [[ORKTextAnswerFormat alloc] initWithMaximumLength:maximumLength];
+}
+
+#endif
+
 #if TARGET_OS_IOS
 
 + (ORKValuePickerAnswerFormat *)valuePickerAnswerFormatWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices {
@@ -381,10 +389,6 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
 
 + (ORKTextAnswerFormat *)textAnswerFormat {
     return [ORKTextAnswerFormat new];
-}
-
-+ (ORKTextAnswerFormat *)textAnswerFormatWithMaximumLength:(NSInteger)maximumLength {
-    return [[ORKTextAnswerFormat alloc] initWithMaximumLength:maximumLength];
 }
 
 + (ORKTextAnswerFormat *)textAnswerFormatWithValidationRegularExpression:(NSRegularExpression *)validationRegularExpression
@@ -2467,6 +2471,436 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 @end
 
 
+#pragma mark - ORKTextAnswerFormat
+
+@interface ORKTextAnswerFormat()
+
+#if RK_APPLE_INTERNAL
+///**
+// A Scrubber for PII
+//
+// */
+
+@property (nonatomic, readonly, copy) NSArray<PIIScrubber *> *scrubbers;
+#endif
+
+@end
+
+@implementation ORKTextAnswerFormat
+
+#if RK_APPLE_INTERNAL
+
+@synthesize scrubbers = _scrubbers;
+
+#endif
+
+- (Class)questionResultClass {
+    return [ORKTextQuestionResult class];
+}
+
+- (void)commonInit {
+#if TARGET_OS_IOS
+    _autocapitalizationType = UITextAutocapitalizationTypeSentences;
+    _autocorrectionType = UITextAutocorrectionTypeDefault;
+    _spellCheckingType = UITextSpellCheckingTypeDefault;
+    _keyboardType = UIKeyboardTypeDefault;
+    self.dontKnowButtonStyle = ORKDontKnowButtonStyleCircleChoice;
+#endif
+    _multipleLines = NO;
+    _hideClearButton = NO;
+    _hideCharacterCountLabel = NO;
+    
+}
+
+#if RK_APPLE_INTERNAL
+- (void)setScrubberNames:(NSArray *)scrubberNames {
+    if (_scrubberNames != scrubberNames) {
+        _scrubberNames = [scrubberNames copy];
+        _scrubbers = nil;
+    }
+}
+
+-(NSArray *)scrubbers {
+    if (_scrubbers == nil) {
+        NSMutableArray *scrubbers = [NSMutableArray new];
+        for (NSString* scrubberName in _scrubberNames) {
+            [scrubbers addObject: [[PIIScrubber alloc] initWithScrubberName:scrubberName]];
+        }
+         _scrubbers = [scrubbers copy];
+    }
+    return _scrubbers;
+}
+#endif
+
+- (instancetype)initWithMaximumLength:(NSInteger)maximumLength {
+    self = [super init];
+    if (self) {
+        _maximumLength = maximumLength;
+        [self commonInit];
+    }
+    return self;
+}
+
+- (instancetype)initWithValidationRegularExpression:(NSRegularExpression *)validationRegularExpression
+                                     invalidMessage:(NSString *)invalidMessage {
+    self = [super init];
+    if (self) {
+        _validationRegularExpression = [validationRegularExpression copy];
+        _invalidMessage = [invalidMessage copy];
+        _maximumLength = 0;
+        [self commonInit];
+    }
+    return self;
+}
+
+- (instancetype)init {
+    self = [self initWithMaximumLength:0];
+    return self;
+}
+
+- (ORKQuestionType)questionType {
+    return ORKQuestionTypeText;
+}
+
+- (void)validateParameters {
+    [super validateParameters];
+    
+    if ( (!self.validationRegularExpression && self.invalidMessage) ||
+        (self.validationRegularExpression && !self.invalidMessage) ) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:@"Both regular expression and invalid message properties must be set."
+                                     userInfo:nil];
+    }
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKTextAnswerFormat *answerFormat = [[[self class] allocWithZone:zone] init];
+    answerFormat->_maximumLength = _maximumLength;
+    answerFormat->_validationRegularExpression = [_validationRegularExpression copy];
+    answerFormat->_invalidMessage = [_invalidMessage copy];
+    answerFormat->_defaultTextAnswer = [_defaultTextAnswer copy];
+    answerFormat->_multipleLines = _multipleLines;
+    answerFormat->_hideClearButton = _hideClearButton;
+    answerFormat->_hideCharacterCountLabel = _hideCharacterCountLabel;
+    answerFormat->_secureTextEntry = _secureTextEntry;
+    answerFormat->_placeholder = _placeholder;
+    answerFormat.showDontKnowButton = self.showDontKnowButton;
+    answerFormat.customDontKnowButtonText = [self.customDontKnowButtonText copy];
+    answerFormat.dontKnowButtonStyle = self.dontKnowButtonStyle;
+#if TARGET_OS_IOS
+    answerFormat->_autocapitalizationType = _autocapitalizationType;
+    answerFormat->_autocorrectionType = _autocorrectionType;
+    answerFormat->_spellCheckingType = _spellCheckingType;
+    answerFormat->_keyboardType = _keyboardType;
+    answerFormat->_textContentType = _textContentType;
+#if RK_APPLE_INTERNAL
+    answerFormat->_scrubberNames = [_scrubberNames copy];
+#endif
+    if (@available(iOS 12.0, *)) {
+        answerFormat->_passwordRules = _passwordRules;
+    }
+#endif
+    
+    return answerFormat;
+}
+
+- (BOOL)isAnswerValid:(id)answer {
+    BOOL isValid = NO;
+    if ([answer isKindOfClass:[NSString class]]) {
+        isValid = [self isAnswerValidWithString:(NSString *)answer];
+    } else if ([answer isKindOfClass:[ORKDontKnowAnswer class]]) {
+        isValid = YES;
+    }
+    return isValid;
+}
+
+- (BOOL)isAnswerValidWithString:(NSString *)text {
+    BOOL isValid = NO;
+    
+    if (text &&
+        [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0)
+    {
+        isValid = ([self isTextLengthValidWithString:text] && [self isTextRegularExpressionValidWithString:text]);
+    }
+    return isValid;
+}
+
+- (BOOL)isTextLengthValidWithString:(NSString *)text {
+    return (_maximumLength == 0 || text.length <= _maximumLength);
+}
+
+- (BOOL)isTextRegularExpressionValidWithString:(NSString *)text {
+    BOOL isValid = YES;
+    if (self.validationRegularExpression) {
+        NSUInteger regularExpressionMatches = [_validationRegularExpression numberOfMatchesInString:text
+                                                                                            options:(NSMatchingOptions)0
+                                                                                              range:NSMakeRange(0, [text length])];
+        isValid = (regularExpressionMatches != 0);
+    }
+    return isValid;
+}
+
+- (NSString *)localizedInvalidValueStringWithAnswerString:(NSString *)text {
+    NSString *string = @"";
+    if (![self isTextLengthValidWithString:text]) {
+        string = [NSString localizedStringWithFormat:ORKLocalizedString(@"TEXT_ANSWER_EXCEEDING_MAX_LENGTH_ALERT_MESSAGE", nil), ORKLocalizedStringFromNumber(@(_maximumLength))];
+    }
+    if (![self isTextRegularExpressionValidWithString:text]) {
+        if (string.length > 0) {
+            string = [string stringByAppendingString:@"\n"];
+        }
+        string = [string stringByAppendingString:[NSString localizedStringWithFormat:ORKLocalizedString(_invalidMessage, nil), text]];
+    }
+    return string;
+}
+
+
+- (ORKAnswerFormat *)confirmationAnswerFormatWithOriginalItemIdentifier:(NSString *)originalItemIdentifier
+                                                           errorMessage:(NSString *)errorMessage {
+    
+    NSAssert(!self.multipleLines, @"Confirmation Answer Format is not currently defined for ORKTextAnswerFormat with multiple lines.");
+    
+    ORKTextAnswerFormat *answerFormat = [[ORKConfirmTextAnswerFormat alloc] initWithOriginalItemIdentifier:originalItemIdentifier errorMessage:errorMessage];
+    
+    // Copy from ORKTextAnswerFormat being confirmed
+    answerFormat->_maximumLength = _maximumLength;
+    answerFormat->_multipleLines = _multipleLines;
+    answerFormat->_hideClearButton = _hideClearButton;
+    answerFormat->_hideCharacterCountLabel = _hideCharacterCountLabel;
+    answerFormat->_secureTextEntry = _secureTextEntry;
+#if TARGET_OS_IOS
+    answerFormat->_keyboardType = _keyboardType;
+    answerFormat->_autocapitalizationType = _autocapitalizationType;
+    answerFormat->_textContentType = _textContentType;
+#if RK_APPLE_INTERNAL
+    answerFormat->_scrubberNames = [_scrubberNames copy];
+#endif
+    if (@available(iOS 12.0, *)) {
+        answerFormat->_passwordRules = _passwordRules;
+    }
+    
+    // Always set to no autocorrection or spell checking
+    answerFormat->_autocorrectionType = UITextAutocorrectionTypeNo;
+    answerFormat->_spellCheckingType = UITextSpellCheckingTypeNo;
+#endif
+    answerFormat->_placeholder = _placeholder;
+    
+    return answerFormat;
+}
+
+#pragma mark NSSecureCoding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        _multipleLines = NO;
+        ORK_DECODE_INTEGER(aDecoder, maximumLength);
+        ORK_DECODE_OBJ_CLASS(aDecoder, validationRegularExpression, NSRegularExpression);
+        ORK_DECODE_OBJ_CLASS(aDecoder, invalidMessage, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, defaultTextAnswer, NSString);
+#if TARGET_OS_IOS
+        ORK_DECODE_OBJ_CLASS(aDecoder, textContentType, NSString);
+        if (@available(iOS 12.0, *)) {
+            ORK_DECODE_OBJ_CLASS(aDecoder, passwordRules, UITextInputPasswordRules);
+        }
+        ORK_DECODE_ENUM(aDecoder, autocapitalizationType);
+        ORK_DECODE_ENUM(aDecoder, autocorrectionType);
+        ORK_DECODE_ENUM(aDecoder, spellCheckingType);
+        ORK_DECODE_ENUM(aDecoder, keyboardType);
+#endif
+        ORK_DECODE_BOOL(aDecoder, multipleLines);
+        ORK_DECODE_BOOL(aDecoder, hideClearButton);
+        ORK_DECODE_BOOL(aDecoder, hideCharacterCountLabel);
+        ORK_DECODE_BOOL(aDecoder, secureTextEntry);
+        ORK_DECODE_OBJ_CLASS(aDecoder, placeholder, NSString);
+#if RK_APPLE_INTERNAL
+        ORK_DECODE_OBJ_CLASS(aDecoder, scrubberNames, NSArray<NSString *>);
+#endif
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_INTEGER(aCoder, maximumLength);
+    ORK_ENCODE_OBJ(aCoder, validationRegularExpression);
+    ORK_ENCODE_OBJ(aCoder, invalidMessage);
+    ORK_ENCODE_OBJ(aCoder, defaultTextAnswer);
+#if TARGET_OS_IOS
+    ORK_ENCODE_OBJ(aCoder, textContentType);
+    if (@available(iOS 12.0, *)) {
+        ORK_ENCODE_OBJ(aCoder, passwordRules);
+    }
+    ORK_ENCODE_ENUM(aCoder, autocapitalizationType);
+    ORK_ENCODE_ENUM(aCoder, autocorrectionType);
+    ORK_ENCODE_ENUM(aCoder, spellCheckingType);
+    ORK_ENCODE_ENUM(aCoder, keyboardType);
+#endif
+    ORK_ENCODE_BOOL(aCoder, multipleLines);
+    ORK_ENCODE_BOOL(aCoder, hideClearButton);
+    ORK_ENCODE_BOOL(aCoder, hideCharacterCountLabel);
+    ORK_ENCODE_BOOL(aCoder, secureTextEntry);
+    ORK_ENCODE_OBJ(aCoder, placeholder);
+#if RK_APPLE_INTERNAL
+    ORK_ENCODE_OBJ(aCoder, scrubberNames);
+#endif
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+
+    
+    __typeof(self) castObject = object;
+#if TARGET_OS_IOS
+    BOOL equalPasswordRules = YES;
+    if (@available(iOS 12.0, *)) {
+        equalPasswordRules = ORKEqualObjects(self.passwordRules, castObject.passwordRules);
+    }
+#endif
+    return (isParentSame &&
+            (self.maximumLength == castObject.maximumLength &&
+             ORKEqualObjects(self.validationRegularExpression, castObject.validationRegularExpression) &&
+             ORKEqualObjects(self.invalidMessage, castObject.invalidMessage) &&
+             ORKEqualObjects(self.defaultTextAnswer, castObject.defaultTextAnswer) &&
+#if TARGET_OS_IOS
+             self.autocapitalizationType == castObject.autocapitalizationType &&
+             self.autocorrectionType == castObject.autocorrectionType &&
+             self.spellCheckingType == castObject.spellCheckingType &&
+             self.keyboardType == castObject.keyboardType &&
+             ORKEqualObjects(self.textContentType, castObject.textContentType) &&
+             equalPasswordRules &&
+#endif
+             self.multipleLines == castObject.multipleLines &&
+             self.hideClearButton == castObject.hideClearButton &&
+             self.hideCharacterCountLabel == castObject.hideCharacterCountLabel) &&
+             self.secureTextEntry == castObject.secureTextEntry) &&
+             ORKEqualObjects(self.placeholder, castObject.placeholder)
+#if RK_APPLE_INTERNAL
+             && ORKEqualObjects(self.scrubberNames, castObject.scrubberNames);
+#else
+             ;
+#endif
+}
+
+static NSString *const kSecureTextEntryEscapeString = @"*";
+
+- (NSString *)stringForAnswer:(id)answer {
+    NSString *answerString = nil;
+    if ([self isAnswerValid:answer]) {
+        answerString = _secureTextEntry ? [@"" stringByPaddingToLength:((NSString *)answer).length withString:kSecureTextEntryEscapeString startingAtIndex:0] : answer;
+    }
+
+    return answerString;
+}
+
+#if RK_APPLE_INTERNAL
+- (NSString *)scrubAnswer:(NSString *)answer {
+    NSString *answerString = answer;
+    for (PIIScrubber* scrubber in [self scrubbers]) {
+        answerString = [scrubber scrub:answerString];
+    }
+    return answerString;
+}
+#endif
+
+- (ORKQuestionResult *)resultWithIdentifier:(NSString *)identifier answer:(id)answer {
+    ORKQuestionResult *questionResult = nil;
+#if RK_APPLE_INTERNAL
+    answer = ([answer isKindOfClass:[NSString class]] ? [self scrubAnswer: (NSString *)answer] : answer);
+#endif
+    questionResult = (ORKQuestionResult *)[super resultWithIdentifier:identifier answer:answer];
+    return questionResult;
+}
+
+@end
+
+
+#pragma mark - ORKConfirmTextAnswerFormat
+
+@implementation ORKConfirmTextAnswerFormat
+
++ (instancetype)new {
+    ORKThrowMethodUnavailableException();
+}
+
+// Don't throw on -init nor -initWithMaximumLength: because they're internally used by -copyWithZone:
+
+- (instancetype)initWithValidationRegularExpression:(NSRegularExpression *)validationRegularExpression
+                                     invalidMessage:(NSString *)invalidMessage {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)initWithOriginalItemIdentifier:(NSString *)originalItemIdentifier
+                                  errorMessage:(NSString *)errorMessage {
+    
+    NSParameterAssert(originalItemIdentifier);
+    NSParameterAssert(errorMessage);
+    
+    self = [super init];
+    if (self) {
+        _originalItemIdentifier = [originalItemIdentifier copy];
+        _errorMessage = [errorMessage copy];
+    }
+    return self;
+}
+
+- (BOOL)isAnswerValid:(id)answer {
+    BOOL isValid = NO;
+    if ([answer isKindOfClass:[NSString class]]) {
+        NSString *stringAnswer = (NSString *)answer;
+        isValid = (stringAnswer.length > 0);
+    } else if ([answer isKindOfClass:[ORKDontKnowAnswer class]]) {
+        isValid = YES;
+    }
+    return isValid;
+}
+
+- (NSString *)localizedInvalidValueStringWithAnswerString:(NSString *)text {
+    return self.errorMessage;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKConfirmTextAnswerFormat *answerFormat = [super copyWithZone:zone];
+    answerFormat->_originalItemIdentifier = [_originalItemIdentifier copy];
+    answerFormat->_errorMessage = [_errorMessage copy];
+    return answerFormat;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ_CLASS(aDecoder, originalItemIdentifier, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, errorMessage, NSString);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, originalItemIdentifier);
+    ORK_ENCODE_OBJ(aCoder, errorMessage);
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            ORKEqualObjects(self.originalItemIdentifier, castObject.originalItemIdentifier) &&
+            ORKEqualObjects(self.errorMessage, castObject.errorMessage));
+}
+
+@end
+
+
 #pragma mark - ORKTimeOfDayAnswerFormat
 #if TARGET_OS_IOS
 @implementation ORKTimeOfDayAnswerFormat
@@ -3020,354 +3454,6 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 @end
 
 
-#pragma mark - ORKTextAnswerFormat
-
-@interface ORKTextAnswerFormat()
-
-#if RK_APPLE_INTERNAL
-///**
-// A Scrubber for PII
-//
-// */
-
-@property (nonatomic, readonly, copy) NSArray<PIIScrubber *> *scrubbers;
-#endif
-
-@end
-
-@implementation ORKTextAnswerFormat
-
-#if RK_APPLE_INTERNAL
-
-@synthesize scrubbers = _scrubbers;
-
-#endif
-
-- (Class)questionResultClass {
-    return [ORKTextQuestionResult class];
-}
-
-- (void)commonInit {
-#if TARGET_OS_IOS
-    _autocapitalizationType = UITextAutocapitalizationTypeSentences;
-    _autocorrectionType = UITextAutocorrectionTypeDefault;
-    _spellCheckingType = UITextSpellCheckingTypeDefault;
-    _keyboardType = UIKeyboardTypeDefault;
-    self.dontKnowButtonStyle = ORKDontKnowButtonStyleCircleChoice;
-#endif
-    _multipleLines = NO;
-    _hideClearButton = NO;
-    _hideCharacterCountLabel = NO;
-    
-}
-
-#if RK_APPLE_INTERNAL
-- (void)setScrubberNames:(NSArray *)scrubberNames {
-    if (_scrubberNames != scrubberNames) {
-        _scrubberNames = [scrubberNames copy];
-        _scrubbers = nil;
-    }
-}
-
--(NSArray *)scrubbers {
-    if (_scrubbers == nil) {
-        NSMutableArray *scrubbers = [NSMutableArray new];
-        for (NSString* scrubberName in _scrubberNames) {
-            [scrubbers addObject: [[PIIScrubber alloc] initWithScrubberName:scrubberName]];
-        }
-         _scrubbers = [scrubbers copy];
-    }
-    return _scrubbers;
-}
-#endif
-
-- (instancetype)initWithMaximumLength:(NSInteger)maximumLength {
-    self = [super init];
-    if (self) {
-        _maximumLength = maximumLength;
-        [self commonInit];
-    }
-    return self;
-}
-
-- (instancetype)initWithValidationRegularExpression:(NSRegularExpression *)validationRegularExpression
-                                     invalidMessage:(NSString *)invalidMessage {
-    self = [super init];
-    if (self) {
-        _validationRegularExpression = [validationRegularExpression copy];
-        _invalidMessage = [invalidMessage copy];
-        _maximumLength = 0;
-        [self commonInit];
-    }
-    return self;
-}
-
-- (instancetype)init {
-    self = [self initWithMaximumLength:0];
-    return self;
-}
-
-- (ORKQuestionType)questionType {
-    return ORKQuestionTypeText;
-}
-
-- (void)validateParameters {
-    [super validateParameters];
-    
-    if ( (!self.validationRegularExpression && self.invalidMessage) ||
-        (self.validationRegularExpression && !self.invalidMessage) ) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:@"Both regular expression and invalid message properties must be set."
-                                     userInfo:nil];
-    }
-}
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKTextAnswerFormat *answerFormat = [[[self class] allocWithZone:zone] init];
-    answerFormat->_maximumLength = _maximumLength;
-    answerFormat->_validationRegularExpression = [_validationRegularExpression copy];
-    answerFormat->_invalidMessage = [_invalidMessage copy];
-    answerFormat->_defaultTextAnswer = [_defaultTextAnswer copy];
-    answerFormat->_multipleLines = _multipleLines;
-    answerFormat->_hideClearButton = _hideClearButton;
-    answerFormat->_hideCharacterCountLabel = _hideCharacterCountLabel;
-    answerFormat->_secureTextEntry = _secureTextEntry;
-    answerFormat->_placeholder = _placeholder;
-    answerFormat.showDontKnowButton = self.showDontKnowButton;
-    answerFormat.customDontKnowButtonText = [self.customDontKnowButtonText copy];
-    answerFormat.dontKnowButtonStyle = self.dontKnowButtonStyle;
-#if TARGET_OS_IOS
-    answerFormat->_autocapitalizationType = _autocapitalizationType;
-    answerFormat->_autocorrectionType = _autocorrectionType;
-    answerFormat->_spellCheckingType = _spellCheckingType;
-    answerFormat->_keyboardType = _keyboardType;
-    answerFormat->_textContentType = _textContentType;
-#if RK_APPLE_INTERNAL
-    answerFormat->_scrubberNames = [_scrubberNames copy];
-#endif
-    if (@available(iOS 12.0, *)) {
-        answerFormat->_passwordRules = _passwordRules;
-    }
-#endif
-    
-    return answerFormat;
-}
-
-- (BOOL)isAnswerValid:(id)answer {
-    BOOL isValid = NO;
-    if ([answer isKindOfClass:[NSString class]]) {
-        isValid = [self isAnswerValidWithString:(NSString *)answer];
-    } else if ([answer isKindOfClass:[ORKDontKnowAnswer class]]) {
-        isValid = YES;
-    }
-    return isValid;
-}
-
-- (BOOL)isAnswerValidWithString:(NSString *)text {
-    BOOL isValid = NO;
-    
-    if (text &&
-        [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0)
-    {
-        isValid = ([self isTextLengthValidWithString:text] && [self isTextRegularExpressionValidWithString:text]);
-    }
-    return isValid;
-}
-
-- (BOOL)isTextLengthValidWithString:(NSString *)text {
-    return (_maximumLength == 0 || text.length <= _maximumLength);
-}
-
-- (BOOL)isTextRegularExpressionValidWithString:(NSString *)text {
-    BOOL isValid = YES;
-    if (self.validationRegularExpression) {
-        NSUInteger regularExpressionMatches = [_validationRegularExpression numberOfMatchesInString:text
-                                                                                            options:(NSMatchingOptions)0
-                                                                                              range:NSMakeRange(0, [text length])];
-        isValid = (regularExpressionMatches != 0);
-    }
-    return isValid;
-}
-
-- (NSString *)localizedInvalidValueStringWithAnswerString:(NSString *)text {
-    NSString *string = @"";
-    if (![self isTextLengthValidWithString:text]) {
-        string = [NSString localizedStringWithFormat:ORKLocalizedString(@"TEXT_ANSWER_EXCEEDING_MAX_LENGTH_ALERT_MESSAGE", nil), ORKLocalizedStringFromNumber(@(_maximumLength))];
-    }
-    if (![self isTextRegularExpressionValidWithString:text]) {
-        if (string.length > 0) {
-            string = [string stringByAppendingString:@"\n"];
-        }
-        string = [string stringByAppendingString:[NSString localizedStringWithFormat:ORKLocalizedString(_invalidMessage, nil), text]];
-    }
-    return string;
-}
-
-
-- (ORKAnswerFormat *)confirmationAnswerFormatWithOriginalItemIdentifier:(NSString *)originalItemIdentifier
-                                                           errorMessage:(NSString *)errorMessage {
-    
-    NSAssert(!self.multipleLines, @"Confirmation Answer Format is not currently defined for ORKTextAnswerFormat with multiple lines.");
-    
-    ORKTextAnswerFormat *answerFormat = [[ORKConfirmTextAnswerFormat alloc] initWithOriginalItemIdentifier:originalItemIdentifier errorMessage:errorMessage];
-    
-    // Copy from ORKTextAnswerFormat being confirmed
-    answerFormat->_maximumLength = _maximumLength;
-    answerFormat->_multipleLines = _multipleLines;
-    answerFormat->_hideClearButton = _hideClearButton;
-    answerFormat->_hideCharacterCountLabel = _hideCharacterCountLabel;
-    answerFormat->_secureTextEntry = _secureTextEntry;
-#if TARGET_OS_IOS
-    answerFormat->_keyboardType = _keyboardType;
-    answerFormat->_autocapitalizationType = _autocapitalizationType;
-    answerFormat->_textContentType = _textContentType;
-#if RK_APPLE_INTERNAL
-    answerFormat->_scrubberNames = [_scrubberNames copy];
-#endif
-    if (@available(iOS 12.0, *)) {
-        answerFormat->_passwordRules = _passwordRules;
-    }
-    
-    // Always set to no autocorrection or spell checking
-    answerFormat->_autocorrectionType = UITextAutocorrectionTypeNo;
-    answerFormat->_spellCheckingType = UITextSpellCheckingTypeNo;
-#endif
-    answerFormat->_placeholder = _placeholder;
-    
-    return answerFormat;
-}
-
-#pragma mark NSSecureCoding
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        _multipleLines = NO;
-        ORK_DECODE_INTEGER(aDecoder, maximumLength);
-        ORK_DECODE_OBJ_CLASS(aDecoder, validationRegularExpression, NSRegularExpression);
-        ORK_DECODE_OBJ_CLASS(aDecoder, invalidMessage, NSString);
-        ORK_DECODE_OBJ_CLASS(aDecoder, defaultTextAnswer, NSString);
-#if TARGET_OS_IOS
-        ORK_DECODE_OBJ_CLASS(aDecoder, textContentType, NSString);
-        if (@available(iOS 12.0, *)) {
-            ORK_DECODE_OBJ_CLASS(aDecoder, passwordRules, UITextInputPasswordRules);
-        }
-        ORK_DECODE_ENUM(aDecoder, autocapitalizationType);
-        ORK_DECODE_ENUM(aDecoder, autocorrectionType);
-        ORK_DECODE_ENUM(aDecoder, spellCheckingType);
-        ORK_DECODE_ENUM(aDecoder, keyboardType);
-#endif
-        ORK_DECODE_BOOL(aDecoder, multipleLines);
-        ORK_DECODE_BOOL(aDecoder, hideClearButton);
-        ORK_DECODE_BOOL(aDecoder, hideCharacterCountLabel);
-        ORK_DECODE_BOOL(aDecoder, secureTextEntry);
-        ORK_DECODE_OBJ_CLASS(aDecoder, placeholder, NSString);
-#if RK_APPLE_INTERNAL
-        ORK_DECODE_OBJ_CLASS(aDecoder, scrubberNames, NSArray<NSString *>);
-#endif
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_INTEGER(aCoder, maximumLength);
-    ORK_ENCODE_OBJ(aCoder, validationRegularExpression);
-    ORK_ENCODE_OBJ(aCoder, invalidMessage);
-    ORK_ENCODE_OBJ(aCoder, defaultTextAnswer);
-#if TARGET_OS_IOS
-    ORK_ENCODE_OBJ(aCoder, textContentType);
-    if (@available(iOS 12.0, *)) {
-        ORK_ENCODE_OBJ(aCoder, passwordRules);
-    }
-    ORK_ENCODE_ENUM(aCoder, autocapitalizationType);
-    ORK_ENCODE_ENUM(aCoder, autocorrectionType);
-    ORK_ENCODE_ENUM(aCoder, spellCheckingType);
-    ORK_ENCODE_ENUM(aCoder, keyboardType);
-#endif
-    ORK_ENCODE_BOOL(aCoder, multipleLines);
-    ORK_ENCODE_BOOL(aCoder, hideClearButton);
-    ORK_ENCODE_BOOL(aCoder, hideCharacterCountLabel);
-    ORK_ENCODE_BOOL(aCoder, secureTextEntry);
-    ORK_ENCODE_OBJ(aCoder, placeholder);
-#if RK_APPLE_INTERNAL
-    ORK_ENCODE_OBJ(aCoder, scrubberNames);
-#endif
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-
-    
-    __typeof(self) castObject = object;
-#if TARGET_OS_IOS
-    BOOL equalPasswordRules = YES;
-    if (@available(iOS 12.0, *)) {
-        equalPasswordRules = ORKEqualObjects(self.passwordRules, castObject.passwordRules);
-    }
-#endif
-    return (isParentSame &&
-            (self.maximumLength == castObject.maximumLength &&
-             ORKEqualObjects(self.validationRegularExpression, castObject.validationRegularExpression) &&
-             ORKEqualObjects(self.invalidMessage, castObject.invalidMessage) &&
-             ORKEqualObjects(self.defaultTextAnswer, castObject.defaultTextAnswer) &&
-#if TARGET_OS_IOS
-             self.autocapitalizationType == castObject.autocapitalizationType &&
-             self.autocorrectionType == castObject.autocorrectionType &&
-             self.spellCheckingType == castObject.spellCheckingType &&
-             self.keyboardType == castObject.keyboardType &&
-             ORKEqualObjects(self.textContentType, castObject.textContentType) &&
-             equalPasswordRules &&
-#endif
-             self.multipleLines == castObject.multipleLines &&
-             self.hideClearButton == castObject.hideClearButton &&
-             self.hideCharacterCountLabel == castObject.hideCharacterCountLabel) &&
-             self.secureTextEntry == castObject.secureTextEntry) &&
-             ORKEqualObjects(self.placeholder, castObject.placeholder)
-#if RK_APPLE_INTERNAL
-             && ORKEqualObjects(self.scrubberNames, castObject.scrubberNames);
-#else
-             ;
-#endif
-}
-
-static NSString *const kSecureTextEntryEscapeString = @"*";
-
-- (NSString *)stringForAnswer:(id)answer {
-    NSString *answerString = nil;
-    if ([self isAnswerValid:answer]) {
-        answerString = _secureTextEntry ? [@"" stringByPaddingToLength:((NSString *)answer).length withString:kSecureTextEntryEscapeString startingAtIndex:0] : answer;
-    }
-
-    return answerString;
-}
-
-#if RK_APPLE_INTERNAL
-- (NSString *)scrubAnswer:(NSString *)answer {
-    NSString *answerString = answer;
-    for (PIIScrubber* scrubber in [self scrubbers]) {
-        answerString = [scrubber scrub:answerString];
-    }
-    return answerString;
-}
-#endif
-
-- (ORKQuestionResult *)resultWithIdentifier:(NSString *)identifier answer:(id)answer {
-    ORKQuestionResult *questionResult = nil;
-#if RK_APPLE_INTERNAL
-    answer = ([answer isKindOfClass:[NSString class]] ? [self scrubAnswer: (NSString *)answer] : answer);
-#endif 
-    questionResult = (ORKQuestionResult *)[super resultWithIdentifier:identifier answer:answer];
-    return questionResult;
-}
-
-@end
-
-
 #pragma mark - ORKEmailAnswerFormat
 
 @implementation ORKEmailAnswerFormat {
@@ -3418,88 +3504,6 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 
     }
 #endif
-}
-
-@end
-
-
-#pragma mark - ORKConfirmTextAnswerFormat
-
-@implementation ORKConfirmTextAnswerFormat
-
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-// Don't throw on -init nor -initWithMaximumLength: because they're internally used by -copyWithZone:
-
-- (instancetype)initWithValidationRegularExpression:(NSRegularExpression *)validationRegularExpression
-                                     invalidMessage:(NSString *)invalidMessage {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)initWithOriginalItemIdentifier:(NSString *)originalItemIdentifier
-                                  errorMessage:(NSString *)errorMessage {
-    
-    NSParameterAssert(originalItemIdentifier);
-    NSParameterAssert(errorMessage);
-    
-    self = [super init];
-    if (self) {
-        _originalItemIdentifier = [originalItemIdentifier copy];
-        _errorMessage = [errorMessage copy];
-    }
-    return self;
-}
-
-- (BOOL)isAnswerValid:(id)answer {
-    BOOL isValid = NO;
-    if ([answer isKindOfClass:[NSString class]]) {
-        NSString *stringAnswer = (NSString *)answer;
-        isValid = (stringAnswer.length > 0);
-    } else if ([answer isKindOfClass:[ORKDontKnowAnswer class]]) {
-        isValid = YES;
-    }
-    return isValid;
-}
-
-- (NSString *)localizedInvalidValueStringWithAnswerString:(NSString *)text {
-    return self.errorMessage;
-}
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKConfirmTextAnswerFormat *answerFormat = [super copyWithZone:zone];
-    answerFormat->_originalItemIdentifier = [_originalItemIdentifier copy];
-    answerFormat->_errorMessage = [_errorMessage copy];
-    return answerFormat;
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_OBJ_CLASS(aDecoder, originalItemIdentifier, NSString);
-        ORK_DECODE_OBJ_CLASS(aDecoder, errorMessage, NSString);
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_OBJ(aCoder, originalItemIdentifier);
-    ORK_ENCODE_OBJ(aCoder, errorMessage);
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    
-    __typeof(self) castObject = object;
-    return (isParentSame &&
-            ORKEqualObjects(self.originalItemIdentifier, castObject.originalItemIdentifier) &&
-            ORKEqualObjects(self.errorMessage, castObject.errorMessage));
 }
 
 @end
