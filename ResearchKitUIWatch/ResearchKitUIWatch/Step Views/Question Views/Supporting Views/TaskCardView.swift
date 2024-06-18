@@ -30,59 +30,32 @@
 
 import SwiftUI
 
-public struct TaskCardView<Content: View>: View {
-    @Environment(\.colorScheme) var colorScheme
+/// A card that displays a header view, a divider line, and an answer view.
 
-    let title: Text?
-    let detail: Text?
+public struct TaskCardView<Header: View, Content: View>: View {
+    @Environment(\.colorScheme) var colorScheme
+    let header: Header
     let content: Content
 
-    public init(title: Text?,
-         detail: Text?,
-         @ViewBuilder content: () -> Content
+    init(
+        @ViewBuilder header: () -> Header,
+        @ViewBuilder content: () -> Content
     ) {
+        self.header = header()
         self.content = content()
-        self.title = title
-        self.detail = detail
     }
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            stepSectionHeaderView()
-                .padding(.top)
-                .padding(.horizontal)
+            header
 
-            if title != nil || detail != nil {
-                Divider()
-            }
+            Divider()
 
-            VStack {
-                content
-            }
-            .padding(.horizontal)
-            .padding(.bottom)
+            content
         }
+        .padding()
         .background(.cardColor)
         .clipShape(RoundedRectangle(cornerRadius: 12))
-    }
-    
-    @ViewBuilder
-    private func stepSectionHeaderView() -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            if let detail {
-                detail
-                    .foregroundColor(.secondary)
-                    .font(.footnote)
-                    .fontWeight(.bold)
-            }
-
-            if let title {
-                title
-                    .foregroundStyle(Color(.label))
-                    .font(.body)
-                    .fontWeight(.bold)
-            }
-        }
     }
 }
 
@@ -106,11 +79,43 @@ struct CardColor: ShapeStyle {
     
 }
 
+public extension TaskCardView where Header == _SimpleTaskViewHeader {
+    init(
+        title: String,
+        detail: String?,
+        content: () -> Content
+    ) {
+        self.header = _SimpleTaskViewHeader(title: title, detail: detail)
+        self.content = content()
+    }
+}
+
+/// The default header used by a `TaskCardView`
+public struct _SimpleTaskViewHeader: View {
+
+    let title: String
+    let detail: String?
+
+    public var body: some View {
+        if let detail {
+            Text(detail)
+                .foregroundColor(.secondary)
+                .font(.footnote)
+                .fontWeight(.bold)
+        }
+
+        Text(title)
+            .foregroundStyle(Color(.label))
+            .font(.body)
+            .fontWeight(.bold)
+    }
+}
+
 struct TaskCardView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             Spacer()
-            TaskCardView(title: Text("What is your name?"), detail: Text("Question 1 of 3")) {
+            TaskCardView(title: "What is your name?", detail: "Question 1 of 3") {
                 Text("Specific component content will show up here")
             }
             Spacer()

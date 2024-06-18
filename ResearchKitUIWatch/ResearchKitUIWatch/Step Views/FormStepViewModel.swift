@@ -96,8 +96,13 @@ class FormStepViewModel: ObservableObject {
                 let result = ORKTextQuestionResult(identifier: textSliderRow.id)
                 result.textAnswer = textSliderRow.result.choiceText as String
                 resultArray.append(result)
+
+            case .textRow(let textQuestionRow):
+                let result = ORKTextQuestionResult(identifier: "")
+                result.textAnswer = textQuestionRow.text
+                resultArray.append(result)
             }
-            
+
             // Step result may be nil if the user skipped a step
             if resultArray.isEmpty == false {
                 self.result.results = resultArray

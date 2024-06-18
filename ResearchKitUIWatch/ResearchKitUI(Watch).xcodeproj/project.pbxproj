@@ -20,6 +20,7 @@
 		0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */ = {isa = PBXBuildFile; fileRef = 0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */; };
 		38CD26102C1909CC000FDBB0 /* TaskCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CD260F2C1909CC000FDBB0 /* TaskCardView.swift */; };
 		38CD26392C1B90F3000FDBB0 /* RKAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CD26382C1B90F3000FDBB0 /* RKAdapter.swift */; };
+		38CD263B2C1BA6EA000FDBB0 /* TextQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CD263A2C1BA6EA000FDBB0 /* TextQuestionView.swift */; };
 		5E507F812C1141F2002958E2 /* SliderValueForegroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E507F802C1141F2002958E2 /* SliderValueForegroundStyle.swift */; };
 		5E7596BD2BE049B90088F7B7 /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7596BC2BE049B90088F7B7 /* ResearchKit.framework */; };
 		5EDFA9D72BFFFA2B0044C156 /* StepHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDFA9D62BFFFA2B0044C156 /* StepHeaderView.swift */; };
@@ -64,6 +65,7 @@
 		0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ResearchKitUIWatch.docc; sourceTree = "<group>"; };
 		38CD260F2C1909CC000FDBB0 /* TaskCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCardView.swift; sourceTree = "<group>"; };
 		38CD26382C1B90F3000FDBB0 /* RKAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKAdapter.swift; sourceTree = "<group>"; };
+		38CD263A2C1BA6EA000FDBB0 /* TextQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextQuestionView.swift; sourceTree = "<group>"; };
 		5E507F802C1141F2002958E2 /* SliderValueForegroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderValueForegroundStyle.swift; sourceTree = "<group>"; };
 		5E7596BC2BE049B90088F7B7 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EDFA9D62BFFFA2B0044C156 /* StepHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepHeaderView.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				E4DBF1B52B97C2AC0085D6A1 /* MultipleChoiceQuestion.swift */,
 				E4DBF1B32B97C2980085D6A1 /* BooleanQuestion.swift */,
 				BA32DE9E2BCF34440041A937 /* ScaleSliderQuestion.swift */,
+				38CD263A2C1BA6EA000FDBB0 /* TextQuestionView.swift */,
 			);
 			path = "Question Views";
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 				E4E1CD592BED9ECE0030D1F5 /* FormRow.swift in Sources */,
 				0B7213512B4F39CC00463E69 /* TaskView.swift in Sources */,
 				0B7213422B4F396B00463E69 /* CompletionStepView.swift in Sources */,
+				38CD263B2C1BA6EA000FDBB0 /* TextQuestionView.swift in Sources */,
 				38CD26392C1B90F3000FDBB0 /* RKAdapter.swift in Sources */,
 				BA32DE9F2BCF34440041A937 /* ScaleSliderQuestion.swift in Sources */,
 				0B72134F2B4F39CC00463E69 /* View+Task.swift in Sources */,

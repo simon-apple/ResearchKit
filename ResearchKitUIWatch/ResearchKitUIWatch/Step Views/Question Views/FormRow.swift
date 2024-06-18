@@ -37,6 +37,7 @@ public enum FormRow: Identifiable {
     case doubleSliderRow(ScaleSliderQuestion<Double>)
     case intSliderRow(ScaleSliderQuestion<Int>)
     case textSliderStep(ScaleSliderQuestion<MultipleChoiceOption>)
+    case textRow(TextQuestion)
 
     public var id: String {
         switch self {
@@ -48,6 +49,8 @@ public enum FormRow: Identifiable {
             intSlider.id
         case .textSliderStep(let textSlider):
             textSlider.id
+        case .textRow(let textValue):
+            textValue.id
         }
     }
 
@@ -62,6 +65,8 @@ public enum FormRow: Identifiable {
             title = scaleSliderQuestion.title
         case .textSliderStep(let scaleSliderQuestion):
             title = scaleSliderQuestion.title
+        case .textRow(let textValue):
+            title = textValue.title
         }
         return title
     }
