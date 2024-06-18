@@ -85,7 +85,6 @@ double const TableViewSectionHeaderHeight = 30.0;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor yellowColor];
     
     [self _setupTableView];
     [self _setupConstraints];
@@ -140,7 +139,7 @@ double const TableViewSectionHeaderHeight = 30.0;
 }
 
 - (void)_updateViewColors {
-    UIColor *updateColor =  self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray6Color] : [UIColor systemGroupedBackgroundColor];;
+    UIColor *updateColor =  self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray6Color] : [UIColor secondarySystemGroupedBackgroundColor];
     self.view.backgroundColor = updateColor;
     _tableView.backgroundColor = updateColor;
     [self _updateNavBarBackgroundColor: updateColor];

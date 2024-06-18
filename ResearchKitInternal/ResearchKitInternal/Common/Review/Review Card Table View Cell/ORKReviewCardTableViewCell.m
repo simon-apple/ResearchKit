@@ -73,7 +73,7 @@ static const CGFloat ContentLeftRightPadding = 16.0;
 
 - (void)_setupBackgoundView {
     _backgroundView = [UIView new];
-    _backgroundView.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
+    _backgroundView.backgroundColor = [UIColor systemGroupedBackgroundColor];
     _backgroundView.clipsToBounds = YES;
     _backgroundView.layer.cornerRadius = BackgroundViewCornerRadius;
     _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
