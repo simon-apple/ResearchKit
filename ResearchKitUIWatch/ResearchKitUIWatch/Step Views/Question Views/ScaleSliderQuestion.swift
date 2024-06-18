@@ -145,9 +145,9 @@ extension ScaleSliderQuestion where ResultType == MultipleChoiceOption {
 // TODO(rdar://129033515): Update name of this module to reflect just the slider without the header.
 public struct ScaleSliderQuestionView: View {
 
-    var title: Text
+    var title: String
 
-    var detail: Text?
+    var detail: String?
 
     var scaleSelectionConfiguration: ScaleSelectionConfiguration
 
@@ -191,8 +191,8 @@ public struct ScaleSliderQuestionView: View {
     }
 
     public init(
-        title: Text,
-        detail: Text? = nil,
+        title: String,
+        detail: String? = nil,
         range: ClosedRange<Double>,
         step: Double = 1.0,
         selection: Binding<Double>
@@ -207,8 +207,8 @@ public struct ScaleSliderQuestionView: View {
 
     // The int version
     public init(
-        title: Text,
-        detail: Text? = nil,
+        title: String,
+        detail: String? = nil,
         range: ClosedRange<Int>,
         step: Double = 1.0,
         selection: Binding<Int>
@@ -223,8 +223,8 @@ public struct ScaleSliderQuestionView: View {
 
     // The multi choice version
     public init(
-        title: Text,
-        detail: Text? = nil,
+        title: String,
+        detail: String? = nil,
         multipleChoiceOptions: [MultipleChoiceOption],
         selection: Binding<MultipleChoiceOption>
     ) {

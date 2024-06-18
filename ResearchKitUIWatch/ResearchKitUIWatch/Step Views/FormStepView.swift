@@ -53,8 +53,8 @@ struct FormStepView: View {
                 }
                 ForEach(Array($viewModel.formRows.enumerated()), id: \.offset) { index, $formRow in
                     content(
-                        title: Text("\(formRow.title)"),
-                        detail: Text("Step \(index + 1) of \(viewModel.formRows.count)"),
+                        title: "\(formRow.title)",
+                        detail: "Step \(index + 1) of \(viewModel.formRows.count)",
                         for: $formRow
                     )
                 }
@@ -86,8 +86,8 @@ struct FormStepView: View {
     
     @ViewBuilder
     private func content(
-        title: Text,
-        detail: Text,
+        title: String,
+        detail: String,
         for formRow: Binding<FormRow>
     ) -> some View {
         switch formRow.wrappedValue {
@@ -171,7 +171,30 @@ struct FormStepView: View {
                     )
                 })
             )
+        case .textRow(let textQuestion):
+            TextQuestionView(
+                text: .init(get: {
+                    return textQuestion.text
+                }, set: { newValue in
+                    formRow.wrappedValue = .textRow(
+                        TextQuestion(
+                            title: textQuestion.title,
+                            id: textQuestion.id,
+                            text: newValue,
+                            prompt: textQuestion.prompt,
+                            textFieldType: textQuestion.textFieldType,
+                            characterLimit: textQuestion.characterLimit,
+                            hideCharacterCountLabel: textQuestion.hideCharacterCountLabel,
+                            hideClearButton: textQuestion.hideClearButton
+                        )
+                    )
+                }),
+                title: title,
+                detail: detail,
+                prompt: textQuestion.prompt,
+                textFieldType: textQuestion.textFieldType,
+                characterLimit: textQuestion.characterLimit
+            )
         }
     }
-    
 }
