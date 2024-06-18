@@ -44,9 +44,7 @@ static const CGFloat ContentLeftRightPadding = 16.0;
 
 @implementation ORKReviewCardTableViewCell {
     ORKReviewCard *_reviewCard;
-    
     UIView *_backgroundView;
-    
     NSMutableArray<NSLayoutConstraint *> *_viewConstraints;
 }
 

@@ -1047,6 +1047,19 @@ enum TaskListRowSteps {
         return weightQuestionStep
     }
     
+    static var readOnlyTextChoiceQuestionStepExample: ORKQuestionStep {
+        let appleChoices: [ORKTextChoice] = [ORKTextChoice(text: "Granny Smith", value: 1 as NSNumber), ORKTextChoice(text: "Honeycrisp", value: 2 as NSNumber), ORKTextChoice(text: "Fuji", value: 3 as NSNumber), ORKTextChoice(text: "McIntosh", value: 10 as NSNumber), ORKTextChoice(text: "Kanzi", value: 5 as NSNumber)]
+        
+        let appleAnswerFormat = ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: appleChoices)
+        
+        let textChoiceQuestionStep = ORKQuestionStep(identifier: String(describing: Identifier.textQuestionStep))
+        textChoiceQuestionStep.text = "Text Choice Question"
+        textChoiceQuestionStep.question = "Which is your favorite apple?"
+        textChoiceQuestionStep.answerFormat = appleAnswerFormat
+        
+        return textChoiceQuestionStep
+    }
+    
     static var readOnlyInstructionStepExample: ORKInstructionStep {
         let instructionStep = ORKInstructionStep(identifier: String(describing: Identifier.surveyTask))
         instructionStep.title = "Read Only View Example"
