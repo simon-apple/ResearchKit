@@ -71,7 +71,7 @@ struct CardColor: ShapeStyle {
     
     func resolve(in environment: EnvironmentValues) -> some ShapeStyle {
 #if os(iOS)
-        environment.colorScheme == .dark ? Color(uiColor: .systemGray5) : .white
+        environment.colorScheme == .dark ? Color(uiColor: .systemGray4) : .white
 #elseif os(visionOS)
         .regularMaterial
 #endif
