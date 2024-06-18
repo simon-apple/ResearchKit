@@ -29,12 +29,12 @@
  */
 
 #import "ORKICompletionStepViewController.h"
-#import "ORKICompletionStep.h"
 #import "ORKContext.h"
 
 #import "ResearchKitUI/ORKInstructionStepViewController_Internal.h"
 #import "ResearchKitUI/ORKTaskViewController_Internal.h"
 #import "ResearchKitUI/ORKStepViewController_Internal.h"
+#import <ResearchKitInternal/ORKITaskViewController.h>
 
 
 @implementation ORKICompletionStepViewController

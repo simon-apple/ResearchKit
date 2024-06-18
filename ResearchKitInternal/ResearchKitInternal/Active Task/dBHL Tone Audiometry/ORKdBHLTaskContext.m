@@ -53,7 +53,12 @@ static NSString *const ORKdBHLTaskHeadphoneRequiredStepIdentifier = @"ORKdBHLCom
         if (completionStep) {
             [currentTask removeSkipNavigationRuleForStepIdentifier:self.headphoneRequiredIdentifier];
         } else {
-            completionStep = [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:self.headphoneRequiredIdentifier requiredHeadphoneTypes:ORKHeadphoneTypesSupported];
+            ORKHeadphoneTypeIdentifier lockedHeadphone = nil;
+            if ([step isKindOfClass:[ORKHeadphoneDetectStep class]]) {
+                ORKHeadphoneDetectStep *detectStep = (ORKHeadphoneDetectStep *)step;
+                lockedHeadphone = [detectStep lockedToAppleHeadphoneType];
+            }
+            completionStep = [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:self.headphoneRequiredIdentifier requiredHeadphoneTypes:ORKHeadphoneTypesSupported lockedToAppleHeadphoneType:lockedHeadphone];
             [currentTask insertStep:completionStep atIndex:[currentTask indexOfStep:step]+1];
         }
         

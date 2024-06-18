@@ -70,6 +70,7 @@ class SystemSound {
 enum TaskListRow: Int, CustomStringConvertible {
     case form = 0
     case groupedForm
+    case groupedFormNoScroll
     case survey
     case dontknowSurvey
     case surveyWithMultipleOptions
@@ -79,7 +80,9 @@ enum TaskListRow: Int, CustomStringConvertible {
     case dateTimeQuestion
     case date3DayLimitQuestionTask
     case imageChoiceQuestion
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
     case locationQuestion
+#endif
     case numericQuestion
     case scaleQuestion
     case textQuestion
@@ -124,7 +127,9 @@ enum TaskListRow: Int, CustomStringConvertible {
     case walkBackAndForth
     case heightQuestion
     case weightQuestion
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     case healthQuantity
+#endif
     case kneeRangeOfMotion
     case shoulderRangeOfMotion
     case trailMaking
@@ -133,6 +138,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case webView
     case consentTask
     case consentDoc
+    case usdzModel
     
     #if RK_APPLE_INTERNAL
     case ageQuestion
@@ -140,10 +146,13 @@ enum TaskListRow: Int, CustomStringConvertible {
     case predefinedSpeechInNoiseTask
     case predefinedAVJournalingTask
     case predefinedTinnitusTask
+    case predefinedSelectableHeadphoneTask
     case ble
     case textQuestionPIIScrubbing
+    case methodOfAdjustmentdBHLToneAudiometryTask
     case newdBHLToneAudiometryTask
     case customStepTask
+    case settingStatusStepTask
     case studyPromoTask
     case studySignPostStep
     case familyHistoryReviewTask
@@ -151,6 +160,8 @@ enum TaskListRow: Int, CustomStringConvertible {
     case colorChoiceQuestion
     case familyHistory
     case booleanConditionalFormTask
+    case readOnlyFormStepTask
+    case readOnlyFamilyHistoryTask
     #endif
     
     class TaskListRowSection {
@@ -171,6 +182,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                 [
                     .dontknowSurvey,
                     .groupedForm,
+                    .groupedFormNoScroll,
                     .form,
                     .survey,
                     .surveyWithMultipleOptions
@@ -182,10 +194,8 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .dateTimeQuestion,
                     .dateQuestion,
                     .date3DayLimitQuestionTask,
-                    .healthQuantity,
                     .heightQuestion,
                     .imageChoiceQuestion,
-                    .locationQuestion,
                     .numericQuestion,
                     .scaleQuestion,
                     .textChoiceQuestion,
@@ -214,6 +224,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .imageCapture,
                     .PDFViewer,
                     .requestPermissions,
+                    .usdzModel,
                     .videoCapture,
                     .videoInstruction,
                     .wait,
@@ -259,17 +270,42 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .familyHistory,
                     .familyHistoryReviewTask,
                     .longHeaderTask,
+                    .methodOfAdjustmentdBHLToneAudiometryTask,
                     .newdBHLToneAudiometryTask,
                     .platterUIQuestion,
                     .predefinedAVJournalingTask,
                     .predefinedSpeechInNoiseTask,
+                    .predefinedSelectableHeadphoneTask,
                     .predefinedTinnitusTask,
+                    .readOnlyFamilyHistoryTask,
+                    .readOnlyFormStepTask,
+                    .settingStatusStepTask,
                     .studyPromoTask,
                     .studySignPostStep,
                     .textQuestionPIIScrubbing,
                 ])]
             defaultSections = (defaultSections + internalSections)
             #endif
+        
+            #if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
+             let healthSections:[TaskListRowSection] = [
+                 TaskListRowSection(title: "Health", rows:
+                     [
+                         .healthQuantity
+                     ])
+             ]
+             defaultSections = defaultSections + healthSections
+             #endif
+            
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+        let locationSections:[TaskListRowSection] = [
+            TaskListRowSection(title: "Location", rows:
+                [
+                    .locationQuestion,
+                ])
+            ]
+        defaultSections = defaultSections + locationSections
+#endif
         
             return defaultSections
         }
@@ -279,13 +315,16 @@ enum TaskListRow: Int, CustomStringConvertible {
     var description: String {
         switch self {
         case .form:
-            return NSLocalizedString("Form Survey Example", comment: "")
+            return NSLocalizedString("Form Survey", comment: "")
             
         case .groupedForm:
-            return NSLocalizedString("Grouped Form Survey Example", comment: "")
+            return NSLocalizedString("Grouped Form Survey", comment: "")
+            
+        case .groupedFormNoScroll:
+            return NSLocalizedString("Grouped Form Survey No AutoScroll", comment: "")
 
         case .survey:
-            return NSLocalizedString("Simple Survey Example", comment: "")
+            return NSLocalizedString("Simple Survey", comment: "")
             
         case .dontknowSurvey:
             return NSLocalizedString("Don't Know Survey", comment: "")
@@ -310,15 +349,16 @@ enum TaskListRow: Int, CustomStringConvertible {
     
         case .weightQuestion:
             return NSLocalizedString("Weight Question", comment: "")
-        
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
         case .healthQuantity:
             return NSLocalizedString("Health Quantity Question", comment: "")
-            
+#endif
         case .imageChoiceQuestion:
             return NSLocalizedString("Image Choice Question", comment: "")
-            
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
         case .locationQuestion:
             return NSLocalizedString("Location Question", comment: "")
+#endif
             
         case .numericQuestion:
             return NSLocalizedString("Numeric Question", comment: "")
@@ -470,6 +510,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .consentDoc:
             return NSLocalizedString("Consent Document Review", comment: "")
             
+        case .usdzModel:
+            return NSLocalizedString("USDZ Model", comment: "")
+            
         #if RK_APPLE_INTERNAL
         case .ageQuestion:
             return NSLocalizedString("Age Question", comment: "")
@@ -485,6 +528,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .predefinedTinnitusTask:
             return NSLocalizedString("Predefined Tinnitus", comment: "")
+            
+        case .predefinedSelectableHeadphoneTask:
+            return NSLocalizedString("Selectable Heaphone Detector", comment: "")
         
         case .ble:
             return NSLocalizedString("BLE", comment: "")
@@ -492,11 +538,17 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .textQuestionPIIScrubbing:
             return NSLocalizedString("Text Question PII Scrubbing", comment: "")
             
+        case .methodOfAdjustmentdBHLToneAudiometryTask:
+            return NSLocalizedString("Method Of Adjustment Tone Audiometry", comment: "")
+            
         case .newdBHLToneAudiometryTask:
             return NSLocalizedString("dBHL Tone Audiometry (New Algorithm)", comment: "")
             
         case .customStepTask:
             return NSLocalizedString("Custom Step Task", comment: "")
+            
+        case .settingStatusStepTask:
+            return NSLocalizedString("Setting Status Step Task", comment: "")
             
         case .studyPromoTask:
             return NSLocalizedString("Study Promo View Controller", comment: "")
@@ -518,8 +570,14 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .booleanConditionalFormTask:
             return NSLocalizedString("Boolean Conditional Form Task", comment: "")
-
+            
+        case .readOnlyFormStepTask:
+            return NSLocalizedString("Read Only Form Step Task", comment: "")
+            
+        case .readOnlyFamilyHistoryTask:
+            return NSLocalizedString("Read Only Family History Step Task", comment: "")
         #endif
+            
         case .surveyWithMultipleOptions:
             return NSLocalizedString("Survey With Multiple Options", comment: "")
         }
@@ -535,6 +593,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .groupedForm:
             return groupedFormTask
+            
+        case .groupedFormNoScroll:
+            return groupedFormTaskNoScroll
     
         case .surveyWithMultipleOptions:
             return formTaskWithMultipleOptions
@@ -565,15 +626,19 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .weightQuestion:
             return weightQuestionTask
-            
+  
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
         case .healthQuantity:
             return healthQuantityTypeTask
+#endif
             
         case .imageChoiceQuestion:
             return imageChoiceQuestionTask
             
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
         case .locationQuestion:
             return locationQuestionTask
+#endif
             
         case .numericQuestion:
             return numericQuestionTask
@@ -722,6 +787,9 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .consentDoc:
             return consentDoc
             
+        case .usdzModel:
+            return usdzModel
+            
         #if RK_APPLE_INTERNAL
         case .ageQuestion:
             return ageQuestionTask
@@ -741,14 +809,23 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .predefinedTinnitusTask:
             return predefinedTinnitusTask
             
+        case .predefinedSelectableHeadphoneTask:
+            return predefinedSelectableHeadphoneTask
+            
         case .ble:
             return ble
+            
+        case .methodOfAdjustmentdBHLToneAudiometryTask:
+            return methodOfAdjustmentdBHLToneAudiometryTask
             
         case .newdBHLToneAudiometryTask:
             return newdBHLToneAudiometryTask
             
         case .customStepTask:
             return customStepTask
+            
+        case .settingStatusStepTask:
+            return settingStatusStepTask
         
         case .studySignPostStep:
             return customStepTask
@@ -770,6 +847,12 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .booleanConditionalFormTask:
             return booleanConditionalFormTask
+            
+        case .readOnlyFormStepTask:
+            return readOnlyFormStepTask
+            
+        case .readOnlyFamilyHistoryTask:
+            return readonlyFamilyHistoryTask
             
         #endif
         case .textChoiceQuestionWithImageTask:
@@ -1011,47 +1094,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
     
     private var groupedFormTask: ORKTask {
-        let step = ORKFormStep(identifier: String(describing: Identifier.groupedFormStep), title: NSLocalizedString("Form Step", comment: ""), text: TaskListRowStrings.exampleDetailText)
-        
-        //Start of first section
-        let learnMoreInstructionStep01 = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
-        learnMoreInstructionStep01.title = NSLocalizedString("Learn more title", comment: "")
-        learnMoreInstructionStep01.text = NSLocalizedString("Learn more text", comment: "")
-        let learnMoreItem01 = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep01)
-        let section01 = ORKFormItem(sectionTitle: NSLocalizedString("Section title", comment: ""), detailText: NSLocalizedString("Section detail text", comment: ""), learnMoreItem: learnMoreItem01, showsProgress: true)
-        
-        // A first field, for entering an integer.
-        let formItem01Text = NSLocalizedString("Field01", comment: "")
-        let formItem01 = ORKFormItem(identifier: String(describing: Identifier.formItem01), text: formItem01Text, answerFormat: ORKAnswerFormat.integerAnswerFormat(withUnit: nil))
-        formItem01.placeholder = NSLocalizedString("Your placeholder here", comment: "")
-        
-        // A second field, for entering a time interval.
-        let formItem02Text = NSLocalizedString("Field02", comment: "")
-        let formItem02 = ORKFormItem(identifier: String(describing: Identifier.formItem02), text: formItem02Text, answerFormat: ORKTimeIntervalAnswerFormat())
-        formItem02.placeholder = NSLocalizedString("Your placeholder here", comment: "")
-        
-        let textOnlySection = ORKFormItem(sectionTitle: NSLocalizedString("Text Only Section", comment: ""), detailText: NSLocalizedString("Text section text", comment: ""), learnMoreItem: learnMoreItem01, showsProgress: true)
-        let textOnlyFormItemA = ORKFormItem(identifier: "text-section-text-item-a", text: "Text Field A", answerFormat: ORKTextAnswerFormat())
-        let textOnlyFormItemB = ORKFormItem(identifier: "text-section-text-item-b", text: "Text Field B", answerFormat: ORKTimeIntervalAnswerFormat())
-
-        let sesAnswerFormat = ORKSESAnswerFormat(topRungText: "Best Off", bottomRungText: "Worst Off")
-        let sesFormItem = ORKFormItem(identifier: "sesIdentifier", text: "Select where you are on the socioeconomic ladder.", answerFormat: sesAnswerFormat)
-        
-        //Start of section for scale question
-        let formItem03Text = TaskListRowStrings.exampleQuestionText
-        let scaleAnswerFormat = ORKContinuousScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0.0, maximumFractionDigits: 1)//ORKScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0, step: 1)
-        let formItem03 = ORKFormItem(identifier: String(describing: Identifier.formItem03), text: formItem03Text, detailText: nil, learnMoreItem: nil, showsProgress: true, answerFormat: scaleAnswerFormat, tagText: nil, optional: true)
-       
-        step.formItems = [
-            section01,
-            formItem01,
-            formItem02,
-            textOnlySection,
-            textOnlyFormItemA,
-            textOnlyFormItemB,
-            formItem03,
-            sesFormItem
-        ]
+        let step = TaskListRowSteps.groupFormExample
         
         let booleanQuestionFormStep = TaskListRowSteps.booleanExample
         
@@ -1079,6 +1122,13 @@ enum TaskListRow: Int, CustomStringConvertible {
         ]
         
         return ORKOrderedTask(identifier: String(describing: Identifier.groupedFormTask), steps: [step, booleanQuestionFormStep, birthdayQuestionFormStep, appleFormStep])
+    }
+    
+    private var groupedFormTaskNoScroll: ORKTask {
+        let groupedFormStep = TaskListRowSteps.groupFormExample
+        groupedFormStep.autoScrollEnabled = false
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.groupedFormTask), steps: [groupedFormStep])
     }
 
     /**
@@ -1117,17 +1167,20 @@ enum TaskListRow: Int, CustomStringConvertible {
         let informedConsentInstructionStep = TaskListRowSteps.informedConsentStepExample
         let webViewStep = TaskListRowSteps.webViewStepExample
         let consentSharingFormStep = TaskListRowSteps.informedConsentSharingStepExample
-        let requestPermissionStep = TaskListRowSteps.requestPermissionsStepExample
-        let consentCompletionStep = TaskListRowSteps.consentCompletionStepExample
         
-        let steps: [ORKStep] = [
+        var steps: [ORKStep] = [
             welcomeInstructionStep,
             informedConsentInstructionStep,
             webViewStep,
             consentSharingFormStep,
-            requestPermissionStep,
-            consentCompletionStep
         ]
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
+        let requestPermissionStep = TaskListRowSteps.requestPermissionsStepExample
+        steps.append(requestPermissionStep)
+#endif
+        
+        let consentCompletionStep = TaskListRowSteps.consentCompletionStepExample
+        steps.append(consentCompletionStep)
         
         return ORKOrderedTask(identifier: String(describing: Identifier.consentTask), steps: steps)
     }
@@ -1223,9 +1276,14 @@ enum TaskListRow: Int, CustomStringConvertible {
         let step1 = TaskListRowSteps.heightExample
         let step2 = TaskListRowSteps.heightMetricSystemExample
         let step3 = TaskListRowSteps.heightUSCSystemExample
-        let step4 = TaskListRowSteps.heightHealthKitExample
         
-        return ORKOrderedTask(identifier: String(describing: Identifier.heightQuestionTask), steps: [step1, step2, step3, step4])
+        var steps = [step1, step2, step3]
+        
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
+        let step4 = TaskListRowSteps.heightHealthKitExample
+        steps.append(contentsOf:[step4])
+#endif
+        return ORKOrderedTask(identifier: String(describing: Identifier.heightQuestionTask), steps: steps)
     }
 
     /// This task demonstrates a question asking for the user weight.
@@ -1236,17 +1294,24 @@ enum TaskListRow: Int, CustomStringConvertible {
         let step4 = TaskListRowSteps.weightMetricSystemHighPrecisionExample
         let step5 = TaskListRowSteps.weightUSCSystemExample
         let step6 = TaskListRowSteps.weightUSCSystemHighPrecisionExample
-        let step7 = TaskListRowSteps.weightHealthKitBodyMassExample
         
-        return ORKOrderedTask(identifier: String(describing: Identifier.weightQuestionTask), steps: [step1, step2, step3, step4, step5, step6, step7])
+        var steps = [step1, step2, step3, step4, step5, step6]
+        
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
+        let step7 = TaskListRowSteps.weightHealthKitBodyMassExample
+        steps.append(contentsOf:[step7])
+#endif
+        return ORKOrderedTask(identifier: String(describing: Identifier.weightQuestionTask), steps: steps)
     }
 
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     private var healthQuantityTypeTask: ORKTask {
         let heartRateQuestion = TaskListRowSteps.heartRateExample    
         let bloodTypeQuestion = TaskListRowSteps.bloodTypeExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.healthQuantityTask), steps: [heartRateQuestion, bloodTypeQuestion])
     }
+#endif
     
     /**
     This task demonstrates a survey question involving picking from a series of
@@ -1259,13 +1324,15 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         return ORKOrderedTask(identifier: String(describing: Identifier.imageChoiceQuestionTask), steps: [questionStep1, questionStep2])
     }
-    
+
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
     /// This task presents just a single location question.
     private var locationQuestionTask: ORKTask {
         let locationFormStep = TaskListRowSteps.locationExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.locationQuestionTask), steps: [locationFormStep])
     }
+#endif
     
     /// This task presents a few different ORKReviewSteps
     private var reviewTask: ORKTask {
@@ -1505,6 +1572,10 @@ enum TaskListRow: Int, CustomStringConvertible {
 
         let motionActivityPermissionType = ORKMotionActivityPermissionType()
 
+        
+        var permissionTypes = [notificationsPermissionType, motionActivityPermissionType]
+        
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
         let healthKitTypesToWrite: Set<HKSampleType> = [
             HKObjectType.quantityType(forIdentifier: .bodyMassIndex)!,
             HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
@@ -1516,14 +1587,22 @@ enum TaskListRow: Int, CustomStringConvertible {
             HKObjectType.workoutType()]
 
 
-        let healthKitPermissionType = ORKHealthKitPermissionType(sampleTypesToWrite: healthKitTypesToWrite,
-                                                                 objectTypesToRead: healthKitTypesToRead)
-
+        let healthKitPermissionType = ORKHealthKitPermissionType(
+            sampleTypesToWrite: healthKitTypesToWrite,
+            objectTypesToRead: healthKitTypesToRead
+        )
+        
+        permissionTypes.append(healthKitPermissionType)
+#endif
+        
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
         let locationPermissionType = ORKLocationPermissionType()
+        permissionTypes.append(locationPermissionType)
+#endif
         
         let requestPermissionsStep = ORKRequestPermissionsStep(
             identifier: String(describing: Identifier.requestPermissionsStep),
-            permissionTypes: [notificationsPermissionType, motionActivityPermissionType, healthKitPermissionType, locationPermissionType])
+            permissionTypes: permissionTypes)
 
         requestPermissionsStep.title = "Health Data Request"
         requestPermissionsStep.text = "Please review the health data types below and enable sharing to contribute to the study."
@@ -1921,6 +2000,11 @@ enum TaskListRow: Int, CustomStringConvertible {
         let webViewStep = TaskListRowSteps.webViewStepExample
         return ORKOrderedTask(identifier: String(describing: Identifier.webViewTask), steps: [webViewStep])
     }
+    
+    private var usdzModel: ORKTask {
+        let usdzModelStep = TaskListRowSteps.usdzModelExample
+        return ORKOrderedTask(identifier: String(describing: Identifier.usdzModelTask), steps: [usdzModelStep])
+    }
 
     #if RK_APPLE_INTERNAL
     /// This task demonstrates a question asking for the user age.
@@ -2079,6 +2163,10 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKTinnitusPredefinedTask(identifier: "\(Identifier.predefinedTinnitusTask)", audioSetManifestPath: path, prepend: nil, append: nil)
     }
     
+    private var predefinedSelectableHeadphoneTask: ORKTask {
+        return ORKSelectableHeadphoneDetectorPredefinedTask(identifier: "\(Identifier.predefinedSelectableHeadphoneTask)", steps: nil)
+    }
+    
     private var ble: ORKTask {
         
         let scanStep = ORKBLEScanPeripheralsStep(identifier: "BLE.scan")
@@ -2089,9 +2177,24 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: "BLE", steps: [scanStep])
     }
     
+    private var methodOfAdjustmentdBHLToneAudiometryTask: ORKTask {
+        return ORKOrderedTask.dBHLMethodOfAdjustmentToneAudiometryTask(withIdentifier: String(describing: Identifier.methodOfAdjustmentdBHLToneAudiometryTask), intendedUseDescription: nil, options: [])
+    }
+    
     /// This task presents the dBHL Tone Audiometry new algorithm.
     private var newdBHLToneAudiometryTask: ORKTask {
         return ORKOrderedTask.newdBHLToneAudiometryTask(withIdentifier: String(describing: Identifier.newdBHLToneAudiometryTask), intendedUseDescription: nil, options: [])
+    }
+    
+    private var settingStatusStepTask: ORKTask {
+        let settingStatusStep = ORKSettingStatusStep(identifier: String(describing: Identifier.settingStatusStep), settingType: .reduceLoudSounds)
+        settingStatusStep.title = "Turn on Reduce Loud Sounds"
+        settingStatusStep.text = "Your iPhone will analyze headphone audio and reduce any sound that is over a set decible level."
+        settingStatusStep.isOptional = true
+
+        let completionStep = TaskListRowSteps.completionStepExample
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.settingStatusStepTask), steps: [settingStatusStep, completionStep])
     }
     
     private var customStepTask: ORKTask {
@@ -2199,6 +2302,22 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.familyHistoryStep), steps: [parentFormStep])
     }
     
+    private var readOnlyFormStepTask: ORKTask {
+        let instructionStep = TaskListRowSteps.readOnlyInstructionStepExample
+        let formStep = TaskListRowSteps.groupFormExample
+        let completionStep = TaskListRowSteps.completionStepExample
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.readOnlyFormStepTask), steps: [instructionStep, formStep, completionStep])
+    }
+    
+    private var readonlyFamilyHistoryTask: ORKTask {
+        let instructionStep = TaskListRowSteps.readOnlyInstructionStepExample
+        let familyHistoryStep = TaskListRowSteps.familyHistoryStepExample
+        let completionStep = TaskListRowSteps.completionStepExample
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.familyHistoryStep), steps: [instructionStep, familyHistoryStep, completionStep])
+    }
+    
     /**
     This task demonstrates asking for text entry with PII Scrubbing. Both single and multi-line
     text entry are supported, with appropriate parameters to the text answer
@@ -2294,179 +2413,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     
     //TODO: rdar://113873048 (Update internal FxH task to match ResearchApp bundle)
     private var familyHistoryTask: ORKTask {
-        // create ORKHealthConditions
-        
-        let healthConditions = [
-        ORKHealthCondition(identifier: "healthConditionIdentifier1", displayName: "Diabetes", value: "Diabetes" as NSString),
-        ORKHealthCondition(identifier: "healthConditionIdentifier2", displayName: "Heart Attack", value: "Heart Attack" as NSString),
-        ORKHealthCondition(identifier: "healthConditionIdentifier3", displayName: "Stroke", value: "Stroke" as NSString)
-        ]
-        
-        // add ORKHealthConditions to ORKConditionStepConfiguration object
-        
-        let conditionStepConfiguration = ORKConditionStepConfiguration(stepIdentifier: "FamilyHistoryConditionStepIdentifier", conditionsFormItemIdentifier: "HealthConditionsFormItemIdentifier", conditions: healthConditions, formItems: [])
-        
-        // create formItems and formStep for parent relative group
-        let learnMoreInstructionStep01 = ORKLearnMoreInstructionStep(identifier: "LearnMoreInstructionStep01")
-        learnMoreInstructionStep01.title = NSLocalizedString("Learn more title", comment: "")
-        learnMoreInstructionStep01.text = NSLocalizedString("Learn more text", comment: "")
-        let learnMoreItem01 = ORKLearnMoreItem(text: nil, learnMoreInstructionStep: learnMoreInstructionStep01)
-        
-        let relativeNameSectionHeaderFormItem = ORKFormItem(sectionTitle: "Add a label to identify this family member", detailText: "Instead of their full name, please use a nickname, alias, or initials. Your response will only be saved on your device.", learnMoreItem: learnMoreItem01, showsProgress: true)
-        relativeNameSectionHeaderFormItem.tagText = "OPTIONAL"
-        let parentTextEntryAnswerFormat = ORKAnswerFormat.textAnswerFormat()
-        parentTextEntryAnswerFormat.multipleLines = false
-        parentTextEntryAnswerFormat.maximumLength = 3
-
-        let parentNameFormItem = ORKFormItem(identifier: "ParentNameIdentifier", text: "enter optional name", answerFormat: parentTextEntryAnswerFormat)
-        parentNameFormItem.isOptional = true
-        
-        let sexAtBirthOptions = [
-            ORKTextChoice(text: "Female", value: "Female" as NSString),
-            ORKTextChoice(text: "Male", value: "Male" as NSString),
-            ORKTextChoice(text: "Intersex", value: "Intersex" as NSString),
-            ORKTextChoice(text: "I don't know", value: "i_dont_know" as NSString),
-            ORKTextChoice(text: "I prefer not to answer", value: "i_prefer_not_to_answer" as NSString)
-        ]
-        
-        let parentSexAtBirthChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: sexAtBirthOptions)
-        let parentSextAtBirthFormItem = ORKFormItem(identifier: "ParentSexAtBirthIdentifier", text: "What was the sex assigned on their original birth certificate?", answerFormat: parentSexAtBirthChoiceAnswerFormat)
-        parentSextAtBirthFormItem.isOptional = false
-        
-        let vitalStatusOptions = [
-            ORKTextChoice(text: "Living", value: "system=snomedct&code=73211009" as NSString),
-            ORKTextChoice(text: "Deceased", value: "system=snomedct&code=73211008" as NSString),
-            ORKTextChoice(text: "I don't know", value: "system=snomedct&code=73211007" as NSString),
-            ORKTextChoice(text: "I prefer not to answer", value: "system=snomedct&code=73211006" as NSString),
-        ]
-        
-        let parentVitalStatusChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: vitalStatusOptions)
-        let parentVitalStatusFormItem = ORKFormItem(identifier: "ParentVitalStatusIdentifier", text: "What is their current vital status?", answerFormat: parentVitalStatusChoiceAnswerFormat)
-        parentVitalStatusFormItem.isOptional = false
-        
-        let parentFormStep = ORKFormStep(identifier: "ParentSurveyIdentifier")
-        let visibilityRule = ORKPredicateFormItemVisibilityRule(
-            predicate: ORKResultPredicate.predicateForChoiceQuestionResult(
-                with: .init(stepIdentifier: parentFormStep.identifier, resultIdentifier: parentVitalStatusFormItem.identifier),
-                expectedAnswerValue: NSString(string: "system=snomedct&code=73211009")
-            )
-        )
-
-        let parentAgePickerSectionHeaderFormItem = ORKFormItem(identifier: "ParentAgeSectionHeaderIdentifier", text: "What is their approximate birth year?", answerFormat: nil)
-        parentAgePickerSectionHeaderFormItem.visibilityRule = visibilityRule
-        
-        let parentAgePickerAnswerFormat = ORKAgeAnswerFormat(
-            minimumAge: 18,
-            maximumAge: 90,
-            minimumAgeCustomText: "18 or younger",
-            maximumAgeCustomText: "90 or older",
-            showYear: true,
-            useYearForResult: true,
-            treatMinAgeAsRange: true,
-            treatMaxAgeAsRange: false,
-            defaultValue: 30)
-        parentAgePickerAnswerFormat.shouldShowDontKnowButton = true
-        
-        let parentAgeFormItem = ORKFormItem(identifier: "ParentAgeFormItemIdentifier", text: nil, answerFormat: parentAgePickerAnswerFormat)
-        parentAgeFormItem.isOptional = false
-        parentAgeFormItem.visibilityRule = visibilityRule
-        
-        parentFormStep.isOptional = false
-        parentFormStep.title = "Parent"
-        parentFormStep.detailText = "Answer these questions to the best of your ability."
-        parentFormStep.formItems = [
-            relativeNameSectionHeaderFormItem,
-            parentNameFormItem,
-            parentSextAtBirthFormItem,
-            parentVitalStatusFormItem,
-            parentAgePickerSectionHeaderFormItem,
-            parentAgeFormItem
-        ]
-        
-        // create formItems and formStep for siblings relative group
-        
-        let siblingTextEntryAnswerFormat = ORKAnswerFormat.textAnswerFormat()
-        siblingTextEntryAnswerFormat.multipleLines = false
-        siblingTextEntryAnswerFormat.placeholder = "enter optional name"
-        siblingTextEntryAnswerFormat.maximumLength = 3
-        
-        let siblingNameFormItem = ORKFormItem(identifier: "SiblingNameIdentifier", text: "Name or Nickname", answerFormat: siblingTextEntryAnswerFormat)
-        siblingNameFormItem.isOptional = false
-        
-        let siblingSexAtBirthChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: sexAtBirthOptions)
-        let siblingSextAtBirthFormItem = ORKFormItem(identifier: "SiblingSexAtBirthIdentifier", text: "What was the sex assigned on their original birth certificate?", answerFormat: siblingSexAtBirthChoiceAnswerFormat)
-        siblingSextAtBirthFormItem.isOptional = false
-        
-        let siblingVitalStatusChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: vitalStatusOptions)
-        let siblingVitalStatusFormItem = ORKFormItem(identifier: "SiblingVitalStatusIdentifier", text: "What is their current vital status?", answerFormat: siblingVitalStatusChoiceAnswerFormat)
-        siblingVitalStatusFormItem.isOptional = false
-        
-        let siblingAgePickerAnswerFormat = ORKAgeAnswerFormat(
-            minimumAge: 18,
-            maximumAge: 90,
-            minimumAgeCustomText: "18 or younger",
-            maximumAgeCustomText: "90 or older",
-            showYear: true,
-            useYearForResult: true,
-            treatMinAgeAsRange: true,
-            treatMaxAgeAsRange: false,
-            defaultValue: 30)
-        siblingAgePickerAnswerFormat.shouldShowDontKnowButton = true
-        
-        let siblingAgePickerSectionHeaderFormItem = ORKFormItem(identifier: "SiblingAgeSectionHeaderIdentifier", text: "What is their approximate birth year?", answerFormat: nil)
-        
-        let siblingAgeFormItem = ORKFormItem(identifier: "SiblingAgeFormItemIdentifier", text: nil, answerFormat: siblingAgePickerAnswerFormat)
-        siblingAgeFormItem.isOptional = false
-        
-        let siblingFormStep = ORKFormStep(identifier: "SiblingSurveyIdentifier")
-        let siblingAgeVisibilityRule = ORKPredicateFormItemVisibilityRule(
-            predicate: ORKResultPredicate.predicateForChoiceQuestionResult(
-                with: .init(stepIdentifier: siblingFormStep.identifier, resultIdentifier: siblingVitalStatusFormItem.identifier),
-                expectedAnswerValue: NSString(string: "system=snomedct&code=73211009")
-            )
-        )
-        siblingAgePickerSectionHeaderFormItem.visibilityRule = siblingAgeVisibilityRule
-        siblingAgeFormItem.visibilityRule = siblingAgeVisibilityRule
-        
-        siblingFormStep.title = "Sibling"
-        siblingFormStep.detailText = "Answer these questions to the best of your ability."
-        siblingFormStep.formItems = [
-            relativeNameSectionHeaderFormItem,
-            siblingNameFormItem,
-            siblingSextAtBirthFormItem,
-            siblingVitalStatusFormItem,
-            siblingAgePickerSectionHeaderFormItem,
-            siblingAgeFormItem
-        ]
-        
-        // create ORKRelativeGroups
-        
-        let relativeGroups = [
-        ORKRelativeGroup(identifier: "ParentGroupIdentifier",
-                         name: "Biological Parent",
-                         sectionTitle: "Biological Parents",
-                         sectionDetailText: "Incude your blood-related parents.",
-                         identifierForCellTitle: "ParentNameIdentifier",
-                         maxAllowed: 2,
-                         formSteps: [parentFormStep],
-                         detailTextIdentifiers: ["ParentSexAtBirthIdentifier", "ParentVitalStatusIdentifier", "ParentAgeFormItemIdentifier"]),
-        ORKRelativeGroup(identifier: "SiblingGroupIdentifier",
-                         name: "Sibling",
-                         sectionTitle: "Biological Siblings",
-                         sectionDetailText: "Include all siblings who share one or both of your blood-related parents.",
-                         identifierForCellTitle: "SiblingNameIdentifier",
-                         maxAllowed: 10,
-                         formSteps: [siblingFormStep],
-                         detailTextIdentifiers: ["SiblingSexAtBirthIdentifier", "SiblingVitalStatusIdentifier", "SiblingAgeFormItemIdentifier"])
-        ]
-        
-        // create ORKFamilyHistoryStep and add to a ORKOrderedTask
-        
-        let familyHistoryStep = ORKFamilyHistoryStep(identifier: String(describing: Identifier.familyHistoryStep))
-        familyHistoryStep.title = "Family Health History"
-        familyHistoryStep.detailText = "The overview of your biological family members can inform health risks and lifestyle."
-        familyHistoryStep.conditionStepConfiguration = conditionStepConfiguration
-        familyHistoryStep.relativeGroups = relativeGroups
+        let familyHistoryStep = TaskListRowSteps.familyHistoryStepExample
         
         let completionStep = ORKCompletionStep(identifier: "FamilyHistoryCompletionStep")
         completionStep.title = "All Done"

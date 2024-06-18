@@ -78,6 +78,7 @@ ORK_CLASS_AVAILABLE
                                       question:(nullable NSString *)question
                                     answer:(nullable ORKAnswerFormat *)answerFormat;
 
+#if TARGET_OS_IOS
 /**
  Returns a new question step that includes the specified identifier, title, question, and answer format.
  
@@ -102,6 +103,7 @@ ORK_CLASS_AVAILABLE
                                     answer:(nullable ORKAnswerFormat *)answerFormat
                              learnMoreItem:(nullable ORKLearnMoreItem *)learnMoreItem
                                useCardView:(nullable NSNumber *)useCardView;
+#endif
 
 /**
  The format of the answer.

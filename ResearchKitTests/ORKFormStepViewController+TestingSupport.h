@@ -30,12 +30,18 @@
 
 #import <ResearchKitUI/ORKFormStepViewController_Private.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 @class ORKTableCellItemIdentifier;
 
 @interface ORKFormStepViewController (TestingSupport)
 
 @property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, strong) NSMutableDictionary *savedAnswers;
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder;
+- (void)removeInvalidSavedAnswers;
+
 
 /**
 returns a list of all the formItems
@@ -68,4 +74,7 @@ returns a list of all the answerable formItems
  fetches the associated ORKFormItem from a formItemIdentifier (potential performance hit)
  */
 - (nullable ORKFormItem *)_formItemForFormItemIdentifier:(NSString *)formItemIdentifier;
+
 @end
+
+NS_ASSUME_NONNULL_END

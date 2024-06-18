@@ -287,6 +287,10 @@ enum Identifier {
     case webViewTask
     case webViewStep
     
+    // 3DModelStep tasks
+    case usdzModelStep
+    case usdzModelTask
+    
     #if RK_APPLE_INTERNAL
     case catalogAppVersionHistory
     case platterQuestionTask
@@ -298,9 +302,13 @@ enum Identifier {
     case textQuestionPIIScrubbingSSNFormItem
     case predefinedSpeechInNoiseTask
     case predefinedAVJournalingTask
+    case predefinedSelectableHeadphoneTask
     case predefinedTinnitusTask
+    case methodOfAdjustmentdBHLToneAudiometryTask
     case newdBHLToneAudiometryTask
     case customStepTask
+    case settingStatusStep
+    case settingStatusStepTask
     case studyPromoTask
     case studySignPostStep
     case familyHistoryReviewController
@@ -310,6 +318,7 @@ enum Identifier {
     case colorChoiceQuestionFormItem
     case familyHistoryStep
     case familyHistoryTask
+    case readOnlyFormStepTask
     #endif
 }
 

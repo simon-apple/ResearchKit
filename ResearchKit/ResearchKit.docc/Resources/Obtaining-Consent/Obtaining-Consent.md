@@ -35,14 +35,14 @@ Create two instruction steps to present both a 'Welcome' & 'Before You Join' pag
 ```swift
 // Welcome page.
 let welcomeStep = ORKInstructionStep(identifier: String(describing: Identifier.consentWelcomeInstructionStep))
-instructionStep.iconImage = UIImage(systemName: "hand.wave")
-instructionStep.title = "Welcome!"
-instructionStep.detailText = "Thank you for joining our study. Tap Next to learn more before signing up."
+welcomeStep.iconImage = UIImage(systemName: "hand.wave")
+welcomeStep.title = "Welcome!"
+welcomeStep.detailText = "Thank you for joining our study. Tap Next to learn more before signing up."
         
 // Before You Join page.
 let beforeYouJoinStep = ORKInstructionStep(identifier: String(describing: Identifier.informedConsentInstructionStep))
-instructionStep.iconImage = UIImage(systemName: "doc.text.magnifyingglass")
-instructionStep.title = "Before You Join"
+beforeYouJoinStep.iconImage = UIImage(systemName: "doc.text.magnifyingglass")
+beforeYouJoinStep.title = "Before You Join"
         
 let sharingHealthDataBodyItem = ORKBodyItem(text: "The study will ask you to share some of your Health data.",
                                             detailText: nil,
@@ -68,7 +68,7 @@ let secureDataBodyItem = ORKBodyItem(text: "Your data is kept private and secure
                                      learnMoreItem: nil,
                                      bodyItemStyle: .image)
         
-instructionStep.bodyItems = [
+beforeYouJoinStep.bodyItems = [
     sharingHealthDataBodyItem,
     completingTasksBodyItem,
     signatureBodyItem,

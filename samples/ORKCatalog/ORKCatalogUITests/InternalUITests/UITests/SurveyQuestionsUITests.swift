@@ -7,6 +7,8 @@
 
 import Foundation
 import XCTest
+import CoreLocation
+import ORKCatalog
 
 final class SurveyQuestionsUITests: BaseUITest {
     
@@ -205,7 +207,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         tasksList
             .selectTaskByName(Task.textChoiceQuestion.description)
         
-        let inputText = TextAnswers.loremIpsumShortText
+        let inputText = Answers.loremIpsumShortText
         let formItemId = "formItem01"
         let otherTextChoiceIndex = 3
         
@@ -282,31 +284,6 @@ final class SurveyQuestionsUITests: BaseUITest {
             .tap(.continueButton)
     }
     
-    /// rdar://tsc/26623039 ([Survey Questions] Platter UI Question)
-    /// Note: Platter question does not have question title. The step title itself is a question title
-    func testPlatterUIQuestion() {
-        tasksList
-            .selectTaskByName(Task.platterUIQuestion.description)
-        
-        let questionStep = FormStepScreen()
-        let itemId = "platterQuestionStep"
-        questionStep
-            .verify(.title)
-            .verify(.text)
-            .verify(.skipButton, isEnabled: true)
-            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
-        
-        for choiceIndex in 0..<3 {
-            let uiIndex = choiceIndex + 1
-            questionStep
-                .answerSingleChoiceTextQuestion(withId: itemId, atIndex: choiceIndex)
-                .verifyCellLabel(withId: itemId, atIndex: choiceIndex, expectedLabel: "Choice \(uiIndex), Detail")
-                .verify(.continueButton, isEnabled: true)
-        }
-        questionStep
-            .tap(.continueButton)
-    }
-    
     /// <rdar://tsc/21847957> [Survey Questions] Text Question
     func testTextQuestion() {
         tasksList
@@ -323,7 +300,7 @@ final class SurveyQuestionsUITests: BaseUITest {
             .verifySingleQuestionTitleExists()
         
         questionStep
-            .answerTextQuestionTextView(withId: itemId, text: TextAnswers.loremIpsumMediumText)
+            .answerTextQuestionTextView(withId: itemId, text: Answers.loremIpsumMediumText)
             .verify(.continueButton, isEnabled: true)
         
         questionStep
@@ -340,7 +317,7 @@ final class SurveyQuestionsUITests: BaseUITest {
         let itemId = "textQuestionFormItem"
    
         questionStep
-            .answerTextQuestionTextView(withId: itemId, text: TextAnswers.loremIpsumMediumText, maximumLength: 280, expectedPlaceholderValue: "Tap to write") // TODO: rdar://117821622 (Add localization support for UI Tests)
+            .answerTextQuestionTextView(withId: itemId, text: Answers.loremIpsumMediumText, maximumLength: 280, expectedPlaceholderValue: "Tap to write") // TODO: rdar://117821622 (Add localization support for UI Tests)
             .verify(.continueButton, isEnabled: true)
         
         questionStep
@@ -356,8 +333,8 @@ final class SurveyQuestionsUITests: BaseUITest {
         let questionStep = FormStepScreen()
         let itemId = "textQuestionFormItem"
         questionStep
-            .answerTextQuestionTextView(withId: itemId, text: TextAnswers.loremIpsumShortText, dismissKeyboard: false) // We don't dismiss keyboard to be able to continue editing
-            .answerTextQuestionTextView(withId: itemId, text: TextAnswers.loremIpsumMediumText)
+            .answerTextQuestionTextView(withId: itemId, text: Answers.loremIpsumShortText, dismissKeyboard: false) // We don't dismiss keyboard to be able to continue editing
+            .answerTextQuestionTextView(withId: itemId, text: Answers.loremIpsumMediumText)
             .verify(.continueButton, isEnabled: true)
         
         questionStep
@@ -374,11 +351,11 @@ final class SurveyQuestionsUITests: BaseUITest {
         let itemId = "textQuestionFormItem"
 
         questionStep
-            .answerTextQuestionTextView(withId: itemId, text: TextAnswers.loremIpsumShortText)
+            .answerTextQuestionTextView(withId: itemId, text: Answers.loremIpsumShortText)
             .verify(.continueButton, isEnabled: true)
             .tapClearButton()
             .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
-            .answerTextQuestionTextView(withId: itemId, text: TextAnswers.loremIpsumShortText)
+            .answerTextQuestionTextView(withId: itemId, text: Answers.loremIpsumShortText)
             .verify(.continueButton, isEnabled: true)
         
         questionStep
@@ -543,28 +520,15 @@ final class SurveyQuestionsUITests: BaseUITest {
         questionStep
             .selectFormItemCell(withID:  formItemId)
         Keyboards.deleteValue(characterCount: username.count, keyboardType: .alphabetic)
-        
-        app.keyboards.keys[username].tap()
-        // The letters keyboard is displayed, so we need to switch to the numbers keyboard in order to type "@"
-        let moreKey =  app.keyboards.keys["more"]
-        if moreKey.waitForExistence(timeout: 20)  {
-            moreKey.tap() // switch to numbers
-        }
-        app.keyboards.keys["@"].tap()
-        moreKey.tap() // switch to letters
-        questionStep.answerTextQuestion(text: "example")
-        moreKey.tap()  // switch to numbers
-        app.keyboards.keys["."].tap()
-        moreKey.tap()  // switch to letters
         questionStep
-            .answerTextQuestion(text: "com", dismissKeyboard: true)
+            .typeEmail(email: Answers.exampleEmailCapitalized)
             .verify(.continueButton, isEnabled: true)
             .verifyErrorMessage(exists: false, withId: formItemId, expectedMessage: " Invalid Email")
             .tap(.continueButton)
         
         // URL validation
         let questionStep2 = FormStepScreen()
-        let domainName = "apple.com"
+        let domainName = Answers.exampleDomainName
         let secondLevelDomainName = String(domainName.split(separator: ".").first!)
         questionStep2
             .selectFormItemCell(withID:  formItemId)
@@ -691,39 +655,191 @@ final class SurveyQuestionsUITests: BaseUITest {
             .tap(.continueButton)
     }
     
-    func testScaleQuestionInFormSurvey() {
+    ///rdar://tsc/21847953 ([Survey Questions] Location Question) - Happy Path
+    func testLocationQuestion() throws {
+        if isRunningInXcodeCloud {
+            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment")
+        }
+        
+        /// https://developer.apple.com/documentation/xcode/simulating-location-in-tests
+        if #available(iOS 16.4, *) {
+            XCUIDevice.shared.location = XCUILocation(location: CLLocation(latitude: 37.787354, longitude: -122.408243))
+        }
+        
         tasksList
-            .selectTaskByName(Task.form.description)
+            .selectTaskByName(Task.locationQuestion.description)
         
-        let formStep = FormStepScreen()
+        let questionStep = FormStepScreen()
+        let formId = "locationQuestionFormItem"
+        let simulatedLocation = "Geary St San Francisco CA 94102 United States" // This is simulated location configured in RegressionUITests test plan in "Simulated location" settings
+        let validAddressExample = "One Apple Park Way"
+        questionStep
+            .verify(.title)
+            .tap(.title) /// Required for automatic detection and handling the location alert: see Helpers().monitorAlerts() method
+            .verify(.text)
+            .verifySingleQuestionTitleExists()
+            .verifyCellTextFieldValue(withId: formId, expectedValue: simulatedLocation)
+            .verifyMapExists(withId: formId)
+            .verifyLocationPinIconExists(withId: formId)
+            .verify(.continueButton, isEnabled: true)
         
-        let formItemIdSlider1 = "formItem03"
-        let minValueSlider1 = 0
-        let maxValueSlider1 = 10
-        let formItemIdSlider2 = "formItem04"
-        let minValueSlider2 = 1
-        let maxValueSlider2 = 7
-        
-        // First slider
-        formStep
-            .scrollToQuestionTitle(atIndex: 1)
-        
-        for sliderValue in minValueSlider1...maxValueSlider1 {
-            formStep.answerScaleQuestion(withId: formItemIdSlider1, sliderValue: Double(sliderValue), stepValue: 1, minValue: Double(minValueSlider1), maxValue: Double(maxValueSlider1))
+            .selectFormItemCell(withID: formId)
+            .clearTextFieldWithXButton(withId: formId) // We need to use X button to clear text because we can not delete it normally due to cursor being in the beginning of string on selection
+            .enterTextInTextField(withId: formId, text: validAddressExample, dismissKeyboard: true)
+            .verify(.continueButton, isEnabled: true)
+            .verifyAlert(exists: false)  /// Checking for "Could not Find Specified Address" alert
+            .tap(.continueButton)
+    }
+    
+    /// rdar://tsc/21847953 ([Survey Questions] Location Question) - Negative Path
+    func testLocationQuestionInvalidAddress() throws {
+        if isRunningInXcodeCloud {
+            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment")
+        }
+        /// https://developer.apple.com/documentation/xcode/simulating-location-in-tests
+        if #available(iOS 16.4, *) {
+            XCUIDevice.shared.location = XCUILocation(location: CLLocation(latitude: 37.787354, longitude: -122.408243))
         }
         
-        // Second Text Slider
-        // Scroll to second slider
-        let secondSlider = formStep.getFormItemCell(withId: formItemIdSlider2).sliders.firstMatch
-        secondSlider.scrollUntilVisible()
+        tasksList
+            .selectTaskByName(Task.locationQuestion.description)
         
-        for value in minValueSlider2...maxValueSlider2 {
-            formStep
-                .answerTextScaleQuestion(withId: formItemIdSlider2, sliderValue: Double(value), expectedSliderValue: "choice \(value)" , stepValue: 1, minValue: Double(minValueSlider2), maxValue: Double(maxValueSlider2))
+        let questionStep = FormStepScreen()
+        let formId = "locationQuestionFormItem"
+        let invalidAddress = "Hello"
+        
+        questionStep
+            .verify(.title)
+            .tap(.title) /// Required for automatic detection and handling the location alert: see Helpers().monitorAlerts() method
+            .selectFormItemCell(withID: formId)
+            .clearTextFieldWithXButton(withId: formId)
+            .enterTextInTextField(withId: formId, text: invalidAddress, dismissKeyboard: true)
+            .verify(.continueButton, isHittable: false)
+            .verifyAlert(exists: true) /// Checking for "Could not Find Specified Address" alert
+            .tapAlertFirstButton()
+            .tap(.continueButton)
+    }
+    
+    /// <rdar://tsc/25376929> [Survey Questions] Text Choice Image Question
+    func testTextChoiceImage() {
+        tasksList
+            .selectTaskByName(Task.textChoiceQuestionWithImageTask.description)
+        
+        let questionStep = FormStepScreen()
+        let formItemId = "textChoiceFormItem"
+        let expectedNumberOfChoices = 3
+        
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
+            .verifyNoCellsSelected(withId: formItemId, expectedNumberOfChoices)
+        
+        for i in 0..<expectedNumberOfChoices {
+            questionStep
+                .answerSingleChoiceTextQuestion(withId: formItemId, atIndex: i)
+                .verifyOnlyOneCellSelected(withId: formItemId, atIndex: i)
+                .verify(.continueButton, isEnabled: true)
         }
         
-        // End Task
-        formStep
-            .cancelTask()
+       // TODO: rdar://123531714 (Text Choice Image Question - verify images can be expanded). It's currently blocked by: rdar://120743593 ([ORKCatalog] [Modularization] Unable to expand images in Text Choice Image Question)
+        
+        questionStep
+            .tap(.continueButton)
+    }
+    
+    /// rdar://tsc/33942324 ([Survey Questions] Color Choice Question)
+    func testColorChoiceQuestion() {
+        tasksList
+            .selectTaskByName(Task.colorChoiceQuestion.description)
+        
+        let questionStep = FormStepScreen()
+        let formItemId = "colorChoiceQuestionFormItem"
+        let expectedNumOfChoicesStep1 = 7
+        
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
+            .verifyNoCellsSelected(withId: formItemId, expectedNumOfChoicesStep1)
+        
+        for i in 0..<expectedNumOfChoicesStep1 {
+            questionStep
+                .answerSingleChoiceTextQuestion(withId: formItemId, atIndex: i)
+                .verifyOnlyOneCellSelected(withId: formItemId, atIndex: i)
+                .verify(.continueButton, isEnabled: true)
+        }
+        
+        questionStep
+            .tap(.continueButton)
+        
+        let expectedNumOfChoicesStep2 = 6
+        questionStep
+            .verify(.title)
+            .verify(.text)
+            .verify(.skipButton, isEnabled: true)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
+            .verifyNoCellsSelected(withId: formItemId, expectedNumOfChoicesStep2)
+        
+        for i in 0..<expectedNumOfChoicesStep2 {
+            questionStep
+                .answerSingleChoiceTextQuestion(withId: formItemId, atIndex: i)
+                .verifyOnlyOneCellSelected(withId: formItemId, atIndex: i, cellShouldContainImage: true) // In this question cell contains image not text
+                .verify(.continueButton, isEnabled: true)
+        }
+        
+        questionStep
+            .tap(.continueButton)
+    }
+    
+    /// rdar://tsc/25670613 ([Internal] Predefined PII Scrubber)
+    func testPredefinedPIIScrubber() {
+        tasksList
+            .selectTaskByName(Task.textQuestionPIIScrubbing.description)
+
+        let formStep1 = FormStepScreen(id: String(describing: Identifier.textQuestionEmailPIIScrubbingStep), itemIds: [String(describing: Identifier.textQuestionPIIScrubbingEmailFormItem)])
+        let formStep2 = FormStepScreen(id: String(describing: Identifier.textQuestionSSNPIIScrubbingStep), itemIds: [String(describing: Identifier.textQuestionPIIScrubbingSSNFormItem)])
+        
+        let exampleTextEmail = "My email is: user@example.com email" // a phrase that includes an email
+        formStep1
+            .verify(.title)
+            .verify(.skipButton, exists: false)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
+        
+            .answerTextQuestionTextView(withId: formStep1.itemIds[0], text: exampleTextEmail)
+            .verify(.continueButton, isEnabled: true)
+            .tap(.continueButton)
+        
+        let exampleTextSSN = "My ssn number is: 078-05-1120 ssn" // a phrase that includes  an int string like a SSN
+        formStep2
+            .verify(.title)
+            .verify(.skipButton, exists: false)
+            .verify(.continueButton, isEnabled: expectingNextButtonEnabledByDefault)
+            .verifySingleQuestionTitleExists()
+        
+            .answerTextQuestionTextView(withId: formStep2.itemIds[0], text: exampleTextSSN)
+            .verify(.continueButton, isEnabled: true)
+            .tap(.continueButton)
+        
+        // Check the results tab for the child responses
+        let scrubbedTextFormStep1 = "My email is:  email" // The phrase should be presented without the email address
+        let scrubbedTextFormStep2 = "My ssn number is:  ssn" // The phrase should be presented without the SSN
+        let resultsTab = TabBar().navigateToResults()
+        resultsTab
+            .selectResultsCell(withId: formStep1.id)
+            .selectResultsCell(withId: formStep1.itemIds[0])
+            .verifyResultsCellValue(resultType: .textAnswer, expectedValue: scrubbedTextFormStep1)
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+            .selectResultsCell(withId: formStep2.id)
+            .selectResultsCell(withId: formStep2.itemIds[0])
+            .verifyResultsCellValue(resultType: .textAnswer, expectedValue: scrubbedTextFormStep2)
     }
 }

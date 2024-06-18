@@ -30,7 +30,7 @@
  */
 
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 
 #import <Foundation/Foundation.h>
 #import <os/log.h>
@@ -213,6 +213,11 @@ UIFontDescriptor *ORKFontDescriptorForLightStylisticAlternative(UIFontDescriptor
 CGFloat ORKFloorToViewScale(CGFloat value, UIView *view);
 #endif
 
+#if RK_APPLE_INTERNAL
+// Global constant for launch argument using in XCUITest
+extern NSString * const UITestLaunchArgument;
+#endif
+
 ORK_INLINE bool
 ORKEqualObjects(id o1, id o2) {
     return (o1 == o2) || (o1 && o2 && [o1 isEqual:o2]);
@@ -371,6 +376,13 @@ ORK_INLINE double ORKPoundsAndOuncesToKilograms(double pounds, double ounces) {
 
 ORK_INLINE double ORKPoundsToKilograms(double pounds) {
     return ORKPoundsAndOuncesToKilograms(pounds, 0);
+}
+
+ORK_INLINE double ORKForceDoubleToLimits(double value) {
+    if (value == NAN || value == INFINITY) {
+        return DBL_MAX;
+    }
+    return fmin(fmax(value, -DBL_MAX), DBL_MAX);
 }
 
 ORK_INLINE UIColor *ORKOpaqueColorWithReducedAlphaFromBaseColor(UIColor *baseColor, NSUInteger colorIndex, NSUInteger totalColors) {

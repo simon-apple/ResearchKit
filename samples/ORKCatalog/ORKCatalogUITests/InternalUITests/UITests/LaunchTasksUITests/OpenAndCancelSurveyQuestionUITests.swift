@@ -42,3 +42,27 @@ final class OpenAndCancelSurveyQuestionUITests: OpenAndCancelBaseUITest {
         }
     }
 }
+
+final class OpenAndCancelInternalSurveyQuestionUITests: OpenAndCancelBaseUITest {
+    
+    func testLaunchInternalSurveysQuestions() {
+        let surveyQuestionsTask: [Task] = [
+            .ageQuestion,
+            .colorChoiceQuestion,
+            .longHeaderTask,
+            .textQuestionPIIScrubbing]
+        
+        for task in surveyQuestionsTask {
+            let taskLabel = task.description
+            tasksList.selectTaskByName(taskLabel)
+            let step = FormStepScreen()
+            step
+                .verifyStepView()
+                .tapCancelButton()
+                .tapDiscardResultsButton()
+            // For each survey question verify that we end up on Tasks tab
+            tasksList
+                .assertTitle()
+        }
+    }
+}

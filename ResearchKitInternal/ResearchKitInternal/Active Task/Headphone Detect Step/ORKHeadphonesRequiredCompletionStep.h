@@ -30,16 +30,17 @@
 // apple-internal
 
 #import <ResearchKitInternal/ORKHeadphoneDetectStep.h>
-#import <ResearchKitInternal/ORKICompletionStep.h>
-
+#import <ResearchKit/ORKCompletionStep.h>
 #import <ResearchKit/ORKDefines.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
-@interface ORKHeadphonesRequiredCompletionStep : ORKICompletionStep
+@interface ORKHeadphonesRequiredCompletionStep : ORKCompletionStep
 
-- (instancetype)initWithIdentifier:(NSString *)identifier requiredHeadphoneTypes:(ORKHeadphoneTypes)requiredHeadphoneTypes;
+- (instancetype)initWithIdentifier:(NSString *)identifier 
+            requiredHeadphoneTypes:(ORKHeadphoneTypes)requiredHeadphoneTypes
+        lockedToAppleHeadphoneType:(nullable ORKHeadphoneTypeIdentifier)lockedHeadphone;
 
 @property (nonatomic, assign) ORKHeadphoneTypes requiredHeadphoneTypes;
 

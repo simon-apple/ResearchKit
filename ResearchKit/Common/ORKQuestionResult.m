@@ -340,10 +340,9 @@
 
 @end
 
-
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && !TARGET_OS_VISION
 #pragma mark - ORKLocationQuestionResult
 
-#if !TARGET_OS_VISION
 @implementation ORKLocation
 
 + (instancetype)new {
@@ -484,7 +483,6 @@ static NSString *const RegionIdentifierKey = @"region.identifier";
 
 @end
 #endif
-
 
 #pragma mark - ORKSESQuestionResult
 

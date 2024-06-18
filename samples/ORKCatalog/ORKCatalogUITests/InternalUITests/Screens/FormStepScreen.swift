@@ -18,8 +18,10 @@ final class FormStepScreen: Step {
      - parameter itemIds: Array of string that identifies the form item, which should be unique within the form step.
      */
     var itemIds: [String]
-    init(id: String = "", itemIds: [String] = []) {
+    var answer: Any?
+    init(id: String = "", itemIds: [String] = [], answer: Any? = nil) {
         self.itemIds = itemIds
+        self.answer = answer
         super.init(id: id)
     }
    
@@ -28,6 +30,7 @@ final class FormStepScreen: Step {
     }
     
     /// Verifies that step type did not change
+    @discardableResult
     func verifyStepView(_ exists: Bool = true) -> Self {
         wait(for: Self.stepView, toExists: exists)
         return self
@@ -257,7 +260,7 @@ final class FormStepScreen: Step {
     }
     
     @discardableResult
-    func verifyOnlyOneCellSelected(withId formItemId: String, atIndex index: Int) -> Self {
+    func verifyOnlyOneCellSelected(withId formItemId: String, atIndex index: Int, cellShouldContainImage: Bool = false) -> Self {
         let firstCell = getFormItemCell(withId: formItemId, atIndex: 0)
         wait(for: firstCell, toExists: true)
         let actualCount = getFormItemCells(withID: formItemId).count
@@ -272,7 +275,11 @@ final class FormStepScreen: Step {
             } else {
                 XCTAssert(!currentCell.isSelected, "Cell at index \(i) should not be selected, but was found selected")
             }
-            XCTAssert(!currentCell.label.isEmpty, "Text choice cell should not be empty")
+            if !cellShouldContainImage {
+                XCTAssert(!currentCell.label.isEmpty, "Text choice cell should not be empty at index \(i)")
+            } else {
+                XCTAssert(currentCell.images.firstMatch.exists, "Image choice cell should not be empty at index \(i)")
+            }
         }
         return self
     }
@@ -327,6 +334,7 @@ final class FormStepScreen: Step {
     }
     
     /// Verify that user did not select any answer
+    @discardableResult
     func verifyNoCellsSelected(withId formItemId: String, _ numberOfTextChoices: Int) -> Self {
         for index in 0..<numberOfTextChoices {
             let currentCell = getFormItemCell(withId: formItemId, atIndex: index)
@@ -341,12 +349,12 @@ final class FormStepScreen: Step {
     // MARK: - Text Choice Other Answer Format
     
     @discardableResult
-    func answerTextChoiceOtherQuestion(withId formItemId: String, atIndex index: Int, text: String, dismissKeyboard: Bool = true) -> Self {
+    func answerTextChoiceOtherQuestion(withId formItemId: String, atIndex index: Int, text: String, dismissKeyboard: Bool = true, clearIfNeeded: Bool = false) -> Self {
         let formItem = FormStepScreen().getFormItemCell(withId: formItemId, atIndex: index)
        // let textView = formItem.textViews.firstMatch
         let textView = formItem.textViews.element(boundBy: 0)
         wait(for: textView)
-        textView.typeText(text, dismissKeyboard: dismissKeyboard)
+        textView.typeText(text, clearIfNeeded: clearIfNeeded, dismissKeyboard: dismissKeyboard)
         return self
     }
     
@@ -414,6 +422,14 @@ final class FormStepScreen: Step {
         return self
     }
     
+    @discardableResult
+    func verifyTextViewValue(withId formItemId: String, expectedText inputText: String) -> Self {
+        let textView = getFormItemCell(withId: formItemId).textViews.firstMatch
+        wait(for: textView)
+        textView.verifyElementValue(expectedValue: inputText)
+        return self
+    }
+    
     // MARK: - Numeric and Text Answer Format
     
     /**
@@ -445,8 +461,8 @@ final class FormStepScreen: Step {
     }
     
     @discardableResult
-    func verifyErrorMessage(exists: Bool, withId formItemId: String, expectedMessage: String) -> Self {
-        let formItemCell = getFormItemCell(withId: formItemId)
+    func verifyErrorMessage(exists: Bool, withId formItemId: String, atIndex index: Int = 0, expectedMessage: String) -> Self {
+        let formItemCell = getFormItemCell(withId: formItemId, atIndex: index)
         let errorMessageElement = formItemCell.staticTexts[expectedMessage].firstMatch // TODO: rdar://121345903 (Create AX Id for an error message when invalid values are entered)
         guard exists else {
             wait(for: errorMessageElement, toExists: false)
@@ -454,6 +470,30 @@ final class FormStepScreen: Step {
         }
         wait(for: errorMessageElement)
         XCTAssertEqual(errorMessageElement.label, expectedMessage)
+        return self
+    }
+    
+    /// Types an email by switching between letter and numbers keyboards
+    /// This method is used to enter an email answer when the keyboard type is not set to UIKeyboardTypeEmailAddress
+    @discardableResult
+    func typeEmail(email: String) -> Self {
+        let emailParts = email.components(separatedBy: "@")
+        let localName = emailParts[0]
+        let domainParts = emailParts[1].components(separatedBy: ".")
+        let domainName = domainParts[0]
+        let topLevelDomain = domainParts[1]
+        answerTextQuestion(text: localName)
+        let moreKey = Self.app.keyboards.keys["more"] /// The letters keyboard is displayed, so we need to switch to the numbers keyboard in order to type "@"
+        if moreKey.waitForExistence(timeout: 20)  {
+            moreKey.tap() // switch to numbers
+        }
+        Self.app.keyboards.keys["@"].tap()
+        moreKey.tap() // switch to letters
+        answerTextQuestion(text: domainName)
+        moreKey.tap()  // switch to numbers
+        Self.app.keyboards.keys["."].tap()
+        moreKey.tap()  // switch to letters
+        answerTextQuestion(text: topLevelDomain, dismissKeyboard: true)
         return self
     }
     
@@ -474,19 +514,19 @@ final class FormStepScreen: Step {
             XCTFail("The time interval should be less than 24 hours")
             return self
         }
-        adjustPickerWheels(hours: hours, minutes: minutes, dismissPicker: dismissPicker)
+        adjustPickerWheels(hours: String(hours), minutes: String(minutes), dismissPicker: dismissPicker)
         return self
     }
     
-    func adjustPickerWheels(hours: Int, minutes: Int, dismissPicker: Bool = false) {
+    func adjustPickerWheels(hours: String, minutes: String, dismissPicker: Bool = false) {
         let picker = Self.firstPicker
         wait(for: picker, withTimeout: uiPickerTimeout)
         let hourWheel = picker.pickerWheels.element(boundBy: 0)
         wait(for: hourWheel, withTimeout: uiPickerTimeout)
         let minuteWheel = picker.pickerWheels.element(boundBy: 1)
         
-        hourWheel.adjust(toPickerWheelValue: String(hours))
-        minuteWheel.adjust(toPickerWheelValue: String(minutes))
+        hourWheel.adjust(toPickerWheelValue: hours)
+        minuteWheel.adjust(toPickerWheelValue: minutes)
         if dismissPicker {
             Keyboards.tapDoneButtonOnToolbar()
         }
@@ -520,14 +560,22 @@ final class FormStepScreen: Step {
      - parameter dismissPicker: whether the ui picker should be dismissed after selection
      */
     @discardableResult
-    func answerDateQuestion(year: String, month: String, day: String, dismissPicker: Bool = false) -> Self {
+    func answerDateQuestion(year: String, month: String, day: String, isUSTimeZone: Bool = true, dismissPicker: Bool = false) -> Self {
         let picker = Self.firstPicker
         wait(for: picker, withTimeout: uiPickerTimeout)
         let yearPickerWheel = picker.pickerWheels.element(boundBy: 2)
         wait(for: yearPickerWheel, withTimeout: uiPickerTimeout)
         picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: year)
-        picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
-        picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
+        
+        // Month and Date picker wheels look different for different locales. For US month goes first and vice versa
+        if isUSTimeZone {
+            picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
+            picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
+        } else {
+            picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: month)
+            picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: day)
+        }
+    
         if dismissPicker {
             Keyboards.tapDoneButtonOnToolbar()
         }
@@ -541,16 +589,10 @@ final class FormStepScreen: Step {
      - parameter offsetYears: the number of years to add to the current date. A positive value moves forward in time, a negative value moves backward
      - parameter dismissPicker: whether the ui picker should be dismissed after selection
      */
-    func answerDateQuestion(offsetDays: Int, offsetYears: Int, dismissPicker: Bool = false) -> Self {
+    @discardableResult
+    func answerDateQuestion(offsetDays: Int, offsetYears: Int, isUSTimeZone: Bool, dismissPicker: Bool = false) -> Self {
         let (month, day, year) = getPickerValues(offsetDays: offsetDays, offsetYears: offsetYears)
-        let picker = Self.firstPicker
-        wait(for: picker, withTimeout: uiPickerTimeout)
-        picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
-        picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
-        picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: year)
-        if dismissPicker {
-            Keyboards.tapDoneButtonOnToolbar()
-        }
+        answerDateQuestion(year: year, month: month, day: day, isUSTimeZone: isUSTimeZone, dismissPicker: dismissPicker)
         return self
     }
     
@@ -613,15 +655,17 @@ final class FormStepScreen: Step {
      - parameter dismissPicker: whether the ui picker should be dismissed after selection
      */
     @discardableResult
-    func answerDateAndTimeQuestion(offsetDays: Int, offsetHours: Int, isUSTimeZone: Bool, dismissPicker: Bool = false) -> Self {
+    func answerDateAndTimeQuestion(offsetDays: Int, offsetHours: Int, isUSTimeZone: Bool, dismissPicker: Bool = false, date: Date = Date()) -> Self {
         let picker = Self.firstPicker
         wait(for: picker, withTimeout: uiPickerTimeout)
-        let (day, hour, minute, amPm) = getPickerValues(offsetDays: offsetDays, offsetHours: offsetHours)
+        let (day, hour, minute, amPm) = getPickerValues(offsetDays: offsetDays, offsetHours: offsetHours, isUSTimeZone: isUSTimeZone, date: date)
+        
         var formattedHours = hour
         if !isUSTimeZone {
             // Add leading zeroes for continental Time Zone
             formattedHours = String(format: "%02d", Int(hour) ?? 0)
         }
+        
         picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: day)
         picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: formattedHours)
         picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: minute)
@@ -647,15 +691,22 @@ final class FormStepScreen: Step {
         return self
     }
     
-    func verifyDatePickerRestrictedTo3days(offsetDays: Int, offsetYears: Int, dismissPicker: Bool = false) -> Self {
+    func verifyDatePickerRestrictedTo3days(offsetDays: Int, offsetYears: Int, isUSTimeZone: Bool, dismissPicker: Bool = false) -> Self {
+        
         let (month, day, year) = getPickerValues(offsetDays: offsetDays, offsetYears: offsetYears)
+        answerDateQuestion(year: year, month: month, day: day, isUSTimeZone: isUSTimeZone, dismissPicker: false)
+        
         let picker = Self.firstPicker
         wait(for: picker, withTimeout: uiPickerTimeout)
-        picker.pickerWheels.element(boundBy: 0).adjust(toPickerWheelValue: month)
-        picker.pickerWheels.element(boundBy: 1).adjust(toPickerWheelValue: day)
-        picker.pickerWheels.element(boundBy: 2).adjust(toPickerWheelValue: year)
         
-        let dayDisplayed = picker.pickerWheels.element(boundBy: 1).value as? String ?? ""
+        // For US day picker wheel goes second
+        let dayDisplayed: String
+        if isUSTimeZone {
+            dayDisplayed = picker.pickerWheels.element(boundBy: 1).value as? String ?? ""
+        } else {
+            dayDisplayed = picker.pickerWheels.element(boundBy: 0).value as? String ?? ""
+        }
+ 
         XCTAssertNotEqual(day, dayDisplayed, "The date picker should be restricted to 3 days")
         if dismissPicker {
             Keyboards.tapDoneButtonOnToolbar()
@@ -665,22 +716,28 @@ final class FormStepScreen: Step {
     
     /// Verifies that the UI date picker defaults to the current date
     @discardableResult
-    func verifyDatePickerDefaultsToCurrentDate() -> Self {
+    func verifyDatePickerDefaultsToCurrentDate(isUSTimeZone: Bool = true) -> Self {
         let currentDate = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM d yyyy"
-        let currentDateComponents = formatter.string(from: currentDate).components(separatedBy: " ")
-        let expectedMonth = currentDateComponents[0]
-        let expectedDay = currentDateComponents[1]
-        let expectedYear = currentDateComponents[2]
+        let (expectedMonth, expectedDay, expectedYear) =  DateFormatterManager.shared.dateStrings(from: currentDate)
         
         let picker = Self.firstPicker
         wait(for: picker, withTimeout: uiPickerTimeout)
         let yearPickerWheel = picker.pickerWheels.element(boundBy: 2)
         wait(for: yearPickerWheel, withTimeout: uiPickerTimeout)
+        
         let actualYear = picker.pickerWheels.element(boundBy: 2).value as? String ?? ""
-        let actualDay = picker.pickerWheels.element(boundBy: 1).value as? String ?? ""
-        let actualMonth = picker.pickerWheels.element(boundBy: 0).value as? String ?? ""
+        let actualDay: String
+        let actualMonth: String
+        
+        // Month and Date picker wheels look different for different locales. For US month goes first and vice versa
+        if isUSTimeZone {
+            actualDay = picker.pickerWheels.element(boundBy: 1).value as? String ?? ""
+            actualMonth = picker.pickerWheels.element(boundBy: 0).value as? String ?? ""
+        } else {
+            actualDay = picker.pickerWheels.element(boundBy: 0).value as? String ?? ""
+            actualMonth = picker.pickerWheels.element(boundBy: 1).value as? String ?? ""
+        }
+        
         XCTAssertEqual(actualYear, expectedYear, "The year picker wheel is not showing correct value. Expected \(expectedYear) but got \(actualYear)")
         XCTAssertEqual(actualDay, expectedDay, "The day picker wheel is not showing correct value. Expected \(expectedDay) but got \(actualDay)")
         XCTAssertEqual(actualMonth, expectedMonth, "The month picker wheel is not showing correct value. Expected \(expectedMonth) but got \(actualMonth)")
@@ -691,29 +748,23 @@ final class FormStepScreen: Step {
      Gets picker wheels values based on offsets from the current date
      - parameter offsetDays: the number of days to add to the current date . A positive value moves forward in time, a negative value moves backward
      - parameter offsetHours: the number of hours to add to the current date. A positive value moves forward in time, a negative value moves backward
+     - parameter date: by default we use current date to calculate picker values
      */
-    func getPickerValues(offsetDays: Int, offsetHours: Int) -> (day: String, hour: String, minute: String, amPm: String) {
+    func getPickerValues(offsetDays: Int, offsetHours: Int, isUSTimeZone: Bool, date: Date = Date()) -> (day: String, hour: String, minute: String, amPm: String) {
         let calendar = Calendar.current
-        let now = Date()
-        let adjustedDate = calendar.date(byAdding: .day, value: offsetDays, to: now)!
+        let adjustedDate = calendar.date(byAdding: .day, value: offsetDays, to: date)!
         let adjustedDateTime = calendar.date(byAdding: .hour, value: offsetHours, to: adjustedDate)!
-        let dateFormatter = DateFormatter()
+        let day = DateFormatterManager.shared.monthDayString(from: adjustedDateTime)
+        let minute = DateFormatterManager.shared.minutesString(from: adjustedDateTime)
+        var hour: String
+        var amPm: String = ""
+        if isUSTimeZone {
+            hour = DateFormatterManager.shared.hour12String(from: adjustedDateTime)
+            amPm = DateFormatterManager.shared.amPmString(from: adjustedDateTime)
+        } else {
+            hour = DateFormatterManager.shared.hour24String(from: adjustedDateTime)
+        }
 
-        dateFormatter.dateFormat = "MMM d"
-        let day = dateFormatter.string(from: adjustedDateTime)
-        
-        let hourFormatter = DateFormatter()
-        hourFormatter.dateFormat = "h"
-        let hour = hourFormatter.string(from: adjustedDateTime)
-        
-        let minuteFormatter = DateFormatter()
-        minuteFormatter.dateFormat = "mm"
-        let minute = minuteFormatter.string(from: adjustedDateTime)
-        
-        let amPmFormatter = DateFormatter()
-        amPmFormatter.dateFormat = "a"
-        let amPm = amPmFormatter.string(from: adjustedDateTime)
-        
         return (day, hour, minute, amPm)
     }
     
@@ -721,24 +772,13 @@ final class FormStepScreen: Step {
      Gets picker wheels values based on offsets from the current date
      - parameter offsetDays: the number of days to add to the current date . A positive value moves forward in time, a negative value moves backward
      - parameter offsetYears: the number of years to add to the current date. A positive value moves forward in time, a negative value moves backward
+     - parameter date: by default we use current date to calculate picker values
      */
-    func getPickerValues(offsetDays: Int, offsetYears: Int) -> (month: String, day: String, year: String) {
+    func getPickerValues(offsetDays: Int, offsetYears: Int, date: Date = Date()) -> (month: String, day: String, year: String) {
         let calendar = Calendar.current
-        let now = Date()
-        let adjustedDate = calendar.date(byAdding: .day, value: offsetDays, to: now)!
+        let adjustedDate = calendar.date(byAdding: .day, value: offsetDays, to: date)!
         let adjustedDateTime = calendar.date(byAdding: .year, value: offsetYears, to: adjustedDate)!
-        
-        let monthFormatter = DateFormatter()
-        monthFormatter.dateFormat = "MMMM"
-        let month = monthFormatter.string(from: adjustedDateTime)
-        
-        let dayFormatter = DateFormatter()
-        dayFormatter.dateFormat = "d"
-        let day = dayFormatter.string(from: adjustedDateTime)
-        
-        let yearFormatter = DateFormatter()
-        yearFormatter.dateFormat = "yyyy"
-        let year = yearFormatter.string(from: adjustedDateTime)
+        let (month, day, year) =  DateFormatterManager.shared.dateStrings(from: adjustedDateTime)
         
         return (month, day, year)
     }
@@ -933,6 +973,14 @@ final class FormStepScreen: Step {
         return self
     }
     
+    @discardableResult
+    func verifyImageChoiceQuestion(withId formItemId: String, imageIndex: Int, expectedLabel: String) -> Self {
+        let imageButton = getFormItemCell(withId: formItemId).buttons.element(boundBy: imageIndex)
+        wait(for: imageButton, toBeSelected: true)
+        XCTAssertEqual(imageButton.label,  expectedLabel, "Expected Image label: \(expectedLabel) at index \(imageIndex), but found: \(imageButton.label)")
+        return self
+    }
+    
     enum ImageButtonLabel: String {
         case squareShape = "Square Shape"
         case roundShape = "Round Shape"
@@ -940,6 +988,7 @@ final class FormStepScreen: Step {
     
     // MARK: - Scale Answer Format
     
+    // Note: The slider can't be added into another section so its form step index is always 0 (no index argument in getFormItemCell method)
     // As per apple documentation: The adjustment is a “best effort” to move the indicator to the desired position; absolute fidelity is not guaranteed. https://developer.apple.com/documentation/xctest/xcuielement/1501022-adjust
     
     static var firstSlider = app.sliders.firstMatch
@@ -955,11 +1004,10 @@ final class FormStepScreen: Step {
     /**
      Handles ORKContinuousScaleAnswerFormat
      - parameter formItemId: The string that identifies the form item, which should be unique within the form step
-     - parameter index: form item cell index. Usually form item cell index is 0 unless it's from item within a section
      */
     @discardableResult
-    func adjustQuestionSlider(withId formItemId: String, atIndex index: Int = 0, withNormalizedPosition: CGFloat) -> Self {
-        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+    func adjustQuestionSlider(withId formItemId: String, withNormalizedPosition: CGFloat) -> Self {
+        let cell = getFormItemCell(withId: formItemId)
         if !cell.visible {
             cell.scrollUntilVisible()
         }
@@ -993,38 +1041,61 @@ final class FormStepScreen: Step {
     /**
      Adjusts slider and verifies slider result value. Handles  ORKAnswerFormat scale
      - parameter formItemId: The string that identifies the form item, which should be unique within the form step
-     - parameter index: form item cell index. Usually form item cell index is 0 unless it's from item within a section
      - parameter sliderValue: value that move slider to
      - parameter stepValue: slider step
      */
     @discardableResult
-    func answerScaleQuestion(withId formItemId: String, atIndex index: Int = 0, sliderValue: Double, stepValue: Double, minValue: Double, maxValue: Double) -> Self {
+    func answerScaleQuestion(withId formItemId: String, sliderValue: Double, stepValue: Double, minValue: Double, maxValue: Double) -> Self {
         
-        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+        let cell = getFormItemCell(withId: formItemId)
         let slider = cell.sliders.firstMatch
         wait(for: slider)
         let normalizedValue = normalizeSliderValue(sliderValue: sliderValue, stepValue: stepValue, minValue: minValue, maxValue :maxValue)
         UITestLogger.logDebugMessage("Normalized value: \(normalizedValue)")
         
         slider.adjust(toNormalizedSliderPosition: normalizedValue)
-        let actualSliderValue = slider.value as? String ?? ""
-        let actualSliderValueDouble = Double(actualSliderValue) ?? 0
+        var actualSliderValue = slider.value as? String ?? ""
+        var actualSliderValueDouble = Double(actualSliderValue) ?? 0
+        
+        var retry = 0
+        while actualSliderValueDouble != sliderValue && retry < 5 {
+            if retry > 0 { sleep(1) }
+            slider.adjust(toNormalizedSliderPosition: normalizedValue)
+            actualSliderValue = slider.value as? String ?? ""
+            actualSliderValueDouble = Double(actualSliderValue) ?? 0
+            retry += 1
+        }
         
         XCTAssertEqual(actualSliderValueDouble, sliderValue)
         return self
     }
     
+    /**
+     Adjusts slider and verifies slider result value. Handles  ORKAnswerFormat scale
+     - parameter formItemId: The string that identifies the form item, which should be unique within the form step
+     - parameter sliderValue: value that move slider to
+     - parameter stepValue: slider step
+     - parameter expectedSliderValue: text value that is displayed in UI
+     */
     @discardableResult
-    func answerTextScaleQuestion(withId formItemId: String, atIndex index: Int = 0, sliderValue: Double, expectedSliderValue: String, stepValue: Double, minValue: Double, maxValue: Double) -> Self {
+    func answerTextScaleQuestion(withId formItemId: String, sliderValue: Double, expectedSliderValue: String, stepValue: Double, minValue: Double, maxValue: Double) -> Self {
         
-        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+        let cell = getFormItemCell(withId: formItemId)
         let slider = cell.sliders.firstMatch
         wait(for: slider)
-        let normalizedValue = normalizeSliderValue(sliderValue: sliderValue, stepValue: stepValue, minValue: minValue, maxValue :maxValue)
+        let normalizedValue = normalizeSliderValue(sliderValue: sliderValue, stepValue: stepValue, minValue: minValue, maxValue: maxValue)
         UITestLogger.logDebugMessage("Normalized value: \(normalizedValue)")
         
         slider.adjust(toNormalizedSliderPosition: normalizedValue)
-        let actualSliderValue = slider.value as? String ?? ""
+        var actualSliderValue = slider.value as? String ?? ""
+        
+        var retry = 0
+        while actualSliderValue != expectedSliderValue && retry < 5 {
+            if retry > 0 { sleep(1) }
+            slider.adjust(toNormalizedSliderPosition: normalizedValue)
+            actualSliderValue = slider.value as? String ?? ""
+            retry += 1
+        }
         
         XCTAssertEqual(actualSliderValue, expectedSliderValue)
         return self
@@ -1032,8 +1103,9 @@ final class FormStepScreen: Step {
     
     /// ORKAnswerFormat continuousScale numberStyle = .percent
     @discardableResult
-    func answerScaleQuestionPercentStyle(withId formItemId: String, atIndex index: Int = 0, sliderValue: Int, stepValue: Double, minValue: Double, maxValue: Double) -> Self {
-        let formItemCell = getFormItemCell(withId: formItemId, atIndex: index)
+    func answerScaleQuestionPercentStyle(withId formItemId: String, sliderValue: Int, stepValue: Double, minValue: Double, maxValue: Double) -> Self {
+        
+        let formItemCell = getFormItemCell(withId: formItemId)
         let slider = formItemCell .sliders.firstMatch
         wait(for: slider)
         let normalizedValue = (Double(sliderValue) - minValue)/(maxValue - minValue)
@@ -1054,8 +1126,9 @@ final class FormStepScreen: Step {
     
     /// Vertical sliders don't work with XCUITest slider method (adjust(toNormalizedSliderPosition), so we have to use workaround with coords
     @discardableResult
-    func answerVerticalScaleQuestion(withId formItemId: String, atIndex index: Int = 0, expectedSliderValue: Double, dx: Double, dy: Double) -> Self {
-        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+    func answerVerticalScaleQuestion(withId formItemId: String, expectedSliderValue: Double, dx: Double, dy: Double) -> Self {
+        
+        let cell = getFormItemCell(withId: formItemId)
         let slider = cell.sliders.firstMatch
         wait(for: slider)
         let sliderCoordinate = slider.coordinate(withNormalizedOffset: CGVector(dx: dx, dy: dy))
@@ -1065,7 +1138,7 @@ final class FormStepScreen: Step {
         // As per apple documentation: The adjustment is a “best effort” to move the indicator to the desired position; absolute fidelity is not guaranteed. https://developer.apple.com/documentation/xctest/xcuielement/1501022-adjust
         // So we need to call slider adjustment method several times in order to set slider to desired position:
         var retry = 0
-        while  actualSliderValueDouble != expectedSliderValue && retry < 5 {
+        while actualSliderValueDouble != expectedSliderValue && retry < 5 {
             if retry > 0 { sleep(1) }
             sliderCoordinate.press(forDuration: 0.1)
             actualSliderValue = slider.value as? String ?? ""
@@ -1079,8 +1152,10 @@ final class FormStepScreen: Step {
     
     /// Adjusts slider to the end. Expected value of slider is Double
     /// Start and end positions won't work properly so we need separate workaround for those
-    func adjustVerticalSliderToEndPosition(withId formItemId: String, atIndex index: Int = 0, expectedValue: Double) -> Self {
-        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+    @discardableResult
+    func adjustVerticalSliderToEndPosition(withId formItemId: String, expectedValue: Double) -> Self {
+        
+        let cell = getFormItemCell(withId: formItemId)
         let slider = cell.sliders.firstMatch
         wait(for: slider)
         
@@ -1091,7 +1166,7 @@ final class FormStepScreen: Step {
         var actualSliderValueDouble = Double(actualSliderValue) ?? 0
         
         var retry = 0
-        while  actualSliderValueDouble != expectedValue && retry < 5 {
+        while actualSliderValueDouble != expectedValue && retry < 5 {
             if retry > 0 { sleep(1) }
             sliderCenter.press(forDuration: 0.1, thenDragTo: sliderEnd, withVelocity: .slow, thenHoldForDuration: 0.1)
             actualSliderValue = slider.value as? String ?? ""
@@ -1105,8 +1180,10 @@ final class FormStepScreen: Step {
     }
     
     /// Adjusts slider to the end. Expected value of slider is String
-    func adjustVerticalSliderToEndPosition(withId formItemId: String, atIndex index: Int = 0, expectedValue: String) -> Self {
-        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+    @discardableResult
+    func adjustVerticalSliderToEndPosition(withId formItemId: String, expectedValue: String) -> Self {
+        
+        let cell = getFormItemCell(withId: formItemId)
         let slider = cell.sliders.firstMatch
         wait(for: slider)
         
@@ -1127,9 +1204,64 @@ final class FormStepScreen: Step {
         return self
     }
     
+    /// Vertical sliders don't work with XCUITest slider method (adjust(toNormalizedSliderPosition), so we have to use workaround with coords
+    @discardableResult
+    func adjustVerticalSliderToStartPosition(withId formItemId: String, expectedValue: Double) -> Self {
+        
+        let cell = getFormItemCell(withId: formItemId)
+        let slider = cell.sliders.firstMatch
+        wait(for: slider)
+        
+        let sliderCenter = slider.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        let sliderEnd = slider.coordinate(withNormalizedOffset: CGVector(dx: 1, dy: 1))
+        // When we need to adjust slider to the end of the slider we set the target coordinate a little bit further to make sure that dragging will hit the end of the slider
+        var actualSliderValue = slider.value as? String ?? ""
+        var actualSliderValueDouble = Double(actualSliderValue) ?? 0
+        
+        var retry = 0
+        while actualSliderValueDouble != expectedValue && retry < 5 {
+            if retry > 0 { sleep(1) }
+            sliderCenter.press(forDuration: 0.1, thenDragTo: sliderEnd, withVelocity: .slow, thenHoldForDuration: 0.1)
+            actualSliderValue = slider.value as? String ?? ""
+            actualSliderValueDouble = Double(actualSliderValue) ?? 0
+            retry += 1
+        }
+        
+        XCTAssertEqual(actualSliderValueDouble, expectedValue)
+        
+        return self
+    }
+    
+    /// Vertical sliders don't work with XCUITest slider method (adjust(toNormalizedSliderPosition), so we have to use workaround with coords
+    @discardableResult
+    func adjustVerticalSliderToStartPosition(withId formItemId: String, expectedValue: String) -> Self {
+        
+        let cell = getFormItemCell(withId: formItemId)
+        let slider = cell.sliders.firstMatch
+        wait(for: slider)
+        
+        let sliderCenter = slider.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        let sliderEnd = slider.coordinate(withNormalizedOffset: CGVector(dx: 1, dy: 1))
+        // When we need to adjust slider to the end of the slider we set the target coordinate a little bit further to make sure that dragging will hit the end of the slider
+        var actualSliderValue = slider.value as? String ?? ""
+        
+        var retry = 0
+        while  actualSliderValue != expectedValue && retry < 5 {
+            if retry > 0 { sleep(1) }
+            sliderCenter.press(forDuration: 0.1, thenDragTo: sliderEnd, withVelocity: .slow, thenHoldForDuration: 0.1)
+            actualSliderValue = slider.value as? String ?? ""
+            retry += 1
+        }
+        
+        XCTAssertEqual(actualSliderValue, expectedValue)
+        
+        return self
+    }
+    
     /// Adjusts vertical slider without verifying resulting value
-    func adjustVerticalSlider(withId formItemId: String, atIndex index: Int = 0, dx: Double, dy: Double) -> Self {
-        let cell = getFormItemCell(withId: formItemId, atIndex: index)
+    @discardableResult
+    func adjustVerticalSlider(withId formItemId: String, dx: Double, dy: Double) -> Self {
+        let cell = getFormItemCell(withId: formItemId)
         let slider = cell.sliders.firstMatch
         wait(for: slider)
         
@@ -1154,5 +1286,73 @@ final class FormStepScreen: Step {
         let lastCell = cellCount - 1
         let cell = FormStepScreen().getFormItemCell(withId: formItemId, atIndex: lastCell)
         return cell
+    }
+    
+    // MARK: -  Learn More Button
+    
+    /**
+     Observed behavior: twice more "Learn more" buttons in hierarchy than expected. In this case "index" variable should have different value in order to tap expected button. That's why we provide buttons count and adjust index as needed
+     - parameter index: 0-based button index
+     - parameter buttonsCount: number of "Learn more" buttons in hierarchy
+     */
+    func tapLearnMoreButton(withIndex index: Int, buttonsCount: Int) -> LearnMoreStepScreen {
+        let adjustedIndex = buttonsCount + index
+        let learnMoreIconButton = Self.stepView.buttons.matching(identifier: "More Info").element(boundBy: adjustedIndex)
+        wait(for: learnMoreIconButton)
+        learnMoreIconButton.tap()
+        return LearnMoreStepScreen()
+    }
+    
+    // MARK: -  Don't Know Button
+    
+    func tapDontKnowButton(withId formItemId: String) -> Self {
+        let dontKnowButton = getFormItemCell(withId: formItemId).buttons.element(boundBy: 0)
+        wait(for: dontKnowButton)
+        // XCTAssert(!dontKnowButton.isSelected)
+        // TODO: rdar://124189155 ([Blocked] Verify Don't Know Button State (Selected/Unselected)). Currently blocked by: rdar://121157828 ([Accessibility] [ORKCatalog] "I Don't Know" button choice is inaccessible with VoiceOver)
+        dontKnowButton.tap()
+        // wait(for: dontKnowButton, toBeSelected: true)
+        return self
+    }
+    
+    // MARK: - Location Answer Format
+    
+    func verifyCellTextFieldValue(withId formItemId: String, expectedValue: String) -> Self {
+        let textfield = getFormItemCell(withId: formItemId).textFields.firstMatch
+        wait(for: textfield)
+        textfield.verifyElementValue(expectedValue: expectedValue, failureMessage: "Textfield value is expected to be \(expectedValue)")
+        return self
+    }
+    
+    @discardableResult
+    func clearTextFieldWithXButton(withId formItemId: String, atIndex index: Int = 0) -> Self {
+        let textfield = getFormItemCell(withId: formItemId, atIndex: index).textFields.firstMatch
+        wait(for: textfield)
+        let xButton = textfield.buttons.firstMatch // There is only one button in textfield
+        xButton.tap()
+        return self
+    }
+    
+    @discardableResult
+    func enterTextInTextField(withId formItemId: String, text inputText: String, dismissKeyboard: Bool = true) -> Self {
+        let textView = getFormItemCell(withId: formItemId).textFields.firstMatch
+        wait(for: textView)
+        textView.typeText(inputText, clearIfNeeded: true, dismissKeyboard: dismissKeyboard)
+        textView.verifyElementValue(expectedValue: inputText, failureMessage: "Textfield value is expected to be \(inputText)")
+        return self
+    }
+    
+    func verifyMapExists(withId formItemId: String) -> Self {
+        let mapCell = getFormItemCell(withId: formItemId).maps.firstMatch
+        wait(for: mapCell)
+        return self
+    }
+    
+    @discardableResult
+    func verifyLocationPinIconExists(withId formItemId: String) -> Self {
+        let locationImageId = "balloon_shadow"
+        let locationPin = getFormItemCell(withId: formItemId).images[locationImageId]
+        wait(for: locationPin)
+        return self
     }
 }

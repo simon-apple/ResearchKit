@@ -34,7 +34,7 @@
 #import <ResearchKit/ORKQuestionResult.h>
 #endif
 
-@import MapKit;
+#import <MapKit/MapKit.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#if !TARGET_OS_VISION
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && !TARGET_OS_VISION
 @interface ORKLocation ()
 
 

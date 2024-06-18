@@ -1974,7 +1974,7 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
 @end
 
 #pragma mark - ORKFormItemLocationCell
-
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 @interface ORKFormItemLocationCell () <ORKLocationSelectionViewDelegate>
 
 @property (nonatomic, assign) BOOL editingHighlight;
@@ -2099,7 +2099,7 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
 }
 
 @end
-
+#endif 
 
 @interface ORKFormItemSESCell()<ORKSESSelectionViewDelegate>
 

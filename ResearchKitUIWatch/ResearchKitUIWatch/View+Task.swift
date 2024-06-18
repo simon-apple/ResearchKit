@@ -45,7 +45,6 @@ public extension View {
                 content: {
                     TaskView(taskManager: taskManager)
                 })
-
     }
 
     @ViewBuilder

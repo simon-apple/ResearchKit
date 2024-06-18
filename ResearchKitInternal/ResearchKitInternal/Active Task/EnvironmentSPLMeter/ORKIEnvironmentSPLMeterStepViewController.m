@@ -29,7 +29,7 @@
  */
 
 #import "ORKIEnvironmentSPLMeterStepViewController.h"
-#import "ORKICompletionStep.h"
+#import "ResearchKitInternal/ORKITaskViewController.h"
 
 #import "ORKIUtils.h"
 
