@@ -80,6 +80,7 @@
     NSArray<ORKReviewCardSection *> *reviewCardSections = [NSArray new];
     
     reviewCardSections = [reviewCardSections arrayByAddingObjectsFromArray:[self _getReviewCardSectionsFromFormSteps]];
+    reviewCardSections = [reviewCardSections arrayByAddingObjectsFromArray:[self _getReviewCardSectionsFromSurveySteps]];
     
     return reviewCardSections;
 }
@@ -108,6 +109,25 @@
     return reviewCardSections;
 }
 
+- (NSArray<ORKReviewCardSection *> *)_getReviewCardSectionsFromSurveySteps {
+    NSMutableArray<ORKReviewCardSection *> *reviewCardSections = [NSMutableArray new];
+    
+    for (ORKStep *surveyStep in _surveySteps) {
+        NSString *classString = NSStringFromClass([surveyStep class]);
+        
+        if ([classString isEqualToString: NSStringFromClass([ORKFormStep class])]) {
+            ORKFormStep *formStep = ORKDynamicCast(surveyStep, ORKFormStep);
+            [reviewCardSections addObjectsFromArray:[self _getReviewCardSectionsForFormStep:formStep]];
+        } else if ([classString isEqualToString: NSStringFromClass([ORKQuestionStep class])]) {
+            ORKQuestionStep *questionStep = ORKDynamicCast(surveyStep, ORKQuestionStep);
+            [reviewCardSections addObjectsFromArray:[self _getReviewCardSectionsForQuestionStep:questionStep]];
+        }
+
+    }
+    
+    return reviewCardSections;
+}
+
 - (NSMutableArray<ORKReviewCardSection *> *)_getReviewCardSectionsForFormStep:(ORKFormStep *)formStep {
     NSMutableArray<ORKReviewCardSection *> *reviewCardSections = [NSMutableArray new];
     NSMutableArray<ORKReviewCard *> *reviewCards = [NSMutableArray new];
@@ -121,9 +141,9 @@
             NSString *question = [self _questionWithIdentifier:questionResult.identifier formStep:formStep];
             
             if (answerFormat != nil) {
-                ORKReviewCardItem *reviewCardItem = [self _constructReviewCardItemsWithAnswerFormat:answerFormat
-                                                                                             result:questionResult
-                                                                                           question:question];
+                ORKReviewCardItem *reviewCardItem = [self _constructReviewCardItemWithAnswerFormat:answerFormat
+                                                                                            result:questionResult
+                                                                                          question:question];
                 
                 // Each ORKReviewCard will only have one ORKReviewCardItem for now
                 ORKReviewCard *reviewCard = [[ORKReviewCard alloc] initWithReviewCardItems:@[reviewCardItem]];
@@ -161,9 +181,38 @@
     return nil;
 }
 
-- (ORKReviewCardItem *)_constructReviewCardItemsWithAnswerFormat:(ORKAnswerFormat *)answerFormat
-                                                          result:(ORKQuestionResult *)result
-                                                        question:(NSString *)question {
+- (NSMutableArray<ORKReviewCardSection *> *)_getReviewCardSectionsForQuestionStep:(ORKQuestionStep *)questionStep {
+    NSMutableArray<ORKReviewCardSection *> *reviewCardSections = [NSMutableArray new];
+    NSMutableArray<ORKReviewCard *> *reviewCards = [NSMutableArray new];
+    ORKStepResult *stepResult = (ORKStepResult *)[_taskResult resultForIdentifier:questionStep.identifier];
+    
+    if (stepResult) {
+        for (ORKQuestionResult *questionResult in stepResult.results) {
+            ORKAnswerFormat *answerFormat = questionStep.answerFormat;
+            NSString *question = questionStep.question;
+            
+            if (answerFormat != nil) {
+                ORKReviewCardItem *reviewCardItem = [self _constructReviewCardItemWithAnswerFormat:answerFormat
+                                                                                            result:questionResult
+                                                                                          question:question];
+                
+                // Each ORKReviewCard will only have one ORKReviewCardItem for now
+                ORKReviewCard *reviewCard = [[ORKReviewCard alloc] initWithReviewCardItems:@[reviewCardItem]];
+                [reviewCards addObject:reviewCard];
+            }
+        }
+    }
+    
+    // Each formStep will have only one ORKReviewCardSection for now
+    ORKReviewCardSection *reviewCardSection = [[ORKReviewCardSection alloc] initWithTitle:nil reviewCards:reviewCards];
+    [reviewCardSections addObject:reviewCardSection];
+        
+    return reviewCardSections;
+}
+
+- (ORKReviewCardItem *)_constructReviewCardItemWithAnswerFormat:(ORKAnswerFormat *)answerFormat
+                                                        result:(ORKQuestionResult *)result
+                                                    question:(NSString *)question {
     NSMutableArray<NSString *> *reviewCardItemValues = [NSMutableArray new];
     
     if ([self _isTextChoiceQuestionAnswerFormat:answerFormat result:result]) {

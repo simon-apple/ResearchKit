@@ -1029,6 +1029,24 @@ enum TaskListRowSteps {
         return formStep
     }
     
+    static var readOnlyHeightQuestionStepExample: ORKQuestionStep {
+        let heightQuestionStep = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionTask))
+        heightQuestionStep.title = "Height Question"
+        heightQuestionStep.question = "Select your height."
+        heightQuestionStep.answerFormat = ORKHeightAnswerFormat()
+        
+        return heightQuestionStep
+    }
+    
+    static var readOnlyWeightQuestionStepExample: ORKQuestionStep {
+        let weightQuestionStep = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionTask))
+        weightQuestionStep.title = "Weight Question"
+        weightQuestionStep.question = "Select your weight."
+        weightQuestionStep.answerFormat = ORKWeightAnswerFormat()
+        
+        return weightQuestionStep
+    }
+    
     static var readOnlyInstructionStepExample: ORKInstructionStep {
         let instructionStep = ORKInstructionStep(identifier: String(describing: Identifier.surveyTask))
         instructionStep.title = "Read Only View Example"

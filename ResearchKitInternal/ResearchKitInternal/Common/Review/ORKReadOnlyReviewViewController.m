@@ -182,10 +182,18 @@ double const TableViewSectionHeaderHeight = 30.0;
 }
 
 - (NSArray<ORKStep *> *)_getSurveyTypeSteps {
-    NSArray<ORKStep *> *formSteps = [self _getStepsOfClass:[ORKFormStep class]];
-    NSArray<ORKStep *> *questionSteps = [self _getStepsOfClass:[ORKQuestionStep class]];
+    NSMutableArray *filteredSurveySteps = [NSMutableArray new];
     
-    return [formSteps arrayByAddingObjectsFromArray:questionSteps];
+    NSString *formStepClassString = NSStringFromClass([ORKFormStep class]);
+    NSString *questionStepClassString = NSStringFromClass([ORKQuestionStep class]);
+    
+    for (ORKStep *step in _orderedTask.steps) {
+        if ([NSStringFromClass([step class]) isEqualToString:formStepClassString] || [NSStringFromClass([step class]) isEqualToString:questionStepClassString]) {
+            [filteredSurveySteps addObject:step];
+        }
+    }
+    
+    return filteredSurveySteps;
 }
 
 - (NSArray<ORKStep *> *)_getStepsOfClass:(Class)class {
@@ -208,7 +216,7 @@ double const TableViewSectionHeaderHeight = 30.0;
             break;
             
         case ORKReadOnlyStepTypeSurveyStep:
-            return [NSArray new];
+            return [ORKReviewResultModel getReviewCardSectionsWithSurveySteps:_stepsToParse taskResult:_taskResult];
             break;
             
         case ORKReadOnlyStepTypeFamilyHistoryStep:
@@ -254,6 +262,16 @@ double const TableViewSectionHeaderHeight = 30.0;
 }
 
 #pragma mark UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    ORKReviewCardSection *reviewCardSection = [_reviewCardSections objectAtIndex:section];
+    return reviewCardSection.title ? UITableViewAutomaticDimension : 0.0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    ORKReviewCardSection *reviewCardSection = [_reviewCardSections objectAtIndex:section];
+    return reviewCardSection.title ? UITableViewAutomaticDimension : 0.0;
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewAutomaticDimension;

@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithTitle:(nullable NSString *)title 
                   reviewCards:(NSArray<ORKReviewCard *> *)reviewCards;
 
-@property (nonatomic, readonly) NSString *title;
+@property (nonatomic, nullable, readonly) NSString *title;
 @property (nonatomic, readonly) NSArray<ORKReviewCard *> *reviewCards;
 
 @end
