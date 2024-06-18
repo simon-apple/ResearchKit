@@ -32,6 +32,7 @@
 
 #import "ORKFamilyHistoryStep.h"
 #import "ORKReviewCardSection.h"
+#import "ORKReviewCardTableViewCell.h"
 #import "ORKReviewResultModel.h"
 
 #import <ResearchKit/ORKCollectionResult.h>
@@ -42,7 +43,7 @@
 #import <ResearchKit/ORKStep.h>
 
 
-NSString * const ORKReviewCardCellIdentifier = @"ORKReviewCardCellIdentifier";
+NSString * const ORKReviewCardTableViewCellIdentifier = @"ORKReviewCardTableViewCellIdentifier";
 
 double const TableViewSectionHeaderHeight = 30.0;
 
@@ -84,10 +85,11 @@ double const TableViewSectionHeaderHeight = 30.0;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor systemGrayColor];
+    self.view.backgroundColor = [UIColor yellowColor];
     
     [self _setupTableView];
     [self _setupConstraints];
+    [self _updateViewColors];
     
     [_tableView reloadData];
 }
@@ -102,7 +104,7 @@ double const TableViewSectionHeaderHeight = 30.0;
     if (!_tableView) {
         _tableView = [UITableView new];
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
-        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:ORKReviewCardCellIdentifier];
+        [_tableView registerClass:[ORKReviewCardTableViewCell class] forCellReuseIdentifier:ORKReviewCardTableViewCellIdentifier];
         _tableView.separatorColor = [UIColor clearColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -119,8 +121,8 @@ double const TableViewSectionHeaderHeight = 30.0;
 - (void)_setupConstraints {
     if (_constraints) {
         [NSLayoutConstraint deactivateConstraints:_constraints];
+        _constraints = nil;
     }
-    _constraints = nil;
 
     _constraints = @[
         [_tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
@@ -130,6 +132,35 @@ double const TableViewSectionHeaderHeight = 30.0;
     ];
     
     [NSLayoutConstraint activateConstraints:_constraints];
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    [self _updateViewColors];
+}
+
+- (void)_updateViewColors {
+    UIColor *updateColor =  self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray6Color] : [UIColor systemGroupedBackgroundColor];;
+    self.view.backgroundColor = updateColor;
+    _tableView.backgroundColor = updateColor;
+    [self _updateNavBarBackgroundColor: updateColor];
+}
+
+- (void)_updateNavBarBackgroundColor:(UIColor *)color {
+    UINavigationBarAppearance *appearance = [UINavigationBarAppearance new];
+    [appearance configureWithOpaqueBackground];
+    appearance.backgroundColor = color;
+    //[LC:NOTE] this is needed to hide the divider line per fXH UI Spec
+    appearance.shadowImage = [UIImage new];
+    appearance.shadowColor = [UIColor clearColor];
+    
+    self.navigationController.navigationBar.scrollEdgeAppearance = appearance;
+    self.navigationController.navigationBar.compactAppearance = appearance;
+    self.navigationController.navigationBar.standardAppearance = appearance;
+    
+    if (@available(iOS 15.0, *)) {
+        self.navigationController.navigationBar.compactScrollEdgeAppearance = appearance;
+    }
 }
 
 - (NSArray<ORKStep *> *)_getStepsToParseForResults {
@@ -214,12 +245,11 @@ double const TableViewSectionHeaderHeight = 30.0;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ORKReviewCardSection *reviewCardSection = [_reviewCardSections objectAtIndex:indexPath.section];
+    ORKReviewCard *reviewCard = [reviewCardSection.reviewCards objectAtIndex:indexPath.row];
     
-    // present a related person cell
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ORKReviewCardCellIdentifier];
+    ORKReviewCardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ORKReviewCardTableViewCellIdentifier];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    
-    cell.textLabel.text = @"lorem";
+    [cell configureWithReviewCard:reviewCard];
     
     return cell;
 }

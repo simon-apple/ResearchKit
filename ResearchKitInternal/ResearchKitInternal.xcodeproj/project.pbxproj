@@ -44,6 +44,8 @@
 		51274AA02C1331BC0033E905 /* ORKReviewResultModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 51274A9D2C1331BC0033E905 /* ORKReviewResultModel.h */; };
 		51274AA32C13360B0033E905 /* ORKFormStepResultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 51274AA22C13360B0033E905 /* ORKFormStepResultModel.m */; };
 		51274AA42C13360B0033E905 /* ORKFormStepResultModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 51274AA12C13360B0033E905 /* ORKFormStepResultModel.h */; };
+		517CA4342C20E1530027CD88 /* ORKReviewCardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 517CA4332C20E1530027CD88 /* ORKReviewCardTableViewCell.m */; };
+		517CA4352C20E1530027CD88 /* ORKReviewCardTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 517CA4322C20E1530027CD88 /* ORKReviewCardTableViewCell.h */; };
 		518100042B8FED800092A1C6 /* ORKInternalClassMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 518100022B8FED800092A1C6 /* ORKInternalClassMapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		518100052B8FED800092A1C6 /* ORKInternalClassMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 518100032B8FED800092A1C6 /* ORKInternalClassMapper.m */; };
 		5192BF0C2AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF062AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m */; };
@@ -341,6 +343,8 @@
 		51274A9E2C1331BC0033E905 /* ORKReviewResultModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKReviewResultModel.m; sourceTree = "<group>"; };
 		51274AA12C13360B0033E905 /* ORKFormStepResultModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKFormStepResultModel.h; sourceTree = "<group>"; };
 		51274AA22C13360B0033E905 /* ORKFormStepResultModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKFormStepResultModel.m; sourceTree = "<group>"; };
+		517CA4322C20E1530027CD88 /* ORKReviewCardTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKReviewCardTableViewCell.h; sourceTree = "<group>"; };
+		517CA4332C20E1530027CD88 /* ORKReviewCardTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKReviewCardTableViewCell.m; sourceTree = "<group>"; };
 		518100022B8FED800092A1C6 /* ORKInternalClassMapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKInternalClassMapper.h; sourceTree = "<group>"; };
 		518100032B8FED800092A1C6 /* ORKInternalClassMapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKInternalClassMapper.m; sourceTree = "<group>"; };
 		5192BF062AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKFamilyHistoryRelatedPersonCell.m; sourceTree = "<group>"; };
@@ -684,6 +688,7 @@
 		51274A8A2C10F4320033E905 /* Review */ = {
 			isa = PBXGroup;
 			children = (
+				517CA4312C20E1110027CD88 /* Review Card Table View Cell */,
 				51274A9C2C1330FD0033E905 /* Review Result Models */,
 				51274A8F2C10F7670033E905 /* Review Card */,
 				51274A8C2C10F4490033E905 /* ORKReadOnlyReviewViewController.h */,
@@ -714,6 +719,15 @@
 				51274AA22C13360B0033E905 /* ORKFormStepResultModel.m */,
 			);
 			path = "Review Result Models";
+			sourceTree = "<group>";
+		};
+		517CA4312C20E1110027CD88 /* Review Card Table View Cell */ = {
+			isa = PBXGroup;
+			children = (
+				517CA4322C20E1530027CD88 /* ORKReviewCardTableViewCell.h */,
+				517CA4332C20E1530027CD88 /* ORKReviewCardTableViewCell.m */,
+			);
+			path = "Review Card Table View Cell";
 			sourceTree = "<group>";
 		};
 		518100012B8FED670092A1C6 /* Mapper */ = {
@@ -1428,6 +1442,7 @@
 				51274A6C2BFD2E7C0033E905 /* ORKSettingStatusSnapshot.h in Headers */,
 				CA5B6D5928BD1F38002C3BA4 /* ORKTinnitusOverallAssessmentResult.h in Headers */,
 				CA5B6D7228BD1F38002C3BA4 /* ORKTinnitusAudioGenerator.h in Headers */,
+				517CA4352C20E1530027CD88 /* ORKReviewCardTableViewCell.h in Headers */,
 				51BD900829D88FD30001D54E /* Celestial_Private.h in Headers */,
 				51BD900429D88FD30001D54E /* AVOutputDevice.h in Headers */,
 				51274A302BFD1DBE0033E905 /* ADAMAudioDataAnalysisDefines.h in Headers */,
@@ -1663,6 +1678,7 @@
 				51274A9A2C111EE40033E905 /* ORKReviewCardSection.m in Sources */,
 				51274A6D2BFD2E7C0033E905 /* ORKSettingStatusSnapshot.m in Sources */,
 				512749FA2BF52FC60033E905 /* ORKSettingStatusStepContentView.m in Sources */,
+				517CA4342C20E1530027CD88 /* ORKReviewCardTableViewCell.m in Sources */,
 				51274A752C093FBA0033E905 /* ORKSettingStatusStepContainerView.m in Sources */,
 				CA58F8A628B5330E00761769 /* subalgorithms.c in Sources */,
 				CA77D2A228AFFB4700400292 /* ORKFlamesView.m in Sources */,

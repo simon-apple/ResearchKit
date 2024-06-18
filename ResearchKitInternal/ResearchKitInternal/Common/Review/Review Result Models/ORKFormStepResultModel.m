@@ -175,8 +175,13 @@
             NSString *stringAnswerForChoice = [choiceAnswerHelper stringForChoiceAnswer:answer] ?: @"No answer";
             [reviewCardItemValues addObject:stringAnswerForChoice];
         }
+        
+        if (reviewCardItemValues.count == 0) {
+            [reviewCardItemValues addObject:@"No answer"];
+        }
+        
     } else {
-        NSString *resultString = [answerFormat stringForAnswer: result.answer] ?: @"No answer";
+        NSString *resultString = [answerFormat stringForAnswer:result.answer] ?: @"No answer";
         [reviewCardItemValues addObject:resultString];
     }
     
