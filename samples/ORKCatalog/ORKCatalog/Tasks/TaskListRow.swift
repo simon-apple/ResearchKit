@@ -2310,6 +2310,12 @@ enum TaskListRow: Int, CustomStringConvertible {
         let textChoiceQuestionStep = TaskListRowSteps.readOnlyTextChoiceQuestionStepExample
         let completionStep = TaskListRowSteps.completionStepExample
         
+        if let path = Bundle.main.path(forResource: "mapper_navigableTaskExample1", ofType: "json", inDirectory: "TaskExamples") {
+            
+            
+        }
+        
+        
         return ORKOrderedTask(identifier: String(describing: Identifier.readOnlyFormStepTask), steps: [instructionStep, formStep, heightQuestionStep, weightQuestionStep, textChoiceQuestionStep, completionStep])
     }
     
