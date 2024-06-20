@@ -287,6 +287,14 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return [[ORKTextAnswerFormat alloc] initWithMaximumLength:maximumLength];
 }
 
++ (ORKNumericAnswerFormat *)decimalAnswerFormatWithUnit:(NSString *)unit {
+    return [[ORKNumericAnswerFormat alloc] initWithStyle:ORKNumericAnswerStyleDecimal unit:unit minimum:nil maximum:nil];
+}
+
++ (ORKNumericAnswerFormat *)integerAnswerFormatWithUnit:(NSString *)unit {
+    return [[ORKNumericAnswerFormat alloc] initWithStyle:ORKNumericAnswerStyleInteger unit:unit minimum:nil maximum:nil];
+}
+
 #endif
 
 #if TARGET_OS_IOS
@@ -309,13 +317,6 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return [[ORKImageChoiceAnswerFormat alloc] initWithImageChoices:imageChoices
                                                               style:style
                                                            vertical:vertical];
-}
-
-+ (ORKNumericAnswerFormat *)decimalAnswerFormatWithUnit:(NSString *)unit {
-    return [[ORKNumericAnswerFormat alloc] initWithStyle:ORKNumericAnswerStyleDecimal unit:unit minimum:nil maximum:nil];
-}
-+ (ORKNumericAnswerFormat *)integerAnswerFormatWithUnit:(NSString *)unit {
-    return [[ORKNumericAnswerFormat alloc] initWithStyle:ORKNumericAnswerStyleInteger unit:unit minimum:nil maximum:nil];
 }
 
 + (ORKTimeOfDayAnswerFormat *)timeOfDayAnswerFormat {
@@ -2819,6 +2820,271 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 @end
 
 
+#pragma mark - ORKNumericAnswerFormat
+
+@implementation ORKNumericAnswerFormat
+
+- (Class)questionResultClass {
+    return [ORKNumericQuestionResult class];
+}
+
++ (instancetype)new {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)init {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)initWithStyle:(ORKNumericAnswerStyle)style {
+    return [self initWithStyle:style unit:nil minimum:nil maximum:nil];
+}
+
+- (instancetype)initWithStyle:(ORKNumericAnswerStyle)style
+                         unit:(NSString *)unit
+                      minimum:(NSNumber *)minimum
+                      maximum:(NSNumber *)maximum {
+    return [self initWithStyle:style unit:unit displayUnit:unit minimum:minimum maximum:maximum maximumFractionDigits:nil];
+}
+
+- (instancetype)initWithStyle:(ORKNumericAnswerStyle)style
+                         unit:(NSString *)unit
+                      minimum:(NSNumber *)minimum
+                      maximum:(NSNumber *)maximum
+        maximumFractionDigits:(NSNumber *)maximumFractionDigits {
+    return [self initWithStyle:style unit:unit displayUnit:unit minimum:minimum maximum:maximum maximumFractionDigits:maximumFractionDigits];
+}
+
+- (instancetype)initWithStyle:(ORKNumericAnswerStyle)style
+                         unit:(NSString *)unit
+                  displayUnit:(NSString *)displayUnit
+                      minimum:(NSNumber *)minimum
+                      maximum:(NSNumber *)maximum
+        maximumFractionDigits:(NSNumber *)maximumFractionDigits {
+    self = [super init];
+    if (self) {
+        _style = style;
+        _unit = [unit copy];
+        _displayUnit = [displayUnit copy];
+        _minimum = [minimum copy];
+        _maximum = [maximum copy];
+        _maximumFractionDigits = [maximumFractionDigits copy];
+        _hideUnitWhenAnswerIsEmpty = YES;
+        _placeholder = nil;
+        self.dontKnowButtonStyle = ORKDontKnowButtonStyleCircleChoice;
+        
+        [self validateParameters];
+    }
+    return self;
+}
+
+- (void)validateParameters {
+    if (_minimum != NULL && _maximum != NULL) {
+        if ([_maximum compare: _minimum] == NSOrderedAscending) {
+            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Expect maximumValue larger than minimumValue"] userInfo:nil];
+        }
+    }
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_ENUM(aDecoder, style);
+        ORK_DECODE_OBJ_CLASS(aDecoder, unit, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, displayUnit, NSString);
+        ORK_DECODE_OBJ_CLASS(aDecoder, minimum, NSNumber);
+        ORK_DECODE_OBJ_CLASS(aDecoder, maximum, NSNumber);
+        ORK_DECODE_OBJ_CLASS(aDecoder, defaultNumericAnswer, NSNumber);
+        ORK_DECODE_OBJ_CLASS(aDecoder, maximumFractionDigits, NSNumber);
+        ORK_DECODE_BOOL(aDecoder, hideUnitWhenAnswerIsEmpty);
+        ORK_DECODE_OBJ_CLASS(aDecoder, placeholder, NSString);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_ENUM(aCoder, style);
+    ORK_ENCODE_OBJ(aCoder, unit);
+    ORK_ENCODE_OBJ(aCoder, displayUnit);
+    ORK_ENCODE_OBJ(aCoder, minimum);
+    ORK_ENCODE_OBJ(aCoder, maximum);
+    ORK_ENCODE_OBJ(aCoder, defaultNumericAnswer);
+    ORK_ENCODE_OBJ(aCoder, maximumFractionDigits);
+    ORK_ENCODE_BOOL(aCoder, hideUnitWhenAnswerIsEmpty);
+    ORK_ENCODE_OBJ(aCoder, placeholder);
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKNumericAnswerFormat *answerFormat = [[[self class] allocWithZone:zone] initWithStyle:_style
+                                                                                       unit:[_unit copy]
+                                                                                displayUnit:[_displayUnit copy]
+                                                                                    minimum:[_minimum copy]
+                                                                                    maximum:[_maximum copy]
+                                                                      maximumFractionDigits:[_maximumFractionDigits copy]];
+    answerFormat->_defaultNumericAnswer = [_defaultNumericAnswer copy];
+    answerFormat->_hideUnitWhenAnswerIsEmpty = _hideUnitWhenAnswerIsEmpty;
+    answerFormat->_placeholder = [_placeholder copy];
+    answerFormat.showDontKnowButton = self.showDontKnowButton;
+    answerFormat.customDontKnowButtonText = [self.customDontKnowButtonText copy];
+    answerFormat.dontKnowButtonStyle = self.dontKnowButtonStyle;
+    return answerFormat;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            _style == castObject.style &&
+            ORKEqualObjects(self.unit, castObject.unit) &&
+            ORKEqualObjects(self.displayUnit, castObject.displayUnit) &&
+            ORKEqualObjects(self.minimum, castObject.minimum) &&
+            ORKEqualObjects(self.maximum, castObject.maximum) &&
+            ORKEqualObjects(self.defaultNumericAnswer, castObject.defaultNumericAnswer) &&
+            ORKEqualObjects(self.maximumFractionDigits, castObject.maximumFractionDigits) &&
+            (_hideUnitWhenAnswerIsEmpty == castObject.hideUnitWhenAnswerIsEmpty) &&
+            ORKEqualObjects(self.placeholder, castObject.placeholder));
+}
+
+- (NSUInteger)hash {
+    // Don't bother including everything - style is the main item
+    return [super hash] ^ ([self.unit hash] & _style);
+}
+
+- (instancetype)initWithStyle:(ORKNumericAnswerStyle)style unit:(NSString *)unit {
+    return [self initWithStyle:style unit:unit minimum:nil maximum:nil];
+}
+
++ (instancetype)decimalAnswerFormatWithUnit:(NSString *)unit {
+    return [[ORKNumericAnswerFormat alloc] initWithStyle:ORKNumericAnswerStyleDecimal unit:unit];
+}
+
++ (instancetype)integerAnswerFormatWithUnit:(NSString *)unit {
+    return [[ORKNumericAnswerFormat alloc] initWithStyle:ORKNumericAnswerStyleInteger unit:unit];
+}
+
+- (ORKQuestionType)questionType {
+    return _style == ORKNumericAnswerStyleDecimal ? ORKQuestionTypeDecimal : ORKQuestionTypeInteger;
+    
+}
+
+- (BOOL)isAnswerValid:(id)answer {
+    BOOL isValid = NO;
+    if ([answer isKindOfClass:[NSNumber class]]) {
+        return [self isAnswerValidWithNumber:(NSNumber *)answer];
+    } else if ([answer isKindOfClass:[ORKDontKnowAnswer class]]) {
+        isValid = YES;
+    }
+    return isValid;
+}
+
+- (BOOL)isAnswerValidWithNumber:(NSNumber *)number {
+    BOOL isValid = NO;
+    if (number) {
+        isValid = YES;
+        if (isnan(number.doubleValue)) {
+            isValid = NO;
+        } else if (self.minimum && (self.minimum.doubleValue > number.doubleValue)) {
+            isValid = NO;
+        } else if (self.maximum && (self.maximum.doubleValue < number.doubleValue)) {
+            isValid = NO;
+        }
+    }
+    return isValid;
+}
+
+- (BOOL)isAnswerValidWithString:(NSString *)text {
+    BOOL isValid = NO;
+    if (text.length > 0) {
+        NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:text locale:[NSLocale currentLocale]];
+        isValid = [self isAnswerValidWithNumber:number];
+    }
+    return isValid;
+}
+
+- (NSString *)localizedInvalidValueStringWithAnswerString:(NSString *)text {
+    if (!text.length) {
+        return nil;
+    }
+    NSDecimalNumber *num = [NSDecimalNumber decimalNumberWithString:text locale:[NSLocale currentLocale]];
+    if (!num) {
+        return nil;
+    }
+    NSString *string = nil;
+    NSNumberFormatter *formatter = ORKDecimalNumberFormatter();
+    if (self.minimum && (self.minimum.doubleValue > num.doubleValue)) {
+        string = [NSString localizedStringWithFormat:ORKLocalizedString(@"RANGE_ALERT_MESSAGE_BELOW_MAXIMUM", nil), text, [formatter stringFromNumber:self.minimum]];
+    } else if (self.maximum && (self.maximum.doubleValue < num.doubleValue)) {
+        string = [NSString localizedStringWithFormat:ORKLocalizedString(@"RANGE_ALERT_MESSAGE_ABOVE_MAXIMUM", nil), text, [formatter stringFromNumber:self.maximum]];
+    } else {
+        string = [NSString localizedStringWithFormat:ORKLocalizedString(@"RANGE_ALERT_MESSAGE_OTHER", nil), text];
+    }
+    return string;
+}
+
+- (NSString *)stringForAnswer:(id)answer {
+    NSString *answerString = nil;
+    if ([self isAnswerValid:answer]) {
+        NSNumberFormatter *formatter = ORKDecimalNumberFormatter();
+        answerString = [formatter stringFromNumber:answer];
+        if (self.unit && self.unit.length > 0) {
+            answerString = [NSString stringWithFormat:@"%@ %@", answerString, self.unit];
+        }
+    }
+    return answerString;
+}
+
+#pragma mark - Text Sanitization
+
+- (NSString *)removeDecimalSeparatorsFromText:(NSString *)text numAllowed:(NSInteger)numAllowed separator:(NSString *)decimalSeparator {
+    NSMutableString *scanningText = [text mutableCopy];
+    NSMutableString *sanitizedText = [[NSMutableString alloc] init];
+    BOOL finished = NO;
+    while (!finished) {
+        NSRange range = [scanningText rangeOfString:decimalSeparator];
+        if (range.length == 0) {
+            // If our range's length is 0, there are no more decimal separators
+            [sanitizedText appendString:scanningText];
+            finished = YES;
+        } else if (numAllowed <= 0) {
+            // If we found a decimal separator and no more are allowed, remove the substring
+            [scanningText deleteCharactersInRange:range];
+        } else {
+            NSInteger maxRange = NSMaxRange(range);
+            NSString *processedString = [scanningText substringToIndex:maxRange];
+            [sanitizedText appendString:processedString];
+            [scanningText deleteCharactersInRange:NSMakeRange(0, maxRange)];
+            --numAllowed;
+        }
+    }
+    return sanitizedText;
+}
+
+- (NSString *)sanitizedTextFieldText:(NSString *)text decimalSeparator:(NSString *)separator {
+    NSString *sanitizedText = text;
+    if (_style == ORKNumericAnswerStyleDecimal) {
+        sanitizedText = [self removeDecimalSeparatorsFromText:text numAllowed:1 separator:(NSString *)separator];
+        if (self.maximumFractionDigits) {
+            NSArray *components = [sanitizedText componentsSeparatedByString:separator];
+            if([components count] >= 2 && [components[1] length] > [self.maximumFractionDigits integerValue]) {
+                NSString *rightOfDecimal = [components[1] substringToIndex:[self.maximumFractionDigits integerValue]];
+                sanitizedText = [NSString stringWithFormat:@"%@%@%@", components[0], separator, rightOfDecimal];
+            }
+        }
+    } else if (_style == ORKNumericAnswerStyleInteger) {
+        sanitizedText = [self removeDecimalSeparatorsFromText:text numAllowed:0 separator:(NSString *)separator];
+    }
+    return sanitizedText;
+}
+
+@end
+
+
 #pragma mark - ORKConfirmTextAnswerFormat
 
 @implementation ORKConfirmTextAnswerFormat
@@ -3184,271 +3450,6 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 
 - (NSString *)stringForAnswer:(id)answer {
     return [self stringFromDate:answer];
-}
-
-@end
-
-
-#pragma mark - ORKNumericAnswerFormat
-
-@implementation ORKNumericAnswerFormat
-
-- (Class)questionResultClass {
-    return [ORKNumericQuestionResult class];
-}
-
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)initWithStyle:(ORKNumericAnswerStyle)style {
-    return [self initWithStyle:style unit:nil minimum:nil maximum:nil];
-}
-
-- (instancetype)initWithStyle:(ORKNumericAnswerStyle)style
-                         unit:(NSString *)unit
-                      minimum:(NSNumber *)minimum
-                      maximum:(NSNumber *)maximum {
-    return [self initWithStyle:style unit:unit displayUnit:unit minimum:minimum maximum:maximum maximumFractionDigits:nil];
-}
-
-- (instancetype)initWithStyle:(ORKNumericAnswerStyle)style
-                         unit:(NSString *)unit
-                      minimum:(NSNumber *)minimum
-                      maximum:(NSNumber *)maximum
-        maximumFractionDigits:(NSNumber *)maximumFractionDigits {
-    return [self initWithStyle:style unit:unit displayUnit:unit minimum:minimum maximum:maximum maximumFractionDigits:maximumFractionDigits];
-}
-
-- (instancetype)initWithStyle:(ORKNumericAnswerStyle)style
-                         unit:(NSString *)unit
-                  displayUnit:(NSString *)displayUnit
-                      minimum:(NSNumber *)minimum
-                      maximum:(NSNumber *)maximum
-        maximumFractionDigits:(NSNumber *)maximumFractionDigits {
-    self = [super init];
-    if (self) {
-        _style = style;
-        _unit = [unit copy];
-        _displayUnit = [displayUnit copy];
-        _minimum = [minimum copy];
-        _maximum = [maximum copy];
-        _maximumFractionDigits = [maximumFractionDigits copy];
-        _hideUnitWhenAnswerIsEmpty = YES;
-        _placeholder = nil;
-        self.dontKnowButtonStyle = ORKDontKnowButtonStyleCircleChoice;
-        
-        [self validateParameters];
-    }
-    return self;
-}
-
-- (void)validateParameters {
-    if (_minimum != NULL && _maximum != NULL) {
-        if ([_maximum compare: _minimum] == NSOrderedAscending) {
-            @throw [NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Expect maximumValue larger than minimumValue"] userInfo:nil];
-        }
-    }
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_ENUM(aDecoder, style);
-        ORK_DECODE_OBJ_CLASS(aDecoder, unit, NSString);
-        ORK_DECODE_OBJ_CLASS(aDecoder, displayUnit, NSString);
-        ORK_DECODE_OBJ_CLASS(aDecoder, minimum, NSNumber);
-        ORK_DECODE_OBJ_CLASS(aDecoder, maximum, NSNumber);
-        ORK_DECODE_OBJ_CLASS(aDecoder, defaultNumericAnswer, NSNumber);
-        ORK_DECODE_OBJ_CLASS(aDecoder, maximumFractionDigits, NSNumber);
-        ORK_DECODE_BOOL(aDecoder, hideUnitWhenAnswerIsEmpty);
-        ORK_DECODE_OBJ_CLASS(aDecoder, placeholder, NSString);
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_ENUM(aCoder, style);
-    ORK_ENCODE_OBJ(aCoder, unit);
-    ORK_ENCODE_OBJ(aCoder, displayUnit);
-    ORK_ENCODE_OBJ(aCoder, minimum);
-    ORK_ENCODE_OBJ(aCoder, maximum);
-    ORK_ENCODE_OBJ(aCoder, defaultNumericAnswer);
-    ORK_ENCODE_OBJ(aCoder, maximumFractionDigits);
-    ORK_ENCODE_BOOL(aCoder, hideUnitWhenAnswerIsEmpty);
-    ORK_ENCODE_OBJ(aCoder, placeholder);
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKNumericAnswerFormat *answerFormat = [[[self class] allocWithZone:zone] initWithStyle:_style
-                                                                                       unit:[_unit copy]
-                                                                                displayUnit:[_displayUnit copy]
-                                                                                    minimum:[_minimum copy]
-                                                                                    maximum:[_maximum copy]
-                                                                      maximumFractionDigits:[_maximumFractionDigits copy]];
-    answerFormat->_defaultNumericAnswer = [_defaultNumericAnswer copy];
-    answerFormat->_hideUnitWhenAnswerIsEmpty = _hideUnitWhenAnswerIsEmpty;
-    answerFormat->_placeholder = [_placeholder copy];
-    answerFormat.showDontKnowButton = self.showDontKnowButton;
-    answerFormat.customDontKnowButtonText = [self.customDontKnowButtonText copy];
-    answerFormat.dontKnowButtonStyle = self.dontKnowButtonStyle;
-    return answerFormat;
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    
-    __typeof(self) castObject = object;
-    return (isParentSame &&
-            _style == castObject.style &&
-            ORKEqualObjects(self.unit, castObject.unit) &&
-            ORKEqualObjects(self.displayUnit, castObject.displayUnit) &&
-            ORKEqualObjects(self.minimum, castObject.minimum) &&
-            ORKEqualObjects(self.maximum, castObject.maximum) &&
-            ORKEqualObjects(self.defaultNumericAnswer, castObject.defaultNumericAnswer) &&
-            ORKEqualObjects(self.maximumFractionDigits, castObject.maximumFractionDigits) &&
-            (_hideUnitWhenAnswerIsEmpty == castObject.hideUnitWhenAnswerIsEmpty) &&
-            ORKEqualObjects(self.placeholder, castObject.placeholder));
-}
-
-- (NSUInteger)hash {
-    // Don't bother including everything - style is the main item
-    return [super hash] ^ ([self.unit hash] & _style);
-}
-
-- (instancetype)initWithStyle:(ORKNumericAnswerStyle)style unit:(NSString *)unit {
-    return [self initWithStyle:style unit:unit minimum:nil maximum:nil];
-}
-
-+ (instancetype)decimalAnswerFormatWithUnit:(NSString *)unit {
-    return [[ORKNumericAnswerFormat alloc] initWithStyle:ORKNumericAnswerStyleDecimal unit:unit];
-}
-
-+ (instancetype)integerAnswerFormatWithUnit:(NSString *)unit {
-    return [[ORKNumericAnswerFormat alloc] initWithStyle:ORKNumericAnswerStyleInteger unit:unit];
-}
-
-- (ORKQuestionType)questionType {
-    return _style == ORKNumericAnswerStyleDecimal ? ORKQuestionTypeDecimal : ORKQuestionTypeInteger;
-    
-}
-
-- (BOOL)isAnswerValid:(id)answer {
-    BOOL isValid = NO;
-    if ([answer isKindOfClass:[NSNumber class]]) {
-        return [self isAnswerValidWithNumber:(NSNumber *)answer];
-    } else if ([answer isKindOfClass:[ORKDontKnowAnswer class]]) {
-        isValid = YES;
-    }
-    return isValid;
-}
-
-- (BOOL)isAnswerValidWithNumber:(NSNumber *)number {
-    BOOL isValid = NO;
-    if (number) {
-        isValid = YES;
-        if (isnan(number.doubleValue)) {
-            isValid = NO;
-        } else if (self.minimum && (self.minimum.doubleValue > number.doubleValue)) {
-            isValid = NO;
-        } else if (self.maximum && (self.maximum.doubleValue < number.doubleValue)) {
-            isValid = NO;
-        }
-    }
-    return isValid;
-}
-
-- (BOOL)isAnswerValidWithString:(NSString *)text {
-    BOOL isValid = NO;
-    if (text.length > 0) {
-        NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:text locale:[NSLocale currentLocale]];
-        isValid = [self isAnswerValidWithNumber:number];
-    }
-    return isValid;
-}
-
-- (NSString *)localizedInvalidValueStringWithAnswerString:(NSString *)text {
-    if (!text.length) {
-        return nil;
-    }
-    NSDecimalNumber *num = [NSDecimalNumber decimalNumberWithString:text locale:[NSLocale currentLocale]];
-    if (!num) {
-        return nil;
-    }
-    NSString *string = nil;
-    NSNumberFormatter *formatter = ORKDecimalNumberFormatter();
-    if (self.minimum && (self.minimum.doubleValue > num.doubleValue)) {
-        string = [NSString localizedStringWithFormat:ORKLocalizedString(@"RANGE_ALERT_MESSAGE_BELOW_MAXIMUM", nil), text, [formatter stringFromNumber:self.minimum]];
-    } else if (self.maximum && (self.maximum.doubleValue < num.doubleValue)) {
-        string = [NSString localizedStringWithFormat:ORKLocalizedString(@"RANGE_ALERT_MESSAGE_ABOVE_MAXIMUM", nil), text, [formatter stringFromNumber:self.maximum]];
-    } else {
-        string = [NSString localizedStringWithFormat:ORKLocalizedString(@"RANGE_ALERT_MESSAGE_OTHER", nil), text];
-    }
-    return string;
-}
-
-- (NSString *)stringForAnswer:(id)answer {
-    NSString *answerString = nil;
-    if ([self isAnswerValid:answer]) {
-        NSNumberFormatter *formatter = ORKDecimalNumberFormatter();
-        answerString = [formatter stringFromNumber:answer];
-        if (self.unit && self.unit.length > 0) {
-            answerString = [NSString stringWithFormat:@"%@ %@", answerString, self.unit];
-        }
-    }
-    return answerString;
-}
-
-#pragma mark - Text Sanitization
-
-- (NSString *)removeDecimalSeparatorsFromText:(NSString *)text numAllowed:(NSInteger)numAllowed separator:(NSString *)decimalSeparator {
-    NSMutableString *scanningText = [text mutableCopy];
-    NSMutableString *sanitizedText = [[NSMutableString alloc] init];
-    BOOL finished = NO;
-    while (!finished) {
-        NSRange range = [scanningText rangeOfString:decimalSeparator];
-        if (range.length == 0) {
-            // If our range's length is 0, there are no more decimal separators
-            [sanitizedText appendString:scanningText];
-            finished = YES;
-        } else if (numAllowed <= 0) {
-            // If we found a decimal separator and no more are allowed, remove the substring
-            [scanningText deleteCharactersInRange:range];
-        } else {
-            NSInteger maxRange = NSMaxRange(range);
-            NSString *processedString = [scanningText substringToIndex:maxRange];
-            [sanitizedText appendString:processedString];
-            [scanningText deleteCharactersInRange:NSMakeRange(0, maxRange)];
-            --numAllowed;
-        }
-    }
-    return sanitizedText;
-}
-
-- (NSString *)sanitizedTextFieldText:(NSString *)text decimalSeparator:(NSString *)separator {
-    NSString *sanitizedText = text;
-    if (_style == ORKNumericAnswerStyleDecimal) {
-        sanitizedText = [self removeDecimalSeparatorsFromText:text numAllowed:1 separator:(NSString *)separator];
-        if (self.maximumFractionDigits) {
-            NSArray *components = [sanitizedText componentsSeparatedByString:separator];
-            if([components count] >= 2 && [components[1] length] > [self.maximumFractionDigits integerValue]) {
-                NSString *rightOfDecimal = [components[1] substringToIndex:[self.maximumFractionDigits integerValue]];
-                sanitizedText = [NSString stringWithFormat:@"%@%@%@", components[0], separator, rightOfDecimal];
-            }
-        }
-    } else if (_style == ORKNumericAnswerStyleInteger) {
-        sanitizedText = [self removeDecimalSeparatorsFromText:text numAllowed:0 separator:(NSString *)separator];
-    }
-    return sanitizedText;
 }
 
 @end

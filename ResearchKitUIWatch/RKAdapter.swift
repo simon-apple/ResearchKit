@@ -34,76 +34,76 @@ import ResearchKit
 public class RKAdapter {
     public static func createFormRow(from item: ORKFormItem) -> FormRow? {
         switch item.answerFormat {
-            case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
-                var answerOptions : [MultipleChoiceOption] = []
-                textChoiceAnswerFormat.textChoices.forEach { textChoice in
-                     answerOptions.append(
-                         MultipleChoiceOption(
-                            id: UUID().uuidString,
-                            choiceText: textChoice.text
-                         )
-                     )
-                 }
-                 return FormRow.multipleChoiceRow(
-                     MultipleChoiceQuestion(
-                        id: item.identifier,
-                        title: item.text,
-                        choices: answerOptions,
-                        selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
-                     )
-                 )
-            case let scaleAnswerFormat as ORKScaleAnswerFormat:
-                return FormRow.intSliderRow(
-                    ScaleSliderQuestion(
-                        id: item.identifier,
-                        title: item.text ?? "",
-                        step: scaleAnswerFormat.step,
-                        range: scaleAnswerFormat.minimum...scaleAnswerFormat.maximum,
-                        value: scaleAnswerFormat.defaultValue
-                    )
-                )
-            case let continuousScaleAnswerFormat as ORKContinuousScaleAnswerFormat:
-
-                // Current ORKContinuousScaleAnswerFormat does not allow user to specify step size so we can create an approximation,
-                // falling back on 0.01 as our step size if required.
-                var stepSize = 0.01
-                let numberOfValues = continuousScaleAnswerFormat.maximum - continuousScaleAnswerFormat.minimum
-                if numberOfValues > 0 {
-                    stepSize = 1.0 / numberOfValues
-                }
-                return FormRow.doubleSliderRow(
-                    ScaleSliderQuestion(
-                        id: item.identifier,
-                        title: item.text ?? "",
-                        step: stepSize,
-                        range: continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum,
-                        value: continuousScaleAnswerFormat.defaultValue
-                    )
-                )
-
-            case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
-                let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
+        case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
+            var answerOptions : [MultipleChoiceOption] = []
+            textChoiceAnswerFormat.textChoices.forEach { textChoice in
+                answerOptions.append(
                     MultipleChoiceOption(
                         id: UUID().uuidString,
                         choiceText: textChoice.text
                     )
-                }
-                guard var defaultOption = answerOptions.first else {
-                    fatalError("Invalid Choice Array for ORKTextScaleAnswerFormat")
-                }
-                if answerOptions.indices.contains(textChoiceScaleAnswerFormat.defaultIndex) {
-                    defaultOption = answerOptions[textChoiceScaleAnswerFormat.defaultIndex]
-                }
-
-                return FormRow.textSliderStep(
-                    ScaleSliderQuestion(
-                        id: item.identifier,
-                        title: item.text ?? "",
-                        options: answerOptions,
-                        selectedMultipleChoiceOption: defaultOption
-                    )
                 )
-            case let textAnswerFormat as ORKTextAnswerFormat:
+            }
+            return FormRow.multipleChoiceRow(
+                MultipleChoiceQuestion(
+                    id: item.identifier,
+                    title: item.text,
+                    choices: answerOptions,
+                    selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
+                )
+            )
+        case let scaleAnswerFormat as ORKScaleAnswerFormat:
+            return FormRow.intSliderRow(
+                ScaleSliderQuestion(
+                    id: item.identifier,
+                    title: item.text ?? "",
+                    step: scaleAnswerFormat.step,
+                    range: scaleAnswerFormat.minimum...scaleAnswerFormat.maximum,
+                    value: scaleAnswerFormat.defaultValue
+                )
+            )
+        case let continuousScaleAnswerFormat as ORKContinuousScaleAnswerFormat:
+            
+            // Current ORKContinuousScaleAnswerFormat does not allow user to specify step size so we can create an approximation,
+            // falling back on 0.01 as our step size if required.
+            var stepSize = 0.01
+            let numberOfValues = continuousScaleAnswerFormat.maximum - continuousScaleAnswerFormat.minimum
+            if numberOfValues > 0 {
+                stepSize = 1.0 / numberOfValues
+            }
+            return FormRow.doubleSliderRow(
+                ScaleSliderQuestion(
+                    id: item.identifier,
+                    title: item.text ?? "",
+                    step: stepSize,
+                    range: continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum,
+                    value: continuousScaleAnswerFormat.defaultValue
+                )
+            )
+            
+        case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
+            let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
+                MultipleChoiceOption(
+                    id: UUID().uuidString,
+                    choiceText: textChoice.text
+                )
+            }
+            guard var defaultOption = answerOptions.first else {
+                fatalError("Invalid Choice Array for ORKTextScaleAnswerFormat")
+            }
+            if answerOptions.indices.contains(textChoiceScaleAnswerFormat.defaultIndex) {
+                defaultOption = answerOptions[textChoiceScaleAnswerFormat.defaultIndex]
+            }
+            
+            return FormRow.textSliderStep(
+                ScaleSliderQuestion(
+                    id: item.identifier,
+                    title: item.text ?? "",
+                    options: answerOptions,
+                    selectedMultipleChoiceOption: defaultOption
+                )
+            )
+        case let textAnswerFormat as ORKTextAnswerFormat:
             return FormRow.textRow(
                 TextQuestion(
                     title: item.text ?? "",
@@ -114,6 +114,16 @@ public class RKAdapter {
                     characterLimit: textAnswerFormat.maximumLength,
                     hideCharacterCountLabel: textAnswerFormat.hideCharacterCountLabel,
                     hideClearButton: textAnswerFormat.hideClearButton
+                )
+            )
+        case let numericAnswerFormat as ORKNumericAnswerFormat:
+            return FormRow.numericRow(
+                NumericQuestion(
+                    id: item.identifier,
+                    title: item.text ?? "",
+                    detail: item.detailText,
+                    prompt: numericAnswerFormat.placeholder ?? "Enter value",
+                    number: numericAnswerFormat.defaultNumericAnswer
                 )
             )
         default:

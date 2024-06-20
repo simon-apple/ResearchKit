@@ -194,6 +194,35 @@ struct FormStepView: View {
                 textFieldType: textQuestion.textFieldType,
                 characterLimit: textQuestion.characterLimit
             )
+        case .numericRow(let numericQuestion):
+            NumericQuestionView(
+                text: .init(
+                    get: {
+                        numericQuestion.number?.stringValue ?? ""
+                    },
+                    set: { newValue in
+                        let newNumber: NSNumber?
+                        if let newFloatingPointNumber = Double(newValue) {
+                            newNumber = NSNumber(floatLiteral: newFloatingPointNumber)
+                        } else {
+                            newNumber = nil
+                        }
+                        
+                        formRow.wrappedValue = .numericRow(
+                            NumericQuestion(
+                                id: numericQuestion.id,
+                                title: numericQuestion.title,
+                                detail: numericQuestion.detail,
+                                prompt: numericQuestion.prompt,
+                                number: newNumber
+                            )
+                        )
+                    }
+                ),
+                title: numericQuestion.title,
+                detail: detail,
+                prompt: numericQuestion.prompt
+            )
         }
     }
     

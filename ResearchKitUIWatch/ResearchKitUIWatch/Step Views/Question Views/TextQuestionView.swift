@@ -119,6 +119,7 @@ public struct TextQuestionView<Header: View>: View {
         } content: {
             VStack {
                 TextField("", text: $text, prompt: placeholder, axis: axis)
+                    .focused($isInputActive)
                     .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
                     .contentShape(Rectangle())
 
