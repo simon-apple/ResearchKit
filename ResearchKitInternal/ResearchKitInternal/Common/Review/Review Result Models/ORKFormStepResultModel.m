@@ -229,8 +229,6 @@
         ORKChoiceAnswerFormatHelper *choiceAnswerHelper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:textChoiceAnswerFormat];
         
         for (NSObject<NSCopying, NSSecureCoding> *answer in choiceQuestionResult.choiceAnswers) {
-            NSLog(@"Question: %@", question);
-            
             NSString *stringAnswerForChoice = [choiceAnswerHelper stringForChoiceAnswer:@[answer]] ?: @"No answer";
             [reviewCardItemValues addObject:stringAnswerForChoice];
         }
