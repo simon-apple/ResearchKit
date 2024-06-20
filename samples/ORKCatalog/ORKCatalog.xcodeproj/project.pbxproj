@@ -28,7 +28,7 @@
 		3E39BA001ABF683F00C2ABE5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E39B9FF1ABF683F00C2ABE5 /* Images.xcassets */; };
 		3ED967B81AC13D37007E2D83 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3ED967BA1AC13D37007E2D83 /* Localizable.strings */; };
 		518E16CA2C248F5500F44B98 /* ORKESerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16C92C248F5500F44B98 /* ORKESerializer.m */; };
-		518E16CD2C24931400F44B98 /* mapper_navigableTaskExample1.json in Resources */ = {isa = PBXBuildFile; fileRef = 518E16CC2C24931400F44B98 /* mapper_navigableTaskExample1.json */; };
+		518E16D32C2495B800F44B98 /* TaskExamples in Resources */ = {isa = PBXBuildFile; fileRef = 518E16D22C2495B800F44B98 /* TaskExamples */; };
 		51AF19862B59F3A900D3B399 /* ORKKeychainWrapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AF19852B59F3A900D3B399 /* ORKKeychainWrapperTests.m */; };
 		51BD8FC729D3AE2E0001D54E /* Sentence1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC629D3AE2E0001D54E /* Sentence1.wav */; };
 		51C173282BA4B4E1006604FB /* sphere_model.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 51C173272BA4B4E1006604FB /* sphere_model.usdz */; };
@@ -237,7 +237,7 @@
 		518E16C72C248F5400F44B98 /* ORKCatalog-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKCatalog-Bridging-Header.h"; sourceTree = "<group>"; };
 		518E16C82C248F5500F44B98 /* ORKESerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKESerializer.h; sourceTree = "<group>"; };
 		518E16C92C248F5500F44B98 /* ORKESerializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKESerializer.m; sourceTree = "<group>"; };
-		518E16CC2C24931400F44B98 /* mapper_navigableTaskExample1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mapper_navigableTaskExample1.json; sourceTree = "<group>"; };
+		518E16D22C2495B800F44B98 /* TaskExamples */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TaskExamples; path = ../../../../../../../../../../../../TaskExamples; sourceTree = "<group>"; };
 		51AF19772B59F1E400D3B399 /* ORKCatalogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ORKCatalogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51AF19852B59F3A900D3B399 /* ORKKeychainWrapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKKeychainWrapperTests.m; sourceTree = "<group>"; };
 		51BD8FC629D3AE2E0001D54E /* Sentence1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Sentence1.wav; path = List1/Sentence1.wav; sourceTree = "<group>"; };
@@ -416,14 +416,6 @@
 				BC9A273B1B82741900BDA84D /* TextImageTableViewCell.swift */,
 			);
 			name = "Displaying Results";
-			sourceTree = "<group>";
-		};
-		518E16CB2C2492ED00F44B98 /* TaskExamples */ = {
-			isa = PBXGroup;
-			children = (
-				518E16CC2C24931400F44B98 /* mapper_navigableTaskExample1.json */,
-			);
-			path = TaskExamples;
 			sourceTree = "<group>";
 		};
 		51AF19782B59F1E500D3B399 /* ORKCatalogTests */ = {
@@ -636,7 +628,7 @@
 		BC74787A1B990EED0072BFE8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				518E16CB2C2492ED00F44B98 /* TaskExamples */,
+				518E16D22C2495B800F44B98 /* TaskExamples */,
 				51C173272BA4B4E1006604FB /* sphere_model.usdz */,
 				51BD8FC629D3AE2E0001D54E /* Sentence1.wav */,
 				0BEE14A5286BC6A9005F26D1 /* Scrubbers */,
@@ -883,11 +875,11 @@
 				3E39BA001ABF683F00C2ABE5 /* Images.xcassets in Resources */,
 				51BD8FC729D3AE2E0001D54E /* Sentence1.wav in Resources */,
 				3E39B9FB1ABF682D00C2ABE5 /* Main.storyboard in Resources */,
-				518E16CD2C24931400F44B98 /* mapper_navigableTaskExample1.json in Resources */,
 				BAAC3FD620C4EF1C0065B9E1 /* ResearchKit.pdf in Resources */,
 				5D3800B52459F4FF00E7D2BD /* PracticeList in Resources */,
 				B125E3D41B1BA47600FF8759 /* tap.aif in Resources */,
 				3E39B9FE1ABF683700C2ABE5 /* LaunchScreen.xib in Resources */,
+				518E16D32C2495B800F44B98 /* TaskExamples in Resources */,
 				5D1CE45123FB1DFE004CB416 /* List1 in Resources */,
 				5DB068EA25AE5940000F3170 /* TinnitusSounds1 in Resources */,
 				3ED967B81AC13D37007E2D83 /* Localizable.strings in Resources */,

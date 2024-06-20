@@ -2310,8 +2310,17 @@ enum TaskListRow: Int, CustomStringConvertible {
         let textChoiceQuestionStep = TaskListRowSteps.readOnlyTextChoiceQuestionStepExample
         let completionStep = TaskListRowSteps.completionStepExample
         
-        if let path = Bundle.main.path(forResource: "mapper_navigableTaskExample1", ofType: "json", inDirectory: "TaskExamples") {
-            
+        if let path = Bundle.main.path(forResource: "demographics_task", ofType: "json", inDirectory: "TaskExamples") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+                let task = try ORKESerializer.object(fromJSONData: data) as? ORKNavigableOrderedTask
+                print("found the task!!")
+                if let task = task {
+                    return task
+                }
+            } catch {
+                print("error while decoding task")
+            }
             
         }
         
