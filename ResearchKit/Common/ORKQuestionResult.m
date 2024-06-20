@@ -504,6 +504,7 @@ static NSString *const RegionIdentifierKey = @"region.identifier";
     return [NSNumber class];
 }
 
+
 - (void)setRungPicked:(NSNumber *)rungPicked {
     self.answer = rungPicked;
 }
@@ -618,6 +619,7 @@ static NSString *const RegionIdentifierKey = @"region.identifier";
 - (NSUInteger)hash {
     return super.hash ^ self.unit.hash ^ self.displayUnit.hash;
 }
+
 
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKNumericQuestionResult *copy = [super copyWithZone:zone];
@@ -742,10 +744,6 @@ static NSString *const RegionIdentifierKey = @"region.identifier";
 
 - (NSNumber *)intervalAnswer {
     return ORKDynamicCast(self.typedAnswer, NSNumber);
-}
-
-- (NSString *)stringValue {
-    return [NSString stringWithFormat:@"%@", [self intervalAnswer]];
 }
 
 @end

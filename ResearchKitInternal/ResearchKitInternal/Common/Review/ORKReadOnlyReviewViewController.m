@@ -149,7 +149,6 @@ double const TableViewSectionHeaderHeight = 30.0;
     UINavigationBarAppearance *appearance = [UINavigationBarAppearance new];
     [appearance configureWithOpaqueBackground];
     appearance.backgroundColor = color;
-    //[LC:NOTE] this is needed to hide the divider line per fXH UI Spec
     appearance.shadowImage = [UIImage new];
     appearance.shadowColor = [UIColor clearColor];
     

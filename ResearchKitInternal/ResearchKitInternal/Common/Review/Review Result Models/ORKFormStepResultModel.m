@@ -171,7 +171,15 @@
 }
 
 - (NSString *)_questionWithIdentifier:(NSString *)identifier formStep:(ORKFormStep *)formStep {
+    ORKFormItem *sectionHeaderFormItem = nil;
+    
     for (ORKFormItem *formItem in formStep.formItems) {
+        if (sectionHeaderFormItem && formItem.answerFormat != nil) {
+            return sectionHeaderFormItem.text;
+        } else if ([formItem.identifier containsString:identifier] && [formItem.identifier containsString:@"-header"]) {
+            sectionHeaderFormItem = formItem;
+        }
+        
         if ([formItem.identifier isEqualToString:identifier] && formItem.answerFormat != nil) {
             return formItem.text;
         }
@@ -211,8 +219,8 @@
 }
 
 - (ORKReviewCardItem *)_constructReviewCardItemWithAnswerFormat:(ORKAnswerFormat *)answerFormat
-                                                        result:(ORKQuestionResult *)result
-                                                    question:(NSString *)question {
+                                                         result:(ORKQuestionResult *)result
+                                                       question:(NSString *)question {
     NSMutableArray<NSString *> *reviewCardItemValues = [NSMutableArray new];
     
     if ([self _isTextChoiceQuestionAnswerFormat:answerFormat result:result]) {
@@ -221,7 +229,9 @@
         ORKChoiceAnswerFormatHelper *choiceAnswerHelper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:textChoiceAnswerFormat];
         
         for (NSObject<NSCopying, NSSecureCoding> *answer in choiceQuestionResult.choiceAnswers) {
-            NSString *stringAnswerForChoice = [choiceAnswerHelper stringForChoiceAnswer:answer] ?: @"No answer";
+            NSLog(@"Question: %@", question);
+            
+            NSString *stringAnswerForChoice = [choiceAnswerHelper stringForChoiceAnswer:@[answer]] ?: @"No answer";
             [reviewCardItemValues addObject:stringAnswerForChoice];
         }
         
