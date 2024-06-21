@@ -69,7 +69,7 @@ public struct TextQuestion: Identifiable {
 
 public struct TextQuestionView<Header: View>: View {
     let header: Header
-
+    let multilineTextFieldPadding: Double = 54
     @FocusState var isInputActive: Bool
     @Binding var text: String
     let prompt: String?
@@ -119,7 +119,7 @@ public struct TextQuestionView<Header: View>: View {
         } content: {
             VStack {
                 TextField("", text: $text, prompt: placeholder, axis: axis)
-                    .padding(.bottom, axis == .vertical ? 54 : .zero)
+                    .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
                     .contentShape(Rectangle())
 
                 HStack {
@@ -136,6 +136,7 @@ public struct TextQuestionView<Header: View>: View {
                         }
                     }
                 }
+#if os(iOS)
                 .toolbar {
                     ToolbarItemGroup(placement: .keyboard) {
                         Spacer()
@@ -144,6 +145,7 @@ public struct TextQuestionView<Header: View>: View {
                         }
                     }
                 }
+#endif
                 .onChange(of: text) { oldValue, newValue in
                     if text.count > characterLimit {
                         text = oldValue

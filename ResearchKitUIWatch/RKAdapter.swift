@@ -109,7 +109,7 @@ public class RKAdapter {
                 TextQuestion(
                     title: item.text ?? "",
                     id: item.identifier,
-                    text: "",
+                    text: textAnswerFormat.defaultTextAnswer ?? "",
                     prompt: textAnswerFormat.placeholder ?? "",
                     textFieldType: textAnswerFormat.multipleLines ? .multiline : .singleLine,
                     characterLimit: textAnswerFormat.maximumLength,

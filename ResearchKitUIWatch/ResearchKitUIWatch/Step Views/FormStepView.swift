@@ -71,14 +71,13 @@ struct FormStepView: View {
                 dismiss()
             } label: {
                 HStack {
-                    Spacer()
-                    
                     Text("Done")
-                        .bold()
-                    
-                    Spacer()
+                        .fontWeight(.bold)
+                        .frame(maxWidth: maxWidthForDoneButton)
                 }
+                .padding(.vertical, 8)
             }
+            .buttonStyle(.borderedProminent)
             .padding(.top, 16)
         }
         .background(Color(uiColor: .secondarySystemBackground))
@@ -219,4 +218,13 @@ struct FormStepView: View {
             )
         }
     }
+    
+    private var maxWidthForDoneButton: CGFloat {
+#if os(iOS)
+        .infinity
+#elseif os(visionOS)
+        300
+#endif
+    }
+    
 }
