@@ -25,6 +25,7 @@ public struct DateQuestion: Identifiable {
     ) {
         self.id = id
         self.title = title
+        self.selection = selection
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range

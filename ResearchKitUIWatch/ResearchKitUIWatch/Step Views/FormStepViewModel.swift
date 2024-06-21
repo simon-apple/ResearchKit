@@ -98,8 +98,13 @@ class FormStepViewModel: ObservableObject {
                 resultArray.append(result)
 
             case .textRow(let textQuestionRow):
-                let result = ORKTextQuestionResult(identifier: "")
+                let result = ORKTextQuestionResult(identifier: textQuestionRow.id)
                 result.textAnswer = textQuestionRow.text
+                resultArray.append(result)
+
+            case .dateRow(let dateQuestionRow):
+                let result = ORKDateQuestionResult(identifier: dateQuestionRow.id)
+                result.dateAnswer = dateQuestionRow.selection
                 resultArray.append(result)
             }
 

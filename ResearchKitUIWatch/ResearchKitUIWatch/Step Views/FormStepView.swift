@@ -197,14 +197,25 @@ struct FormStepView: View {
             )
         case .dateRow(let dateQuestion):
             DateTimeView(
-                title: dateQuestion.title,
-                detail: dateQuestion.,
+                title: title,
+                detail: detail,
                 selection: .init(get: {
-                    return dateQuestion.
-                }, set: <#T##(Date) -> Void#>),
-                pickerPrompt: <#T##String#>,
-                displayedComponents: <#T##DatePickerComponents#>,
-                range: <#T##ClosedRange<Date>#>
+                    return dateQuestion.selection
+                }, set: { newValue in
+                    formRow.wrappedValue = .dateRow(
+                        DateQuestion(
+                            id: dateQuestion.id,
+                            title: dateQuestion.title,
+                            selection: newValue,
+                            pickerPrompt: dateQuestion.pickerPrompt,
+                            displayedComponents: dateQuestion.displayedComponents,
+                            range: dateQuestion.range
+                        )
+                    )
+                }),
+                pickerPrompt: dateQuestion.pickerPrompt,
+                displayedComponents: dateQuestion.displayedComponents,
+                range: dateQuestion.range
             )
         }
     }

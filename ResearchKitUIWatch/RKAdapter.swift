@@ -154,6 +154,7 @@ public class RKAdapter {
                 DateQuestion(
                     id: item.identifier,
                     title: item.text ?? "",
+                    selection: Date(),
                     pickerPrompt: prompt,
                     displayedComponents: components,
                     range: startDate...endDate
