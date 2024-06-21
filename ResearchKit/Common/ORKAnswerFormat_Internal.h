@@ -135,6 +135,13 @@ ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKTextChoice)
 
 @end
 
+#if TARGET_OS_IOS || TARGET_OS_VISION
+@interface ORKDateAnswerFormat () {
+    NSDate *_currentDateOverride;
+}
+@end
+#endif
+
 #if TARGET_OS_IOS
 @protocol ORKScaleAnswerFormatProvider <NSObject>
 
@@ -217,11 +224,6 @@ NSArray<Class> *ORKAllowableValueClasses(void);
 - (NSDate *)pickerDefaultDate;
 
 @end
-
-
-@interface ORKDateAnswerFormat () {
-    NSDate *_currentDateOverride;
-}
 
 - (NSDate *)pickerDefaultDate;
 - (nullable NSDate *)pickerMinimumDate;

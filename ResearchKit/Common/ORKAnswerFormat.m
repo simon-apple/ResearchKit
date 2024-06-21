@@ -2470,6 +2470,212 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 
 @end
 
+#pragma mark - ORKDateAnswerFormat
+
+@implementation ORKDateAnswerFormat
+
+- (Class)questionResultClass {
+    return [ORKDateQuestionResult class];
+}
+
++ (instancetype)new {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)init {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)initWithStyle:(ORKDateAnswerStyle)style {
+    self = [self initWithStyle:style defaultDate:nil minimumDate:nil maximumDate:nil calendar:nil];
+    return self;
+}
+
+- (instancetype)initWithStyle:(ORKDateAnswerStyle)style
+                  defaultDate:(NSDate *)defaultDate
+                  minimumDate:(NSDate *)minimum
+                  maximumDate:(NSDate *)maximum
+                     calendar:(NSCalendar *)calendar {
+    self = [super init];
+    if (self) {
+        _style = style;
+        _defaultDate = [defaultDate copy];
+        _minimumDate = [minimum copy];
+        _maximumDate = [maximum copy];
+        _calendar = [calendar copy];
+        _minuteInterval = 1;
+        self.dontKnowButtonStyle = ORKDontKnowButtonStyleCircleChoice;
+        [self validateParameters];
+    }
+    return self;
+}
+
+- (void)_setCurrentDateOverride:(NSDate *)currentDateOverride {
+    _currentDateOverride = currentDateOverride;
+}
+
+- (NSDate *)_currentDate {
+    return _currentDateOverride ? : [NSDate date];
+}
+
+- (void)setIsMaxDateCurrentTime:(BOOL)isMaxDateCurrentTime {
+    _isMaxDateCurrentTime = isMaxDateCurrentTime;
+
+    if (isMaxDateCurrentTime) {
+        _maximumDate = [self _currentDate];
+    }
+}
+
+- (void)setDaysBeforeCurrentDateToSetMinimumDate:(NSInteger)daysBefore {
+    _daysBeforeCurrentDateToSetMinimumDate = daysBefore;
+    _minimumDate = [self fetchDateBasedOnDays:daysBefore forBefore:YES];
+}
+
+- (void)setDaysAfterCurrentDateToSetMinimumDate:(NSInteger)daysAfter {
+    _daysAfterCurrentDateToSetMinimumDate = daysAfter;
+    _maximumDate = [self fetchDateBasedOnDays:daysAfter forBefore:NO];
+}
+
+- (NSDate *)fetchDateBasedOnDays:(NSInteger)days forBefore:(BOOL)forBefore {
+    if (days < 0) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The value passed in for daysBeforeCurrentDateToSetMinimumDate must be greater than 0."  userInfo:nil];
+    }
+
+    NSDate *currentDate = [self _currentDate];
+
+    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+    [dateComponents setDay:forBefore ? -days : days];
+
+    return [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:currentDate options:0];
+}
+
+- (void)validateParameters {
+    [super validateParameters];
+
+    if ((_minimumDate && _maximumDate) ? ([_minimumDate compare:_maximumDate] == NSOrderedDescending) : false) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:@"Minimum date should be before the maximum date"
+                                     userInfo:nil];
+    } else if((_defaultDate && _minimumDate) ? ([_defaultDate compare:_minimumDate] == NSOrderedAscending) : false) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:@"Default date should not be less than the minumum date"
+                                     userInfo:nil];
+    } else if ((_defaultDate && _maximumDate) ? ([_defaultDate compare:_maximumDate] == NSOrderedDescending) : false) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:@"Default date should not be more than the maximum date"
+                                     userInfo:nil];
+    }
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            ORKEqualObjects(self.defaultDate, castObject.defaultDate) &&
+            ORKEqualObjects(self.minimumDate, castObject.minimumDate) &&
+            ORKEqualObjects(self.maximumDate, castObject.maximumDate) &&
+            self.isMaxDateCurrentTime == castObject.isMaxDateCurrentTime &&
+            ORKEqualObjects(self.calendar, castObject.calendar) &&
+            (self.minuteInterval == castObject.minuteInterval) &&
+            (_style == castObject.style));
+}
+
+- (NSUInteger)hash {
+    // Don't bother including everything - style is the main item.
+    return ([super hash] & [self.defaultDate hash]) ^ _style;
+}
+
+- (NSCalendar *)currentCalendar {
+    return (_calendar ? : [NSCalendar currentCalendar]);
+}
+
+- (NSDateFormatter *)resultDateFormatter {
+    NSDateFormatter *dfm = nil;
+    switch (self.questionType) {
+        case ORKQuestionTypeDate: {
+            dfm = ORKResultDateFormatter();
+            break;
+        }
+        case ORKQuestionTypeTimeOfDay: {
+            dfm = ORKResultTimeFormatter();
+            break;
+        }
+        case ORKQuestionTypeDateAndTime: {
+            dfm = ORKResultDateTimeFormatter();
+            break;
+        }
+        default:
+            break;
+    }
+    dfm = [dfm copy];
+    dfm.calendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+    return dfm;
+}
+
+- (NSString *)stringFromDate:(NSDate *)date {
+    NSDateFormatter *dfm = [self resultDateFormatter];
+    return [dfm stringFromDate:date];
+}
+
+- (NSDate *)dateFromString:(NSString *)string {
+    NSDateFormatter *dfm = [self resultDateFormatter];
+    return [dfm dateFromString:string];
+}
+
+- (NSDate *)pickerDefaultDate {
+    return (self.defaultDate ? : [self _currentDate]);
+
+}
+
+- (NSDate *)pickerMinimumDate {
+    return self.minimumDate;
+}
+
+- (NSDate *)pickerMaximumDate {
+    return self.maximumDate;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_ENUM(aDecoder, style);
+        ORK_DECODE_OBJ_CLASS(aDecoder, minimumDate, NSDate);
+        ORK_DECODE_OBJ_CLASS(aDecoder, maximumDate, NSDate);
+        ORK_DECODE_OBJ_CLASS(aDecoder, defaultDate, NSDate);
+        ORK_DECODE_BOOL(aDecoder, isMaxDateCurrentTime);
+        ORK_DECODE_OBJ_CLASS(aDecoder, calendar, NSCalendar);
+        ORK_DECODE_INTEGER(aDecoder, minuteInterval);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_ENUM(aCoder, style);
+    ORK_ENCODE_OBJ(aCoder, minimumDate);
+    ORK_ENCODE_OBJ(aCoder, maximumDate);
+    ORK_ENCODE_OBJ(aCoder, defaultDate);
+    ORK_ENCODE_BOOL(aCoder, isMaxDateCurrentTime);
+    ORK_ENCODE_OBJ(aCoder, calendar);
+    ORK_ENCODE_INTEGER(aCoder, minuteInterval);
+}
+
+- (ORKQuestionType)questionType {
+    return (_style == ORKDateAnswerStyleDateAndTime) ? ORKQuestionTypeDateAndTime : ORKQuestionTypeDate;
+}
+
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (NSString *)stringForAnswer:(id)answer {
+    return [self stringFromDate:answer];
+}
+
+@end
+
 
 #pragma mark - ORKTextAnswerFormat
 
@@ -2980,214 +3186,6 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 }
 
 @end
-
-
-#pragma mark - ORKDateAnswerFormat
-
-@implementation ORKDateAnswerFormat
-
-- (Class)questionResultClass {
-    return [ORKDateQuestionResult class];
-}
-
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)initWithStyle:(ORKDateAnswerStyle)style {
-    self = [self initWithStyle:style defaultDate:nil minimumDate:nil maximumDate:nil calendar:nil];
-    return self;
-}
-
-- (instancetype)initWithStyle:(ORKDateAnswerStyle)style
-                  defaultDate:(NSDate *)defaultDate
-                  minimumDate:(NSDate *)minimum
-                  maximumDate:(NSDate *)maximum
-                     calendar:(NSCalendar *)calendar {
-    self = [super init];
-    if (self) {
-        _style = style;
-        _defaultDate = [defaultDate copy];
-        _minimumDate = [minimum copy];
-        _maximumDate = [maximum copy];
-        _calendar = [calendar copy];
-        _minuteInterval = 1;
-        self.dontKnowButtonStyle = ORKDontKnowButtonStyleCircleChoice;
-        [self validateParameters];
-    }
-    return self;
-}
-
-- (void)_setCurrentDateOverride:(NSDate *)currentDateOverride {
-    _currentDateOverride = currentDateOverride;
-}
-
-- (NSDate *)_currentDate {
-    return _currentDateOverride ? : [NSDate date];
-}
-
-- (void)setIsMaxDateCurrentTime:(BOOL)isMaxDateCurrentTime {
-    _isMaxDateCurrentTime = isMaxDateCurrentTime;
-    
-    if (isMaxDateCurrentTime) {
-        _maximumDate = [self _currentDate];
-    }
-}
-
-- (void)setDaysBeforeCurrentDateToSetMinimumDate:(NSInteger)daysBefore {
-    _daysBeforeCurrentDateToSetMinimumDate = daysBefore;
-    _minimumDate = [self fetchDateBasedOnDays:daysBefore forBefore:YES];
-}
-
-- (void)setDaysAfterCurrentDateToSetMinimumDate:(NSInteger)daysAfter {
-    _daysAfterCurrentDateToSetMinimumDate = daysAfter;
-    _maximumDate = [self fetchDateBasedOnDays:daysAfter forBefore:NO];
-}
-
-- (NSDate *)fetchDateBasedOnDays:(NSInteger)days forBefore:(BOOL)forBefore {
-    if (days < 0) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"The value passed in for daysBeforeCurrentDateToSetMinimumDate must be greater than 0."  userInfo:nil];
-    }
-    
-    NSDate *currentDate = [self _currentDate];
-    
-    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
-    [dateComponents setDay:forBefore ? -days : days];
-    
-    return [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:currentDate options:0];
-}
-
-- (void)validateParameters {
-    [super validateParameters];
-    
-    if ((_minimumDate && _maximumDate) ? ([_minimumDate compare:_maximumDate] == NSOrderedDescending) : false) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:@"Minimum date should be before the maximum date"
-                                     userInfo:nil];
-    } else if((_defaultDate && _minimumDate) ? ([_defaultDate compare:_minimumDate] == NSOrderedAscending) : false) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:@"Default date should not be less than the minumum date"
-                                     userInfo:nil];
-    } else if ((_defaultDate && _maximumDate) ? ([_defaultDate compare:_maximumDate] == NSOrderedDescending) : false) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:@"Default date should not be more than the maximum date"
-                                     userInfo:nil];
-    }
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    
-    __typeof(self) castObject = object;
-    return (isParentSame &&
-            ORKEqualObjects(self.defaultDate, castObject.defaultDate) &&
-            ORKEqualObjects(self.minimumDate, castObject.minimumDate) &&
-            ORKEqualObjects(self.maximumDate, castObject.maximumDate) &&
-            self.isMaxDateCurrentTime == castObject.isMaxDateCurrentTime &&
-            ORKEqualObjects(self.calendar, castObject.calendar) &&
-            (self.minuteInterval == castObject.minuteInterval) &&
-            (_style == castObject.style));
-}
-
-- (NSUInteger)hash {
-    // Don't bother including everything - style is the main item.
-    return ([super hash] & [self.defaultDate hash]) ^ _style;
-}
-
-- (NSCalendar *)currentCalendar {
-    return (_calendar ? : [NSCalendar currentCalendar]);
-}
-
-- (NSDateFormatter *)resultDateFormatter {
-    NSDateFormatter *dfm = nil;
-    switch (self.questionType) {
-        case ORKQuestionTypeDate: {
-            dfm = ORKResultDateFormatter();
-            break;
-        }
-        case ORKQuestionTypeTimeOfDay: {
-            dfm = ORKResultTimeFormatter();
-            break;
-        }
-        case ORKQuestionTypeDateAndTime: {
-            dfm = ORKResultDateTimeFormatter();
-            break;
-        }
-        default:
-            break;
-    }
-    dfm = [dfm copy];
-    dfm.calendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
-    return dfm;
-}
-
-- (NSString *)stringFromDate:(NSDate *)date {
-    NSDateFormatter *dfm = [self resultDateFormatter];
-    return [dfm stringFromDate:date];
-}
-
-- (NSDate *)dateFromString:(NSString *)string {
-    NSDateFormatter *dfm = [self resultDateFormatter];
-    return [dfm dateFromString:string];
-}
-
-- (NSDate *)pickerDefaultDate {
-    return (self.defaultDate ? : [self _currentDate]);
-    
-}
-
-- (NSDate *)pickerMinimumDate {
-    return self.minimumDate;
-}
-
-- (NSDate *)pickerMaximumDate {
-    return self.maximumDate;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_ENUM(aDecoder, style);
-        ORK_DECODE_OBJ_CLASS(aDecoder, minimumDate, NSDate);
-        ORK_DECODE_OBJ_CLASS(aDecoder, maximumDate, NSDate);
-        ORK_DECODE_OBJ_CLASS(aDecoder, defaultDate, NSDate);
-        ORK_DECODE_BOOL(aDecoder, isMaxDateCurrentTime);
-        ORK_DECODE_OBJ_CLASS(aDecoder, calendar, NSCalendar);
-        ORK_DECODE_INTEGER(aDecoder, minuteInterval);
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_ENUM(aCoder, style);
-    ORK_ENCODE_OBJ(aCoder, minimumDate);
-    ORK_ENCODE_OBJ(aCoder, maximumDate);
-    ORK_ENCODE_OBJ(aCoder, defaultDate);
-    ORK_ENCODE_BOOL(aCoder, isMaxDateCurrentTime);
-    ORK_ENCODE_OBJ(aCoder, calendar);
-    ORK_ENCODE_INTEGER(aCoder, minuteInterval);
-}
-
-- (ORKQuestionType)questionType {
-    return (_style == ORKDateAnswerStyleDateAndTime) ? ORKQuestionTypeDateAndTime : ORKQuestionTypeDate;
-}
-
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (NSString *)stringForAnswer:(id)answer {
-    return [self stringFromDate:answer];
-}
-
-@end
-
 
 #pragma mark - ORKNumericAnswerFormat
 
