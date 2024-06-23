@@ -27,6 +27,9 @@
 		3E39B9FE1ABF683700C2ABE5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E39B9FC1ABF683700C2ABE5 /* LaunchScreen.xib */; };
 		3E39BA001ABF683F00C2ABE5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E39B9FF1ABF683F00C2ABE5 /* Images.xcassets */; };
 		3ED967B81AC13D37007E2D83 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3ED967BA1AC13D37007E2D83 /* Localizable.strings */; };
+		518E16DA2C289AD100F44B98 /* ORKSerializationEntryProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16D92C289AD100F44B98 /* ORKSerializationEntryProvider.m */; };
+		518E16DD2C289CAA00F44B98 /* ORKESerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16DC2C289CAA00F44B98 /* ORKESerialization.m */; };
+		518E16E22C28A2F300F44B98 /* ORKCoreSerializationEntryProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16E12C28A2F300F44B98 /* ORKCoreSerializationEntryProvider.m */; };
 		51AF19862B59F3A900D3B399 /* ORKKeychainWrapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AF19852B59F3A900D3B399 /* ORKKeychainWrapperTests.m */; };
 		51BD8FC729D3AE2E0001D54E /* Sentence1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC629D3AE2E0001D54E /* Sentence1.wav */; };
 		51C173282BA4B4E1006604FB /* sphere_model.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 51C173272BA4B4E1006604FB /* sphere_model.usdz */; };
@@ -232,6 +235,13 @@
 		3E39B9FF1ABF683F00C2ABE5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3ED967B91AC13D37007E2D83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5116D0BF2677FB780010FAB1 /* ResearchKit-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Shared.xcconfig"; sourceTree = "<group>"; };
+		518E16D72C289AD100F44B98 /* ORKCatalog-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKCatalog-Bridging-Header.h"; sourceTree = "<group>"; };
+		518E16D82C289AD100F44B98 /* ORKSerializationEntryProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSerializationEntryProvider.h; sourceTree = "<group>"; };
+		518E16D92C289AD100F44B98 /* ORKSerializationEntryProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSerializationEntryProvider.m; sourceTree = "<group>"; };
+		518E16DB2C289CAA00F44B98 /* ORKESerialization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKESerialization.h; sourceTree = "<group>"; };
+		518E16DC2C289CAA00F44B98 /* ORKESerialization.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKESerialization.m; sourceTree = "<group>"; };
+		518E16E02C28A2F300F44B98 /* ORKCoreSerializationEntryProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKCoreSerializationEntryProvider.h; sourceTree = "<group>"; };
+		518E16E12C28A2F300F44B98 /* ORKCoreSerializationEntryProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKCoreSerializationEntryProvider.m; sourceTree = "<group>"; };
 		51AF19772B59F1E400D3B399 /* ORKCatalogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ORKCatalogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51AF19852B59F3A900D3B399 /* ORKKeychainWrapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKKeychainWrapperTests.m; sourceTree = "<group>"; };
 		51BD8FC629D3AE2E0001D54E /* Sentence1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Sentence1.wav; path = List1/Sentence1.wav; sourceTree = "<group>"; };
@@ -409,6 +419,36 @@
 			name = "Displaying Results";
 			sourceTree = "<group>";
 		};
+		518E16D62C2898B900F44B98 /* Serializer */ = {
+			isa = PBXGroup;
+			children = (
+				518E16DF2C28A2AF00F44B98 /* Serialization Entry Providers */,
+				518E16DE2C28A29E00F44B98 /* old serializer */,
+				518E16D72C289AD100F44B98 /* ORKCatalog-Bridging-Header.h */,
+			);
+			path = Serializer;
+			sourceTree = "<group>";
+		};
+		518E16DE2C28A29E00F44B98 /* old serializer */ = {
+			isa = PBXGroup;
+			children = (
+				518E16DB2C289CAA00F44B98 /* ORKESerialization.h */,
+				518E16DC2C289CAA00F44B98 /* ORKESerialization.m */,
+			);
+			path = "old serializer";
+			sourceTree = "<group>";
+		};
+		518E16DF2C28A2AF00F44B98 /* Serialization Entry Providers */ = {
+			isa = PBXGroup;
+			children = (
+				518E16D82C289AD100F44B98 /* ORKSerializationEntryProvider.h */,
+				518E16D92C289AD100F44B98 /* ORKSerializationEntryProvider.m */,
+				518E16E02C28A2F300F44B98 /* ORKCoreSerializationEntryProvider.h */,
+				518E16E12C28A2F300F44B98 /* ORKCoreSerializationEntryProvider.m */,
+			);
+			path = "Serialization Entry Providers";
+			sourceTree = "<group>";
+		};
 		51AF19782B59F1E500D3B399 /* ORKCatalogTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -455,6 +495,7 @@
 		869230C01AAA890A00BFE11B /* ORKCatalog */ = {
 			isa = PBXGroup;
 			children = (
+				518E16D62C2898B900F44B98 /* Serializer */,
 				86B89A9C1AB2C0A5001626A4 /* AppDelegate.swift */,
 				03F7FD9E23959DD500432EF6 /* SceneDelegate.swift */,
 				3E838B891ABFD104006AE2D4 /* Displaying Results */,
@@ -751,7 +792,7 @@
 					};
 					869230BD1AAA890A00BFE11B = {
 						CreatedOnToolsVersion = 6.2;
-						LastSwiftMigration = 1020;
+						LastSwiftMigration = 1530;
 						ProvisioningStyle = Automatic;
 					};
 					9622282924F04D780056E74D = {
@@ -909,6 +950,7 @@
 				0B58E51C2981D293007263DA /* UserDefaultKeys.swift in Sources */,
 				0BE9D51C2943F42600DA0625 /* SettingsView.swift in Sources */,
 				0B270D6C28D147AC0072BEA1 /* StudyPromoViewController.swift in Sources */,
+				518E16DA2C289AD100F44B98 /* ORKSerializationEntryProvider.m in Sources */,
 				51F210FE2B49D04F0072B536 /* TaskListRowConstants.swift in Sources */,
 				BC9A273E1B82741900BDA84D /* ResultViewController.swift in Sources */,
 				0B6CB32728B577640092E993 /* Bundle+Extensions.swift in Sources */,
@@ -919,10 +961,12 @@
 				0BE9D51A2943F3A800DA0625 /* SettingsViewController.swift in Sources */,
 				03F7FD9F23959DD500432EF6 /* SceneDelegate.swift in Sources */,
 				0B31EE4729887C4E00CD0D24 /* WrapperViewController.swift in Sources */,
+				518E16E22C28A2F300F44B98 /* ORKCoreSerializationEntryProvider.m in Sources */,
 				BC9A273C1B82741900BDA84D /* ImageTableViewCell.swift in Sources */,
 				BC9A27351B82740D00BDA84D /* TaskListViewController.swift in Sources */,
 				BC9A27341B82740D00BDA84D /* TaskListRow.swift in Sources */,
 				51F210EF2B4634FC0072B536 /* TaskListRowSteps.swift in Sources */,
+				518E16DD2C289CAA00F44B98 /* ORKESerialization.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1155,6 +1199,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.researchkit-samplecode.$(PRODUCT_NAME:rfc1034identifier)-qa";
 				PRODUCT_NAME = ORKCatalog;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ORKCatalog/Serializer/ORKCatalog-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1237,6 +1282,7 @@
 				PRODUCT_NAME = ORKCatalog;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "ORKCatalog/Serializer/ORKCatalog-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1319,6 +1365,7 @@
 				PRODUCT_NAME = ORKCatalog;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "ORKCatalog/Serializer/ORKCatalog-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1952,6 +1999,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.researchkit-samplecode.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ORKCatalog;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ORKCatalog/Serializer/ORKCatalog-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1984,6 +2032,7 @@
 				PRODUCT_NAME = ORKCatalog;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "ORKCatalog/Serializer/ORKCatalog-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

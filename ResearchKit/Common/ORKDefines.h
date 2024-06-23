@@ -42,3 +42,41 @@
 
 #define ORK_TO_BE_DEPRECATED(message) \
 __deprecated_msg(message)
+
+// For Serializer
+
+#define ESTRINGIFY2(x) #x
+#define ESTRINGIFY(x) ESTRINGIFY2(x)
+
+#define ENTRY(entryName, mInitBlock, mProperties) \
+    @ESTRINGIFY(entryName) : [[ORKESerializableTableEntry alloc] initWithClass: [entryName class] \
+                                                                     initBlock: mInitBlock \
+                                                                    properties: mProperties]
+
+#define PROPERTY(propertyName, mValueClass, mContainerClass, mWriteAfterInit, mObjectToJSONBlock, mJsonToObjectBlock) \
+    @ESTRINGIFY(propertyName) : ([[ORKESerializableProperty alloc] initWithPropertyName: @ESTRINGIFY(propertyName) \
+                                                                             valueClass: [mValueClass class] \
+                                                                         containerClass: [mContainerClass class] \
+                                                                         writeAfterInit: mWriteAfterInit \
+                                                                      objectToJSONBlock: mObjectToJSONBlock \
+                                                                      jsonToObjectBlock: mJsonToObjectBlock \
+                                                                      skipSerialization: NO])
+
+#define SKIP_PROPERTY(propertyName, mValueClass, mContainerClass, mWriteAfterInit, mObjectToJSONBlock, mJsonToObjectBlock) \
+@ESTRINGIFY(propertyName) : ([[ORKESerializableProperty alloc] initWithPropertyName: @ESTRINGIFY(propertyName) \
+                                                                         valueClass: [mValueClass class] \
+                                                                     containerClass: [mContainerClass class] \
+                                                                     writeAfterInit: mWriteAfterInit \
+                                                                  objectToJSONBlock: mObjectToJSONBlock \
+                                                                  jsonToObjectBlock: mJsonToObjectBlock \
+                                                                  skipSerialization: YES])
+
+#define IMAGEPROPERTY(propertyName, containerClass, writeAfterInit) @ESTRINGIFY(propertyName) : \
+                                                                        imagePropertyObject(@ESTRINGIFY(propertyName), \
+                                                                                            [containerClass class], \
+                                                                                            writeAfterInit, \
+                                                                                            NO)
+
+#define GETPROP(d,x) getter(d, @ESTRINGIFY(x))
+
+#define DYNAMICCAST(x, c) ((c *) ([x isKindOfClass:[c class]] ? x : nil))
