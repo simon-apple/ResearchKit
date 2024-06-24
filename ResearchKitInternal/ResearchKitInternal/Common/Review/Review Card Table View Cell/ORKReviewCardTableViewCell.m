@@ -40,6 +40,7 @@ static const CGFloat CellLabelTopPadding = 8.0;
 static const CGFloat CellLeftRightPadding = 12.0;
 static const CGFloat CellTopBottomPadding = 12.0;
 static const CGFloat ContentLeftRightPadding = 16.0;
+static const CGFloat DividerViewTopBottomPadding = 10.0;
 
 
 @implementation ORKReviewCardTableViewCell {
@@ -79,7 +80,19 @@ static const CGFloat ContentLeftRightPadding = 16.0;
     [self.contentView addSubview:_backgroundView];
 }
 
+- (UIView *)_getDividerView {
+    UIView *dividerView = [UIView new];
+    dividerView.translatesAutoresizingMaskIntoConstraints = NO;
+    dividerView.backgroundColor = [UIColor separatorColor];
+    [_backgroundView addSubview:dividerView];
+    
+    return dividerView;
+}
+
 - (void)_setupReviewCardItemLabels {
+    [self _resetConstraints];
+    [self _setupBackGroundViewConstraints];
+    
     int index = 0;
     for (ORKReviewCardItem *reviewCardItem in _reviewCard.reviewCardItems) {
         UILabel *questionLabel = [self _getQuestionLabelWithTitle:reviewCardItem.title];
@@ -90,14 +103,19 @@ static const CGFloat ContentLeftRightPadding = 16.0;
     }
 }
 
-- (void)_setupConstraintsWithQuestionLabel:(UILabel *)questionLabel 
+- (void)_setupBackGroundViewConstraints {
+    [_viewConstraints addObjectsFromArray:[self _backgroundViewContraints]];
+}
+
+- (void)_setupConstraintsWithQuestionLabel:(UILabel *)questionLabel
                          resultValueLabels:(NSArray<UILabel *> *)resultValueLabels
                                      index:(int)index {
-    if (index == 0) {
-        [self _resetConstraints];
+  
+    if (index > 0) {
+        UIView *dividerView = [self _getDividerView];
+        
     }
     
-    [_viewConstraints addObjectsFromArray:[self _backgroundViewContraints]];
     [_viewConstraints addObjectsFromArray:[self _constraintsForQuestionLabel:questionLabel]];
     
     UIView *relativeTopView = questionLabel;

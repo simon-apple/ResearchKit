@@ -30,6 +30,7 @@
 
 #import "ORKReviewResultModel.h"
 
+#import "ORKFamilyHistoryResultModel.h"
 #import "ORKFormStepResultModel.h"
 #import "ORKReviewCardSection.h"
 
@@ -52,6 +53,13 @@
     ORKFormStepResultModel *formStepResultModel = [[ORKFormStepResultModel alloc] initWithSurveySteps:surveySteps
                                                                                            taskResult:taskResult];
     return [formStepResultModel getReviewCards];
+}
+
++ (NSArray<ORKReviewCardSection *> *)getReviewCardSectionsWithFamilyHistorySteps:(NSArray<ORKFamilyHistoryStep *> *)familyHistorySteps
+                                                                      taskResult:(ORKTaskResult *)taskResult {
+    ORKFamilyHistoryResultModel *fxhStepResultModel = [[ORKFamilyHistoryResultModel alloc] initWithFamilyHistorySteps:familyHistorySteps
+                                                                                                           taskResult:taskResult];
+    return [fxhStepResultModel getReviewCards];
 }
     
 @end

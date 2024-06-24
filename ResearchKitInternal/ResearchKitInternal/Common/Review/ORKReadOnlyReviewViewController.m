@@ -219,8 +219,7 @@ double const TableViewSectionHeaderHeight = 30.0;
             break;
             
         case ORKReadOnlyStepTypeFamilyHistoryStep:
-            // TODO: rdar://128870162 (Create model object for organizing ORKFamilyHistoryStep results)
-            return [NSArray new];
+            return [ORKReviewResultModel getReviewCardSectionsWithFamilyHistorySteps:[self _getCastedFamilyHistorySteps] taskResult:_taskResult];
             break;
             
         default:
@@ -236,6 +235,16 @@ double const TableViewSectionHeaderHeight = 30.0;
     }
     
     return formSteps;
+}
+
+- (NSArray<ORKFamilyHistoryStep *> *)_getCastedFamilyHistorySteps {
+    NSArray<ORKFamilyHistoryStep *> *fxhSteps = (NSArray<ORKFamilyHistoryStep *> *)_stepsToParse;
+    
+    if (!fxhSteps) {
+        @throw [NSException exceptionWithName:NSGenericException reason:@"Failed to cast collected steps to ORKFamilyHistorySteps" userInfo:nil];
+    }
+    
+    return fxhSteps;
 }
 
 #pragma mark UITableViewDataSource
