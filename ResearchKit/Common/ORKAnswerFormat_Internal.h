@@ -225,6 +225,7 @@ NSArray<Class> *ORKAllowableValueClasses(void);
 
 @end
 
+@interface ORKDateAnswerFormat ()
 - (NSDate *)pickerDefaultDate;
 - (nullable NSDate *)pickerMinimumDate;
 - (nullable NSDate *)pickerMaximumDate;
