@@ -848,23 +848,6 @@ static NSArray<ORKESerializableTableEntry *> *classEncodingsForClass(Class class
     return [classEncodings copy];
 }
 
-
-- (NSArray<ORKESerializableTableEntry *> *)classEncodingsForClass:(Class)class {
-    NSDictionary<NSString *, ORKESerializableTableEntry *> *encodingTable = [self _getEncodingTable];
-    
-    NSMutableArray<ORKESerializableTableEntry *> *classEncodings = [NSMutableArray array];
-    Class currentClass = class;
-    while (currentClass != nil) {
-        NSString *className = NSStringFromClass(currentClass);
-        ORKESerializableTableEntry *classEncoding = encodingTable[className];
-        if (classEncoding) {
-            [classEncodings addObject:classEncoding];
-        }
-        currentClass = [currentClass superclass];
-    }
-    return [classEncodings copy];
-}
-
 static id objectForJsonObject(id input,
                               Class expectedClass,
                               ORKESerializationJSONToObjectBlock converterBlock,
@@ -966,6 +949,113 @@ static id objectForJsonObject(id input,
         NSCAssert(0, @"Unexpected input of class %@ for %@", [input class], expectedClass);
     }
     return output;
+}
+
+- (id)objectForJsonObject:(id)input 
+            expectedClass:(Class)expectedClass
+           converterBlock:(ORKESerializationJSONToObjectBlock)converterBlock 
+                  context:(ORKESerializationContext *)context {
+    id output = nil;
+    // not sure what this converter block is for
+    if (converterBlock != nil) {
+        input = converterBlock(input, context);
+        if (input == nil) {
+            // Object converted to nothing
+            return nil;
+        }
+    }
+
+    id<ORKESerializationLocalizer> localizer = context.localizer;
+    id<ORKESerializationStringInterpolator> stringInterpolator = context.stringInterpolator;
+    
+#if RK_APPLE_INTERNAL
+    if (IS_FEATURE_INTERNAL_CLASS_MAPPER_ON) {
+        if (expectedClass != nil) {
+            expectedClass = [ORKInternalClassMapper getInternalClassForPublicClass:expectedClass] ?: expectedClass;
+        }
+    } else if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES && expectedClass != nil) {
+        expectedClass = [ORKInternalClassMapper getInternalClassForPublicClass:expectedClass] ?: expectedClass;
+    }
+#endif
+    
+    if (expectedClass != nil && [input isKindOfClass:expectedClass]) {
+        // Input is already of the expected class, do nothing
+        output = input;
+    } else if ([input isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dict = (NSDictionary *)input;
+        NSString *className = input[_ClassKey]; // todo: might be a spot to convert class
+        
+#if RK_APPLE_INTERNAL
+        if (IS_FEATURE_INTERNAL_CLASS_MAPPER_ON) {
+            className = [ORKInternalClassMapper getInternalClassStringForPublicClass:className] ?: className;
+        } else if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES) {
+            className = [ORKInternalClassMapper getInternalClassStringForPublicClass:className] ?: className;
+        }
+#endif
+        
+        ORKESerializationPropertyInjector *propertyInjector = context.propertyInjector;
+        if (propertyInjector != nil) {
+            NSDictionary *dictionary = (NSDictionary *)input;
+            dict = [propertyInjector injectedDictionaryWithDictionary:dictionary];
+        }
+
+        if (expectedClass != nil) {
+            NSCAssert([NSClassFromString(className) isSubclassOfClass:expectedClass], @"Expected subclass of %@ but got %@", expectedClass, className);
+        }
+        
+        // NOTE: UPDATED HERE
+        NSArray *classEncodings = [self _classEncodingsForClass:NSClassFromString(className)];
+        NSCAssert([classEncodings count] > 0, @"Expected serializable class but got %@", className);
+        
+        ORKESerializableTableEntry *leafClassEncoding = classEncodings.firstObject;
+        ORKESerializationInitBlock initBlock = leafClassEncoding.initBlock;
+        BOOL writeAllProperties = YES;
+        if (initBlock != nil) {
+            output = initBlock(dict,
+                               ^id(NSDictionary *propDict, NSString *param) {
+                                   return propFromDict(propDict, param, context); });
+            writeAllProperties = NO;
+        } else {
+            Class class = NSClassFromString(className);
+            output = [[class alloc] init];
+        }
+        
+        for (NSString *key in [dict allKeys]) {
+            if ([key isEqualToString:_ClassKey]) {
+                continue;
+            }
+            
+            BOOL haveSetProp = NO;
+            for (ORKESerializableTableEntry *encoding in classEncodings) {
+                NSDictionary *propertyTable = encoding.properties;
+                ORKESerializableProperty *propertyEntry = propertyTable[key];
+                if (propertyEntry != nil) {
+                    // Only write the property if it has not already been set during init
+                    if (writeAllProperties || propertyEntry.writeAfterInit) {
+                        id property = propFromDict(dict, key, context);
+                        if ([property isKindOfClass: [NSString class]] && ![key isEqualToString:@"identifier"]) {
+                            if (localizer != nil) {
+                                property = [localizer localizedStringForKey:property];
+                            }
+
+                            if (stringInterpolator != nil) {
+                                property = [stringInterpolator interpolatedStringForString:property];
+                            }
+                        }
+                        [output setValue:property forKey:key];
+                    }
+                    haveSetProp = YES;
+                    break;
+                }
+            }
+            NSCAssert(haveSetProp, @"Unexpected property on %@: %@", className, key);
+        }
+    } else {
+        NSCAssert(0, @"Unexpected input of class %@ for %@", [input class], expectedClass);
+    }
+    return output;
+    
+    
 }
 
 static BOOL isValid(id object) {
@@ -1091,37 +1181,53 @@ static id jsonObjectForObject(id object, ORKESerializationContext *context) {
     return ret;
 }
 
-
-+ (NSDictionary *)JSONObjectForObject:(id)object error:(__unused NSError * __autoreleasing *)error {
-    return [self JSONObjectForObject:object context:[[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil stringInterpolator:nil propertyInjector:nil] error:error];
-}
-
-+ (NSDictionary *)JSONObjectForObject:(id)object context:(ORKESerializationContext *)context error:(__unused NSError * __autoreleasing *)error {
-    id json = jsonObjectForObject(object, context);
-    return json;
-}
-
-+ (id)objectFromJSONObject:(NSDictionary *)object error:(__unused NSError * __autoreleasing *)error {
-    return objectForJsonObject(object, nil, nil, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil stringInterpolator:nil propertyInjector:nil]);
-}
-
-+ (id)objectFromJSONObject:(NSDictionary *)object context:(ORKESerializationContext *)context error:(__unused NSError * __autoreleasing *)error {
-    return objectForJsonObject(object, nil, nil, context);
-}
-
-+ (NSData *)JSONDataForObject:(id)object error:(NSError * __autoreleasing *)error {
-    id json = jsonObjectForObject(object, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil stringInterpolator:nil propertyInjector:nil]);
-    return [NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingSortedKeys error:error];
-}
-
-+ (id)objectFromJSONData:(NSData *)data error:(NSError * __autoreleasing *)error {
-    id json = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:error];
-    id ret = nil;
-    if (json != nil) {
-        ret = objectForJsonObject(json, nil, nil, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil stringInterpolator:nil propertyInjector:nil]);
+- (NSArray<ORKESerializableTableEntry *> *)_classEncodingsForClass:(Class)class {
+    NSDictionary<NSString *, ORKESerializableTableEntry *> *encodingTable = [self _getEncodingTable];
+    
+    NSMutableArray<ORKESerializableTableEntry *> *classEncodings = [NSMutableArray array];
+    Class currentClass = class;
+    while (currentClass != nil) {
+        NSString *className = NSStringFromClass(currentClass);
+        ORKESerializableTableEntry *classEncoding = encodingTable[className];
+        if (classEncoding) {
+            [classEncodings addObject:classEncoding];
+        }
+        currentClass = [currentClass superclass];
     }
-    return ret;
+    return [classEncodings copy];
 }
+
+
+//+ (NSDictionary *)JSONObjectForObject:(id)object error:(__unused NSError * __autoreleasing *)error {
+//    return [self JSONObjectForObject:object context:[[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil stringInterpolator:nil propertyInjector:nil] error:error];
+//}
+
+//+ (NSDictionary *)JSONObjectForObject:(id)object context:(ORKESerializationContext *)context error:(__unused NSError * __autoreleasing *)error {
+//    id json = jsonObjectForObject(object, context);
+//    return json;
+//}
+
+//+ (id)objectFromJSONObject:(NSDictionary *)object error:(__unused NSError * __autoreleasing *)error {
+//    return objectForJsonObject(object, nil, nil, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil stringInterpolator:nil propertyInjector:nil]);
+//}
+
+//+ (id)objectFromJSONObject:(NSDictionary *)object context:(ORKESerializationContext *)context error:(__unused NSError * __autoreleasing *)error {
+//    return objectForJsonObject(object, nil, nil, context);
+//}
+
+//+ (NSData *)JSONDataForObject:(id)object error:(NSError * __autoreleasing *)error {
+//    id json = jsonObjectForObject(object, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil stringInterpolator:nil propertyInjector:nil]);
+//    return [NSJSONSerialization dataWithJSONObject:json options:NSJSONWritingSortedKeys error:error];
+//}
+
+//+ (id)objectFromJSONData:(NSData *)data error:(NSError * __autoreleasing *)error {
+//    id json = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:error];
+//    id ret = nil;
+//    if (json != nil) {
+//        ret = objectForJsonObject(json, nil, nil, [[ORKESerializationContext alloc] initWithLocalizer:nil imageProvider:nil stringInterpolator:nil propertyInjector:nil]);
+//    }
+//    return ret;
+//}
 
 + (NSArray *)serializableClasses {
     NSMutableArray *a = [NSMutableArray array];

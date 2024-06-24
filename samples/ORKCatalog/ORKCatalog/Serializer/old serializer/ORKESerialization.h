@@ -130,6 +130,8 @@ typedef _Nullable id (^ORKESerializationJSONToObjectBlock)(id jsonObject, ORKESe
 
 - (instancetype)initWithEntryProviders:(NSArray<ORKSerializationEntryProvider *> *)entryProviders;
 
+- (id)objectFromJSONData:(NSData *)data error:(NSError **)error;
+
 + (nullable NSDictionary *)JSONObjectForObject:(id)object error:(NSError **)error;
 
 + (nullable NSData *)JSONDataForObject:(id)object error:(NSError **)error;

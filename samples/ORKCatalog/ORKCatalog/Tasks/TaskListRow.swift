@@ -162,6 +162,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case booleanConditionalFormTask
     case readOnlyFormStepTask
     case readOnlyFamilyHistoryTask
+    case decodedTask
     #endif
     
     class TaskListRowSection {
@@ -267,6 +268,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .booleanConditionalFormTask,
                     .customStepTask,
                     .colorChoiceQuestion,
+                    .decodedTask,
                     .familyHistory,
                     .familyHistoryReviewTask,
                     .longHeaderTask,
@@ -576,6 +578,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .readOnlyFamilyHistoryTask:
             return NSLocalizedString("Read Only Family History Step Task", comment: "")
+            
+        case .decodedTask:
+            return NSLocalizedString("Decoded Task", comment: "")
         #endif
             
         case .surveyWithMultipleOptions:
@@ -853,6 +858,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .readOnlyFamilyHistoryTask:
             return readonlyFamilyHistoryTask
+            
+        case .decodedTask:
+            return decodedTask
             
         #endif
         case .textChoiceQuestionWithImageTask:
@@ -2316,6 +2324,28 @@ enum TaskListRow: Int, CustomStringConvertible {
         let completionStep = TaskListRowSteps.completionStepExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.familyHistoryStep), steps: [instructionStep, familyHistoryStep, completionStep])
+    }
+    
+    private var decodedTask: ORKTask {
+        if let path = Bundle.main.path(forResource: "ORKInstructionStep", ofType: "json", inDirectory: "jsonExamples") {
+            do {
+                let coreEntryProvider = ORKCoreSerializationEntryProvider()
+                let serializer = ORKESerializer(entryProviders: [coreEntryProvider])
+                
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+                let instructionStep = serializer.object(fromJSONData: data, error: nil) as? ORKInstructionStep
+//                let instructionStep = try ORKESerializer.object(fromJSONData: data) as? ORKInstructionStep
+                
+                if let instructionStep = instructionStep {
+                    let task = ORKOrderedTask(identifier: "TaskIdentifier", steps: [instructionStep])
+                    return task
+                }
+            } catch {
+                print("error while decoding json")
+            }
+        }
+        
+        return formTask
     }
     
     /**
