@@ -122,7 +122,12 @@ public class RKAdapter {
                 if let placeholder = item.placeholder {
                     return placeholder
                 }
-                return "Select Date and Time"
+
+                if dateTimeAnswerFormat.style == .dateAndTime {
+                    return "Select Date and Time"
+                } else {
+                    return "Select Date"
+                }
             }()
 
             let startDate: Date = {
