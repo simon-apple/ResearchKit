@@ -287,6 +287,53 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return [[ORKTextAnswerFormat alloc] initWithMaximumLength:maximumLength];
 }
 
++ (ORKDateAnswerFormat *)dateTimeAnswerFormatWithDefaultDate:(NSDate *)defaultDate
+                                                 minimumDate:(NSDate *)minimumDate
+                                                 maximumDate:(NSDate *)maximumDate
+                                                    calendar:(NSCalendar *)calendar {
+    return [[ORKDateAnswerFormat alloc] initWithStyle:ORKDateAnswerStyleDateAndTime
+                                          defaultDate:defaultDate
+                                          minimumDate:minimumDate
+                                          maximumDate:maximumDate
+                                             calendar:calendar];
+}
+
++ (ORKDateAnswerFormat *)dateAnswerFormatWithDefaultDate:(NSDate *)defaultDate
+                                             minimumDate:(NSDate *)minimumDate
+                                             maximumDate:(NSDate *)maximumDate
+                                                calendar:(NSCalendar *)calendar  {
+    return [[ORKDateAnswerFormat alloc] initWithStyle:ORKDateAnswerStyleDate
+                                          defaultDate:defaultDate
+                                          minimumDate:minimumDate
+                                          maximumDate:maximumDate
+                                             calendar:calendar];
+}
+
++ (ORKDateAnswerFormat *)dateAnswerFormatWithDaysBeforeCurrentDate:(NSInteger)daysBefore
+                                              daysAfterCurrentDate:(NSInteger)daysAfter
+                                                          calendar:(nullable NSCalendar *)calendar {
+    return [ORKDateAnswerFormat dateAnswerFormatWithStyle:ORKDateAnswerStyleDate
+                                    daysBeforeCurrentDate:daysBefore
+                                     daysAfterCurrentDate:daysAfter
+                                                 calendar:calendar];
+}
+
++ (ORKDateAnswerFormat *)dateAnswerFormatWithStyle:(ORKDateAnswerStyle)style
+                             daysBeforeCurrentDate:(NSInteger)daysBefore
+                              daysAfterCurrentDate:(NSInteger)daysAfter
+                                          calendar:(nullable NSCalendar *)calendar {
+    NSDate *currentDate = [NSDate date];
+    ORKDateAnswerFormat *answerFormat = [[ORKDateAnswerFormat alloc] initWithStyle:style
+                                                                       defaultDate:currentDate
+                                                                       minimumDate:nil
+                                                                       maximumDate:nil
+                                                                          calendar:calendar];
+    [answerFormat setDaysBeforeCurrentDateToSetMinimumDate:daysBefore];
+    [answerFormat setDaysAfterCurrentDateToSetMinimumDate:daysAfter];
+
+    return answerFormat;
+}
+
 #endif
 
 #if TARGET_OS_IOS
@@ -328,16 +375,7 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
 + (ORKDateAnswerFormat *)dateTimeAnswerFormat {
     return [[ORKDateAnswerFormat alloc] initWithStyle:ORKDateAnswerStyleDateAndTime];
 }
-+ (ORKDateAnswerFormat *)dateTimeAnswerFormatWithDefaultDate:(NSDate *)defaultDate
-                                                 minimumDate:(NSDate *)minimumDate
-                                                 maximumDate:(NSDate *)maximumDate
-                                                    calendar:(NSCalendar *)calendar {
-    return [[ORKDateAnswerFormat alloc] initWithStyle:ORKDateAnswerStyleDateAndTime
-                                          defaultDate:defaultDate
-                                          minimumDate:minimumDate
-                                          maximumDate:maximumDate
-                                             calendar:calendar];
-}
+
 
 + (ORKDateAnswerFormat *)dateTimeAnswerFormatWithDaysBeforeCurrentDate:(NSInteger)daysBefore
                                                   daysAfterCurrentDate:(NSInteger)daysAfter
@@ -350,41 +388,6 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
 
 + (ORKDateAnswerFormat *)dateAnswerFormat {
     return [[ORKDateAnswerFormat alloc] initWithStyle:ORKDateAnswerStyleDate];
-}
-+ (ORKDateAnswerFormat *)dateAnswerFormatWithDefaultDate:(NSDate *)defaultDate
-                                             minimumDate:(NSDate *)minimumDate
-                                             maximumDate:(NSDate *)maximumDate
-                                                calendar:(NSCalendar *)calendar  {
-    return [[ORKDateAnswerFormat alloc] initWithStyle:ORKDateAnswerStyleDate
-                                          defaultDate:defaultDate
-                                          minimumDate:minimumDate
-                                          maximumDate:maximumDate
-                                             calendar:calendar];
-}
-
-+ (ORKDateAnswerFormat *)dateAnswerFormatWithDaysBeforeCurrentDate:(NSInteger)daysBefore
-                                              daysAfterCurrentDate:(NSInteger)daysAfter
-                                                          calendar:(nullable NSCalendar *)calendar {
-    return [ORKDateAnswerFormat dateAnswerFormatWithStyle:ORKDateAnswerStyleDate
-                                    daysBeforeCurrentDate:daysBefore
-                                     daysAfterCurrentDate:daysAfter
-                                                 calendar:calendar];
-}
-
-+ (ORKDateAnswerFormat *)dateAnswerFormatWithStyle:(ORKDateAnswerStyle)style
-                             daysBeforeCurrentDate:(NSInteger)daysBefore
-                              daysAfterCurrentDate:(NSInteger)daysAfter
-                                          calendar:(nullable NSCalendar *)calendar {
-    NSDate *currentDate = [NSDate date];
-    ORKDateAnswerFormat *answerFormat = [[ORKDateAnswerFormat alloc] initWithStyle:style
-                                                                       defaultDate:currentDate
-                                                                       minimumDate:nil
-                                                                       maximumDate:nil
-                                                                          calendar:calendar];
-    [answerFormat setDaysBeforeCurrentDateToSetMinimumDate:daysBefore];
-    [answerFormat setDaysAfterCurrentDateToSetMinimumDate:daysAfter];
-    
-    return answerFormat;
 }
 
 + (ORKTextAnswerFormat *)textAnswerFormat {
