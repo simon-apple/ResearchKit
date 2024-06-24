@@ -48,6 +48,8 @@
 		517CA4352C20E1530027CD88 /* ORKReviewCardTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 517CA4322C20E1530027CD88 /* ORKReviewCardTableViewCell.h */; };
 		518100042B8FED800092A1C6 /* ORKInternalClassMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 518100022B8FED800092A1C6 /* ORKInternalClassMapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		518100052B8FED800092A1C6 /* ORKInternalClassMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 518100032B8FED800092A1C6 /* ORKInternalClassMapper.m */; };
+		518E16E72C29C59400F44B98 /* ORKFamilyHistoryResultModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 518E16E52C29C59400F44B98 /* ORKFamilyHistoryResultModel.h */; };
+		518E16E82C29C59400F44B98 /* ORKFamilyHistoryResultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16E62C29C59400F44B98 /* ORKFamilyHistoryResultModel.m */; };
 		5192BF0C2AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF062AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m */; };
 		5192BF0E2AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF082AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.h */; };
 		5192BF322AE04B16006E43FB /* ORKHealthCondition.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF212AE04B15006E43FB /* ORKHealthCondition.m */; };
@@ -347,6 +349,8 @@
 		517CA4332C20E1530027CD88 /* ORKReviewCardTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKReviewCardTableViewCell.m; sourceTree = "<group>"; };
 		518100022B8FED800092A1C6 /* ORKInternalClassMapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKInternalClassMapper.h; sourceTree = "<group>"; };
 		518100032B8FED800092A1C6 /* ORKInternalClassMapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKInternalClassMapper.m; sourceTree = "<group>"; };
+		518E16E52C29C59400F44B98 /* ORKFamilyHistoryResultModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKFamilyHistoryResultModel.h; sourceTree = "<group>"; };
+		518E16E62C29C59400F44B98 /* ORKFamilyHistoryResultModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKFamilyHistoryResultModel.m; sourceTree = "<group>"; };
 		5192BF062AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKFamilyHistoryRelatedPersonCell.m; sourceTree = "<group>"; };
 		5192BF082AE046CE006E43FB /* ORKFamilyHistoryRelatedPersonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKFamilyHistoryRelatedPersonCell.h; sourceTree = "<group>"; };
 		5192BF212AE04B15006E43FB /* ORKHealthCondition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKHealthCondition.m; sourceTree = "<group>"; };
@@ -717,6 +721,8 @@
 				51274A9E2C1331BC0033E905 /* ORKReviewResultModel.m */,
 				51274AA12C13360B0033E905 /* ORKFormStepResultModel.h */,
 				51274AA22C13360B0033E905 /* ORKFormStepResultModel.m */,
+				518E16E52C29C59400F44B98 /* ORKFamilyHistoryResultModel.h */,
+				518E16E62C29C59400F44B98 /* ORKFamilyHistoryResultModel.m */,
 			);
 			path = "Review Result Models";
 			sourceTree = "<group>";
@@ -1504,6 +1510,7 @@
 				CA0748BC28B8032E001D8599 /* ORKIdBHLToneAudiometryStep.h in Headers */,
 				CA5B6D0F28BD1C5C002C3BA4 /* ORKTypingStepViewController.h in Headers */,
 				51F716DE29808E0200D8ACF7 /* ORKICompletionStepViewController.h in Headers */,
+				518E16E72C29C59400F44B98 /* ORKFamilyHistoryResultModel.h in Headers */,
 				5192BF3A2AE04B16006E43FB /* ORKRelatedPerson.h in Headers */,
 				51BD900129D88FD30001D54E /* AVOutputContext.h in Headers */,
 				CA77D2A128AFFB4700400292 /* ORKFlamesShaderTypes.h in Headers */,
@@ -1755,6 +1762,7 @@
 				51F716DF29808E0200D8ACF7 /* ORKICompletionStepViewController.m in Sources */,
 				CA58F8AE28B5330E00761769 /* AccelerateCBLAS.c in Sources */,
 				CA3FF9D428B56A8300A33B6B /* ORKAVJournalingSessionHelper.m in Sources */,
+				518E16E82C29C59400F44B98 /* ORKFamilyHistoryResultModel.m in Sources */,
 				CA5B6D7428BD1F38002C3BA4 /* ORKTinnitusTypeContentView.m in Sources */,
 				CA77D29D28AFFB4700400292 /* ORKFlamesViewLegacy.m in Sources */,
 				CA5B6DA228BD27FC002C3BA4 /* ORKHeadphoneDetector.m in Sources */,
