@@ -39,4 +39,18 @@ final class InstructionStepScreen: Step {
         XCTAssertEqual(imageElement.label, expectedAXLabel)
         return self
     }
+    
+    func verifyImageBodyItems(expectedCount: Int) -> Self {
+        let firstBodyItem = Self.stepView.otherElements[AccessibilityIdentifiers.InstructionStep.bodyView].images.element(boundBy: 0)
+        wait(for: firstBodyItem)
+        let bodyItems = Self.stepView.otherElements[AccessibilityIdentifiers.InstructionStep.bodyView].images.count
+        XCTAssertEqual(bodyItems, expectedCount, "Expected to find \(expectedCount) body items but found \(bodyItems)")
+        return self
+    }
+    
+    func getBodyItemsLabels() -> [String] {
+        let staticTexts = Self.stepView.otherElements[AccessibilityIdentifiers.InstructionStep.bodyView].staticTexts.allElementsBoundByIndex
+        let actualLabels = staticTexts.map {$0.label}
+        return actualLabels
+    }
 }

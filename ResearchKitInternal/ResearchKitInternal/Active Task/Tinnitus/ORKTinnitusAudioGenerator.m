@@ -374,22 +374,6 @@ static OSStatus ORKTinnitusAudioGeneratorZeroTone(void *inRefCon,
     [self play];
 }
 
-- (void)stop {
-    if (_mGraph) {
-        _rampUp = NO;
-        int nodeInput = (_lastNodeInput % 2) + 1;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_fadeDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            if (self->_mGraph) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    AUGraphDisconnectNodeInput(self->_mGraph, self->_mixerNode, nodeInput);
-                    AUGraphUpdate(self->_mGraph, NULL);
-                    self->_playing = NO;
-                });
-            }
-        });
-    }
-}
-
 - (void)setupGraph {
     if (!_mGraph) {
         NewAUGraph(&_mGraph);
@@ -493,7 +477,9 @@ static OSStatus ORKTinnitusAudioGeneratorZeroTone(void *inRefCon,
 }
 
 - (void)handleInterruption:(id)sender {
-    [self stop];
+    [self stop:^{
+        // no extra action
+    }];
 }
 
 - (void)adjustBufferAmplitude:(double) newAmplitude {
@@ -501,7 +487,20 @@ static OSStatus ORKTinnitusAudioGeneratorZeroTone(void *inRefCon,
 }
 
 - (void)stop:(void (^ _Nonnull __strong)(void))didStopPlaying {
-    // Intentionally left blank
+    if (_mGraph) {
+        _rampUp = NO;
+        int nodeInput = (_lastNodeInput % 2) + 1;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_fadeDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (self->_mGraph) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    AUGraphDisconnectNodeInput(self->_mGraph, self->_mixerNode, nodeInput);
+                    AUGraphUpdate(self->_mGraph, NULL);
+                    self->_playing = NO;
+                    didStopPlaying();
+                });
+            }
+        });
+    }
 }
 
 @end

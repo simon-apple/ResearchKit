@@ -8,51 +8,7 @@
 import Foundation
 import XCTest
 
-final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
-    
-    let tasksList = TasksTab()
-    var measurementSystem: String = ""
-    var hourCycle: String = ""
-    var dismissPicker = false
-    
-    let metricSignature = "metric"
-    let usSignature = "ussystem"
-    let continentalTimeSignature = "h23"
-    let usTimeSignature = "h12"
-    
-    /// rdar://111132091 ([Modularization] [ORKCatalog] Date Picker won't display on the question card)
-    /// This issue required extra button tap to dismiss picker to continue
-    let shouldUseUIPickerWorkaround = true
-    
-    let expectingNonOptionalStep = false
-    
-    override func setUpWithError() throws {
-        /// Start with clean state. Reset authorization status for health and location
-        app.resetAuthorizationStatus(for: .location)
-        if #available(iOS 14.0, *) { app.resetAuthorizationStatus(for: .health) }
-        
-        if #available(iOS 16, *) {
-            measurementSystem = String(Locale.current.measurementSystem.identifier) // "ussystem" or "metric"
-            hourCycle = String(Locale.current.hourCycle.rawValue) // "h12" or "h23"
-        } else {
-            measurementSystem = usSignature
-            hourCycle = usTimeSignature
-        }
-        
-        try super.setUpWithError()
-        // Verify that before we start our test we are on Tasks tab
-        tasksList
-            .assertTitle()
-    }
-    
-    override func tearDownWithError() throws {
-        if testRun?.hasSucceeded == false {
-            return
-        }
-        // Verify that after test is completed, we end up on Tasks tab
-        tasksList
-            .assertTitle()
-    }
+final class SurveyQuestionsLocaleDependentUITests: LocaleDependentBaseUITests {
     
     /// <rdar://tsc/21847950> [Survey Questions] Height Question
     func testHeightQuestion() {
@@ -245,6 +201,62 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
         questionStep
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
+        
+        let resultsTab = TabBar().navigateToResults()
+   
+        let expectedHeightInCentimeters = feetAndInchesToCentimeters(feet: Double(heightUSAnswerFeet), inches: Double(heightUSAnswerInches))
+        
+        // result 1
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.heightQuestionFormStep1))
+            .selectResultsCell(withId: formItemId)
+        
+        if measurementSystem == metricSignature {
+            resultsTab.verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(heightMetricAnswer)")
+        } else if measurementSystem == usSignature {
+            resultsTab.verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(expectedHeightInCentimeters)")
+        }
+        
+        resultsTab
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "cm")
+            .verifyResultsCellValue(resultType: .displayUnit, expectedValue: "nil")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+            
+        // result 2
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.heightQuestionFormStep2))
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(heightMetricAnswer)")
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "cm")
+            .verifyResultsCellValue(resultType: .displayUnit, expectedValue: "nil")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+        // result 3
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.heightQuestionFormStep3))
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(expectedHeightInCentimeters)")
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "cm")
+            .verifyResultsCellValue(resultType: .displayUnit, expectedValue: "nil")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+        // result 4
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.heightQuestionFormStep4))
+            .selectResultsCell(withId: formItemId)
+        
+        if measurementSystem == metricSignature {
+            resultsTab.verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(heightMetricAnswer)")
+        } else if measurementSystem == usSignature {
+            resultsTab.verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(expectedHeightInCentimeters)")
+        }
+        
+        resultsTab
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "cm")
+            .verifyResultsCellValue(resultType: .displayUnit, expectedValue: "nil")
     }
     
     /// <rdar://tsc/21847951> [Survey Questions] Weight Question
@@ -559,6 +571,101 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
         questionStep
             .verify(.continueButton, isEnabled: true)
             .tap(.continueButton)
+        
+        let resultsTab = TabBar().navigateToResults()
+        let expectedWeightInKilograms = poundsAndOuncesToKilograms(pounds: Double(weightUSAnswerLb))
+        
+        // result 1
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.weightQuestionFormStep1))
+            .selectResultsCell(withId: formItemId)
+        
+        if measurementSystem == metricSignature {
+            resultsTab.verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(weightMetricAnswerKg)")
+        } else if measurementSystem == usSignature {
+            resultsTab.verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(expectedWeightInKilograms)")
+        }
+        
+        resultsTab
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "kg")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+            
+        // result 2
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.weightQuestionFormStep2))
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(weightMetricAnswerKgPrecise)")
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "kg")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+        // result 3
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.weightQuestionFormStep3))
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(weightMetricAnswerKg)")
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "kg")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+        // result 4
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.weightQuestionFormStep4))
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(weightMetricAnswerKgHighlyPrecise)")
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "kg")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+        // result 5
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.weightQuestionFormStep5))
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(expectedWeightInKilograms)")
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "kg")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+        // result 6
+        let convertedPoundsAndOuncesToKgValue = poundsAndOuncesToKilograms(pounds: Double(weightUSAnswerLb), ounces: Double(weightUSAnswerOz))
+        
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.weightQuestionFormStep6))
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(convertedPoundsAndOuncesToKgValue)")
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "kg")
+            .navigateToResultsStepBack()
+            .navigateToResultsStepBack()
+        
+        // result 7
+        resultsTab
+            .selectResultsCell(withId: String(describing: Identifier.weightQuestionFormStep7))
+            .selectResultsCell(withId: formItemId)
+            .verifyResultsCellValue(resultType: .unit, expectedValue: "kg")
+        
+        if measurementSystem == metricSignature {
+            resultsTab.verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(weightMetricAnswerKg)")
+        } else if measurementSystem == usSignature {
+            resultsTab.verifyResultsCellValue(resultType: .numericAnswer, expectedValue: "\(expectedWeightInKilograms)")
+        }
+    }
+    
+    private func poundsAndOuncesToKilograms(pounds: Double, ounces: Double = 0) -> Double {
+        let poundsToKg = pounds * 0.453592
+        let ouncesToKg = ounces * 0.0283495
+        let kg = poundsToKg + ouncesToKg
+        return round(value: kg, places: 2)
+    }
+    
+    private func feetAndInchesToCentimeters(feet: Double, inches: Double) -> Double {
+        let cm = ((feet * 12) + inches) * 2.54
+        return round(value: cm, places: 2)
+    }
+    
+    private func round(value: Double,  places: Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (value * divisor).rounded() / divisor
     }
     
     ///<rdar://tsc/21847949> [Survey Questions] Date & Time Question
@@ -616,8 +723,8 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
         }
         
         questionStep
-            .verifyDatePickerDefaultsToCurrentDate()
-            .answerDateQuestion(offsetDays: -3, offsetYears: 0, dismissPicker: dismissPicker)
+            .verifyDatePickerDefaultsToCurrentDate(isUSTimeZone: isUSTimeZone)
+            .answerDateQuestion(offsetDays: -3, offsetYears: 0, isUSTimeZone: isUSTimeZone, dismissPicker: dismissPicker)
             .verify(.continueButton, isEnabled: true)
         
         if shouldUseUIPickerWorkaround {
@@ -626,9 +733,9 @@ final class SurveyQuestionsLocaleDependentUITests: BaseUITest {
         }
         
         questionStep
-            .answerDateQuestion(offsetDays: 3, offsetYears: 0)
-            .verifyDatePickerRestrictedTo3days(offsetDays: -4, offsetYears: 0)
-            .verifyDatePickerRestrictedTo3days(offsetDays: 4, offsetYears: 0, dismissPicker: dismissPicker)
+            .answerDateQuestion(offsetDays: 3, offsetYears: 0, isUSTimeZone: isUSTimeZone)
+            .verifyDatePickerRestrictedTo3days(offsetDays: -4, offsetYears: 0, isUSTimeZone: isUSTimeZone)
+            .verifyDatePickerRestrictedTo3days(offsetDays: 4, offsetYears: 0, isUSTimeZone: isUSTimeZone, dismissPicker: dismissPicker)
             .verify(.continueButton,isEnabled: true)
         
         // TODO: Verifying entered values is blocked by rdar://120826508 ([Accessibility][ORKCatalog] Unable to access cell value after entering it)

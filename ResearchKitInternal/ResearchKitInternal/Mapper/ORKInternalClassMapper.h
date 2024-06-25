@@ -31,6 +31,8 @@
 #import <Foundation/Foundation.h>
 
 @class ORKStep;
+@class ORKStepViewController;
+@class ORKTaskViewController;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -59,12 +61,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (nullable id)getInternalInstanceForPublicInstance:(id)class;
 
-/**
- Throws if a parent of an internal subclass is passed in.
- 
- Should only be used when testing.
- */
-+ (void)throwIfTaskIsNotSanitized:(id)task;
 
 /**
  Sets a value for the ORKUseInternalClassMapper key for user defautls.
@@ -77,19 +73,14 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)getUseInternalMapperUserDefaultsValue;
 
 /**
- Sets a value for the ORKUseInternalClassMapperThrows key for user defautls.
- */
-+ (void)setUseInternalMapperThrowsUserDefaultsValue:(BOOL)value;
-
-/**
- Boolean value for the ORKUseInternalClassMapper key for user defautls.
- */
-+ (BOOL)getUseInternalMapperThrowsUserDefaultsValue;
-
-/**
  Removes ORKUseInternalClassMapperThrows key from user defautls.
  */
 + (void)removeUseInternalMapperUserDefaultsValues;
+
+/**
+ Returns the expected mapped ORKStepViewController for a provided step
+ */
++ (nullable ORKStepViewController *)mappedStepViewControllerForStep:(ORKStep *)step fromTaskViewController:(ORKTaskViewController *)taskViewController;
 
 /**
  Returns an array of steps and replaces any public classes

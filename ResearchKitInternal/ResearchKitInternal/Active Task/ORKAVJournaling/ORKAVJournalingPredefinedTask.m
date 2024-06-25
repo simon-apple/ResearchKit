@@ -38,7 +38,6 @@
 #import "ORKAVJournalingStep.h"
 #import "ORKContext.h"
 #import "ORKFaceDetectionStep.h"
-#import "ORKICompletionStep.h"
 
 #import "ORKIUtils.h"
 
@@ -50,6 +49,7 @@
 #import <ResearchKit/ORKStep.h>
 #import <ResearchKit/ORKStepNavigationRule.h>
 #import <ResearchKitUI/ORKLearnMoreView.h>
+#import <ResearchKitInternal/ORKITaskViewController.h>
 
 static const double MinByteLimitForTask = 3000000000; //3GB Min Available Storage Limit
 
@@ -79,7 +79,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
         // Add a navigation rule to end the current task.
         ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
         
-        ORKICompletionStep *step = [[ORKICompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierMaxLimitHitCompletion];
+        ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierMaxLimitHitCompletion];
         step.title = ORKILocalizedString(@"AV_JOURNALING_FACE_DETECTION_STEP_TIME_LIMIT_REACHED_TITLE", nil);
         step.text = ORKILocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil);
         step.optional = NO;
@@ -98,7 +98,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
         // Add a navigation rule to end the current task.
         ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
         
-        ORKICompletionStep *step = [[ORKICompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierFinishLaterCompletion];
+        ORKCompletionStep *step = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierFinishLaterCompletion];
         step.title = ORKILocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TITLE", nil);
         step.text = ORKILocalizedString(@"AV_JOURNALING_STEP_FINISH_LATER_TEXT", nil);
         step.optional = NO;
@@ -116,7 +116,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
     // Add a navigation rule to end the current task.
     ORKNavigableOrderedTask *currentTask = (ORKNavigableOrderedTask *)task;
     
-    ORKICompletionStep *completionStep = [[ORKICompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion];
+    ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierVideoAudioAccessDeniedCompletion];
     completionStep.title = ORKILocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TITLE", nil);
     completionStep.text = ORKILocalizedString(@"AV_JOURNALING_PREDEFINED_AUDIO_VIDEO_ACCESS_TEXT", nil);
     completionStep.reasonForCompletion = ORKTaskFinishReasonDiscarded;
@@ -266,7 +266,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
             if (availableBytes < MinByteLimitForTask) {
                 lowMemoryDetected = YES;
                 
-                ORKICompletionStep *completionStep = [[ORKICompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierLowMemoryCompletion];
+                ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierLowMemoryCompletion];
                 completionStep.title = ORKILocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TITLE", nil);
                 completionStep.text = ORKILocalizedString(@"AV_JOURNALING_PREDEFINED_LOW_MEMORY_TEXT", nil);
                 completionStep.reasonForCompletion = ORKTaskFinishReasonDiscarded;
@@ -334,7 +334,7 @@ ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierInstructionStep
         }
         
         //Completion Step
-        ORKICompletionStep *completionStep = [[ORKICompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierCompletion];
+        ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKAVJournalingStepIdentifierCompletion];
         completionStep.title = ORKILocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TITLE", nil);
         completionStep.text = ORKILocalizedString(@"AV_JOURNALING_PREDEFINED_TASK_COMPLETION_TEXT", nil);
         

@@ -91,9 +91,10 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
     case is ORKDateQuestionResult:
         providerType = DateQuestionResultTableViewProvider.self
         
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
     case is ORKLocationQuestionResult:
         providerType = LocationQuestionResultTableViewProvider.self
-        
+#endif
     case is ORKNumericQuestionResult:
         providerType = NumericQuestionResultTableViewProvider.self
         
@@ -168,6 +169,44 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
     */
     case is ORKCollectionResult where !(result is ORKTaskResult):
         providerType = CollectionResultTableViewProvider.self
+        
+    #if RK_APPLE_INTERNAL
+    case is ORKFamilyHistoryResult:
+        providerType = FamilyHistoryResultTableViewProvider.self
+
+    case is ORKHeadphoneDetectResult:
+        providerType = HeadphoneDetectStepResultTableViewProvider.self
+    
+    case is ORKEnvironmentSPLMeterResult:
+        providerType = SPLMeterStepResultTableViewProvider.self
+    
+    case is ORKAVJournalingResult:
+        providerType = AVJournalingTypeResultTableViewProvider.self
+    
+    case is ORKTinnitusTypeResult:
+        providerType = TinnitusTypeResultTableViewProvider.self
+
+    case is ORKTinnitusVolumeResult:
+        providerType = TinnitusVolumeResultTableViewProvider.self
+    
+    case is ORKTinnitusOverallAssessmentResult:
+        providerType = TinnitusOverallAssessmentResultTableViewProvider.self
+
+    case is ORKTinnitusPureToneResult:
+        providerType = TinnitusPureToneResultTableViewProvider.self
+    
+    case is ORKTinnitusMaskingSoundResult:
+        providerType = TinnitusMaskingSoundResultTableViewProvider.self
+    
+    case is ORKBLEScanPeripheralsStepResult:
+        providerType = BLEScanPeripheralsStepResultTableViewProvider.self
+    
+    case is ORKIdBHLToneAudiometryResult:
+        providerType = dBHLInternalResultTableViewProvider.self
+        
+    case is ORKSettingStatusResult:
+        providerType = SettingStatusResultTableViewProvider.self
+    #endif
       
     case is ORKVideoInstructionStepResult:
         providerType = VideoInstructionStepResultTableViewProvider.self
@@ -183,38 +222,6 @@ func resultTableViewProviderForResult(_ result: ORKResult?, delegate: ResultProv
         
     case is ORKSignatureResult:
         providerType = SignatureResultTableViewProvider.self
-
-    #if RK_APPLE_INTERNAL
-    case is ORKFamilyHistoryResult:
-        providerType = FamilyHistoryResultTableViewProvider.self
-
-    case is ORKHeadphoneDetectResult:
-        providerType = HeadphoneDetectStepResultTableViewProvider.self
-        
-    case is ORKEnvironmentSPLMeterResult:
-        providerType = SPLMeterStepResultTableViewProvider.self
-        
-    case is ORKAVJournalingResult:
-        providerType = AVJournalingTypeResultTableViewProvider.self
-        
-    case is ORKTinnitusTypeResult:
-        providerType = TinnitusTypeResultTableViewProvider.self
-
-    case is ORKTinnitusVolumeResult:
-        providerType = TinnitusVolumeResultTableViewProvider.self
-        
-    case is ORKTinnitusOverallAssessmentResult:
-        providerType = TinnitusOverallAssessmentResultTableViewProvider.self
-    
-    case is ORKTinnitusPureToneResult:
-        providerType = TinnitusPureToneResultTableViewProvider.self
-        
-    case is ORKTinnitusMaskingSoundResult:
-        providerType = TinnitusMaskingSoundResultTableViewProvider.self
-        
-    case is ORKBLEScanPeripheralsStepResult:
-        providerType = BLEScanPeripheralsStepResultTableViewProvider.self
-    #endif
 
     default:
         fatalError("No ResultTableViewProvider defined for \(type(of: result)).")
@@ -343,6 +350,10 @@ class ResultTableViewProvider: NSObject, UITableViewDataSource, UITableViewDeleg
 
                 cell.textLabel!.text = text
                 cell.detailTextLabel!.text = detailText
+            // start-omit-internal-code
+                cell.textLabel!.accessibilityIdentifier = text
+                cell.detailTextLabel!.accessibilityIdentifier = "\(text)_value"
+            // end-omit-internal-code
                 
                 cell.textLabel?.textColor = UIColor.label
                 cell.detailTextLabel?.textColor = UIColor.secondaryLabel
@@ -479,6 +490,7 @@ class DateQuestionResultTableViewProvider: ResultTableViewProvider {
     }
 }
 
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 /// Table view provider specific to an `ORKLocationQuestionResult` instance.
 class LocationQuestionResultTableViewProvider: ResultTableViewProvider {
     // MARK: ResultTableViewProvider
@@ -497,7 +509,7 @@ class LocationQuestionResultTableViewProvider: ResultTableViewProvider {
         return rows
     }
 }
-
+#endif 
 /// Table view provider specific to an `ORKNumericQuestionResult` instance.
 class NumericQuestionResultTableViewProvider: ResultTableViewProvider {
     // MARK: ResultTableViewProvider
@@ -1364,7 +1376,8 @@ class HeadphoneDetectStepResultTableViewProvider: ResultTableViewProvider {
                 ResultRow(text: "headphoneType", detail: headphoneDetectStepResult.headphoneType),
                 ResultRow(text: "vendorID", detail: headphoneDetectStepResult.vendorID),
                 ResultRow(text: "productID", detail: headphoneDetectStepResult.productID),
-                ResultRow(text: "deviceSubType", detail: headphoneDetectStepResult.deviceSubType)
+                ResultRow(text: "deviceSubType", detail: headphoneDetectStepResult.deviceSubType),
+                ResultRow(text: "isMonoAudio", detail: headphoneDetectStepResult.isMonoAudioEnabled ? "Yes" : "No")
             ]
         }
         
@@ -1608,6 +1621,64 @@ class TinnitusPureToneResultTableViewProvider: ResultTableViewProvider {
     }
 }
 
+/// Table view provider specific to an `ORKIdBHLToneAudiometryResult` instance.
+/// This method is including the MOA new variables
+class dBHLInternalResultTableViewProvider: ResultTableViewProvider {
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return super.tableView(tableView, titleForHeaderInSection: 0)
+        }
+        
+        return "Samples"
+    }
+    
+    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
+        let internalResult = result as! ORKIdBHLToneAudiometryResult
+        
+        let rows = super.resultRowsForSection(section)
+        
+        if section == 0 {
+            let moaRows = [
+                ResultRow(text: "outputVolume", detail: internalResult.outputVolume),
+                ResultRow(text: "measurementMethod", detail: "MOA"),
+                ResultRow(text: "headphoneType", detail: internalResult.headphoneType)
+            ]
+            let molRows = [
+                ResultRow(text: "outputVolume", detail: internalResult.outputVolume),
+                ResultRow(text: "measurementMethod", detail: "MOL (New Algorithm)"),
+                ResultRow(text: "tonePlaybackDuration", detail: internalResult.tonePlaybackDuration),
+                ResultRow(text: "postStimulusDelay", detail: internalResult.postStimulusDelay),
+                ResultRow(text: "headphoneType", detail: internalResult.headphoneType)
+            ]
+            return rows + (internalResult.measurementMethod == .limits ? molRows : moaRows)
+        } else if section == 1 {
+            guard let samples = internalResult.samples else { return rows }
+            
+            let sortedSamples = samples.sorted { $0.frequency < $1.frequency }
+            var newRows: [ResultRow] = []
+            if internalResult.measurementMethod == .limits {
+                newRows = sortedSamples.map { sample in
+                    return ResultRow(text: "freq: \(String(format: "%.1f",sample.frequency))", detail: "threshold: \(String(format: "%.2f", sample.calculatedThreshold)), channel: \(sample.channel == .left ? "left" : "right")", selectable: false)
+                }
+            } else {
+                sortedSamples.forEach { sample in
+                    newRows.append(ResultRow(text: "freq: \(String(format: "%.1f",sample.frequency))", detail: "threshold: \(String(format: "%.2f", sample.calculatedThreshold)), channel: \(sample.channel == .left ? "left" : "right")", selectable: false))
+                    sample.methodOfAdjustmentInteractions?.enumerated().forEach { index, interaction in
+                        newRows.append(ResultRow(text: index == 0 ? "Interactions" : "", detail: "dBHL: \(String(format: "%.2f", interaction.dBHLValue)), timeStamp: \(String(format: "%.2f", interaction.timeStamp)), \(interaction.sourceOfInteraction == .slider ? "Slider" : "Stepper")", selectable: false))
+                    }
+                }
+            }
+            return rows + newRows
+        }
+        
+        return rows
+    }
+}
+
 /// Table view provider specific to an `ORKTinnitusMaskingSoundResult` instance.
 class TinnitusMaskingSoundResultTableViewProvider: ResultTableViewProvider {
     // MARK: ResultTableViewProvider
@@ -1656,6 +1727,27 @@ class BLEScanPeripheralsStepResultTableViewProvider: ResultTableViewProvider {
             for peripheral in bleScanPeripheralsStepResult.connectedPeripherals {
                 rows.append(ResultRow(text: "\(peripheral.name ?? "")", detail: "\(peripheral.state.rawValue == 2 ? "connected" : "not connected")"))
             }
+        }
+        
+        return rows
+    }
+}
+
+/// Table view provider specific to an `ORKSettingStatusResult` instance.
+class SettingStatusResultTableViewProvider: ResultTableViewProvider {
+    // MARK: ResultTableViewProvider
+    
+    override func resultRowsForSection(_ section: Int) -> [ResultRow] {
+        let settingStatusResult = result as! ORKSettingStatusResult
+        
+        let rows = super.resultRowsForSection(section)
+        
+        if section == 0 {
+            return rows + [
+                ResultRow(text: "isEnabledAtStart", detail: "\(settingStatusResult.isEnabledAtStart)"),
+                ResultRow(text: "isEnabledAtEnd", detail: "\(settingStatusResult.isEnabledAtEnd)"),
+                ResultRow(text: "settingType", detail: "\(settingStatusResult.settingType.rawValue.description)"),
+            ]
         }
         
         return rows

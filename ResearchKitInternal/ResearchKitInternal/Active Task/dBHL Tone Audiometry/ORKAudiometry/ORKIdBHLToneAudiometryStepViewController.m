@@ -73,14 +73,16 @@
     return self;
 }
 
+-(ORKIdBHLToneAudiometryStep *)idBHLToneAudiometryStep {
+    return (ORKIdBHLToneAudiometryStep *)self.step;
+}
+
 - (ORKdBHLToneAudiometryAudioGenerator *)createAudioGeneratorFromHeadphoneType:(ORKHeadphoneTypeIdentifier)type {
     return [[ORKIdBHLToneAudiometryAudioGenerator alloc] initForHeadphoneType:type];
 }
 
 - (void)configureStep {
-    [super configureStep];
-    
-    ORKdBHLToneAudiometryStep *dBHLTAStep = [self dBHLToneAudiometryStep];
+    ORKIdBHLToneAudiometryStep *dBHLTAStep = [self idBHLToneAudiometryStep];
     
     _headphoneDetector = [[ORKHeadphoneDetector alloc] initWithDelegate:self
                                                 supportedHeadphoneChipsetTypes:[ORKHeadphoneDetectStep dBHLTypes]];
@@ -103,7 +105,7 @@
                 ORKHeadphoneDetectResult *headphoneDetectResult = (ORKHeadphoneDetectResult *)firstResult;
                 dBHLTAStep.headphoneType = headphoneDetectResult.headphoneType;
         
-            } else if ([firstResult isKindOfClass:[ORKdBHLToneAudiometryResult class]]) {
+            } else if ([firstResult isKindOfClass:[ORKIdBHLToneAudiometryResult class]]) {
                 if (@available(iOS 14.0, *)) {
                     ORKIdBHLToneAudiometryResult *dBHLToneAudiometryResult = (ORKIdBHLToneAudiometryResult *)firstResult;
                     BOOL suitableResult = (dBHLToneAudiometryResult.algorithmVersion == 1 &&
@@ -126,6 +128,7 @@
         }
     }
     
+    [super configureStep];
 }
 
 - (void)addObservers {
@@ -159,11 +162,36 @@
     
     if (@available(iOS 14.0, *)) {
         if ([self.audiometryEngine isKindOfClass:ORKNewAudiometry.class]) {
-            ORKIdBHLToneAudiometryResult *toneResult = (ORKIdBHLToneAudiometryResult *)result.results.lastObject;
+            ORKdBHLToneAudiometryResult *parentToneResult = [(ORKdBHLToneAudiometryResult *)result.results.lastObject copy];
+            
+            ORKIdBHLToneAudiometryResult *toneResult = [[ORKIdBHLToneAudiometryResult alloc] initWithIdentifier:parentToneResult.identifier];
+            toneResult.startDate = [parentToneResult.startDate copy];
+            toneResult.endDate = [parentToneResult.endDate copy];
+            NSMutableArray *newSamples = [NSMutableArray array];
+            for (ORKdBHLToneAudiometryFrequencySample *parentSample in [parentToneResult samples]) {
+                ORKIdBHLToneAudiometryFrequencySample *newSample = [[ORKIdBHLToneAudiometryFrequencySample alloc] init];
+                newSample.frequency = parentSample.frequency;
+                newSample.calculatedThreshold = parentSample.calculatedThreshold;
+                newSample.channel = parentSample.channel;
+                newSample.units = [parentSample.units copy];
+                [newSamples addObject:newSample];
+            }
+            toneResult.samples = newSamples;
+            toneResult.outputVolume = parentToneResult.outputVolume;
+            toneResult.headphoneType = parentToneResult.headphoneType;
+            toneResult.tonePlaybackDuration = parentToneResult.tonePlaybackDuration;
+            toneResult.postStimulusDelay = parentToneResult.postStimulusDelay;
+            
             ORKNewAudiometry *engine = (ORKNewAudiometry *)self.audiometryEngine;
             toneResult.algorithmVersion = 1;
             toneResult.discreteUnits = engine.resultUnits;
             toneResult.fitMatrix = engine.fitMatrix;
+            
+            NSMutableArray *updatedResults = [NSMutableArray arrayWithArray:result.results];
+            [updatedResults removeLastObject];
+            [updatedResults addObject:toneResult];
+            
+            result.results = updatedResults;
         }
     }
     
@@ -181,12 +209,12 @@
 #pragma mark - Headphone Monitoring
 
 - (NSString *)headphoneType {
-    return [[self dBHLToneAudiometryStep].headphoneType uppercaseString];
+    return [[self idBHLToneAudiometryStep].headphoneType uppercaseString];
 }
 
 - (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
-    if ([[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
-        [[[self dBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
+    if ([[[self idBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
+        [[[self idBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
             
         BOOL newModeIsNoiseCancellingMode = (bluetoothMode == ORKBluetoothModeNoiseCancellation);
         if (!newModeIsNoiseCancellingMode) {

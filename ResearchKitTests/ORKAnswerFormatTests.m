@@ -964,7 +964,8 @@
 
 - (void)testCustomTask {
     // only should initialize with a valid content view
-    XCTAssertThrows([ORKCustomStep customStepWithIdentifier:@"whoops" contentView: NULL]);
+    UIView *customView = nil;
+    XCTAssertThrows([ORKCustomStep customStepWithIdentifier:@"whoops" contentView: customView]);
 }
 
 - (void)testTextAnswerFormatPIIScrubber {
@@ -1548,6 +1549,7 @@
     XCTAssertEqual([[[answerFormat textChoices] objectAtIndex:1] value], [NSNumber numberWithInteger:2]);
 }
 
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
 - (void)testHealthKitCharacteristicTypeAnswerFormat {
     
     HKCharacteristicType *biologicalSex = [HKCharacteristicType characteristicTypeForIdentifier:HKCharacteristicTypeIdentifierBiologicalSex];
@@ -1635,6 +1637,7 @@
     XCTAssertEqual([answerFormat numericAnswerStyle], ORKNumericAnswerStyleInteger);
     XCTAssertEqual([answerFormat quantityType], calories);
 }
+#endif
 
 - (void)testDateAnswerFormat {
     

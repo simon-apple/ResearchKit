@@ -30,6 +30,7 @@
 // apple-internal
 
 #import "ORKTinnitusHeadphoneTable.h"
+#import <ResearchKitActiveTask/ORKdBHLToneAudiometryStep.h>
 
 static const CGFloat TopIndexOutOfBounds = 0.0;
 
@@ -89,7 +90,7 @@ static const CGFloat TopIndexOutOfBounds = 0.0;
     }
     
     self.volumeCurve = [NSDictionary
-                    dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]]
+                    dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[ORKdBHLToneAudiometryStep class]]
                                                   pathForResource:volumeCurveFilename
                                                   ofType:@"plist"]];
     

@@ -56,6 +56,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign, getter=isStarted) BOOL started;
 
+// TODO: fix constraints to avoid this workaround (fix the constraints breaking of continueButton on Active steps tasks.
+@property (nonatomic, assign, getter=isNavigationFooterViewHidden) BOOL navigationFooterViewHidden;
+
 - (void)countDownTimerFired:(ORKActiveStepTimer *)timer finished:(BOOL)finished; // Let subclass receive timer fires
 
 - (void)applicationWillResignActive:(NSNotification *)notification;

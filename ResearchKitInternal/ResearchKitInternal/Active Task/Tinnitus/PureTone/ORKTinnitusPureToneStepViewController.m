@@ -310,20 +310,13 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     
     [_tinnitusContentView resetButtons];
     
-    ORKTaskResult *taskResults = [[self taskViewController] result];
-    ORKHeadphoneTypeIdentifier headphoneType = ORKHeadphoneTypeIdentifierAirPodsGen1;
-    for (ORKStepResult *result in taskResults.results) {
-        if (result.results > 0) {
-            ORKStepResult *firstResult = (ORKStepResult *)[result.results firstObject];
-            if ([firstResult isKindOfClass:[ORKHeadphoneDetectResult class]]) {
-                ORKHeadphoneDetectResult *hedphoneResult = (ORKHeadphoneDetectResult *)firstResult;
-                headphoneType = hedphoneResult.headphoneType;
-                break;
-            }
-        }
-    }
+    ORKTinnitusPredefinedTaskContext *context = [self tinnitusPredefinedTaskContext];
     
-    self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithHeadphoneType:headphoneType];
+    if (context.headphoneType != nil) {
+        self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithHeadphoneType:context.headphoneType];
+    } else {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"A valid headphone type must be provided" userInfo:nil];
+    }
     
     self.isAccessibilityElement = YES;
 }
@@ -472,10 +465,10 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     BOOL isUserTap = !isSimulatedTap;
     BOOL isCurrentAutomaticStageButtonSelected = _tinnitusContentView.isCurrentAutoStageButtonSelected;
     BOOL isSelectedPositionTheSameAsPrevious = newPosition == previousPosition;
-    BOOL autoPlayIsStoped = _timer == nil;
+    BOOL isAutoPlaying = [self isAutoPlaying];
 
     if (isUserTap) {
-        if ([self isAutoPlaying]) {
+        if (isAutoPlaying) {
             [self stopAutomaticPlay];
         }
     }
@@ -488,7 +481,7 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
             frequencyIndex = self->_cFrequencyIndex;
         }
 
-        if (isCurrentAutomaticStageButtonSelected && autoPlayIsStoped && isSimulatedTap) {
+        if (isCurrentAutomaticStageButtonSelected && !isAutoPlaying && isSimulatedTap) {
             [self->_tinnitusContentView restoreButtons];
         } else {
             [self playSoundAt:[self->_frequencies[frequencyIndex] doubleValue]];
@@ -518,7 +511,7 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
             UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, self->_tinnitusContentView);
         });
     }
-    [self performSelector:@selector(startAutomaticPlay) withObject:nil afterDelay:PLAY_DELAY];
+    [self performSelector:@selector(startAutomaticPlay) withObject:nil afterDelay:0];
 }
 
 - (void)fineTune {
