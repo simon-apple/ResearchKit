@@ -306,7 +306,7 @@ public struct ScaleSliderQuestionView: View {
         case .integerRange:
             value = Int(sliderUIValue)
         case .doubleRange:
-            value = sliderUIValue
+            value = String(format: "%.1f", sliderUIValue)
         case .textChoice(let choices):
             value = choices[Int(sliderUIValue)].choiceText
         }
