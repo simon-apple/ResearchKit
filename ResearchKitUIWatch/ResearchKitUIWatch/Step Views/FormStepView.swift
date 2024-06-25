@@ -198,23 +198,22 @@ struct FormStepView: View {
             NumericQuestionView(
                 text: .init(
                     get: {
-                        numericQuestion.number?.stringValue ?? ""
+                        let decimal: Decimal?
+                        if let doubleValue = numericQuestion.number?.doubleValue {
+                            decimal = Decimal(doubleValue)
+                        } else {
+                            decimal = nil
+                        }
+                        return decimal
                     },
                     set: { newValue in
-                        let newNumber: NSNumber?
-                        if let newFloatingPointNumber = Double(newValue) {
-                            newNumber = NSNumber(floatLiteral: newFloatingPointNumber)
-                        } else {
-                            newNumber = nil
-                        }
-                        
                         formRow.wrappedValue = .numericRow(
                             NumericQuestion(
                                 id: numericQuestion.id,
                                 title: numericQuestion.title,
                                 detail: numericQuestion.detail,
                                 prompt: numericQuestion.prompt,
-                                number: newNumber
+                                number: newValue as? NSDecimalNumber
                             )
                         )
                     }

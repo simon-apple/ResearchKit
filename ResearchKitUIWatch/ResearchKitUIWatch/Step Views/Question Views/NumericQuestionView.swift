@@ -57,7 +57,7 @@ public struct NumericQuestion: Identifiable {
 
 public struct NumericQuestionView<Header: View>: View {
     
-    @Binding var text: String
+    @Binding var text: Decimal?
     private let header: Header
     private let prompt: String?
     @FocusState private var isInputActive: Bool
@@ -68,7 +68,7 @@ public struct NumericQuestionView<Header: View>: View {
                 header
             },
             content: {
-                TextField("", text: $text, prompt: placeholder)
+                TextField("", value: $text, format: .number, prompt: placeholder)
                     .keyboardType(.decimalPad)
                     .focused($isInputActive)
 #if os(iOS)
@@ -99,7 +99,7 @@ public struct NumericQuestionView<Header: View>: View {
 public extension NumericQuestionView where Header == _SimpleTaskViewHeader {
     
     init(
-        text: Binding<String>,
+        text: Binding<Decimal?>,
         title: String,
         detail: String?,
         prompt: String?
