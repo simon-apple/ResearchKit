@@ -71,6 +71,10 @@
 "TINNITUS_ALERT_BUTTON_CONTINUE" = "Continue";
 "TINNITUS_ALERT_BUTTON_CANCEL" = "Cancel Task";
 
+/* dBHL Tone audiometry method of adjustments active task. */
+"dBHL_TONE_AUDIOMETRY_METHOD_OF_ADJUSTMENTS_INTRO_TITLE" = "Select the Faintest Tone You Can Hear";
+"dBHL_TONE_AUDIOMETRY_METHOD_OF_ADJUSTMENTS_INTRO_TEXT" = "Adjust by touching the bars below or by tapping the plus and minus buttons.";
+
 /* Pacha Alerts */
 "PACHA_ALERT_TITLE_TASK_INTERRUPTED" = "Task Interrupted";
 "PACHA_ALERT_TEXT_TASK_INTERRUPTED" = "To ensure accurate results, this task must be completed without interruption.";
@@ -92,8 +96,15 @@
 
 
 /* dBHL Task */
-"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TITLE" = "This Test Requires Compatible Headphones";
+"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TITLE" = "This Test Requires Compatible Headphone%@";
 "dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT" = "Thank you for participating in the Apple Hearing Study.\n\nTo do this task at a later time, connect Apple EarPods, AirPods, or AirPods Pro to your device.";
+"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_AIRPODSGEN1" = "Thank you for participating in the Apple Hearing Study.\n\nTo do this task at a later time, connect Apple AirPods (1st generation) to your device.";
+"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_AIRPODSGEN2" = "Thank you for participating in the Apple Hearing Study.\n\nTo do this task at a later time, connect Apple AirPods (2nd generation) to your device.";
+"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_AIRPODSGEN3" = "Thank you for participating in the Apple Hearing Study.\n\nTo do this task at a later time, connect Apple AirPods (3rd generation) to your device.";
+"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_AIRPODSPROGEN1" = "Thank you for participating in the Apple Hearing Study.\n\nTo do this task at a later time, connect Apple AirPods Pro (1st generation) to your device.";
+"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_AIRPODSPROGEN2" = "Thank you for participating in the Apple Hearing Study.\n\nTo do this task at a later time, connect Apple AirPods Pro (2nd generation) to your device.";
+"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_AIRPODSMAX" = "Thank you for participating in the Apple Hearing Study.\n\nTo do this task at a later time, connect Apple AirPods Max to your device.";
+"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_EARPODS" = "Thank you for participating in the Apple Hearing Study.\n\nTo do this task at a later time, connect Apple EarPods to your device.";
 "dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_DO_LATER" = "Finish task later";
 "dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_SKIP" = "Skip this task";
 
@@ -147,12 +158,21 @@
 "HEADPHONE_CONNECTED_EARPODS" = "Connected - EarPods";
 "HEADPHONE_DETECT_TITLE" = "Connect Your Headphones";
 "HEADPHONE_DETECT_TEXT" = "To ensure accurate results, this task requires Apple AirPods, AirPods Pro, AirPods Max or EarPods.";
+"HEADPHONE_DETECT_FORM_TITLE" = "Select the Headphone to Detect";
+"HEADPHONE_DETECT_FORM_ITEM_TEXT" = "Only Apple Headphones can be detected";
+"HEADPHONE_DETECT_TEXT_AIRPODSGEN1" = "To ensure accurate results, please connect you Apple AirPods (1st generation).";
+"HEADPHONE_DETECT_TEXT_AIRPODSGEN2" = "To ensure accurate results, please connect you Apple AirPods (2nd generation).";
+"HEADPHONE_DETECT_TEXT_AIRPODSGEN3" = "To ensure accurate results, please connect you Apple AirPods (3rd generation).";
+"HEADPHONE_DETECT_TEXT_AIRPODSPRO1" = "To ensure accurate results, please connect you Apple AirPods Pro (1st generation).";
+"HEADPHONE_DETECT_TEXT_AIRPODSPRO2" = "To ensure accurate results, please connect you Apple AirPods Pro (2nd generation).";
+"HEADPHONE_DETECT_TEXT_AIRPODSMAX" = "To ensure accurate results, please connect you Apple AirPods Max.";
+"HEADPHONE_DETECT_TEXT_EARPODS" = "To ensure accurate results, please connect you Apple EarPods.";
 "NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODSPRO" = "Swipe down from the top-right corner of your screen to open Control Center, touch and hold the volume control, and turn on Noise Cancellation.";
 "NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_BELOW_AIRPODSPRO" = "Swipe up from the bottom edge of the screen to open Control Center, touch and hold the volume control, and turn on Noise Cancellation.";
 "NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODSMAX" = "Swipe down from the top-right corner of your screen to open Control Center, touch and hold the volume control, and turn on Noise Cancellation.";
 "NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_BELOW_AIRPODSMAX" = "Swipe up from the bottom edge of the screen to open Control Center, touch and hold the volume control, and turn on Noise Cancellation.";
 "NOISE_CANCELLATION_REQUIRED" = "Noise cancellation required";
-"DBHL_HEADPHONES_DETECT_SKIP" = "No Compatible Headphones";
+"DBHL_HEADPHONES_DETECT_SKIP" = "No Compatible Headphone%@";
 "SHARED_AUDIO_ALERT" = "Shared audio must be turned off.%@To turn off shared audio, open Control Center and tap %@. Then tap the %@ to turn off sharing a particular set of headphones.";
 
 /* Speech In Noise Predefined Task */
@@ -217,3 +237,9 @@
 
 /* ORKTaskViewController Discard Button Text*/
 "BUTTON_OPTION_DISCARD_CHANGES" = "Discard Changes";
+
+/* Setting Status Step */
+"SETTING_STATUS_STEP_TURNED_ON" = "Turned On";
+"SETTING_STATUS_STEP_TURNED_OFF" = "Turned Off";
+"SETTING_STATUS_STEP_GO_TO_SETTINGS" = "Go to Settings";
+"SETTING_STATUS_STEP_EDIT_SETTINGS" = "Edit Settings";

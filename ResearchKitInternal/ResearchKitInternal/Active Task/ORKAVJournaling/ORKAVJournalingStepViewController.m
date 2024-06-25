@@ -47,7 +47,6 @@
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKitActiveTask/ORKActiveStepView.h>
 #import <ResearchKitActiveTask/ORKActiveStepViewController_Internal.h>
-#import <ResearchKitUI/ORKBorderedButton.h>
 #import <ResearchKitUI/ORKNavigationContainerView_Internal.h>
 #import <ResearchKitUI/ORKStepContainerView_Private.h>
 #import <ResearchKitUI/ORKStepViewController_Internal.h>
@@ -114,13 +113,13 @@ static const CGFloat FramesToSkipTotal = 5.0;
     
    [self setupContentView];
    [self setupContentViewConstraints];
-   [self startSession];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    [self startSession];
     [self updateNavFooterText];
 }
 

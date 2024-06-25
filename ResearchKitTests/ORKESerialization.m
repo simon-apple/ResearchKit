@@ -266,6 +266,7 @@ static NSString *ORKMeasurementSystemToString(ORKMeasurementSystem measurementSy
     return tableMapForward(measurementSystem, ORKMeasurementSystemTable());
 }
 
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 static NSDictionary *dictionaryFromCircularRegion(CLCircularRegion *region) {
     NSDictionary *dictionary = region ?
     @{
@@ -280,11 +281,13 @@ static NSDictionary *dictionaryFromCircularRegion(CLCircularRegion *region) {
 static NSDictionary *dictionaryFromPostalAddress(CNPostalAddress *address) {
    return @{ @"city": address.city, @"street": address.street };
 }
+#endif
 
 static NSString *identifierFromClinicalType(HKClinicalType *type) {
     return type.identifier;
 }
 
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 static CLCircularRegion *circularRegionFromDictionary(NSDictionary *dict) {
     CLCircularRegion *circularRegion;
     if (dict.count == 3) {
@@ -294,6 +297,7 @@ static CLCircularRegion *circularRegionFromDictionary(NSDictionary *dict) {
     }
     return circularRegion;
 }
+#endif
 
 static NSArray *arrayFromRegularExpressionOptions(NSRegularExpressionOptions regularExpressionOptions) {
     NSMutableArray *optionsArray = [NSMutableArray new];
@@ -386,12 +390,14 @@ static UITextInputPasswordRules *passwordRulesFromDictionary(NSDictionary *dict)
     return passwordRules;
 }
 
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 static CNPostalAddress *postalAddressFromDictionary(NSDictionary *dict) {
     CNMutablePostalAddress *postalAddress = [[CNMutablePostalAddress alloc] init];
     postalAddress.city = dict[@"city"];
     postalAddress.street = dict[@"street"];
     return [postalAddress copy];
 }
+#endif
 
 static HKClinicalType *typeFromIdentifier(NSString *identifier) {
     return [HKClinicalType clinicalTypeForIdentifier:identifier];
@@ -648,10 +654,11 @@ static ORKESerializableProperty *imagePropertyObject(NSString *propertyName,
 
 static id propFromDict(NSDictionary *dict, NSString *propName, ORKESerializationContext *context) {
     Class class = NSClassFromString(dict[_ClassKey]);
-#if ORK_FEATURE_INTERNAL_CLASS_MAPPER
-    class = [ORKInternalClassMapper getInternalClassForPublicClass:class] ?: class;
-#else
-    if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES) {
+
+#if RK_APPLE_INTERNAL
+    if (IS_FEATURE_INTERNAL_CLASS_MAPPER_ON) {
+        class = [ORKInternalClassMapper getInternalClassForPublicClass:class] ?: class;
+    } else if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES) {
         class = [ORKInternalClassMapper getInternalClassForPublicClass:class] ?: class;
     }
 #endif
@@ -929,7 +936,8 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                                                                          image:nil
                                                                  learnMoreItem:GETPROP(dict, learnMoreItem)
                                                                  bodyItemStyle:[GETPROP(dict, bodyItemStyle) intValue]
-                                                                  useCardStyle:GETPROP(dict, useCardStyle)];
+                                                                  useCardStyle:GETPROP(dict, useCardStyle)
+                                                               alignImageToTop:GETPROP(dict, alignImageToTop)];
                      return bodyItem;
                  },
                  (@{
@@ -940,6 +948,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(learnMoreItem, ORKLearnMoreItem, NSObject, YES, nil, nil),
                     PROPERTY(useCardStyle, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(useSecondaryColor, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(alignImageToTop, NSNumber, NSObject, YES, nil, nil),
                     })),
            ENTRY(ORKLearnMoreItem,
                  ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
@@ -1162,57 +1171,19 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(frequencyList, NSArray, NSObject, YES, nil, nil),
                     })),
 #if RK_APPLE_INTERNAL
-           ENTRY(ORKIOrderedTask,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                   ORKIOrderedTask *task = [[ORKIOrderedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
-                                                                                 steps:GETPROP(dict, steps)];
-                   return task;
-                 },
-                 (@{})),
-           ENTRY(ORKINavigableOrderedTask,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                   ORKINavigableOrderedTask *task = [[ORKINavigableOrderedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
-                                                                                                   steps:GETPROP(dict, steps)];
-                    return task;
-                 },
-                 (@{})),
            ENTRY(ORKIdBHLToneAudiometryResult,
                  nil,
                  (@{
                     PROPERTY(discreteUnits, ORKdBHLToneAudiometryFrequencySample, NSArray, NO, nil, nil),
                     PROPERTY(fitMatrix, NSDictionary, NSObject, NO, nil, nil),
                     PROPERTY(algorithmVersion, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(measurementMethod, NSNumber, NSObject, NO, nil, nil),
                     })),
-           ENTRY(ORKICompletionStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKICompletionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-                 },
-                 (@{})),
-           ENTRY(ORKIInstructionStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKIInstructionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-                 },
-                 (@{})),
-           ENTRY(ORKIQuestionStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKIQuestionStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-                 },
-                 (@{})),
-           ENTRY(ORKISpeechInNoiseStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKISpeechInNoiseStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-                 },
-                 ((@{}))),
-           ENTRY(ORKIEnvironmentSPLMeterStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKIEnvironmentSPLMeterStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-                 },
-                 (@{})),
-           ENTRY(ORKISpeechRecognitionStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKISpeechRecognitionStep alloc] initWithIdentifier:GETPROP(dict, identifier) image:nil text:GETPROP(dict, speechRecognitionText)];
-                 },
-                 (@{})),
+           ENTRY(ORKIdBHLToneAudiometryFrequencySample,
+                nil,
+                (@{
+                    PROPERTY(methodOfAdjustmentInteractions, ORKdBHLToneAudiometryMethodOfAdjustmentInteraction, NSArray, NO, nil, nil)
+                    })),
            ENTRY(ORKIdBHLToneAudiometryStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKIdBHLToneAudiometryStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
@@ -1221,6 +1192,35 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(algorithm, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(dBHLMaximumThreshold, NSNumber, NSObject, YES, nil, nil),
                  })),
+           ENTRY(ORKdBHLToneAudiometryMethodOfAdjustmentStep,
+                ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                    return [[ORKdBHLToneAudiometryMethodOfAdjustmentStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                },
+                (@{
+                    PROPERTY(stepSize, NSNumber, NSObject, YES, nil, nil),
+                })),
+            ENTRY(ORKdBHLToneAudiometryMethodOfAdjustmentInteraction,
+                nil,
+                (@{
+                    PROPERTY(dBHLValue, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(sourceOfInteraction, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(timeStamp, NSNumber, NSObject, NO, nil, nil),
+                    })),
+           ENTRY(ORKSettingStatusStep,
+                 ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
+                    ORKSettingStatusStep *settingStatusStep = [[ORKSettingStatusStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                    return settingStatusStep;
+                 },
+                 (@{
+                    PROPERTY(settingType, NSNumber, NSObject, YES, nil, nil),
+                    })),
+           ENTRY(ORKSettingStatusResult,
+                 nil,
+                 (@{
+                    PROPERTY(isEnabledAtStart, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(isEnabledAtEnd, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(settingType, NSNumber, NSObject, YES, nil, nil),
+                    })),
 #endif
            ENTRY(ORKHolePegTestPlaceStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
@@ -1668,6 +1668,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(formItems, ORKFormItem, NSArray, YES, nil, nil),
                     PROPERTY(footnote, NSString, NSObject, YES, nil, nil),
                     PROPERTY(useCardView, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(autoScrollEnabled, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(footerText, NSString, NSObject, YES, nil, nil),
                     PROPERTY(cardViewStyle, NSNumber, NSObject, YES, nil, nil),
                     })),
@@ -2042,14 +2043,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                     PROPERTY(maximumValue, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(defaultValue, NSNumber, NSObject, NO, nil, nil),
                     })),
-           ENTRY(ORKLocationAnswerFormat,
-                 ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
-                     return [[ORKLocationAnswerFormat alloc] init];
-                 },
-                 (@{
-                    PROPERTY(useCurrentLocation, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(placeholder, NSString, NSObject, YES, nil, nil)
-                    })),
            ENTRY(ORKSESAnswerFormat,
                  ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
                return [[ORKSESAnswerFormat alloc] init];
@@ -2058,12 +2051,23 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      PROPERTY(topRungText, NSString, NSObject, YES, nil, nil),
                      PROPERTY(bottomRungText, NSString, NSObject, YES, nil, nil)
                  })),
+           
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+           ENTRY(ORKLocationAnswerFormat,
+                 ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
+                     return [[ORKLocationAnswerFormat alloc] init];
+                 },
+                 (@{
+                    PROPERTY(useCurrentLocation, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(placeholder, NSString, NSObject, YES, nil, nil)
+                    })),
            ENTRY(ORKLocationRecorderConfiguration,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKLocationRecorderConfiguration alloc] initWithIdentifier:GETPROP(dict,identifier)];
                  },
                  (@{
                     })),
+#endif 
            ENTRY(ORKPedometerRecorderConfiguration,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      return [[ORKPedometerRecorderConfiguration alloc] initWithIdentifier:GETPROP(dict,identifier)];
@@ -2377,6 +2381,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                              ^id(id timeZone, __unused ORKESerializationContext *context) { return @([timeZone secondsFromGMT]); },
                              ^id(id number, __unused ORKESerializationContext *context) { return [NSTimeZone timeZoneForSecondsFromGMT:(NSInteger)((NSNumber *)number).doubleValue]; })
                     })),
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
            ENTRY(ORKLocation,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      CLLocationCoordinate2D coordinate = coordinateFromDictionary(dict[@ESTRINGIFY(coordinate)]);
@@ -2402,6 +2407,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  (@{
                     PROPERTY(locationAnswer, ORKLocation, NSObject, NO, nil, nil)
                     })),
+#endif
            ENTRY(ORKSESQuestionResult,
                  nil,
                  (@{
@@ -2574,7 +2580,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                                                            sectionTitle:GETPROP(dict, sectionTitle)
                                                       sectionDetailText:GETPROP(dict, sectionDetailText)
                                                  identifierForCellTitle:GETPROP(dict, identifierForCellTitle)
-                                                             maxAllowed:[GETPROP(dict, maxAllowed) integerValue]
+                                                             maxAllowed:[GETPROP(dict, maxAllowed) unsignedIntegerValue]
                                                               formSteps:GETPROP(dict, formSteps)
                                                   detailTextIdentifiers:GETPROP(dict, detailTextIdentifiers)];
                  },
@@ -2723,16 +2729,27 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      PROPERTY(appendSteps, ORKStep, NSArray, NO, nil, nil),
                      SKIP_PROPERTY(steps, ORKStep, NSArray, NO, nil, nil)
                   })),
+           ENTRY(ORKSelectableHeadphoneDetectorPredefinedTask,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     ORKOrderedTask *task = [[ORKSelectableHeadphoneDetectorPredefinedTask alloc] initWithIdentifier:GETPROP(dict, identifier)
+                                                                                                               steps:GETPROP(dict, steps)];
+                     return task;
+                 },
+                 (@{
+                      PROPERTY(identifier, NSString, NSObject, NO, nil, nil),
+                      PROPERTY(steps, ORKStep, NSArray, NO, nil, nil)
+                      })),
            ENTRY(ORKHeadphoneDetectStep, ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
             return [[ORKHeadphoneDetectStep alloc] initWithIdentifier:GETPROP(dict, identifier)
                                                        headphoneTypes:(NSUInteger)[GETPROP(dict, headphoneTypes) integerValue]];
         },
                  (@{
                      PROPERTY(headphoneTypes, NSNumber, NSObject, YES, nil, nil),
+                     PROPERTY(lockedToAppleHeadphoneType, NSString, NSObject, YES, nil, nil)
                  })),
            ENTRY(ORKHeadphonesRequiredCompletionStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:GETPROP(dict, identifier) requiredHeadphoneTypes:(NSUInteger)[GETPROP(dict, requiredHeadphoneTypes) integerValue]];
+               return [[ORKHeadphonesRequiredCompletionStep alloc] initWithIdentifier:GETPROP(dict, identifier) requiredHeadphoneTypes:(NSUInteger)[GETPROP(dict, requiredHeadphoneTypes) integerValue] lockedToAppleHeadphoneType:nil];
                 },
                  (@{
                      PROPERTY(requiredHeadphoneTypes, NSNumber, NSObject, YES, nil, nil)
@@ -2843,17 +2860,16 @@ static id objectForJsonObject(id input,
     id<ORKESerializationLocalizer> localizer = context.localizer;
     id<ORKESerializationStringInterpolator> stringInterpolator = context.stringInterpolator;
     
-#if ORK_FEATURE_INTERNAL_CLASS_MAPPER
-    if (expectedClass != nil) {
-        expectedClass = [ORKInternalClassMapper getInternalClassForPublicClass:expectedClass] ?: expectedClass;
-    }
-#else
-    if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES && expectedClass != nil) {
+#if RK_APPLE_INTERNAL
+    if (IS_FEATURE_INTERNAL_CLASS_MAPPER_ON) {
+        if (expectedClass != nil) {
+            expectedClass = [ORKInternalClassMapper getInternalClassForPublicClass:expectedClass] ?: expectedClass;
+        }
+    } else if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES && expectedClass != nil) {
         expectedClass = [ORKInternalClassMapper getInternalClassForPublicClass:expectedClass] ?: expectedClass;
     }
 #endif
-    // not sure where and how this expected class is used. Maybe if this is called recursively or something
-    // might need to convert expected class to internal version here.
+    
     if (expectedClass != nil && [input isKindOfClass:expectedClass]) {
         // Input is already of the expected class, do nothing
         output = input;
@@ -2861,10 +2877,10 @@ static id objectForJsonObject(id input,
         NSDictionary *dict = (NSDictionary *)input;
         NSString *className = input[_ClassKey]; // todo: might be a spot to convert class
         
-#if ORK_FEATURE_INTERNAL_CLASS_MAPPER
-        className = [ORKInternalClassMapper getInternalClassStringForPublicClass:className] ?: className;
-#else
-        if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES) {
+#if RK_APPLE_INTERNAL
+        if (IS_FEATURE_INTERNAL_CLASS_MAPPER_ON) {
+            className = [ORKInternalClassMapper getInternalClassStringForPublicClass:className] ?: className;
+        } else if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES) {
             className = [ORKInternalClassMapper getInternalClassStringForPublicClass:className] ?: className;
         }
 #endif

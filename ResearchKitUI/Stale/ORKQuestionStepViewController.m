@@ -147,7 +147,9 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 - (instancetype)initWithStep:(ORKStep *)step {
     self = [super initWithStep:step];
     if (self) {
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
         _defaultSource = [ORKAnswerDefaultSource sourceWithHealthStore:[HKHealthStore new]];
+#endif
     }
     return self;
 }
@@ -448,7 +450,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
         [self.taskViewController setRegisteredScrollView:_tableView];
     }
     
-    
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     NSMutableSet *types = [NSMutableSet set];
     ORKAnswerFormat *format = [[self questionStep] answerFormat];
     HKObjectType *objType = [format healthKitObjectTypeForAuthorization];
@@ -473,7 +475,7 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
     if (!scheduledRefresh) {
         [self refreshDefaults];
     }
-    
+#endif
     if (_tableView) {
         [_tableView reloadData];
     }
@@ -813,7 +815,9 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
                                @(ORKQuestionTypeWeight) : [ORKSurveyAnswerCellForPicker class],
                                @(ORKQuestionTypeMultiplePicker) : [ORKSurveyAnswerCellForPicker class],
                                @(ORKQuestionTypeInteger): [ORKSurveyAnswerCellForNumber class],
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
                                @(ORKQuestionTypeLocation): [ORKSurveyAnswerCellForLocation class],
+#endif 
                                @(ORKQuestionTypeSES): [ORKSurveyAnswerCellForSES class]};
     });
     

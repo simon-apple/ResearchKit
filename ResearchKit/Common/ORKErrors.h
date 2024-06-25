@@ -29,7 +29,7 @@
  */
 
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 #if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKDefines.h>

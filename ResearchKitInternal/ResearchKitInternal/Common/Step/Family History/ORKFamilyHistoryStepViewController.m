@@ -838,8 +838,11 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
                 _editingPreviousTask = YES;
                 _relativeForPresentedTask = [currentRelatedPerson copy];
                 
-                ORKTaskViewController *taskVC = [[ORKTaskViewController alloc] initWithTask:relatedPersonTask ongoingResult:currentRelatedPerson.taskResult defaultResultSource:nil delegate:self];
-                [taskVC flipToFirstPage];
+                ORKTaskViewController *taskVC = [[ORKTaskViewController alloc] initWithTask:relatedPersonTask
+                                                                              ongoingResult:currentRelatedPerson.taskResult
+                                                                         restoreAtFirstStep:YES
+                                                                        defaultResultSource:nil
+                                                                                   delegate:self];
                 
                 #if RK_APPLE_INTERNAL
                     [taskVC setUpdatingPreviousResults:YES];

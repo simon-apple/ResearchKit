@@ -33,6 +33,7 @@
 
 #import "ORKIUtils.h"
 
+#import <ResearchKitInternal/ORKIHelpers_Internal.h>
 #import <ResearchKitInternal/UIColor+Custom.h>
 
 #import <ResearchKit/ORKHelpers_Internal.h>
@@ -258,7 +259,7 @@ static int const ORKTinnitusAssessmentMargin = 16;
     NSMutableArray *barImages = [[NSMutableArray alloc] init];
     for (int i = 0 ; i < 21 ; i ++) {
         // workaround to fix no tint color on animated images bug
-        UIImage *blackImage = [UIImage imageNamed:[NSString stringWithFormat:@"tinnitus_bar_levels_%i", i] inBundle:ORKBundle() compatibleWithTraitCollection:nil];
+        UIImage *blackImage = [UIImage imageNamed:[NSString stringWithFormat:@"tinnitus_bar_levels_%i", i] inBundle:ORKInternalBundle() compatibleWithTraitCollection:nil];
         UIImage *newImage = [blackImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         UIGraphicsBeginImageContextWithOptions(blackImage.size, NO, blackImage.scale);
         [UIColor.systemBlueColor set];

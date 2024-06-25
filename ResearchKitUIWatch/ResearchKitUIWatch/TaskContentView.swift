@@ -182,7 +182,14 @@ internal struct TaskContentView<Content>: View where Content: View {
                         Button {
                             goNext = true
                         } label: {
-                            Text("Next").bold()
+                            Text(
+                                Bundle(for: TaskManager.self)
+                                .localizedString(
+                                    forKey: "BUTTON_NEXT",
+                                    value: nil,
+                                    table: "ResearchKitUI(Watch)"
+                                )
+                            ).bold()
                         }
                         .id(Constants.CTA)
                         .padding(.top, buttonTopPadding)

@@ -29,10 +29,28 @@ class TabBar {
         }
     }
     
-    static func navigateTo(tab: Tab) {
+    private func navigateTo(_ tab: Tab) {
         let tabToSelect = tab.button
         wait(for: tabToSelect)
         tabToSelect.tap()
         wait(for: tabToSelect, toBeSelected: true)
+    }
+    
+    @discardableResult
+    func navigateToTasks() -> TasksTab {
+        navigateTo(.tasksTab)
+        return TasksTab()
+    }
+    
+    @discardableResult
+    func navigateToSettings() -> SettingsTab {
+        navigateTo(.settingsTab)
+        return SettingsTab()
+    }
+    
+    @discardableResult
+    func navigateToResults() -> ResultsTab {
+        navigateTo(.resultsTab)
+        return ResultsTab()
     }
 }

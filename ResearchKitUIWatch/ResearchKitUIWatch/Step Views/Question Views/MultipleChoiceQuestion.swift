@@ -82,7 +82,7 @@ public struct MultipleChoiceQuestionView: View {
     // TODO(rdar://129033515): Remove title parameter from initializer since the body reflects just the options.
     public init(
         title: String,
-        detail: String?,
+        detail: String? = nil,
         choices: [MultipleChoiceOption],
         selectionType: MultipleChoiceQuestion.ChoiceSelectionType,
         result: Binding<[MultipleChoiceOption]>

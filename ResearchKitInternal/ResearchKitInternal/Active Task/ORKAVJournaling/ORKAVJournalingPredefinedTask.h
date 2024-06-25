@@ -31,11 +31,11 @@
 // apple-internal
 
 #import <ResearchKit/ORKFeatureFlags.h>
+#import <ResearchKit/ORKNavigableOrderedTask.h>
 
 #if ORK_FEATURE_AV_JOURNALING
 
 @import Foundation;
-#import <ResearchKitInternal/ORKINavigableOrderedTask.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -56,7 +56,7 @@ ORK_EXTERN ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierVide
 ORK_EXTERN ORKAVJournalingStepIdentifier const ORKAVJournalingStepIdentifierLowStorageLearnMore;
 
 ORK_CLASS_AVAILABLE
-@interface ORKAVJournalingPredefinedTask : ORKINavigableOrderedTask
+@interface ORKAVJournalingPredefinedTask : ORKNavigableOrderedTask
 
 + (instancetype)new NS_UNAVAILABLE;
 

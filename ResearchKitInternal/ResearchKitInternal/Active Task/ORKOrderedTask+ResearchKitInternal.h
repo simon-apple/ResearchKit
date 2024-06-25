@@ -35,6 +35,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ORKOrderedTask (ResearchKitInternal)
 
++ (ORKNavigableOrderedTask *)dBHLMethodOfAdjustmentToneAudiometryTaskWithIdentifier:(NSString *)identifier
+                                  intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                                 options:(ORKPredefinedTaskOption)options;
+
 + (ORKNavigableOrderedTask *)newdBHLToneAudiometryTaskWithIdentifier:(NSString *)identifier
                                   intendedUseDescription:(nullable NSString *)intendedUseDescription
                                                  options:(ORKPredefinedTaskOption)options;

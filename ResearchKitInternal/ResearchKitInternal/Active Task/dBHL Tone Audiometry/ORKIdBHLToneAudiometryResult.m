@@ -33,7 +33,98 @@
 #import <ResearchKit/ORKResult_Private.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
 
+@implementation ORKdBHLToneAudiometryMethodOfAdjustmentInteraction
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    ORK_ENCODE_DOUBLE(aCoder, dBHLValue);
+    ORK_ENCODE_DOUBLE(aCoder, timeStamp);
+    ORK_ENCODE_DOUBLE(aCoder, sourceOfInteraction);
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    if (self) {
+        ORK_DECODE_DOUBLE(aDecoder, dBHLValue);
+        ORK_DECODE_DOUBLE(aDecoder, timeStamp);
+        ORK_DECODE_DOUBLE(aDecoder, sourceOfInteraction);
+    }
+    return self;
+}
+
+- (BOOL)isEqual:(id)object {
+    if ([self class] != [object class]) {
+        return NO;
+    }
+    
+    __typeof(self) castObject = object;
+    
+    return ((self.dBHLValue == castObject.dBHLValue) &&
+            (self.timeStamp == castObject.timeStamp) &&
+            (self.sourceOfInteraction == castObject.sourceOfInteraction));
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKdBHLToneAudiometryMethodOfAdjustmentInteraction *interaction = [[[self class] allocWithZone:zone] init];
+    interaction.dBHLValue = self.dBHLValue;
+    interaction.timeStamp = self.timeStamp;
+    interaction.sourceOfInteraction = self.sourceOfInteraction;
+    return interaction;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@; dBHLValue: %.1lf; timeStamp: %.5lf; sourceOfInteraction %ld>", self.class.description, self.dBHLValue, self.timeStamp, (long)self.sourceOfInteraction];
+}
+
+@end
+
+@implementation ORKIdBHLToneAudiometryFrequencySample
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    
+    ORK_ENCODE_OBJ(aCoder, methodOfAdjustmentInteractions);
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ_ARRAY(aDecoder, methodOfAdjustmentInteractions, ORKdBHLToneAudiometryMethodOfAdjustmentInteraction);
+    }
+    return self;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame
+            && ORKEqualObjects(self.methodOfAdjustmentInteractions, castObject.methodOfAdjustmentInteractions)
+            );
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKIdBHLToneAudiometryFrequencySample *sample = [super copyWithZone:zone];
+    sample.methodOfAdjustmentInteractions = self.methodOfAdjustmentInteractions;
+    return sample;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p; frequency: %.1lf; calculatedThreshold: %.1lf; channel: %ld; units: %@; methodOfAdjustmentInteractions: %@>", self.class.description, self, self.frequency, self.calculatedThreshold, (long)self.channel, self.units, self.methodOfAdjustmentInteractions];
+}
+
+@end
+
 @implementation ORKIdBHLToneAudiometryResult
+
+@dynamic samples;
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
@@ -41,15 +132,17 @@
     ORK_ENCODE_OBJ(aCoder, discreteUnits);
     ORK_ENCODE_OBJ(aCoder, fitMatrix);
     ORK_ENCODE_INTEGER(aCoder, algorithmVersion);
+    ORK_ENCODE_INTEGER(aCoder, measurementMethod);
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     
     if (self) {
-        ORK_DECODE_OBJ_ARRAY(aDecoder, discreteUnits, ORKdBHLToneAudiometryFrequencySample);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, discreteUnits, ORKIdBHLToneAudiometryFrequencySample);
         ORK_DECODE_OBJ_DICTIONARY(aDecoder, fitMatrix, NSString, NSNumber);
         ORK_DECODE_INTEGER(aDecoder, algorithmVersion);
+        ORK_DECODE_INTEGER(aDecoder, measurementMethod);
     }
     return self;
 }
@@ -66,11 +159,12 @@
             && ORKEqualObjects(self.discreteUnits, castObject.discreteUnits)
             && ORKEqualObjects(self.fitMatrix, castObject.fitMatrix)
             && self.algorithmVersion == castObject.algorithmVersion
+            && self.measurementMethod == castObject.measurementMethod
             );
 }
 
 - (NSUInteger)hash {
-    NSUInteger resultsHash = self.discreteUnits.hash ^ self.fitMatrix.hash ^ self.algorithmVersion;
+    NSUInteger resultsHash = self.discreteUnits.hash ^ self.fitMatrix.hash ^ self.algorithmVersion ^ self.measurementMethod;
     
     return super.hash ^ resultsHash;
 }
@@ -80,12 +174,13 @@
     result.discreteUnits = [self.discreteUnits copy];
     result.fitMatrix = [self.fitMatrix copy];
     result.algorithmVersion = self.algorithmVersion;
+    result.measurementMethod = self.measurementMethod;
 
     return result;
 }
 
 - (NSString *)descriptionWithNumberOfPaddingSpaces:(NSUInteger)numberOfPaddingSpaces {
-    return [NSString stringWithFormat:@"%@; algorithm: %ld, outputvolume: %.1lf; samples: %@; tones: %@; fitMatrix: %@; headphoneType: %@; tonePlaybackDuration: %.1lf; postStimulusDelay: %.1lf%@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], (long)self.algorithmVersion, self.outputVolume, self.samples, self.discreteUnits, self.fitMatrix, self.headphoneType, self.tonePlaybackDuration, self.postStimulusDelay, self.descriptionSuffix];
+    return [NSString stringWithFormat:@"%@; algorithm: %ld, outputvolume: %.1lf; samples: %@; tones: %@; fitMatrix: %@; headphoneType: %@; tonePlaybackDuration: %.1lf; postStimulusDelay: %.1lf%@, measurementMethod: %@", [self descriptionPrefixWithNumberOfPaddingSpaces:numberOfPaddingSpaces], (long)self.algorithmVersion, self.outputVolume, self.samples, self.discreteUnits, self.fitMatrix, self.headphoneType, self.tonePlaybackDuration, self.postStimulusDelay, self.descriptionSuffix, self.measurementMethod == ORKdBHLToneAudiometryMeasurementMethodLimits ? @"Method of Limits" : @"Method of Adjustment"];
 }
 
 
