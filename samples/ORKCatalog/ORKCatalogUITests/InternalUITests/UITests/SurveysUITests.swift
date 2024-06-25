@@ -194,6 +194,7 @@ final class SurveysUITests: BaseUITest {
             
             let roundShape = FormStepScreen.ImageButtonLabel.roundShape.rawValue
             formStep
+                .scrollToQuestionTitle(atIndex: 4)
                 .verifyImageChoiceQuestion(withId: formStep.itemIds[6], imageIndex: 1, expectedLabel: roundShape)
                 .verifyTextViewValue(withId: formStep.itemIds[7], expectedText: Answers.loremIpsumShortText)
                 .tap(.continueButton)
