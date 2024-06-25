@@ -32,6 +32,7 @@
 
 #import "ORKFamilyHistoryStep.h"
 #import "ORKReviewCardSection.h"
+#import "ORKReviewCardTableHeaderView.h"
 #import "ORKReviewCardTableViewCell.h"
 #import "ORKReviewResultModel.h"
 
@@ -276,9 +277,23 @@ double const TableViewSectionHeaderHeight = 30.0;
     return reviewCardSection.title ? UITableViewAutomaticDimension : 0.0;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    ORKReviewCardSection *reviewCardSection = [_reviewCardSections objectAtIndex:section];
-    return reviewCardSection.title ? UITableViewAutomaticDimension : 0.0;
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    ORKReviewCardSection *reviewCardSection = _reviewCardSections[section];
+    
+    if (reviewCardSection.title == nil) {
+        return nil;
+    }
+    
+    ORKReviewCardTableHeaderView *headerView = (ORKReviewCardTableHeaderView *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:@(section).stringValue];
+    
+    if (headerView == nil) {
+        headerView = [[ORKReviewCardTableHeaderView alloc] initWithTitle:reviewCardSection.title];
+    }
+    
+    BOOL isExpanded = reviewCardSection.reviewCards.count > 0;
+    [headerView setExpanded:isExpanded];
+    
+    return headerView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
