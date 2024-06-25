@@ -30,6 +30,7 @@
 
 #import "ORKFormStepResultModel.h"
 
+#import "ORKIUtils.h"
 #import "ORKReviewCard.h"
 #import "ORKReviewCardItem.h"
 #import "ORKReviewCardSection.h"
@@ -229,16 +230,16 @@
         ORKChoiceAnswerFormatHelper *choiceAnswerHelper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:textChoiceAnswerFormat];
         
         for (NSObject<NSCopying, NSSecureCoding> *answer in choiceQuestionResult.choiceAnswers) {
-            NSString *stringAnswerForChoice = [choiceAnswerHelper stringForChoiceAnswer:@[answer]] ?: @"No answer";
+            NSString *stringAnswerForChoice = [choiceAnswerHelper stringForChoiceAnswer:@[answer]] ?: ORKILocalizedString(@"READ_ONLY_VIEW_NO_ANSWER", @"");
             [reviewCardItemValues addObject:stringAnswerForChoice];
         }
         
         if (reviewCardItemValues.count == 0) {
-            [reviewCardItemValues addObject:@"No answer"];
+            [reviewCardItemValues addObject:ORKILocalizedString(@"READ_ONLY_VIEW_NO_ANSWER", @"")];
         }
         
     } else {
-        NSString *resultString = [answerFormat stringForAnswer:result.answer] ?: @"No answer";
+        NSString *resultString = [answerFormat stringForAnswer:result.answer] ?: ORKILocalizedString(@"READ_ONLY_VIEW_NO_ANSWER", @"");
         [reviewCardItemValues addObject:resultString];
     }
     

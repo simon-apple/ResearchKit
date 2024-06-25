@@ -154,16 +154,6 @@ NSString * const ORKHealthConditionPreferNotToAnswerChoice = @"prefer not to ans
 
 
 - (NSArray<ORKReviewCardSection *> *)getReviewCards {
-    // === Steps ===
-    // loop through familyHistoryStep
-    // find result and store relatedPerson objects
-    // loop through relativeGroups (ReviewSection Per)
-    // find relatedPerson (using manual indexPath)
-    // populate the age question value
-    // collect detail values
-    // collect condition values
-    // create one reviewCard with two reviewCardItems for
-    
     NSMutableArray<ORKReviewCardSection *> *reviewCardSections = [NSMutableArray new];
     
     for (ORKFamilyHistoryStep *familyHistoryStep in _familyHistorySteps) {
@@ -199,6 +189,10 @@ NSString * const ORKHealthConditionPreferNotToAnswerChoice = @"prefer not to ans
                     NSArray<NSString *> *conditionValues = [relatedPerson getConditionsListWithStepIdentifier:familyHistoryStep.conditionStepConfiguration.stepIdentifier
                                                                                            formItemIdentifier:familyHistoryStep.conditionStepConfiguration.conditionsFormItemIdentifier
                                                                                           conditionsKeyValues:[self _getConditionsListTextAndValuesWithFxHStep:familyHistoryStep]];
+                    if (conditionValues.count == 0) {
+                        conditionValues = @[ORKILocalizedString(@"READ_ONLY_VIEW_NO_ANSWER", @"")];
+                    }
+                    
                     ORKReviewCardItem *conditionListReviewCardItem = [[ORKReviewCardItem alloc] initWithTitle:ORKILocalizedString(@"FAMILY_HISTORY_CONDITIONS", @"") resultValues:conditionValues];
                     
                     ORKReviewCard *reviewCard = [[ORKReviewCard alloc] initWithReviewCardItems:@[detailListReviewCardItem, conditionListReviewCardItem]];
