@@ -2,7 +2,7 @@
 
 A survey is a sequence of questions that you use to collect data from your users. In a ResearchKit app, a survey is composed of a survey task that has a collection of step objects (``ORKStep``). ``ORKFormStep`` instances can be added to the collection of steps to handle one or more questions each such as "What medications are you taking?" or "How many hours did you sleep last night?".
 
-You can collect results for the individual steps or for the task as a whole. There are two types of survey tasks: an ordered task (``ORKOrderedTask``) and a navigable ordered task (``ORKNavigableOrderedTask``).
+You can collect results for the individual steps or for the task as a whole. There are two types of survey tasks: an ordered task (``ORKOrderedTask``) and a navigable ordered task (``ORKNavigableOrderedTask``) which can be used to apply conditional logic.
 
 In an ordered task, the order that the steps appear are always the same. 
 
@@ -11,7 +11,7 @@ In an ordered task, the order that the steps appear are always the same.
 
 In a navigable ordered task, the order of the tasks can change, or branch out, depending on how the user answered a question in a previous task.
 
-![Naviable Ordered Tasks](creating-surveys-navigable-ordered-tasks)
+![Navigable Ordered Tasks](creating-surveys-navigable-ordered-tasks)
 
 The steps for creating a task to present a survey are:
 
@@ -37,7 +37,7 @@ on screen.
 ```swift
 let instructionStep = ORKInstructionStep(identifier: "identifier")
 instructionStep.title = "Selection Survey"
-instructionStep.text = "This survey helps us understand your eligibility for the fitness study"
+instructionStep.text = "This survey helps us understand your eligibility for the fitness study."
 ```
 
 Creating a step as shown in the code above, including it in a task, and presenting with a task view controller, yields something like this:
@@ -62,7 +62,7 @@ let nameFormItem = ORKFormItem(identifier: "NameIdentifier", text: "What is your
 let emailFormItem = ORKFormItem(identifier: "EmailIdentifier", text: "What is your email?", answerFormat: ORKEmailAnswerFormat())
 let headacheFormItem = ORKFormItem(identifier: "HeadacheIdentifier", text: "Do you have a headache?", answerFormat: ORKBooleanAnswerFormat())
  
-let formStep = ORKFormStep(identifier: "FormStepIdenitifer")
+let formStep = ORKFormStep(identifier: "FormStepIdentifier")
 formStep.title = "Basic Information"
 formStep.detailText = "please answer the questions below"
 formStep.formItems = [sectionHeaderFormItem, nameFormItem, emailFormItem, headacheFormItem]
@@ -89,7 +89,7 @@ The screenshots below show the standard answer formats that the ResearchKit fram
 | ![Background Check Question](creating-surveys-background-check) | ![Blood Type Question](creating-surveys-blood-type) |
 | ![Symptoms Question](creating-surveys-symptom-choice) | ![Age Question](creating-surveys-age) |
 | ![Time of Day Question](creating-surveys-time-of-day) | ![Next Meeting Question](creating-surveys-next-meeting) |
-| ![Text Entry Question](creating-survyes-feeling-text-entry) | ![Mood Question](creating-surveys-slider) |
+| ![Text Entry Question](creating-surveys-feeling-text-entry) | ![Mood Question](creating-surveys-slider) |
 | ![Email Question](creating-surveys-email) | ![Location Question](creating-surveys-location) |
 
 ## 2. Create a survey task
@@ -114,11 +114,6 @@ taskViewController.delegate = self
 
 present(taskViewController, animated: true)
 ```
-
-*Note: `ORKOrderedTask` assumes that you always present all of the questions,
-and never decide what question to show based on previous answers.
-To introduce conditional logic, you must either subclass
-`ORKOrderedTask` or implement the `ORKTask` protocol yourself.*
 
 ## 3. Collect Results
 The result property of the task view controller gives you the results of the task.
