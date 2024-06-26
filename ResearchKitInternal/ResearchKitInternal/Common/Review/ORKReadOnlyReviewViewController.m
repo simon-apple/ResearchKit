@@ -43,6 +43,11 @@
 #import <ResearchKit/ORKSkin.h>
 #import <ResearchKit/ORKStep.h>
 
+//#import <ResearchKitUI/ORKStepContainerView.h>
+#import <ResearchKitUI/ORKStepContentView.h>
+//#import <ResearchKitUI/ORKStepHeaderView_Internal.h>
+//#import <ResearchKitUI/ORKStepViewController_Internal.h>
+#import <ResearchKitUI/ORKTableContainerView.h>
 
 NSString * const ORKReviewCardTableViewCellIdentifier = @"ORKReviewCardTableViewCellIdentifier";
 
@@ -57,6 +62,10 @@ double const TableViewSectionHeaderHeight = 30.0;
 @implementation ORKReadOnlyReviewViewController {
     NSArray<NSLayoutConstraint *> *_constraints;
     
+    NSString *_title;
+    NSString *_detailText;
+    
+    ORKTableContainerView *_tableContainerView;
     UITableView *_tableView;
     
     ORKOrderedTask *_orderedTask;
@@ -70,13 +79,18 @@ double const TableViewSectionHeaderHeight = 30.0;
 
 - (nonnull instancetype)initWithTask:(nonnull ORKOrderedTask *)task 
                               result:(nonnull ORKTaskResult *)result
-                    readOnlyStepType:(ORKReadOnlyStepType)readOnlyStepType {
+                    readOnlyStepType:(ORKReadOnlyStepType)readOnlyStepType
+                               title:(nullable NSString *)title
+                          detailText:(nullable NSString *)detailText {
     self = [super init];
     
     if (self) {
         _orderedTask = [task copy];
         _taskResult = [result copy];
         _readOnlyStepType = readOnlyStepType;
+        _title = [title copy];
+        _detailText = [detailText copy];
+        
         _stepsToParse = [self _getStepsToParseForResults];
         _reviewCardSections = [self _getReviewCardSections];
     }
@@ -87,11 +101,13 @@ double const TableViewSectionHeaderHeight = 30.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self _setupTableContainerView];
     [self _setupTableView];
     [self _setupConstraints];
     [self _updateViewColors];
     
     [_tableView reloadData];
+    [_tableContainerView setNeedsLayout];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -100,9 +116,23 @@ double const TableViewSectionHeaderHeight = 30.0;
     [_tableView reloadData];
 }
 
+- (void)_setupTableContainerView {
+    if (!_tableContainerView) {
+        _tableContainerView = [[ORKTableContainerView alloc] initWithStyle:UITableViewStyleGrouped pinNavigationContainer:NO];
+        _tableContainerView.stepContentView.stepTitle = _title;
+        _tableContainerView.stepContentView.stepText = _detailText;
+        _tableContainerView.stepContentView.stepHeaderTextAlignment = NSTextAlignmentLeft;
+        _tableContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        [self.view addSubview:_tableContainerView];
+        //_tableContainer.tapOffView = self.view;
+    }
+    
+}
+
 - (void)_setupTableView {
     if (!_tableView) {
-        _tableView = [UITableView new];
+        _tableView = _tableContainerView.tableView;
         _tableView.translatesAutoresizingMaskIntoConstraints = NO;
         [_tableView registerClass:[ORKReviewCardTableViewCell class] forCellReuseIdentifier:ORKReviewCardTableViewCellIdentifier];
         _tableView.separatorColor = [UIColor clearColor];
@@ -113,8 +143,6 @@ double const TableViewSectionHeaderHeight = 30.0;
         _tableView.sectionHeaderHeight = UITableViewAutomaticDimension;
         _tableView.estimatedRowHeight = ORKGetMetricForWindow(ORKScreenMetricTableCellDefaultHeight, self.view.window);
         _tableView.estimatedSectionHeaderHeight = TableViewSectionHeaderHeight;
-        
-        [self.view addSubview:_tableView];
     }
 }
 
@@ -125,10 +153,10 @@ double const TableViewSectionHeaderHeight = 30.0;
     }
 
     _constraints = @[
-        [_tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-        [_tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-        [_tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-        [_tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+        [_tableContainerView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        [_tableContainerView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [_tableContainerView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [_tableContainerView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
     ];
     
     [NSLayoutConstraint activateConstraints:_constraints];

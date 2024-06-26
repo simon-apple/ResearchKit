@@ -45,7 +45,9 @@ typedef NS_ENUM(NSInteger, ORKReadOnlyStepType) {
 
 - (instancetype)initWithTask:(ORKOrderedTask *)task
                       result:(ORKTaskResult *)result
-            readOnlyStepType:(ORKReadOnlyStepType)readOnlyStepType;
+            readOnlyStepType:(ORKReadOnlyStepType)readOnlyStepType
+                       title:(nullable NSString *)title
+                  detailText:(nullable NSString *)detailText;
 
 @end
 
