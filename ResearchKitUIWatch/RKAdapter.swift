@@ -171,7 +171,7 @@ public class RKAdapter {
                     id: item.identifier,
                     title: item.text ?? "",
                     detail: item.detailText,
-                    prompt: numericAnswerFormat.placeholder ?? "Enter value",
+                    prompt: numericAnswerFormat.placeholder ?? "Tap to answer",
                     number: numericAnswerFormat.defaultNumericAnswer
                 )
             )
