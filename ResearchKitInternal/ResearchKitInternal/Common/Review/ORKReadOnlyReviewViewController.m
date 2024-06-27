@@ -38,8 +38,9 @@
 
 #import <ResearchKit/ORKCollectionResult.h>
 #import <ResearchKit/ORKFormStep.h>
-#import <ResearchKit/ORKQuestionStep.h>
+#import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ORKOrderedTask.h>
+#import <ResearchKit/ORKQuestionStep.h>
 #import <ResearchKit/ORKSkin.h>
 #import <ResearchKit/ORKStep.h>
 
@@ -75,14 +76,25 @@ double const TableViewSectionHeaderHeight = 30.0;
     NSArray<ORKReviewCardSection *> *_reviewCardSections;
 }
 
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    ORKThrowMethodUnavailableException();
+}
 
-- (nonnull instancetype)initWithTask:(nonnull ORKOrderedTask *)task 
+- (instancetype)initWithFrame:(CGRect)frame {
+    ORKThrowMethodUnavailableException();
+}
+
+//- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+//    ORKThrowMethodUnavailableException();
+//}
+
+- (instancetype)initWithTask:(nonnull ORKOrderedTask *)task
                               result:(nonnull ORKTaskResult *)result
                     readOnlyStepType:(ORKReadOnlyStepType)readOnlyStepType
                                title:(nullable NSString *)title
                           detailText:(nullable NSString *)detailText
                             navTitle:(nullable NSString *)navTitle {
-    self = [super init];
+    self = [super initWithNibName:nil bundle:nil];
     
     if (self) {
         _orderedTask = [task copy];
@@ -110,7 +122,6 @@ double const TableViewSectionHeaderHeight = 30.0;
     [self _updateViewColors];
     
     [_tableView reloadData];
-    [_tableContainerView setNeedsLayout];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
