@@ -63,7 +63,7 @@ struct DoneKeyboardToolbar: ViewModifier {
                     }
                 }
             }
-#else
+#elseif os(visionOS)
         content
 #endif
     }
