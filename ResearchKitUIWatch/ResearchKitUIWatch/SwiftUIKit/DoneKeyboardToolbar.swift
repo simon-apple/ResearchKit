@@ -28,77 +28,44 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Foundation
 import SwiftUI
 
-public struct NumericQuestion: Identifiable {
+extension View {
     
-    public let id: String
-    public let title: String
-    public let detail: String?
-    public let prompt: String
-    public let number: NSNumber?
-    
-    public init(
-        id: String,
-        title: String,
-        detail: String?,
-        prompt: String,
-        number: NSNumber?
-    ) {
-        self.id = id
-        self.title = title
-        self.detail = detail
-        self.prompt = prompt
-        self.number = number
-    }
-    
-}
-
-public struct NumericQuestionView<Header: View>: View {
-    
-    @Binding var text: Decimal?
-    private let header: Header
-    private let prompt: String?
-    @FocusState private var isFocused: Bool
-    
-    public var body: some View {
-        TaskCardView(
-            header: {
-                header
-            },
-            content: {
-                TextField("", value: $text, format: .number, prompt: placeholder)
-                    .keyboardType(.decimalPad)
-                    .focused($isFocused)
-                    .doneKeyboardToolbar {
-                        isFocused = false
-                    }
-            }
+    /// Adds a toolbar above the keyboard that contains a done button, which invokes the action passed to this modifier.
+    /// - Parameter action: The action triggered when the done button in the toolbar is tapped.
+    /// - Returns: The modified view that includes the toolbar when the keyboard is invoked.
+    func doneKeyboardToolbar(action: @escaping () -> Void) -> some View {
+        modifier(
+            DoneKeyboardToolbar(action: action)
         )
     }
     
-    private var placeholder: Text? {
-        if let prompt {
-            return Text(prompt)
-        }
-
-        return nil
-    }
-    
 }
 
-public extension NumericQuestionView where Header == _SimpleTaskViewHeader {
+struct DoneKeyboardToolbar: ViewModifier {
     
-    init(
-        text: Binding<Decimal?>,
-        title: String,
-        detail: String?,
-        prompt: String?
-    ) {
-        self._text = text
-        header = _SimpleTaskViewHeader(title: title, detail: detail)
-        self.prompt = prompt
+    private let action: () -> Void
+    
+    init(action: @escaping () -> Void) {
+        self.action = action
+    }
+    
+    func body(content: Content) -> some View {
+#if os(iOS)
+        content
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    
+                    Button("Done") {
+                        action()
+                    }
+                }
+            }
+#else
+        content
+#endif
     }
     
 }
