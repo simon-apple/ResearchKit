@@ -76,17 +76,13 @@ double const TableViewSectionHeaderHeight = 30.0;
     NSArray<ORKReviewCardSection *> *_reviewCardSections;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     ORKThrowMethodUnavailableException();
 }
-
-- (instancetype)initWithFrame:(CGRect)frame {
-    ORKThrowMethodUnavailableException();
-}
-
-//- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-//    ORKThrowMethodUnavailableException();
-//}
+#pragma clang diagnostic pop
 
 - (instancetype)initWithTask:(nonnull ORKOrderedTask *)task
                               result:(nonnull ORKTaskResult *)result
