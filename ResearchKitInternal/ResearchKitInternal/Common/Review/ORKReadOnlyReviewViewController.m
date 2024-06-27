@@ -43,10 +43,8 @@
 #import <ResearchKit/ORKSkin.h>
 #import <ResearchKit/ORKStep.h>
 
-//#import <ResearchKitUI/ORKStepContainerView.h>
+#import <ResearchKitUI/ORKStepContainerView_Private.h>
 #import <ResearchKitUI/ORKStepContentView.h>
-//#import <ResearchKitUI/ORKStepHeaderView_Internal.h>
-//#import <ResearchKitUI/ORKStepViewController_Internal.h>
 #import <ResearchKitUI/ORKTableContainerView.h>
 
 NSString * const ORKReviewCardTableViewCellIdentifier = @"ORKReviewCardTableViewCellIdentifier";
@@ -64,6 +62,7 @@ double const TableViewSectionHeaderHeight = 30.0;
     
     NSString *_title;
     NSString *_detailText;
+    NSString *_navTitle;
     
     ORKTableContainerView *_tableContainerView;
     UITableView *_tableView;
@@ -81,7 +80,8 @@ double const TableViewSectionHeaderHeight = 30.0;
                               result:(nonnull ORKTaskResult *)result
                     readOnlyStepType:(ORKReadOnlyStepType)readOnlyStepType
                                title:(nullable NSString *)title
-                          detailText:(nullable NSString *)detailText {
+                          detailText:(nullable NSString *)detailText
+                            navTitle:(nullable NSString *)navTitle {
     self = [super init];
     
     if (self) {
@@ -90,6 +90,7 @@ double const TableViewSectionHeaderHeight = 30.0;
         _readOnlyStepType = readOnlyStepType;
         _title = [title copy];
         _detailText = [detailText copy];
+        _navTitle = [navTitle copy];
         
         _stepsToParse = [self _getStepsToParseForResults];
         _reviewCardSections = [self _getReviewCardSections];
@@ -100,6 +101,8 @@ double const TableViewSectionHeaderHeight = 30.0;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
+    self.navigationItem.title = _navTitle;
     
     [self _setupTableContainerView];
     [self _setupTableView];
@@ -123,9 +126,9 @@ double const TableViewSectionHeaderHeight = 30.0;
         _tableContainerView.stepContentView.stepText = _detailText;
         _tableContainerView.stepContentView.stepHeaderTextAlignment = NSTextAlignmentLeft;
         _tableContainerView.translatesAutoresizingMaskIntoConstraints = NO;
+        [_tableContainerView removeFooterView];
         
         [self.view addSubview:_tableContainerView];
-        //_tableContainer.tapOffView = self.view;
     }
     
 }
@@ -156,7 +159,7 @@ double const TableViewSectionHeaderHeight = 30.0;
         [_tableContainerView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
         [_tableContainerView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
         [_tableContainerView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-        [_tableContainerView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+        [_tableContainerView.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor]
     ];
     
     [NSLayoutConstraint activateConstraints:_constraints];

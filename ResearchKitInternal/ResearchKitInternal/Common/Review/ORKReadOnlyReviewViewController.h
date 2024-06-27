@@ -47,7 +47,8 @@ typedef NS_ENUM(NSInteger, ORKReadOnlyStepType) {
                       result:(ORKTaskResult *)result
             readOnlyStepType:(ORKReadOnlyStepType)readOnlyStepType
                        title:(nullable NSString *)title
-                  detailText:(nullable NSString *)detailText;
+                  detailText:(nullable NSString *)detailText
+                    navTitle:(nullable NSString *)navTitle;
 
 @end
 

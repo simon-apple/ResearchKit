@@ -270,10 +270,10 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         if let task = task as? ORKOrderedTask {
 
             if task.identifier == String(describing: Identifier.readOnlyFormStepTask) {
-                let readonlyVC = ORKReadOnlyReviewViewController(task: task, result: result, readOnlyStepType: .surveyStep, title: "Data", detailText: "If you'd like to make changes before sharing this data, visit Your Data")
+                let readonlyVC = ORKReadOnlyReviewViewController(task: task, result: result, readOnlyStepType: .surveyStep, title: "Data", detailText: "If you'd like to make changes before sharing this data, visit Your Data", navTitle: "Demographics")
                 self.navigationController?.pushViewController(readonlyVC, animated: true)
             } else if task.identifier == String(describing: Identifier.familyHistoryStep) {
-                let readonlyVC = ORKReadOnlyReviewViewController(task: task, result: result, readOnlyStepType: .familyHistoryStep, title: "Data", detailText: "If you'd like to make changes before sharing this data, visit Your Data")
+                let readonlyVC = ORKReadOnlyReviewViewController(task: task, result: result, readOnlyStepType: .familyHistoryStep, title: "Data", detailText: "If you'd like to make changes before sharing this data, visit Your Data", navTitle: "Family Health History")
                 self.navigationController?.pushViewController(readonlyVC, animated: true)
             }
             
