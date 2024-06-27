@@ -233,7 +233,14 @@
         }
         
     } else {
-        NSString *resultString = [answerFormat stringForAnswer:result.answer] ?: ORKILocalizedString(@"READ_ONLY_VIEW_NO_ANSWER", @"");
+        NSString *resultString;
+        
+        if ([result.answer isKindOfClass:[ORKDontKnowAnswer class]]) {
+            resultString = answerFormat.customDontKnowButtonText ?: ORKLocalizedString(@"SLIDER_I_DONT_KNOW", nil);
+        } else {
+            resultString = [answerFormat stringForAnswer:result.answer] ?: ORKILocalizedString(@"READ_ONLY_VIEW_NO_ANSWER", @"");
+        }
+        
         [reviewCardItemValues addObject:resultString];
     }
     
