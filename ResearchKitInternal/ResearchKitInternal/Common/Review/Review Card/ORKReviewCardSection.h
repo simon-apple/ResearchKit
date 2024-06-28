@@ -1,3 +1,4 @@
+
 /*
  Copyright (c) 2024, Apple Inc. All rights reserved.
  
@@ -28,24 +29,22 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, ORKReadOnlyStepType) {
-    ORKReadOnlyStepTypeFormStep,
-    ORKReadOnlyStepTypeSurveyStep,
-    ORKReadOnlyStepTypeFamilyHistoryStep
-} ORK_ENUM_AVAILABLE;
+@class ORKReviewCard;
 
-@class ORKOrderedTask;
-@class ORKTaskResult;
+@interface ORKReviewCardSection : NSObject
 
-@interface ORKReadOnlyReviewViewController : UIViewController
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithTask:(ORKOrderedTask *)task
-                      result:(ORKTaskResult *)result
-            readOnlyStepType:(ORKReadOnlyStepType)readOnlyStepType;
+- (instancetype)initWithTitle:(nullable NSString *)title 
+                  reviewCards:(NSArray<ORKReviewCard *> *)reviewCards;
+
+@property (nonatomic, nullable, readonly) NSString *title;
+@property (nonatomic, readonly) NSArray<ORKReviewCard *> *reviewCards;
 
 @end
 

@@ -28,25 +28,30 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import "ORKReviewResultModel.h"
 
-NS_ASSUME_NONNULL_BEGIN
+#import "ORKFormStepResultModel.h"
+#import "ORKReviewCardSection.h"
 
-typedef NS_ENUM(NSInteger, ORKReadOnlyStepType) {
-    ORKReadOnlyStepTypeFormStep,
-    ORKReadOnlyStepTypeSurveyStep,
-    ORKReadOnlyStepTypeFamilyHistoryStep
-} ORK_ENUM_AVAILABLE;
+#import <ResearchKit/ORKCollectionResult.h>
+#import <ResearchKit/ORKFormStep.h>
 
-@class ORKOrderedTask;
-@class ORKTaskResult;
 
-@interface ORKReadOnlyReviewViewController : UIViewController
+@implementation ORKReviewResultModel
 
-- (instancetype)initWithTask:(ORKOrderedTask *)task
-                      result:(ORKTaskResult *)result
-            readOnlyStepType:(ORKReadOnlyStepType)readOnlyStepType;
 
++ (NSArray<ORKReviewCardSection *> *)getReviewCardSectionsWithFormSteps:(NSArray<ORKFormStep *> *)formSteps
+                                                             taskResult:(ORKTaskResult *)taskResult {
+    ORKFormStepResultModel *formStepResultModel = [[ORKFormStepResultModel alloc] initWithFormSteps:formSteps 
+                                                                                         taskResult:taskResult];
+    return [formStepResultModel getReviewCards];
+}
+    
++ (NSArray<ORKReviewCardSection *> *)getReviewCardSectionsWithSurveySteps:(NSArray *)surveySteps
+                                                               taskResult:(ORKTaskResult *)taskResult {
+    ORKFormStepResultModel *formStepResultModel = [[ORKFormStepResultModel alloc] initWithSurveySteps:surveySteps
+                                                                                           taskResult:taskResult];
+    return [formStepResultModel getReviewCards];
+}
+    
 @end
-
-NS_ASSUME_NONNULL_END

@@ -32,20 +32,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, ORKReadOnlyStepType) {
-    ORKReadOnlyStepTypeFormStep,
-    ORKReadOnlyStepTypeSurveyStep,
-    ORKReadOnlyStepTypeFamilyHistoryStep
-} ORK_ENUM_AVAILABLE;
+@class ORKReviewCard;
 
-@class ORKOrderedTask;
-@class ORKTaskResult;
+@interface ORKReviewCardTableViewCell : UITableViewCell
 
-@interface ORKReadOnlyReviewViewController : UIViewController
-
-- (instancetype)initWithTask:(ORKOrderedTask *)task
-                      result:(ORKTaskResult *)result
-            readOnlyStepType:(ORKReadOnlyStepType)readOnlyStepType;
+- (void)configureWithReviewCard:(ORKReviewCard *)reviewCard;
 
 @end
 

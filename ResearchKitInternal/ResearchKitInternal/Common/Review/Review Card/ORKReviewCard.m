@@ -28,25 +28,31 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import "ORKReviewCard.h"
 
-NS_ASSUME_NONNULL_BEGIN
+#import "ORKReviewCardItem.h"
 
-typedef NS_ENUM(NSInteger, ORKReadOnlyStepType) {
-    ORKReadOnlyStepTypeFormStep,
-    ORKReadOnlyStepTypeSurveyStep,
-    ORKReadOnlyStepTypeFamilyHistoryStep
-} ORK_ENUM_AVAILABLE;
+#import <ResearchKit/ORKHelpers_Internal.h>
 
-@class ORKOrderedTask;
-@class ORKTaskResult;
 
-@interface ORKReadOnlyReviewViewController : UIViewController
+@implementation ORKReviewCard
 
-- (instancetype)initWithTask:(ORKOrderedTask *)task
-                      result:(ORKTaskResult *)result
-            readOnlyStepType:(ORKReadOnlyStepType)readOnlyStepType;
++ (instancetype)new {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)init {
+    ORKThrowMethodUnavailableException();
+}
+
+- (nonnull instancetype)initWithReviewCardItems:(nonnull NSArray<ORKReviewCardItem *> *)reviewCardItems {
+    self = [super init];
+    
+    if (self) {
+        _reviewCardItems = [reviewCardItems copy];
+    }
+    
+    return self;
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

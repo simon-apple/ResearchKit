@@ -28,25 +28,22 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, ORKReadOnlyStepType) {
-    ORKReadOnlyStepTypeFormStep,
-    ORKReadOnlyStepTypeSurveyStep,
-    ORKReadOnlyStepTypeFamilyHistoryStep
-} ORK_ENUM_AVAILABLE;
-
-@class ORKOrderedTask;
+@class ORKReviewCardSection;
+@class ORKFormStep;
+@class ORKStep;
 @class ORKTaskResult;
 
-@interface ORKReadOnlyReviewViewController : UIViewController
+@interface ORKReviewResultModel : NSObject
 
-- (instancetype)initWithTask:(ORKOrderedTask *)task
-                      result:(ORKTaskResult *)result
-            readOnlyStepType:(ORKReadOnlyStepType)readOnlyStepType;
++ (NSArray<ORKReviewCardSection *> *)getReviewCardSectionsWithFormSteps:(NSArray<ORKFormStep *> *)formSteps
+                                                             taskResult:(ORKTaskResult *)taskResult;
 
++ (NSArray<ORKReviewCardSection *> *)getReviewCardSectionsWithSurveySteps:(NSArray<ORKStep *> *)surveySteps
+                                                               taskResult:(ORKTaskResult *)taskResult;
 @end
 
 NS_ASSUME_NONNULL_END
