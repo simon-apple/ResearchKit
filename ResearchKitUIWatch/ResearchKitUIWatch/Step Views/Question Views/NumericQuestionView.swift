@@ -102,3 +102,21 @@ public extension NumericQuestionView where Header == _SimpleTaskViewHeader {
     }
     
 }
+
+struct NumericQuestionView_Previews: PreviewProvider {
+    static var previews: some View {
+        ZStack {
+            Color(uiColor: .secondarySystemBackground)
+                .ignoresSafeArea()
+
+            NumericQuestionView(
+                text: .constant(22.0),
+                title: "How old are you?",
+                detail: nil,
+                prompt: "Tap to enter age"
+            )
+            .padding(.horizontal)
+        }
+
+    }
+}
