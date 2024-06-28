@@ -96,13 +96,13 @@ static const CGFloat DividerViewTopBottomPadding = 10.0;
     
     int index = 0;
     for (ORKReviewCardItem *reviewCardItem in _reviewCard.reviewCardItems) {
-        [self _createQuestionLabelWithTitle:reviewCardItem.title];
+        [self _addQuestionLabelWithTitle:reviewCardItem.title];
         
         if (_reviewCard.reviewCardItems.count > 1 && index != _reviewCard.reviewCardItems.count - 1) {
-            [self _createHorizontalRowView];
+            [self _addHorizontalRowView];
         }
         
-        [self _createResultLabelsWithResultValues:reviewCardItem.resultValues];
+        [self _addResultLabelsWithResultValues:reviewCardItem.resultValues];
         index++;
     }
 }
@@ -220,7 +220,7 @@ static const CGFloat DividerViewTopBottomPadding = 10.0;
 
 #pragma mark UILabel Helpers
 
-- (void)_createQuestionLabelWithTitle:(NSString *)title {
+- (void)_addQuestionLabelWithTitle:(NSString *)title {
     UILabel *questionLabel = [self _primaryLabel];
     questionLabel.text = title;
     questionLabel.textColor = [UIColor labelColor];
@@ -229,7 +229,7 @@ static const CGFloat DividerViewTopBottomPadding = 10.0;
     [_questionLabels addObject:questionLabel];
 }
 
-- (void)_createHorizontalRowView {
+- (void)_addHorizontalRowView {
     UIView *dividerView = [UIView new];
     dividerView.translatesAutoresizingMaskIntoConstraints = NO;
     dividerView.backgroundColor = [UIColor separatorColor];
@@ -238,7 +238,7 @@ static const CGFloat DividerViewTopBottomPadding = 10.0;
     [_horizontalRowViews addObject:dividerView];
 }
 
-- (void)_createResultLabelsWithResultValues:(NSArray<NSString *> *)resultValues {
+- (void)_addResultLabelsWithResultValues:(NSArray<NSString *> *)resultValues {
     NSMutableArray<UILabel *> *labels = [NSMutableArray new];
     
     for (NSString *resultValue in resultValues) {
