@@ -65,6 +65,7 @@ public struct DateTimeView<Header: View>: View {
                 displayedComponents: displayedComponents)
                 .datePickerStyle(.compact)
                 .foregroundStyle(.primary)
+                .padding()
         }
     }
 }

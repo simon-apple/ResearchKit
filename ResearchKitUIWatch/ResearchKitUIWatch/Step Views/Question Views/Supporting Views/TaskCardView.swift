@@ -46,14 +46,14 @@ public struct TaskCardView<Header: View, Content: View>: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: .zero) {
             header
 
             Divider()
+                .padding(.horizontal)
 
             content
         }
-        .padding()
         .background(.cardColor)
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
@@ -102,12 +102,14 @@ public struct _SimpleTaskViewHeader: View {
                 .foregroundColor(.secondary)
                 .font(.footnote)
                 .fontWeight(.bold)
+                .padding([.horizontal, .top])
         }
 
         Text(title)
             .foregroundStyle(Color(.label))
             .font(.body)
             .fontWeight(.bold)
+            .padding()
     }
 }
 

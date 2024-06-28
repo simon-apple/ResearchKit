@@ -267,6 +267,7 @@ public struct ScaleSliderQuestionView: View {
                             sliderUIValue = binding.wrappedValue
                     }
                 }
+                .padding()
         }
     }
 
