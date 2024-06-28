@@ -157,56 +157,78 @@ NSString * const ORKHealthConditionPreferNotToAnswerChoice = @"prefer not to ans
     NSMutableArray<ORKReviewCardSection *> *reviewCardSections = [NSMutableArray new];
     
     for (ORKFamilyHistoryStep *familyHistoryStep in _familyHistorySteps) {
-        ORKRelativeGroupResultWrapper *relativeGroupResultWrapper = [[ORKRelativeGroupResultWrapper alloc] initWithRelativeGroups:[familyHistoryStep.relativeGroups copy]];
-        ORKStepResult *stepResult = (ORKStepResult *)[_taskResult resultForIdentifier:familyHistoryStep.identifier];
-        
-        // TODO: split this out into its own method (to create a nullable ORKRelativeGroupResultWrapper)
-        if (stepResult) {
-            ORKFamilyHistoryResult *familyHistoryResult = (ORKFamilyHistoryResult *)stepResult.firstResult;
-            
-            if (familyHistoryResult) {
-                for (ORKRelatedPerson *relatedPerson in familyHistoryResult.relatedPersons) {
-                    [relativeGroupResultWrapper saveRelatedPerson:[relatedPerson copy]];
-                }
-                relativeGroupResultWrapper.conditionIdentifiersFromLastSession = [familyHistoryResult.displayedConditions copy];
-            }
-        }
-        
-        // TODO: split this out into its own method (to collect an array of ReviewCardSections)
-        for (ORKRelativeGroup *relativeGroup in familyHistoryStep.relativeGroups) {
-            NSMutableArray<ORKReviewCard *> *reviewCards = [NSMutableArray new];
-            NSArray<ORKRelatedPerson *> *relatedPersons = [relativeGroupResultWrapper.relatedPersons valueForKey:relativeGroup.identifier];
-            
-            if (relatedPersons) {
-                int index = 1;
-                for (ORKRelatedPerson *relatedPerson in relatedPersons) {
-                    [self _populateAgeQuestionValuesForRelatedPerson:relatedPerson relativeGroup:relativeGroup];
-                    
-                    NSString *title = [relatedPerson getTitleValueWithIdentifier:relativeGroup.identifierForCellTitle] ?: [NSString stringWithFormat:@"%@ %d", relativeGroup.name, index];;
-                    NSArray<NSString *> *detailValues = [relatedPerson getDetailListValuesWithIdentifiers:relativeGroup.detailTextIdentifiers displayInfoKeyAndValues:[self _getDetailInfoTextAndValuesForRelativeGroup:relativeGroup]];
-                    ORKReviewCardItem *detailListReviewCardItem = [[ORKReviewCardItem alloc] initWithTitle:title resultValues:detailValues];
-
-                    NSArray<NSString *> *conditionValues = [relatedPerson getConditionsListWithStepIdentifier:familyHistoryStep.conditionStepConfiguration.stepIdentifier
-                                                                                           formItemIdentifier:familyHistoryStep.conditionStepConfiguration.conditionsFormItemIdentifier
-                                                                                          conditionsKeyValues:[self _getConditionsListTextAndValuesWithFxHStep:familyHistoryStep]];
-                    if (conditionValues.count == 0) {
-                        conditionValues = @[ORKILocalizedString(@"READ_ONLY_VIEW_NO_ANSWER", @"")];
-                    }
-                    
-                    ORKReviewCardItem *conditionListReviewCardItem = [[ORKReviewCardItem alloc] initWithTitle:ORKILocalizedString(@"FAMILY_HISTORY_CONDITIONS", @"") resultValues:conditionValues];
-                    
-                    ORKReviewCard *reviewCard = [[ORKReviewCard alloc] initWithReviewCardItems:@[detailListReviewCardItem, conditionListReviewCardItem]];
-                    [reviewCards addObject:reviewCard];
-                }
-            }
-            
-            ORKReviewCardSection *reviewCardSection = [[ORKReviewCardSection alloc] initWithTitle:relativeGroup.sectionTitle reviewCards:reviewCards];
-            [reviewCardSections addObject:reviewCardSection];
-        }
-        
+        ORKRelativeGroupResultWrapper *relativeGroupResultWrapper = [self _getGroupResultWrapperWithFxHStep:familyHistoryStep];
+        [reviewCardSections addObjectsFromArray:[self _getReviewCardSectionsWithFxHStep:familyHistoryStep groupResultWrapper:relativeGroupResultWrapper]];
     }
     
     return reviewCardSections;
+}
+
+- (ORKRelativeGroupResultWrapper *)_getGroupResultWrapperWithFxHStep:(ORKFamilyHistoryStep *)familyHistoryStep {
+    ORKRelativeGroupResultWrapper *relativeGroupResultWrapper = [[ORKRelativeGroupResultWrapper alloc] initWithRelativeGroups:[familyHistoryStep.relativeGroups copy]];
+    ORKStepResult *stepResult = (ORKStepResult *)[_taskResult resultForIdentifier:familyHistoryStep.identifier];
+    
+    if (stepResult) {
+        ORKFamilyHistoryResult *familyHistoryResult = (ORKFamilyHistoryResult *)stepResult.firstResult;
+        
+        if (familyHistoryResult) {
+            for (ORKRelatedPerson *relatedPerson in familyHistoryResult.relatedPersons) {
+                [relativeGroupResultWrapper saveRelatedPerson:[relatedPerson copy]];
+            }
+            relativeGroupResultWrapper.conditionIdentifiersFromLastSession = [familyHistoryResult.displayedConditions copy];
+        }
+    }
+    
+    return relativeGroupResultWrapper;
+}
+
+- (NSArray<ORKReviewCardSection *> *)_getReviewCardSectionsWithFxHStep:(ORKFamilyHistoryStep *)familyHistoryStep groupResultWrapper:(ORKRelativeGroupResultWrapper *)groupResultWrapper {
+    NSMutableArray<ORKReviewCardSection *> *reviewCardSections = [NSMutableArray new];
+    
+    for (ORKRelativeGroup *relativeGroup in familyHistoryStep.relativeGroups) {
+        NSMutableArray<ORKReviewCard *> *reviewCards = [NSMutableArray new];
+        NSArray<ORKRelatedPerson *> *relatedPersons = [groupResultWrapper.relatedPersons valueForKey:relativeGroup.identifier];
+        
+        if (relatedPersons) {
+            [reviewCards addObjectsFromArray:[self _getReviewCardsWithRelativeGroup:relativeGroup relatedPersons:relatedPersons familyHistoryStep:familyHistoryStep]];
+        }
+        
+        ORKReviewCardSection *reviewCardSection = [[ORKReviewCardSection alloc] initWithTitle:relativeGroup.sectionTitle reviewCards:reviewCards];
+        [reviewCardSections addObject:reviewCardSection];
+    }
+    
+    return reviewCardSections;
+}
+
+- (NSMutableArray<ORKReviewCard *> *)_getReviewCardsWithRelativeGroup:(ORKRelativeGroup *)relativeGroup
+                                                       relatedPersons:(NSArray<ORKRelatedPerson *> *)relatedPersons
+                                                    familyHistoryStep:(ORKFamilyHistoryStep *)familyHistoryStep {
+    NSMutableArray<ORKReviewCard *> *reviewCards = [NSMutableArray new];
+    
+    int index = 1;
+    for (ORKRelatedPerson *relatedPerson in relatedPersons) {
+        [self _populateAgeQuestionValuesForRelatedPerson:relatedPerson relativeGroup:relativeGroup];
+        
+        NSString *title = [relatedPerson getTitleValueWithIdentifier:relativeGroup.identifierForCellTitle] ?: [NSString stringWithFormat:@"%@ %d", relativeGroup.name, index];;
+        NSArray<NSString *> *detailValues = [relatedPerson getDetailListValuesWithIdentifiers:relativeGroup.detailTextIdentifiers displayInfoKeyAndValues:[self _getDetailInfoTextAndValuesForRelativeGroup:relativeGroup]];
+        ORKReviewCardItem *detailListReviewCardItem = [[ORKReviewCardItem alloc] initWithTitle:title resultValues:detailValues];
+
+        NSArray<NSString *> *conditionValues = [relatedPerson getConditionsListWithStepIdentifier:familyHistoryStep.conditionStepConfiguration.stepIdentifier
+                                                                               formItemIdentifier:familyHistoryStep.conditionStepConfiguration.conditionsFormItemIdentifier
+                                                                              conditionsKeyValues:[self _getConditionsListTextAndValuesWithFxHStep:familyHistoryStep]];
+        if (conditionValues.count == 0) {
+            conditionValues = @[ORKILocalizedString(@"READ_ONLY_VIEW_NO_ANSWER", @"")];
+        }
+        
+        ORKReviewCardItem *conditionListReviewCardItem = [[ORKReviewCardItem alloc] initWithTitle:ORKILocalizedString(@"FAMILY_HISTORY_CONDITIONS", @"") resultValues:conditionValues];
+        
+        ORKReviewCard *reviewCard = [[ORKReviewCard alloc] initWithReviewCardItems:@[detailListReviewCardItem, conditionListReviewCardItem]];
+        [reviewCards addObject:reviewCard];
+        
+        index++;
+    }
+    
+    return reviewCards;
 }
 
 - (void)_populateAgeQuestionValuesForRelatedPerson:(ORKRelatedPerson *)relatedPerson relativeGroup:(ORKRelativeGroup *)relativeGroup {

@@ -159,7 +159,6 @@ double const TableViewSectionHeaderHeight = 30.0;
 - (void)_setupConstraints {
     if (_constraints) {
         [NSLayoutConstraint deactivateConstraints:_constraints];
-        _constraints = nil;
     }
 
     _constraints = @[
