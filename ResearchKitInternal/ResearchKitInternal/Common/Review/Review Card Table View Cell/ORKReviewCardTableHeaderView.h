@@ -28,27 +28,18 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+@import UIKit;
+
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKReviewCardSection;
-@class ORKFamilyHistoryStep;
-@class ORKFormStep;
-@class ORKStep;
-@class ORKTaskResult;
+@interface ORKReviewCardTableHeaderView: UIView
 
-@interface ORKReviewResultModel : NSObject
+- (instancetype)initWithTitle:(NSString *)title;
 
-+ (NSArray<ORKReviewCardSection *> *)getReviewCardSectionsWithFormSteps:(NSArray<ORKFormStep *> *)formSteps
-                                                             taskResult:(ORKTaskResult *)taskResult;
-
-+ (NSArray<ORKReviewCardSection *> *)getReviewCardSectionsWithSurveySteps:(NSArray<ORKStep *> *)surveySteps
-                                                               taskResult:(ORKTaskResult *)taskResult;
-
-+ (NSArray<ORKReviewCardSection *> *)getReviewCardSectionsWithFamilyHistorySteps:(NSArray<ORKFamilyHistoryStep *> *)familyHistorySteps
-                                                                      taskResult:(ORKTaskResult *)taskResult;
+- (void)setExpanded:(BOOL)isExpanded;
 
 @end
 
 NS_ASSUME_NONNULL_END
+

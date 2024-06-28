@@ -40,11 +40,16 @@ static const CGFloat CellLabelTopPadding = 8.0;
 static const CGFloat CellLeftRightPadding = 12.0;
 static const CGFloat CellTopBottomPadding = 12.0;
 static const CGFloat ContentLeftRightPadding = 16.0;
+static const CGFloat DividerViewTopBottomPadding = 10.0;
 
 
 @implementation ORKReviewCardTableViewCell {
     ORKReviewCard *_reviewCard;
     UIView *_backgroundView;
+    NSMutableArray<UILabel *> *_questionLabels;
+    NSMutableArray<UIView *> *_horizontalRowViews;
+    NSMutableArray<NSMutableArray<UILabel *> *> *_resultLabelGroups;
+    
     NSMutableArray<NSLayoutConstraint *> *_viewConstraints;
 }
 
@@ -54,6 +59,10 @@ static const CGFloat ContentLeftRightPadding = 16.0;
     if (self) {
         [self setBackgroundColor:[UIColor clearColor]];
         [self.contentView setBackgroundColor:[UIColor clearColor]];
+        
+        _questionLabels = [NSMutableArray new];
+        _horizontalRowViews = [NSMutableArray new];
+        _resultLabelGroups = [NSMutableArray new];
     }
     
     return self;
@@ -62,6 +71,7 @@ static const CGFloat ContentLeftRightPadding = 16.0;
 - (void)configureWithReviewCard:(ORKReviewCard *)reviewCard {
     _reviewCard = reviewCard;
     [self _setupSubViews];
+    [self _setupConstraints];
 }
 
 - (void)_setupSubViews {
@@ -70,43 +80,85 @@ static const CGFloat ContentLeftRightPadding = 16.0;
 }
 
 - (void)_setupBackgoundView {
-    _backgroundView = [UIView new];
-    _backgroundView.backgroundColor = [UIColor systemGroupedBackgroundColor];
-    _backgroundView.clipsToBounds = YES;
-    _backgroundView.layer.cornerRadius = BackgroundViewCornerRadius;
-    _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
-    [_backgroundView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    [self.contentView addSubview:_backgroundView];
+    if (!_backgroundView) {
+        _backgroundView = [UIView new];
+        _backgroundView.backgroundColor = [UIColor systemGroupedBackgroundColor];
+        _backgroundView.clipsToBounds = YES;
+        _backgroundView.layer.cornerRadius = BackgroundViewCornerRadius;
+        _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
+        [_backgroundView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+        [self.contentView addSubview:_backgroundView];
+    }
 }
 
 - (void)_setupReviewCardItemLabels {
+    [self _clearOutSubViews];
+    
     int index = 0;
     for (ORKReviewCardItem *reviewCardItem in _reviewCard.reviewCardItems) {
-        UILabel *questionLabel = [self _getQuestionLabelWithTitle:reviewCardItem.title];
-        NSArray<UILabel *> *resultValueLabels = [self _getResultLabelsWithResultValues:reviewCardItem.resultValues];
+        [self _addQuestionLabelWithTitle:reviewCardItem.title];
         
-        [self _setupConstraintsWithQuestionLabel:questionLabel resultValueLabels:resultValueLabels index:index];
+        if (_reviewCard.reviewCardItems.count > 1 && index != _reviewCard.reviewCardItems.count - 1) {
+            [self _addHorizontalRowView];
+        }
+        
+        [self _addResultLabelsWithResultValues:reviewCardItem.resultValues];
         index++;
     }
 }
 
-- (void)_setupConstraintsWithQuestionLabel:(UILabel *)questionLabel 
-                         resultValueLabels:(NSArray<UILabel *> *)resultValueLabels
-                                     index:(int)index {
-    if (index == 0) {
-        [self _resetConstraints];
+- (void)_clearOutSubViews {
+    for (UILabel *questionLabel in _questionLabels) {
+        [questionLabel removeFromSuperview];
     }
+    
+    for (UIView *horizontalRowView in _horizontalRowViews) {
+        [horizontalRowView removeFromSuperview];
+    }
+    
+    for (NSMutableArray<UILabel *> *resultLabels in _resultLabelGroups) {
+        for (UILabel *resultLabel in resultLabels) {
+            [resultLabel removeFromSuperview];
+        }
+    }
+    
+    _questionLabels = [NSMutableArray new];
+    _horizontalRowViews = [NSMutableArray new];
+    _resultLabelGroups = [NSMutableArray new];
+}
+
+- (void)_setupConstraints {
+    [self _resetConstraints];
     
     [_viewConstraints addObjectsFromArray:[self _backgroundViewContraints]];
-    [_viewConstraints addObjectsFromArray:[self _constraintsForQuestionLabel:questionLabel]];
+    NSLayoutAnchor *questionLabelTopRelatedAnchor = _backgroundView.topAnchor;
+    UIView *backgroundViewBottomRelatedView;
     
-    UIView *relativeTopView = questionLabel;
-    for (UILabel *resultValueLabel in resultValueLabels) {
-        [_viewConstraints addObjectsFromArray: [self _constraintsForResultLabel:resultValueLabel relativeTo:relativeTopView]];
-        relativeTopView = resultValueLabel;
+    int index = 0;
+    for (UILabel *questionLabel in _questionLabels) {
+        [_viewConstraints addObjectsFromArray:[self _constraintsForQuestionLabel:questionLabel
+                                                                topRelatedAnchor:questionLabelTopRelatedAnchor]];
+       
+        NSLayoutAnchor *resultLabelRelatedAnchor = questionLabel.bottomAnchor;
+        NSMutableArray<UILabel *> *resultLabels = [_resultLabelGroups objectAtIndex:index];
+        for (UILabel *resultLabel in resultLabels) {
+            [_viewConstraints addObjectsFromArray:[self _constraintsForResultLabel:resultLabel topRelatedAnchor:resultLabelRelatedAnchor]];
+            
+            resultLabelRelatedAnchor = resultLabel.bottomAnchor;
+            backgroundViewBottomRelatedView = resultLabel;
+        }
+        
+        if (index < _horizontalRowViews.count) {
+            UIView *horizontalRowView = [_horizontalRowViews objectAtIndex:index];
+            [_viewConstraints addObjectsFromArray:[self _constraintsForHorizontalRowView:horizontalRowView topRelatedAnchor:resultLabelRelatedAnchor]];
+            
+            questionLabelTopRelatedAnchor = horizontalRowView.bottomAnchor;
+        }
+        
+        index++;
     }
     
-    [_viewConstraints addObject:[self _backgroundViewBottomConstraintRelativeToView:relativeTopView]];
+    [_viewConstraints addObject:[self _backgroundViewBottomConstraintRelativeToView:backgroundViewBottomRelatedView]];
     
     [NSLayoutConstraint activateConstraints:_viewConstraints];
 }
@@ -129,19 +181,32 @@ static const CGFloat ContentLeftRightPadding = 16.0;
     ];
 }
 
-- (NSArray<NSLayoutConstraint *> *)_constraintsForQuestionLabel:(UILabel *)questionLabel {
+- (NSArray<NSLayoutConstraint *> *)_constraintsForQuestionLabel:(UILabel *)questionLabel topRelatedAnchor:(NSLayoutAnchor *)topRelatedAnchor {
     return @[
-        [questionLabel.topAnchor constraintEqualToAnchor:_backgroundView.topAnchor constant:CellTopBottomPadding],
+        [questionLabel.topAnchor constraintEqualToAnchor:topRelatedAnchor constant:CellTopBottomPadding],
         [questionLabel.leadingAnchor constraintEqualToAnchor:_backgroundView.leadingAnchor constant:CellLeftRightPadding],
         [questionLabel.trailingAnchor constraintEqualToAnchor:_backgroundView.trailingAnchor constant:-CellLeftRightPadding]
     ];
 }
 
-- (NSArray<NSLayoutConstraint *> *)_constraintsForResultLabel:(UILabel *)resultLabel relativeTo:(UIView *)referenceView {
+- (NSArray<NSLayoutConstraint *> *)_constraintsForResultLabel:(UILabel *)resultLabel topRelatedAnchor:(NSLayoutAnchor *)topRelatedAnchor {
     return @[
         [resultLabel.leadingAnchor constraintEqualToAnchor:_backgroundView.leadingAnchor constant:CellLeftRightPadding],
         [resultLabel.trailingAnchor constraintEqualToAnchor:_backgroundView.trailingAnchor constant:-CellLeftRightPadding],
-        [resultLabel.topAnchor constraintEqualToAnchor:referenceView.bottomAnchor constant:CellLabelTopPadding]
+        [resultLabel.topAnchor constraintEqualToAnchor:topRelatedAnchor constant:CellLabelTopPadding]
+    ];
+}
+
+- (NSArray<NSLayoutConstraint *> *)_constraintsForHorizontalRowView:(UIView *)horizontalRowView topRelatedAnchor:(NSLayoutAnchor *)topRelatedAnchor {
+    CGFloat separatorHeight = 1.0 / [UIScreen mainScreen].scale;
+    NSLayoutConstraint *heightConstraint = [horizontalRowView.heightAnchor constraintEqualToConstant:separatorHeight];
+    [heightConstraint setPriority:UILayoutPriorityDefaultLow];
+    return @[
+        [horizontalRowView.leadingAnchor constraintEqualToAnchor:_backgroundView.leadingAnchor],
+        [horizontalRowView.trailingAnchor constraintEqualToAnchor:_backgroundView.trailingAnchor],
+        heightConstraint,
+        [horizontalRowView.topAnchor constraintEqualToAnchor:topRelatedAnchor constant:DividerViewTopBottomPadding]
+        //[horizontalRowView.bottomAnchor constraintEqualToAnchor:_conditionsLabel.topAnchor constant:-DividerViewTopBottomPadding]
     ];
 }
 
@@ -155,16 +220,25 @@ static const CGFloat ContentLeftRightPadding = 16.0;
 
 #pragma mark UILabel Helpers
 
-- (UILabel *)_getQuestionLabelWithTitle:(NSString *)title {
+- (void)_addQuestionLabelWithTitle:(NSString *)title {
     UILabel *questionLabel = [self _primaryLabel];
     questionLabel.text = title;
     questionLabel.textColor = [UIColor labelColor];
     [_backgroundView addSubview:questionLabel];
     
-    return questionLabel;
+    [_questionLabels addObject:questionLabel];
 }
 
-- (NSArray<UILabel *> *)_getResultLabelsWithResultValues:(NSArray<NSString *> *)resultValues {
+- (void)_addHorizontalRowView {
+    UIView *dividerView = [UIView new];
+    dividerView.translatesAutoresizingMaskIntoConstraints = NO;
+    dividerView.backgroundColor = [UIColor separatorColor];
+    [_backgroundView addSubview:dividerView];
+    
+    [_horizontalRowViews addObject:dividerView];
+}
+
+- (void)_addResultLabelsWithResultValues:(NSArray<NSString *> *)resultValues {
     NSMutableArray<UILabel *> *labels = [NSMutableArray new];
     
     for (NSString *resultValue in resultValues) {
@@ -175,7 +249,7 @@ static const CGFloat ContentLeftRightPadding = 16.0;
         [_backgroundView addSubview:label];
     }
     
-    return [labels copy];
+    [_resultLabelGroups addObject:labels];
 }
 
 - (UILabel *)_baseLabel {
