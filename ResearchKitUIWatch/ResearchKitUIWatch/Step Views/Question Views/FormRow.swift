@@ -39,6 +39,7 @@ public enum FormRow: Identifiable {
     case textSliderStep(ScaleSliderQuestion<MultipleChoiceOption>)
     case textRow(TextQuestion)
     case dateRow(DateQuestion)
+    case numericRow(NumericQuestion)
 
     public var id: String {
         switch self {
@@ -54,6 +55,8 @@ public enum FormRow: Identifiable {
             textValue.id
         case .dateRow(let dateValue):
             dateValue.id
+        case .numericRow(let numericQuestion):
+            numericQuestion.id
         }
     }
 
@@ -72,6 +75,8 @@ public enum FormRow: Identifiable {
             title = textValue.title
         case .dateRow(let dateValue):
             title = dateValue.title
+        case .numericRow(let numericQuestion):
+            title = numericQuestion.title
         }
         return title
     }

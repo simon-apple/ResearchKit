@@ -216,6 +216,34 @@ struct FormStepView: View {
                 displayedComponents: dateQuestion.displayedComponents,
                 range: dateQuestion.range
             )
+        case .numericRow(let numericQuestion):
+            NumericQuestionView(
+                text: .init(
+                    get: {
+                        let decimal: Decimal?
+                        if let doubleValue = numericQuestion.number?.doubleValue {
+                            decimal = Decimal(doubleValue)
+                        } else {
+                            decimal = nil
+                        }
+                        return decimal
+                    },
+                    set: { newValue in
+                        formRow.wrappedValue = .numericRow(
+                            NumericQuestion(
+                                id: numericQuestion.id,
+                                title: numericQuestion.title,
+                                detail: numericQuestion.detail,
+                                prompt: numericQuestion.prompt,
+                                number: newValue as? NSDecimalNumber
+                            )
+                        )
+                    }
+                ),
+                title: numericQuestion.title,
+                detail: detail,
+                prompt: numericQuestion.prompt
+            )
         }
     }
     
