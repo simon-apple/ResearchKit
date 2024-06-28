@@ -2303,6 +2303,19 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
     
     private var readOnlyFormStepTask: ORKTask {
+        if let path = Bundle.main.path(forResource: "demographics_task", ofType: "json", inDirectory: "TaskExamples") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+                let task = try ORKESerializer.object(fromJSONData: data) as? ORKNavigableOrderedTask
+                
+                if let task = task {
+                    return task
+                }
+            } catch {
+                print("error while decoding task")
+            }
+        }
+        
         let instructionStep = TaskListRowSteps.readOnlyInstructionStepExample
         let formStep = TaskListRowSteps.readOnlyFormStepExample
         let heightQuestionStep = TaskListRowSteps.readOnlyHeightQuestionStepExample
