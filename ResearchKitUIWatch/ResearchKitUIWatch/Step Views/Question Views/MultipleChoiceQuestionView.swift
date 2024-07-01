@@ -60,11 +60,11 @@ public struct MultipleChoiceQuestionView: View {
     public var body: some View {
         TaskCardView(title: title, detail: detail) {
             ForEach(Array(choices.enumerated()), id: \.offset) { index, option in
-                VStack(spacing: 8) {
+                VStack(spacing: .zero) {
                     if index != 0 {
                         Divider()
                     }
-                    
+
                     TextChoiceCell(
                         title: Text(option.choiceText),
                         isSelected: result.contains(where: { choice in
@@ -73,6 +73,10 @@ public struct MultipleChoiceQuestionView: View {
                     ) {
                         choiceSelected(option)
                     }
+                    .padding(.horizontal, 8)
+                    .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 12))
+                    .hoverEffect()
+                    .padding(.horizontal, -8)
                 }
             }
         }

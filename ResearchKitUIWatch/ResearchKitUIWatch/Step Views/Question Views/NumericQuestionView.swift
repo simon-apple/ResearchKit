@@ -74,6 +74,7 @@ public struct NumericQuestionView<Header: View>: View {
                     .doneKeyboardToolbar {
                         isFocused = false
                     }
+                    .padding()
             }
         )
     }

@@ -46,23 +46,24 @@ public struct TextChoiceCell: View {
 
     @ViewBuilder
     public var body: some View {
-        Button(action: {
-            selection()
-        }) {
-            HStack {
-                title
-                    .font(.subheadline)
-                    .foregroundStyle(Color(.label))
-                
-                Spacer()
-                
-                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                    .imageScale(.large)
-                    .foregroundColor(isSelected ? .blue : deselectedCheckmarkColor)
-                    .font(.body)
-            }
+
+        HStack {
+            title
+                .font(.subheadline)
+                .foregroundStyle(Color(.label))
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                .imageScale(.large)
+                .foregroundColor(isSelected ? .blue : deselectedCheckmarkColor)
+                .font(.body)
         }
-        .buttonStyle(.borderless)
+        .padding(.vertical, 8)
+        .padding(.horizontal, 16)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            selection()
+        }
     }
     
     // TODO(rdar://129073682): Update checkmark to more accurately match designs for both iOS and visionOS.

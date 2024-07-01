@@ -153,6 +153,7 @@ public struct TextQuestionView<Header: View>: View {
                     }
                 }
             }
+            .padding()
         }
     }
 }
