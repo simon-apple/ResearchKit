@@ -98,12 +98,9 @@ public struct MultipleChoiceQuestionView: View {
         TaskCardView(title: title, detail: detail) {
             ForEach(Array(choices.enumerated()), id: \.offset) { index, option in
                 VStack(spacing: .zero) {
-                    #if os(iOS)
                     if index != 0 {
                         Divider()
-                            .frame(height: 1)
                     }
-                    #endif
 
                     TextChoiceCell(
                         title: Text(option.choiceText),

@@ -62,10 +62,11 @@ public struct DateTimeView<Header: View>: View {
                 pickerPrompt,
                 selection: $selection,
                 in: range,
-                displayedComponents: displayedComponents)
-                .datePickerStyle(.compact)
-                .foregroundStyle(.primary)
-                .padding()
+                displayedComponents: displayedComponents
+            )
+            .datePickerStyle(.compact)
+            .foregroundStyle(.primary)
+            .padding()
         }
     }
 }
