@@ -2327,17 +2327,14 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
     
     private var decodedTask: ORKTask {
-        if let path = Bundle.main.path(forResource: "ORKInstructionStep", ofType: "json", inDirectory: "jsonExamples") {
+        if let path = Bundle.main.path(forResource: "demographics_task", ofType: "json", inDirectory: "TaskExamples") {
             do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+                
                 let coreEntryProvider = ORKCoreSerializationEntryProvider()
                 let serializer = ORKESerializer(entryProviders: [coreEntryProvider])
                 
-                let data = try Data(contentsOf: URL(fileURLWithPath: path))
-                let instructionStep = serializer.object(fromJSONData: data, error: nil) as? ORKInstructionStep
-//                let instructionStep = try ORKESerializer.object(fromJSONData: data) as? ORKInstructionStep
-                
-                if let instructionStep = instructionStep {
-                    let task = ORKOrderedTask(identifier: "TaskIdentifier", steps: [instructionStep])
+                if let task = serializer.object(fromJSONData: data, error: nil) as? ORKNavigableOrderedTask {
                     return task
                 }
             } catch {

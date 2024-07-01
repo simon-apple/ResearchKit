@@ -7,7 +7,7 @@
 
 #import "ORKSerializationEntryProvider.h"
 
-//#import "ORKESerialization.h"
+#import "ORKESerialization+Helpers.h"
 
 #import <ResearchKit/ResearchKit.h>
 

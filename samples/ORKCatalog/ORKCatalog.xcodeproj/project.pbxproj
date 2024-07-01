@@ -31,6 +31,7 @@
 		518E16DD2C289CAA00F44B98 /* ORKESerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16DC2C289CAA00F44B98 /* ORKESerialization.m */; };
 		518E16E22C28A2F300F44B98 /* ORKCoreSerializationEntryProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16E12C28A2F300F44B98 /* ORKCoreSerializationEntryProvider.m */; };
 		518E16E42C29BD2000F44B98 /* jsonExamples in Resources */ = {isa = PBXBuildFile; fileRef = 518E16E32C29BD2000F44B98 /* jsonExamples */; };
+		518E16EF2C2F68A200F44B98 /* ORKESerialization+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16EE2C2F68A200F44B98 /* ORKESerialization+Helpers.m */; };
 		51AF19862B59F3A900D3B399 /* ORKKeychainWrapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AF19852B59F3A900D3B399 /* ORKKeychainWrapperTests.m */; };
 		51BD8FC729D3AE2E0001D54E /* Sentence1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC629D3AE2E0001D54E /* Sentence1.wav */; };
 		51C173282BA4B4E1006604FB /* sphere_model.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 51C173272BA4B4E1006604FB /* sphere_model.usdz */; };
@@ -244,6 +245,8 @@
 		518E16E02C28A2F300F44B98 /* ORKCoreSerializationEntryProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKCoreSerializationEntryProvider.h; sourceTree = "<group>"; };
 		518E16E12C28A2F300F44B98 /* ORKCoreSerializationEntryProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKCoreSerializationEntryProvider.m; sourceTree = "<group>"; };
 		518E16E32C29BD2000F44B98 /* jsonExamples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = jsonExamples; sourceTree = "<group>"; };
+		518E16ED2C2F68A200F44B98 /* ORKESerialization+Helpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKESerialization+Helpers.h"; sourceTree = "<group>"; };
+		518E16EE2C2F68A200F44B98 /* ORKESerialization+Helpers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ORKESerialization+Helpers.m"; sourceTree = "<group>"; };
 		51AF19772B59F1E400D3B399 /* ORKCatalogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ORKCatalogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51AF19852B59F3A900D3B399 /* ORKKeychainWrapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKKeychainWrapperTests.m; sourceTree = "<group>"; };
 		51BD8FC629D3AE2E0001D54E /* Sentence1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Sentence1.wav; path = List1/Sentence1.wav; sourceTree = "<group>"; };
@@ -425,19 +428,21 @@
 			isa = PBXGroup;
 			children = (
 				518E16DF2C28A2AF00F44B98 /* Serialization Entry Providers */,
-				518E16DE2C28A29E00F44B98 /* old serializer */,
+				518E16DE2C28A29E00F44B98 /* Serializer */,
 				518E16D72C289AD100F44B98 /* ORKCatalog-Bridging-Header.h */,
 			);
 			path = Serializer;
 			sourceTree = "<group>";
 		};
-		518E16DE2C28A29E00F44B98 /* old serializer */ = {
+		518E16DE2C28A29E00F44B98 /* Serializer */ = {
 			isa = PBXGroup;
 			children = (
 				518E16DB2C289CAA00F44B98 /* ORKESerialization.h */,
 				518E16DC2C289CAA00F44B98 /* ORKESerialization.m */,
+				518E16ED2C2F68A200F44B98 /* ORKESerialization+Helpers.h */,
+				518E16EE2C2F68A200F44B98 /* ORKESerialization+Helpers.m */,
 			);
-			path = "old serializer";
+			path = Serializer;
 			sourceTree = "<group>";
 		};
 		518E16DF2C28A2AF00F44B98 /* Serialization Entry Providers */ = {
@@ -971,6 +976,7 @@
 				BC9A27341B82740D00BDA84D /* TaskListRow.swift in Sources */,
 				51F210EF2B4634FC0072B536 /* TaskListRowSteps.swift in Sources */,
 				518E16DD2C289CAA00F44B98 /* ORKESerialization.m in Sources */,
+				518E16EF2C2F68A200F44B98 /* ORKESerialization+Helpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

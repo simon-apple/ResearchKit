@@ -48,6 +48,13 @@ __deprecated_msg(message)
 #define ESTRINGIFY2(x) #x
 #define ESTRINGIFY(x) ESTRINGIFY2(x)
 
+#define NUMTOSTRINGBLOCK(table) ^id(id num, __unused ORKESerializationContext *context) { return table[((NSNumber *)num).unsignedIntegerValue]; }
+
+#define STRINGTONUMBLOCK(table) ^id(id string, __unused ORKESerializationContext *context) { NSUInteger index = [table indexOfObject:string]; \
+NSCAssert(index != NSNotFound, @"Expected valid entry from table %@", table); \
+return @(index); \
+}
+
 #define ENTRY(entryName, mInitBlock, mProperties) \
     @ESTRINGIFY(entryName) : [[ORKESerializableTableEntry alloc] initWithClass: [entryName class] \
                                                                      initBlock: mInitBlock \
@@ -71,11 +78,12 @@ __deprecated_msg(message)
                                                                   jsonToObjectBlock: mJsonToObjectBlock \
                                                                   skipSerialization: YES])
 
-#define IMAGEPROPERTY(propertyName, containerClass, writeAfterInit) @ESTRINGIFY(propertyName) : \
-                                                                        imagePropertyObject(@ESTRINGIFY(propertyName), \
-                                                                                            [containerClass class], \
-                                                                                            writeAfterInit, \
-                                                                                            NO)
+
+#define IMAGEPROPERTY(propertyName, mContainerClass, mWriteAfterInit) \
+    @ESTRINGIFY(propertyName) : [[ORKESerializableProperty alloc] imagePropertyObjectWithPropertyName: @ESTRINGIFY(propertyName) \
+                                                                                       containerClass: [mContainerClass class] \
+                                                                                       writeAfterInit: mWriteAfterInit \
+                                                                                    skipSerialization: YES]
 
 #define GETPROP(d,x) getter(d, @ESTRINGIFY(x))
 
