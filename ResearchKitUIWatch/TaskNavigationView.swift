@@ -9,9 +9,14 @@ import SwiftUI
 public struct TaskNavigationView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel: TaskViewModel
+    var onTaskCompletion: (() -> Void)?
 
-    public init(viewModel: TaskViewModel) {
+    public init(
+        viewModel: TaskViewModel,
+        onTaskCompletion: (() -> Void)? = nil
+    ) {
         self.viewModel = viewModel
+        self.onTaskCompletion = onTaskCompletion
     }
 
     public var body: some View {
@@ -21,15 +26,23 @@ public struct TaskNavigationView: View {
                 path: 0,
                 onDismissButtonTapped: {
                     dismiss()
+                },
+                onDoneButtonTapped: {
+                    onTaskCompletion?()
                 }
             )
-                .navigationDestination(for: Int.self) { path in
-                    TaskStepContentView(
-                        viewModel: viewModel,
-                        path: path) {
-                            dismiss()
-                        }
-                }
+            .navigationDestination(for: Int.self) { path in
+                TaskStepContentView(
+                    viewModel: viewModel,
+                    path: path,
+                    onDismissButtonTapped: {
+                        dismiss()
+                    },
+                    onDoneButtonTapped: {
+                        onTaskCompletion?()
+                    }
+                )
+            }
         }
     }
 }
@@ -39,6 +52,7 @@ public struct TaskStepContentView: View {
     var viewModel: TaskViewModel
     let path: Int
     var onDismissButtonTapped: (() -> Void)?
+    var onDoneButtonTapped: (() -> Void)?
 
     var isLastStep: Bool {
         path == (viewModel.steps.count - 1)
@@ -64,7 +78,7 @@ public struct TaskStepContentView: View {
         } footerContent: {
             Button {
                 if isLastStep {
-                    onDismissButtonTapped?()
+                    onDoneButtonTapped?()
                 } else {
                     viewModel.stepCount.append(path + 1)
                 }
