@@ -318,6 +318,7 @@ enum Identifier {
     case colorChoiceQuestionFormItem
     case familyHistoryStep
     case familyHistoryTask
+    case readOnlyFormStepTask
     #endif
 }
 

@@ -31,4 +31,7 @@ let textValues = ["Poor", "Fair", "Good", "Above Average", "Excellent"]
 
 // MARK: - Value Picker Choices
 // Value picker choices are based on textChoicesExample in ORKCatalog/TaskListRowSteps.swift
+
 let textChoices: [(text: String, value: String)] = [("Poor", "[1]"), ("Fair", "[2]") , ("Good", "[3]"), ("Above Average", "[10]"), ("Excellent", "[5]")]
+let textChoicesMaxValueIndex = textChoices.count - 1
+let textChoicesMinValueIndex = 0

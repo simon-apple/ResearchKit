@@ -51,4 +51,12 @@ final class ResultsTab {
         XCTAssertTrue(cellToSelect.label.starts(with: expectedValue))
         return self
     }
+    
+    @discardableResult
+    func verifyResultsCellContainsValue(resultType: AccessibilityIdentifiers.ResultRow, expectedValue: String) -> Self {
+        let cellToSelect = Self.app.cells.staticTexts[resultType.detailTextLabelIdentifier]
+        wait(for: cellToSelect)
+        XCTAssertTrue(cellToSelect.label.contains(expectedValue), "The cell label \(cellToSelect.label) does not contain \(expectedValue)")
+        return self
+    }
 }

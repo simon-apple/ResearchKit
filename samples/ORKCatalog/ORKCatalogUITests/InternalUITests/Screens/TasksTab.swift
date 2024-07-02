@@ -91,6 +91,7 @@ enum Task {
     case tremorTest
     case twoFingerTappingInterval
     case walkBackAndForth
+    case healthQuantity
     case heightQuestion
     case weightQuestion
     case ageQuestion
@@ -150,6 +151,9 @@ enum Task {
             
         case .date3DayLimitQuestionTask:
             return NSLocalizedString("Date and Time 3 day Limit Question", comment: "")
+            
+        case .healthQuantity:
+            return NSLocalizedString("Health Quantity Question", comment: "")
             
         case .heightQuestion:
             return NSLocalizedString("Height Question", comment: "")
