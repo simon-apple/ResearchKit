@@ -218,13 +218,141 @@ static NSString *_ClassKey = @"_class";
     return table;
 }
 
-+ (NSString *)ORKNumericAnswerStyleToStringWithStyle:(ORKNumericAnswerStyle *)style {
-    return @"";
-    //return [self tableMapForwardWithIndex:style table:[self ORKNumericAnswerStyleTable]];
++ (ORKNumericAnswerStyle)ORKNumericAnswerStyleFromString:(NSString *)string {
+    return (ORKNumericAnswerStyle)[self tableMapReverseWithValue:string table:[self ORKNumericAnswerStyleTable]];
 }
 
-+ (id)tableMapForwardWithIndex:(NSInteger *)index table:(NSArray *)table {
-    return @"";
++ (NSString *)ORKNumericAnswerStyleToStringWithStyle:(ORKNumericAnswerStyle)style {
+    return [self tableMapForwardWithIndex:style table:[self ORKNumericAnswerStyleTable]];
+}
+
++ (id)tableMapForwardWithIndex:(NSInteger)index table:(NSArray *)table {
+    return table[(NSUInteger)index];
+}
+
++ (NSInteger)tableMapReverseWithValue:(id)value table:(NSArray *)table {
+    NSUInteger idx = [table indexOfObject:value];
+    if (idx == NSNotFound) {
+        idx = 0;
+    }
+    return (NSInteger)idx;
+}
+
++ (NSArray *)numberFormattingStyleTable {
+    static NSArray *table = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        table = @[@"default", @"percent"];
+    });
+    return table;
+}
+
++ (NSDictionary *)dictionaryFromRegularExpression:(NSRegularExpression *)regularExpression {
+    NSDictionary *dictionary = regularExpression ?
+    @{
+      @"pattern": regularExpression.pattern ?: @"",
+      @"options": [self arrayFromRegularExpressionOptions:regularExpression.options]
+      } :
+    @{};
+    return dictionary;
+}
+
++ (NSArray *)arrayFromRegularExpressionOptions:(NSRegularExpressionOptions)regularExpressionOptions {
+    NSMutableArray *optionsArray = [NSMutableArray new];
+    if (regularExpressionOptions & NSRegularExpressionCaseInsensitive) {
+        [optionsArray addObject:@"NSRegularExpressionCaseInsensitive"];
+    }
+    if (regularExpressionOptions & NSRegularExpressionAllowCommentsAndWhitespace) {
+        [optionsArray addObject:@"NSRegularExpressionAllowCommentsAndWhitespace"];
+    }
+    if (regularExpressionOptions & NSRegularExpressionIgnoreMetacharacters) {
+        [optionsArray addObject:@"NSRegularExpressionIgnoreMetacharacters"];
+    }
+    if (regularExpressionOptions & NSRegularExpressionDotMatchesLineSeparators) {
+        [optionsArray addObject:@"NSRegularExpressionDotMatchesLineSeparators"];
+    }
+    if (regularExpressionOptions & NSRegularExpressionAnchorsMatchLines) {
+        [optionsArray addObject:@"NSRegularExpressionAnchorsMatchLines"];
+    }
+    if (regularExpressionOptions & NSRegularExpressionUseUnixLineSeparators) {
+        [optionsArray addObject:@"NSRegularExpressionUseUnixLineSeparators"];
+    }
+    if (regularExpressionOptions & NSRegularExpressionUseUnicodeWordBoundaries) {
+        [optionsArray addObject:@"NSRegularExpressionUseUnicodeWordBoundaries"];
+    }
+    return [optionsArray copy];
+}
+
++ (NSRegularExpression *)regularExpressionsFromDictionary:(NSDictionary *)dict {
+    NSRegularExpression *regularExpression;
+    if (dict.count == 2) {
+        regularExpression = [NSRegularExpression regularExpressionWithPattern:dict[@"pattern"]
+                                                                      options:[self regularExpressionOptionsFromArray:dict[@"options"]]
+                                                                        error:nil];
+    }
+    return regularExpression;
+}
+
++ (NSRegularExpressionOptions)regularExpressionOptionsFromArray:(NSArray *)array {
+    NSRegularExpressionOptions regularExpressionOptions = 0;
+    for (NSString *optionString in array) {
+        if ([optionString isEqualToString:@"NSRegularExpressionCaseInsensitive"]) {
+            regularExpressionOptions |= NSRegularExpressionCaseInsensitive;
+        }
+        else if ([optionString isEqualToString:@"NSRegularExpressionAllowCommentsAndWhitespace"]) {
+            regularExpressionOptions |= NSRegularExpressionAllowCommentsAndWhitespace;
+        }
+        else if ([optionString isEqualToString:@"NSRegularExpressionIgnoreMetacharacters"]) {
+            regularExpressionOptions |= NSRegularExpressionIgnoreMetacharacters;
+        }
+        else if ([optionString isEqualToString:@"NSRegularExpressionDotMatchesLineSeparators"]) {
+            regularExpressionOptions |= NSRegularExpressionDotMatchesLineSeparators;
+        }
+        else if ([optionString isEqualToString:@"NSRegularExpressionAnchorsMatchLines"]) {
+            regularExpressionOptions |= NSRegularExpressionAnchorsMatchLines;
+        }
+        else if ([optionString isEqualToString:@"NSRegularExpressionUseUnixLineSeparators"]) {
+            regularExpressionOptions |= NSRegularExpressionUseUnixLineSeparators;
+        }
+        else if ([optionString isEqualToString:@"NSRegularExpressionUseUnicodeWordBoundaries"]) {
+            regularExpressionOptions |= NSRegularExpressionUseUnicodeWordBoundaries;
+        }
+    }
+    return regularExpressionOptions;
+}
+
++ (NSDictionary *)dictionaryFromPasswordRules:(UITextInputPasswordRules *)passwordRules {
+    NSDictionary *dictionary = passwordRules ?
+    @{
+      @"rules": passwordRules.passwordRulesDescriptor ?: @""
+      } :
+    @{};
+    return dictionary;
+}
+
++ (UITextInputPasswordRules *)passwordRulesFromDictionary:(NSDictionary *)dict {
+    UITextInputPasswordRules *passwordRules;
+    if (dict.count == 1) {
+        passwordRules = [UITextInputPasswordRules passwordRulesWithDescriptor:dict[@"rules"]];
+    }
+    return passwordRules;
+}
+
++ (NSString *)ORKMeasurementSystemToString:(ORKMeasurementSystem)measurementSystem {
+    return [self tableMapForwardWithIndex:measurementSystem table:[self ORKMeasurementSystemTable]];
+}
+
++ (NSArray *)ORKMeasurementSystemTable {
+    static NSArray *table = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        table = @[@"local", @"metric", @"USC"];
+    });
+    return table;
+}
+
++ (ORKMeasurementSystem)ORKMeasurementSystemFromString:(NSString *)string {
+    return [self tableMapReverseWithValue:string table:[self ORKMeasurementSystemTable]];
 }
 
 @end

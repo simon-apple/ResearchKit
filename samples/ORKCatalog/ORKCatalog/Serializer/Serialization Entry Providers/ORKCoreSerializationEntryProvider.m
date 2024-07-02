@@ -263,8 +263,11 @@
                  },
                  (@{
                     PROPERTY(style, NSNumber, NSObject, NO,
-                             ^id(id num, __unused ORKESerializationContext *context) { return ORKNumericAnswerStyleToString(((NSNumber *)num).integerValue); },
-                             ^id(id string, __unused ORKESerializationContext *context) { return @(ORKNumericAnswerStyleFromString(string)); }),
+                             ^id(id num, __unused ORKESerializationContext *context) {
+                        ORKNumericAnswerStyle answerStyle = (ORKNumericAnswerStyle)((NSNumber *)num).integerValue;
+                        return [ORKESerializerHelper ORKNumericAnswerStyleToStringWithStyle:answerStyle]; },
+                             ^id(id string, __unused ORKESerializationContext *context) {
+                        return @([ORKESerializerHelper ORKNumericAnswerStyleFromString:string]); }),
                     PROPERTY(unit, NSString, NSObject, NO, nil, nil),
                     PROPERTY(displayUnit, NSString, NSObject, NO, nil, nil),
                     PROPERTY(minimum, NSNumber, NSObject, NO, nil, nil),
@@ -328,8 +331,12 @@
                     PROPERTY(maximumFractionDigits, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(vertical, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(numberStyle, NSNumber, NSObject, YES,
-                             ^id(id numeric, __unused ORKESerializationContext *context) { return tableMapForward(((NSNumber *)numeric).integerValue, numberFormattingStyleTable()); },
-                             ^id(id string, __unused ORKESerializationContext *context) { return @(tableMapReverse(string, numberFormattingStyleTable())); }),
+                    ^id(id numeric, __unused ORKESerializationContext *context) {
+                        return [ORKESerializerHelper tableMapForwardWithIndex:((NSNumber *)numeric).integerValue table:[ORKESerializerHelper numberFormattingStyleTable]];
+                    },
+                    ^id(id string, __unused ORKESerializationContext *context) {
+                        return @([ORKESerializerHelper tableMapReverseWithValue:string table:[ORKESerializerHelper numberFormattingStyleTable]]);
+                    }),
                     PROPERTY(maximumValueDescription, NSString, NSObject, NO, nil, nil),
                     PROPERTY(minimumValueDescription, NSString, NSObject, NO, nil, nil),
                     PROPERTY(gradientColors, UIColor, NSArray, YES, nil, nil),
@@ -362,8 +369,8 @@
                  (@{
                     PROPERTY(maximumLength, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(validationRegularExpression, NSRegularExpression, NSObject, YES,
-                             ^id(id value, __unused ORKESerializationContext *context) { return dictionaryFromRegularExpression((NSRegularExpression *)value); },
-                             ^id(id dict, __unused ORKESerializationContext *context) { return regularExpressionsFromDictionary(dict); } ),
+                             ^id(id value, __unused ORKESerializationContext *context) { return [ORKESerializerHelper dictionaryFromRegularExpression:(NSRegularExpression *)value]; },
+                             ^id(id dict, __unused ORKESerializationContext *context) { return [ORKESerializerHelper regularExpressionsFromDictionary:dict]; } ),
                     PROPERTY(invalidMessage, NSString, NSObject, YES, nil, nil),
                     PROPERTY(defaultTextAnswer, NSString, NSObject, YES, nil, nil),
                     PROPERTY(autocapitalizationType, NSNumber, NSObject, YES, nil, nil),
@@ -376,8 +383,8 @@
                     PROPERTY(secureTextEntry, NSNumber, NSObject, YES, nil, nil),
                     PROPERTY(textContentType, NSString, NSObject, YES, nil, nil),
                     PROPERTY(passwordRules, UITextInputPasswordRules, NSObject, YES,
-                             ^id(id value, __unused ORKESerializationContext *context) { return dictionaryFromPasswordRules((UITextInputPasswordRules *)value); },
-                             ^id(id dict, __unused ORKESerializationContext *context) { return passwordRulesFromDictionary(dict); } ),
+                             ^id(id value, __unused ORKESerializationContext *context) { return [ORKESerializerHelper dictionaryFromPasswordRules:(UITextInputPasswordRules *)value]; },
+                             ^id(id dict, __unused ORKESerializationContext *context) { return [ORKESerializerHelper passwordRulesFromDictionary:dict]; } ),
                     PROPERTY(placeholder, NSString, NSObject, YES, nil, nil),
 #if RK_APPLE_INTERNAL
                     PROPERTY(scrubberNames, NSArray, NSObject, YES, nil, nil)
@@ -419,8 +426,8 @@
                  },
                  (@{
                     PROPERTY(measurementSystem, NSNumber, NSObject, NO,
-                             ^id(id number, __unused ORKESerializationContext *context) { return ORKMeasurementSystemToString(((NSNumber *)number).integerValue); },
-                             ^id(id string, __unused ORKESerializationContext *context) { return @(ORKMeasurementSystemFromString(string)); }),
+                             ^id(id number, __unused ORKESerializationContext *context) { return [ORKESerializerHelper ORKMeasurementSystemToString:((NSNumber *)number).integerValue]; },
+                             ^id(id string, __unused ORKESerializationContext *context) { return @([ORKESerializerHelper ORKMeasurementSystemFromString:string]); }),
                     })),
            ENTRY(ORKWeightAnswerFormat,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
@@ -432,8 +439,8 @@
                  },
                  (@{
                     PROPERTY(measurementSystem, NSNumber, NSObject, NO,
-                             ^id(id number, __unused ORKESerializationContext *context) { return ORKMeasurementSystemToString(((NSNumber *)number).integerValue); },
-                             ^id(id string, __unused ORKESerializationContext *context) { return @(ORKMeasurementSystemFromString(string)); }),
+                             ^id(id number, __unused ORKESerializationContext *context) { return [ORKESerializerHelper ORKMeasurementSystemToString:((NSNumber *)number).integerValue]; },
+                             ^id(id string, __unused ORKESerializationContext *context) { return @([ORKESerializerHelper ORKMeasurementSystemFromString:string]); }),
                     PROPERTY(numericPrecision, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(minimumValue, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(maximumValue, NSNumber, NSObject, NO, nil, nil),

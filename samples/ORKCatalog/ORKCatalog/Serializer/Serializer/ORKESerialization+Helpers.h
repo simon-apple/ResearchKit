@@ -8,6 +8,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import <ResearchKit/ORKAnswerFormat.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
 #if defined(__cplusplus)
@@ -151,9 +153,33 @@ typedef _Nullable id (^ORKESerializationJSONToObjectBlock)(id jsonObject, ORKESe
 
 + (NSArray *)ORKNumericAnswerStyleTable;
 
-//+ (NSString *)ORKNumericAnswerStyleToStringWithStyle:(ORKNumericAnswerStyle *)style;
++ (NSString *)ORKNumericAnswerStyleToStringWithStyle:(ORKNumericAnswerStyle)style;
 
-+ (id)tableMapForwardWithIndex:(NSInteger *)index  table:(NSArray *)table;
++ (ORKNumericAnswerStyle)ORKNumericAnswerStyleFromString:(NSString *)string;
+
++ (id)tableMapForwardWithIndex:(NSInteger)index table:(NSArray *)table;
+
++ (NSInteger)tableMapReverseWithValue:(id)value table:(NSArray *)table;
+
++ (NSArray *)numberFormattingStyleTable;
+
++ (NSDictionary *)dictionaryFromRegularExpression:(NSRegularExpression *)regularExpression;
+
++ (NSArray *)arrayFromRegularExpressionOptions:(NSRegularExpressionOptions)regularExpressionOptions;
+
++ (NSRegularExpression *)regularExpressionsFromDictionary:(NSDictionary *)dict;
+
++ (NSRegularExpressionOptions)regularExpressionOptionsFromArray:(NSArray *)array;
+
++ (NSDictionary *)dictionaryFromPasswordRules:(UITextInputPasswordRules *)passwordRules;
+
++ (UITextInputPasswordRules *)passwordRulesFromDictionary:(NSDictionary *)dict;
+
++ (NSString *)ORKMeasurementSystemToString:(ORKMeasurementSystem)measurementSystem;
+
++ (NSArray *)ORKMeasurementSystemTable;
+
++ (ORKMeasurementSystem)ORKMeasurementSystemFromString:(NSString *)string;
 
 @end
 
