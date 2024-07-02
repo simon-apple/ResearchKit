@@ -50,6 +50,7 @@ public struct TaskNavigationView: View {
 public struct TaskStepContentView: View {
     @ObservedObject
     var viewModel: TaskViewModel
+
     let path: Int
     var onDismissButtonTapped: (() -> Void)?
     var onDoneButtonTapped: (() -> Void)?
@@ -62,7 +63,7 @@ public struct TaskStepContentView: View {
         StickyScrollView {
             VStack {
                 ForEach($viewModel.steps[path]) { $row in
-                    RKAdapter.content(title: row.title, detail: nil, for: $row)
+                    FormRowContent.content(detail: nil, for: $row)
                 }
             }
             .padding()

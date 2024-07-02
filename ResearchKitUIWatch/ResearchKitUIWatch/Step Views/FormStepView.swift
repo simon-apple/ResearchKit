@@ -52,8 +52,7 @@ struct FormStepView: View {
                     StepHeaderView(viewModel: viewModel)
                 }
                 ForEach(Array($viewModel.formRows.enumerated()), id: \.offset) { index, $formRow in
-                    RKAdapter.content(
-                        title: "\(formRow.title)",
+                    FormRowContent.content(
                         detail: "Step \(index + 1) of \(viewModel.formRows.count)",
                         for: $formRow
                     )
