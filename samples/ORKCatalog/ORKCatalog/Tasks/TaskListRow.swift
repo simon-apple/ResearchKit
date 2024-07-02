@@ -2327,7 +2327,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
     
     private var decodedTask: ORKTask {
-        if let path = Bundle.main.path(forResource: "demographics_task", ofType: "json", inDirectory: "TaskExamples") {
+        if let path = Bundle.main.path(forResource: "demographics_task", ofType: "json", inDirectory: "jsonExamples") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path))
                 

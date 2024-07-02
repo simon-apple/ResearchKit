@@ -102,6 +102,34 @@
                     PROPERTY(footnote, NSString, NSObject, YES, nil, nil),
                     PROPERTY(centerImageVertically, NSNumber, NSObject, YES, nil, nil),
                     })),
+           ENTRY(ORKFormStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[ORKFormStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+                 },
+                 (@{
+                    PROPERTY(formItems, ORKFormItem, NSArray, YES, nil, nil),
+                    PROPERTY(footnote, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(useCardView, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(autoScrollEnabled, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(footerText, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(cardViewStyle, NSNumber, NSObject, YES, nil, nil),
+                    })),
+           ENTRY(ORKFormItem,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                    ORKFormItem* formItem = [[ORKFormItem alloc] initWithIdentifier:GETPROP(dict, identifier) text:GETPROP(dict, text) answerFormat:GETPROP(dict, answerFormat)];
+                    return formItem;
+                 },
+                 (@{
+                    PROPERTY(identifier, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(optional, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(showsProgress, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(text, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(detailText, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(placeholder, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(answerFormat, ORKAnswerFormat, NSObject, NO, nil, nil),
+                    PROPERTY(learnMoreItem, ORKLearnMoreItem, NSObject, YES, nil, nil),
+                    PROPERTY(tagText, NSString, NSObject, YES, nil, nil),
+                    })),
            ENTRY(ORKEarlyTerminationConfiguration,
                  ^id(__unused NSDictionary *dict, __unused ORKESerializationPropertyGetter getter) {
                      ORKEarlyTerminationConfiguration *configuration = [[ORKEarlyTerminationConfiguration alloc] initWithButtonText:GETPROP(dict, buttonText)
