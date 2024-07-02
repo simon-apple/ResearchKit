@@ -303,7 +303,9 @@ public class RKAdapter {
                 detail: detail,
                 prompt: textQuestion.prompt,
                 textFieldType: textQuestion.textFieldType,
-                characterLimit: textQuestion.characterLimit
+                characterLimit: textQuestion.characterLimit,
+                hideCharacterCountLabel: textQuestion.hideCharacterCountLabel,
+                hideClearButton: textQuestion.hideClearButton
             )
         case .dateRow(let dateQuestion):
             DateTimeView(

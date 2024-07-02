@@ -124,7 +124,7 @@ public struct TextQuestionView<Header: View>: View {
                     .contentShape(Rectangle())
 
                 HStack {
-                    if !hideCharacterCountLabel {
+                    if hideCharacterCountLabel == false {
                         Text("\(text.count)/\(characterLimit)")
                     }
                     Spacer()
@@ -187,7 +187,8 @@ struct TextQuestionView_Previews: PreviewProvider {
             detail: nil,
             prompt: "Tap to write",
             textFieldType: .multiline,
-            characterLimit: 10
+            characterLimit: 10,
+            hideCharacterCountLabel: true
         )
     }
 }

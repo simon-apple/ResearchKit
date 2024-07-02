@@ -84,9 +84,22 @@ public struct TaskStepContentView: View {
                 }
             } label: {
                 Text(isLastStep ? "Done" : "Next")
+                    .fontWeight(.bold)
+                    .frame(maxWidth: maxWidthForDoneButton)
+                    .padding(.vertical, 8)
             }
-            .buttonStyle(ToolbarButton(isDisabled: false))
+            .buttonStyle(.borderedProminent)
         }
         .background(Color(uiColor: .secondarySystemBackground))
+        .navigationTitle("\(path + 1) of \(viewModel.steps.count)")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private var maxWidthForDoneButton: CGFloat {
+#if os(iOS)
+        .infinity
+#elseif os(visionOS)
+        300
+#endif
     }
 }
