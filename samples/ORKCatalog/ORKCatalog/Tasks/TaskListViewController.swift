@@ -78,6 +78,9 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         super.viewDidLoad()
         
         self.tableView.backgroundColor = UIColor.systemGroupedBackground
+        // start-omit-internal-code
+        writeHeartRateUITestData()
+        // end-omit-internal-code
     }
     
     // MARK: UITableViewDataSource
@@ -438,3 +441,81 @@ extension TaskListViewController: ORKFamilyHistoryReviewControllerDelegate {
 }
 
 #endif
+
+// start-omit-internal-code
+// This class is used in UI tests to write HealthKit data
+class HealthKitManager {
+    static let shared = HealthKitManager()
+    private let healthStore = HKHealthStore()
+    var savedHeartRateSample: HKQuantitySample?
+    private var heartRateType: HKQuantityType? {
+        return HKQuantityType.quantityType(forIdentifier: .heartRate)
+    }
+    
+    enum HealthKitManagerError: Error {
+        case healthKitNotAvailable
+        case heartRateTypeNotAvailable
+        case authorizationFailed
+        case dataWriteFailed
+    }
+    
+    private init() {
+    }
+    
+    func requestAuthorizationAndWriteHeartRateDate(bpm: Double, date: Date = Date(), completion: @escaping (Bool, Error?) -> Void) {
+        
+        if !HKHealthStore.isHealthDataAvailable() {
+            completion(false, HealthKitManagerError.healthKitNotAvailable)
+            return
+        }
+        
+        guard let heartRateType = self.heartRateType else {
+            completion(false, HealthKitManagerError.heartRateTypeNotAvailable)
+            return
+        }
+        
+        let typesToShare: Set<HKSampleType> = [heartRateType]
+        let typesToRead: Set<HKSampleType> = [heartRateType]
+        let heartRateQuantity = HKQuantity(unit: HKUnit(from: "count/min"), doubleValue: bpm)
+        let heartRateSample = HKQuantitySample(type: heartRateType, quantity: heartRateQuantity, start: date, end: date)
+        
+        healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { [weak self] (authorized, error) in
+            guard authorized else {
+                completion(false, HealthKitManagerError.authorizationFailed)
+                return
+            }
+            
+            self?.healthStore.save(heartRateSample) { (success, error) in
+                guard success else {
+                    completion(false, HealthKitManagerError.dataWriteFailed)
+                    return
+                }
+                completion(true, nil)
+                self?.savedHeartRateSample = heartRateSample
+            }
+        }
+    }
+    
+    func deleteHeartRateData(completion: @escaping (Bool, Error?) -> Void) {
+        if let sample = savedHeartRateSample {
+            healthStore.delete(sample) { (success, error) in
+            completion(success, error)}
+        } else {
+            completion(false, nil)
+        }
+    }
+}
+
+private func writeHeartRateUITestData() {
+    if ProcessInfo.processInfo.environment.keys.contains("WriteHealthKitUITestData") {
+        guard let heartRateTestData = Double(ProcessInfo.processInfo.environment["WriteHealthKitUITestData"] ?? "") else {
+            return
+        }
+        HealthKitManager.shared.requestAuthorizationAndWriteHeartRateDate(bpm: heartRateTestData) { (success, error) in
+            guard success else {
+                return
+            }
+        }
+    }
+}
+// end-omit-internal-code

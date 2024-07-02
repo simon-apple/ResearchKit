@@ -53,7 +53,6 @@ class ResultViewController: UITableViewController {
     // MARK: Properties
 
     var result: ORKResult?
-
     var currentResult: ORKResult?
 
     var resultTableViewProvider: UITableViewDataSource & UITableViewDelegate = resultTableViewProviderForResult(nil, delegate: nil)
@@ -64,6 +63,9 @@ class ResultViewController: UITableViewController {
         super.viewDidLoad()
         
         self.tableView.backgroundColor = UIColor.systemGroupedBackground
+        // start-omit-internal-code
+        deleteHeartRateUITestData()
+        // end-omit-internal-code
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -137,5 +139,13 @@ extension ResultViewController: ResultProviderDelegate {
         present(shareSheet, animated: true, completion: nil)
     }
 }
+
+// start-omit-internal-code
+private func deleteHeartRateUITestData() {
+    if ProcessInfo.processInfo.environment.keys.contains("WriteHealthKitUITestData") {
+        HealthKitManager.shared.deleteHeartRateData { (success, error) in }
+        }
+    }
+// end-omit-internal-code
 
 //swiftlint:enable force_cast

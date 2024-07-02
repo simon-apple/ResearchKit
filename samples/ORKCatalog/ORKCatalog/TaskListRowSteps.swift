@@ -86,6 +86,11 @@ enum TaskListRowSteps {
                                             text: nil,
                                             answerFormat: bloodTypeAnswerFormat)
         bloodTypeFormItem.placeholder = String(describing: TaskListRowStrings.exampleTapHereText)
+        // start-omit-internal-code
+        if ProcessInfo.processInfo.environment.keys.contains("WriteHealthKitUITestData") {
+            bloodTypeFormItem.isOptional = false
+        }
+        // end-omit-internal-code
         
         let bloodTypeFormStep = ORKFormStep(identifier: String(describing: Identifier.healthQuantityFormStep2),
                                             title: NSLocalizedString("Blood Type", comment: ""),
@@ -263,6 +268,11 @@ enum TaskListRowSteps {
                                             text: nil,
                                             answerFormat:heartRateAnswerFormat)
         
+        // start-omit-internal-code
+        if ProcessInfo.processInfo.environment.keys.contains("WriteHealthKitUITestData") {
+            heartRateFormItem.isOptional = false
+        }
+        // end-omit-internal-code
         let heartRateFormStep = ORKFormStep(identifier: String(describing: Identifier.healthQuantityFormStep1),
                                             title: NSLocalizedString("Heart Rate", comment: ""),
                                             text: TaskListRowStrings.exampleDetailText)
