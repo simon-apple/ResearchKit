@@ -19,6 +19,8 @@
 		0B7213522B4F39CC00463E69 /* ORKScrollViewReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72134C2B4F39CC00463E69 /* ORKScrollViewReader.swift */; };
 		0B7213532B4F39CC00463E69 /* View+OnChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72134D2B4F39CC00463E69 /* View+OnChange.swift */; };
 		0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */ = {isa = PBXBuildFile; fileRef = 0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */; };
+		380E14B02C3350A900085D2B /* TaskNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380E14AF2C3350A900085D2B /* TaskNavigationView.swift */; };
+		380E14B22C3350D900085D2B /* TaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380E14B12C3350D600085D2B /* TaskViewModel.swift */; };
 		3815C0142C2081CE00A29CD3 /* DateTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3815C0132C2081CE00A29CD3 /* DateTimeView.swift */; };
 		38CD26102C1909CC000FDBB0 /* TaskCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CD260F2C1909CC000FDBB0 /* TaskCardView.swift */; };
 		38CD26392C1B90F3000FDBB0 /* RKAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CD26382C1B90F3000FDBB0 /* RKAdapter.swift */; };
@@ -68,6 +70,8 @@
 		0B72136A2B4F3D1D00463E69 /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF86B1D2B4F360000E3790E /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ResearchKitUIWatch.docc; sourceTree = "<group>"; };
+		380E14AF2C3350A900085D2B /* TaskNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNavigationView.swift; sourceTree = "<group>"; };
+		380E14B12C3350D600085D2B /* TaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewModel.swift; sourceTree = "<group>"; };
 		3815C0132C2081CE00A29CD3 /* DateTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeView.swift; sourceTree = "<group>"; };
 		38CD260F2C1909CC000FDBB0 /* TaskCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCardView.swift; sourceTree = "<group>"; };
 		38CD26382C1B90F3000FDBB0 /* RKAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKAdapter.swift; sourceTree = "<group>"; };
@@ -149,6 +153,8 @@
 		0BF86B132B4F360000E3790E = {
 			isa = PBXGroup;
 			children = (
+				380E14B12C3350D600085D2B /* TaskViewModel.swift */,
+				380E14AF2C3350A900085D2B /* TaskNavigationView.swift */,
 				38CD26382C1B90F3000FDBB0 /* RKAdapter.swift */,
 				0B53DA5F2BD054EE00227126 /* Localized */,
 				0BF86B1F2B4F360000E3790E /* ResearchKitUIWatch */,
@@ -318,6 +324,7 @@
 				5EDFA9D72BFFFA2B0044C156 /* StepHeaderView.swift in Sources */,
 				5E507F812C1141F2002958E2 /* SliderValueForegroundStyle.swift in Sources */,
 				38CD26102C1909CC000FDBB0 /* TaskCardView.swift in Sources */,
+				380E14B02C3350A900085D2B /* TaskNavigationView.swift in Sources */,
 				E4DBF1B92B97C3060085D6A1 /* TextChoiceCell.swift in Sources */,
 				5E05B53D2C2E135D00A0A83B /* DoneKeyboardToolbar.swift in Sources */,
 				3815C0142C2081CE00A29CD3 /* DateTimeView.swift in Sources */,
@@ -335,6 +342,7 @@
 				5EDFA9D92BFFFF0F0044C156 /* ListHeaderView.swift in Sources */,
 				0B72132D2B4F368600463E69 /* DefaultStepView.swift in Sources */,
 				0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */,
+				380E14B22C3350D900085D2B /* TaskViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

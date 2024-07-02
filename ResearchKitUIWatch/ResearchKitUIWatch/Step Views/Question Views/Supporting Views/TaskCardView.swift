@@ -97,19 +97,21 @@ public struct _SimpleTaskViewHeader: View {
     let detail: String?
 
     public var body: some View {
-        if let detail {
-            Text(detail)
-                .foregroundColor(.secondary)
-                .font(.footnote)
-                .fontWeight(.bold)
-                .padding([.horizontal, .top])
-        }
+        VStack {
+            if let detail {
+                Text(detail)
+                    .foregroundColor(.secondary)
+                    .font(.footnote)
+                    .fontWeight(.bold)
+                    .padding([.horizontal, .top])
+            }
 
-        Text(title)
-            .foregroundStyle(Color(.label))
-            .font(.body)
-            .fontWeight(.bold)
-            .padding()
+            Text(title)
+                .foregroundStyle(Color(.label))
+                .font(.body)
+                .fontWeight(.bold)
+                .padding()
+        }
     }
 }
 
