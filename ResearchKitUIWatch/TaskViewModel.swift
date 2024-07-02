@@ -9,7 +9,7 @@ import SwiftUI
 
 public class TaskViewModel: ObservableObject {
     @Published var stepCount: [Int] = []
-    var steps: [[FormRow]] = []
+    @Published var steps: [[FormRow]] = []
 
     public init(
         stepCount: [Int],
@@ -18,8 +18,4 @@ public class TaskViewModel: ObservableObject {
         self.stepCount = stepCount
         self.steps = steps
     }
-
-    // Add an array of pages of step count
-
-    // Add func for formStepForPage() -> [FormRow]
 }
