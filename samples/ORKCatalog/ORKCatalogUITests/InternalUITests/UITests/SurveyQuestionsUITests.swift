@@ -601,7 +601,7 @@ final class SurveyQuestionsUITests: BaseUITest {
             .answerVerticalScaleQuestion(withId: formItemId, expectedSliderValue: 3, dx: 0.5, dy: 0.8)
             .answerVerticalScaleQuestion(withId: formItemId, expectedSliderValue: 4, dx: 0.5, dy: 0.7)
             .answerVerticalScaleQuestion(withId: formItemId, expectedSliderValue: 6, dx: 0.5, dy: 0.5)
-            .answerVerticalScaleQuestion(withId: formItemId, expectedSliderValue: 8, dx: 0.5, dy: 0.3)
+            .answerVerticalScaleQuestion(withId: formItemId, expectedSliderValue: 8, dx: 0.5, dy: 0.35)
             .adjustVerticalSliderToEndPosition(withId: formItemId, expectedValue: 10)
             .tap(.continueButton)
         

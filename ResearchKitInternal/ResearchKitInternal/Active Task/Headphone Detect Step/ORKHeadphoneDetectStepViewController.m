@@ -666,31 +666,31 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     NSMutableArray<ORKHeadphoneDetectedView*> *supportedViews = [NSMutableArray array];
     
     if (![self isLockedToAppleHeadphoneType]
-        || _lockedAppleHeadphoneType == ORKHeadphoneTypeIdentifierAirPodsMax) {
+        || [_lockedAppleHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
         [self setupAirpodMaxView];
         [supportedViews addObject:_airpodMaxSupportView];
         [self addSupportedHeadphonesHorizontalRuleView];
     }
     
     if (![self isLockedToAppleHeadphoneType]
-        || _lockedAppleHeadphoneType == ORKHeadphoneTypeIdentifierAirPodsPro
-        || _lockedAppleHeadphoneType == ORKHeadphoneTypeIdentifierAirPodsProGen2) {
+        || [_lockedAppleHeadphoneType isEqualToString: ORKHeadphoneTypeIdentifierAirPodsPro]
+        || [_lockedAppleHeadphoneType isEqualToString: ORKHeadphoneTypeIdentifierAirPodsProGen2]) {
         [self setupAirpodProView];
         [supportedViews addObject:_airpodProSupportView];
         [self addSupportedHeadphonesHorizontalRuleView];
     }
 
     if (![self isLockedToAppleHeadphoneType]
-        || _lockedAppleHeadphoneType == ORKHeadphoneTypeIdentifierAirPodsGen1
-        || _lockedAppleHeadphoneType == ORKHeadphoneTypeIdentifierAirPodsGen2
-        || _lockedAppleHeadphoneType == ORKHeadphoneTypeIdentifierAirPodsGen3) {
+        || [_lockedAppleHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen1]
+        || [_lockedAppleHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen2]
+        || [_lockedAppleHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen3]) {
         [self setupAirpodView];
         [supportedViews addObject:_airpodSupportView];
         [self addSupportedHeadphonesHorizontalRuleView];
     }
 
     if (![self isLockedToAppleHeadphoneType]
-        || _lockedAppleHeadphoneType == ORKHeadphoneTypeIdentifierEarPods) {
+        || [_lockedAppleHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierEarPods]) {
         [self setupEarpodView];
         [supportedViews addObject:_earpodSupportView];
     }
@@ -1064,7 +1064,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 # pragma mark OKHeadphoneDetectorDelegate
 
 - (void)headphoneTypeDetected:(nonnull ORKHeadphoneTypeIdentifier)headphoneType vendorID:(nonnull NSString *)vendorID productID:(nonnull NSString *)productID deviceSubType:(NSInteger)deviceSubType isSupported:(BOOL)isSupported {
-    BOOL shouldUpdate = isSupported && ([[self detectStep] lockedToAppleHeadphoneType] == headphoneType || [[self detectStep] lockedToAppleHeadphoneType] == nil);
+    BOOL shouldUpdate = isSupported && ([[[self detectStep] lockedToAppleHeadphoneType] isEqualToString:headphoneType] || [[self detectStep] lockedToAppleHeadphoneType] == nil);
     if (shouldUpdate) {
         _lastDetectedHeadphoneType = headphoneType;
         _lastDetectedVendorID = vendorID;

@@ -170,7 +170,7 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
     } else if ([self isTinnitusSoundCalibration]) {
         ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
         if (context.predominantFrequency > 0.0) {
-            result = ORKLocalizedString(@"TINNITUS_FINAL_CALIBRATION_BUTTON_TITLE", nil);
+            result = ORKILocalizedString(@"TINNITUS_FINAL_CALIBRATION_BUTTON_TITLE", nil);
         }
     }
     return result;
