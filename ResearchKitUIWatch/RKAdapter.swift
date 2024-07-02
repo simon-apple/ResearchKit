@@ -195,7 +195,7 @@ public class RKAdapter {
     }
 
     @ViewBuilder
-    static func content(
+    public static func content(
         title: String,
         detail: String?,
         for formRow: Binding<FormRow>
