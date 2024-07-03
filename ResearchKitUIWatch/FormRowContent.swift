@@ -6,13 +6,21 @@
 //
 import SwiftUI
 
-public struct FormRowContent {
-    @ViewBuilder
-    public static func content(
+public struct FormRowContent: View {
+
+    @Binding var formRow: FormRow
+    let detail: String?
+
+    public init(
         detail: String?,
-        for formRow: Binding<FormRow>
-    ) -> some View {
-        switch formRow.wrappedValue {
+        formRow: Binding<FormRow>
+    ) {
+        self.detail = detail
+        _formRow = formRow
+    }
+
+    public var body: some View {
+        switch $formRow.wrappedValue {
         case .multipleChoiceRow(let multipleChoiceValue):
             MultipleChoiceQuestionView(
                 title: multipleChoiceValue.title ?? "",
@@ -24,7 +32,7 @@ public struct FormRowContent {
                         return multipleChoiceValue.result
                     },
                     set: { newValue in
-                        formRow.wrappedValue = .multipleChoiceRow(
+                        $formRow.wrappedValue = .multipleChoiceRow(
                             MultipleChoiceQuestion(
                                 id: multipleChoiceValue.id,
                                 title: multipleChoiceValue.title,
@@ -45,7 +53,7 @@ public struct FormRowContent {
                 selection: .init(get: {
                     return doubleSliderQuestion.result
                 }, set: { newValue in
-                    formRow.wrappedValue = .doubleSliderRow(
+                    $formRow.wrappedValue = .doubleSliderRow(
                         ScaleSliderQuestion(
                             id: doubleSliderQuestion.id,
                             title: doubleSliderQuestion.title,
@@ -64,7 +72,7 @@ public struct FormRowContent {
                 selection: .init(get: {
                     return intSliderQuestion.intResult
                 }, set: { newValue in
-                    formRow.wrappedValue = .intSliderRow(
+                    $formRow.wrappedValue = .intSliderRow(
                         ScaleSliderQuestion(
                             id: intSliderQuestion.id,
                             title: intSliderQuestion.title,
@@ -83,7 +91,7 @@ public struct FormRowContent {
                 selection: .init(get: {
                     return textSliderQuestion.result
                 }, set: { newValue in
-                    formRow.wrappedValue = .textSliderStep(
+                    $formRow.wrappedValue = .textSliderStep(
                         ScaleSliderQuestion(
                             id: textSliderQuestion.id,
                             title: textSliderQuestion.title,
@@ -98,7 +106,7 @@ public struct FormRowContent {
                 text: .init(get: {
                     return textQuestion.text
                 }, set: { newValue in
-                    formRow.wrappedValue = .textRow(
+                    $formRow.wrappedValue = .textRow(
                         TextQuestion(
                             title: textQuestion.title,
                             id: textQuestion.id,
@@ -126,7 +134,7 @@ public struct FormRowContent {
                 selection: .init(get: {
                     return dateQuestion.selection
                 }, set: { newValue in
-                    formRow.wrappedValue = .dateRow(
+                    $formRow.wrappedValue = .dateRow(
                         DateQuestion(
                             id: dateQuestion.id,
                             title: dateQuestion.title,
@@ -154,7 +162,7 @@ public struct FormRowContent {
                         return decimal
                     },
                     set: { newValue in
-                        formRow.wrappedValue = .numericRow(
+                        $formRow.wrappedValue = .numericRow(
                             NumericQuestion(
                                 id: numericQuestion.id,
                                 title: numericQuestion.title,

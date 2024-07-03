@@ -63,7 +63,7 @@ public struct TaskStepContentView: View {
         StickyScrollView {
             VStack {
                 ForEach($viewModel.steps[path]) { $row in
-                    FormRowContent.content(detail: nil, for: $row)
+                    FormRowContent(detail: nil, formRow: $row)
                 }
             }
             .padding()
