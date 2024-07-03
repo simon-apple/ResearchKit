@@ -28,31 +28,18 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+@import UIKit;
+
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, ORKReadOnlyStepType) {
-    ORKReadOnlyStepTypeFormStep,
-    ORKReadOnlyStepTypeSurveyStep,
-    ORKReadOnlyStepTypeFamilyHistoryStep
-} ORK_ENUM_AVAILABLE;
+@interface ORKReviewCardTableHeaderView: UIView
 
-@class ORKOrderedTask;
-@class ORKTaskResult;
+- (instancetype)initWithTitle:(NSString *)title;
 
-@interface ORKReadOnlyReviewViewController : UIViewController
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
-- (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
-
-- (instancetype)initWithTask:(ORKOrderedTask *)task
-                      result:(ORKTaskResult *)result
-            readOnlyStepType:(ORKReadOnlyStepType)readOnlyStepType
-                       title:(nullable NSString *)title
-                  detailText:(nullable NSString *)detailText
-                    navTitle:(nullable NSString *)navTitle NS_DESIGNATED_INITIALIZER;
+- (void)setExpanded:(BOOL)isExpanded;
 
 @end
 
 NS_ASSUME_NONNULL_END
+

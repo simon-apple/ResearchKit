@@ -28,31 +28,32 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import "ORKReviewCardSection.h"
 
-NS_ASSUME_NONNULL_BEGIN
+#import "ORKReviewCard.h"
 
-typedef NS_ENUM(NSInteger, ORKReadOnlyStepType) {
-    ORKReadOnlyStepTypeFormStep,
-    ORKReadOnlyStepTypeSurveyStep,
-    ORKReadOnlyStepTypeFamilyHistoryStep
-} ORK_ENUM_AVAILABLE;
+#import <ResearchKit/ORKHelpers_Internal.h>
 
-@class ORKOrderedTask;
-@class ORKTaskResult;
+@implementation ORKReviewCardSection
 
-@interface ORKReadOnlyReviewViewController : UIViewController
++ (instancetype)new {
+    ORKThrowMethodUnavailableException();
+}
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
-- (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
+- (instancetype)init {
+    ORKThrowMethodUnavailableException();
+}
 
-- (instancetype)initWithTask:(ORKOrderedTask *)task
-                      result:(ORKTaskResult *)result
-            readOnlyStepType:(ORKReadOnlyStepType)readOnlyStepType
-                       title:(nullable NSString *)title
-                  detailText:(nullable NSString *)detailText
-                    navTitle:(nullable NSString *)navTitle NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithTitle:(nullable NSString *)title
+                  reviewCards:(NSArray<ORKReviewCard *> *)reviewCards {
+    self = [super init];
+    
+    if (self) {
+        _title = [title copy];
+        _reviewCards = [reviewCards copy];
+    }
+    
+    return self;
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

@@ -32,6 +32,8 @@
 		518E16E22C28A2F300F44B98 /* ORKCoreSerializationEntryProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16E12C28A2F300F44B98 /* ORKCoreSerializationEntryProvider.m */; };
 		518E16E42C29BD2000F44B98 /* jsonExamples in Resources */ = {isa = PBXBuildFile; fileRef = 518E16E32C29BD2000F44B98 /* jsonExamples */; };
 		518E16EF2C2F68A200F44B98 /* ORKESerialization+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16EE2C2F68A200F44B98 /* ORKESerialization+Helpers.m */; };
+		518E16CA2C248F5500F44B98 /* ORKESerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16C92C248F5500F44B98 /* ORKESerializer.m */; };
+		518E16D52C24DA2B00F44B98 /* TaskExamples in Resources */ = {isa = PBXBuildFile; fileRef = 518E16D42C24DA2B00F44B98 /* TaskExamples */; };
 		51AF19862B59F3A900D3B399 /* ORKKeychainWrapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AF19852B59F3A900D3B399 /* ORKKeychainWrapperTests.m */; };
 		51BD8FC729D3AE2E0001D54E /* Sentence1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC629D3AE2E0001D54E /* Sentence1.wav */; };
 		51C173282BA4B4E1006604FB /* sphere_model.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 51C173272BA4B4E1006604FB /* sphere_model.usdz */; };
@@ -58,6 +60,7 @@
 		8C7C54282B4F67E200A2E513 /* Springboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54272B4F67E200A2E513 /* Springboard.swift */; };
 		8C7C542A2B4F680B00A2E513 /* RequestPermissionsStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */; };
 		8C89CD592BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */; };
+		8CC4876B2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */; };
 		8CBA19C72BE14AF3000E7205 /* LocaleDependentBaseUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBA19C62BE14AF3000E7205 /* LocaleDependentBaseUITest.swift */; };
 		8CCB03732B86AA8A00096C86 /* UITestLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCB03722B86AA8A00096C86 /* UITestLogger.swift */; };
 		8CECC5EB2B978265002266B9 /* OnboardingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */; };
@@ -247,6 +250,9 @@
 		518E16E32C29BD2000F44B98 /* jsonExamples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = jsonExamples; sourceTree = "<group>"; };
 		518E16ED2C2F68A200F44B98 /* ORKESerialization+Helpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKESerialization+Helpers.h"; sourceTree = "<group>"; };
 		518E16EE2C2F68A200F44B98 /* ORKESerialization+Helpers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ORKESerialization+Helpers.m"; sourceTree = "<group>"; };
+		518E16C82C248F5500F44B98 /* ORKESerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKESerializer.h; sourceTree = "<group>"; };
+		518E16C92C248F5500F44B98 /* ORKESerializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKESerializer.m; sourceTree = "<group>"; };
+		518E16D42C24DA2B00F44B98 /* TaskExamples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TaskExamples; sourceTree = "<group>"; };
 		51AF19772B59F1E400D3B399 /* ORKCatalogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ORKCatalogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51AF19852B59F3A900D3B399 /* ORKKeychainWrapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKKeychainWrapperTests.m; sourceTree = "<group>"; };
 		51BD8FC629D3AE2E0001D54E /* Sentence1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Sentence1.wav; path = List1/Sentence1.wav; sourceTree = "<group>"; };
@@ -278,6 +284,7 @@
 		8C7C54272B4F67E200A2E513 /* Springboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Springboard.swift; sourceTree = "<group>"; };
 		8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPermissionsStepScreen.swift; sourceTree = "<group>"; };
 		8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsResultsUITests.swift; sourceTree = "<group>"; };
+		8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsHealthKitIntegrationUITests.swift; sourceTree = "<group>"; };
 		8CBA19C62BE14AF3000E7205 /* LocaleDependentBaseUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocaleDependentBaseUITest.swift; sourceTree = "<group>"; };
 		8CCB03722B86AA8A00096C86 /* UITestLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestLogger.swift; sourceTree = "<group>"; };
 		8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingUITests.swift; sourceTree = "<group>"; };
@@ -409,6 +416,9 @@
 				0B58E51B2981D293007263DA /* UserDefaultKeys.swift */,
 				0BE9D5172943E92700DA0625 /* ResearchKitView.swift */,
 				0B31EE4629887C4E00CD0D24 /* WrapperViewController.swift */,
+				518E16C82C248F5500F44B98 /* ORKESerializer.h */,
+				518E16C92C248F5500F44B98 /* ORKESerializer.m */,
+				518E16C72C248F5400F44B98 /* ORKCatalog-Bridging-Header.h */,
 			);
 			name = "Presenting Tasks";
 			sourceTree = "<group>";
@@ -602,6 +612,7 @@
 				8CECC6062B9A28FE002266B9 /* SwiftUIAdaptorUITests.swift */,
 				8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */,
 				8C7C54212B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift */,
+				8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */,
 				8C89CD572BCD08F000C61F8A /* ResultsUITests */,
 				8CD2A5ED2B7EC68C0078AB5F /* LaunchTasksUITests */,
 			);
@@ -668,6 +679,7 @@
 			isa = PBXGroup;
 			children = (
 				518E16E32C29BD2000F44B98 /* jsonExamples */,
+				518E16D42C24DA2B00F44B98 /* TaskExamples */,
 				51C173272BA4B4E1006604FB /* sphere_model.usdz */,
 				51BD8FC629D3AE2E0001D54E /* Sentence1.wav */,
 				0BEE14A5286BC6A9005F26D1 /* Scrubbers */,
@@ -919,6 +931,7 @@
 				5D3800B52459F4FF00E7D2BD /* PracticeList in Resources */,
 				B125E3D41B1BA47600FF8759 /* tap.aif in Resources */,
 				3E39B9FE1ABF683700C2ABE5 /* LaunchScreen.xib in Resources */,
+				518E16D52C24DA2B00F44B98 /* TaskExamples in Resources */,
 				5D1CE45123FB1DFE004CB416 /* List1 in Resources */,
 				5DB068EA25AE5940000F3170 /* TinnitusSounds1 in Resources */,
 				3ED967B81AC13D37007E2D83 /* Localizable.strings in Resources */,
@@ -958,6 +971,7 @@
 			files = (
 				0B58E51C2981D293007263DA /* UserDefaultKeys.swift in Sources */,
 				0BE9D51C2943F42600DA0625 /* SettingsView.swift in Sources */,
+				518E16CA2C248F5500F44B98 /* ORKESerializer.m in Sources */,
 				0B270D6C28D147AC0072BEA1 /* StudyPromoViewController.swift in Sources */,
 				518E16DA2C289AD100F44B98 /* ORKSerializationEntryProvider.m in Sources */,
 				51F210FE2B49D04F0072B536 /* TaskListRowConstants.swift in Sources */,
@@ -1007,6 +1021,7 @@
 				8CFF290B2AE9C051000DC99E /* XCTestCase.swift in Sources */,
 				8CFF29092AE9BEF9000DC99E /* XCUIElementQuery.swift in Sources */,
 				9622283B24F04DFE0056E74D /* CommonElements.swift in Sources */,
+				8CC4876B2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift in Sources */,
 				8C7C541D2B4F5CF900A2E513 /* Answers.swift in Sources */,
 				8CFF29182AE9C674000DC99E /* InstructionStepScreen.swift in Sources */,
 				8C67958C2BC3B09B00DE7286 /* TaskListRowConstants.swift in Sources */,

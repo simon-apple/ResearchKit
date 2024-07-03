@@ -11,7 +11,7 @@
  this list of conditions and the following disclaimer in the documentation and/or
  other materials provided with the distribution.
  
- 3.  Neither the name of the copyright holder(s) nor the names of any contributors
+ 3.  Neither the name of the copyriwght holder(s) nor the names of any contributors
  may be used to endorse or promote products derived from this software without
  specific prior written permission. No license is granted to the trademarks of
  the copyright holders even if such marks are included in this software.
@@ -28,30 +28,20 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, ORKReadOnlyStepType) {
-    ORKReadOnlyStepTypeFormStep,
-    ORKReadOnlyStepTypeSurveyStep,
-    ORKReadOnlyStepTypeFamilyHistoryStep
-} ORK_ENUM_AVAILABLE;
-
-@class ORKOrderedTask;
+@class ORKFamilyHistoryStep;
+@class ORKReviewCardSection;
 @class ORKTaskResult;
 
-@interface ORKReadOnlyReviewViewController : UIViewController
+@interface ORKFamilyHistoryResultModel : NSObject
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
-- (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
+- (instancetype)initWithFamilyHistorySteps:(NSArray<ORKFamilyHistoryStep *> *)familyHistorySteps
+                                taskResult:(ORKTaskResult *)taskResult;
 
-- (instancetype)initWithTask:(ORKOrderedTask *)task
-                      result:(ORKTaskResult *)result
-            readOnlyStepType:(ORKReadOnlyStepType)readOnlyStepType
-                       title:(nullable NSString *)title
-                  detailText:(nullable NSString *)detailText
-                    navTitle:(nullable NSString *)navTitle NS_DESIGNATED_INITIALIZER;
+- (NSArray<ORKReviewCardSection *> *)getReviewCards;
 
 @end
 

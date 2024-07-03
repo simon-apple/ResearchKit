@@ -243,3 +243,6 @@
 "SETTING_STATUS_STEP_TURNED_OFF" = "Turned Off";
 "SETTING_STATUS_STEP_GO_TO_SETTINGS" = "Go to Settings";
 "SETTING_STATUS_STEP_EDIT_SETTINGS" = "Edit Settings";
+
+/* Read Only View */
+"READ_ONLY_VIEW_NO_ANSWER" = "No answer";
