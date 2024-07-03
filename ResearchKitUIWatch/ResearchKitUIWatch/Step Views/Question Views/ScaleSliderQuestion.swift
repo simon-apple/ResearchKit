@@ -237,7 +237,7 @@ public struct ScaleSliderQuestionView: View {
     }
 
     public var body: some View {
-        TaskCardView(title: title, detail: detail) {
+        FormItemCardView(title: title, detail: detail) {
             scaleView(selectionConfiguration: scaleSelectionConfiguration)
                 .onChange(of: sliderUIValue) { oldValue, newValue in
                     switch selection {

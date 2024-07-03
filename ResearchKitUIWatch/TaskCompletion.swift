@@ -28,49 +28,10 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//
-import SwiftUI
-
-public struct TaskNavigationView: View {
-    @Environment(\.dismiss) var dismiss
-    @ObservedObject var viewModel: TaskViewModel
-    var onTaskCompletion: ((TaskCompletion) -> Void)?
-
-    public init(
-        viewModel: TaskViewModel,
-        onTaskCompletion: ((TaskCompletion) -> Void)? = nil
-    ) {
-        self.viewModel = viewModel
-        self.onTaskCompletion = onTaskCompletion
-    }
-
-    public var body: some View {
-        NavigationStack(path: $viewModel.stepCount) {
-            TaskStepContentView(
-                viewModel: viewModel,
-                path: 0,
-                onStepCompletion: { completion in
-                    if completion == .discarded {
-                        dismiss()
-                    } else {
-                        onTaskCompletion?(completion)
-                    }
-                }
-            )
-            .navigationDestination(for: Int.self) { path in
-                TaskStepContentView(
-                    viewModel: viewModel,
-                    path: path,
-                    onStepCompletion: { completion in
-                        if completion == .discarded {
-                            dismiss()
-                        } else {
-                            onTaskCompletion?(completion)
-                        }
-                    }
-                )
-            }
-        }
-    }
+public enum TaskCompletion {
+    case saved
+    case discarded
+    case completed
+    case failed
+    case terminated
 }
-
