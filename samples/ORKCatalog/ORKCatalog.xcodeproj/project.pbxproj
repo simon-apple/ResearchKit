@@ -28,7 +28,7 @@
 		3E39BA001ABF683F00C2ABE5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E39B9FF1ABF683F00C2ABE5 /* Images.xcassets */; };
 		3ED967B81AC13D37007E2D83 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3ED967BA1AC13D37007E2D83 /* Localizable.strings */; };
 		518E16DA2C289AD100F44B98 /* ORKSerializationEntryProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16D92C289AD100F44B98 /* ORKSerializationEntryProvider.m */; };
-		518E16DD2C289CAA00F44B98 /* ORKESerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16DC2C289CAA00F44B98 /* ORKESerialization.m */; };
+		518E16DD2C289CAA00F44B98 /* ORKIESerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16DC2C289CAA00F44B98 /* ORKIESerializer.m */; };
 		518E16E22C28A2F300F44B98 /* ORKCoreSerializationEntryProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16E12C28A2F300F44B98 /* ORKCoreSerializationEntryProvider.m */; };
 		518E16E42C29BD2000F44B98 /* jsonExamples in Resources */ = {isa = PBXBuildFile; fileRef = 518E16E32C29BD2000F44B98 /* jsonExamples */; };
 		518E16EF2C2F68A200F44B98 /* ORKESerialization+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16EE2C2F68A200F44B98 /* ORKESerialization+Helpers.m */; };
@@ -240,8 +240,8 @@
 		518E16D72C289AD100F44B98 /* ORKCatalog-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKCatalog-Bridging-Header.h"; sourceTree = "<group>"; };
 		518E16D82C289AD100F44B98 /* ORKSerializationEntryProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSerializationEntryProvider.h; sourceTree = "<group>"; };
 		518E16D92C289AD100F44B98 /* ORKSerializationEntryProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSerializationEntryProvider.m; sourceTree = "<group>"; };
-		518E16DB2C289CAA00F44B98 /* ORKESerialization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKESerialization.h; sourceTree = "<group>"; };
-		518E16DC2C289CAA00F44B98 /* ORKESerialization.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKESerialization.m; sourceTree = "<group>"; };
+		518E16DB2C289CAA00F44B98 /* ORKIESerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIESerializer.h; sourceTree = "<group>"; };
+		518E16DC2C289CAA00F44B98 /* ORKIESerializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIESerializer.m; sourceTree = "<group>"; };
 		518E16E02C28A2F300F44B98 /* ORKCoreSerializationEntryProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKCoreSerializationEntryProvider.h; sourceTree = "<group>"; };
 		518E16E12C28A2F300F44B98 /* ORKCoreSerializationEntryProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKCoreSerializationEntryProvider.m; sourceTree = "<group>"; };
 		518E16E32C29BD2000F44B98 /* jsonExamples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = jsonExamples; sourceTree = "<group>"; };
@@ -428,21 +428,21 @@
 			isa = PBXGroup;
 			children = (
 				518E16DF2C28A2AF00F44B98 /* Serialization Entry Providers */,
-				518E16DE2C28A29E00F44B98 /* Serializer */,
+				518E16DE2C28A29E00F44B98 /* RefactoredSerializer */,
 				518E16D72C289AD100F44B98 /* ORKCatalog-Bridging-Header.h */,
 			);
 			path = Serializer;
 			sourceTree = "<group>";
 		};
-		518E16DE2C28A29E00F44B98 /* Serializer */ = {
+		518E16DE2C28A29E00F44B98 /* RefactoredSerializer */ = {
 			isa = PBXGroup;
 			children = (
-				518E16DB2C289CAA00F44B98 /* ORKESerialization.h */,
-				518E16DC2C289CAA00F44B98 /* ORKESerialization.m */,
+				518E16DB2C289CAA00F44B98 /* ORKIESerializer.h */,
+				518E16DC2C289CAA00F44B98 /* ORKIESerializer.m */,
 				518E16ED2C2F68A200F44B98 /* ORKESerialization+Helpers.h */,
 				518E16EE2C2F68A200F44B98 /* ORKESerialization+Helpers.m */,
 			);
-			path = Serializer;
+			path = RefactoredSerializer;
 			sourceTree = "<group>";
 		};
 		518E16DF2C28A2AF00F44B98 /* Serialization Entry Providers */ = {
@@ -975,7 +975,7 @@
 				BC9A27351B82740D00BDA84D /* TaskListViewController.swift in Sources */,
 				BC9A27341B82740D00BDA84D /* TaskListRow.swift in Sources */,
 				51F210EF2B4634FC0072B536 /* TaskListRowSteps.swift in Sources */,
-				518E16DD2C289CAA00F44B98 /* ORKESerialization.m in Sources */,
+				518E16DD2C289CAA00F44B98 /* ORKIESerializer.m in Sources */,
 				518E16EF2C2F68A200F44B98 /* ORKESerialization+Helpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

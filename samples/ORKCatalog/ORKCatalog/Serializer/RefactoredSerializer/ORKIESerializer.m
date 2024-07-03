@@ -31,7 +31,7 @@
  */
 
 
-#import "ORKESerialization.h"
+#import "ORKIESerializer.h"
 
 #import "ORKESerialization+Helpers.h"
 #import "ORKSerializationEntryProvider.h"
@@ -434,7 +434,7 @@ NSCAssert(index != NSNotFound, @"Expected valid entry from table %@", table); \
 return @(index); \
 }
 
-@implementation ORKESerializer {
+@implementation ORKIESerializer {
     NSArray<ORKSerializationEntryProvider *> *_entryProviders;
 }
 

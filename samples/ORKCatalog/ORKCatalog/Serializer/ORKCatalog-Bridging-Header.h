@@ -5,5 +5,5 @@
 
 #import "ORKSerializationEntryProvider.h"
 #import "ORKCoreSerializationEntryProvider.h"
-#import "ORKESerialization.h"
+#import "ORKIESerializer.h"
 #import "ORKESerialization+Helpers.h"

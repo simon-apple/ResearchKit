@@ -2332,7 +2332,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path))
                 
                 let coreEntryProvider = ORKCoreSerializationEntryProvider()
-                let serializer = ORKESerializer(entryProviders: [coreEntryProvider])
+                let serializer = ORKIESerializer(entryProviders: [coreEntryProvider])
                 
                 if let task = serializer.object(fromJSONData: data, error: nil) as? ORKNavigableOrderedTask {
                     return task

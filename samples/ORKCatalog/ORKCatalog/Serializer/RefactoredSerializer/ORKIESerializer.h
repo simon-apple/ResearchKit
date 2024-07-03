@@ -35,7 +35,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKESerializer : NSObject
+@interface ORKIESerializer : NSObject
 
 - (instancetype)initWithEntryProviders:(NSArray<ORKSerializationEntryProvider *> *)entryProviders;
 
