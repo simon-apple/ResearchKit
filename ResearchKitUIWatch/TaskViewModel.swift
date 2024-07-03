@@ -32,15 +32,27 @@
 import SwiftUI
 
 public class TaskViewModel: ObservableObject {
-    @Published var stepCount: [Int] = []
+    @Published var stepIdentifiers: [String] = []
     @Published var steps: [TaskStep] = []
 
     public init(
-        stepCount: [Int],
+        stepIdentifiers: [String],
         steps: [TaskStep]
     ) {
-        self.stepCount = stepCount
+        self.stepIdentifiers = stepIdentifiers
         self.steps = steps
+    }
+
+    func isLastStep(_ step: TaskStep) -> Bool {
+        step.id == steps.last?.id
+    }
+
+    func index(for identifier: String) -> Int {
+        steps.firstIndex(where: { $0.id.uuidString == identifier }) ?? 0
+    }
+
+    func step(for identifier: String) -> TaskStep? {
+        steps.first { $0.id.uuidString == identifier }
     }
 }
 

@@ -36,14 +36,14 @@ public struct TaskStepContentView<Content: View>: View {
 
     let title: String?
     let subtitle: String?
-    let path: Int
+    let path: String
     let isLastStep: Bool
     var onStepCompletion: ((TaskCompletion) -> Void)?
 
     init(
         title: String?,
         subtitle: String?,
-        path: Int,
+        path: String,
         isLastStep: Bool,
         onStepCompletion: ((TaskCompletion) -> Void)? = nil,
         @ViewBuilder content: () -> Content

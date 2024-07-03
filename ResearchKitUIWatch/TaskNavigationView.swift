@@ -45,17 +45,18 @@ public struct TaskNavigationView: View {
     }
 
     public var body: some View {
-        NavigationStack(path: $viewModel.stepCount) {
+        NavigationStack(path: $viewModel.stepIdentifiers) {
             TaskStepContentView(
                 title: viewModel.steps[0].title,
                 subtitle: viewModel.steps[0].subtitle,
-                path: 0,
+                path: viewModel.steps[0].id.uuidString,
                 isLastStep: 0 == (viewModel.steps.count - 1),
                 onStepCompletion: { completion in
                     if completion == .discarded {
                         dismiss()
                     } else if completion == .saved {
-                        viewModel.stepCount.append(1)
+                        let nextStep = viewModel.steps[1]
+                        viewModel.stepIdentifiers.append(nextStep.id.uuidString)
                     } else {
                         onTaskCompletion?(completion)
                     }
@@ -67,28 +68,32 @@ public struct TaskNavigationView: View {
                 }
             )
             .navigationTitle("1 of \(viewModel.steps.count)")
-            .navigationDestination(for: Int.self) { path in
-                TaskStepContentView(
-                    title: viewModel.steps[path].title,
-                    subtitle: viewModel.steps[path].subtitle,
-                    path: path,
-                    isLastStep: path == (viewModel.steps.count - 1),
-                    onStepCompletion: { completion in
-                        if completion == .discarded {
-                            dismiss()
-                        } else if completion == .saved {
-                            viewModel.stepCount.append(path + 1)
-                        } else {
-                            onTaskCompletion?(completion)
+            .navigationDestination(for: String.self) { path in
+                if let step = viewModel.step(for: path) {
+                    let index = viewModel.index(for: step.id.uuidString)
+                    TaskStepContentView(
+                        title: step.title,
+                        subtitle: step.subtitle,
+                        path: path,
+                        isLastStep: viewModel.isLastStep(step),
+                        onStepCompletion: { completion in
+                            if completion == .discarded {
+                                dismiss()
+                            } else if completion == .saved {
+                                let nextStep = viewModel.steps[index + 1]
+                                viewModel.stepIdentifiers.append(nextStep.id.uuidString)
+                            } else {
+                                onTaskCompletion?(completion)
+                            }
+                        },
+                        content: {
+                            ForEach($viewModel.steps[index].items) { $row in
+                                FormRowContent(detail: nil, formRow: $row)
+                            }
                         }
-                    },
-                    content: {
-                        ForEach($viewModel.steps[path].items) { $row in
-                            FormRowContent(detail: nil, formRow: $row)
-                        }
-                    }
-                )
-                .navigationTitle("\(path + 1) of \(viewModel.steps.count)")
+                    )
+                    .navigationTitle("\(index + 1) of \(viewModel.steps.count)")
+                }
             }
         }
     }
