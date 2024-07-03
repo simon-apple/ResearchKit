@@ -81,6 +81,7 @@ public struct FormRowContent: View {
                         ScaleSliderQuestion(
                             id: doubleSliderQuestion.id,
                             title: doubleSliderQuestion.title,
+                            step: doubleSliderQuestion.step,
                             range: doubleSliderQuestion.range,
                             value: newValue
                         )

@@ -47,28 +47,48 @@ public struct TaskNavigationView: View {
     public var body: some View {
         NavigationStack(path: $viewModel.stepCount) {
             TaskStepContentView(
-                viewModel: viewModel,
+                title: viewModel.steps[0].title,
+                subtitle: viewModel.steps[0].subtitle,
                 path: 0,
+                isLastStep: 0 == (viewModel.steps.count - 1),
                 onStepCompletion: { completion in
                     if completion == .discarded {
                         dismiss()
+                    } else if completion == .saved {
+                        viewModel.stepCount.append(1)
                     } else {
                         onTaskCompletion?(completion)
                     }
+                },
+                content: {
+                    ForEach($viewModel.steps[0].items) { $row in
+                        FormRowContent(detail: nil, formRow: $row)
+                    }
                 }
             )
+            .navigationTitle("1 of \(viewModel.steps.count)")
             .navigationDestination(for: Int.self) { path in
                 TaskStepContentView(
-                    viewModel: viewModel,
+                    title: viewModel.steps[path].title,
+                    subtitle: viewModel.steps[path].subtitle,
                     path: path,
+                    isLastStep: path == (viewModel.steps.count - 1),
                     onStepCompletion: { completion in
                         if completion == .discarded {
                             dismiss()
+                        } else if completion == .saved {
+                            viewModel.stepCount.append(path + 1)
                         } else {
                             onTaskCompletion?(completion)
                         }
+                    },
+                    content: {
+                        ForEach($viewModel.steps[path].items) { $row in
+                            FormRowContent(detail: nil, formRow: $row)
+                        }
                     }
                 )
+                .navigationTitle("\(path + 1) of \(viewModel.steps.count)")
             }
         }
     }

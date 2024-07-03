@@ -31,33 +31,45 @@
 
 import SwiftUI
 
-public struct TaskStepContentView: View {
-    @ObservedObject
-    var viewModel: TaskViewModel
+public struct TaskStepContentView<Content: View>: View {
+    private let content: Content
 
+    let title: String?
+    let subtitle: String?
     let path: Int
+    let isLastStep: Bool
     var onStepCompletion: ((TaskCompletion) -> Void)?
 
-    var isLastStep: Bool {
-        path == (viewModel.steps.count - 1)
+    init(
+        title: String?,
+        subtitle: String?,
+        path: Int,
+        isLastStep: Bool,
+        onStepCompletion: ((TaskCompletion) -> Void)? = nil,
+        @ViewBuilder content: () -> Content
+    ) {
+        self.title = title
+        self.subtitle = subtitle
+        self.path = path
+        self.isLastStep = isLastStep
+        self.onStepCompletion = onStepCompletion
+        self.content = content()
     }
 
     public var body: some View {
         StickyScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                if let title = viewModel.steps[path].title {
+                if let title {
                     Text(title)
                         .font(.title)
                         .fontWeight(.bold)
                 }
 
-                if let subtitle = viewModel.steps[path].subtitle {
+                if let subtitle {
                     Text(subtitle)
                 }
 
-                ForEach($viewModel.steps[path].items) { $row in
-                    FormRowContent(detail: nil, formRow: $row)
-                }
+                content
             }
             .padding()
             .toolbar {
@@ -74,7 +86,7 @@ public struct TaskStepContentView: View {
                 if isLastStep {
                     onStepCompletion?(.completed)
                 } else {
-                    viewModel.stepCount.append(path + 1)
+                    onStepCompletion?(.saved)
                 }
             } label: {
                 Text(isLastStep ? "Done" : "Next")
@@ -85,7 +97,6 @@ public struct TaskStepContentView: View {
             .buttonStyle(.borderedProminent)
         }
         .background(Color(uiColor: .secondarySystemBackground))
-        .navigationTitle("\(path + 1) of \(viewModel.steps.count)")
         .navigationBarTitleDisplayMode(.inline)
     }
 
