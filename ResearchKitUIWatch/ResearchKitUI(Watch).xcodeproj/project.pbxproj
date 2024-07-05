@@ -138,7 +138,7 @@
 		0B7213472B4F39A500463E69 /* Step Views */ = {
 			isa = PBXGroup;
 			children = (
-				386ABFBF2C2F80380006B84D /* Helpers */,
+				386ABFBF2C2F80380006B84D /* Question Models */,
 				E4DBF1B22B97C27E0085D6A1 /* Question Views */,
 				0B72132C2B4F368600463E69 /* DefaultStepView.swift */,
 				0B7213412B4F396B00463E69 /* CompletionStepView.swift */,
@@ -189,13 +189,13 @@
 			path = ResearchKitUIWatch;
 			sourceTree = "<group>";
 		};
-		386ABFBF2C2F80380006B84D /* Helpers */ = {
+		386ABFBF2C2F80380006B84D /* Question Models */ = {
 			isa = PBXGroup;
 			children = (
 				386ABFC32C2F80D90006B84D /* ScaleSliderQuestion.swift */,
 				386ABFBD2C2F80060006B84D /* MultipleChoiceQuestion.swift */,
 			);
-			path = Helpers;
+			path = "Question Models";
 			sourceTree = "<group>";
 		};
 		5E05B53B2C2E134900A0A83B /* SwiftUIKit */ = {
