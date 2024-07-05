@@ -60,7 +60,7 @@ public enum FormRow: Identifiable {
         }
     }
 
-    var title: String {
+    public var title: String {
         let title: String
         switch self {
         case .multipleChoiceRow(let multipleChoiceValue):

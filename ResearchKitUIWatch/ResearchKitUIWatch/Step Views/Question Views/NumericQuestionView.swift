@@ -63,7 +63,7 @@ public struct NumericQuestionView<Header: View>: View {
     @FocusState private var isFocused: Bool
     
     public var body: some View {
-        TaskCardView(
+        FormItemCardView(
             header: {
                 header
             },
@@ -89,7 +89,7 @@ public struct NumericQuestionView<Header: View>: View {
     
 }
 
-public extension NumericQuestionView where Header == _SimpleTaskViewHeader {
+public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
     
     init(
         text: Binding<Decimal?>,
@@ -98,7 +98,7 @@ public extension NumericQuestionView where Header == _SimpleTaskViewHeader {
         prompt: String?
     ) {
         self._text = text
-        header = _SimpleTaskViewHeader(title: title, detail: detail)
+        header = _SimpleFormItemViewHeader(title: title, detail: detail)
         self.prompt = prompt
     }
     

@@ -55,7 +55,7 @@ public struct DateTimeView<Header: View>: View {
     }
 
     public var body: some View {
-        TaskCardView {
+        FormItemCardView {
             header
         } content: {
             DatePicker(
@@ -71,7 +71,7 @@ public struct DateTimeView<Header: View>: View {
     }
 }
 
-public extension DateTimeView where Header == _SimpleTaskViewHeader {
+public extension DateTimeView where Header == _SimpleFormItemViewHeader {
     init(
         title: String,
         detail: String?,
@@ -80,7 +80,7 @@ public extension DateTimeView where Header == _SimpleTaskViewHeader {
         displayedComponents: DatePicker.Components,
         range: ClosedRange<Date>
     ) {
-        self.header = _SimpleTaskViewHeader(title: title, detail: detail)
+        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
         self._selection = selection
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents

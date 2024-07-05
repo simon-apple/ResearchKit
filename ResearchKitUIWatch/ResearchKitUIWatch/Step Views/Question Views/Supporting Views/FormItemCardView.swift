@@ -32,7 +32,7 @@ import SwiftUI
 
 /// A card that displays a header view, a divider line, and an answer view.
 
-public struct TaskCardView<Header: View, Content: View>: View {
+public struct FormItemCardView<Header: View, Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
     let header: Header
     let content: Content
@@ -79,45 +79,47 @@ struct CardColor: ShapeStyle {
     
 }
 
-public extension TaskCardView where Header == _SimpleTaskViewHeader {
+public extension FormItemCardView where Header == _SimpleFormItemViewHeader {
     init(
         title: String,
         detail: String?,
         content: () -> Content
     ) {
-        self.header = _SimpleTaskViewHeader(title: title, detail: detail)
+        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
         self.content = content()
     }
 }
 
-/// The default header used by a `TaskCardView`
-public struct _SimpleTaskViewHeader: View {
+/// The default header used by a `FormItemCardView`
+public struct _SimpleFormItemViewHeader: View {
 
     let title: String
     let detail: String?
 
     public var body: some View {
-        if let detail {
-            Text(detail)
-                .foregroundColor(.secondary)
-                .font(.footnote)
-                .fontWeight(.bold)
-                .padding([.horizontal, .top])
-        }
+        VStack(alignment: .leading) {
+            if let detail {
+                Text(detail)
+                    .foregroundColor(.secondary)
+                    .font(.footnote)
+                    .fontWeight(.bold)
+                    .padding([.horizontal, .top])
+            }
 
-        Text(title)
-            .foregroundStyle(Color(.label))
-            .font(.body)
-            .fontWeight(.bold)
-            .padding()
+            Text(title)
+                .foregroundStyle(Color(.label))
+                .font(.body)
+                .fontWeight(.bold)
+                .padding()
+        }
     }
 }
 
-struct TaskCardView_Previews: PreviewProvider {
+struct FormItemCardView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             Spacer()
-            TaskCardView(title: "What is your name?", detail: "Question 1 of 3") {
+            FormItemCardView(title: "What is your name?", detail: "Question 1 of 3") {
                 Text("Specific component content will show up here")
             }
             Spacer()
