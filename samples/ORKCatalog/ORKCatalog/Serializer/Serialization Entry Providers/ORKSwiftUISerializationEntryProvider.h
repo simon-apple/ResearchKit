@@ -1,7 +1,7 @@
-//  ORKCoreSerializationEntryProvider.h
+//  ORKSwiftUISerializationEntryProvider.h
 //  ORKCatalog
 //
-//  Created by Pariece Mckinney on 6/23/24.
+//  Created by Pariece Mckinney on 7/5/24.
 //  Copyright © 2024 researchkit.org. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKCoreSerializationEntryProvider : ORKSerializationEntryProvider
+@interface ORKSwiftUISerializationEntryProvider : ORKSerializationEntryProvider
 
 @end
 
