@@ -181,6 +181,10 @@ typedef _Nullable id (^ORKESerializationJSONToObjectBlock)(id jsonObject, ORKESe
 
 + (ORKMeasurementSystem)ORKMeasurementSystemFromString:(NSString *)string;
 
++ (NSString *)ORKEStringFromDateISO8601:(NSDate *)date;
+
++ (NSDate *)ORKEDateFromStringISO8601:(NSString *)string;
+
 @end
 
 NS_ASSUME_NONNULL_END

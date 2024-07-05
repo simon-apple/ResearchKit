@@ -355,4 +355,26 @@ static NSString *_ClassKey = @"_class";
     return [self tableMapReverseWithValue:string table:[self ORKMeasurementSystemTable]];
 }
 
++ (NSString *)ORKEStringFromDateISO8601:(NSDate *)date {
+    static NSDateFormatter *formatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+        [formatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"]];
+    });
+    return [formatter stringFromDate:date];
+}
+
++ (NSDate *)ORKEDateFromStringISO8601:(NSString *)string {
+    static NSDateFormatter *formatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+        [formatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"]];
+    });
+    return [formatter dateFromString:string];
+}
+
 @end

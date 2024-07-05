@@ -1,6 +1,6 @@
 {
-    "_class": "ORKNavigableOrderedTask",
-    "identifier": "demographicsExampleTask",
+    "_class": "ORKOrderedTask",
+    "identifier": "SwiftUIExampleTask",
     "steps": [
         {
             "_class": "ORKInstructionStep",

@@ -7,4 +7,4 @@
 #import "ORKCoreSerializationEntryProvider.h"
 #import "ORKIESerializer.h"
 #import "ORKESerialization+Helpers.h"
-#import "ORKESerializer.h"
+#import "ORKSwiftUISerializationEntryProvider.h"

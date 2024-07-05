@@ -445,18 +445,18 @@
                     PROPERTY(questionType, NSNumber, NSObject, NO, nil, nil),
                     PROPERTY(noAnswerType, ORKNoAnswer, NSObject, NO, nil, nil)
                     })),
-//           ENTRY(ORKResult,
-//                 nil,
-//                 (@{
-//                    PROPERTY(identifier, NSString, NSObject, NO, nil, nil),
-//                    PROPERTY(startDate, NSDate, NSObject, YES,
-//                             ^id(id date, __unused ORKESerializationContext *context) { return ORKEStringFromDateISO8601(date); },
-//                             ^id(id string, __unused ORKESerializationContext *context) { return ORKEDateFromStringISO8601(string); }),
-//                    PROPERTY(endDate, NSDate, NSObject, YES,
-//                             ^id(id date, __unused ORKESerializationContext *context) { return ORKEStringFromDateISO8601(date); },
-//                             ^id(id string, __unused ORKESerializationContext *context) { return ORKEDateFromStringISO8601(string); }),
-//                    PROPERTY(userInfo, NSDictionary, NSObject, YES, nil, nil)
-//                    })),
+           ENTRY(ORKResult,
+                 nil,
+                 (@{
+                    PROPERTY(identifier, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(startDate, NSDate, NSObject, YES,
+                             ^id(id date, __unused ORKESerializationContext *context) { return [ORKESerializerHelper ORKEStringFromDateISO8601:date]; },
+                             ^id(id string, __unused ORKESerializationContext *context) { return [ORKESerializerHelper ORKEDateFromStringISO8601:string]; }),
+                    PROPERTY(endDate, NSDate, NSObject, YES,
+                             ^id(id date, __unused ORKESerializationContext *context) { return [ORKESerializerHelper ORKEStringFromDateISO8601:date]; },
+                             ^id(id string, __unused ORKESerializationContext *context) { return [ORKESerializerHelper ORKEDateFromStringISO8601:string]; }),
+                    PROPERTY(userInfo, NSDictionary, NSObject, YES, nil, nil)
+                    })),
         } mutableCopy];
 
     return internalEncodingTable;
