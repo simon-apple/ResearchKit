@@ -28,78 +28,47 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Foundation
+
 import SwiftUI
 
-public struct NumericQuestion: Identifiable {
-    
-    public let id: String
-    public let title: String
-    public let detail: String?
-    public let prompt: String
-    public let number: NSNumber?
-    
+public class TaskViewModel: ObservableObject {
+    @Published var stepIdentifiers: [String] = []
+    @Published var steps: [TaskStep] = []
+
     public init(
-        id: String,
-        title: String,
-        detail: String?,
-        prompt: String,
-        number: NSNumber?
+        stepIdentifiers: [String],
+        steps: [TaskStep]
     ) {
-        self.id = id
+        self.stepIdentifiers = stepIdentifiers
+        self.steps = steps
+    }
+
+    func isLastStep(_ step: TaskStep) -> Bool {
+        step.id == steps.last?.id
+    }
+
+    func index(for identifier: String) -> Int {
+        steps.firstIndex(where: { $0.id.uuidString == identifier }) ?? 0
+    }
+
+    func step(for identifier: String) -> TaskStep? {
+        steps.first { $0.id.uuidString == identifier }
+    }
+}
+
+public struct TaskStep: Identifiable {
+    public let id: UUID = UUID()
+    let title: String?
+    let subtitle: String?
+    var items: [FormRow]
+
+    public init(
+        title: String?,
+        subtitle: String?,
+        items: [FormRow]
+    ) {
         self.title = title
-        self.detail = detail
-        self.prompt = prompt
-        self.number = number
+        self.subtitle = subtitle
+        self.items = items
     }
-    
-}
-
-public struct NumericQuestionView<Header: View>: View {
-    
-    @Binding var text: Decimal?
-    private let header: Header
-    private let prompt: String?
-    @FocusState private var isFocused: Bool
-    
-    public var body: some View {
-        FormItemCardView(
-            header: {
-                header
-            },
-            content: {
-                TextField("", value: $text, format: .number, prompt: placeholder)
-                    .keyboardType(.decimalPad)
-                    .focused($isFocused)
-                    .doneKeyboardToolbar {
-                        isFocused = false
-                    }
-                    .padding()
-            }
-        )
-    }
-    
-    private var placeholder: Text? {
-        if let prompt {
-            return Text(prompt)
-        }
-
-        return nil
-    }
-    
-}
-
-public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
-    
-    init(
-        text: Binding<Decimal?>,
-        title: String,
-        detail: String?,
-        prompt: String?
-    ) {
-        self._text = text
-        header = _SimpleFormItemViewHeader(title: title, detail: detail)
-        self.prompt = prompt
-    }
-    
 }

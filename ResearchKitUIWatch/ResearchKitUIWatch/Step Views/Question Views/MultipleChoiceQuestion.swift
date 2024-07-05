@@ -95,7 +95,7 @@ public struct MultipleChoiceQuestionView: View {
     }
 
     public var body: some View {
-        TaskCardView(title: title, detail: detail) {
+        FormItemCardView(title: title, detail: detail) {
             ForEach(Array(choices.enumerated()), id: \.offset) { index, option in
                 VStack(spacing: .zero) {
                     if index != 0 {

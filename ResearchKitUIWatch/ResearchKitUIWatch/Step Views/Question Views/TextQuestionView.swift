@@ -114,7 +114,7 @@ public struct TextQuestionView<Header: View>: View {
     }
 
     public var body: some View {
-        TaskCardView {
+        FormItemCardView {
             header
         } content: {
             VStack {
@@ -124,7 +124,7 @@ public struct TextQuestionView<Header: View>: View {
                     .contentShape(Rectangle())
 
                 HStack {
-                    if !hideCharacterCountLabel {
+                    if hideCharacterCountLabel == false {
                         Text("\(text.count)/\(characterLimit)")
                     }
                     Spacer()
@@ -158,7 +158,7 @@ public struct TextQuestionView<Header: View>: View {
     }
 }
 
-public extension TextQuestionView where Header == _SimpleTaskViewHeader {
+public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
     init(
         text: Binding<String>,
         title: String,
@@ -169,7 +169,7 @@ public extension TextQuestionView where Header == _SimpleTaskViewHeader {
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false
     ) {
-        self.header = _SimpleTaskViewHeader(title: title, detail: detail)
+        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
         self._text = text
         self.prompt = prompt
         self.textFieldType = textFieldType
@@ -187,7 +187,8 @@ struct TextQuestionView_Previews: PreviewProvider {
             detail: nil,
             prompt: "Tap to write",
             textFieldType: .multiline,
-            characterLimit: 10
+            characterLimit: 10,
+            hideCharacterCountLabel: true
         )
     }
 }
