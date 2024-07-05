@@ -97,7 +97,7 @@ public struct _SimpleFormItemViewHeader: View {
     let detail: String?
 
     public var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             if let detail {
                 Text(detail)
                     .foregroundColor(.secondary)
