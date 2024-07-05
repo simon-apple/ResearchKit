@@ -30,43 +30,6 @@
 
 import SwiftUI
 
-public struct MultipleChoiceOption: Identifiable {
-    public var id: String
-    var choiceText: String
-
-    public init(id: String, choiceText: String) {
-        self.id = id
-        self.choiceText = choiceText
-    }
-}
-
-public struct MultipleChoiceQuestion: Identifiable {
-
-    public var title: String?
-    public var id: String
-    public var choices: [MultipleChoiceOption]
-    public var result: [MultipleChoiceOption]
-    public var selectionType: ChoiceSelectionType
-
-    public init(
-        id: ID,
-        title: String?,
-        choices: [MultipleChoiceOption],
-        result: [MultipleChoiceOption] = [],
-        selectionType: ChoiceSelectionType
-    ) {
-        self.title = title
-        self.id = id
-        self.choices = choices
-        self.result = result
-        self.selectionType = selectionType
-    }
-
-    public enum ChoiceSelectionType {
-        case single, multiple
-    }
-}
-
 // TODO(rdar://129033515): Update name of this module to reflect just the choice options without the header.
 public struct MultipleChoiceQuestionView: View {
 
@@ -132,5 +95,28 @@ public struct MultipleChoiceQuestionView: View {
                 result.append(option)
             }
         }
+    }
+}
+
+struct MultipleChoiceQuestionView_Previews: PreviewProvider {
+
+    static var previews: some View {
+        ZStack {
+            Color(uiColor: .secondarySystemBackground)
+                .ignoresSafeArea()
+
+            MultipleChoiceQuestionView(
+                title: "Which do you prefer?",
+                choices: [
+                    MultipleChoiceOption(id: "a", choiceText: "Option A"),
+                    MultipleChoiceOption(id: "b", choiceText: "Option B"),
+                    MultipleChoiceOption(id: "c", choiceText: "Option C")
+            ],
+                selectionType: .multiple,
+                result: .constant([MultipleChoiceOption(id: "a", choiceText: "Option A")])
+            )
+            .padding(.horizontal)
+        }
+
     }
 }
