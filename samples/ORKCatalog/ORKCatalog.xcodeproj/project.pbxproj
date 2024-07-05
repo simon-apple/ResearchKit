@@ -34,6 +34,7 @@
 		518E16E42C29BD2000F44B98 /* jsonExamples in Resources */ = {isa = PBXBuildFile; fileRef = 518E16E32C29BD2000F44B98 /* jsonExamples */; };
 		518E16EF2C2F68A200F44B98 /* ORKESerialization+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16EE2C2F68A200F44B98 /* ORKESerialization+Helpers.m */; };
 		519CE7792C386945003BB584 /* ORKSwiftUISerializationEntryProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 519CE7782C386945003BB584 /* ORKSwiftUISerializationEntryProvider.m */; };
+		519CE77C2C388A16003BB584 /* ORKESerializer+SwiftUIEntryProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 519CE77B2C388A16003BB584 /* ORKESerializer+SwiftUIEntryProvider.m */; };
 		51AF19862B59F3A900D3B399 /* ORKKeychainWrapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AF19852B59F3A900D3B399 /* ORKKeychainWrapperTests.m */; };
 		51BD8FC729D3AE2E0001D54E /* Sentence1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC629D3AE2E0001D54E /* Sentence1.wav */; };
 		51C173282BA4B4E1006604FB /* sphere_model.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 51C173272BA4B4E1006604FB /* sphere_model.usdz */; };
@@ -253,6 +254,8 @@
 		518E16EE2C2F68A200F44B98 /* ORKESerialization+Helpers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ORKESerialization+Helpers.m"; sourceTree = "<group>"; };
 		519CE7772C386945003BB584 /* ORKSwiftUISerializationEntryProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSwiftUISerializationEntryProvider.h; sourceTree = "<group>"; };
 		519CE7782C386945003BB584 /* ORKSwiftUISerializationEntryProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSwiftUISerializationEntryProvider.m; sourceTree = "<group>"; };
+		519CE77A2C388A16003BB584 /* ORKESerializer+SwiftUIEntryProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKESerializer+SwiftUIEntryProvider.h"; sourceTree = "<group>"; };
+		519CE77B2C388A16003BB584 /* ORKESerializer+SwiftUIEntryProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ORKESerializer+SwiftUIEntryProvider.m"; sourceTree = "<group>"; };
 		51AF19772B59F1E400D3B399 /* ORKCatalogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ORKCatalogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51AF19852B59F3A900D3B399 /* ORKKeychainWrapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKKeychainWrapperTests.m; sourceTree = "<group>"; };
 		51BD8FC629D3AE2E0001D54E /* Sentence1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Sentence1.wav; path = List1/Sentence1.wav; sourceTree = "<group>"; };
@@ -448,6 +451,8 @@
 				518E16DC2C289CAA00F44B98 /* ORKIESerializer.m */,
 				518E16ED2C2F68A200F44B98 /* ORKESerialization+Helpers.h */,
 				518E16EE2C2F68A200F44B98 /* ORKESerialization+Helpers.m */,
+				519CE77A2C388A16003BB584 /* ORKESerializer+SwiftUIEntryProvider.h */,
+				519CE77B2C388A16003BB584 /* ORKESerializer+SwiftUIEntryProvider.m */,
 			);
 			path = RefactoredSerializer;
 			sourceTree = "<group>";
@@ -969,6 +974,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0B58E51C2981D293007263DA /* UserDefaultKeys.swift in Sources */,
+				519CE77C2C388A16003BB584 /* ORKESerializer+SwiftUIEntryProvider.m in Sources */,
 				0BE9D51C2943F42600DA0625 /* SettingsView.swift in Sources */,
 				0B270D6C28D147AC0072BEA1 /* StudyPromoViewController.swift in Sources */,
 				518E16DA2C289AD100F44B98 /* ORKSerializationEntryProvider.m in Sources */,

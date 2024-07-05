@@ -2377,10 +2377,10 @@ enum TaskListRow: Int, CustomStringConvertible {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path))
                 
-                let swiftUIEntryProvider = ORKSwiftUISerializationEntryProvider()
-                let serializer = ORKIESerializer(entryProviders: [swiftUIEntryProvider])
-                
-                if let task = serializer.object(fromJSONData: data, error: nil) as? ORKOrderedTask {
+                //let swiftUIEntryProvider = ORKSwiftUISerializationEntryProvider()
+                //let serializer = ORKIESerializer(entryProviders: [swiftUIEntryProvider])
+               
+                if let task = ORKIESerializer.swiftUI_object(fromJSONData: data, error: nil) as? ORKOrderedTask {
                     return task
                 }
             } catch {
