@@ -34,23 +34,23 @@ import SwiftUI
 public struct TaskStepContentView<Content: View>: View {
     private let content: Content
 
+    let image: Image?
     let title: String?
     let subtitle: String?
-    let path: String
     let isLastStep: Bool
     var onStepCompletion: ((TaskCompletion) -> Void)?
 
     init(
+        image: Image? = nil,
         title: String?,
         subtitle: String?,
-        path: String,
         isLastStep: Bool,
         onStepCompletion: ((TaskCompletion) -> Void)? = nil,
         @ViewBuilder content: () -> Content
     ) {
+        self.image = image
         self.title = title
         self.subtitle = subtitle
-        self.path = path
         self.isLastStep = isLastStep
         self.onStepCompletion = onStepCompletion
         self.content = content()
@@ -59,6 +59,10 @@ public struct TaskStepContentView<Content: View>: View {
     public var body: some View {
         StickyScrollView {
             VStack(alignment: .leading, spacing: 16) {
+                if let image {
+                    image
+                }
+                
                 if let title {
                     Text(title)
                         .font(.title)

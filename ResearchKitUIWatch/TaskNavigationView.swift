@@ -28,29 +28,75 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//
+import ResearchKit
 import SwiftUI
 
 public struct TaskNavigationView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel: TaskViewModel
+    
     var onTaskCompletion: ((TaskCompletion) -> Void)?
+    
+    @State private var stepIdentifiersForConsent: [String] = []
+    private let welcomeInstructionStep: ORKInstructionStep?
 
     public init(
         viewModel: TaskViewModel,
+        welcomeInstructionStep: ORKInstructionStep? = nil,
         onTaskCompletion: ((TaskCompletion) -> Void)? = nil
     ) {
         self.viewModel = viewModel
+        self.welcomeInstructionStep = welcomeInstructionStep
         self.onTaskCompletion = onTaskCompletion
+    }
+    
+    private var stepIdentifiers: Binding<[String]> {
+        let stepIdentifiers: Binding<[String]>
+        if welcomeInstructionStep != nil {
+            stepIdentifiers = $stepIdentifiersForConsent
+        } else {
+            stepIdentifiers = $viewModel.stepIdentifiers
+        }
+        return stepIdentifiers
+    }
+    
+    private var image: Image? {
+        let image: Image?
+        if let welcomeInstructionStep, let iconImage = welcomeInstructionStep.iconImage {
+            image = Image(uiImage: iconImage)
+        } else {
+            image = nil
+        }
+        return image
+    }
+    
+    private var title: String? {
+        let title: String?
+        if let welcomeInstructionStep {
+            title = welcomeInstructionStep.title
+        } else {
+            title = viewModel.steps[0].title
+        }
+        return title
+    }
+    
+    private var subtitle: String? {
+        let subtitle: String?
+        if let welcomeInstructionStep {
+            subtitle = welcomeInstructionStep.detailText
+        } else {
+            subtitle = viewModel.steps[0].subtitle
+        }
+        return subtitle
     }
 
     public var body: some View {
-        NavigationStack(path: $viewModel.stepIdentifiers) {
+        return NavigationStack(path: stepIdentifiers) {
             TaskStepContentView(
-                title: viewModel.steps[0].title,
-                subtitle: viewModel.steps[0].subtitle,
-                path: viewModel.steps[0].id.uuidString,
-                isLastStep: 0 == (viewModel.steps.count - 1),
+                image: image,
+                title: title,
+                subtitle: subtitle,
+                isLastStep: welcomeInstructionStep == nil ? 0 == (viewModel.steps.count - 1) : true,
                 onStepCompletion: { completion in
                     if completion == .discarded {
                         dismiss()
@@ -62,8 +108,12 @@ public struct TaskNavigationView: View {
                     }
                 },
                 content: {
-                    ForEach($viewModel.steps[0].items) { $row in
-                        FormRowContent(detail: nil, formRow: $row)
+                    if welcomeInstructionStep != nil {
+                        EmptyView()
+                    } else {
+                        ForEach($viewModel.steps[0].items) { $row in
+                            FormRowContent(detail: nil, formRow: $row)
+                        }
                     }
                 }
             )
@@ -74,7 +124,6 @@ public struct TaskNavigationView: View {
                     TaskStepContentView(
                         title: step.title,
                         subtitle: step.subtitle,
-                        path: path,
                         isLastStep: viewModel.isLastStep(step),
                         onStepCompletion: { completion in
                             if completion == .discarded {
@@ -98,4 +147,3 @@ public struct TaskNavigationView: View {
         }
     }
 }
-
