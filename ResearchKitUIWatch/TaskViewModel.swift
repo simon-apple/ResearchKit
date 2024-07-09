@@ -45,6 +45,16 @@ public class TaskViewModel: ObservableObject {
         self.steps = steps
         self.instructionSteps = instructionSteps
     }
+    
+    var numberOfSteps: Int {
+        let numberOfSteps: Int
+        if let instructionSteps {
+            numberOfSteps = instructionSteps.count
+        } else {
+            numberOfSteps = steps.count
+        }
+        return numberOfSteps
+    }
 
     func isLastStep(_ step: TaskStep) -> Bool {
         step.id == steps.last?.id
@@ -52,6 +62,12 @@ public class TaskViewModel: ObservableObject {
 
     func index(for identifier: String) -> Int {
         steps.firstIndex(where: { $0.id.uuidString == identifier }) ?? 0
+    }
+    
+    private func index(for path: String, in instructionSteps: [ORKInstructionStep]) -> Int? {
+        instructionSteps.firstIndex { instructionStep in
+            instructionStep.identifier == path
+        }
     }
 
     func step(for identifier: String) -> TaskStep? {
@@ -72,12 +88,38 @@ public class TaskViewModel: ObservableObject {
         return image
     }
     
+    func image(at path: String) -> Image? {
+        let image: Image?
+        if let instructionSteps {
+            if let iconImage = step(for: path, in: instructionSteps)?.iconImage {
+                image = Image(uiImage: iconImage)
+            } else {
+                image = nil
+            }
+        } else {
+            image = nil
+        }
+        return image
+    }
+    
     func title(forIndex index: Int) -> String? {
         let title: String?
         if let instructionSteps {
             title = instructionSteps[index].title
         } else {
             title = steps[index].title
+        }
+        return title
+    }
+    
+    func titleForStep(at path: String) -> String? {
+        let title: String?
+        if let instructionSteps {
+            title = step(for: path, in: instructionSteps)?.title
+        } else if let step = step(for: path) {
+            title = step.title
+        } else {
+            title = nil
         }
         return title
     }
@@ -92,6 +134,18 @@ public class TaskViewModel: ObservableObject {
         return subtitle
     }
     
+    func subtitleForNextStep(for path: String) -> String? {
+        let subtitle: String?
+        if let instructionSteps {
+            subtitle = step(for: path, in: instructionSteps)?.detailText
+        } else if let step = step(for: path) {
+            subtitle = step.subtitle
+        } else {
+            subtitle = nil
+        }
+        return subtitle
+    }
+    
     func isLastStep(forIndex index: Int) -> Bool {
         let isLastStepForInitialStep: Bool
         if let instructionSteps {
@@ -100,6 +154,25 @@ public class TaskViewModel: ObservableObject {
             isLastStepForInitialStep = index == (steps.count - 1)
         }
         return isLastStepForInitialStep
+    }
+    
+    func isLastStep(for path: String) -> Bool {
+        let isLastStep: Bool
+        if let instructionSteps {
+            isLastStep = self.isLastStep(for: path, in: instructionSteps)
+        } else if let step = step(for: path) {
+            isLastStep = self.isLastStep(step)
+        } else {
+            isLastStep = true
+        }
+        return isLastStep
+    }
+    
+    private func isLastStep(for path: String, in instructionSteps: [ORKInstructionStep]) -> Bool {
+        guard let lastInstructionStep = instructionSteps.last else {
+            return false
+        }
+        return lastInstructionStep.identifier == path
     }
     
     @ViewBuilder
@@ -125,69 +198,6 @@ public class TaskViewModel: ObservableObject {
                 )
             }
         }
-    }
-    
-    func image(at path: String) -> Image? {
-        let image: Image?
-        if let instructionSteps {
-            if let iconImage = step(for: path, in: instructionSteps)?.iconImage {
-                image = Image(uiImage: iconImage)
-            } else {
-                image = nil
-            }
-        } else {
-            image = nil
-        }
-        return image
-    }
-    
-    private func step(for path: String, in instructionSteps: [ORKInstructionStep]) -> ORKInstructionStep? {
-        instructionSteps.first { instructionStep in
-            instructionStep.identifier == path
-        }
-    }
-    
-    func titleForStep(at path: String) -> String? {
-        let title: String?
-        if let instructionSteps {
-            title = step(for: path, in: instructionSteps)?.title
-        } else if let step = step(for: path) {
-            title = step.title
-        } else {
-            title = nil
-        }
-        return title
-    }
-    
-    func subtitleForNextStep(for path: String) -> String? {
-        let subtitle: String?
-        if let instructionSteps {
-            subtitle = step(for: path, in: instructionSteps)?.detailText
-        } else if let step = step(for: path) {
-            subtitle = step.subtitle
-        } else {
-            subtitle = nil
-        }
-        return subtitle
-    }
-    
-    func isLastStep(for path: String) -> Bool {
-        let isLastStep: Bool
-        if let instructionSteps {
-            isLastStep = self.isLastStep(for: path, in: instructionSteps)
-        } else if let step = step(for: path) {
-            isLastStep = self.isLastStep(step)
-        } else {
-            isLastStep = true
-        }
-        return isLastStep
-    }
-    
-    private func isLastStep(for path: String, in instructionSteps: [ORKInstructionStep]) -> Bool {
-        guard let lastInstructionStep = instructionSteps.last else {
-            return false
-        }
-        return lastInstructionStep.identifier == path
     }
     
     @ViewBuilder
@@ -268,22 +278,6 @@ public class TaskViewModel: ObservableObject {
         return identifier
     }
     
-    private func index(for path: String, in instructionSteps: [ORKInstructionStep]) -> Int? {
-        instructionSteps.firstIndex { instructionStep in
-            instructionStep.identifier == path
-        }
-    }
-    
-    var numberOfSteps: Int {
-        let numberOfSteps: Int
-        if let instructionSteps {
-            numberOfSteps = instructionSteps.count
-        } else {
-            numberOfSteps = steps.count
-        }
-        return numberOfSteps
-    }
-    
     func navigationTitleForNextStep(for path: String) -> String {
         let navigationTitle: String
         if let instructionSteps {
@@ -299,6 +293,12 @@ public class TaskViewModel: ObservableObject {
             navigationTitle = ""
         }
         return navigationTitle
+    }
+    
+    private func step(for path: String, in instructionSteps: [ORKInstructionStep]) -> ORKInstructionStep? {
+        instructionSteps.first { instructionStep in
+            instructionStep.identifier == path
+        }
     }
     
 }
