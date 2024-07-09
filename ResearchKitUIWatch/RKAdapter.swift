@@ -176,14 +176,39 @@ public class RKAdapter {
                 )
             )
         case let heightAnswerFormat as ORKHeightAnswerFormat:
+            let measurementSystem: MeasurementSystem = {
+                switch heightAnswerFormat.measurementSystem {
+                case .USC:
+                    return .USC
+                case .local:
+                    return .local
+                case .metric:
+                    return .metric
+                @unknown default:
+                    return .metric
+                }
+            }()
+
+            let initialPrimaryValue: Int = {
+                if measurementSystem == .USC {
+                    return 5
+                }
+
+                if measurementSystem == .metric {
+                    return 162
+                }
+
+                return Locale.current.measurementSystem == .us ? 5 : 162
+            }()
+
             return FormRow.heightRow(
                 HeightQuestion(
                     id: item.identifier,
                     title: item.text ?? "",
                     detail: item.detailText,
-                    prompt: "Tap here",
-                    primarySelection: 0,
-                    secondarySelection: 0
+                    measurementSystem: measurementSystem,
+                    primarySelection: initialPrimaryValue,
+                    secondarySelection: 4
                 )
             )
         default:

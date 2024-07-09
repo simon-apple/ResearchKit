@@ -352,6 +352,14 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return [[ORKNumericAnswerFormat alloc] initWithStyle:ORKNumericAnswerStyleInteger unit:unit];
 }
 
++ (ORKHeightAnswerFormat *)heightAnswerFormat {
+    return [ORKHeightAnswerFormat new];
+}
+
++ (ORKHeightAnswerFormat *)heightAnswerFormatWithMeasurementSystem:(ORKMeasurementSystem)measurementSystem {
+    return [[ORKHeightAnswerFormat alloc] initWithMeasurementSystem:measurementSystem];
+}
+
 #endif
 
 #if TARGET_OS_IOS
@@ -422,14 +430,6 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
 + (ORKTimeIntervalAnswerFormat *)timeIntervalAnswerFormatWithDefaultInterval:(NSTimeInterval)defaultInterval
                                                                         step:(NSInteger)step {
     return [[ORKTimeIntervalAnswerFormat alloc] initWithDefaultInterval:defaultInterval step:step];
-}
-
-+ (ORKHeightAnswerFormat *)heightAnswerFormat {
-    return [ORKHeightAnswerFormat new];
-}
-
-+ (ORKHeightAnswerFormat *)heightAnswerFormatWithMeasurementSystem:(ORKMeasurementSystem)measurementSystem {
-    return [[ORKHeightAnswerFormat alloc] initWithMeasurementSystem:measurementSystem];
 }
 
 + (ORKWeightAnswerFormat *)weightAnswerFormat {
@@ -3392,6 +3392,99 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 
 @end
 
+#pragma mark - ORKHeightAnswerFormat
+
+@implementation ORKHeightAnswerFormat
+
+- (Class)questionResultClass {
+    return [ORKNumericQuestionResult class];
+}
+
+- (NSString *)canonicalUnitString {
+    return @"cm";
+}
+
+- (ORKNumericQuestionResult *)resultWithIdentifier:(NSString *)identifier answer:(NSNumber *)answer {
+    ORKNumericQuestionResult *questionResult = (ORKNumericQuestionResult *)[super resultWithIdentifier:identifier answer:answer];
+    // Use canonical unit because we expect results to be consistent regardless of the user locale
+    questionResult.unit = [self canonicalUnitString];
+    return questionResult;
+}
+
+- (instancetype)init {
+    self = [self initWithMeasurementSystem:ORKMeasurementSystemLocal];
+    return self;
+}
+
+- (instancetype)initWithMeasurementSystem:(ORKMeasurementSystem)measurementSystem {
+    self = [super init];
+    if (self) {
+        _measurementSystem = measurementSystem;
+        self.dontKnowButtonStyle = ORKDontKnowButtonStyleCircleChoice;
+    }
+    return self;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            (self.measurementSystem == castObject.measurementSystem));
+}
+
+- (NSUInteger)hash {
+    return super.hash ^ _measurementSystem;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_ENUM(aDecoder, measurementSystem);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_ENUM(aCoder, measurementSystem);
+}
+
+- (ORKQuestionType)questionType {
+    return ORKQuestionTypeHeight;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (BOOL)useMetricSystem {
+    return _measurementSystem == ORKMeasurementSystemMetric
+    || (_measurementSystem == ORKMeasurementSystemLocal && ((NSNumber *)[[NSLocale currentLocale] objectForKey:NSLocaleUsesMetricSystem]).boolValue);
+}
+
+- (NSString *)stringForAnswer:(id)answer {
+    NSString *answerString = nil;
+
+    if (!ORKIsAnswerEmpty(answer)) {
+        NSNumberFormatter *formatter = ORKDecimalNumberFormatter();
+        if (self.useMetricSystem) {
+            answerString = [NSString stringWithFormat:@"%@ %@", [formatter stringFromNumber:answer], ORKLocalizedString(@"MEASURING_UNIT_CM", nil)];
+        } else {
+            double feet, inches;
+            ORKCentimetersToFeetAndInches(((NSNumber *)answer).doubleValue, &feet, &inches);
+            NSString *feetString = [formatter stringFromNumber:@(feet)];
+            NSString *inchesString = [formatter stringFromNumber:@(inches)];
+            answerString = [NSString stringWithFormat:@"%@ %@, %@ %@",
+                            feetString, ORKLocalizedString(@"MEASURING_UNIT_FT", nil), inchesString, ORKLocalizedString(@"MEASURING_UNIT_IN", nil)];
+        }
+    }
+    return answerString;
+}
+
+@end
+
+
 
 #pragma mark - ORKTimeOfDayAnswerFormat
 #if TARGET_OS_IOS
@@ -3611,100 +3704,6 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 }
 
 @end
-
-
-#pragma mark - ORKHeightAnswerFormat
-
-@implementation ORKHeightAnswerFormat
-
-- (Class)questionResultClass {
-    return [ORKNumericQuestionResult class];
-}
-
-- (NSString *)canonicalUnitString {
-    return @"cm";
-}
-
-- (ORKNumericQuestionResult *)resultWithIdentifier:(NSString *)identifier answer:(NSNumber *)answer {
-    ORKNumericQuestionResult *questionResult = (ORKNumericQuestionResult *)[super resultWithIdentifier:identifier answer:answer];
-    // Use canonical unit because we expect results to be consistent regardless of the user locale
-    questionResult.unit = [self canonicalUnitString];
-    return questionResult;
-}
-
-- (instancetype)init {
-    self = [self initWithMeasurementSystem:ORKMeasurementSystemLocal];
-    return self;
-}
-
-- (instancetype)initWithMeasurementSystem:(ORKMeasurementSystem)measurementSystem {
-    self = [super init];
-    if (self) {
-        _measurementSystem = measurementSystem;
-        self.dontKnowButtonStyle = ORKDontKnowButtonStyleCircleChoice;
-    }
-    return self;
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    
-    __typeof(self) castObject = object;
-    return (isParentSame &&
-            (self.measurementSystem == castObject.measurementSystem));
-}
-
-- (NSUInteger)hash {
-    return super.hash ^ _measurementSystem;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_ENUM(aDecoder, measurementSystem);
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_ENUM(aCoder, measurementSystem);
-}
-
-- (ORKQuestionType)questionType {
-    return ORKQuestionTypeHeight;
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (BOOL)useMetricSystem {
-    return _measurementSystem == ORKMeasurementSystemMetric
-    || (_measurementSystem == ORKMeasurementSystemLocal && ((NSNumber *)[[NSLocale currentLocale] objectForKey:NSLocaleUsesMetricSystem]).boolValue);
-}
-
-- (NSString *)stringForAnswer:(id)answer {
-    NSString *answerString = nil;
-    
-    if (!ORKIsAnswerEmpty(answer)) {
-        NSNumberFormatter *formatter = ORKDecimalNumberFormatter();
-        if (self.useMetricSystem) {
-            answerString = [NSString stringWithFormat:@"%@ %@", [formatter stringFromNumber:answer], ORKLocalizedString(@"MEASURING_UNIT_CM", nil)];
-        } else {
-            double feet, inches;
-            ORKCentimetersToFeetAndInches(((NSNumber *)answer).doubleValue, &feet, &inches);
-            NSString *feetString = [formatter stringFromNumber:@(feet)];
-            NSString *inchesString = [formatter stringFromNumber:@(inches)];
-            answerString = [NSString stringWithFormat:@"%@ %@, %@ %@",
-                            feetString, ORKLocalizedString(@"MEASURING_UNIT_FT", nil), inchesString, ORKLocalizedString(@"MEASURING_UNIT_IN", nil)];
-        }
-    }
-    return answerString;
-}
-
-@end
-
 
 #pragma mark - ORKWeightAnswerFormat
 

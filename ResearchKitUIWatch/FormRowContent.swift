@@ -206,6 +206,7 @@ public struct FormRowContent: View {
             HeightQuestionView(
                 title: heightQuestion.title,
                 detail: heightQuestion.detail,
+                measurementSystem: heightQuestion.measurementSystem,
                 primarySelection: .init(get: {
                     return heightQuestion.primarySelection ?? 0
                 }, set: { newValue in
@@ -214,7 +215,7 @@ public struct FormRowContent: View {
                             id: heightQuestion.id,
                             title: heightQuestion.title,
                             detail: heightQuestion.detail,
-                            prompt: heightQuestion.prompt,
+                            measurementSystem: heightQuestion.measurementSystem,
                             primarySelection: newValue,
                             secondarySelection: heightQuestion.secondarySelection
                         )
@@ -228,7 +229,7 @@ public struct FormRowContent: View {
                             id: heightQuestion.id,
                             title: heightQuestion.title,
                             detail: heightQuestion.detail,
-                            prompt: heightQuestion.prompt,
+                            measurementSystem: heightQuestion.measurementSystem,
                             primarySelection: heightQuestion.primarySelection,
                             secondarySelection: newValue
                         )

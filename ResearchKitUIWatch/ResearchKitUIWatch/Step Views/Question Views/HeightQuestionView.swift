@@ -30,33 +30,57 @@
 
 import SwiftUI
 
+public enum MeasurementSystem {
+    case USC, local, metric
+}
+
 public struct HeightQuestion: Identifiable {
 
     public let id: String
     public let title: String
     public let detail: String?
-    public let prompt: String
-    public let primarySelection: Double?
-    public let secondarySelection: Double?
+    public let measurementSystem: MeasurementSystem
+    public let primarySelection: Int?
+    public let secondarySelection: Int?
 
     public init(
         id: String,
         title: String,
         detail: String?,
-        prompt: String,
-        primarySelection: Double?,
-        secondarySelection: Double?
+        measurementSystem: MeasurementSystem,
+        primarySelection: Int?,
+        secondarySelection: Int?
     ) {
         self.id = id
         self.title = title
         self.detail = detail
-        self.prompt = prompt
+        self.measurementSystem = measurementSystem
         self.primarySelection = primarySelection
         self.secondarySelection = secondarySelection
     }
 
+    public var usesMetricSystem: Bool {
+        switch measurementSystem {
+        case .USC:
+            return false
+        case .local:
+            if Locale.current.measurementSystem == .us {
+                return false
+            } else {
+                return true
+            }
+        case .metric:
+            return true
+        }
+    }
+
     public var number: NSNumber {
-        return NSNumber(integerLiteral: 0)
+        if usesMetricSystem == false {
+            let centimeters = (Double(primarySelection ?? 0) * 30.48) + (Double(secondarySelection ?? 0) * 2.54)
+            return NSNumber(floatLiteral: centimeters)
+        } else {
+            return NSNumber(floatLiteral: Double(primarySelection ?? 0))
+        }
     }
 }
 
@@ -66,20 +90,47 @@ struct HeightQuestionView: View {
 
     let title: String
     let detail: String?
-
-    @Binding var primarySelection: Double
-    @Binding var secondarySelection: Double
+    let measurementSystem: MeasurementSystem
+    @Binding var primarySelection: Int
+    @Binding var secondarySelection: Int
 
     init(title: String,
          detail: String?,
-         primarySelection: Binding<Double>,
-         secondarySelection: Binding<Double>
+         measurementSystem: MeasurementSystem,
+         primarySelection: Binding<Int>,
+         secondarySelection: Binding<Int>
     ) {
         self.hasChanges = false
         self.title = title
         self.detail = detail
+
+        let system: MeasurementSystem = {
+            switch measurementSystem {
+            case .USC:
+                return .USC
+            case .local:
+                if Locale.current.measurementSystem == .us {
+                    return .USC
+                } else {
+                    return .metric
+                }
+            case .metric:
+                return .metric
+            }
+        }()
+        self.measurementSystem = system
         self._primarySelection = primarySelection
         self._secondarySelection = secondarySelection
+    }
+
+    var selectionString: String {
+        if hasChanges == false { return "Tap Here" }
+
+        if measurementSystem == .USC {
+            return "\(Int(primarySelection))' \(Int(secondarySelection))\""
+        } else {
+            return "\(primarySelection) cm"
+        }
     }
 
     var body: some View {
@@ -88,8 +139,8 @@ struct HeightQuestionView: View {
                 Button {
                     isInputActive = true
                 } label: {
-                    Text(hasChanges ? "\(primarySelection) \(secondarySelection)" : "Tap Here")
-                        .foregroundStyle(Color.secondary)
+                    Text(selectionString)
+                        .foregroundStyle(hasChanges ? Color.primary : Color.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
@@ -105,6 +156,7 @@ struct HeightQuestionView: View {
             .padding()
             .sheet(isPresented: $isInputActive) {
                 HeightPickerView(
+                    measurementSystem: measurementSystem,
                     primarySelection: $primarySelection,
                     secondarySelection: $secondarySelection,
                     hasChanges: $hasChanges
@@ -118,14 +170,41 @@ struct HeightQuestionView: View {
 struct HeightPickerView: View {
     @Environment(\.dismiss) var dismiss
 
-    @Binding var primarySelection: Double
-    @Binding var secondarySelection: Double
+    let measurementSystem: MeasurementSystem
+
+    @Binding var primarySelection: Int
+    @Binding var secondarySelection: Int
     @Binding var hasChanges: Bool
+
+    var upperValue: Int {
+        if measurementSystem == .USC {
+            return 10
+        } else {
+            return 300
+        }
+    }
+
+    var secondaryUpperValue: Int {
+        return 12
+    }
+
+    var primaryUnit: String {
+        if measurementSystem == .USC {
+            return "ft"
+        } else {
+            return "cm"
+        }
+    }
+
+    var secondaryUnit: String {
+        return "in"
+    }
 
     var body: some View {
         VStack {
             HStack {
                 Button {
+                    hasChanges = true
                     dismiss()
                 } label: {
                     Text("Done")
@@ -135,8 +214,9 @@ struct HeightPickerView: View {
             .padding(.horizontal)
             HStack(spacing: .zero) {
                 Picker(selection: $primarySelection) {
-                    ForEach(0..<400) { i in
-                        Text("\(i)")
+                    ForEach(0..<upperValue, id: \.self) { i in
+                        Text("\(i) \(primaryUnit)")
+                            .tag(i)
                     }
                 } label: {
                     Text("Tap Here")
@@ -145,16 +225,20 @@ struct HeightPickerView: View {
                 .onChange(of: primarySelection) { _, _ in
                     hasChanges = true
                 }
-                Picker(selection: $secondarySelection) {
-                    ForEach(0..<400) { i in
-                        Text("\(i)")
+
+                if measurementSystem == .USC {
+                    Picker(selection: $secondarySelection) {
+                        ForEach(0..<secondaryUpperValue, id: \.self) { i in
+                            Text("\(i) \(secondaryUnit)")
+                                .tag(i)
+                        }
+                    } label: {
+                        Text("Tap Here")
                     }
-                } label: {
-                    Text("Tap Here")
-                }
-                .pickerStyle(.wheel)
-                .onChange(of: secondarySelection) { _, _ in
-                    hasChanges = true
+                    .pickerStyle(.wheel)
+                    .onChange(of: secondarySelection) { _, _ in
+                        hasChanges = true
+                    }
                 }
             }
         }
@@ -164,11 +248,12 @@ struct HeightPickerView: View {
 
 @available(iOS 18.0, *)
 #Preview {
-    @Previewable @State var primarySelection: Double = 22
-    @Previewable @State var secondarySelection: Double = 2
+    @Previewable @State var primarySelection: Int = 22
+    @Previewable @State var secondarySelection: Int = 2
     HeightQuestionView(
         title: "Height question here",
         detail: nil,
+        measurementSystem: .USC,
         primarySelection: $primarySelection,
         secondarySelection: $secondarySelection
     )
