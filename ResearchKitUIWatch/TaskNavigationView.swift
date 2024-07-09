@@ -36,114 +36,64 @@ public struct TaskNavigationView: View {
     @ObservedObject var viewModel: TaskViewModel
     
     var onTaskCompletion: ((TaskCompletion) -> Void)?
-    
-    @State private var stepIdentifiersForConsent: [String] = []
-    private let welcomeInstructionStep: ORKInstructionStep?
 
     public init(
         viewModel: TaskViewModel,
-        welcomeInstructionStep: ORKInstructionStep? = nil,
         onTaskCompletion: ((TaskCompletion) -> Void)? = nil
     ) {
         self.viewModel = viewModel
-        self.welcomeInstructionStep = welcomeInstructionStep
         self.onTaskCompletion = onTaskCompletion
-    }
-    
-    private var stepIdentifiers: Binding<[String]> {
-        let stepIdentifiers: Binding<[String]>
-        if welcomeInstructionStep != nil {
-            stepIdentifiers = $stepIdentifiersForConsent
-        } else {
-            stepIdentifiers = $viewModel.stepIdentifiers
-        }
-        return stepIdentifiers
-    }
-    
-    private var image: Image? {
-        let image: Image?
-        if let welcomeInstructionStep, let iconImage = welcomeInstructionStep.iconImage {
-            image = Image(uiImage: iconImage)
-        } else {
-            image = nil
-        }
-        return image
-    }
-    
-    private var title: String? {
-        let title: String?
-        if let welcomeInstructionStep {
-            title = welcomeInstructionStep.title
-        } else {
-            title = viewModel.steps[0].title
-        }
-        return title
-    }
-    
-    private var subtitle: String? {
-        let subtitle: String?
-        if let welcomeInstructionStep {
-            subtitle = welcomeInstructionStep.detailText
-        } else {
-            subtitle = viewModel.steps[0].subtitle
-        }
-        return subtitle
     }
 
     public var body: some View {
-        return NavigationStack(path: stepIdentifiers) {
+        return NavigationStack(path: $viewModel.stepIdentifiers) {
             TaskStepContentView(
-                image: image,
-                title: title,
-                subtitle: subtitle,
-                isLastStep: welcomeInstructionStep == nil ? 0 == (viewModel.steps.count - 1) : true,
+                image: viewModel.image(forIndex: 0),
+                title: viewModel.title(forIndex: 0),
+                subtitle: viewModel.subtitle(forIndex: 0),
+                isLastStep: viewModel.isLastStep(forIndex: 0),
                 onStepCompletion: { completion in
                     if completion == .discarded {
                         dismiss()
                     } else if completion == .saved {
-                        let nextStep = viewModel.steps[1]
-                        viewModel.stepIdentifiers.append(nextStep.id.uuidString)
+                        viewModel.stepIdentifiers.append(viewModel.identifier(forIndex: 1))
                     } else {
                         onTaskCompletion?(completion)
                     }
                 },
                 content: {
-                    if welcomeInstructionStep != nil {
-                        EmptyView()
-                    } else {
-                        ForEach($viewModel.steps[0].items) { $row in
-                            FormRowContent(detail: nil, formRow: $row)
-                        }
-                    }
+                    viewModel.makeContent(forIndex: 0)
                 }
             )
-            .navigationTitle("1 of \(viewModel.steps.count)")
+            .navigationTitle("1 of \(viewModel.numberOfSteps)")
             .navigationDestination(for: String.self) { path in
-                if let step = viewModel.step(for: path) {
-                    let index = viewModel.index(for: step.id.uuidString)
-                    TaskStepContentView(
-                        title: step.title,
-                        subtitle: step.subtitle,
-                        isLastStep: viewModel.isLastStep(step),
-                        onStepCompletion: { completion in
-                            if completion == .discarded {
-                                dismiss()
-                            } else if completion == .saved {
-                                let nextStep = viewModel.steps[index + 1]
-                                viewModel.stepIdentifiers.append(nextStep.id.uuidString)
-                            } else {
-                                onTaskCompletion?(completion)
-                            }
-                        },
-                        content: {
-                            ForEach($viewModel.steps[index].items) { $row in
-                                FormRowContent(detail: nil, formRow: $row)
-                            }
+                TaskStepContentView(
+                    image: viewModel.image(at: path),
+                    title: viewModel.titleForStep(at: path),
+                    subtitle: viewModel.subtitleForNextStep(for: path),
+                    isLastStep: viewModel.isLastStep(for: path),
+                    onStepCompletion: { completion in
+                        if completion == .discarded {
+                            dismiss()
+                        } else if completion == .saved {
+                            moveToNextScreen(for: path)
+                        } else {
+                            onTaskCompletion?(completion)
                         }
-                    )
-                    .navigationTitle("\(index + 1) of \(viewModel.steps.count)")
-                }
+                    },
+                    content: {
+                        viewModel.makeContentForNextStep(for: path)
+                    }
+                )
+                .navigationTitle(viewModel.navigationTitleForNextStep(for: path))
             }
         }
     }
+    
+    private func moveToNextScreen(for path: String) {
+        if let nextIdentifier = viewModel.identifier(afterPath: path) {
+            viewModel.stepIdentifiers.append(nextIdentifier)
+        }
+    }
+    
 }
