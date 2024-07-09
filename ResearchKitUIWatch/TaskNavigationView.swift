@@ -76,7 +76,7 @@ public struct TaskNavigationView: View {
                         if completion == .discarded {
                             dismiss()
                         } else if completion == .saved {
-                            moveToNextScreen(for: path)
+                            moveToStep(afterPath: path)
                         } else {
                             onTaskCompletion?(completion)
                         }
@@ -90,7 +90,7 @@ public struct TaskNavigationView: View {
         }
     }
     
-    private func moveToNextScreen(for path: String) {
+    private func moveToStep(afterPath path: String) {
         if let nextIdentifier = viewModel.identifier(afterPath: path) {
             viewModel.stepIdentifiers.append(nextIdentifier)
         }
