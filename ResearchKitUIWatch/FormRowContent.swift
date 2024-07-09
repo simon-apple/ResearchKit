@@ -202,6 +202,39 @@ public struct FormRowContent: View {
                 detail: detail,
                 prompt: numericQuestion.prompt
             )
+        case .heightRow(let heightQuestion):
+            HeightQuestionView(
+                title: heightQuestion.title,
+                detail: heightQuestion.detail,
+                primarySelection: .init(get: {
+                    return heightQuestion.primarySelection ?? 0
+                }, set: { newValue in
+                    $formRow.wrappedValue = .heightRow(
+                        HeightQuestion(
+                            id: heightQuestion.id,
+                            title: heightQuestion.title,
+                            detail: heightQuestion.detail,
+                            prompt: heightQuestion.prompt,
+                            primarySelection: newValue,
+                            secondarySelection: heightQuestion.secondarySelection
+                        )
+                    )
+                }),
+                secondarySelection: .init(get: {
+                    return heightQuestion.secondarySelection ?? 0
+                }, set: { newValue in
+                    $formRow.wrappedValue = .heightRow(
+                        HeightQuestion(
+                            id: heightQuestion.id,
+                            title: heightQuestion.title,
+                            detail: heightQuestion.detail,
+                            prompt: heightQuestion.prompt,
+                            primarySelection: heightQuestion.primarySelection,
+                            secondarySelection: newValue
+                        )
+                    )
+                })
+            )
         }
     }
 }

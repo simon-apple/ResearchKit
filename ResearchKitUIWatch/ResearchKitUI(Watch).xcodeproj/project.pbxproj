@@ -25,9 +25,10 @@
 		381CAC082C34C62100FCE89A /* FormRowContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC072C34C61D00FCE89A /* FormRowContent.swift */; };
 		381CAC0A2C35E06500FCE89A /* TaskStepContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC092C35E05A00FCE89A /* TaskStepContentView.swift */; };
 		381CAC0C2C35F4CE00FCE89A /* TaskCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC0B2C35F4C300FCE89A /* TaskCompletion.swift */; };
-		38CD26102C1909CC000FDBB0 /* FormItemCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CD260F2C1909CC000FDBB0 /* FormItemCardView.swift */; };
+		381CAC102C3C759200FCE89A /* HeightQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC0F2C3C759200FCE89A /* HeightQuestionView.swift */; };
 		386ABFBE2C2F800E0006B84D /* MultipleChoiceQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386ABFBD2C2F80060006B84D /* MultipleChoiceQuestion.swift */; };
 		386ABFC42C2F80DE0006B84D /* ScaleSliderQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386ABFC32C2F80D90006B84D /* ScaleSliderQuestion.swift */; };
+		38CD26102C1909CC000FDBB0 /* FormItemCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CD260F2C1909CC000FDBB0 /* FormItemCardView.swift */; };
 		38CD26392C1B90F3000FDBB0 /* RKAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CD26382C1B90F3000FDBB0 /* RKAdapter.swift */; };
 		38CD263B2C1BA6EA000FDBB0 /* TextQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CD263A2C1BA6EA000FDBB0 /* TextQuestionView.swift */; };
 		5E05B53D2C2E135D00A0A83B /* DoneKeyboardToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E05B53C2C2E135D00A0A83B /* DoneKeyboardToolbar.swift */; };
@@ -81,9 +82,10 @@
 		381CAC072C34C61D00FCE89A /* FormRowContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormRowContent.swift; sourceTree = "<group>"; };
 		381CAC092C35E05A00FCE89A /* TaskStepContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStepContentView.swift; sourceTree = "<group>"; };
 		381CAC0B2C35F4C300FCE89A /* TaskCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCompletion.swift; sourceTree = "<group>"; };
-		38CD260F2C1909CC000FDBB0 /* FormItemCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormItemCardView.swift; sourceTree = "<group>"; };
+		381CAC0F2C3C759200FCE89A /* HeightQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightQuestionView.swift; sourceTree = "<group>"; };
 		386ABFBD2C2F80060006B84D /* MultipleChoiceQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleChoiceQuestion.swift; sourceTree = "<group>"; };
 		386ABFC32C2F80D90006B84D /* ScaleSliderQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleSliderQuestion.swift; sourceTree = "<group>"; };
+		38CD260F2C1909CC000FDBB0 /* FormItemCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormItemCardView.swift; sourceTree = "<group>"; };
 		38CD26382C1B90F3000FDBB0 /* RKAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKAdapter.swift; sourceTree = "<group>"; };
 		38CD263A2C1BA6EA000FDBB0 /* TextQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextQuestionView.swift; sourceTree = "<group>"; };
 		5E05B53C2C2E135D00A0A83B /* DoneKeyboardToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneKeyboardToolbar.swift; sourceTree = "<group>"; };
@@ -235,6 +237,7 @@
 				E4DBF1B72B97C2E80085D6A1 /* Supporting Views */,
 				E4DBF1B52B97C2AC0085D6A1 /* MultipleChoiceQuestionView.swift */,
 				E4DBF1B32B97C2980085D6A1 /* BooleanQuestionView.swift */,
+				381CAC0F2C3C759200FCE89A /* HeightQuestionView.swift */,
 				BA32DE9E2BCF34440041A937 /* ScaleSliderQuestionView.swift */,
 				38CD263A2C1BA6EA000FDBB0 /* TextQuestionView.swift */,
 				3815C0132C2081CE00A29CD3 /* DateTimeView.swift */,
@@ -367,6 +370,7 @@
 				E4DBF1B42B97C2980085D6A1 /* BooleanQuestionView.swift in Sources */,
 				0B7213402B4F395C00463E69 /* TaskManager.swift in Sources */,
 				5EDFA9D92BFFFF0F0044C156 /* ListHeaderView.swift in Sources */,
+				381CAC102C3C759200FCE89A /* HeightQuestionView.swift in Sources */,
 				0B72132D2B4F368600463E69 /* DefaultStepView.swift in Sources */,
 				381CAC0A2C35E06500FCE89A /* TaskStepContentView.swift in Sources */,
 				0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */,

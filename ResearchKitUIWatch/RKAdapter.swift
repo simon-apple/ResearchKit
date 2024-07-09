@@ -175,6 +175,17 @@ public class RKAdapter {
                     number: numericAnswerFormat.defaultNumericAnswer
                 )
             )
+        case let heightAnswerFormat as ORKHeightAnswerFormat:
+            return FormRow.heightRow(
+                HeightQuestion(
+                    id: item.identifier,
+                    title: item.text ?? "",
+                    detail: item.detailText,
+                    prompt: "Tap here",
+                    primarySelection: 0,
+                    secondarySelection: 0
+                )
+            )
         default:
             return nil
         }
