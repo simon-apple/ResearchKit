@@ -43,6 +43,9 @@ public struct HeightQuestion: Identifiable {
     public let primarySelection: Int?
     public let secondarySelection: Int?
 
+    let footToCentimetersMultiplier: Double = 30.48
+    let inchToCentimetersMultiplier: Double = 2.54
+
     public init(
         id: String,
         title: String,
@@ -76,7 +79,7 @@ public struct HeightQuestion: Identifiable {
 
     public var number: NSNumber {
         if usesMetricSystem == false {
-            let centimeters = (Double(primarySelection ?? 0) * 30.48) + (Double(secondarySelection ?? 0) * 2.54)
+            let centimeters = (Double(primarySelection ?? 0) * footToCentimetersMultiplier) + (Double(secondarySelection ?? 0) * inchToCentimetersMultiplier)
             return NSNumber(floatLiteral: centimeters)
         } else {
             return NSNumber(floatLiteral: Double(primarySelection ?? 0))
