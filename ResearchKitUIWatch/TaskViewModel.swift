@@ -84,7 +84,7 @@ public class TaskViewModel: ObservableObject {
         }
     }
     
-    func stepp(for identifier: String) -> (any Step)? {
+    func step(for identifier: String) -> (any Step)? {
         steps.first { $0.identifier == identifier }
     }
     
@@ -93,7 +93,7 @@ public class TaskViewModel: ObservableObject {
     }
     
     func image(at path: String) -> Image? {
-        stepp(for: path)?.iconImage
+        step(for: path)?.iconImage
     }
     
     func title(forIndex index: Int) -> String? {
@@ -101,7 +101,7 @@ public class TaskViewModel: ObservableObject {
     }
     
     func titleForStep(at path: String) -> String? {
-        stepp(for: path)?.title
+        step(for: path)?.title
     }
     
     func subtitle(forIndex index: Int) -> String? {
@@ -109,7 +109,7 @@ public class TaskViewModel: ObservableObject {
     }
     
     func subtitleForNextStep(for path: String) -> String? {
-        stepp(for: path)?.subtitle
+        step(for: path)?.subtitle
     }
     
     func isLastStep(forIndex index: Int) -> Bool {
@@ -132,7 +132,7 @@ public class TaskViewModel: ObservableObject {
     }
     
     func makeContentForNextStep(for path: String) -> any View {
-        stepp(for: path)?.makeContent() ?? EmptyView()
+        step(for: path)?.makeContent() ?? EmptyView()
     }
     
     func identifier(forIndex index: Int) -> String {
