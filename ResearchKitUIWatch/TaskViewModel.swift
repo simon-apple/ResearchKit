@@ -28,266 +28,140 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Combine
 import ResearchKit // TODO: Remove
 import SwiftUI
 
+public protocol Step {
+    
+    associatedtype Content: View
+    
+    var identifier: String { get }
+    
+    var iconImage: Image? { get }
+    
+    var title: String? { get }
+    
+    var subtitle: String? { get }
+    
+    func makeContent() -> Content
+    
+}
+
 public class TaskViewModel: ObservableObject {
     @Published var stepIdentifiers: [String] = []
-    @Published var steps: [TaskStep] = []
-    @Published var instructionSteps: [ORKInstructionStep]?
+    @Published var steps: [any Step]
+    
+    private var anyCancellable: AnyCancellable?
 
     public init(
         stepIdentifiers: [String],
-        steps: [TaskStep],
-        instructionSteps: [ORKInstructionStep]? = nil
+        steps: [any Step]
     ) {
         self.stepIdentifiers = stepIdentifiers
         self.steps = steps
-        self.instructionSteps = instructionSteps
+        
+        anyCancellable = $steps.sink(receiveValue: { steps in
+            print("Steps changed to: \(steps)")
+        })
     }
     
     var numberOfSteps: Int {
-        let numberOfSteps: Int
-        if let instructionSteps {
-            numberOfSteps = instructionSteps.count
-        } else {
-            numberOfSteps = steps.count
-        }
-        return numberOfSteps
+        steps.count
     }
 
     func isLastStep(_ step: TaskStep) -> Bool {
-        step.id == steps.last?.id
+        steps.last?.identifier == step.id.uuidString
     }
 
     func index(for identifier: String) -> Int {
-        steps.firstIndex(where: { $0.id.uuidString == identifier }) ?? 0
+        steps.firstIndex(where: { $0.identifier == identifier }) ?? 0
     }
     
-    private func index(for path: String, in instructionSteps: [ORKInstructionStep]) -> Int? {
-        instructionSteps.firstIndex { instructionStep in
-            instructionStep.identifier == path
+    private func index(for path: String) -> Int? {
+        steps.firstIndex { step in
+            step.identifier == path
         }
     }
-
-    func step(for identifier: String) -> TaskStep? {
-        steps.first { $0.id.uuidString == identifier }
+    
+    func stepp(for identifier: String) -> (any Step)? {
+        steps.first { $0.identifier == identifier }
     }
     
     func image(forIndex index: Int) -> Image? {
-        let image: Image?
-        if let instructionSteps {
-            if let iconImage = instructionSteps[index].iconImage {
-                image = Image(uiImage: iconImage)
-            } else {
-                image = nil
-            }
-        } else {
-            image = nil
-        }
-        return image
+        steps[index].iconImage
     }
     
     func image(at path: String) -> Image? {
-        let image: Image?
-        if let instructionSteps {
-            if let iconImage = step(for: path, in: instructionSteps)?.iconImage {
-                image = Image(uiImage: iconImage)
-            } else {
-                image = nil
-            }
-        } else {
-            image = nil
-        }
-        return image
+        stepp(for: path)?.iconImage
     }
     
     func title(forIndex index: Int) -> String? {
-        let title: String?
-        if let instructionSteps {
-            title = instructionSteps[index].title
-        } else {
-            title = steps[index].title
-        }
-        return title
+        steps[index].title
     }
     
     func titleForStep(at path: String) -> String? {
-        let title: String?
-        if let instructionSteps {
-            title = step(for: path, in: instructionSteps)?.title
-        } else if let step = step(for: path) {
-            title = step.title
-        } else {
-            title = nil
-        }
-        return title
+        stepp(for: path)?.title
     }
     
     func subtitle(forIndex index: Int) -> String? {
-        let subtitle: String?
-        if let instructionSteps {
-            subtitle = instructionSteps[index].detailText
-        } else {
-            subtitle = steps[index].subtitle
-        }
-        return subtitle
+        steps[index].subtitle
     }
     
     func subtitleForNextStep(for path: String) -> String? {
-        let subtitle: String?
-        if let instructionSteps {
-            subtitle = step(for: path, in: instructionSteps)?.detailText
-        } else if let step = step(for: path) {
-            subtitle = step.subtitle
-        } else {
-            subtitle = nil
-        }
-        return subtitle
+        stepp(for: path)?.subtitle
     }
     
     func isLastStep(forIndex index: Int) -> Bool {
-        let isLastStepForInitialStep: Bool
-        if let instructionSteps {
-            isLastStepForInitialStep = index == (instructionSteps.count - 1)
-        } else {
-            isLastStepForInitialStep = index == (steps.count - 1)
-        }
-        return isLastStepForInitialStep
+        steps.count - 1 == index
     }
     
     func isLastStep(for path: String) -> Bool {
-        let isLastStep: Bool
-        if let instructionSteps {
-            isLastStep = self.isLastStep(for: path, in: instructionSteps)
-        } else if let step = step(for: path) {
-            isLastStep = self.isLastStep(step)
-        } else {
-            isLastStep = true
+        guard let index = index(for: path) else {
+            return false
         }
-        return isLastStep
+        return isLastStep(forIndex: index)
     }
     
     private func isLastStep(for path: String, in instructionSteps: [ORKInstructionStep]) -> Bool {
-        guard let lastInstructionStep = instructionSteps.last else {
-            return false
-        }
-        return lastInstructionStep.identifier == path
+        steps.last?.identifier == path
     }
     
-    @ViewBuilder
-    func makeContent(forIndex index: Int) -> some View {
-        if let instructionSteps {
-            if let bodyItems = instructionSteps[index].bodyItems {
-                ForEach(bodyItems, id: \.text) { bodyItem in
-                    Text(bodyItem.text ?? "")
-                }
-            }
-        } else {
-            ForEach(Array(steps[index].items.enumerated()), id: \.offset) { itemIndex, formRow in
-                FormRowContent(
-                    detail: nil,
-                    formRow: Binding<FormRow>(
-                        get: {
-                            formRow
-                        },
-                        set: { formRow in
-                            self.steps[index].items[itemIndex] = formRow
-                        }
-                    )
-                )
-            }
-        }
+    func makeContent(forIndex index: Int) -> any View {
+        steps[index].makeContent()
     }
     
-    @ViewBuilder
-    func makeContentForNextStep(for path: String) -> some View {
-        // This is where the biggest difference will be. TaskViewModel currently assumes
-        // TaskSteps, and by association, TaskViewModel also assumes FormRows.
-        //
-        // The body is different for the kind of step. Instruction step, for instance,
-        // does not care about form rows.
-        //
-        if let instructionSteps {
-            if let bodyItems = step(for: path, in: instructionSteps)?.bodyItems {
-                ForEach(bodyItems, id: \.text) { bodyItem in
-                    Text(bodyItem.text ?? "")
-                }
-            }
-        } else if let step = step(for: path) {
-            let index = index(for: step.id.uuidString)
-            ForEach(Array(steps[index].items.enumerated()), id: \.offset) { itemIndex, formRow in
-                FormRowContent(
-                    detail: nil,
-                    formRow: Binding<FormRow>(
-                        get: {
-                            formRow
-                        },
-                        set: { formRow in
-                            self.steps[index].items[itemIndex] = formRow
-                        }
-                    )
-                )
-            }
-        }
+    func makeContentForNextStep(for path: String) -> any View {
+        stepp(for: path)?.makeContent() ?? EmptyView()
     }
     
     func identifier(forIndex index: Int) -> String {
-        let id: String
-        if let instructionSteps {
-            let nextStep = instructionSteps[index]
-            id = nextStep.identifier
-        } else {
-            let nextStep = steps[index]
-            id = nextStep.id.uuidString
-        }
-        return id
+        steps[index].identifier
     }
     
     func identifier(afterPath path: String) -> String? {
-        func step(after path: String, in instructionSteps: [ORKInstructionStep]) -> ORKInstructionStep? {
-            guard let index = index(for: path, in: instructionSteps) else {
+        func step(after path: String) -> (any Step)? {
+            guard let index = index(for: path) else {
                 return nil
             }
             
             let nextIndex = index + 1
             
-            let instructionStep: ORKInstructionStep?
-            if nextIndex == instructionSteps.count {
+            let instructionStep: (any Step)?
+            if nextIndex == steps.count {
                 instructionStep = nil
             } else {
-                instructionStep = instructionSteps[nextIndex]
+                instructionStep = steps[nextIndex]
             }
             return instructionStep
         }
         
-        let identifier: String?
-        if let instructionSteps {
-            if let nextInstructionStep = step(after: path, in: instructionSteps) {
-                identifier = nextInstructionStep.identifier
-            } else {
-                identifier = nil
-            }
-        } else if let step = self.step(for: path) {
-            let index = index(for: step.id.uuidString)
-            let nextStep = steps[index + 1]
-            identifier = nextStep.id.uuidString
-        } else {
-            identifier = nil
-        }
-        return identifier
+        return step(after: path)?.identifier
     }
     
     func navigationTitleForNextStep(for path: String) -> String {
         let navigationTitle: String
-        if let instructionSteps {
-            if let index = index(for: path, in: instructionSteps) {
-                navigationTitle = "\(index + 1) of \(instructionSteps.count)"
-            } else {
-                navigationTitle = ""
-            }
-        } else if let step = step(for: path) {
-            let index = index(for: step.id.uuidString)
+        if let index = index(for: path) {
             navigationTitle = "\(index + 1) of \(steps.count)"
         } else {
             navigationTitle = ""
@@ -295,18 +169,12 @@ public class TaskViewModel: ObservableObject {
         return navigationTitle
     }
     
-    private func step(for path: String, in instructionSteps: [ORKInstructionStep]) -> ORKInstructionStep? {
-        instructionSteps.first { instructionStep in
-            instructionStep.identifier == path
-        }
-    }
-    
 }
 
 public struct TaskStep: Identifiable {
     public let id: UUID = UUID()
-    let title: String?
-    let subtitle: String?
+    public let title: String?
+    public let subtitle: String?
     var items: [FormRow]
 
     public init(
@@ -318,4 +186,57 @@ public struct TaskStep: Identifiable {
         self.subtitle = subtitle
         self.items = items
     }
+}
+
+// Option 1: Make TaskStep a class.
+// Option 2: Wrap around TaskStep and have wrapper conform to Step.
+// Option 3: Switch on a task-step type in TaskViewModel.
+
+public class LivingTaskStep {
+    
+    private var taskStep: TaskStep
+    
+    public init(taskStep: TaskStep) {
+        self.taskStep = taskStep
+    }
+    
+}
+
+extension LivingTaskStep: Step {
+    
+    public typealias Content = ForEach
+    
+    public var identifier: String {
+        taskStep.id.uuidString
+    }
+    
+    public var iconImage: Image? {
+        nil
+    }
+    
+    public var title: String? {
+        taskStep.title
+    }
+    
+    public var subtitle: String? {
+        taskStep.subtitle
+    }
+    
+    @ViewBuilder
+    public func makeContent() -> some View {
+        ForEach(Array(taskStep.items.enumerated()), id: \.offset) { itemIndex, formRow in
+            FormRowContent(
+                detail: nil,
+                formRow: Binding<FormRow>(
+                    get: {
+                        formRow
+                    },
+                    set: { [weak self] formRow in
+                        self?.taskStep.items[itemIndex] = formRow
+                    }
+                )
+            )
+        }
+    }
+    
 }

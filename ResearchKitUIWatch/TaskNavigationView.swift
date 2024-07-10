@@ -62,7 +62,7 @@ public struct TaskNavigationView: View {
                     }
                 },
                 content: {
-                    viewModel.makeContent(forIndex: 0)
+                    AnyView(viewModel.makeContent(forIndex: 0))
                 }
             )
             .navigationTitle("1 of \(viewModel.numberOfSteps)")
@@ -82,7 +82,7 @@ public struct TaskNavigationView: View {
                         }
                     },
                     content: {
-                        viewModel.makeContentForNextStep(for: path)
+                        AnyView(viewModel.makeContentForNextStep(for: path))
                     }
                 )
                 .navigationTitle(viewModel.navigationTitleForNextStep(for: path))
