@@ -14,11 +14,18 @@ final class AccessRequestPermissionStepUITests: BaseUITest {
     
     override func setUpWithError() throws {
         
-        // Deleting the app from springboard is a workaround for the XCTest issues where you can't reset authorization status for device motion and notifications:
-        // rdar://111541621(SEED: XCTest: Missing ability to reset device fitness and motion permission)
-        // rdar://59388255(XCUIProtectedResource misses user notifications to reset authorization status)
-        let springBoard = Springboard()
-        springBoard.deleteORKCatalogAppFromSpringboard()
+        if isRunningInXcodeCloud && !isRunningOnSimulator {
+            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment on device compute devices due to this issue: rdar://130824888 (Health Authorization Error and Health Access screen won't trigger in XCUITests - Occurs only on skywagon device compute devices)")
+        }
+        
+        if !isRunningInXcodeCloud {
+            // Deleting the app from springboard is a workaround for the XCTest issues where you can't reset authorization status for device motion and notifications:
+            // rdar://111541621(SEED: XCTest: Missing ability to reset device fitness and motion permission)
+            // rdar://59388255(XCUIProtectedResource misses user notifications to reset authorization status)
+            // In Xcode Cloud we run this test first to verify all permission alerts so no need to delete the app to reset state
+             let springBoard = Springboard()
+             springBoard.deleteORKCatalogAppFromSpringboard()
+        }
  
         // Reset authorization for resources
         app.resetAuthorizationStatus(for: .location)

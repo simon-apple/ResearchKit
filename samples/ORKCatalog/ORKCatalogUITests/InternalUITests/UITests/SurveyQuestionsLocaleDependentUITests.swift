@@ -15,11 +15,14 @@ final class SurveyQuestionsLocaleDependentUITests: LocaleDependentBaseUITests {
         tasksList
             .selectTaskByName(Task.heightQuestion.description)
         
-        let healthAccessScreen = HealthAccess()
-        healthAccessScreen
-            .verifyHealthAuthorizationView(exists: true)
-            .tapAllowToRead(for: .height)
-            .tapAllowButton()
+        if (isRunningInXcodeCloud && isRunningOnSimulator) || !isRunningInXcodeCloud {
+            // Health authorization screen won't trigger on Skywagon on devices: rdar://130824888 (Health Authorization Error and Health Access screen won't trigger in XCUITests - Occurs only on skywagon device compute devices)")
+            let healthAccessScreen = HealthAccess()
+            healthAccessScreen
+                .verifyHealthAuthorizationView(exists: true)
+                .tapAllowToRead(for: .height)
+                .tapAllowButton()
+        }
         
         let heightMetricAnswer = 170
         let heightUSAnswerFeet = 5
@@ -264,11 +267,15 @@ final class SurveyQuestionsLocaleDependentUITests: LocaleDependentBaseUITests {
         tasksList
             .selectTaskByName(Task.weightQuestion.description)
         
-        let healthAccessScreen = HealthAccess()
-        healthAccessScreen
-            .verifyHealthAuthorizationView(exists: true)
-            .tapAllowToRead(for: .weight)
-            .tapAllowButton()
+        if (isRunningInXcodeCloud && isRunningOnSimulator) || !isRunningInXcodeCloud {
+            // Health authorization screen won't trigger on Skywagon on devices: rdar://130824888 (Health Authorization Error and Health Access screen won't trigger in XCUITests - Occurs only on skywagon device compute devices)")
+            
+            let healthAccessScreen = HealthAccess()
+            healthAccessScreen
+                .verifyHealthAuthorizationView(exists: true)
+                .tapAllowToRead(for: .weight)
+                .tapAllowButton()
+        }
         
         let weightMetricAnswerKg = 62
         let weightMetricAnswerKgPrecise = 62.5

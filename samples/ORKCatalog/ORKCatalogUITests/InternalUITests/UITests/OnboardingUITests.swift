@@ -180,7 +180,10 @@ final class OnboardingUITests: BaseUITest {
     }
     
     /// rdar://tsc/33600824 ([Onboarding] Consent Task) - Happy Path
-    func testConsentTask() {
+    func testConsentTask() throws {
+        if isRunningInXcodeCloud && !isRunningOnSimulator {
+            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment on device compute devices due to this issue: rdar://130824888 (Health Authorization Error and Health Access screen won't trigger in XCUITests - Occurs only on skywagon device compute devices)")
+        }
         obtainConsentViaConsentTask(verifyElements: true)
     }
     
@@ -245,7 +248,11 @@ final class OnboardingUITests: BaseUITest {
             .verifyNumOfImages(expectedCount: 2)
     }
     
-    func testConsentDocumentReview() {
+    func testConsentDocumentReview() throws {
+        if isRunningInXcodeCloud && !isRunningOnSimulator {
+            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment on device compute devices due to this issue: rdar://130824888 (Health Authorization Error and Health Access screen won't trigger in XCUITests - Occurs only on skywagon device compute devices)")
+        }
+        
         // First we need to obtain consent in order to view PDF
         obtainConsentViaConsentTask(verifyElements: false)
         

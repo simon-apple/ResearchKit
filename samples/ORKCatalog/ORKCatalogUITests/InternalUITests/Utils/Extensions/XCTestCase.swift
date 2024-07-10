@@ -18,4 +18,8 @@ extension XCTestCase {
     var isRunningInXcodeCloud: Bool {
         return ProcessInfo.processInfo.environment["CI_XCODE_CLOUD"] != nil
     }
+    
+    var isRunningOnSimulator: Bool {
+        return TARGET_OS_SIMULATOR != 0
+    }
 }

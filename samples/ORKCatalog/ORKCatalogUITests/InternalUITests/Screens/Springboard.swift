@@ -39,6 +39,10 @@ final class Springboard {
                 } else {
                     secondAlertDeleteButton = springboard.alerts.buttons.element(boundBy: 1)  /// Second alert: second button on alert
                 }
+                let thirdAlertDeleteButton = springboard.alerts.buttons["OK"].firstMatch /// Third alert is regarding keeping collected health data on device
+                if thirdAlertDeleteButton.waitForExistence(timeout: 5) {
+                    thirdAlertDeleteButton.tap()
+                }
             }
         }
         
