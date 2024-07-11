@@ -188,6 +188,7 @@ struct HeightPickerView: View {
     }
 
     var secondaryUpperValue: Int {
+        // Numbers up to 1 foot or 12 inches
         return 12
     }
 
