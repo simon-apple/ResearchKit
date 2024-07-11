@@ -63,7 +63,7 @@ public struct TaskStepContentView<Content: View>: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 80, height: 80)
-                    .foregroundStyle(.blue)
+                    .foregroundStyle(.stepIconForegroundStyle)
                 
                 if let title {
                     Text(title)

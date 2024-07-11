@@ -34,6 +34,7 @@
 		5E7596BD2BE049B90088F7B7 /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7596BC2BE049B90088F7B7 /* ResearchKit.framework */; };
 		5EBAA2892C3E064900F193C6 /* InstructionStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBAA2882C3E064900F193C6 /* InstructionStep.swift */; };
 		5EBAA28D2C40634800F193C6 /* BodyItemIconForegroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBAA28C2C40634800F193C6 /* BodyItemIconForegroundStyle.swift */; };
+		5EBAA28F2C4063C100F193C6 /* StepIconForegroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBAA28E2C4063C100F193C6 /* StepIconForegroundStyle.swift */; };
 		5EDFA9D72BFFFA2B0044C156 /* StepHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDFA9D62BFFFA2B0044C156 /* StepHeaderView.swift */; };
 		5EDFA9D92BFFFF0F0044C156 /* ListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDFA9D82BFFFF0F0044C156 /* ListHeaderView.swift */; };
 		BA32DE9F2BCF34440041A937 /* ScaleSliderQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA32DE9E2BCF34440041A937 /* ScaleSliderQuestion.swift */; };
@@ -90,6 +91,7 @@
 		5E7596BC2BE049B90088F7B7 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EBAA2882C3E064900F193C6 /* InstructionStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionStep.swift; sourceTree = "<group>"; };
 		5EBAA28C2C40634800F193C6 /* BodyItemIconForegroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyItemIconForegroundStyle.swift; sourceTree = "<group>"; };
+		5EBAA28E2C4063C100F193C6 /* StepIconForegroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepIconForegroundStyle.swift; sourceTree = "<group>"; };
 		5EDFA9D62BFFFA2B0044C156 /* StepHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepHeaderView.swift; sourceTree = "<group>"; };
 		5EDFA9D82BFFFF0F0044C156 /* ListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHeaderView.swift; sourceTree = "<group>"; };
 		BA32DE9E2BCF34440041A937 /* ScaleSliderQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleSliderQuestion.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				0B72133F2B4F395C00463E69 /* TaskManager.swift */,
 				5EBAA2882C3E064900F193C6 /* InstructionStep.swift */,
 				5EBAA28C2C40634800F193C6 /* BodyItemIconForegroundStyle.swift */,
+				5EBAA28E2C4063C100F193C6 /* StepIconForegroundStyle.swift */,
 			);
 			path = "Step Views";
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				0B7213462B4F398500463E69 /* FormStepView.swift in Sources */,
 				0B7213532B4F39CC00463E69 /* View+OnChange.swift in Sources */,
 				E4DBF1B62B97C2B30085D6A1 /* MultipleChoiceQuestion.swift in Sources */,
+				5EBAA28F2C4063C100F193C6 /* StepIconForegroundStyle.swift in Sources */,
 				5EBAA28D2C40634800F193C6 /* BodyItemIconForegroundStyle.swift in Sources */,
 				5EDFA9D72BFFFA2B0044C156 /* StepHeaderView.swift in Sources */,
 				5E507F812C1141F2002958E2 /* SliderValueForegroundStyle.swift in Sources */,
