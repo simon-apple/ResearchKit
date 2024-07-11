@@ -28,8 +28,6 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Combine
-import ResearchKit // TODO: Remove
 import SwiftUI
 
 public protocol Step {
@@ -51,8 +49,6 @@ public protocol Step {
 public class TaskViewModel: ObservableObject {
     @Published var stepIdentifiers: [String] = []
     @Published var steps: [any Step]
-    
-    private var anyCancellable: AnyCancellable?
 
     public init(
         stepIdentifiers: [String],
@@ -60,10 +56,6 @@ public class TaskViewModel: ObservableObject {
     ) {
         self.stepIdentifiers = stepIdentifiers
         self.steps = steps
-        
-        anyCancellable = $steps.sink(receiveValue: { steps in
-            print("Steps changed to: \(steps)")
-        })
     }
     
     var numberOfSteps: Int {
@@ -121,10 +113,6 @@ public class TaskViewModel: ObservableObject {
             return false
         }
         return isLastStep(forIndex: index)
-    }
-    
-    private func isLastStep(for path: String, in instructionSteps: [ORKInstructionStep]) -> Bool {
-        steps.last?.identifier == path
     }
     
     func makeContent(forIndex index: Int) -> any View {
