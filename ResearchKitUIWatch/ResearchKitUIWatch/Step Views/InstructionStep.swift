@@ -60,7 +60,7 @@ public struct InstructionStep: Step {
     public func makeContent() -> some View {
         ForEach(bodyItems, id: \.text) { bodyItem in
             HStack {
-                bodyItem.image?
+                bodyItem.image
                     .frame(width: 40, height: 40)
                     .foregroundStyle(.blue)
                 
@@ -76,11 +76,11 @@ public struct BodyItem {
     
     public let text: String
     
-    public let image: Image?
+    public let image: Image
     
     public init(
         text: String,
-        image: Image? = nil
+        image: Image
     ) {
         self.text = text
         self.image = image
