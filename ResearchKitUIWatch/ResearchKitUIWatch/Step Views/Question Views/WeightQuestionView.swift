@@ -30,87 +30,6 @@
 
 import SwiftUI
 
-public enum NumericPrecision {
-    case `default`, low, high
-}
-
-public struct WeightQuestion: Identifiable {
-
-    public let id: String
-    public let title: String
-    public let detail: String?
-    public let measurementSystem: MeasurementSystem
-    public let precision: NumericPrecision
-    public let defaultValue: Double?
-    public let minimumValue: Double?
-    public let maximumValue: Double?
-    public let primarySelection: Double?
-    public let secondarySelection: Double?
-
-    public init(
-        id: String,
-        title: String,
-        detail: String?,
-        measurementSystem: MeasurementSystem,
-        precision: NumericPrecision = .default,
-        defaultValue: Double? = nil,
-        minimumValue: Double? = nil,
-        maximumValue: Double? = nil,
-        primarySelection: Double?,
-        secondarySelection: Double?
-    ) {
-        self.id = id
-        self.title = title
-        self.detail = detail
-        self.measurementSystem = measurementSystem
-        self.precision = precision
-        self.defaultValue = defaultValue
-        self.minimumValue = minimumValue
-        self.maximumValue = maximumValue
-        self.primarySelection = primarySelection
-        self.secondarySelection = secondarySelection
-    }
-
-    public var usesMetricSystem: Bool {
-        switch measurementSystem {
-        case .USC:
-            return false
-        case .local:
-            if Locale.current.measurementSystem == .us {
-                return false
-            } else {
-                return true
-            }
-        case .metric:
-            return true
-        }
-    }
-
-    public var number: NSNumber {
-        let poundToKgMultiplier = 0.45
-        let ozToKgMultiplier = 0.028
-        switch precision {
-        case .default, .low:
-            if usesMetricSystem {
-                return NSNumber(floatLiteral: primarySelection ?? 0)
-            } else {
-                let kilograms = primarySelection ?? 0 * poundToKgMultiplier
-                return NSNumber(floatLiteral: kilograms)
-            }
-        case .high:
-            if usesMetricSystem {
-
-            }
-        }
-        if usesMetricSystem == false {
-            let kilograms = (Double(primarySelection ?? 0) * poundToKgMultiplier) + (Double(secondarySelection ?? 0) * ozToKgMultiplier)
-            return NSNumber(floatLiteral: kilograms)
-        } else {
-            return NSNumber(floatLiteral: Double(primarySelection ?? 0))
-        }
-    }
-}
-
 struct WeightQuestionView: View {
     @State var isInputActive = false
     @State var hasChanges: Bool
@@ -122,8 +41,7 @@ struct WeightQuestionView: View {
     let defaultValue: Double?
     let minimumValue: Double?
     let maximumValue: Double?
-    @Binding var primarySelection: Double
-    @Binding var secondarySelection: Double
+    @Binding var selection: (Double, Double)
 
     init(title: String,
          detail: String?,
@@ -132,8 +50,7 @@ struct WeightQuestionView: View {
          defaultValue: Double?,
          minimumValue: Double?,
          maximumValue: Double?,
-         primarySelection: Binding<Double>,
-         secondarySelection: Binding<Double>
+         selection: Binding<(Double, Double)>
     ) {
         self.hasChanges = false
         self.title = title
@@ -153,13 +70,13 @@ struct WeightQuestionView: View {
                 return .metric
             }
         }()
+
         self.measurementSystem = system
         self.precision = precision
         self.defaultValue = defaultValue
         self.minimumValue = minimumValue
         self.maximumValue = maximumValue
-        self._primarySelection = primarySelection
-        self._secondarySelection = secondarySelection
+        self._selection = selection
     }
 
     var selectionString: String {
@@ -168,16 +85,16 @@ struct WeightQuestionView: View {
         if measurementSystem == .USC {
             switch precision {
             case .default, .low:
-                return "\(Int(primarySelection)) lb"
+                return "\(Int(selection.0)) lb"
             case .high:
-                return "\(Int(primarySelection)) lb \(Int(secondarySelection)) oz"
+                return "\(Int(selection.0)) lb \(Int(selection.1)) oz"
             }
         } else {
             switch precision {
             case .default, .low:
-                return "\(primarySelection) kg"
+                return "\(selection.0) kg"
             case .high:
-                return "\(primarySelection + secondarySelection) kg"
+                return "\(selection.0 + selection.1) kg"
             }
         }
     }
@@ -210,8 +127,7 @@ struct WeightQuestionView: View {
                     defaultValue: defaultValue,
                     minimumValue: minimumValue,
                     maximumValue: maximumValue,
-                    primarySelection: $primarySelection,
-                    secondarySelection: $secondarySelection,
+                    selection: $selection,
                     hasChanges: $hasChanges
                 )
                     .presentationDetents([.height(300)])
@@ -229,8 +145,7 @@ struct WeightPickerView: View {
     let minimumValue: Double?
     let maximumValue: Double?
 
-    @Binding var primarySelection: Double
-    @Binding var secondarySelection: Double
+    @Binding var selection: (Double, Double)
     @Binding var hasChanges: Bool
 
     @State var highPrecisionSelection: Int = 0
@@ -328,7 +243,7 @@ struct WeightPickerView: View {
             .padding(.horizontal)
             HStack(spacing: .zero) {
 
-                Picker(selection: $primarySelection) {
+                Picker(selection: $selection.0) {
                     ForEach(primaryRange, id: \.self) { i in
                         Text(primaryPickerString(for: i))
                             .tag(i)
@@ -337,12 +252,12 @@ struct WeightPickerView: View {
                     Text("Tap Here")
                 }
                 .pickerStyle(.wheel)
-                .onChange(of: primarySelection) { _, _ in
+                .onChange(of: selection.0) { _, _ in
                     hasChanges = true
                 }
 
                 if precision == .high {
-                    Picker(selection: $secondarySelection) {
+                    Picker(selection: $selection.1) {
                         ForEach(secondaryRange, id: \.self) { i in
                             Text(secondaryPickerString(for: i))
                                 .tag(i)
@@ -351,7 +266,7 @@ struct WeightPickerView: View {
                         Text("Tap Here")
                     }
                     .pickerStyle(.wheel)
-                    .onChange(of: secondarySelection) { _, _ in
+                    .onChange(of: selection.1) { _, _ in
                         hasChanges = true
                     }
                 }
@@ -432,8 +347,7 @@ struct WeightPickerView: View {
 
 @available(iOS 18.0, *)
 #Preview {
-    @Previewable @State var primarySelection: Double = 22
-    @Previewable @State var secondarySelection: Double = 2
+    @Previewable @State var selection: (Double, Double) = (133, 0)
     WeightQuestionView(
         title: "Weight question here",
         detail: nil,
@@ -442,8 +356,7 @@ struct WeightPickerView: View {
         defaultValue: 150,
         minimumValue: 0,
         maximumValue: 1430,
-        primarySelection: $primarySelection,
-        secondarySelection: $secondarySelection
+        selection: $selection
     )
 }
 

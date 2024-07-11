@@ -234,7 +234,11 @@ public class RKAdapter {
             // We want to check for that here and pass in a valid value.
             let defaultValue: Double? = {
                 if weightAnswerFormat.defaultValue == Double.greatestFiniteMagnitude {
-                    return nil
+                    if measurementSystem == .USC {
+                        return 133
+                    } else {
+                        return 60
+                    }
                 }
 
                 return weightAnswerFormat.defaultValue
@@ -265,8 +269,7 @@ public class RKAdapter {
                     defaultValue: defaultValue,
                     minimumValue: minimumValue,
                     maximumValue: maximumValue,
-                    primarySelection: defaultValue,
-                    secondarySelection: nil
+                    selection: (defaultValue, 0)
                 )
             )
         default:
