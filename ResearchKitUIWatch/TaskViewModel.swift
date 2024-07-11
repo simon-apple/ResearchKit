@@ -228,8 +228,8 @@ extension LivingTaskStep: Step {
             FormRowContent(
                 detail: nil,
                 formRow: Binding<FormRow>(
-                    get: {
-                        formRow
+                    get: { [weak self] in
+                        self?.taskStep.items[itemIndex] ?? formRow
                     },
                     set: { [weak self] formRow in
                         self?.taskStep.items[itemIndex] = formRow

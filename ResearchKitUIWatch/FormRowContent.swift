@@ -129,7 +129,13 @@ public struct FormRowContent: View {
         case .textRow(let textQuestion):
             TextQuestionView(
                 text: .init(get: {
-                    return textQuestion.text
+                    let text: String
+                    if case .textRow(let textQuestion) = formRow {
+                        text = textQuestion.text
+                    } else {
+                        text = ""
+                    }
+                    return text
                 }, set: { newValue in
                     $formRow.wrappedValue = .textRow(
                         TextQuestion(
