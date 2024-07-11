@@ -229,6 +229,17 @@ public class RKAdapter {
                 }
             }()
 
+            let precision: NumericPrecision = {
+                switch weightAnswerFormat.numericPrecision {
+                case .default:
+                    return .default
+                case .high:
+                    return .high
+                case .low:
+                    return .low
+                }
+            }()
+
             // At the moment the RK API for weight answer format defaults these values
             // to the `greatestFiniteMagnitude` if you don't explicitly pass them in.
             // We want to check for that here and pass in a valid value.
@@ -266,6 +277,7 @@ public class RKAdapter {
                     title: item.text ?? "",
                     detail: item.detailText,
                     measurementSystem: measurementSystem,
+                    precision: precision,
                     defaultValue: defaultValue,
                     minimumValue: minimumValue,
                     maximumValue: maximumValue,

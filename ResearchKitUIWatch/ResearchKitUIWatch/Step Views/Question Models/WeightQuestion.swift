@@ -91,19 +91,17 @@ public struct WeightQuestion: Identifiable {
             if usesMetricSystem {
                 return NSNumber(floatLiteral: selection.0 ?? 0)
             } else {
-                let kilograms = selection.0 ?? 0 * poundToKgMultiplier
+                let kilograms = (selection.0 ?? 0) * poundToKgMultiplier
                 return NSNumber(floatLiteral: kilograms)
             }
         case .high:
-            if usesMetricSystem {
-
+            if usesMetricSystem == false {
+                let kilograms = (Double(selection.0 ?? 0) * poundToKgMultiplier) + (Double(selection.1 ?? 0) * ozToKgMultiplier)
+                return NSNumber(floatLiteral: kilograms)
+            } else {
+                let combinedKilograms = (selection.0 ?? 0) + Double(selection.1 ?? 0)
+                return NSNumber(floatLiteral: combinedKilograms)
             }
-        }
-        if usesMetricSystem == false {
-            let kilograms = (Double(selection.0 ?? 0) * poundToKgMultiplier) + (Double(selection.1 ?? 0) * ozToKgMultiplier)
-            return NSNumber(floatLiteral: kilograms)
-        } else {
-            return NSNumber(floatLiteral: Double(selection.0 ?? 0))
         }
     }
 }
