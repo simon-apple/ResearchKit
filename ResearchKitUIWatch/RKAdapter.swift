@@ -211,6 +211,60 @@ public class RKAdapter {
                     secondarySelection: 4
                 )
             )
+        case let weightAnswerFormat as ORKWeightAnswerFormat:
+            let measurementSystem: MeasurementSystem = {
+                switch weightAnswerFormat.measurementSystem {
+                case .USC:
+                    return .USC
+                case .local:
+                    return .local
+                case .metric:
+                    return .metric
+                @unknown default:
+                    return .metric
+                }
+            }()
+
+            // At the moment the RK API for weight answer format defaults these values
+            // to the `greatestFiniteMagnitude` if you don't explicitly pass them in.
+            // We want to check for that here and pass in a valid value.
+            let defaultValue: Double? = {
+                if weightAnswerFormat.defaultValue == Double.greatestFiniteMagnitude {
+                    return nil
+                }
+
+                return weightAnswerFormat.defaultValue
+            }()
+
+            let minimumValue: Double? = {
+                if weightAnswerFormat.minimumValue == Double.greatestFiniteMagnitude {
+                    return nil
+                }
+
+                return weightAnswerFormat.minimumValue
+            }()
+
+            let maximumValue: Double? = {
+                if weightAnswerFormat.maximumValue == Double.greatestFiniteMagnitude {
+                    return nil
+                }
+
+                return weightAnswerFormat.maximumValue
+            }()
+
+            return FormRow.weightRow(
+                WeightQuestion(
+                    id: item.identifier,
+                    title: item.text ?? "",
+                    detail: item.detailText,
+                    measurementSystem: measurementSystem,
+                    defaultValue: defaultValue,
+                    minimumValue: minimumValue,
+                    maximumValue: maximumValue,
+                    primarySelection: defaultValue,
+                    secondarySelection: nil
+                )
+            )
         default:
             return nil
         }

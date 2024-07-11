@@ -236,6 +236,52 @@ public struct FormRowContent: View {
                     )
                 })
             )
+        case .weightRow(let weightQuestion):
+            WeightQuestionView(
+                title: weightQuestion.title,
+                detail: weightQuestion.detail,
+                measurementSystem: weightQuestion.measurementSystem,
+                precision: weightQuestion.precision,
+                defaultValue: weightQuestion.defaultValue,
+                minimumValue: weightQuestion.minimumValue,
+                maximumValue: weightQuestion.maximumValue,
+                primarySelection: .init(get: {
+                    return weightQuestion.primarySelection ?? 0
+                }, set: { newValue in
+                    $formRow.wrappedValue = .weightRow(
+                        WeightQuestion(
+                            id: weightQuestion.id,
+                            title: weightQuestion.title,
+                            detail: weightQuestion.detail,
+                            measurementSystem: weightQuestion.measurementSystem,
+                            precision: weightQuestion.precision,
+                            defaultValue: weightQuestion.defaultValue,
+                            minimumValue: weightQuestion.minimumValue,
+                            maximumValue: weightQuestion.maximumValue,
+                            primarySelection: newValue,
+                            secondarySelection: weightQuestion.secondarySelection
+                        )
+                    )
+                }),
+                secondarySelection: .init(get: {
+                    return weightQuestion.secondarySelection ?? 0
+                }, set: { newValue in
+                    $formRow.wrappedValue = .weightRow(
+                        WeightQuestion(
+                            id: weightQuestion.id,
+                            title: weightQuestion.title,
+                            detail: weightQuestion.detail,
+                            measurementSystem: weightQuestion.measurementSystem,
+                            precision: weightQuestion.precision,
+                            defaultValue: weightQuestion.defaultValue,
+                            minimumValue: weightQuestion.minimumValue,
+                            maximumValue: weightQuestion.maximumValue,
+                            primarySelection: weightQuestion.primarySelection,
+                            secondarySelection: newValue
+                        )
+                    )
+                })
+            )
         }
     }
 }

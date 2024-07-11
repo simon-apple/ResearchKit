@@ -53,9 +53,9 @@ public struct WeightQuestion: Identifiable {
         detail: String?,
         measurementSystem: MeasurementSystem,
         precision: NumericPrecision = .default,
-        defaultValue: Double?,
-        minimumValue: Double?,
-        maximumValue: Double?,
+        defaultValue: Double? = nil,
+        minimumValue: Double? = nil,
+        maximumValue: Double? = nil,
         primarySelection: Double?,
         secondarySelection: Double?
     ) {
@@ -87,9 +87,24 @@ public struct WeightQuestion: Identifiable {
     }
 
     public var number: NSNumber {
+        let poundToKgMultiplier = 0.45
+        let ozToKgMultiplier = 0.028
+        switch precision {
+        case .default, .low:
+            if usesMetricSystem {
+                return NSNumber(floatLiteral: primarySelection ?? 0)
+            } else {
+                let kilograms = primarySelection ?? 0 * poundToKgMultiplier
+                return NSNumber(floatLiteral: kilograms)
+            }
+        case .high:
+            if usesMetricSystem {
+
+            }
+        }
         if usesMetricSystem == false {
-            let centimeters = (Double(primarySelection ?? 0) * 30.48) + (Double(secondarySelection ?? 0) * 2.54)
-            return NSNumber(floatLiteral: centimeters)
+            let kilograms = (Double(primarySelection ?? 0) * poundToKgMultiplier) + (Double(secondarySelection ?? 0) * ozToKgMultiplier)
+            return NSNumber(floatLiteral: kilograms)
         } else {
             return NSNumber(floatLiteral: Double(primarySelection ?? 0))
         }
