@@ -108,7 +108,7 @@ public class TaskViewModel: ObservableObject {
         steps[index].subtitle
     }
     
-    func subtitleForNextStep(for path: String) -> String? {
+    func subtitleForStep(at path: String) -> String? {
         step(for: path)?.subtitle
     }
     
@@ -116,7 +116,7 @@ public class TaskViewModel: ObservableObject {
         steps.count - 1 == index
     }
     
-    func isLastStep(for path: String) -> Bool {
+    func isLastStep(at path: String) -> Bool {
         guard let index = index(for: path) else {
             return false
         }
@@ -131,7 +131,7 @@ public class TaskViewModel: ObservableObject {
         steps[index].makeContent()
     }
     
-    func makeContentForNextStep(for path: String) -> any View {
+    func makeContentStep(at path: String) -> any View {
         step(for: path)?.makeContent() ?? EmptyView()
     }
     
