@@ -171,7 +171,7 @@ public class TaskViewModel: ObservableObject {
     
 }
 
-public struct TaskStep: Identifiable {
+public class TaskStep: Identifiable {
     public let id: UUID = UUID()
     public let title: String?
     public let subtitle: String?
@@ -188,51 +188,30 @@ public struct TaskStep: Identifiable {
     }
 }
 
-// Option 1: Make TaskStep a class.
-// Option 2: Wrap around TaskStep and have wrapper conform to Step.
-// Option 3: Switch on a task-step type in TaskViewModel.
-
-public class LivingTaskStep {
-    
-    private var taskStep: TaskStep
-    
-    public init(taskStep: TaskStep) {
-        self.taskStep = taskStep
-    }
-    
-}
-
-extension LivingTaskStep: Step {
+extension TaskStep: Step {
     
     public typealias Content = ForEach
     
     public var identifier: String {
-        taskStep.id.uuidString
+        id.uuidString
     }
     
     public var iconImage: Image? {
         nil
     }
     
-    public var title: String? {
-        taskStep.title
-    }
-    
-    public var subtitle: String? {
-        taskStep.subtitle
-    }
-    
     @ViewBuilder
     public func makeContent() -> some View {
-        ForEach(Array(taskStep.items.enumerated()), id: \.offset) { itemIndex, formRow in
+        ForEach(Array(items.enumerated()), id: \.offset) { itemIndex, formRow in
             FormRowContent(
                 detail: nil,
                 formRow: Binding<FormRow>(
                     get: { [weak self] in
-                        self?.taskStep.items[itemIndex] ?? formRow
+                        self?.items[itemIndex] ?? formRow
                     },
                     set: { [weak self] formRow in
-                        self?.taskStep.items[itemIndex] = formRow
+                        print("Form row set to: \(formRow)")
+                        self?.items[itemIndex] = formRow
                     }
                 )
             )
