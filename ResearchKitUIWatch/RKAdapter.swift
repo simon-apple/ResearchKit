@@ -175,6 +175,46 @@ public class RKAdapter {
                     number: numericAnswerFormat.defaultNumericAnswer
                 )
             )
+        case let heightAnswerFormat as ORKHeightAnswerFormat:
+            let measurementSystem: MeasurementSystem = {
+                switch heightAnswerFormat.measurementSystem {
+                case .USC:
+                    return .USC
+                case .local:
+                    return .local
+                case .metric:
+                    return .metric
+                @unknown default:
+                    return .metric
+                }
+            }()
+
+            let initialPrimaryValue: Int = {
+                // To set the picker at a nice middle of the road height
+                // we will set it to 5 feet initially
+                if measurementSystem == .USC {
+                    return 5
+                }
+
+                // Similar to above, this equate to 5'4" which
+                // is a good starting point for the picker.
+                if measurementSystem == .metric {
+                    return 162
+                }
+
+                return Locale.current.measurementSystem == .us ? 5 : 162
+            }()
+
+            return FormRow.heightRow(
+                HeightQuestion(
+                    id: item.identifier,
+                    title: item.text ?? "",
+                    detail: item.detailText,
+                    measurementSystem: measurementSystem,
+                    primarySelection: initialPrimaryValue,
+                    secondarySelection: 4 // Denotes 4 inches which is paired with a 5 foot selection (162 cm)
+                )
+            )
         default:
             return nil
         }
