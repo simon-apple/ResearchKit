@@ -58,7 +58,7 @@ public struct InstructionStep: Step {
     
     @ViewBuilder
     public func makeContent() -> some View {
-        ForEach(bodyItems, id: \.text) { bodyItem in
+        ForEach(bodyItems) { bodyItem in
             HStack {
                 bodyItem.image
                     .frame(width: 40, height: 40)
@@ -72,7 +72,9 @@ public struct InstructionStep: Step {
     
 }
 
-public struct BodyItem {
+public struct BodyItem: Identifiable {
+    
+    public let id = UUID()
     
     public let text: String
     
