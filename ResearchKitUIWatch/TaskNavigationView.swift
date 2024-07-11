@@ -67,10 +67,10 @@ public struct TaskNavigationView: View {
             .navigationTitle("1 of \(viewModel.numberOfSteps)")
             .navigationDestination(for: String.self) { path in
                 TaskStepContentView(
-                    image: viewModel.image(at: path),
-                    title: viewModel.titleForStep(at: path),
-                    subtitle: viewModel.subtitleForStep(at: path),
-                    isLastStep: viewModel.isLastStep(at: path),
+                    image: viewModel.image(atPath: path),
+                    title: viewModel.titleForStep(atPath: path),
+                    subtitle: viewModel.subtitleForStep(atPath: path),
+                    isLastStep: viewModel.isLastStep(atPath: path),
                     onStepCompletion: { completion in
                         if completion == .discarded {
                             dismiss()
@@ -81,10 +81,10 @@ public struct TaskNavigationView: View {
                         }
                     },
                     content: {
-                        AnyView(viewModel.makeContentStep(at: path))
+                        AnyView(viewModel.makeContentStep(atPath: path))
                     }
                 )
-                .navigationTitle(viewModel.navigationTitleForNextStep(for: path))
+                .navigationTitle(viewModel.navigationTitleStep(atPath: path))
             }
         }
     }

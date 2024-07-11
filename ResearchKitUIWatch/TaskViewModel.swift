@@ -61,55 +61,47 @@ public class TaskViewModel: ObservableObject {
     var numberOfSteps: Int {
         steps.count
     }
-
-    func isLastStep(_ step: TaskStep) -> Bool {
-        steps.last?.identifier == step.id.uuidString
-    }
-
-    func index(for identifier: String) -> Int {
-        steps.firstIndex(where: { $0.identifier == identifier }) ?? 0
-    }
     
-    private func index(for path: String) -> Int? {
+    private func index(forPath path: String) -> Int? {
         steps.firstIndex { step in
             step.identifier == path
         }
     }
     
-    func step(for identifier: String) -> (any Step)? {
-        steps.first { $0.identifier == identifier }
+    func step(atPath path: String) -> (any Step)? {
+        steps.first { $0.identifier == path }
     }
     
     func image(forIndex index: Int) -> Image? {
         steps[index].iconImage
     }
     
-    func image(at path: String) -> Image? {
-        step(for: path)?.iconImage
+    func image(atPath path: String) -> Image? {
+        step(atPath: path)?.iconImage
     }
     
     func title(forIndex index: Int) -> String? {
         steps[index].title
     }
     
-    func titleForStep(at path: String) -> String? {
-        step(for: path)?.title
+    func titleForStep(atPath path: String) -> String? {
+        step(atPath: path)?.title
     }
     
     func subtitle(forIndex index: Int) -> String? {
         steps[index].subtitle
     }
     
-    func subtitleForStep(at path: String) -> String? {
-        step(for: path)?.subtitle
+    func subtitleForStep(atPath path: String) -> String? {
+        step(atPath: path)?.subtitle
     }
     
     func isLastStep(forIndex index: Int) -> Bool {
         steps.count - 1 == index
     }
     
-    func isLastStep(at path: String) -> Bool {
-        guard let index = index(for: path) else {
+    func isLastStep(atPath path: String) -> Bool {
+        guard let index = index(forPath: path) else {
             return false
         }
         return isLastStep(forIndex: index)
@@ -119,8 +111,8 @@ public class TaskViewModel: ObservableObject {
         steps[index].makeContent()
     }
     
-    func makeContentStep(at path: String) -> any View {
-        step(for: path)?.makeContent() ?? EmptyView()
+    func makeContentStep(atPath path: String) -> any View {
+        step(atPath: path)?.makeContent() ?? EmptyView()
     }
     
     func identifier(forIndex index: Int) -> String {
@@ -128,8 +120,8 @@ public class TaskViewModel: ObservableObject {
     }
     
     func identifier(afterPath path: String) -> String? {
-        func step(after path: String) -> (any Step)? {
-            guard let index = index(for: path) else {
+        func step(afterPath path: String) -> (any Step)? {
+            guard let index = index(forPath: path) else {
                 return nil
             }
             
@@ -144,12 +136,12 @@ public class TaskViewModel: ObservableObject {
             return instructionStep
         }
         
-        return step(after: path)?.identifier
+        return step(afterPath: path)?.identifier
     }
     
-    func navigationTitleForNextStep(for path: String) -> String {
+    func navigationTitleStep(atPath path: String) -> String {
         let navigationTitle: String
-        if let index = index(for: path) {
+        if let index = index(forPath: path) {
             navigationTitle = "\(index + 1) of \(steps.count)"
         } else {
             navigationTitle = ""
