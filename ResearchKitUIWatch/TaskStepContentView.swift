@@ -59,9 +59,11 @@ public struct TaskStepContentView<Content: View>: View {
     public var body: some View {
         StickyScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                if let image {
-                    image
-                }
+                image?
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 80, height: 80)
+                    .foregroundStyle(.blue)
                 
                 if let title {
                     Text(title)
