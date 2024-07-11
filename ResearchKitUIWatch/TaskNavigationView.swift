@@ -45,7 +45,7 @@ public struct TaskNavigationView: View {
     }
 
     public var body: some View {
-        return NavigationStack(path: $viewModel.stepIdentifiers) {
+        NavigationStack(path: $viewModel.stepIdentifiers) {
             TaskStepContentView(
                 image: viewModel.image(forIndex: 0),
                 title: viewModel.title(forIndex: 0),
