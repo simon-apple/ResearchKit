@@ -30,62 +30,23 @@
 
 import SwiftUI
 
-public struct InstructionStep: Step {
+extension ShapeStyle where Self == BodyItemIconForegroundStyle {
     
-    public let identifier: String
-    
-    public let iconImage: Image?
-    
-    public let title: String?
-    
-    public let subtitle: String?
-    
-    public let bodyItems: [BodyItem]
-    
-    public init(
-        identifier: String,
-        iconImage: Image? = nil,
-        title: String? = nil,
-        subtitle: String? = nil,
-        bodyItems: [BodyItem] = []
-    ) {
-        self.identifier = identifier
-        self.iconImage = iconImage
-        self.title = title
-        self.subtitle = subtitle
-        self.bodyItems = bodyItems
-    }
-    
-    @ViewBuilder
-    public func makeContent() -> some View {
-        ForEach(bodyItems) { bodyItem in
-            HStack {
-                bodyItem.image
-                    .frame(width: 40, height: 40)
-                    .foregroundStyle(.bodyItemIconForegroundStyle)
-                
-                Text(bodyItem.text)
-                    .font(.subheadline)
-            }
-        }
+    /// This foreground style is used for labels that display values associated with sliders.
+    static var bodyItemIconForegroundStyle: BodyItemIconForegroundStyle {
+        BodyItemIconForegroundStyle()
     }
     
 }
 
-public struct BodyItem: Identifiable {
+struct BodyItemIconForegroundStyle: ShapeStyle {
     
-    public let id = UUID()
-    
-    public let text: String
-    
-    public let image: Image
-    
-    public init(
-        text: String,
-        image: Image
-    ) {
-        self.text = text
-        self.image = image
+    func resolve(in environment: EnvironmentValues) -> some ShapeStyle {
+#if os(iOS)
+        .blue
+#elseif os(visionOS)
+        .white
+#endif
     }
     
 }
