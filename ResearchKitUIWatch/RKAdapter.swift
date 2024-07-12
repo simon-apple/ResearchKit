@@ -211,8 +211,7 @@ public class RKAdapter {
                     title: item.text ?? "",
                     detail: item.detailText,
                     measurementSystem: measurementSystem,
-                    primarySelection: initialPrimaryValue,
-                    secondarySelection: 4 // Denotes 4 inches which is paired with a 5 foot selection (162 cm)
+                    selection: (initialPrimaryValue, 4) // Denotes 4 inches which is paired with a 5 foot selection (162 cm)
                 )
             )
         case let weightAnswerFormat as ORKWeightAnswerFormat:

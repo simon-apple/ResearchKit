@@ -207,8 +207,10 @@ public struct FormRowContent: View {
                 title: heightQuestion.title,
                 detail: heightQuestion.detail,
                 measurementSystem: heightQuestion.measurementSystem,
-                primarySelection: .init(get: {
-                    return heightQuestion.primarySelection ?? 0
+                selection: .init(get: {
+                    let firstValue = heightQuestion.selection.0 ?? 0
+                    let secondValue = heightQuestion.selection.1 ?? 0
+                    return (firstValue, secondValue)
                 }, set: { newValue in
                     $formRow.wrappedValue = .heightRow(
                         HeightQuestion(
@@ -216,22 +218,7 @@ public struct FormRowContent: View {
                             title: heightQuestion.title,
                             detail: heightQuestion.detail,
                             measurementSystem: heightQuestion.measurementSystem,
-                            primarySelection: newValue,
-                            secondarySelection: heightQuestion.secondarySelection
-                        )
-                    )
-                }),
-                secondarySelection: .init(get: {
-                    return heightQuestion.secondarySelection ?? 0
-                }, set: { newValue in
-                    $formRow.wrappedValue = .heightRow(
-                        HeightQuestion(
-                            id: heightQuestion.id,
-                            title: heightQuestion.title,
-                            detail: heightQuestion.detail,
-                            measurementSystem: heightQuestion.measurementSystem,
-                            primarySelection: heightQuestion.primarySelection,
-                            secondarySelection: newValue
+                            selection: newValue
                         )
                     )
                 })
