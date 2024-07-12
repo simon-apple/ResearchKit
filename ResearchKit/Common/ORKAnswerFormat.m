@@ -360,6 +360,32 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return [[ORKHeightAnswerFormat alloc] initWithMeasurementSystem:measurementSystem];
 }
 
++ (ORKWeightAnswerFormat *)weightAnswerFormat {
+    return [ORKWeightAnswerFormat new];
+}
+
++ (ORKWeightAnswerFormat *)weightAnswerFormatWithMeasurementSystem:(ORKMeasurementSystem)measurementSystem {
+    return [[ORKWeightAnswerFormat alloc] initWithMeasurementSystem:measurementSystem];
+}
+
++ (ORKWeightAnswerFormat *)weightAnswerFormatWithMeasurementSystem:(ORKMeasurementSystem)measurementSystem
+                                                  numericPrecision:(ORKNumericPrecision)numericPrecision {
+    return [[ORKWeightAnswerFormat alloc] initWithMeasurementSystem:measurementSystem
+                                                   numericPrecision:numericPrecision];
+}
+
++ (ORKWeightAnswerFormat *)weightAnswerFormatWithMeasurementSystem:(ORKMeasurementSystem)measurementSystem
+                                                  numericPrecision:(ORKNumericPrecision)numericPrecision
+                                                      minimumValue:(double)minimumValue
+                                                      maximumValue:(double)maximumValue
+                                                      defaultValue:(double)defaultValue {
+    return [[ORKWeightAnswerFormat alloc] initWithMeasurementSystem:measurementSystem
+                                                   numericPrecision:numericPrecision
+                                                       minimumValue:minimumValue
+                                                       maximumValue:maximumValue
+                                                       defaultValue:defaultValue];
+}
+
 #endif
 
 #if TARGET_OS_IOS
@@ -430,32 +456,6 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
 + (ORKTimeIntervalAnswerFormat *)timeIntervalAnswerFormatWithDefaultInterval:(NSTimeInterval)defaultInterval
                                                                         step:(NSInteger)step {
     return [[ORKTimeIntervalAnswerFormat alloc] initWithDefaultInterval:defaultInterval step:step];
-}
-
-+ (ORKWeightAnswerFormat *)weightAnswerFormat {
-    return [ORKWeightAnswerFormat new];
-}
-
-+ (ORKWeightAnswerFormat *)weightAnswerFormatWithMeasurementSystem:(ORKMeasurementSystem)measurementSystem {
-    return [[ORKWeightAnswerFormat alloc] initWithMeasurementSystem:measurementSystem];
-}
-
-+ (ORKWeightAnswerFormat *)weightAnswerFormatWithMeasurementSystem:(ORKMeasurementSystem)measurementSystem
-                                                  numericPrecision:(ORKNumericPrecision)numericPrecision {
-    return [[ORKWeightAnswerFormat alloc] initWithMeasurementSystem:measurementSystem
-                                                   numericPrecision:numericPrecision];
-}
-
-+ (ORKWeightAnswerFormat *)weightAnswerFormatWithMeasurementSystem:(ORKMeasurementSystem)measurementSystem
-                                                  numericPrecision:(ORKNumericPrecision)numericPrecision
-                                                      minimumValue:(double)minimumValue
-                                                      maximumValue:(double)maximumValue
-                                                      defaultValue:(double)defaultValue {
-    return [[ORKWeightAnswerFormat alloc] initWithMeasurementSystem:measurementSystem
-                                                   numericPrecision:numericPrecision
-                                                       minimumValue:minimumValue
-                                                       maximumValue:maximumValue
-                                                       defaultValue:defaultValue];
 }
 
 #if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
