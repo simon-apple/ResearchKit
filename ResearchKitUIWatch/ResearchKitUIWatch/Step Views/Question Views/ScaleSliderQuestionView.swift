@@ -32,116 +32,6 @@ import Foundation
 import ResearchKit
 import SwiftUI
 
-public enum ScaleSelectionConfiguration {
-    case textChoice([MultipleChoiceOption])
-    case integerRange(ClosedRange<Int>)
-    case doubleRange(ClosedRange<Double>)
-}
-
-public struct ScaleSliderQuestion<ResultType>: Identifiable {
-
-    public let id: String
-    public let title: String
-    public let detail: String?
-    public let step: Double
-    public let value: Double
-    public let range: ClosedRange<Double>
-    public let configuration: ScaleSelectionConfiguration
-
-    public init(
-        id: String,
-        title: String,
-        detail: String? = nil,
-        step: Double = 1.0,
-        range: ClosedRange<Double>,
-        value: Double
-    ) {
-        self.id = id
-        self.title = title
-        self.detail = detail
-        self.step = step
-        self.range = range
-        self.configuration = .doubleRange(range)
-        self.value = value
-    }
-
-}
-
-extension ScaleSliderQuestion where ResultType == Int {
-
-    public var intResult: Int {
-        return Int(value)
-    }
-
-    var range: ClosedRange<Int> {
-        return Int(range.lowerBound)...Int(range.upperBound)
-    }
-
-    public init(
-        id: String,
-        title: String,
-        detail: String? = nil,
-        step: Int = 1,
-        range: ClosedRange<Int>,
-        value: Int
-    ) {
-        self.id = id
-        self.title = title
-        self.detail = detail
-        self.step = Double(step)
-        self.range = Double(range.lowerBound) ... Double(range.upperBound)
-        self.configuration = .integerRange(range)
-        self.value = Double(value)
-    }
-}
-
-extension ScaleSliderQuestion where ResultType == Double {
-
-    public var result: Double {
-        return value
-    }
-
-}
-
-extension ScaleSliderQuestion where ResultType == MultipleChoiceOption {
-
-    public var result: MultipleChoiceOption {
-        switch configuration {
-        case .textChoice(let choices):
-            return choices[Int(value)]
-        default:
-            fatalError("Unsupported configuration detected for MultipleChoiceOption when querying result")
-        }
-    }
-
-    public var multipleChoiceOptions: [MultipleChoiceOption] {
-        switch configuration {
-        case .textChoice(let options):
-            return options
-        default:
-            fatalError("Unsupported configuration detected for MultipleChoiceOption when querying multiple choice options")
-        }
-    }
-
-    public init(
-        id: String,
-        title: String,
-        detail: String? = nil,
-        options: [MultipleChoiceOption],
-        selectedMultipleChoiceOption: MultipleChoiceOption
-    ) {
-        self.id = id
-        self.title = title
-        self.detail = detail
-        self.step = 1.0
-        self.configuration = .textChoice(options)
-        let index = options.firstIndex(where: { $0.id == selectedMultipleChoiceOption.id }) ?? 0
-        self.range = Double(0) ... Double(options.count - 1)
-        self.value = Double(index)
-    }
-
-}
-
 // TODO(rdar://129033515): Update name of this module to reflect just the slider without the header.
 public struct ScaleSliderQuestionView: View {
 
@@ -363,5 +253,23 @@ public struct ScaleSliderQuestionView: View {
         }
         return maximumValueDescription
     }
-    
 }
+
+struct ScaleSliderQuestionView_Previews: PreviewProvider {
+
+    static var previews: some View {
+        ZStack {
+            Color(uiColor: .secondarySystemBackground)
+                .ignoresSafeArea()
+
+            ScaleSliderQuestionView(
+                title: "On a scale of 1-10, how would you rate today?",
+                range: 1...10,
+                selection: .constant(7)
+            )
+            .padding(.horizontal)
+        }
+
+    }
+}
+

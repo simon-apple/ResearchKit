@@ -113,13 +113,18 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
 
 struct DateTimeView_Previews: PreviewProvider {
     static var previews: some View {
-        DateTimeView(
-            title: "What is your age",
-            detail: nil,
-            selection: .constant(Date()),
-            pickerPrompt: "Select Date and Time",
-            displayedComponents: [.date, .hourAndMinute],
-            range: Date.distantPast...Date.distantFuture
-        )
+        ZStack {
+            Color(uiColor: .secondarySystemBackground)
+                .ignoresSafeArea()
+            DateTimeView(
+                title: "What is your age",
+                detail: nil,
+                selection: .constant(Date()),
+                pickerPrompt: "Select Date and Time",
+                displayedComponents: [.date, .hourAndMinute],
+                range: Date.distantPast...Date.distantFuture
+            )
+            .padding(.horizontal)
+        }
     }
 }
