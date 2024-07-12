@@ -1662,14 +1662,20 @@ enum TaskListRow: Int, CustomStringConvertible {
             ])
         
         // Build navigation rules.
-        var resultSelector = ORKResultSelector(stepIdentifier: String(describing: Identifier.eligibilityFormStep), resultIdentifier: String(describing: Identifier.eligibilityFormItem01))
-        let predicateFormItem01 = ORKResultPredicate.predicateForChoiceQuestionResult(with: resultSelector, expectedAnswerValue: "Yes" as NSString)
+        var resultSelector = ORKResultSelector(stepIdentifier: String(describing: Identifier.eligibilityFormStep), 
+                                               resultIdentifier: String(describing: Identifier.eligibilityFormItem01))
+        let predicateFormItem01 = ORKResultPredicate.predicateForChoiceQuestionResult(with: resultSelector, 
+                                                                                      expectedAnswerValue: "Yes" as NSString)
         
-        resultSelector = ORKResultSelector(stepIdentifier: String(describing: Identifier.eligibilityFormStep), resultIdentifier: String(describing: Identifier.eligibilityFormItem02))
-        let predicateFormItem02 = ORKResultPredicate.predicateForChoiceQuestionResult(with: resultSelector, expectedAnswerValue: "Yes" as NSString)
+        resultSelector = ORKResultSelector(stepIdentifier: String(describing: Identifier.eligibilityFormStep),
+                                           resultIdentifier: String(describing: Identifier.eligibilityFormItem02))
+        let predicateFormItem02 = ORKResultPredicate.predicateForChoiceQuestionResult(with: resultSelector, 
+                                                                                      expectedAnswerValue: "Yes" as NSString)
         
-        resultSelector = ORKResultSelector(stepIdentifier: String(describing: Identifier.eligibilityFormStep), resultIdentifier: String(describing: Identifier.eligibilityFormItem03))
-        let predicateFormItem03 = ORKResultPredicate.predicateForChoiceQuestionResult(with: resultSelector, expectedAnswerValue: "No" as NSString)
+        resultSelector = ORKResultSelector(stepIdentifier: String(describing: Identifier.eligibilityFormStep), 
+                                           resultIdentifier: String(describing: Identifier.eligibilityFormItem03))
+        let predicateFormItem03 = ORKResultPredicate.predicateForChoiceQuestionResult(with: resultSelector, 
+                                                                                      expectedAnswerValue: "No" as NSString)
         
         let predicateEligible = NSCompoundPredicate(andPredicateWithSubpredicates: [predicateFormItem01, predicateFormItem02, predicateFormItem03])
         let predicateRule = ORKPredicateStepNavigationRule(resultPredicatesAndDestinationStepIdentifiers: [ (predicateEligible, String(describing: Identifier.eligibilityEligibleStep)) ])
@@ -1680,7 +1686,31 @@ enum TaskListRow: Int, CustomStringConvertible {
         let directRule = ORKDirectStepNavigationRule(destinationStepIdentifier: ORKNullStepIdentifier)
         eligibilityTask.setNavigationRule(directRule, forTriggerStepIdentifier: String(describing: Identifier.eligibilityIneligibleStep))
         
-        return eligibilityTask
+        
+        let formStep1 = ORKFormStep(identifier: "FormStep1")
+        formStep1.title = "Apple Task"
+        formStep1.text = "Please answer the following question."
+        
+        let boolAnswerFormat = ORKAnswerFormat.booleanAnswerFormat()
+        let boolFormItem = ORKFormItem(identifier: "BooleanFormItemIdentifier", text: "Do you like Apples?", answerFormat: boolAnswerFormat)
+        
+        formStep1.formItems = [boolFormItem]
+        
+        let appleTextChoiceFormStep = TaskListRowSteps.readOnlyTextChoiceQuestionStepExample
+        let completionStep = TaskListRowSteps.completionStepExample
+        
+        let boolResultSelector = ORKResultSelector(stepIdentifier: formStep1.identifier, resultIdentifier: boolFormItem.identifier)
+        let boolResultPredicate = ORKResultPredicate.predicateForBooleanQuestionResult(with: boolResultSelector, expectedAnswer: false)
+        let navigationRule = ORKPredicateStepNavigationRule(resultPredicatesAndDestinationStepIdentifiers: [ (boolResultPredicate, completionStep.identifier) ])
+        
+        let navigableTask = ORKNavigableOrderedTask(identifier: "NavigableTaskIdentifier", steps: [formStep1, appleTextChoiceFormStep, completionStep])
+        navigableTask.setNavigationRule(navigationRule, forTriggerStepIdentifier: formStep1.identifier)
+        
+        // makes the step identified here the last step in the task
+//        let completionStepRule = ORKDirectStepNavigationRule(destinationStepIdentifier: ORKNullStepIdentifier)
+//        navigableTask.setNavigationRule(completionStepRule, forTriggerStepIdentifier: instructionStepExample.identifier)
+        
+        return navigableTask
     }
     
     /// This task presents the Account Creation process.

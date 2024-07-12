@@ -21,3 +21,60 @@ In order to conditionally navigate to or skip specific steps during a ORKTask yo
 - `ORKNavigableOrderedTask` - A subclass of the `ORKOrderedTask` that can accept one or more `ORKPredicateStepNavigationRule` objects and applies the expected conditional navigation.
 
 
+The task for this example will include the steps seen below.
+
+TODO: ADD IMAGES
+
+The conditional logic will be based on answering Yes or No for the first question (Do you like Apples?):
+
+- **Answering Yes**: navigate to the second screen to select your favorite apple.
+- **Answering No**: skips the second screen and navigates directly to the completion step.
+
+```swift
+
+// Construct Steps
+let boolFormStep = ORKFormStep(identifier: "FormStep1")
+boolFormStep.title = "Apple Task"
+boolFormStep.text = "Please answer the following question."
+        
+let boolAnswerFormat = ORKAnswerFormat.booleanAnswerFormat()
+let boolFormItem = ORKFormItem(identifier: "BooleanFormItemIdentifier", 
+							   text: "Do you like Apples?", 
+							   answerFormat: boolAnswerFormat)
+        
+boolFormStep.formItems = [boolFormItem]
+
+let appleTextChoiceFormStep = appleTextChoiceFormStepExample()
+let completionStep = completionStepExample()
+
+// Conditional Logic
+let boolResultSelector = ORKResultSelector(stepIdentifier: boolFormStep.identifier, resultIdentifier: boolFormItem.identifier)
+let boolResultPredicate = ORKResultPredicate.predicateForBooleanQuestionResult(with: boolResultSelector, expectedAnswer: false)
+let navigationRule = ORKPredicateStepNavigationRule(resultPredicatesAndDestinationStepIdentifiers: [ (boolResultPredicate, completionStep.identifier) ])
+
+// Construct Navigable Task + Set Navigation Rule
+let navigableTask = ORKNavigableOrderedTask(identifier: "NavigableTaskIdentifier", steps: [formStep1, appleTextChoiceFormStep, completionStep])
+navigableTask.setNavigationRule(navigationRule, forTriggerStepIdentifier: formStep1.identifier)
+```
+
+Selecting Yes:
+
+TODO: add gif
+
+
+Selecting No:
+
+TODO: add gif
+
+### Form Item Visibility Rules
+
+To conditionally hide or show a question based on results from questions within the same form you will need to be familiar with the following classes.
+
+- `ORKResultSelector` - Same as the section above.
+- `ORKResultPredicate` - Same as the section above.
+- `ORKPredicateFormItemVisibilityRule` - A object that determines if the formItem it's attached to is hidden or visible if a given `ORKResultPredicate` is true.
+
+
+
+
+
