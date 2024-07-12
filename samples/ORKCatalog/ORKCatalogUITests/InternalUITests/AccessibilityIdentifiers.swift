@@ -122,6 +122,22 @@ struct AccessibilityIdentifiers {
         static let view = "ORKCustomStepView"
     }
     
+    struct EnvironmentSPLMeterStep {
+        static var view = "ORKEnvironmentSPLMeterStepView"
+        static var optimumNoiseOKLabel = "ORKEnvironmentSPLMeterOptimumNoiseLevelLabel"
+    }
+    
+    struct DBHLToneAudiometryStep {
+        static var view = "ORKdBHLToneAudiometryStepView"
+        static var progressLabel = "ORKdBHLToneAudiometryTestInProgressLabel"
+    }
+    
+    struct HeadphoneDetectStep {
+        static var view = "ORKHeadphoneDetectStepView"
+        static var headphoneTypeLabel = "ORKHeadphoneTypeTextLabel"
+        static var noiseCancellationRequiredLabel = "ORKNoiseCancellationRequiredLabel"
+    }
+    
     // Identifier for the cell label in the Results Tab (based on "ResultRow" text in "ORKCatalog/Results/ResultTableViewProviders.swift")
     enum ResultRow {
         case bool  // ORKBooleanQuestionResult

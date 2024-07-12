@@ -55,9 +55,17 @@
 		8C7C54282B4F67E200A2E513 /* Springboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54272B4F67E200A2E513 /* Springboard.swift */; };
 		8C7C542A2B4F680B00A2E513 /* RequestPermissionsStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */; };
 		8C89CD592BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */; };
+		8C97802B2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C97802A2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift */; };
+		8C97802D2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C97802C2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift */; };
 		8CC4876B2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */; };
 		8CBA19C72BE14AF3000E7205 /* LocaleDependentBaseUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBA19C62BE14AF3000E7205 /* LocaleDependentBaseUITest.swift */; };
 		8CCB03732B86AA8A00096C86 /* UITestLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCB03722B86AA8A00096C86 /* UITestLogger.swift */; };
+		8CE15F442C0D5D69003C1008 /* ToneAudiometryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F432C0D5D69003C1008 /* ToneAudiometryUITests.swift */; };
+		8CE15F462C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F452C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift */; };
+		8CE15F482C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F472C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift */; };
+		8CE15F4A2C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F492C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift */; };
+		8CE15F4C2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F4B2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift */; };
+		8CE15F4E2C0D731E003C1008 /* SettingsAppScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F4D2C0D731E003C1008 /* SettingsAppScreens.swift */; };
 		8CECC5EB2B978265002266B9 /* OnboardingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */; };
 		8CECC5ED2B978683002266B9 /* InstructionStepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EC2B978683002266B9 /* InstructionStepUITests.swift */; };
 		8CECC5EF2B978B3D002266B9 /* WebViewStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EE2B978B3D002266B9 /* WebViewStepScreen.swift */; };
@@ -270,9 +278,17 @@
 		8C7C54272B4F67E200A2E513 /* Springboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Springboard.swift; sourceTree = "<group>"; };
 		8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPermissionsStepScreen.swift; sourceTree = "<group>"; };
 		8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsResultsUITests.swift; sourceTree = "<group>"; };
+		8C97802A2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneAudiometryInternalAirPodsUITests.swift; sourceTree = "<group>"; };
+		8C97802C2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneAudiometryInternalBaseUITests.swift; sourceTree = "<group>"; };
 		8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsHealthKitIntegrationUITests.swift; sourceTree = "<group>"; };
 		8CBA19C62BE14AF3000E7205 /* LocaleDependentBaseUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocaleDependentBaseUITest.swift; sourceTree = "<group>"; };
 		8CCB03722B86AA8A00096C86 /* UITestLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestLogger.swift; sourceTree = "<group>"; };
+		8CE15F432C0D5D69003C1008 /* ToneAudiometryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneAudiometryUITests.swift; sourceTree = "<group>"; };
+		8CE15F452C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentSPLMeterStepScreen.swift; sourceTree = "<group>"; };
+		8CE15F472C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHLToneAudiometryStepScreen.swift; sourceTree = "<group>"; };
+		8CE15F492C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadphoneDetectStepScreen.swift; sourceTree = "<group>"; };
+		8CE15F4B2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneAudiometryInternalAirPodsProUITests.swift; sourceTree = "<group>"; };
+		8CE15F4D2C0D731E003C1008 /* SettingsAppScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAppScreens.swift; sourceTree = "<group>"; };
 		8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingUITests.swift; sourceTree = "<group>"; };
 		8CECC5EC2B978683002266B9 /* InstructionStepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionStepUITests.swift; sourceTree = "<group>"; };
 		8CECC5EE2B978B3D002266B9 /* WebViewStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewStepScreen.swift; sourceTree = "<group>"; };
@@ -503,6 +519,17 @@
 			path = ResultsUITests;
 			sourceTree = "<group>";
 		};
+		8C97802E2C0E744F0018609A /* ToneAudiometryUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8CE15F432C0D5D69003C1008 /* ToneAudiometryUITests.swift */,
+				8C97802C2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift */,
+				8C97802A2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift */,
+				8CE15F4B2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift */,
+			);
+			path = ToneAudiometryUITests;
+			sourceTree = "<group>";
+		};
 		8CD2A5ED2B7EC68C0078AB5F /* LaunchTasksUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -565,6 +592,7 @@
 				8CECC6062B9A28FE002266B9 /* SwiftUIAdaptorUITests.swift */,
 				8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */,
 				8C7C54212B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift */,
+				8C97802E2C0E744F0018609A /* ToneAudiometryUITests */,
 				8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */,
 				8C89CD572BCD08F000C61F8A /* ResultsUITests */,
 				8CD2A5ED2B7EC68C0078AB5F /* LaunchTasksUITests */,
@@ -607,6 +635,10 @@
 				8CECC5F82B97AC03002266B9 /* PasscodeStepScreen.swift */,
 				8CECC5FA2B97ACFE002266B9 /* VerificationStepScreen.swift */,
 				8CECC5FC2B97AFB7002266B9 /* CustomStepScreen.swift */,
+				8CE15F452C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift */,
+				8CE15F472C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift */,
+				8CE15F492C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift */,
+				8CE15F4D2C0D731E003C1008 /* SettingsAppScreens.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -949,24 +981,30 @@
 				8CECC5F92B97AC03002266B9 /* PasscodeStepScreen.swift in Sources */,
 				8CECC5F52B97A8CF002266B9 /* MiscellaneousUITests.swift in Sources */,
 				8CECC5EF2B978B3D002266B9 /* WebViewStepScreen.swift in Sources */,
+				8C97802B2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift in Sources */,
+				8C97802D2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift in Sources */,
 				8C4908982B7ECF6200DA6E2D /* OpenAndCancelSurveysUITests.swift in Sources */,
 				8CECC6072B9A28FE002266B9 /* SwiftUIAdaptorUITests.swift in Sources */,
 				8CECC6032B97CF8C002266B9 /* ResultsTab.swift in Sources */,
 				8CFF29072AE9BE99000DC99E /* WaitUtils.swift in Sources */,
 				8CECC6012B97CF6C002266B9 /* SettingsTab.swift in Sources */,
+				8CE15F4C2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift in Sources */,
 				8C7C542A2B4F680B00A2E513 /* RequestPermissionsStepScreen.swift in Sources */,
 				8C7C54222B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift in Sources */,
 				9622283924F04DBF0056E74D /* TaskScreen.swift in Sources */,
+				8CE15F462C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift in Sources */,
 				8CECC5EB2B978265002266B9 /* OnboardingUITests.swift in Sources */,
 				8CFF29142AE9C3E9000DC99E /* TasksTab.swift in Sources */,
 				8C49088C2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift in Sources */,
 				8CECC6052B99315E002266B9 /* InternalUITests.swift in Sources */,
 				8CFF29252AE9CB4A000DC99E /* SurveyQuestionsUITests.swift in Sources */,
+				8CE15F4A2C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift in Sources */,
 				8C49088E2B7ECEEB00DA6E2D /* OpenAndCancelActiveTasksUITests.swift in Sources */,
 				8C7C54242B4F677300A2E513 /* HealthApp.swift in Sources */,
 				8CCB03732B86AA8A00096C86 /* UITestLogger.swift in Sources */,
 				8CFF290B2AE9C051000DC99E /* XCTestCase.swift in Sources */,
 				8CFF29092AE9BEF9000DC99E /* XCUIElementQuery.swift in Sources */,
+				8CE15F4E2C0D731E003C1008 /* SettingsAppScreens.swift in Sources */,
 				9622283B24F04DFE0056E74D /* CommonElements.swift in Sources */,
 				8CC4876B2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift in Sources */,
 				8C7C541D2B4F5CF900A2E513 /* Answers.swift in Sources */,
@@ -979,10 +1017,12 @@
 				8C7C54282B4F67E200A2E513 /* Springboard.swift in Sources */,
 				9622283F24F04EBA0056E74D /* Helpers.swift in Sources */,
 				8CFF290F2AE9C24A000DC99E /* AccessibilityIdentifiers.swift in Sources */,
+				8CE15F442C0D5D69003C1008 /* ToneAudiometryUITests.swift in Sources */,
 				8CFF29122AE9C395000DC99E /* TabBar.swift in Sources */,
 				8CFF290D2AE9C06E000DC99E /* XCUIElement.swift in Sources */,
 				8CECC5ED2B978683002266B9 /* InstructionStepUITests.swift in Sources */,
 				8C89CD592BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift in Sources */,
+				8CE15F482C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift in Sources */,
 				8CECC5F12B9791AD002266B9 /* PDFViewerStepScreen.swift in Sources */,
 				8CFF29162AE9C452000DC99E /* Step.swift in Sources */,
 				8CECC5F32B97A78E002266B9 /* WaitStepScreen.swift in Sources */,
