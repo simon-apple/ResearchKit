@@ -47,9 +47,6 @@ public struct TaskNavigationView: View {
     public var body: some View {
         NavigationStack(path: $viewModel.stepIdentifiers) {
             TaskStepContentView(
-                image: viewModel.image(forIndex: 0),
-                title: viewModel.title(forIndex: 0),
-                subtitle: viewModel.subtitle(forIndex: 0),
                 isLastStep: viewModel.isLastStep(forIndex: 0),
                 onStepCompletion: { completion in
                     if completion == .discarded {
@@ -61,15 +58,30 @@ public struct TaskNavigationView: View {
                     }
                 },
                 content: {
-                    AnyView(viewModel.makeContent(forIndex: 0))
+                    VStack(alignment: .leading, spacing: 16) {
+                        viewModel.image(forIndex: 0)?
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 80, height: 80)
+                            .foregroundStyle(.stepIconForegroundStyle)
+                        
+                        if let title = viewModel.title(forIndex: 0) {
+                            Text(title)
+                                .font(.title)
+                                .fontWeight(.bold)
+                        }
+
+                        if let subtitle = viewModel.subtitle(forIndex: 0) {
+                            Text(subtitle)
+                        }
+                        
+                        AnyView(viewModel.makeContent(forIndex: 0))
+                    }
                 }
             )
             .navigationTitle("1 of \(viewModel.numberOfSteps)")
             .navigationDestination(for: String.self) { path in
                 TaskStepContentView(
-                    image: viewModel.image(atPath: path),
-                    title: viewModel.titleForStep(atPath: path),
-                    subtitle: viewModel.subtitleForStep(atPath: path),
                     isLastStep: viewModel.isLastStep(atPath: path),
                     onStepCompletion: { completion in
                         if completion == .discarded {
@@ -81,7 +93,25 @@ public struct TaskNavigationView: View {
                         }
                     },
                     content: {
-                        AnyView(viewModel.makeContentStep(atPath: path))
+                        VStack(alignment: .leading, spacing: 16) {
+                            viewModel.image(atPath: path)?
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 80, height: 80)
+                                .foregroundStyle(.stepIconForegroundStyle)
+                            
+                            if let title = viewModel.titleForStep(atPath: path) {
+                                Text(title)
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                            }
+
+                            if let subtitle = viewModel.subtitleForStep(atPath: path) {
+                                Text(subtitle)
+                            }
+                            
+                            AnyView(viewModel.makeContentStep(atPath: path))
+                        }
                     }
                 )
                 .navigationTitle(viewModel.navigationTitleStep(atPath: path))
