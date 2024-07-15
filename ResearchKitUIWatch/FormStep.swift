@@ -30,7 +30,7 @@
 
 import SwiftUI
 
-public class TaskStep: Identifiable {
+public class FormStep: Identifiable {
     public let id: UUID = UUID()
     public let title: String?
     public let subtitle: String?
@@ -47,7 +47,7 @@ public class TaskStep: Identifiable {
     }
 }
 
-extension TaskStep: Step {
+extension FormStep: Step {
     
     public typealias Content = ForEach
     

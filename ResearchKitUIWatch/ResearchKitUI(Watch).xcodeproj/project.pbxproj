@@ -35,7 +35,7 @@
 		5E44D4482C24A6FF0045007E /* NumericQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E44D4472C24A6FF0045007E /* NumericQuestionView.swift */; };
 		5E507F812C1141F2002958E2 /* SliderValueForegroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E507F802C1141F2002958E2 /* SliderValueForegroundStyle.swift */; };
 		5E7596BD2BE049B90088F7B7 /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7596BC2BE049B90088F7B7 /* ResearchKit.framework */; };
-		5EB97C772C459BF900B15709 /* TaskStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB97C762C459BF900B15709 /* TaskStep.swift */; };
+		5EB97C772C459BF900B15709 /* FormStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB97C762C459BF900B15709 /* FormStep.swift */; };
 		5EBAA2892C3E064900F193C6 /* InstructionStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBAA2882C3E064900F193C6 /* InstructionStep.swift */; };
 		5EBAA28D2C40634800F193C6 /* BodyItemIconForegroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBAA28C2C40634800F193C6 /* BodyItemIconForegroundStyle.swift */; };
 		5EBAA28F2C4063C100F193C6 /* StepIconForegroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBAA28E2C4063C100F193C6 /* StepIconForegroundStyle.swift */; };
@@ -96,7 +96,7 @@
 		5E44D4472C24A6FF0045007E /* NumericQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericQuestionView.swift; sourceTree = "<group>"; };
 		5E507F802C1141F2002958E2 /* SliderValueForegroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderValueForegroundStyle.swift; sourceTree = "<group>"; };
 		5E7596BC2BE049B90088F7B7 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5EB97C762C459BF900B15709 /* TaskStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStep.swift; sourceTree = "<group>"; };
+		5EB97C762C459BF900B15709 /* FormStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormStep.swift; sourceTree = "<group>"; };
 		5EBAA2882C3E064900F193C6 /* InstructionStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionStep.swift; sourceTree = "<group>"; };
 		5EBAA28C2C40634800F193C6 /* BodyItemIconForegroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyItemIconForegroundStyle.swift; sourceTree = "<group>"; };
 		5EBAA28E2C4063C100F193C6 /* StepIconForegroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepIconForegroundStyle.swift; sourceTree = "<group>"; };
@@ -245,7 +245,7 @@
 			isa = PBXGroup;
 			children = (
 				380E14B12C3350D600085D2B /* Step.swift */,
-				5EB97C762C459BF900B15709 /* TaskStep.swift */,
+				5EB97C762C459BF900B15709 /* FormStep.swift */,
 				5EBAA2882C3E064900F193C6 /* InstructionStep.swift */,
 			);
 			name = Steps;
@@ -370,7 +370,7 @@
 				0B7213532B4F39CC00463E69 /* View+OnChange.swift in Sources */,
 				E4DBF1B62B97C2B30085D6A1 /* MultipleChoiceQuestionView.swift in Sources */,
 				5EBAA28F2C4063C100F193C6 /* StepIconForegroundStyle.swift in Sources */,
-				5EB97C772C459BF900B15709 /* TaskStep.swift in Sources */,
+				5EB97C772C459BF900B15709 /* FormStep.swift in Sources */,
 				5EBAA28D2C40634800F193C6 /* BodyItemIconForegroundStyle.swift in Sources */,
 				E4DBF1B62B97C2B30085D6A1 /* MultipleChoiceQuestionView.swift in Sources */,
 				5EDFA9D72BFFFA2B0044C156 /* StepHeaderView.swift in Sources */,
