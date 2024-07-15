@@ -83,7 +83,7 @@ public struct TaskNavigationView: View {
                         }
                     }
                 )
-                .navigationTitle(navigationTitleStep(atPath: path))
+                .navigationTitle(navigationTitle(atPath: path))
             }
         }
     }
@@ -141,7 +141,7 @@ public struct TaskNavigationView: View {
         steps.first { $0.identifier == path }
     }
     
-    private func navigationTitleStep(atPath path: String) -> String {
+    private func navigationTitle(atPath path: String) -> String {
         let navigationTitle: String
         if let index = index(forPath: path) {
             navigationTitle = "\(index + 1) of \(steps.count)"
