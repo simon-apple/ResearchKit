@@ -57,10 +57,16 @@ public struct NumericQuestion: Identifiable {
 
 public struct NumericQuestionView<Header: View>: View {
     
+    enum FocusTarget {
+        
+        case numericQuestion
+        
+    }
+    
     @Binding var text: Decimal?
     private let header: Header
     private let prompt: String?
-    @FocusState private var isFocused: Bool
+    @FocusState private var focusTarget: FocusTarget?
     
     public var body: some View {
         FormItemCardView(
@@ -70,10 +76,15 @@ public struct NumericQuestionView<Header: View>: View {
             content: {
                 TextField("", value: $text, format: .number, prompt: placeholder)
                     .keyboardType(.decimalPad)
-                    .focused($isFocused)
-                    .doneKeyboardToolbar {
-                        isFocused = false
-                    }
+                    .focused($focusTarget, equals: .numericQuestion)
+                    .doneKeyboardToolbar(
+                        condition: {
+                            focusTarget == .numericQuestion
+                        },
+                        action: {
+                            focusTarget = nil
+                        }
+                    )
                     .padding()
             }
         )
