@@ -106,37 +106,3 @@ public struct TaskNavigationView: View {
     }
     
 }
-
-struct HeaderView: View {
-    
-    private let image: Image?
-    private let title: String?
-    private let subtitle: String?
-    
-    init(image: Image?, title: String?, subtitle: String?) {
-        self.image = image
-        self.title = title
-        self.subtitle = subtitle
-    }
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            image?
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 80, height: 80)
-                .foregroundStyle(.stepIconForegroundStyle)
-            
-            if let title {
-                Text(title)
-                    .font(.title)
-                    .fontWeight(.bold)
-            }
-
-            if let subtitle {
-                Text(subtitle)
-            }
-        }
-    }
-    
-}
