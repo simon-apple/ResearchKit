@@ -103,6 +103,7 @@ struct StepHeaderView: View {
     
 }
 
+// StepHeaderView and HeaderView can potentially be merged in the future.
 struct HeaderView: View {
     
     private let image: Image?
