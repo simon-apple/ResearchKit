@@ -32,39 +32,40 @@ import SwiftUI
 
 public struct TaskNavigationView: View {
     @Environment(\.dismiss) var dismiss
-    @ObservedObject var viewModel: TaskViewModel
+    @State private var steps: [any Step]
+    @State private var stepIdentifiers: [String] = []
     
     var onTaskCompletion: ((TaskCompletion) -> Void)?
 
     public init(
-        viewModel: TaskViewModel,
+        steps: [any Step],
         onTaskCompletion: ((TaskCompletion) -> Void)? = nil
     ) {
-        self.viewModel = viewModel
+        self.steps = steps
         self.onTaskCompletion = onTaskCompletion
     }
 
     public var body: some View {
-        NavigationStack(path: $viewModel.stepIdentifiers) {
+        NavigationStack(path: $stepIdentifiers) {
             TaskStepContentView(
-                isLastStep: viewModel.isLastStep(forIndex: 0),
+                isLastStep: isLastStep(forIndex: 0),
                 onStepCompletion: { completion in
                     if completion == .discarded {
                         dismiss()
                     } else if completion == .saved {
-                        viewModel.stepIdentifiers.append(viewModel.identifier(forIndex: 1))
+                        stepIdentifiers.append(steps[1].identifier)
                     } else {
                         onTaskCompletion?(completion)
                     }
                 },
                 content: {
-                    AnyView(viewModel.makeContent(forIndex: 0))
+                    AnyView(steps[0].makeContent())
                 }
             )
-            .navigationTitle("1 of \(viewModel.numberOfSteps)")
+            .navigationTitle("1 of \(steps.count)")
             .navigationDestination(for: String.self) { path in
                 TaskStepContentView(
-                    isLastStep: viewModel.isLastStep(atPath: path),
+                    isLastStep: isLastStep(atPath: path),
                     onStepCompletion: { completion in
                         if completion == .discarded {
                             dismiss()
@@ -75,18 +76,71 @@ public struct TaskNavigationView: View {
                         }
                     },
                     content: {
-                        AnyView(viewModel.makeContentStep(atPath: path))
+                        if let step = step(atPath: path) {
+                            AnyView(step.makeContent())
+                        }
                     }
                 )
-                .navigationTitle(viewModel.navigationTitleStep(atPath: path))
+                .navigationTitle(navigationTitleStep(atPath: path))
             }
         }
     }
     
-    private func moveToStep(afterPath path: String) {
-        if let nextIdentifier = viewModel.identifier(afterPath: path) {
-            viewModel.stepIdentifiers.append(nextIdentifier)
+    private func isLastStep(forIndex index: Int) -> Bool {
+        steps.count - 1 == index
+    }
+    
+    private func isLastStep(atPath path: String) -> Bool {
+        guard let index = index(forPath: path) else {
+            return false
         }
+        return isLastStep(forIndex: index)
+    }
+    
+    private func index(forPath path: String) -> Int? {
+        steps.firstIndex { step in
+            step.identifier == path
+        }
+    }
+    
+    private func moveToStep(afterPath path: String) {
+        if let nextIdentifier = identifier(afterPath: path) {
+            stepIdentifiers.append(nextIdentifier)
+        }
+    }
+    
+    private func identifier(afterPath path: String) -> String? {
+        func step(afterPath path: String) -> (any Step)? {
+            guard let index = index(forPath: path) else {
+                return nil
+            }
+            
+            let nextIndex = index + 1
+            
+            let instructionStep: (any Step)?
+            if nextIndex == steps.count {
+                instructionStep = nil
+            } else {
+                instructionStep = steps[nextIndex]
+            }
+            return instructionStep
+        }
+        
+        return step(afterPath: path)?.identifier
+    }
+    
+    private func step(atPath path: String) -> (any Step)? {
+        steps.first { $0.identifier == path }
+    }
+    
+    private func navigationTitleStep(atPath path: String) -> String {
+        let navigationTitle: String
+        if let index = index(forPath: path) {
+            navigationTitle = "\(index + 1) of \(steps.count)"
+        } else {
+            navigationTitle = ""
+        }
+        return navigationTitle
     }
     
 }
