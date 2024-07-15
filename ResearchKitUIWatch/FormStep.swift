@@ -49,8 +49,6 @@ public class FormStep: Identifiable {
 
 extension FormStep: Step {
     
-    public typealias Content = ForEach
-    
     public var identifier: String {
         id.uuidString
     }
