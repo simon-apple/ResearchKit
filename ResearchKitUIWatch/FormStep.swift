@@ -53,10 +53,6 @@ extension FormStep: Step {
         id.uuidString
     }
     
-    public var iconImage: Image? {
-        nil
-    }
-    
     @ViewBuilder
     public func makeContent() -> some View {
         VStack(alignment: .leading, spacing: 16) {
