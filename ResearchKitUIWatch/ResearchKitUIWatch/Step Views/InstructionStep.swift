@@ -58,14 +58,22 @@ public struct InstructionStep: Step {
     
     @ViewBuilder
     public func makeContent() -> some View {
-        ForEach(bodyItems) { bodyItem in
-            HStack {
-                bodyItem.image
-                    .frame(width: 40, height: 40)
-                    .foregroundStyle(.bodyItemIconForegroundStyle)
-                
-                Text(bodyItem.text)
-                    .font(.subheadline)
+        VStack(alignment: .leading, spacing: 16) {
+            HeaderView(
+                image: iconImage,
+                title: title,
+                subtitle: subtitle
+            )
+            
+            ForEach(bodyItems) { bodyItem in
+                HStack {
+                    bodyItem.image
+                        .frame(width: 40, height: 40)
+                        .foregroundStyle(.bodyItemIconForegroundStyle)
+                    
+                    Text(bodyItem.text)
+                        .font(.subheadline)
+                }
             }
         }
     }

@@ -58,15 +58,7 @@ public struct TaskNavigationView: View {
                     }
                 },
                 content: {
-                    VStack(alignment: .leading, spacing: 16) {
-                        HeaderView(
-                            image: viewModel.image(forIndex: 0),
-                            title: viewModel.title(forIndex: 0),
-                            subtitle: viewModel.subtitle(forIndex: 0)
-                        )
-                        
-                        AnyView(viewModel.makeContent(forIndex: 0))
-                    }
+                    AnyView(viewModel.makeContent(forIndex: 0))
                 }
             )
             .navigationTitle("1 of \(viewModel.numberOfSteps)")
@@ -83,15 +75,7 @@ public struct TaskNavigationView: View {
                         }
                     },
                     content: {
-                        VStack(alignment: .leading, spacing: 16) {
-                            HeaderView(
-                                image: viewModel.image(atPath: path),
-                                title: viewModel.titleForStep(atPath: path),
-                                subtitle: viewModel.subtitleForStep(atPath: path)
-                            )
-                            
-                            AnyView(viewModel.makeContentStep(atPath: path))
-                        }
+                        AnyView(viewModel.makeContentStep(atPath: path))
                     }
                 )
                 .navigationTitle(viewModel.navigationTitleStep(atPath: path))

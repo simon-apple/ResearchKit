@@ -36,12 +36,6 @@ public protocol Step {
     
     var identifier: String { get }
     
-    var iconImage: Image? { get }
-    
-    var title: String? { get }
-    
-    var subtitle: String? { get }
-    
     func makeContent() -> Content
     
 }
@@ -70,30 +64,6 @@ public class TaskViewModel: ObservableObject {
     
     func step(atPath path: String) -> (any Step)? {
         steps.first { $0.identifier == path }
-    }
-    
-    func image(forIndex index: Int) -> Image? {
-        steps[index].iconImage
-    }
-    
-    func image(atPath path: String) -> Image? {
-        step(atPath: path)?.iconImage
-    }
-    
-    func title(forIndex index: Int) -> String? {
-        steps[index].title
-    }
-    
-    func titleForStep(atPath path: String) -> String? {
-        step(atPath: path)?.title
-    }
-    
-    func subtitle(forIndex index: Int) -> String? {
-        steps[index].subtitle
-    }
-    
-    func subtitleForStep(atPath path: String) -> String? {
-        step(atPath: path)?.subtitle
     }
     
     func isLastStep(forIndex index: Int) -> Bool {
@@ -182,19 +152,27 @@ extension TaskStep: Step {
     
     @ViewBuilder
     public func makeContent() -> some View {
-        ForEach(Array(items.enumerated()), id: \.offset) { itemIndex, formRow in
-            FormRowContent(
-                detail: nil,
-                formRow: Binding<FormRow>(
-                    get: { [weak self] in
-                        self?.items[itemIndex] ?? formRow
-                    },
-                    set: { [weak self] formRow in
-                        print("Form row set to: \(formRow)")
-                        self?.items[itemIndex] = formRow
-                    }
-                )
+        VStack(alignment: .leading, spacing: 16) {
+            HeaderView(
+                image: nil,
+                title: title,
+                subtitle: subtitle
             )
+            
+            ForEach(Array(items.enumerated()), id: \.offset) { itemIndex, formRow in
+                FormRowContent(
+                    detail: nil,
+                    formRow: Binding<FormRow>(
+                        get: { [weak self] in
+                            self?.items[itemIndex] ?? formRow
+                        },
+                        set: { [weak self] formRow in
+                            print("Form row set to: \(formRow)")
+                            self?.items[itemIndex] = formRow
+                        }
+                    )
+                )
+            }
         }
     }
     
