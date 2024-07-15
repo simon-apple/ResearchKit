@@ -53,13 +53,15 @@ public struct TaskNavigationView: View {
                     if completion == .discarded {
                         dismiss()
                     } else if completion == .saved {
-                        stepIdentifiers.append(steps[1].identifier)
+                        moveToStep(atIndex: 1)
                     } else {
                         onTaskCompletion?(completion)
                     }
                 },
                 content: {
-                    AnyView(steps[0].makeContent())
+                    if !steps.isEmpty {
+                        AnyView(steps[0].makeContent())
+                    }
                 }
             )
             .navigationTitle("1 of \(steps.count)")
@@ -100,6 +102,12 @@ public struct TaskNavigationView: View {
     private func index(forPath path: String) -> Int? {
         steps.firstIndex { step in
             step.identifier == path
+        }
+    }
+    
+    private func moveToStep(atIndex index: Int) {
+        if index < steps.count {
+            stepIdentifiers.append(steps[index].identifier)
         }
     }
     
