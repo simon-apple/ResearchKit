@@ -59,21 +59,11 @@ public struct TaskNavigationView: View {
                 },
                 content: {
                     VStack(alignment: .leading, spacing: 16) {
-                        viewModel.image(forIndex: 0)?
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 80, height: 80)
-                            .foregroundStyle(.stepIconForegroundStyle)
-                        
-                        if let title = viewModel.title(forIndex: 0) {
-                            Text(title)
-                                .font(.title)
-                                .fontWeight(.bold)
-                        }
-
-                        if let subtitle = viewModel.subtitle(forIndex: 0) {
-                            Text(subtitle)
-                        }
+                        HeaderView(
+                            image: viewModel.image(forIndex: 0),
+                            title: viewModel.title(forIndex: 0),
+                            subtitle: viewModel.subtitle(forIndex: 0)
+                        )
                         
                         AnyView(viewModel.makeContent(forIndex: 0))
                     }
@@ -94,21 +84,11 @@ public struct TaskNavigationView: View {
                     },
                     content: {
                         VStack(alignment: .leading, spacing: 16) {
-                            viewModel.image(atPath: path)?
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 80, height: 80)
-                                .foregroundStyle(.stepIconForegroundStyle)
-                            
-                            if let title = viewModel.titleForStep(atPath: path) {
-                                Text(title)
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                            }
-
-                            if let subtitle = viewModel.subtitleForStep(atPath: path) {
-                                Text(subtitle)
-                            }
+                            HeaderView(
+                                image: viewModel.image(atPath: path),
+                                title: viewModel.titleForStep(atPath: path),
+                                subtitle: viewModel.subtitleForStep(atPath: path)
+                            )
                             
                             AnyView(viewModel.makeContentStep(atPath: path))
                         }
@@ -122,6 +102,40 @@ public struct TaskNavigationView: View {
     private func moveToStep(afterPath path: String) {
         if let nextIdentifier = viewModel.identifier(afterPath: path) {
             viewModel.stepIdentifiers.append(nextIdentifier)
+        }
+    }
+    
+}
+
+struct HeaderView: View {
+    
+    private let image: Image?
+    private let title: String?
+    private let subtitle: String?
+    
+    init(image: Image?, title: String?, subtitle: String?) {
+        self.image = image
+        self.title = title
+        self.subtitle = subtitle
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            image?
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 80, height: 80)
+                .foregroundStyle(.stepIconForegroundStyle)
+            
+            if let title {
+                Text(title)
+                    .font(.title)
+                    .fontWeight(.bold)
+            }
+
+            if let subtitle {
+                Text(subtitle)
+            }
         }
     }
     
