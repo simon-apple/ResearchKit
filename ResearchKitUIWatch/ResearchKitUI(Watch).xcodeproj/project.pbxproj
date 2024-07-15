@@ -20,7 +20,7 @@
 		0B7213532B4F39CC00463E69 /* View+OnChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72134D2B4F39CC00463E69 /* View+OnChange.swift */; };
 		0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */ = {isa = PBXBuildFile; fileRef = 0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */; };
 		380E14B02C3350A900085D2B /* TaskNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380E14AF2C3350A900085D2B /* TaskNavigationView.swift */; };
-		380E14B22C3350D900085D2B /* TaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380E14B12C3350D600085D2B /* TaskViewModel.swift */; };
+		380E14B22C3350D900085D2B /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380E14B12C3350D600085D2B /* Step.swift */; };
 		3815C0142C2081CE00A29CD3 /* DateTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3815C0132C2081CE00A29CD3 /* DateTimeView.swift */; };
 		381CAC082C34C62100FCE89A /* FormRowContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC072C34C61D00FCE89A /* FormRowContent.swift */; };
 		381CAC0A2C35E06500FCE89A /* TaskStepContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC092C35E05A00FCE89A /* TaskStepContentView.swift */; };
@@ -35,6 +35,7 @@
 		5E44D4482C24A6FF0045007E /* NumericQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E44D4472C24A6FF0045007E /* NumericQuestionView.swift */; };
 		5E507F812C1141F2002958E2 /* SliderValueForegroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E507F802C1141F2002958E2 /* SliderValueForegroundStyle.swift */; };
 		5E7596BD2BE049B90088F7B7 /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7596BC2BE049B90088F7B7 /* ResearchKit.framework */; };
+		5EB97C772C459BF900B15709 /* TaskStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB97C762C459BF900B15709 /* TaskStep.swift */; };
 		5EBAA2892C3E064900F193C6 /* InstructionStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBAA2882C3E064900F193C6 /* InstructionStep.swift */; };
 		5EBAA28D2C40634800F193C6 /* BodyItemIconForegroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBAA28C2C40634800F193C6 /* BodyItemIconForegroundStyle.swift */; };
 		5EBAA28F2C4063C100F193C6 /* StepIconForegroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBAA28E2C4063C100F193C6 /* StepIconForegroundStyle.swift */; };
@@ -80,7 +81,7 @@
 		0BF86B1D2B4F360000E3790E /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ResearchKitUIWatch.docc; sourceTree = "<group>"; };
 		380E14AF2C3350A900085D2B /* TaskNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNavigationView.swift; sourceTree = "<group>"; };
-		380E14B12C3350D600085D2B /* TaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewModel.swift; sourceTree = "<group>"; };
+		380E14B12C3350D600085D2B /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		3815C0132C2081CE00A29CD3 /* DateTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeView.swift; sourceTree = "<group>"; };
 		381CAC072C34C61D00FCE89A /* FormRowContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormRowContent.swift; sourceTree = "<group>"; };
 		381CAC092C35E05A00FCE89A /* TaskStepContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStepContentView.swift; sourceTree = "<group>"; };
@@ -95,6 +96,7 @@
 		5E44D4472C24A6FF0045007E /* NumericQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericQuestionView.swift; sourceTree = "<group>"; };
 		5E507F802C1141F2002958E2 /* SliderValueForegroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderValueForegroundStyle.swift; sourceTree = "<group>"; };
 		5E7596BC2BE049B90088F7B7 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EB97C762C459BF900B15709 /* TaskStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStep.swift; sourceTree = "<group>"; };
 		5EBAA2882C3E064900F193C6 /* InstructionStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionStep.swift; sourceTree = "<group>"; };
 		5EBAA28C2C40634800F193C6 /* BodyItemIconForegroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyItemIconForegroundStyle.swift; sourceTree = "<group>"; };
 		5EBAA28E2C4063C100F193C6 /* StepIconForegroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepIconForegroundStyle.swift; sourceTree = "<group>"; };
@@ -165,7 +167,6 @@
 				5EDFA9D82BFFFF0F0044C156 /* ListHeaderView.swift */,
 				5EDFA9D62BFFFA2B0044C156 /* StepHeaderView.swift */,
 				0B72133F2B4F395C00463E69 /* TaskManager.swift */,
-				5EBAA2882C3E064900F193C6 /* InstructionStep.swift */,
 				5EBAA28C2C40634800F193C6 /* BodyItemIconForegroundStyle.swift */,
 				5EBAA28E2C4063C100F193C6 /* StepIconForegroundStyle.swift */,
 			);
@@ -176,7 +177,6 @@
 			isa = PBXGroup;
 			children = (
 				381CAC0B2C35F4C300FCE89A /* TaskCompletion.swift */,
-				380E14B12C3350D600085D2B /* TaskViewModel.swift */,
 				380E14AF2C3350A900085D2B /* TaskNavigationView.swift */,
 				381CAC092C35E05A00FCE89A /* TaskStepContentView.swift */,
 				381CAC072C34C61D00FCE89A /* FormRowContent.swift */,
@@ -207,6 +207,7 @@
 				0B7213492B4F39CC00463E69 /* View+Task.swift */,
 				0B72134D2B4F39CC00463E69 /* View+OnChange.swift */,
 				0B72134C2B4F39CC00463E69 /* ORKScrollViewReader.swift */,
+				5EB97C782C459C2100B15709 /* Steps */,
 				0B7213472B4F39A500463E69 /* Step Views */,
 				5E507F822C1144DE002958E2 /* Slider */,
 				5E05B53B2C2E134900A0A83B /* SwiftUIKit */,
@@ -238,6 +239,17 @@
 				5E507F802C1141F2002958E2 /* SliderValueForegroundStyle.swift */,
 			);
 			path = Slider;
+			sourceTree = "<group>";
+		};
+		5EB97C782C459C2100B15709 /* Steps */ = {
+			isa = PBXGroup;
+			children = (
+				380E14B12C3350D600085D2B /* Step.swift */,
+				5EB97C762C459BF900B15709 /* TaskStep.swift */,
+				5EBAA2882C3E064900F193C6 /* InstructionStep.swift */,
+			);
+			name = Steps;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		E4DBF1B22B97C27E0085D6A1 /* Question Views */ = {
@@ -356,8 +368,9 @@
 				E4FC4FAB2BC88F3F00E0AEBF /* FormStepViewModel.swift in Sources */,
 				0B7213462B4F398500463E69 /* FormStepView.swift in Sources */,
 				0B7213532B4F39CC00463E69 /* View+OnChange.swift in Sources */,
-				E4DBF1B62B97C2B30085D6A1 /* MultipleChoiceQuestion.swift in Sources */,
+				E4DBF1B62B97C2B30085D6A1 /* MultipleChoiceQuestionView.swift in Sources */,
 				5EBAA28F2C4063C100F193C6 /* StepIconForegroundStyle.swift in Sources */,
+				5EB97C772C459BF900B15709 /* TaskStep.swift in Sources */,
 				5EBAA28D2C40634800F193C6 /* BodyItemIconForegroundStyle.swift in Sources */,
 				E4DBF1B62B97C2B30085D6A1 /* MultipleChoiceQuestionView.swift in Sources */,
 				5EDFA9D72BFFFA2B0044C156 /* StepHeaderView.swift in Sources */,
@@ -378,7 +391,7 @@
 				386ABFC42C2F80DE0006B84D /* ScaleSliderQuestion.swift in Sources */,
 				38CD26392C1B90F3000FDBB0 /* RKAdapter.swift in Sources */,
 				5EBAA2892C3E064900F193C6 /* InstructionStep.swift in Sources */,
-				BA32DE9F2BCF34440041A937 /* ScaleSliderQuestion.swift in Sources */,
+				BA32DE9F2BCF34440041A937 /* ScaleSliderQuestionView.swift in Sources */,
 				BA32DE9F2BCF34440041A937 /* ScaleSliderQuestionView.swift in Sources */,
 				0B72134F2B4F39CC00463E69 /* View+Task.swift in Sources */,
 				E4DBF1B42B97C2980085D6A1 /* BooleanQuestionView.swift in Sources */,
@@ -388,7 +401,7 @@
 				0B72132D2B4F368600463E69 /* DefaultStepView.swift in Sources */,
 				381CAC0A2C35E06500FCE89A /* TaskStepContentView.swift in Sources */,
 				0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */,
-				380E14B22C3350D900085D2B /* TaskViewModel.swift in Sources */,
+				380E14B22C3350D900085D2B /* Step.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
