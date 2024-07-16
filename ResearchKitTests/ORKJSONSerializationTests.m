@@ -619,7 +619,8 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
         NSArray<NSString *> *internalPropertyExclusionList = @[
             @"ORKSpeechInNoisePredefinedTask.steps",
             @"ORKAVJournalingPredefinedTask.steps",
-            @"ORKTinnitusPredefinedTask.steps"
+            @"ORKTinnitusPredefinedTask.steps",
+            @"ORKSelectableHeadphoneDetectorPredefinedTask.steps"
         ];
         _propertyExclusionList = [_propertyExclusionList arrayByAddingObjectsFromArray:internalPropertyExclusionList];
 #endif
@@ -732,8 +733,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
             @"ORKFaceDetectionBlurFooterView.timerLabel",
             @"ORKBLEScanPeripheralsStepResult.centralManager",
             @"ORKBLEScanPeripheralsStepResult.connectedPeripherals",
-            @"ORKHeadphoneDetectStep.lockedToAppleHeadphoneType",
-            @"ORKSelectableHeadphoneDetectorPredefinedTask.steps"
+            @"ORKHeadphoneDetectStep.lockedToAppleHeadphoneType"
         ];
         _knownNotSerializedProperties = [_knownNotSerializedProperties arrayByAddingObjectsFromArray:internalKnownNotSerializedProperties];
 #endif
