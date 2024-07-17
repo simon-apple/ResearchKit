@@ -208,6 +208,10 @@ struct HeightPickerView: View {
                 .frame(maxWidth: .infinity, alignment: .trailing)
             }
             .padding(.horizontal)
+#if os(visionOS)
+            .padding(.top)
+#endif
+            
             HStack(spacing: .zero) {
                 Picker(selection: $selection.0) {
                     ForEach(0..<upperValue, id: \.self) { i in
