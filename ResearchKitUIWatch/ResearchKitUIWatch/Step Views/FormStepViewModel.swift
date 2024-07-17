@@ -113,6 +113,10 @@ class FormStepViewModel: ObservableObject {
                 let result = ORKNumericQuestionResult(identifier: heightQuestionRow.id)
                 result.numericAnswer = heightQuestionRow.number
                 resultArray.append(result)
+            case .weightRow(let weightQuestionRow):
+                let result = ORKNumericQuestionResult(identifier: weightQuestionRow.id)
+                result.numericAnswer = weightQuestionRow.number
+                resultArray.append(result)
             }
 
             // Step result may be nil if the user skipped a step

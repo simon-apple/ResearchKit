@@ -213,8 +213,10 @@ public struct FormRowContent: View {
                 title: heightQuestion.title,
                 detail: heightQuestion.detail,
                 measurementSystem: heightQuestion.measurementSystem,
-                primarySelection: .init(get: {
-                    return heightQuestion.primarySelection ?? 0
+                selection: .init(get: {
+                    let firstValue = heightQuestion.selection.0 ?? 0
+                    let secondValue = heightQuestion.selection.1 ?? 0
+                    return (firstValue, secondValue)
                 }, set: { newValue in
                     $formRow.wrappedValue = .heightRow(
                         HeightQuestion(
@@ -222,22 +224,36 @@ public struct FormRowContent: View {
                             title: heightQuestion.title,
                             detail: heightQuestion.detail,
                             measurementSystem: heightQuestion.measurementSystem,
-                            primarySelection: newValue,
-                            secondarySelection: heightQuestion.secondarySelection
+                            selection: newValue
                         )
                     )
-                }),
-                secondarySelection: .init(get: {
-                    return heightQuestion.secondarySelection ?? 0
+                })
+            )
+        case .weightRow(let weightQuestion):
+            WeightQuestionView(
+                title: weightQuestion.title,
+                detail: weightQuestion.detail,
+                measurementSystem: weightQuestion.measurementSystem,
+                precision: weightQuestion.precision,
+                defaultValue: weightQuestion.defaultValue,
+                minimumValue: weightQuestion.minimumValue,
+                maximumValue: weightQuestion.maximumValue,
+                selection: .init(get: {
+                    let firstValue = weightQuestion.selection.0 ?? 0
+                    let secondValue = weightQuestion.selection.1 ?? 0
+                    return (firstValue, secondValue)
                 }, set: { newValue in
-                    $formRow.wrappedValue = .heightRow(
-                        HeightQuestion(
-                            id: heightQuestion.id,
-                            title: heightQuestion.title,
-                            detail: heightQuestion.detail,
-                            measurementSystem: heightQuestion.measurementSystem,
-                            primarySelection: heightQuestion.primarySelection,
-                            secondarySelection: newValue
+                    $formRow.wrappedValue = .weightRow(
+                        WeightQuestion(
+                            id: weightQuestion.id,
+                            title: weightQuestion.title,
+                            detail: weightQuestion.detail,
+                            measurementSystem: weightQuestion.measurementSystem,
+                            precision: weightQuestion.precision,
+                            defaultValue: weightQuestion.defaultValue,
+                            minimumValue: weightQuestion.minimumValue,
+                            maximumValue: weightQuestion.maximumValue,
+                            selection: newValue
                         )
                     )
                 })

@@ -40,8 +40,7 @@ public struct HeightQuestion: Identifiable {
     public let title: String
     public let detail: String?
     public let measurementSystem: MeasurementSystem
-    public let primarySelection: Int?
-    public let secondarySelection: Int?
+    public let selection: (Int?, Int?)
 
     let footToCentimetersMultiplier: Double = 30.48
     let inchToCentimetersMultiplier: Double = 2.54
@@ -51,15 +50,13 @@ public struct HeightQuestion: Identifiable {
         title: String,
         detail: String?,
         measurementSystem: MeasurementSystem,
-        primarySelection: Int?,
-        secondarySelection: Int?
+        selection: (Int?, Int?)
     ) {
         self.id = id
         self.title = title
         self.detail = detail
         self.measurementSystem = measurementSystem
-        self.primarySelection = primarySelection
-        self.secondarySelection = secondarySelection
+        self.selection = selection
     }
 
     public var usesMetricSystem: Bool {
@@ -79,10 +76,10 @@ public struct HeightQuestion: Identifiable {
 
     public var number: NSNumber {
         if usesMetricSystem == false {
-            let centimeters = (Double(primarySelection ?? 0) * footToCentimetersMultiplier) + (Double(secondarySelection ?? 0) * inchToCentimetersMultiplier)
+            let centimeters = (Double(selection.0 ?? 0) * footToCentimetersMultiplier) + (Double(selection.1 ?? 0) * inchToCentimetersMultiplier)
             return NSNumber(floatLiteral: centimeters)
         } else {
-            return NSNumber(floatLiteral: Double(primarySelection ?? 0))
+            return NSNumber(floatLiteral: Double(selection.0 ?? 0))
         }
     }
 }
@@ -94,14 +91,12 @@ struct HeightQuestionView: View {
     let title: String
     let detail: String?
     let measurementSystem: MeasurementSystem
-    @Binding var primarySelection: Int
-    @Binding var secondarySelection: Int
+    @Binding var selection: (Int, Int)
 
     init(title: String,
          detail: String?,
          measurementSystem: MeasurementSystem,
-         primarySelection: Binding<Int>,
-         secondarySelection: Binding<Int>
+         selection: Binding<(Int, Int)>
     ) {
         self.hasChanges = false
         self.title = title
@@ -122,17 +117,16 @@ struct HeightQuestionView: View {
             }
         }()
         self.measurementSystem = system
-        self._primarySelection = primarySelection
-        self._secondarySelection = secondarySelection
+        self._selection = selection
     }
 
     var selectionString: String {
         if hasChanges == false { return "Tap Here" }
 
         if measurementSystem == .USC {
-            return "\(Int(primarySelection))' \(Int(secondarySelection))\""
+            return "\(Int(selection.0))' \(Int(selection.1))\""
         } else {
-            return "\(primarySelection) cm"
+            return "\(selection.0) cm"
         }
     }
 
@@ -160,8 +154,7 @@ struct HeightQuestionView: View {
             .sheet(isPresented: $isInputActive) {
                 HeightPickerView(
                     measurementSystem: measurementSystem,
-                    primarySelection: $primarySelection,
-                    secondarySelection: $secondarySelection,
+                    selection: $selection,
                     hasChanges: $hasChanges
                 )
                     .presentationDetents([.height(300)])
@@ -175,8 +168,7 @@ struct HeightPickerView: View {
 
     let measurementSystem: MeasurementSystem
 
-    @Binding var primarySelection: Int
-    @Binding var secondarySelection: Int
+    @Binding var selection: (Int, Int)
     @Binding var hasChanges: Bool
 
     var upperValue: Int {
@@ -216,8 +208,12 @@ struct HeightPickerView: View {
                 .frame(maxWidth: .infinity, alignment: .trailing)
             }
             .padding(.horizontal)
+#if os(visionOS)
+            .padding(.top)
+#endif
+            
             HStack(spacing: .zero) {
-                Picker(selection: $primarySelection) {
+                Picker(selection: $selection.0) {
                     ForEach(0..<upperValue, id: \.self) { i in
                         Text("\(i) \(primaryUnit)")
                             .tag(i)
@@ -226,12 +222,12 @@ struct HeightPickerView: View {
                     Text("Tap Here")
                 }
                 .pickerStyle(.wheel)
-                .onChange(of: primarySelection) { _, _ in
+                .onChange(of: selection.0) { _, _ in
                     hasChanges = true
                 }
 
                 if measurementSystem == .USC {
-                    Picker(selection: $secondarySelection) {
+                    Picker(selection: $selection.1) {
                         ForEach(0..<secondaryUpperValue, id: \.self) { i in
                             Text("\(i) \(secondaryUnit)")
                                 .tag(i)
@@ -240,7 +236,7 @@ struct HeightPickerView: View {
                         Text("Tap Here")
                     }
                     .pickerStyle(.wheel)
-                    .onChange(of: secondarySelection) { _, _ in
+                    .onChange(of: selection.1) { _, _ in
                         hasChanges = true
                     }
                 }
@@ -252,14 +248,12 @@ struct HeightPickerView: View {
 
 @available(iOS 18.0, *)
 #Preview {
-    @Previewable @State var primarySelection: Int = 22
-    @Previewable @State var secondarySelection: Int = 2
+    @Previewable @State var selection: (Int, Int) = (22, 2)
     HeightQuestionView(
         title: "Height question here",
         detail: nil,
         measurementSystem: .USC,
-        primarySelection: $primarySelection,
-        secondarySelection: $secondarySelection
+        selection: $selection
     )
 }
 

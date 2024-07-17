@@ -211,8 +211,76 @@ public class RKAdapter {
                     title: item.text ?? "",
                     detail: item.detailText,
                     measurementSystem: measurementSystem,
-                    primarySelection: initialPrimaryValue,
-                    secondarySelection: 4 // Denotes 4 inches which is paired with a 5 foot selection (162 cm)
+                    selection: (initialPrimaryValue, 4) // Denotes 4 inches which is paired with a 5 foot selection (162 cm)
+                )
+            )
+        case let weightAnswerFormat as ORKWeightAnswerFormat:
+            let measurementSystem: MeasurementSystem = {
+                switch weightAnswerFormat.measurementSystem {
+                case .USC:
+                    return .USC
+                case .local:
+                    return .local
+                case .metric:
+                    return .metric
+                @unknown default:
+                    return .metric
+                }
+            }()
+
+            let precision: NumericPrecision = {
+                switch weightAnswerFormat.numericPrecision {
+                case .default:
+                    return .default
+                case .high:
+                    return .high
+                case .low:
+                    return .low
+                }
+            }()
+
+            // At the moment the RK API for weight answer format defaults these values
+            // to the `greatestFiniteMagnitude` if you don't explicitly pass them in.
+            // We want to check for that here and pass in a valid value.
+            let defaultValue: Double? = {
+                if weightAnswerFormat.defaultValue == Double.greatestFiniteMagnitude {
+                    if measurementSystem == .USC {
+                        return 133
+                    } else {
+                        return 60
+                    }
+                }
+
+                return weightAnswerFormat.defaultValue
+            }()
+
+            let minimumValue: Double? = {
+                if weightAnswerFormat.minimumValue == Double.greatestFiniteMagnitude {
+                    return nil
+                }
+
+                return weightAnswerFormat.minimumValue
+            }()
+
+            let maximumValue: Double? = {
+                if weightAnswerFormat.maximumValue == Double.greatestFiniteMagnitude {
+                    return nil
+                }
+
+                return weightAnswerFormat.maximumValue
+            }()
+
+            return FormRow.weightRow(
+                WeightQuestion(
+                    id: item.identifier,
+                    title: item.text ?? "",
+                    detail: item.detailText,
+                    measurementSystem: measurementSystem,
+                    precision: precision,
+                    defaultValue: defaultValue,
+                    minimumValue: minimumValue,
+                    maximumValue: maximumValue,
+                    selection: (defaultValue, 0)
                 )
             )
         default:
