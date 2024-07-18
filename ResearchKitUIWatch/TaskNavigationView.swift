@@ -32,13 +32,13 @@ import SwiftUI
 
 public struct ResearchTaskNavigationView: View {
     @Environment(\.dismiss) var dismiss
-    @State private var steps: [any Step]
+    @State private var steps: [Step]
     @State private var stepIdentifiers: [String] = []
     
     var onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)?
 
     public init(
-        steps: [any Step],
+        steps: [Step],
         onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)? = nil
     ) {
         self.steps = steps
@@ -60,7 +60,7 @@ public struct ResearchTaskNavigationView: View {
                 },
                 content: {
                     if !steps.isEmpty {
-                        AnyView(steps[0])
+                        makeContent(forStepIndex: 0)
                     }
                 }
             )
@@ -78,8 +78,8 @@ public struct ResearchTaskNavigationView: View {
                         }
                     },
                     content: {
-                        if let step = step(atPath: path) {
-                            AnyView(step)
+                        if let stepIndex = indexForStep(atPath: path) {
+                            makeContent(forStepIndex: stepIndex)
                         }
                     }
                 )
@@ -118,14 +118,14 @@ public struct ResearchTaskNavigationView: View {
     }
     
     private func identifier(afterPath path: String) -> String? {
-        func step(afterPath path: String) -> (any Step)? {
+        func step(afterPath path: String) -> Step? {
             guard let index = index(forPath: path) else {
                 return nil
             }
             
             let nextIndex = index + 1
             
-            let instructionStep: (any Step)?
+            let instructionStep: Step?
             if nextIndex == steps.count {
                 instructionStep = nil
             } else {
@@ -137,8 +137,8 @@ public struct ResearchTaskNavigationView: View {
         return step(afterPath: path)?.identifier
     }
     
-    private func step(atPath path: String) -> (any Step)? {
-        steps.first { $0.identifier == path }
+    private func indexForStep(atPath path: String) -> Int? {
+        steps.firstIndex(where: { $0.identifier == path })
     }
     
     private func navigationTitle(atPath path: String) -> String {
@@ -149,6 +149,65 @@ public struct ResearchTaskNavigationView: View {
             navigationTitle = ""
         }
         return navigationTitle
+    }
+    
+    @ViewBuilder
+    private func makeContent(forStepIndex stepIndex: Int) -> some View {
+        switch steps[stepIndex] {
+        case .formStep(let formStep):
+            VStack(alignment: .leading, spacing: 16) {
+                HeaderView(
+                    title: formStep.title,
+                    subtitle: formStep.subtitle
+                )
+                
+                ForEach(
+                    Array(formStep.items.enumerated()),
+                    id: \.offset
+                ) { formRowIndex, formRow in
+                    FormRowContent(
+                        detail: nil,
+                        formRow: .init(
+                            get: {
+                                formRow
+                            },
+                            set: { newFormRow in
+                                var newFormRows = formStep.items
+                                newFormRows[formRowIndex] = newFormRow
+                                
+                                steps[stepIndex] = .formStep(
+                                    FormStep(
+                                        id: formStep.id,
+                                        title: formStep.title,
+                                        subtitle: formStep.subtitle,
+                                        items: newFormRows
+                                    )
+                                )
+                            }
+                        )
+                    )
+                }
+            }
+        case .instructionStep(let instructionStep):
+            VStack(alignment: .leading, spacing: 16) {
+                HeaderView(
+                    image: instructionStep.iconImage,
+                    title: instructionStep.title,
+                    subtitle: instructionStep.subtitle
+                )
+                
+                ForEach(instructionStep.bodyItems) { bodyItem in
+                    HStack {
+                        bodyItem.image
+                            .frame(width: 40, height: 40)
+                            .foregroundStyle(.bodyItemIconForegroundStyle)
+                        
+                        Text(bodyItem.text)
+                            .font(.subheadline)
+                    }
+                }
+            }
+        }
     }
     
 }

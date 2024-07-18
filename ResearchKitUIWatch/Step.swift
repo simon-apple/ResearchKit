@@ -30,8 +30,20 @@
 
 import SwiftUI
 
-public protocol Step: View {
+public enum Step {
     
-    var identifier: String { get }
+    case formStep(FormStep)
+    case instructionStep(InstructionStep)
+    
+    var identifier: String {
+        let identifier: String
+        switch self {
+        case .formStep(let formStep):
+            identifier = formStep.identifier
+        case .instructionStep(let instructionStep):
+            identifier = instructionStep.identifier
+        }
+        return identifier
+    }
     
 }

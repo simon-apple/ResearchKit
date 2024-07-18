@@ -31,39 +31,24 @@
 import SwiftUI
 
 public struct FormStep: Identifiable {
-    public let id: UUID = UUID()
+    public let id: UUID
     public let title: String?
     public let subtitle: String?
-    @State private var items: [FormRow]
+    public let items: [FormRow]
+    
+    var identifier: String {
+        id.uuidString
+    }
 
     public init(
+        id: UUID = UUID(),
         title: String?,
         subtitle: String?,
         items: [FormRow]
     ) {
+        self.id = id
         self.title = title
         self.subtitle = subtitle
         self.items = items
     }
-}
-
-extension FormStep: Step {
-    
-    public var identifier: String {
-        id.uuidString
-    }
-    
-    public var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            HeaderView(
-                title: title,
-                subtitle: subtitle
-            )
-            
-            ForEach($items) { $formRow in
-                FormRowContent(detail: nil, formRow: $formRow)
-            }
-        }
-    }
-    
 }
