@@ -30,24 +30,24 @@
 
 import SwiftUI
 
-public struct TaskNavigationView: View {
+public struct ResearchTaskNavigationView: View {
     @Environment(\.dismiss) var dismiss
     @State private var steps: [any Step]
     @State private var stepIdentifiers: [String] = []
     
-    var onTaskCompletion: ((TaskCompletion) -> Void)?
+    var onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)?
 
     public init(
         steps: [any Step],
-        onTaskCompletion: ((TaskCompletion) -> Void)? = nil
+        onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)? = nil
     ) {
         self.steps = steps
-        self.onTaskCompletion = onTaskCompletion
+        self.onResearchTaskCompletion = onResearchTaskCompletion
     }
 
     public var body: some View {
         NavigationStack(path: $stepIdentifiers) {
-            TaskStepContentView(
+            ResearchTaskStepContentView(
                 isLastStep: isLastStep(forIndex: 0),
                 onStepCompletion: { completion in
                     if completion == .discarded {
@@ -55,7 +55,7 @@ public struct TaskNavigationView: View {
                     } else if completion == .saved {
                         moveToStep(atIndex: 1)
                     } else {
-                        onTaskCompletion?(completion)
+                        onResearchTaskCompletion?(completion)
                     }
                 },
                 content: {
@@ -66,7 +66,7 @@ public struct TaskNavigationView: View {
             )
             .navigationTitle("1 of \(steps.count)")
             .navigationDestination(for: String.self) { path in
-                TaskStepContentView(
+                ResearchTaskStepContentView(
                     isLastStep: isLastStep(atPath: path),
                     onStepCompletion: { completion in
                         if completion == .discarded {
@@ -74,7 +74,7 @@ public struct TaskNavigationView: View {
                         } else if completion == .saved {
                             moveToStep(afterPath: path)
                         } else {
-                            onTaskCompletion?(completion)
+                            onResearchTaskCompletion?(completion)
                         }
                     },
                     content: {

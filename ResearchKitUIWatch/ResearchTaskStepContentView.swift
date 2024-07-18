@@ -31,15 +31,15 @@
 
 import SwiftUI
 
-public struct TaskStepContentView<Content: View>: View {
+public struct ResearchTaskStepContentView<Content: View>: View {
     private let content: Content
 
     let isLastStep: Bool
-    var onStepCompletion: ((TaskCompletion) -> Void)?
+    var onStepCompletion: ((ResearchTaskCompletion) -> Void)?
 
     init(
         isLastStep: Bool,
-        onStepCompletion: ((TaskCompletion) -> Void)? = nil,
+        onStepCompletion: ((ResearchTaskCompletion) -> Void)? = nil,
         @ViewBuilder content: () -> Content
     ) {
         self.isLastStep = isLastStep
