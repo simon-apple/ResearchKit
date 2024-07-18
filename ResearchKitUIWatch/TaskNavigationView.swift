@@ -47,45 +47,52 @@ public struct ResearchTaskNavigationView: View {
 
     public var body: some View {
         NavigationStack(path: $stepIdentifiers) {
-            ResearchTaskStepContentView(
-                isLastStep: isLastStep(forIndex: 0),
-                onStepCompletion: { completion in
-                    if completion == .discarded {
-                        dismiss()
-                    } else if completion == .saved {
-                        moveToStep(atIndex: 1)
-                    } else {
-                        onResearchTaskCompletion?(completion)
-                    }
-                },
-                content: {
-                    if !steps.isEmpty {
-                        makeContent(forStepIndex: 0)
-                    }
-                }
-            )
-            .navigationTitle("1 of \(steps.count)")
-            .navigationDestination(for: String.self) { path in
+            if let firstStep = steps.first {
                 ResearchTaskStepContentView(
-                    isLastStep: isLastStep(atPath: path),
+                    isLastStep: isLastStep(for: firstStep),
                     onStepCompletion: { completion in
                         if completion == .discarded {
                             dismiss()
                         } else if completion == .saved {
-                            moveToStep(afterPath: path)
+                            moveToStep(after: firstStep)
                         } else {
                             onResearchTaskCompletion?(completion)
                         }
                     },
                     content: {
-                        if let stepIndex = indexForStep(atPath: path) {
-                            makeContent(forStepIndex: stepIndex)
-                        }
+                        makeContent(for: firstStep)
                     }
                 )
-                .navigationTitle(navigationTitle(atPath: path))
+                .navigationTitle("1 of \(steps.count)")
+                .navigationDestination(for: String.self) { path in
+                    ResearchTaskStepContentView(
+                        isLastStep: isLastStep(atPath: path),
+                        onStepCompletion: { completion in
+                            if completion == .discarded {
+                                dismiss()
+                            } else if completion == .saved {
+                                moveToStep(afterPath: path)
+                            } else {
+                                onResearchTaskCompletion?(completion)
+                            }
+                        },
+                        content: {
+                            if let stepIndex = indexForStep(atPath: path) {
+                                makeContent(forStepIndex: stepIndex)
+                            }
+                        }
+                    )
+                    .navigationTitle(navigationTitle(atPath: path))
+                }
             }
         }
+    }
+    
+    private func isLastStep(for step: Step) -> Bool {
+        guard let stepIndex = index(for: step) else {
+            return false
+        }
+        return isLastStep(forIndex: stepIndex)
     }
     
     private func isLastStep(forIndex index: Int) -> Bool {
@@ -103,6 +110,27 @@ public struct ResearchTaskNavigationView: View {
         steps.firstIndex { step in
             step.identifier == path
         }
+    }
+    
+    private func moveToStep(after step: Step) {
+        guard let nextStep = self.step(after: step) else {
+            return
+        }
+        stepIdentifiers.append(nextStep.identifier)
+    }
+    
+    private func step(after step: Step) -> Step? {
+        guard let stepIndex = index(for: step) else {
+            return nil
+        }
+        
+        let nextStepIndex = stepIndex + 1
+        
+        guard nextStepIndex < steps.count else {
+            return nil
+        }
+        
+        return steps[nextStepIndex]
     }
     
     private func moveToStep(atIndex index: Int) {
@@ -141,6 +169,10 @@ public struct ResearchTaskNavigationView: View {
         steps.firstIndex(where: { $0.identifier == path })
     }
     
+    private func index(for step: Step) -> Int? {
+        steps.firstIndex(where: { $0.identifier == step.identifier })
+    }
+    
     private func navigationTitle(atPath path: String) -> String {
         let navigationTitle: String
         if let index = index(forPath: path) {
@@ -149,6 +181,13 @@ public struct ResearchTaskNavigationView: View {
             navigationTitle = ""
         }
         return navigationTitle
+    }
+    
+    @ViewBuilder
+    private func makeContent(for step: Step) -> some View {
+        if let stepIndex = index(for: step) {
+            makeContent(forStepIndex: stepIndex)
+        }
     }
     
     @ViewBuilder
