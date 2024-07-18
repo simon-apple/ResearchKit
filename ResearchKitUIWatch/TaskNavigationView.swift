@@ -60,7 +60,7 @@ public struct TaskNavigationView: View {
                 },
                 content: {
                     if !steps.isEmpty {
-                        AnyView(steps[0].makeContent())
+                        AnyView(steps[0])
                     }
                 }
             )
@@ -79,7 +79,7 @@ public struct TaskNavigationView: View {
                     },
                     content: {
                         if let step = step(atPath: path) {
-                            AnyView(step.makeContent())
+                            AnyView(step)
                         }
                     }
                 )

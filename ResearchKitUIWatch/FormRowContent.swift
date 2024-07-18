@@ -44,7 +44,7 @@ public struct FormRowContent: View {
     }
 
     public var body: some View {
-        switch $formRow.wrappedValue {
+        switch formRow {
         case .multipleChoiceRow(let multipleChoiceValue):
             MultipleChoiceQuestionView(
                 title: multipleChoiceValue.title ?? "",
@@ -56,7 +56,7 @@ public struct FormRowContent: View {
                         return multipleChoiceValue.result
                     },
                     set: { newValue in
-                        $formRow.wrappedValue = .multipleChoiceRow(
+                        formRow = .multipleChoiceRow(
                             MultipleChoiceQuestion(
                                 id: multipleChoiceValue.id,
                                 title: multipleChoiceValue.title,
@@ -77,7 +77,7 @@ public struct FormRowContent: View {
                 selection: .init(get: {
                     return doubleSliderQuestion.result
                 }, set: { newValue in
-                    $formRow.wrappedValue = .doubleSliderRow(
+                    formRow = .doubleSliderRow(
                         ScaleSliderQuestion(
                             id: doubleSliderQuestion.id,
                             title: doubleSliderQuestion.title,
@@ -97,7 +97,7 @@ public struct FormRowContent: View {
                 selection: .init(get: {
                     return intSliderQuestion.intResult
                 }, set: { newValue in
-                    $formRow.wrappedValue = .intSliderRow(
+                    formRow = .intSliderRow(
                         ScaleSliderQuestion(
                             id: intSliderQuestion.id,
                             title: intSliderQuestion.title,
@@ -116,7 +116,7 @@ public struct FormRowContent: View {
                 selection: .init(get: {
                     return textSliderQuestion.result
                 }, set: { newValue in
-                    $formRow.wrappedValue = .textSliderStep(
+                    formRow = .textSliderStep(
                         ScaleSliderQuestion(
                             id: textSliderQuestion.id,
                             title: textSliderQuestion.title,
@@ -129,15 +129,9 @@ public struct FormRowContent: View {
         case .textRow(let textQuestion):
             TextQuestionView(
                 text: .init(get: {
-                    let text: String
-                    if case .textRow(let textQuestion) = formRow {
-                        text = textQuestion.text
-                    } else {
-                        text = ""
-                    }
-                    return text
+                    textQuestion.text
                 }, set: { newValue in
-                    $formRow.wrappedValue = .textRow(
+                    formRow = .textRow(
                         TextQuestion(
                             title: textQuestion.title,
                             id: textQuestion.id,
@@ -165,7 +159,7 @@ public struct FormRowContent: View {
                 selection: .init(get: {
                     return dateQuestion.selection
                 }, set: { newValue in
-                    $formRow.wrappedValue = .dateRow(
+                    formRow = .dateRow(
                         DateQuestion(
                             id: dateQuestion.id,
                             title: dateQuestion.title,
@@ -193,7 +187,7 @@ public struct FormRowContent: View {
                         return decimal
                     },
                     set: { newValue in
-                        $formRow.wrappedValue = .numericRow(
+                        formRow = .numericRow(
                             NumericQuestion(
                                 id: numericQuestion.id,
                                 title: numericQuestion.title,
@@ -218,7 +212,7 @@ public struct FormRowContent: View {
                     let secondValue = heightQuestion.selection.1 ?? 0
                     return (firstValue, secondValue)
                 }, set: { newValue in
-                    $formRow.wrappedValue = .heightRow(
+                    formRow = .heightRow(
                         HeightQuestion(
                             id: heightQuestion.id,
                             title: heightQuestion.title,
@@ -243,7 +237,7 @@ public struct FormRowContent: View {
                     let secondValue = weightQuestion.selection.1 ?? 0
                     return (firstValue, secondValue)
                 }, set: { newValue in
-                    $formRow.wrappedValue = .weightRow(
+                    formRow = .weightRow(
                         WeightQuestion(
                             id: weightQuestion.id,
                             title: weightQuestion.title,

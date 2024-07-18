@@ -30,7 +30,7 @@
 
 import SwiftUI
 
-public struct InstructionStep: Step {
+public struct InstructionStep {
     
     public let identifier: String
     
@@ -56,8 +56,11 @@ public struct InstructionStep: Step {
         self.bodyItems = bodyItems
     }
     
-    @ViewBuilder
-    public func makeContent() -> some View {
+}
+
+extension InstructionStep: Step {
+    
+    public var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HeaderView(
                 image: iconImage,

@@ -30,11 +30,11 @@
 
 import SwiftUI
 
-public class FormStep: Identifiable {
+public struct FormStep: Identifiable {
     public let id: UUID = UUID()
     public let title: String?
     public let subtitle: String?
-    var items: [FormRow]
+    @State private var items: [FormRow]
 
     public init(
         title: String?,
@@ -53,8 +53,7 @@ extension FormStep: Step {
         id.uuidString
     }
     
-    @ViewBuilder
-    public func makeContent() -> some View {
+    public var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HeaderView(
                 image: nil,
@@ -62,19 +61,8 @@ extension FormStep: Step {
                 subtitle: subtitle
             )
             
-            ForEach(Array(items.enumerated()), id: \.offset) { itemIndex, formRow in
-                FormRowContent(
-                    detail: nil,
-                    formRow: Binding<FormRow>(
-                        get: { [weak self] in
-                            self?.items[itemIndex] ?? formRow
-                        },
-                        set: { [weak self] formRow in
-                            print("Form row set to: \(formRow)")
-                            self?.items[itemIndex] = formRow
-                        }
-                    )
-                )
+            ForEach($items) { $formRow in
+                FormRowContent(detail: nil, formRow: $formRow)
             }
         }
     }

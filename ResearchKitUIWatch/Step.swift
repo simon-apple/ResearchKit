@@ -30,12 +30,8 @@
 
 import SwiftUI
 
-public protocol Step {
-    
-    associatedtype Content: View
+public protocol Step: View {
     
     var identifier: String { get }
-    
-    func makeContent() -> Content
     
 }
