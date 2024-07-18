@@ -56,7 +56,6 @@ extension FormStep: Step {
     public var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HeaderView(
-                image: nil,
                 title: title,
                 subtitle: subtitle
             )

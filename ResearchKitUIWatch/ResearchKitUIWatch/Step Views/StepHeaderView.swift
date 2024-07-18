@@ -110,7 +110,7 @@ struct HeaderView: View {
     private let title: String?
     private let subtitle: String?
     
-    init(image: Image?, title: String?, subtitle: String?) {
+    init(image: Image? = nil, title: String? = nil, subtitle: String? = nil) {
         self.image = image
         self.title = title
         self.subtitle = subtitle
