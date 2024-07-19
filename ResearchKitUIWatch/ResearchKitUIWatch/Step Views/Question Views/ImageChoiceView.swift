@@ -30,22 +30,25 @@
 
 import SwiftUI
 
-struct ImageChoice: Identifiable {
-    let id: UUID
-    let normalImage: UIImage
-    let selectedImage: UIImage?
-    let text: String
-    let value: Int
+public struct ImageChoice: Identifiable {
+    public let id: UUID
+    public let normalImage: UIImage
+    public let selectedImage: UIImage?
+    public let text: String
+    public let value: Int
 }
 
-struct ImageChoiceQuestion {
+public struct ImageChoiceQuestion: Identifiable {
     public enum ChoiceSelectionType {
         case single, multiple
     }
-
-    let choices: [ImageChoice]
-    let style: ChoiceSelectionType
-    let vertical: Bool
+    public let title: String
+    public let detail: String?
+    public let id: String
+    public let choices: [ImageChoice]
+    public let style: ChoiceSelectionType
+    public let vertical: Bool
+    public let selections: [Int]
 }
 
 struct ImageChoiceView: View {
@@ -57,23 +60,6 @@ struct ImageChoiceView: View {
 
     @Binding var selection: [Int]
 
-    var selectionText: String {
-        guard selection.isEmpty == false else {
-            return ""
-        }
-        let strings: [String] = {
-            var strings: [String] = []
-            for i in selection.sorted() {
-                if let choice = choices.first(where: { $0.value == i }) {
-                    strings.append(choice.text)
-                }
-            }
-            return strings
-        }()
-
-        return strings.joined(separator: ", ")
-    }
-
     var body: some View {
         FormItemCardView(title: title, detail: detail) {
             VStack {
@@ -83,7 +69,7 @@ struct ImageChoiceView: View {
                         .fontWeight(.semibold)
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal)
+                        .padding([.horizontal, .top])
                     Divider()
                 }
 
@@ -98,10 +84,31 @@ struct ImageChoiceView: View {
                     }
                     .padding()
                 }
-                Text(selectionText)
+                selectionText()
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .frame(minHeight: 24)
+                    .padding()
             }
+        }
+    }
+
+    @ViewBuilder
+    func selectionText() -> some View {
+        if selection.isEmpty {
+            Text("Tap to select")
+                    .foregroundStyle(.secondary)
+        } else {
+            let strings: [String] = {
+                var strings: [String] = []
+                for i in selection.sorted() {
+                    if let choice = choices.first(where: { $0.value == i }) {
+                        strings.append(choice.text)
+                    }
+                }
+                return strings
+            }()
+
+            Text(strings.joined(separator: ", "))
+                    .foregroundStyle(.primary)
         }
     }
 
@@ -154,7 +161,7 @@ struct ImageChoiceView: View {
             ),
         ],
         style: .single,
-        vertical: false,
+        vertical: true,
         selection: $selection
     )
 }
