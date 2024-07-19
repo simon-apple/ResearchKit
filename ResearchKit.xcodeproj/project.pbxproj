@@ -590,7 +590,7 @@
 		CA2B902D28A18EFE0025B773 /* ORKFrontFacingCameraStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51751462245A5172009E8FFC /* ORKFrontFacingCameraStepViewController.m */; };
 		CA2B902E28A18F000025B773 /* ORKFrontFacingCameraStepContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51751466245A53D7009E8FFC /* ORKFrontFacingCameraStepContentView.m */; };
 		CA2B902F28A18F860025B773 /* ORKActiveStepTimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B361A8D7C5B00081FAC /* ORKActiveStepTimerView.m */; };
-		CA2BBB2128AB06D300DD6C64 /* ORKLearnMoreItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BA8C5020226FFB04001896D0 /* ORKLearnMoreItem.m */; platformFilter = ios; };
+		CA2BBB2128AB06D300DD6C64 /* ORKLearnMoreItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BA8C5020226FFB04001896D0 /* ORKLearnMoreItem.m */; };
 		CA4B673328A1CCBA00FAE01F /* ResearchKitActiveTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAD08967289DD747007B2A98 /* ResearchKitActiveTask.framework */; };
 		CA6A0D7E288B51D30048C1EF /* ORKSkin.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BB71A8D7C5C00081FAC /* ORKSkin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA6A0D7F288B51D30048C1EF /* ORKSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BB81A8D7C5C00081FAC /* ORKSkin.m */; };
