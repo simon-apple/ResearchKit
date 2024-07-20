@@ -127,14 +127,17 @@ struct ImageChoiceView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(choice.selectedImage == nil ? Color(uiColor: .systemGray5) : Color.clear)
-                        .cornerRadius(12)
+                        .cornerRadius(24)
+                        .contentShape(RoundedRectangle(cornerRadius: 24))
                 } else {
                     Image(uiImage: choice.normalImage)
                         .padding()
                         .frame(maxWidth: .infinity)
+                        .cornerRadius(24)
+                        .contentShape(RoundedRectangle(cornerRadius: 24))
                 }
-
             }
+            .buttonStyle(.plain)
         }
     }
 }
