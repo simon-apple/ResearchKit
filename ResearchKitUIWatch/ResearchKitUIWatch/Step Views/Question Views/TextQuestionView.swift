@@ -117,6 +117,7 @@ public struct TextQuestionView<Header: View>: View {
         } content: {
             VStack {
                 TextField("", text: $text, prompt: placeholder, axis: axis)
+                    .textFieldStyle(.plain) // Text binding's `didSet` called twice if this is not set.
                     .focused($isInputActive)
                     .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
                     .contentShape(Rectangle())

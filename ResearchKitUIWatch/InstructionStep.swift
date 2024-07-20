@@ -28,10 +28,50 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-public enum TaskCompletion {
-    case saved
-    case discarded
-    case completed
-    case failed
-    case terminated
+import SwiftUI
+
+public struct InstructionStep {
+    
+    public let identifier: String
+    
+    public let iconImage: Image?
+    
+    public let title: String?
+    
+    public let subtitle: String?
+    
+    public let bodyItems: [BodyItem]
+    
+    public init(
+        identifier: String,
+        iconImage: Image? = nil,
+        title: String? = nil,
+        subtitle: String? = nil,
+        bodyItems: [BodyItem] = []
+    ) {
+        self.identifier = identifier
+        self.iconImage = iconImage
+        self.title = title
+        self.subtitle = subtitle
+        self.bodyItems = bodyItems
+    }
+    
+}
+
+public struct BodyItem: Identifiable {
+    
+    public let id = UUID()
+    
+    public let text: String
+    
+    public let image: Image
+    
+    public init(
+        text: String,
+        image: Image
+    ) {
+        self.text = text
+        self.image = image
+    }
+    
 }
