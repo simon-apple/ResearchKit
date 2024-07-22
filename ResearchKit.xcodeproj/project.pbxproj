@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -93,7 +93,7 @@
 		242C9E051BBDFDAC0088B7F4 /* ORKVerificationStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 242C9E031BBDFDAC0088B7F4 /* ORKVerificationStep.h */; platformFilter = ios; settings = {ATTRIBUTES = (Public, ); }; };
 		242C9E061BBDFDAC0088B7F4 /* ORKVerificationStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 242C9E041BBDFDAC0088B7F4 /* ORKVerificationStep.m */; platformFilter = ios; };
 		2433C9E31B9A506F0052D375 /* ORKKeychainWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 2433C9E11B9A506F0052D375 /* ORKKeychainWrapper.h */; platformFilter = ios; settings = {ATTRIBUTES = (Public, ); }; };
-		2433C9E41B9A506F0052D375 /* ORKKeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2433C9E21B9A506F0052D375 /* ORKKeychainWrapper.m */; platformFilter = ios; };
+		2433C9E41B9A506F0052D375 /* ORKKeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2433C9E21B9A506F0052D375 /* ORKKeychainWrapper.m */; };
 		244EFAD21BCEFD83001850D9 /* ORKAnswerFormat_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 244EFAD11BCEFD83001850D9 /* ORKAnswerFormat_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		248604061B4C98760010C8A0 /* ORKAnswerFormatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 248604051B4C98760010C8A0 /* ORKAnswerFormatTests.m */; };
 		2489F7B11D65214D008DEF20 /* ORKVideoCaptureStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 2489F7A91D65214D008DEF20 /* ORKVideoCaptureStep.h */; platformFilter = ios; settings = {ATTRIBUTES = (Public, ); }; };
@@ -4806,20 +4806,20 @@
 				866DA5201D63D04700C9AF3F /* ORKCollector.h in Headers */,
 				51A11F1A2BD08D5E0060C07E /* CMMotionActivity+ORKJSONDictionary.h in Headers */,
 				BF91559B1BDE8D7D007FA459 /* ORKReviewStep_Internal.h in Headers */,
-				FF919A561E81BEE0005C2A1E /* ORKCollectionResult_Private.h in Headers */,
-				FF919A661E81D168005C2A1E /* ORKSignatureResult_Private.h in Headers */,
 				FF5CA61B1D2C6453001660A3 /* ORKSignatureStep.h in Headers */,
-				BC081DE224CBC4DE00AD92AA /* ORKTypes_Private.h in Headers */,
-				5D04885C25F1B3AB0006C68B /* ORKDevice_Private.h in Headers */,
 				00C2668E23022CD400337E0B /* ORKCustomStep.h in Headers */,
-				BCCE9EC121104B2200B809F8 /* ORKConsentDocument_Private.h in Headers */,
-				86C40D201A8D7C5C00081FAC /* ORKFormStep.h in Headers */,
 				CA2B901F28A1864A0025B773 /* ORKRecorder.h in Headers */,
 				BA473FE8224DB38900A362E3 /* ORKBodyItem.h in Headers */,
 				2429D5721BBB5397003A512F /* ORKRegistrationStep.h in Headers */,
+				5192BF842AE1BA47006E43FB /* ORKFrontFacingCameraStep.h in Headers */,
+				FF919A561E81BEE0005C2A1E /* ORKCollectionResult_Private.h in Headers */,
+				FF919A661E81D168005C2A1E /* ORKSignatureResult_Private.h in Headers */,
+				BC081DE224CBC4DE00AD92AA /* ORKTypes_Private.h in Headers */,
+				5D04885C25F1B3AB0006C68B /* ORKDevice_Private.h in Headers */,
+				BCCE9EC121104B2200B809F8 /* ORKConsentDocument_Private.h in Headers */,
+				86C40D201A8D7C5C00081FAC /* ORKFormStep.h in Headers */,
 				51B94DBD2B311E810039B0E7 /* CLLocationManager+ResearchKit.h in Headers */,
 				B183A4A21A8535D100C76870 /* ResearchKit_Private.h in Headers */,
-				5192BF842AE1BA47006E43FB /* ORKFrontFacingCameraStep.h in Headers */,
 				CA2B900B28A17AE10025B773 /* ORKActiveStep.h in Headers */,
 				AE75433A24E32CCC00E4C7CF /* ORKEarlyTerminationConfiguration.h in Headers */,
 				86C40CE81A8D7C5C00081FAC /* ORKAnswerFormat_Internal.h in Headers */,
@@ -4843,6 +4843,16 @@
 				51AF1B152B67F30500D3B399 /* ORKSignatureFormatter.h in Headers */,
 				51AF1B202B683C3400D3B399 /* ORKWebViewStepResult_Private.h in Headers */,
 				5D04884C25EF4CC30006C68B /* ORKQuestionStep_Private.h in Headers */,
+				8419D66E1FB73CC80088D7E5 /* ORKWebViewStep.h in Headers */,
+				FFDDD8491D3555EA00446806 /* ORKPageStep.h in Headers */,
+				D44239791AF17F5100559D96 /* ORKImageCaptureStep.h in Headers */,
+				FF919A6D1E81D3B0005C2A1E /* ORKPasscodeResult.h in Headers */,
+				5192BF502AE09673006E43FB /* ORKPredicateFormItemVisibilityRule.h in Headers */,
+				FF0CB38A1FD5C4C3002D838C /* ORKWebViewStepResult.h in Headers */,
+				86C40D301A8D7C5C00081FAC /* ORKHealthAnswerFormat.h in Headers */,
+				FF5CA6121D2C2670001660A3 /* ORKTableStep.h in Headers */,
+				51A11F172BD08D5E0060C07E /* HKSample+ORKJSONDictionary.h in Headers */,
+				BC13CE401B0666FD0044153C /* ORKResultPredicate.h in Headers */,
 				86C40D621A8D7C5C00081FAC /* ORKQuestionStep_Internal.h in Headers */,
 				B183A4DD1A8535D100C76870 /* ResearchKit.h in Headers */,
 				BAD9E9122255E9750014FA29 /* ORKLearnMoreInstructionStep.h in Headers */,
@@ -4865,24 +4875,14 @@
 				B11C54991A9EEF8800265E61 /* ORKConsentSharingStep.h in Headers */,
 				86C40D5E1A8D7C5C00081FAC /* ORKQuestionStep.h in Headers */,
 				FF919A591E81C628005C2A1E /* ORKQuestionResult.h in Headers */,
-				8419D66E1FB73CC80088D7E5 /* ORKWebViewStep.h in Headers */,
-				FFDDD8491D3555EA00446806 /* ORKPageStep.h in Headers */,
-				D44239791AF17F5100559D96 /* ORKImageCaptureStep.h in Headers */,
-				FF919A6D1E81D3B0005C2A1E /* ORKPasscodeResult.h in Headers */,
 				24C296771BD055B800B42EF1 /* ORKLoginStep_Internal.h in Headers */,
 				86C40CC01A8D7C5C00081FAC /* ORKCompletionStep.h in Headers */,
-				5192BF502AE09673006E43FB /* ORKPredicateFormItemVisibilityRule.h in Headers */,
 				14A92C4822440195007547F2 /* ORKHelpers_Internal.h in Headers */,
-				FF0CB38A1FD5C4C3002D838C /* ORKWebViewStepResult.h in Headers */,
 				5D43C5D424255675006F4084 /* ORKBodyItem_Internal.h in Headers */,
-				86C40D301A8D7C5C00081FAC /* ORKHealthAnswerFormat.h in Headers */,
 				7167D028231B1EAA00AAB4DD /* ORKFormStep_Internal.h in Headers */,
-				FF5CA6121D2C2670001660A3 /* ORKTableStep.h in Headers */,
 				FA7A9D2F1B083DD3005A2BEA /* ORKConsentSectionFormatter.h in Headers */,
-				51A11F172BD08D5E0060C07E /* HKSample+ORKJSONDictionary.h in Headers */,
 				86C40D561A8D7C5C00081FAC /* ORKOrderedTask.h in Headers */,
 				FF5051F01D66908C0065E677 /* ORKNavigablePageStep.h in Headers */,
-				BC13CE401B0666FD0044153C /* ORKResultPredicate.h in Headers */,
 				51EB9A532B8408D50064A515 /* ORKInstructionStepHTMLFormatter.h in Headers */,
 				86C40E081A8D7C5C00081FAC /* ORKConsentReviewStep.h in Headers */,
 				CA6A0D83288B5B370048C1EF /* ORKHTMLPDFWriter.h in Headers */,
@@ -5782,20 +5782,19 @@
 				036B1E8E25351BAD008483DF /* ORKMotionActivityPermissionType.m in Sources */,
 				CA2B902228A1867E0025B773 /* ORKRecorder.m in Sources */,
 				5D04885825F19A7A0006C68B /* ORKDevice.m in Sources */,
-				CA2B902428A186AF0025B773 /* ORKDataLogger.m in Sources */,
 				86C40D6C1A8D7C5C00081FAC /* ORKResult.m in Sources */,
 				86C40D181A8D7C5C00081FAC /* ORKErrors.m in Sources */,
+				CA2B902428A186AF0025B773 /* ORKDataLogger.m in Sources */,
 				5192BF852AE1BA47006E43FB /* ORKFrontFacingCameraStepResult.m in Sources */,
 				031A0FC224CF4ECD000E4455 /* ORKSensorPermissionType.m in Sources */,
+				FF919A6A1E81D255005C2A1E /* ORKConsentSignatureResult.m in Sources */,
 				CA6A0D85288B5B370048C1EF /* ORKHTMLPDFPageRenderer.m in Sources */,
 				51A11F182BD08D5E0060C07E /* CMMotionActivity+ORKJSONDictionary.m in Sources */,
 				24A4DA151B8D1115009C797A /* ORKPasscodeStep.m in Sources */,
 				BCA5C0361AEC05F20092AC8D /* ORKStepNavigationRule.m in Sources */,
-				FF919A6A1E81D255005C2A1E /* ORKConsentSignatureResult.m in Sources */,
 				5192BF5A2AE09794006E43FB /* ORKFormItemVisibilityRule.m in Sources */,
 				86C40CC21A8D7C5C00081FAC /* ORKCompletionStep.m in Sources */,
 				BF9155A81BDE8DA9007FA459 /* ORKWaitStep.m in Sources */,
-				BCB080A11B83EFB900A3F400 /* ORKStepNavigationRule.swift in Sources */,
 				AE75433B24E32CCC00E4C7CF /* ORKEarlyTerminationConfiguration.m in Sources */,
 				86C40D361A8D7C5C00081FAC /* ORKHelpers.m in Sources */,
 				86C40CE61A8D7C5C00081FAC /* ORKAnswerFormat.m in Sources */,
@@ -5814,6 +5813,7 @@
 				51A11F192BD08D5E0060C07E /* HKSample+ORKJSONDictionary.m in Sources */,
 				86C40D581A8D7C5C00081FAC /* ORKOrderedTask.m in Sources */,
 				86C40D601A8D7C5C00081FAC /* ORKQuestionStep.m in Sources */,
+				BCB080A11B83EFB900A3F400 /* ORKStepNavigationRule.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
