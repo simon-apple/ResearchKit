@@ -102,3 +102,38 @@ struct StepHeaderView: View {
     }
     
 }
+
+// StepHeaderView and HeaderView can potentially be merged in the future.
+struct HeaderView: View {
+    
+    private let image: Image?
+    private let title: String?
+    private let subtitle: String?
+    
+    init(image: Image? = nil, title: String? = nil, subtitle: String? = nil) {
+        self.image = image
+        self.title = title
+        self.subtitle = subtitle
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            image?
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 80, height: 80)
+                .foregroundStyle(.stepIconForegroundStyle)
+            
+            if let title {
+                Text(title)
+                    .font(.title)
+                    .fontWeight(.bold)
+            }
+
+            if let subtitle {
+                Text(subtitle)
+            }
+        }
+    }
+    
+}
