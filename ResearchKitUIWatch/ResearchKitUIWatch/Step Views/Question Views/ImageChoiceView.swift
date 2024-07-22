@@ -128,16 +128,18 @@ struct ImageChoiceView: View {
                         .padding()
                         .background(choice.selectedImage == nil ? Color(uiColor: .systemGray5) : Color.clear)
                         .cornerRadius(24)
-                        .contentShape(RoundedRectangle(cornerRadius: 24))
+                        .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 24))
+                        .hoverEffect()
                 } else {
                     Image(uiImage: choice.normalImage)
                         .padding()
                         .frame(maxWidth: .infinity)
                         .cornerRadius(24)
-                        .contentShape(RoundedRectangle(cornerRadius: 24))
-                }
+                        .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 24))
+                        .hoverEffect()                }
             }
             .buttonStyle(.plain)
+
         }
     }
 }
@@ -150,16 +152,16 @@ struct ImageChoiceView: View {
         choices: [
             ImageChoice(
                 id: UUID(),
-                normalImage: UIImage(systemName: "checkmark.circle")!,
+                normalImage: UIImage(named: "carrot")!,
                 selectedImage: nil,
-                text: "Circle",
+                text: "carrot",
                 value: 0
             ),
             ImageChoice(
                 id: UUID(),
-                normalImage: UIImage(systemName: "checkmark.square")!,
+                normalImage: UIImage(systemName: "cake")!,
                 selectedImage: nil,
-                text: "Square",
+                text: "cake",
                 value: 1
             ),
         ],
