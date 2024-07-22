@@ -28,45 +28,25 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 import SwiftUI
 
-public class TaskViewModel: ObservableObject {
-    @Published var stepIdentifiers: [String] = []
-    @Published var steps: [TaskStep] = []
+public struct FormStep: Identifiable {
+    public let id: UUID
+    public let title: String?
+    public let subtitle: String?
+    public let items: [FormRow]
+    
+    var identifier: String {
+        id.uuidString
+    }
 
     public init(
-        stepIdentifiers: [String],
-        steps: [TaskStep]
-    ) {
-        self.stepIdentifiers = stepIdentifiers
-        self.steps = steps
-    }
-
-    func isLastStep(_ step: TaskStep) -> Bool {
-        step.id == steps.last?.id
-    }
-
-    func index(for identifier: String) -> Int {
-        steps.firstIndex(where: { $0.id.uuidString == identifier }) ?? 0
-    }
-
-    func step(for identifier: String) -> TaskStep? {
-        steps.first { $0.id.uuidString == identifier }
-    }
-}
-
-public struct TaskStep: Identifiable {
-    public let id: UUID = UUID()
-    let title: String?
-    let subtitle: String?
-    var items: [FormRow]
-
-    public init(
+        id: UUID = UUID(),
         title: String?,
         subtitle: String?,
         items: [FormRow]
     ) {
+        self.id = id
         self.title = title
         self.subtitle = subtitle
         self.items = items
