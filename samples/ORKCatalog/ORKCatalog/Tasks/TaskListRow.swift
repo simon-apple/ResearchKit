@@ -162,6 +162,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case booleanConditionalFormTask
     case readOnlyFormStepTask
     case readOnlyFamilyHistoryTask
+    case textChoiceImageQuestionStepTask
     #endif
     
     class TaskListRowSection {
@@ -282,6 +283,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .settingStatusStepTask,
                     .studyPromoTask,
                     .studySignPostStep,
+                    .textChoiceImageQuestionStepTask,
                     .textQuestionPIIScrubbing,
                 ])]
             defaultSections = (defaultSections + internalSections)
@@ -576,6 +578,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .readOnlyFamilyHistoryTask:
             return NSLocalizedString("Read Only Family History Step Task", comment: "")
+            
+        case .textChoiceImageQuestionStepTask:
+            return NSLocalizedString("Text Choice & Image (QuestionStep)", comment: "")
         #endif
             
         case .surveyWithMultipleOptions:
@@ -853,6 +858,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .readOnlyFamilyHistoryTask:
             return readonlyFamilyHistoryTask
+            
+        case .textChoiceImageQuestionStepTask:
+            return textChoiceImageQuestionStepTask
             
         #endif
         case .textChoiceQuestionWithImageTask:
@@ -2332,6 +2340,13 @@ enum TaskListRow: Int, CustomStringConvertible {
         let completionStep = TaskListRowSteps.completionStepExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.familyHistoryStep), steps: [instructionStep, familyHistoryStep, completionStep])
+    }
+    
+    private var textChoiceImageQuestionStepTask: ORKTask {
+        let questionStep = TaskListRowSteps.textChoiceImagesQuestionStepExample
+        let completionStep = TaskListRowSteps.completionStepExample
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.textChoiceQuestionTask), steps: [questionStep, completionStep])
     }
     
     /**

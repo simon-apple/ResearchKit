@@ -101,7 +101,7 @@ struct TextChoiceView: View {
                 if let img = image {
                     Image(uiImage: img)
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
+                        .aspectRatio(contentMode: .fit)
                         .frame(width: 115)
                         // TODO: research stable path to fetch width of view in realtime
                         .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.clear,
