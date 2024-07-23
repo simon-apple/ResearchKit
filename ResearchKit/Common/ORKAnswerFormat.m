@@ -518,12 +518,10 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return [[ORKTextChoiceAnswerFormat alloc] initWithStyle:style textChoices:textChoices];
 }
 
-#if RK_APPLE_INTERNAL
 + (ORKColorChoiceAnswerFormat *)choiceAnswerFormatWithStyle:(ORKChoiceAnswerStyle)style
                      colorChoices:(NSArray<ORKColorChoice *> *)colorChoices {
     return [[ORKColorChoiceAnswerFormat alloc] initWithStyle:style colorChoices:colorChoices];
 }
-#endif
 
 - (void)validateParameters {
 }
@@ -1144,7 +1142,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 @end
 
 
-#if RK_APPLE_INTERNAL
 #pragma mark - ORKColorChoiceAnswerFormat
 
 @interface ORKColorChoiceAnswerFormat () {
@@ -1242,7 +1239,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 }
 
 @end
-#endif
 
 
 #pragma mark - ORKTextChoice
@@ -1404,7 +1400,6 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 @end
 
 
-#if RK_APPLE_INTERNAL
 #pragma mark - ORKColorChoice
 
 @implementation ORKColorChoice
@@ -1492,7 +1487,6 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 }
 
 @end
-#endif
 
 
 #pragma mark - ORKTextChoiceOther
@@ -3067,9 +3061,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 @implementation ORKTextAnswerFormat
 
 #if RK_APPLE_INTERNAL
-
 @synthesize scrubbers = _scrubbers;
-
 #endif
 
 - (Class)questionResultClass {
@@ -3098,7 +3090,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     }
 }
 
--(NSArray *)scrubbers {
+- (NSArray *)scrubbers {
     if (_scrubbers == nil) {
         NSMutableArray *scrubbers = [NSMutableArray new];
         for (NSString* scrubberName in _scrubberNames) {
@@ -3174,6 +3166,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 #if RK_APPLE_INTERNAL
     answerFormat->_scrubberNames = [_scrubberNames copy];
 #endif
+    
     if (@available(iOS 12.0, *)) {
         answerFormat->_passwordRules = _passwordRules;
     }
@@ -3253,6 +3246,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 #if RK_APPLE_INTERNAL
     answerFormat->_scrubberNames = [_scrubberNames copy];
 #endif
+    
     if (@available(iOS 12.0, *)) {
         answerFormat->_passwordRules = _passwordRules;
     }
@@ -3389,7 +3383,7 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
     ORKQuestionResult *questionResult = nil;
 #if RK_APPLE_INTERNAL
     answer = ([answer isKindOfClass:[NSString class]] ? [self scrubAnswer: (NSString *)answer] : answer);
-#endif 
+#endif
     questionResult = (ORKQuestionResult *)[super resultWithIdentifier:identifier answer:answer];
     return questionResult;
 }
@@ -3854,7 +3848,7 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 
 @end
 
-// start-omit-internal-code
+
 #pragma mark - ORKAgeAnswerFormat
 
 static const NSInteger ORKAgeAnswerDefaultMinAge = 1;
@@ -4084,7 +4078,7 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
     return YES;
 }
 @end
-// end-omit-internal-code
+
 
 #if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 #pragma mark - ORKLocationAnswerFormat
