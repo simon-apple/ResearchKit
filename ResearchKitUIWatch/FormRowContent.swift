@@ -271,6 +271,29 @@ public struct FormRowContent: View {
                     }
                 )
             )
+        case .imageRow(let imageQuestion):
+            ImageChoiceView(
+                title: imageQuestion.title,
+                detail: imageQuestion.detail,
+                choices: imageQuestion.choices,
+                style: imageQuestion.style,
+                vertical: imageQuestion.vertical,
+                selection: .init(get: {
+                    return imageQuestion.selections
+                }, set: { newValue in
+                    $formRow.wrappedValue = .imageRow(
+                        ImageChoiceQuestion(
+                            title: imageQuestion.title,
+                            detail: imageQuestion.detail,
+                            id: imageQuestion.id,
+                            choices: imageQuestion.choices,
+                            style: imageQuestion.style,
+                            vertical: imageQuestion.vertical,
+                            selections: newValue
+                        )
+                    )
+                })
+            )
         }
     }
 }

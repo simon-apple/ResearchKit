@@ -42,6 +42,7 @@ public enum FormRow: Identifiable {
     case numericRow(NumericQuestion)
     case heightRow(HeightQuestion)
     case weightRow(WeightQuestion)
+    case imageRow(ImageChoiceQuestion)
 
     public var id: String {
         switch self {
@@ -63,6 +64,8 @@ public enum FormRow: Identifiable {
             heightQuestion.id
         case .weightRow(let weightQuestion):
             weightQuestion.id
+        case .imageRow(let imageQuestion):
+            imageQuestion.id
         }
     }
 
@@ -85,8 +88,10 @@ public enum FormRow: Identifiable {
             title = numericQuestion.title
         case .heightRow(let heightQuestion):
             title = heightQuestion.title
-        case .weightRow(let weightquestion):
-            title = weightquestion.title
+        case .weightRow(let weightQuestion):
+            title = weightQuestion.title
+        case .imageRow(let imageQuestion):
+            title = imageQuestion.title
         }
         return title
     }
