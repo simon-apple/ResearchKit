@@ -2445,8 +2445,20 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.textQuestionPIIScrubbingTask), steps: [emailPIIScrubberFormStep, SSNPIIScrubberFormStep])
     }
      
-    //TODO: rdar://113873048 (Update internal FxH task to match ResearchApp bundle)
     private var familyHistoryTask: ORKTask {
+        if let path = Bundle.main.path(forResource: "family_history_task", ofType: "json", inDirectory: "TaskExamples") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+                let task = try ORKESerializer.object(fromJSONData: data) as? ORKNavigableOrderedTask
+                
+                if let task = task {
+                    return task
+                }
+            } catch {
+                print("error while decoding task")
+            }
+        }
+        
         let familyHistoryStep = TaskListRowSteps.familyHistoryStepExample
         
         let completionStep = ORKCompletionStep(identifier: "FamilyHistoryCompletionStep")
