@@ -36,6 +36,7 @@ final class SettingsAppScreens {
     static let app = XCUIApplication(bundleIdentifier: "com.apple.Preferences")
     
     /// Activate and terminate Settings app to start from the known state
+    @discardableResult
     func terminateAndLaunchApp() -> Self {
         Self.app.activate()
         Self.app.terminate()
