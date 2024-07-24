@@ -30,6 +30,7 @@
 
 import Foundation
 
+#if RK_APPLE_INTERNAL
 final class SwiftUIAdaptorUITests: BaseUITest {
     
     let tabBar = TabBar()
@@ -70,3 +71,4 @@ final class SwiftUIAdaptorUITests: BaseUITest {
             .tap(.continueButton)
     }
 }
+#endif

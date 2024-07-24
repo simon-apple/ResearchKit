@@ -31,6 +31,7 @@
 import Foundation
 import XCTest
 
+#if RK_APPLE_INTERNAL
 final class InternalUITests: BaseUITest {
     
     let tasksList = TasksTab()
@@ -124,3 +125,4 @@ final class InternalUITests: BaseUITest {
         // TODO: rdar://124193315 ([Blocked] Verify Content View in Study Promo View Controller). Currently it's blocked: rdar://123654451 ([Accessibility][ORKCatalog] Internal StudyPromoView - Text is not reachable in Accessibility hierarchy)
     }
 }
+#endif
