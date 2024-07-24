@@ -176,11 +176,11 @@ final class SurveyQuestionsUITests: BaseUITest {
     }
     
     ///<rdar://tsc/21847958> [Survey Questions] Text Choice Question
-    func testSingleTextChoiceQuestion() {
+    func testTextChoiceQuestion() {
         tasksList
             .selectTaskByName(Task.textChoiceQuestion.description)
 
-        test("Step 1: Select an option") {
+        test("Step 1: Verify Single Text Choice Question") {
             let formStep1 = FormStepScreen(itemIds: ["formItem01"])
             formStep1
                 .verify(.title)
@@ -196,7 +196,7 @@ final class SurveyQuestionsUITests: BaseUITest {
                 .tap(.continueButton)
         }
         
-        test("Step 2: Select one or more options") {
+        test("Step 2: Verify Multiple Text Choice Question") {
             let formStep2 = FormStepScreen(itemIds: ["formItem02"])
             let indicesToSelect1 = [0, 2]
             let exclusiveChoiceIndex = [3]
