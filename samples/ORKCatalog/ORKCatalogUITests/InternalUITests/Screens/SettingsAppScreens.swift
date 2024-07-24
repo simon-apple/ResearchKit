@@ -36,10 +36,11 @@ final class SettingsAppScreens {
     static let app = XCUIApplication(bundleIdentifier: "com.apple.Preferences")
     
     /// Activate and terminate Settings app to start from the known state
-    func terminateAndLaunchApp() {
+    func terminateAndLaunchApp() -> Self {
         Self.app.activate()
         Self.app.terminate()
         Self.app.activate()
+        return self
     }
     
     static var bluetoothCell: XCUIElement {
@@ -155,5 +156,51 @@ final class SettingsAppScreens {
     func navigateToBluetoothFromConnectedDevice() {
         Self.bluetoothNavigationButton.tap() /// Tap "Bluetooth" navigation button to go back to list of connected devices
         wait(for: Self.bluetoothCell)
+    }
+    
+    /// Enable Location Services in "Privacy & Security"
+    /// We need to enable Location Services when running UI Test in Xcode Cloud Environment on device compute devices
+    /// Note: XCTestInternal has an API to adjust location services for an app:
+    /// https://docs.apple.com/access/general/documentation/xctestinternal/xctiapplication/setlocationservices(tostate:)
+    /// XCTIDevice.current.setLocationServices(toState:, forBundleIdentifier:) or
+    /// XCTIDevice.current.doCommand(withLaunchPath: "/usr/local/bin/loctool", command: ["authorize", "bundleID", "1"])
+    @discardableResult
+    func enableLocationServices() -> Self {
+        // Tap "Privacy & Security" cell in Settings
+        let privacyAndSecurityCellIdentifier = "Privacy"
+        let privacyAndSecurityCell = Self.app.cells[privacyAndSecurityCellIdentifier].firstMatch
+        if privacyAndSecurityCell.waitForExistence(timeout: 20) {
+            privacyAndSecurityCell.tap()
+            // Verify that app is navigated to "Privacy and Security"
+            let privacyView = Self.app.navigationBars["Privacy & Security"].firstMatch
+            if !privacyView.waitForExistence(timeout: 15) {
+                privacyAndSecurityCell.tap()
+            }
+        }
+        
+        // Tap "Location Services" cell in "Privacy & Security"
+        let locationServicesLabelIdentifier = "LOCATION"
+        let locationServicesLabel = Self.app.staticTexts[locationServicesLabelIdentifier].firstMatch
+        if locationServicesLabel.waitForExistence(timeout: 20) {
+            locationServicesLabel.tap()
+        }
+        
+        // Enable "Location Services" switch
+        let locationServicesSwitch = Self.app.cells["Location Services"].switches.firstMatch
+        XCTAssert(locationServicesSwitch.waitForExistence(timeout: 20))
+        guard let locationSwitchCurrentValue = locationServicesSwitch.value as? String else {
+            XCTFail("Unable to retrieve Location Services switch value. It is found to be nil")
+            return self
+        }
+        if locationSwitchCurrentValue != "1" {
+            locationServicesSwitch.tap() // enable switch
+            sleep(5) // Allow UI to settle
+            guard let locationSwitchToggledValue = locationServicesSwitch.value as? String else {
+                XCTFail("Unable to retrieve Location Services switch value. It is found to be nil")
+                return self
+            }
+            XCTAssertEqual(locationSwitchToggledValue, "1", "Location Services switch should be on")
+        }
+        return self
     }
 }
