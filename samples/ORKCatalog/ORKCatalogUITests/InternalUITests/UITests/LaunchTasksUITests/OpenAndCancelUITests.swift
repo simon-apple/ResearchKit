@@ -247,7 +247,7 @@ final class OpenAndCancelInternalTasksUITests: OpenAndCancelBaseUITest {
         openThenCancel(task: Task.longHeaderTask.description)
     }
     
-    func testLaunchInternalSurveyQuestionsTask() {
+    func testLaunchInternalSurveyQuestions() {
         let tasks: [Task] = [
             .platterUIQuestion,
             .textChoiceImageQuestionStepTask,
