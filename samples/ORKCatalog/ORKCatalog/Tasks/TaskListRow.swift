@@ -536,7 +536,7 @@ enum TaskListRow: Int, CustomStringConvertible {
             return NSLocalizedString("Predefined Tinnitus", comment: "")
             
         case .predefinedSelectableHeadphoneTask:
-            return NSLocalizedString("Selectable Heaphone Detector", comment: "")
+            return NSLocalizedString("Selectable Headphone Detector", comment: "")
         
         case .ble:
             return NSLocalizedString("BLE", comment: "")

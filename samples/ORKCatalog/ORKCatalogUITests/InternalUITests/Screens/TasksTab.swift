@@ -63,12 +63,14 @@ enum Task {
     case wait
     case PDFViewer
     case requestPermissions
+    case usdzModel
     case familyHistory
     case eligibilityTask
     case accountCreation
     case login
     case passcode
     case biometricPasscode
+    case review
     case audio
     case amslerGrid
     case tecumsehCubeTest
@@ -107,8 +109,10 @@ enum Task {
     case predefinedSelectableHeadphoneTask
     case ble
     case textQuestionPIIScrubbing
+    case methodOfAdjustmentdBHLToneAudiometryTask
     case newdBHLToneAudiometryTask
     case customStepTask
+    case settingStatusStepTask
     case studyPromoTask
     case studySignPostStep
     case consentTask
@@ -218,6 +222,9 @@ enum Task {
         case .requestPermissions:
             return NSLocalizedString("Request Permissions Step", comment: "")
             
+        case .usdzModel:
+            return NSLocalizedString("USDZ Model", comment: "")
+            
         case .familyHistory:
             return NSLocalizedString("Family History Step", comment: "")
             
@@ -235,6 +242,9 @@ enum Task {
             
         case .biometricPasscode:
             return NSLocalizedString("Biometric Passcode Creation and Authorization", comment: "")
+            
+        case .review:
+            return NSLocalizedString("Review Step", comment: "")
             
         case .audio:
             return NSLocalizedString("Audio", comment: "")
@@ -327,7 +337,7 @@ enum Task {
             return NSLocalizedString("Predefined Tinnitus", comment: "")
             
         case .predefinedSelectableHeadphoneTask:
-            return NSLocalizedString("Selectable Headphone", comment: "")
+            return NSLocalizedString("Selectable Headphone Detector", comment: "")
             
         case .ble:
             return NSLocalizedString("BLE", comment: "")
@@ -341,8 +351,14 @@ enum Task {
         case .textQuestionPIIScrubbing:
             return NSLocalizedString("Text Question PII Scrubbing", comment: "")
             
+        case .methodOfAdjustmentdBHLToneAudiometryTask:
+            return NSLocalizedString("Method Of Adjustment Tone Audiometry", comment: "")
+            
         case .newdBHLToneAudiometryTask:
             return NSLocalizedString("dBHL Tone Audiometry (New Algorithm)", comment: "")
+            
+        case .settingStatusStepTask:
+            return NSLocalizedString("Setting Status Step Task", comment: "")
             
         case .customStepTask:
             return NSLocalizedString("Custom Step Task", comment: "")

@@ -17,4 +17,13 @@ class BaseUITest: XCTestCase {
         app.launchArguments = ["UITest"]
         app.launch()
     }
+    
+    func resetAuthorizationStatusForProtectedResources() {
+        app.resetAuthorizationStatus(for: .microphone)
+        app.resetAuthorizationStatus(for: .location)
+        app.resetAuthorizationStatus(for: .camera)
+        if #available(iOS 14.0, *) {
+            app.resetAuthorizationStatus(for: .health)
+        }
+    }
 }
