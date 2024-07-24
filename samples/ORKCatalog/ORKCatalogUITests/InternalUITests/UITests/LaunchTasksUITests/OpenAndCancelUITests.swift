@@ -215,6 +215,7 @@ final class OpenAndCancelMiscellaneousTasksUITests: OpenAndCancelBaseUITest {
 
 // MARK: - Internal Tasks
 
+#if RK_APPLE_INTERNAL
 final class OpenAndCancelInternalTasksUITests: OpenAndCancelBaseUITest {
     
     func testLaunchBLETask() {
@@ -291,6 +292,7 @@ final class OpenAndCancelInternalTasksUITests: OpenAndCancelBaseUITest {
         step.tap(.continueButton) // This step doesn't include a cancel button
     }
 }
+#endif
 
 // MARK: - Surveys
 
