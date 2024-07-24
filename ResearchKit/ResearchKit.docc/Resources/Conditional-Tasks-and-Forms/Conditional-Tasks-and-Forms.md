@@ -74,7 +74,39 @@ To conditionally hide or show a question based on results from questions within 
 - `ORKResultPredicate` - Same as the section above.
 - `ORKPredicateFormItemVisibilityRule` - A object that determines if the formItem it's attached to is hidden or visible if a given `ORKResultPredicate` is true.
 
+Following the previous example, we will use the same questions as before but now they will both reside on the same page. 
 
 
+- **Answering Yes**: makes the apple choice question visible.
+- **Answering No**: hides the apple choice question if visible.
 
+
+```swift
+// Construct FormStep
+let formStep = ORKFormStep(identifier: "FormStep1")
+formStep.title = "Apple Task"
+formStep.text = "Please answer the following question."
+        
+let boolAnswerFormat = ORKAnswerFormat.booleanAnswerFormat()
+let boolFormItem = ORKFormItem(identifier: "BooleanFormItemIdentifier", 
+							   text: "Do you like Apples?", 
+							   answerFormat: boolAnswerFormat)
+							   
+							   
+let appleChoiceFormItem = appleChoiceFormItem()
+        
+formStep.formItems = [boolFormItem, appleChoiceFormItem]
+
+let completionStep = completionStepExample()
+
+// Conditional Logic
+let resultSelector: ORKResultSelector = .init(stepIdentifier: formStep.identifier, resultIdentifier: boolFormItem.identifier)
+let predicate = ORKResultPredicate.predicateForBooleanQuestionResult(with: resultSelector, expectedAnswer: true)
+let visibilityRule = ORKPredicateFormItemVisibilityRule(predicate: predicate)
+        
+appleChoiceFormItem.visibilityRule = visibilityRule
+
+// Construct Navigable Task
+ let navigableTask = ORKNavigableOrderedTask(identifier: "NavigableTaskIdentifier", steps: [formStep, completionStep])
+```
 
