@@ -66,9 +66,16 @@ public struct TextQuestion: Identifiable {
 }
 
 public struct TextQuestionView<Header: View>: View {
+    
+    enum FocusTarget {
+        
+        case textQuestion
+        
+    }
+    
     let header: Header
     let multilineTextFieldPadding: Double = 54
-    @FocusState var isInputActive: Bool
+    @FocusState private var focusTarget: FocusTarget?
     @Binding var text: String
     let prompt: String?
     let textFieldType: TextFieldType
@@ -118,7 +125,7 @@ public struct TextQuestionView<Header: View>: View {
             VStack {
                 TextField("", text: $text, prompt: placeholder, axis: axis)
                     .textFieldStyle(.plain) // Text binding's `didSet` called twice if this is not set.
-                    .focused($isInputActive)
+                    .focused($focusTarget, equals: .textQuestion)
                     .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
                     .contentShape(Rectangle())
 
@@ -137,14 +144,14 @@ public struct TextQuestionView<Header: View>: View {
                     }
                 }
 #if os(iOS)
-                .toolbar {
-                    ToolbarItemGroup(placement: .keyboard) {
-                        Spacer()
-                        Button("Done") {
-                            isInputActive = false
-                        }
+                .doneKeyboardToolbar(
+                    condition: {
+                        focusTarget == .textQuestion
+                    },
+                    action: {
+                        focusTarget = nil
                     }
-                }
+                )
 #endif
                 .onChange(of: text) { oldValue, newValue in
                     if text.count > characterLimit {

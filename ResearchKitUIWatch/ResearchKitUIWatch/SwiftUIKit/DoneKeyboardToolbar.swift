@@ -33,11 +33,12 @@ import SwiftUI
 extension View {
     
     /// Adds a toolbar above the keyboard that contains a done button, which invokes the action passed to this modifier.
+    /// - Parameter condition: The condition under which the keyboard toolbar is shown.
     /// - Parameter action: The action triggered when the done button in the toolbar is tapped.
     /// - Returns: The modified view that includes the toolbar when the keyboard is invoked.
-    func doneKeyboardToolbar(action: @escaping () -> Void) -> some View {
+    func doneKeyboardToolbar(condition: @escaping () -> Bool, action: @escaping () -> Void) -> some View {
         modifier(
-            DoneKeyboardToolbar(action: action)
+            DoneKeyboardToolbar(condition: condition, action: action)
         )
     }
     
@@ -45,9 +46,11 @@ extension View {
 
 struct DoneKeyboardToolbar: ViewModifier {
     
+    private let condition: () -> Bool
     private let action: () -> Void
     
-    init(action: @escaping () -> Void) {
+    init(condition: @escaping () -> Bool, action: @escaping () -> Void) {
+        self.condition = condition
         self.action = action
     }
     
@@ -56,10 +59,12 @@ struct DoneKeyboardToolbar: ViewModifier {
         content
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
-                    Spacer()
-                    
-                    Button("Done") {
-                        action()
+                    if condition() {
+                        Spacer()
+                        
+                        Button("Done") {
+                            action()
+                        }
                     }
                 }
             }
