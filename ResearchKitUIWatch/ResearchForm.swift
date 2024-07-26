@@ -34,17 +34,42 @@ public struct ResearchForm: View {
     
     @State private var navigationPaths: [String] = []
     
-    public init() {}
+    private let content: [InstructionStepp]
+    
+    public init(@ResearchFormBuilder content: () -> [InstructionStepp]) {
+        self.content = content()
+    }
     
     public var body: some View {
         NavigationStack(path: $navigationPaths) {
-            StickyScrollView(
-                bodyContent: {
-                    InstructionStepp(
-                        image: Image(systemName: "hand.wave"),
-                        title: Text("Welcome"),
-                        subtitle: Text("Thank you for joining our study. Tap Next to learn more before signing up.")
-                    )
+            step(
+                content: {
+                    if let firstContent = content.first {
+                        firstContent
+                    }
+                },
+                action: {
+                    navigationPaths.append(content[1].id.uuidString)
+                }
+            )
+            .navigationDestination(for: String.self) { navigationPath in
+                step(
+                    content: {
+                        content.first(where: { $0.id.uuidString == navigationPath })
+                    },
+                    action: {
+                        
+                    }
+                )
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func step(@ViewBuilder content: @escaping () -> some View, action: @escaping () -> Void) -> some View {
+        StickyScrollView(
+            bodyContent: {
+                content()
                     .padding()
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {
@@ -55,33 +80,44 @@ public struct ResearchForm: View {
                             }
                         }
                     }
-                },
-                footerContent: {
-                    EmptyView()
-                }
-            )
-        }
+            },
+            footerContent: {
+                Button(
+                    action: action,
+                    label: {
+                        Text("Next")
+                    }
+                )
+            }
+        )
     }
     
 }
 
 #Preview {
-    ResearchForm()
+    ResearchForm {
+        InstructionStepp(
+            image: Image(systemName: "hand.wave"),
+            title: Text("Welcome"),
+            subtitle: Text("Thank you for joining our study. Tap Next to learn more before signing up.")
+        )
+    }
 }
 
-struct InstructionStepp: View {
+public struct InstructionStepp: View {
     
+    let id = UUID()
     private let image: Image?
     private let title: Text?
     private let subtitle: Text?
     
-    init(image: Image?, title: Text?, subtitle: Text?) {
+    public init(image: Image?, title: Text?, subtitle: Text?) {
         self.image = image
         self.title = title
         self.subtitle = subtitle
     }
     
-    var body: some View {
+    public var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HeaderView(
                 image: image,
@@ -89,6 +125,15 @@ struct InstructionStepp: View {
                 subtitle: subtitle
             )
         }
+    }
+    
+}
+
+@resultBuilder
+public struct ResearchFormBuilder {
+    
+    public static func buildBlock(_ components: InstructionStepp...) -> [InstructionStepp] {
+        components
     }
     
 }
