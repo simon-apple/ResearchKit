@@ -111,7 +111,7 @@ public struct InstructionStepp: View {
     private let title: Text?
     private let subtitle: Text?
     
-    public init(image: Image?, title: Text?, subtitle: Text?) {
+    public init(image: Image? = nil, title: Text? = nil, subtitle: Text? = nil) {
         self.image = image
         self.title = title
         self.subtitle = subtitle
