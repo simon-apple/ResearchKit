@@ -125,6 +125,7 @@ public struct InstructionStepp: View {
                 subtitle: subtitle
             )
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
     
 }
