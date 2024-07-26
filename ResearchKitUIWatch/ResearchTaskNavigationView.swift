@@ -196,8 +196,8 @@ public struct ResearchTaskNavigationView: View {
         case .formStep(let formStep):
             VStack(alignment: .leading, spacing: 16) {
                 HeaderView(
-                    title: formStep.title,
-                    subtitle: formStep.subtitle
+                    title: titleText(for: formStep),
+                    subtitle: subtitleText(for: formStep)
                 )
                 
                 ForEach(
@@ -231,8 +231,8 @@ public struct ResearchTaskNavigationView: View {
             VStack(alignment: .leading, spacing: 16) {
                 HeaderView(
                     image: instructionStep.iconImage,
-                    title: instructionStep.title,
-                    subtitle: instructionStep.subtitle
+                    title: titleText(for: instructionStep),
+                    subtitle: subtitleText(for: instructionStep)
                 )
                 
                 ForEach(instructionStep.bodyItems) { bodyItem in
@@ -247,6 +247,46 @@ public struct ResearchTaskNavigationView: View {
                 }
             }
         }
+    }
+    
+    private func titleText(for formStep: FormStep) -> Text? {
+        let titleText: Text?
+        if let title = formStep.title {
+            titleText = Text(title)
+        } else  {
+            titleText = nil
+        }
+        return titleText
+    }
+    
+    private func subtitleText(for formStep: FormStep) -> Text? {
+        let subtitleText: Text?
+        if let subtitle = formStep.subtitle {
+            subtitleText = Text(subtitle)
+        } else  {
+            subtitleText = nil
+        }
+        return subtitleText
+    }
+    
+    private func titleText(for instructionStep: InstructionStep) -> Text? {
+        let titleText: Text?
+        if let title = instructionStep.title {
+            titleText = Text(title)
+        } else  {
+            titleText = nil
+        }
+        return titleText
+    }
+    
+    private func subtitleText(for instructionStep: InstructionStep) -> Text? {
+        let subtitleText: Text?
+        if let subtitle = instructionStep.subtitle {
+            subtitleText = Text(subtitle)
+        } else  {
+            subtitleText = nil
+        }
+        return subtitleText
     }
     
 }

@@ -107,10 +107,10 @@ struct StepHeaderView: View {
 struct HeaderView: View {
     
     private let image: Image?
-    private let title: String?
-    private let subtitle: String?
+    private let title: Text?
+    private let subtitle: Text?
     
-    init(image: Image? = nil, title: String? = nil, subtitle: String? = nil) {
+    init(image: Image? = nil, title: Text? = nil, subtitle: Text? = nil) {
         self.image = image
         self.title = title
         self.subtitle = subtitle
@@ -124,15 +124,11 @@ struct HeaderView: View {
                 .frame(width: 80, height: 80)
                 .foregroundStyle(.stepIconForegroundStyle)
             
-            if let title {
-                Text(title)
-                    .font(.title)
-                    .fontWeight(.bold)
-            }
-
-            if let subtitle {
-                Text(subtitle)
-            }
+            title?
+                .font(.title)
+                .fontWeight(.bold)
+            
+            subtitle
         }
     }
     
