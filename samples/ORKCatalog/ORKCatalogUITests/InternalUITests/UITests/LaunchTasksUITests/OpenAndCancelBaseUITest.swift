@@ -1,9 +1,32 @@
-//  OpenAndCancelBaseUITest.swift
-//  ORKCatalogUITests
-//
-//  Created by Albina Kashapova on 2/7/24.
-//  Copyright © 2024 researchkit.org. All rights reserved.
-//
+/*
+ Copyright (c) 2024, Apple Inc. All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+
+ 1.  Redistributions of source code must retain the above copyright notice, this
+ list of conditions and the following disclaimer.
+
+ 2.  Redistributions in binary form must reproduce the above copyright notice,
+ this list of conditions and the following disclaimer in the documentation and/or
+ other materials provided with the distribution.
+
+ 3.  Neither the name of the copyright holder(s) nor the names of any contributors
+ may be used to endorse or promote products derived from this software without
+ specific prior written permission. No license is granted to the trademarks of
+ the copyright holders even if such marks are included in this software.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 import Foundation
 import XCTest
@@ -13,13 +36,6 @@ class OpenAndCancelBaseUITest: BaseUITest {
     let tasksList = TasksTab()
     override func setUpWithError() throws {
         continueAfterFailure = true
-        // Uncomment if clean state is needed:
-        //   app.resetAuthorizationStatus(for: .microphone)
-        //   app.resetAuthorizationStatus(for: .location)
-        //   app.resetAuthorizationStatus(for: .camera)
-        //   if #available(iOS 14.0, *) {
-        //       app.resetAuthorizationStatus(for: .health)
-        //     }
         try super.setUpWithError()
     }
     
@@ -34,51 +50,5 @@ class OpenAndCancelBaseUITest: BaseUITest {
         tasksList.selectTaskByName(task)
         let step = Step()
         step.cancelTask()
-    }
-    
-    /**
-     Open and cancel task. We skip instruction steps so we can process to active task itself
-     - parameter task: the label of the task
-     - parameter isHealthAccessRequired: whether we need to handle health authorization screens and alert
-     - parameter isAudioAccessRequired: whether we need to handle permission alert to grant access to microphone
-     - parameter ifExpectFormStep: whether we need to expect form step instead of active step
-     */
-    func openThenCancelActiveTask(task: String, isHealthAccessRequired: Bool = false, isAudioAccessRequired: Bool = false, ifExpectFormStep: Bool = false, cancelTask: Bool = true) {
-        tasksList
-            .selectTaskByName(task)
-        
-        let instructionStep = InstructionStepScreen()
-        while instructionStep.stepViewExists(timeout: 3) {
-            instructionStep.tap(.continueButton)
-            // Handle health access auth screens and alert
-            if isHealthAccessRequired {
-                if HealthAccess.healthAccessView.waitForExistence(timeout: 8) {
-                    HealthAccess()
-                        .tapAllowAllCell()
-                        .tapAllowButton()
-                    sleep(5) // Allow time for the permission alert to appear as system alerts are not part of the app's a11y hierarchy and may have a delay in presentation
-                    instructionStep.tapCenterCoordinateScreen() // Required for automatic detection and handling the alert: see Helpers().monitorAlerts() method
-                    sleep(3)
-                }
-            // Handle system alert to grant access to the microphone
-            } else if isAudioAccessRequired {
-                sleep(5) // Allow time for the permission alert to appear as system alerts are not part of the app's a11y hierarchy and may have a delay in presentation
-                instructionStep.tapCenterCoordinateScreen() // Required for automatic detection and handling the alert: see Helpers().monitorAlerts() method
-            }
-        }
-        
-        if ifExpectFormStep {
-            let formStep = FormStepScreen()
-            formStep
-                .verifyStepView()
-                .cancelTask()
-        } else {
-            let activeStep = ActiveStepScreen()
-            activeStep.verifyStepView(timeout: 60)
-            guard cancelTask else {
-                return
-            }
-            activeStep.cancelTask()
-        }
     }
 }

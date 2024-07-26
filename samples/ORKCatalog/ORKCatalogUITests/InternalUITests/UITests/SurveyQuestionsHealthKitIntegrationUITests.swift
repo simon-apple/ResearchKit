@@ -48,7 +48,11 @@ final class SurveyQuestionsHealthKitIntegrationUITests: BaseUITest {
     
     // Verify answers are prefilled with HealthKit value (rdar://109472204)
     // Warning ⚠️ This test will write data to the iOS Health app
-    func testHealthQuantityQuestionHearRate() {
+    func testHealthQuantityQuestionHearRate() throws {
+        if isRunningInXcodeCloud && !isRunningOnSimulator {
+            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment on device compute devices due to this issue: rdar://130824888 (Health Authorization Error and Health Access screen won't trigger in XCUITests - Occurs only on skywagon device compute devices)")
+        }
+        
         // Grant access to read/write Heart Rate health data
         let healthAccessScreen = HealthAccess()
         healthAccessScreen
