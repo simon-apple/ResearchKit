@@ -218,7 +218,7 @@ public struct FormRowContent: View {
         case .heightRow(let heightQuestion):
             HeightQuestionView(
                 title: heightQuestion.title,
-                detail: heightQuestion.detail,
+                detail: detail,
                 measurementSystem: heightQuestion.measurementSystem,
                 selection: .init(
                     get: {
@@ -242,7 +242,7 @@ public struct FormRowContent: View {
         case .weightRow(let weightQuestion):
             WeightQuestionView(
                 title: weightQuestion.title,
-                detail: weightQuestion.detail,
+                detail: detail,
                 measurementSystem: weightQuestion.measurementSystem,
                 precision: weightQuestion.precision,
                 defaultValue: weightQuestion.defaultValue,
@@ -259,7 +259,7 @@ public struct FormRowContent: View {
                             WeightQuestion(
                                 id: weightQuestion.id,
                                 title: weightQuestion.title,
-                                detail: weightQuestion.detail,
+                                detail: detail,
                                 measurementSystem: weightQuestion.measurementSystem,
                                 precision: weightQuestion.precision,
                                 defaultValue: weightQuestion.defaultValue,
@@ -274,7 +274,7 @@ public struct FormRowContent: View {
         case .imageRow(let imageQuestion):
             ImageChoiceView(
                 title: imageQuestion.title,
-                detail: imageQuestion.detail,
+                detail: detail,
                 choices: imageQuestion.choices,
                 style: imageQuestion.style,
                 vertical: imageQuestion.vertical,
@@ -284,7 +284,7 @@ public struct FormRowContent: View {
                     $formRow.wrappedValue = .imageRow(
                         ImageChoiceQuestion(
                             title: imageQuestion.title,
-                            detail: imageQuestion.detail,
+                            detail: detail,
                             id: imageQuestion.id,
                             choices: imageQuestion.choices,
                             style: imageQuestion.style,
