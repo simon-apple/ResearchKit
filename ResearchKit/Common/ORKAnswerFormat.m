@@ -386,18 +386,6 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
                                                        defaultValue:defaultValue];
 }
 
-#endif
-
-#if TARGET_OS_IOS
-
-+ (ORKValuePickerAnswerFormat *)valuePickerAnswerFormatWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices {
-    return [[ORKValuePickerAnswerFormat alloc] initWithTextChoices:textChoices];
-}
-
-+ (ORKMultipleValuePickerAnswerFormat *)multipleValuePickerAnswerFormatWithValuePickers:(NSArray<ORKValuePickerAnswerFormat *> *)valuePickers {
-    return [[ORKMultipleValuePickerAnswerFormat alloc] initWithValuePickers:valuePickers];
-}
-
 + (ORKImageChoiceAnswerFormat *)choiceAnswerFormatWithImageChoices:(NSArray<ORKImageChoice *> *)imageChoices {
     return [[ORKImageChoiceAnswerFormat alloc] initWithImageChoices:imageChoices];
 }
@@ -408,6 +396,18 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return [[ORKImageChoiceAnswerFormat alloc] initWithImageChoices:imageChoices
                                                               style:style
                                                            vertical:vertical];
+}
+
+#endif
+
+#if TARGET_OS_IOS
+
++ (ORKValuePickerAnswerFormat *)valuePickerAnswerFormatWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices {
+    return [[ORKValuePickerAnswerFormat alloc] initWithTextChoices:textChoices];
+}
+
++ (ORKMultipleValuePickerAnswerFormat *)multipleValuePickerAnswerFormatWithValuePickers:(NSArray<ORKValuePickerAnswerFormat *> *)valuePickers {
+    return [[ORKMultipleValuePickerAnswerFormat alloc] initWithValuePickers:valuePickers];
 }
 
 + (ORKTimeOfDayAnswerFormat *)timeOfDayAnswerFormat {
@@ -922,119 +922,6 @@ static NSArray *ork_processTextChoices(NSArray<ORKTextChoice *> *textChoices) {
 
 - (BOOL)shouldShowDontKnowButton {
     return NO;
-}
-
-@end
-
-
-#pragma mark - ORKImageChoiceAnswerFormat
-
-@interface ORKImageChoiceAnswerFormat () {
-    ORKChoiceAnswerFormatHelper *_helper;
-    
-}
-
-@end
-
-
-@implementation ORKImageChoiceAnswerFormat
-
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)initWithImageChoices:(NSArray<ORKImageChoice *> *)imageChoices {
-    self = [self initWithImageChoices:imageChoices style:ORKChoiceAnswerStyleSingleChoice vertical:NO];
-    return self;
-}
-
-- (instancetype)initWithImageChoices:(NSArray<ORKImageChoice *> *)imageChoices
-                               style:(ORKChoiceAnswerStyle)style
-                            vertical:(BOOL)vertical {
-    self = [super init];
-    if (self) {
-        NSMutableArray *choices = [[NSMutableArray alloc] init];
-        
-        for (NSObject *obj in imageChoices) {
-            if ([obj isKindOfClass:[ORKImageChoice class]]) {
-                
-                [choices addObject:obj];
-                
-            } else {
-                @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Options should be instances of ORKImageChoice" userInfo:@{ @"option": obj }];
-            }
-        }
-        _imageChoices = choices;
-        _style = style;
-        _vertical = vertical;
-        _helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:self];
-    }
-    return self;
-}
-
-- (void)validateParameters {
-    [super validateParameters];
-    
-    ork_validateChoices(_imageChoices);
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    
-    __typeof(self) castObject = object;
-    return (isParentSame &&
-            ORKEqualObjects(self.imageChoices, castObject.imageChoices) &&
-            (_style == castObject.style) &&
-            (_vertical == castObject.vertical));
-}
-
-- (NSUInteger)hash {
-    return super.hash ^ self.imageChoices.hash ^ _style ^ _vertical;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_OBJ_ARRAY(aDecoder, imageChoices, ORKImageChoice);
-        ORK_DECODE_ENUM(aDecoder, style);
-        ORK_DECODE_BOOL(aDecoder, vertical);
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_OBJ(aCoder, imageChoices);
-    ORK_ENCODE_ENUM(aCoder, style);
-    ORK_ENCODE_BOOL(aCoder, vertical);
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (ORKQuestionType)questionType {
-    return (_style == ORKChoiceAnswerStyleSingleChoice) ? ORKQuestionTypeSingleChoice : ORKQuestionTypeMultipleChoice;
-}
-
-- (Class)questionResultClass {
-    return [ORKChoiceQuestionResult class];
-}
-
-- (NSString *)stringForAnswer:(id)answer {
-    return [_helper stringForChoiceAnswer:answer];
-}
-
-- (BOOL)shouldShowDontKnowButton {
-    return NO;
-}
-
-- (NSArray *)choices {
-    return self.imageChoices;
 }
 
 @end
@@ -1612,114 +1499,6 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     ORK_ENCODE_OBJ(aCoder, textViewPlaceholderText);
     ORK_ENCODE_BOOL(aCoder, textViewInputOptional);
     ORK_ENCODE_BOOL(aCoder, textViewStartsHidden);
-}
-
-- (BOOL)shouldShowDontKnowButton {
-    return NO;
-}
-
-@end
-
-
-#pragma mark - ORKImageChoice
-
-@implementation ORKImageChoice {
-    NSString *_text;
-    NSObject<NSCopying, NSSecureCoding> *_value;
-}
-
-+ (instancetype)choiceWithNormalImage:(UIImage *)normal
-                        selectedImage:(UIImage *)selected
-                                 text:(NSString *)text
-                                value:(NSObject<NSCopying, NSSecureCoding> *)value {
-    return [[ORKImageChoice alloc] initWithNormalImage:normal selectedImage:selected text:text value:value];
-}
-
-+ (instancetype)new {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)init {
-    ORKThrowMethodUnavailableException();
-}
-
-- (instancetype)initWithNormalImage:(UIImage *)normal
-                      selectedImage:(UIImage *)selected
-                               text:(NSString *)text
-                              value:(NSObject<NSCopying, NSSecureCoding> *)value {
-    BOOL isValueAnAllowedClass = NO;
-    for (Class c in ORKAllowableValueClasses()) {
-        if ([value isKindOfClass:c]) {
-            isValueAnAllowedClass = YES;
-            break;
-        }
-    }
-    if (!isValueAnAllowedClass) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                       reason:@"'value' must be an NSString, NSNumber or NSDate"
-                                     userInfo:nil];
-    }
-    self = [super init];
-    if (self) {
-        _text = [text copy];
-        _value = value;
-        _normalStateImage = normal;
-        _selectedStateImage = selected;
-    }
-    return self;
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-    return self;
-}
-
-- (NSString *)text {
-    return _text;
-}
-
-- (NSObject<NSCopying, NSSecureCoding> *)value {
-    return _value;
-}
-
-- (BOOL)isEqual:(id)object {
-    if ([self class] != [object class]) {
-        return NO;
-    }
-    
-    // Ignore the task reference - it's not part of the content of the step.
-    
-    __typeof(self) castObject = object;
-    return (ORKEqualObjects(self.text, castObject.text)
-            && ORKEqualObjects(self.value, castObject.value)
-            && ORKEqualObjects(self.normalStateImage, castObject.normalStateImage)
-            && ORKEqualObjects(self.selectedStateImage, castObject.selectedStateImage));
-}
-
-- (NSUInteger)hash {
-    // Ignore the task reference - it's not part of the content of the step.
-    return _text.hash ^ _value.hash;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super init];
-    if (self) {
-        ORK_DECODE_OBJ_CLASS(aDecoder, text, NSString);
-        ORK_DECODE_OBJ_CLASSES(aDecoder, value, ORKAllowableValueClasses());
-        ORK_DECODE_IMAGE(aDecoder, normalStateImage);
-        ORK_DECODE_IMAGE(aDecoder, selectedStateImage);
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    ORK_ENCODE_OBJ(aCoder, text);
-    ORK_ENCODE_OBJ(aCoder, value);
-    ORK_ENCODE_IMAGE(aCoder, normalStateImage);
-    ORK_ENCODE_IMAGE(aCoder, selectedStateImage);
 }
 
 - (BOOL)shouldShowDontKnowButton {
@@ -3623,6 +3402,225 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
         }
     }
     return answerString;
+}
+
+@end
+
+#pragma mark - ORKImageChoice
+
+@implementation ORKImageChoice {
+    NSString *_text;
+    NSObject<NSCopying, NSSecureCoding> *_value;
+}
+
++ (instancetype)choiceWithNormalImage:(UIImage *)normal
+                        selectedImage:(UIImage *)selected
+                                 text:(NSString *)text
+                                value:(NSObject<NSCopying, NSSecureCoding> *)value {
+    return [[ORKImageChoice alloc] initWithNormalImage:normal selectedImage:selected text:text value:value];
+}
+
++ (instancetype)new {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)init {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)initWithNormalImage:(UIImage *)normal
+                      selectedImage:(UIImage *)selected
+                               text:(NSString *)text
+                              value:(NSObject<NSCopying, NSSecureCoding> *)value {
+    BOOL isValueAnAllowedClass = NO;
+    for (Class c in ORKAllowableValueClasses()) {
+        if ([value isKindOfClass:c]) {
+            isValueAnAllowedClass = YES;
+            break;
+        }
+    }
+    if (!isValueAnAllowedClass) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                       reason:@"'value' must be an NSString, NSNumber or NSDate"
+                                     userInfo:nil];
+    }
+    self = [super init];
+    if (self) {
+        _text = [text copy];
+        _value = value;
+        _normalStateImage = normal;
+        _selectedStateImage = selected;
+    }
+    return self;
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    return self;
+}
+
+- (NSString *)text {
+    return _text;
+}
+
+- (NSObject<NSCopying, NSSecureCoding> *)value {
+    return _value;
+}
+
+- (BOOL)isEqual:(id)object {
+    if ([self class] != [object class]) {
+        return NO;
+    }
+
+    // Ignore the task reference - it's not part of the content of the step.
+
+    __typeof(self) castObject = object;
+    return (ORKEqualObjects(self.text, castObject.text)
+            && ORKEqualObjects(self.value, castObject.value)
+            && ORKEqualObjects(self.normalStateImage, castObject.normalStateImage)
+            && ORKEqualObjects(self.selectedStateImage, castObject.selectedStateImage));
+}
+
+- (NSUInteger)hash {
+    // Ignore the task reference - it's not part of the content of the step.
+    return _text.hash ^ _value.hash;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    if (self) {
+        ORK_DECODE_OBJ_CLASS(aDecoder, text, NSString);
+        ORK_DECODE_OBJ_CLASSES(aDecoder, value, ORKAllowableValueClasses());
+        ORK_DECODE_IMAGE(aDecoder, normalStateImage);
+        ORK_DECODE_IMAGE(aDecoder, selectedStateImage);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    ORK_ENCODE_OBJ(aCoder, text);
+    ORK_ENCODE_OBJ(aCoder, value);
+    ORK_ENCODE_IMAGE(aCoder, normalStateImage);
+    ORK_ENCODE_IMAGE(aCoder, selectedStateImage);
+}
+
+- (BOOL)shouldShowDontKnowButton {
+    return NO;
+}
+
+@end
+
+#pragma mark - ORKImageChoiceAnswerFormat
+
+@interface ORKImageChoiceAnswerFormat () {
+    ORKChoiceAnswerFormatHelper *_helper;
+
+}
+
+@end
+
+
+@implementation ORKImageChoiceAnswerFormat
+
++ (instancetype)new {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)init {
+    ORKThrowMethodUnavailableException();
+}
+
+- (instancetype)initWithImageChoices:(NSArray<ORKImageChoice *> *)imageChoices {
+    self = [self initWithImageChoices:imageChoices style:ORKChoiceAnswerStyleSingleChoice vertical:NO];
+    return self;
+}
+
+- (instancetype)initWithImageChoices:(NSArray<ORKImageChoice *> *)imageChoices
+                               style:(ORKChoiceAnswerStyle)style
+                            vertical:(BOOL)vertical {
+    self = [super init];
+    if (self) {
+        NSMutableArray *choices = [[NSMutableArray alloc] init];
+
+        for (NSObject *obj in imageChoices) {
+            if ([obj isKindOfClass:[ORKImageChoice class]]) {
+
+                [choices addObject:obj];
+
+            } else {
+                @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Options should be instances of ORKImageChoice" userInfo:@{ @"option": obj }];
+            }
+        }
+        _imageChoices = choices;
+        _style = style;
+        _vertical = vertical;
+        _helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:self];
+    }
+    return self;
+}
+
+- (void)validateParameters {
+    [super validateParameters];
+
+    ork_validateChoices(_imageChoices);
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            ORKEqualObjects(self.imageChoices, castObject.imageChoices) &&
+            (_style == castObject.style) &&
+            (_vertical == castObject.vertical));
+}
+
+- (NSUInteger)hash {
+    return super.hash ^ self.imageChoices.hash ^ _style ^ _vertical;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_OBJ_ARRAY(aDecoder, imageChoices, ORKImageChoice);
+        ORK_DECODE_ENUM(aDecoder, style);
+        ORK_DECODE_BOOL(aDecoder, vertical);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, imageChoices);
+    ORK_ENCODE_ENUM(aCoder, style);
+    ORK_ENCODE_BOOL(aCoder, vertical);
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (ORKQuestionType)questionType {
+    return (_style == ORKChoiceAnswerStyleSingleChoice) ? ORKQuestionTypeSingleChoice : ORKQuestionTypeMultipleChoice;
+}
+
+- (Class)questionResultClass {
+    return [ORKChoiceQuestionResult class];
+}
+
+- (NSString *)stringForAnswer:(id)answer {
+    return [_helper stringForChoiceAnswer:answer];
+}
+
+- (BOOL)shouldShowDontKnowButton {
+    return NO;
+}
+
+- (NSArray *)choices {
+    return self.imageChoices;
 }
 
 @end

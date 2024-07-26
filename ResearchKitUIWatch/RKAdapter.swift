@@ -283,6 +283,38 @@ public class RKAdapter {
                     selection: (defaultValue, 0)
                 )
             )
+        case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
+            let choices = imageChoiceAnswerFormat.imageChoices.map { choice in
+                let value = (choice.value as? NSNumber) as! Int
+                return ImageChoice(
+                    id: UUID(),
+                    normalImage: choice.normalStateImage,
+                    selectedImage: choice.selectedStateImage,
+                    text: choice.text!, value: value
+                )
+            }
+
+            let style: ImageChoiceQuestion.ChoiceSelectionType = {
+                switch imageChoiceAnswerFormat.style {
+                    case .singleChoice:
+                    return .single
+                case .multipleChoice:
+                    return .multiple
+                default: return .single
+                }
+            }()
+
+            return FormRow.imageRow(
+                ImageChoiceQuestion(
+                    title: item.text ?? "",
+                    detail: item.detailText,
+                    id: item.identifier,
+                    choices: choices,
+                    style: style,
+                    vertical: imageChoiceAnswerFormat.isVertical,
+                    selections: []
+                )
+            )
         default:
             return nil
         }

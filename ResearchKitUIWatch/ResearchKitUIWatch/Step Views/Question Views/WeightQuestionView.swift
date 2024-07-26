@@ -80,8 +80,6 @@ struct WeightQuestionView: View {
     }
 
     var selectionString: String {
-        if hasChanges == false { return "Tap Here" }
-
         if measurementSystem == .USC {
             switch precision {
             case .default, .low:
@@ -102,36 +100,36 @@ struct WeightQuestionView: View {
     var body: some View {
         FormItemCardView(title: title, detail: detail) {
             HStack {
+                Text("Select Weight")
+                    .foregroundStyle(Color.primary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 Button {
                     isInputActive = true
                 } label: {
                     Text(selectionString)
-                        .foregroundStyle(hasChanges ? Color.primary : Color.secondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundStyle(Color.primary)
                 }
-
-                if hasChanges {
-                    Button {
-                        hasChanges = false
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(Color.gray)
-                    }
+                .buttonStyle(.bordered)
+                .buttonBorderShape(.roundedRectangle)
+                .popover(
+                    isPresented: $isInputActive,
+                    attachmentAnchor: .point(.bottom),
+                    arrowEdge: .top
+                ) {
+                    WeightPickerView(
+                        measurementSystem: measurementSystem,
+                        precision: precision,
+                        defaultValue: defaultValue,
+                        minimumValue: minimumValue,
+                        maximumValue: maximumValue,
+                        selection: $selection,
+                        hasChanges: $hasChanges
+                    )
+                    .frame(width: 300)
+                    .presentationCompactAdaptation((.popover))
                 }
             }
             .padding()
-            .sheet(isPresented: $isInputActive) {
-                WeightPickerView(
-                    measurementSystem: measurementSystem,
-                    precision: precision,
-                    defaultValue: defaultValue,
-                    minimumValue: minimumValue,
-                    maximumValue: maximumValue,
-                    selection: $selection,
-                    hasChanges: $hasChanges
-                )
-                    .presentationDetents([.height(300)])
-            }
         }
     }
 }
@@ -230,59 +228,47 @@ struct WeightPickerView: View {
     }
 
     var body: some View {
-        VStack {
-            HStack {
-                Button {
-                    hasChanges = true
-                    dismiss()
-                } label: {
-                    Text("Done")
-                }
-                .frame(maxWidth: .infinity, alignment: .trailing)
-            }
-            .padding(.horizontal)
-            HStack(spacing: .zero) {
+        HStack(spacing: .zero) {
 
-                Picker(selection: $selection.0) {
-                    ForEach(primaryRange, id: \.self) { i in
-                        Text(primaryPickerString(for: i))
+            Picker(selection: $selection.0) {
+                ForEach(primaryRange, id: \.self) { i in
+                    Text(primaryPickerString(for: i))
+                        .tag(i)
+                }
+            } label: {
+                Text("Tap Here")
+            }
+            .pickerStyle(.wheel)
+            .onChange(of: selection.0) { _, _ in
+                hasChanges = true
+            }
+
+            if precision == .high {
+                Picker(selection: $selection.1) {
+                    ForEach(secondaryRange, id: \.self) { i in
+                        Text(secondaryPickerString(for: i))
                             .tag(i)
                     }
                 } label: {
                     Text("Tap Here")
                 }
                 .pickerStyle(.wheel)
-                .onChange(of: selection.0) { _, _ in
+                .onChange(of: selection.1) { _, _ in
                     hasChanges = true
                 }
+            }
 
-                if precision == .high {
-                    Picker(selection: $selection.1) {
-                        ForEach(secondaryRange, id: \.self) { i in
-                            Text(secondaryPickerString(for: i))
-                                .tag(i)
-                        }
-                    } label: {
-                        Text("Tap Here")
+            if measurementSystem != .USC,
+               precision == .high {
+                Picker(selection: $highPrecisionSelection) {
+                    ForEach(0..<1, id: \.self) { i in
+                        Text("\(primaryUnit)")
+                            .tag(i)
                     }
-                    .pickerStyle(.wheel)
-                    .onChange(of: selection.1) { _, _ in
-                        hasChanges = true
-                    }
+                } label: {
+                    Text("Tap Here")
                 }
-
-                if measurementSystem != .USC,
-                   precision == .high {
-                    Picker(selection: $highPrecisionSelection) {
-                        ForEach(0..<1, id: \.self) { i in
-                            Text("\(primaryUnit)")
-                                .tag(i)
-                        }
-                    } label: {
-                        Text("Tap Here")
-                    }
-                    .pickerStyle(.wheel)
-                }
+                .pickerStyle(.wheel)
             }
         }
     }

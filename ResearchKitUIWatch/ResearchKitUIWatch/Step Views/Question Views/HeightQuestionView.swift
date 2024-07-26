@@ -121,8 +121,6 @@ struct HeightQuestionView: View {
     }
 
     var selectionString: String {
-        if hasChanges == false { return "Tap Here" }
-
         if measurementSystem == .USC {
             return "\(Int(selection.0))' \(Int(selection.1))\""
         } else {
@@ -133,32 +131,32 @@ struct HeightQuestionView: View {
     var body: some View {
         FormItemCardView(title: title, detail: detail) {
             HStack {
+                Text("Select Height")
+                    .foregroundStyle(Color.primary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 Button {
                     isInputActive = true
                 } label: {
                     Text(selectionString)
-                        .foregroundStyle(hasChanges ? Color.primary : Color.secondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundStyle(Color.primary)
                 }
-
-                if hasChanges {
-                    Button {
-                        hasChanges = false
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(Color.gray)
-                    }
+                .buttonStyle(.bordered)
+                .buttonBorderShape(.roundedRectangle)
+                .popover(
+                    isPresented: $isInputActive,
+                    attachmentAnchor: .point(.bottom),
+                    arrowEdge: .top
+                ) {
+                    HeightPickerView(
+                        measurementSystem: measurementSystem,
+                        selection: $selection,
+                        hasChanges: $hasChanges
+                    )
+                    .frame(width: 300)
+                    .presentationCompactAdaptation((.popover))
                 }
             }
             .padding()
-            .sheet(isPresented: $isInputActive) {
-                HeightPickerView(
-                    measurementSystem: measurementSystem,
-                    selection: $selection,
-                    hasChanges: $hasChanges
-                )
-                    .presentationDetents([.height(300)])
-            }
         }
     }
 }
@@ -197,44 +195,32 @@ struct HeightPickerView: View {
     }
 
     var body: some View {
-        VStack {
-            HStack {
-                Button {
-                    hasChanges = true
-                    dismiss()
-                } label: {
-                    Text("Done")
+        HStack(spacing: .zero) {
+            Picker(selection: $selection.0) {
+                ForEach(0..<upperValue, id: \.self) { i in
+                    Text("\(i) \(primaryUnit)")
+                        .tag(i)
                 }
-                .frame(maxWidth: .infinity, alignment: .trailing)
+            } label: {
+                Text("Tap Here")
             }
-            .padding(.horizontal)
-            HStack(spacing: .zero) {
-                Picker(selection: $selection.0) {
-                    ForEach(0..<upperValue, id: \.self) { i in
-                        Text("\(i) \(primaryUnit)")
+            .pickerStyle(.wheel)
+            .onChange(of: selection.0) { _, _ in
+                hasChanges = true
+            }
+
+            if measurementSystem == .USC {
+                Picker(selection: $selection.1) {
+                    ForEach(0..<secondaryUpperValue, id: \.self) { i in
+                        Text("\(i) \(secondaryUnit)")
                             .tag(i)
                     }
                 } label: {
                     Text("Tap Here")
                 }
                 .pickerStyle(.wheel)
-                .onChange(of: selection.0) { _, _ in
+                .onChange(of: selection.1) { _, _ in
                     hasChanges = true
-                }
-
-                if measurementSystem == .USC {
-                    Picker(selection: $selection.1) {
-                        ForEach(0..<secondaryUpperValue, id: \.self) { i in
-                            Text("\(i) \(secondaryUnit)")
-                                .tag(i)
-                        }
-                    } label: {
-                        Text("Tap Here")
-                    }
-                    .pickerStyle(.wheel)
-                    .onChange(of: selection.1) { _, _ in
-                        hasChanges = true
-                    }
                 }
             }
         }

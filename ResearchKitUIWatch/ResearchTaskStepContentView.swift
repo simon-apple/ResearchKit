@@ -31,26 +31,17 @@
 
 import SwiftUI
 
-public struct TaskStepContentView<Content: View>: View {
+public struct ResearchTaskStepContentView<Content: View>: View {
     private let content: Content
 
-    let title: String?
-    let subtitle: String?
-    let path: String
     let isLastStep: Bool
-    var onStepCompletion: ((TaskCompletion) -> Void)?
+    var onStepCompletion: ((ResearchTaskCompletion) -> Void)?
 
     init(
-        title: String?,
-        subtitle: String?,
-        path: String,
         isLastStep: Bool,
-        onStepCompletion: ((TaskCompletion) -> Void)? = nil,
+        onStepCompletion: ((ResearchTaskCompletion) -> Void)? = nil,
         @ViewBuilder content: () -> Content
     ) {
-        self.title = title
-        self.subtitle = subtitle
-        self.path = path
         self.isLastStep = isLastStep
         self.onStepCompletion = onStepCompletion
         self.content = content()
@@ -58,29 +49,17 @@ public struct TaskStepContentView<Content: View>: View {
 
     public var body: some View {
         StickyScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                if let title {
-                    Text(title)
-                        .font(.title)
-                        .fontWeight(.bold)
-                }
-
-                if let subtitle {
-                    Text(subtitle)
-                }
-
-                content
-            }
-            .padding()
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        onStepCompletion?(.discarded)
-                    } label: {
-                        Text("Cancel")
+            content
+                .padding()
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            onStepCompletion?(.discarded)
+                        } label: {
+                            Text("Cancel")
+                        }
                     }
                 }
-            }
         } footerContent: {
             Button {
                 if isLastStep {
