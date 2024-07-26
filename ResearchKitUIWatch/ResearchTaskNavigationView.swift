@@ -30,7 +30,7 @@
 
 import SwiftUI
 
-public struct ResearchForm: View {
+public struct ResearchTaskNavigationView: View {
     @Environment(\.dismiss) var dismiss
     @State private var steps: [Step]
     @State private var stepIdentifiers: [String] = []
