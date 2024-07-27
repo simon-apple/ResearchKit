@@ -110,11 +110,31 @@ public struct InstructionStepp: View {
     private let image: Image?
     private let title: Text?
     private let subtitle: Text?
+    private let bodyItems: [BodyItemm]
     
-    public init(image: Image? = nil, title: Text? = nil, subtitle: Text? = nil) {
+    public init(
+        image: Image? = nil,
+        title: Text? = nil,
+        subtitle: Text? = nil
+    ) {
+        self.init(
+            image: image,
+            title: title,
+            subtitle: subtitle,
+            bodyItems: {}
+        )
+    }
+    
+    public init(
+        image: Image? = nil,
+        title: Text? = nil,
+        subtitle: Text? = nil,
+        @BodyItemsBuilder bodyItems: () -> [BodyItemm]
+    ) {
         self.image = image
         self.title = title
         self.subtitle = subtitle
+        self.bodyItems = bodyItems()
     }
     
     public var body: some View {
@@ -124,6 +144,10 @@ public struct InstructionStepp: View {
                 title: title,
                 subtitle: subtitle
             )
+            
+            ForEach(Array(bodyItems.enumerated()), id: \.offset) { _, bodyItem in
+                bodyItem
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -134,6 +158,38 @@ public struct InstructionStepp: View {
 public struct ResearchFormBuilder {
     
     public static func buildBlock(_ components: InstructionStepp...) -> [InstructionStepp] {
+        components
+    }
+    
+}
+
+public struct BodyItemm: View {
+    
+    private let image: Image
+    private let text: Text
+    
+    public init(image: Image, text: Text) {
+        self.image = image
+        self.text = text
+    }
+    
+    public var body: some View {
+        HStack {
+            image
+                .frame(width: 40, height: 40)
+                .foregroundStyle(.bodyItemIconForegroundStyle)
+            
+            text
+                .font(.subheadline)
+        }
+    }
+    
+}
+
+@resultBuilder
+public struct BodyItemsBuilder {
+    
+    public static func buildBlock(_ components: BodyItemm...) -> [BodyItemm] {
         components
     }
     
