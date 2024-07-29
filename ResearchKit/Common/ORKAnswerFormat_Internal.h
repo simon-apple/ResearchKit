@@ -28,8 +28,9 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 //#import <ResearchKit/ORKDefines.h>
+
+#import <Foundation/Foundation.h>
 
 #if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
 #import <HealthKit/HealthKit.h>
@@ -39,10 +40,15 @@
 #import <ResearchKit/ORKAnswerFormat_Private.h>
 #import <ResearchKit/ORKChoiceAnswerFormatHelper.h>
 #endif
+
 #if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKAnswerFormat_Private.h>
 #import <ResearchKitCore/ORKChoiceAnswerFormatHelper.h>
+#else
+#import <ResearchKit/ORKAnswerFormat_Private.h>
+#import <ResearchKit/ORKChoiceAnswerFormatHelper.h>
 #endif
+
 @class ORKChoiceAnswerFormatHelper;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -143,6 +149,13 @@ ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKTextChoice)
 
 @end
 
+#if TARGET_OS_IOS || TARGET_OS_VISION
+@interface ORKDateAnswerFormat () {
+    NSDate *_currentDateOverride;
+}
+@end
+#endif
+
 #if TARGET_OS_IOS
 @protocol ORKScaleAnswerFormatProvider <NSObject>
 
@@ -226,11 +239,7 @@ NSArray<Class> *ORKAllowableValueClasses(void);
 
 @end
 
-
-@interface ORKDateAnswerFormat () {
-    NSDate *_currentDateOverride;
-}
-
+@interface ORKDateAnswerFormat ()
 - (NSDate *)pickerDefaultDate;
 - (nullable NSDate *)pickerMinimumDate;
 - (nullable NSDate *)pickerMaximumDate;

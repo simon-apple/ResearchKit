@@ -182,7 +182,7 @@
     }
 }
 
-#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION && TARGET_OS_IOS
 - (NSSet<HKObjectType *> *)requestedHealthKitTypesForReading {
     NSMutableSet<HKObjectType *> *healthTypes = [NSMutableSet set];
     
@@ -262,6 +262,7 @@
     return self;
 }
 
+#if TARGET_OS_IOS
 - (ORKFormItem *)confirmationAnswerFormItemWithIdentifier:(NSString *)identifier
                                                      text:(nullable NSString *)text
                                              errorMessage:(NSString *)errorMessage {
@@ -281,6 +282,7 @@
                                                        optional:self.optional];
     return item;
 }
+#endif
 
 + (BOOL)supportsSecureCoding {
     return YES;

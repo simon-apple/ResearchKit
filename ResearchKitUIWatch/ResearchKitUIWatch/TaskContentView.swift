@@ -30,13 +30,8 @@
 
 // apple-internal
 
-import ResearchKitCore
+import ResearchKit
 import SwiftUI
-
-enum ViewModel {
-    case none
-    case questionStep(QuestionStepViewModel)
-}
 
 typealias Progress = (index: Int, count: Int)
 
@@ -69,7 +64,9 @@ internal struct TaskContentView<Content>: View where Content: View {
     
     // Style
     private let buttonTopPadding: CGFloat = 12
-    
+
+    @Environment(\.dismiss) var dismiss
+
     @EnvironmentObject
     private var taskManager: TaskManager
     
@@ -94,7 +91,11 @@ internal struct TaskContentView<Content>: View where Content: View {
     private var hasNextStep: Bool {
         return index < taskManager.task.steps.count - 1
     }
-    
+
+    private var isSkippable: Bool {
+        return taskManager.task.steps[index].isOptional
+    }
+
     private var currentStepWasAnsweredOnce: Bool {
         return taskManager.answeredSteps.contains(currentStep)
     }
@@ -104,7 +105,7 @@ internal struct TaskContentView<Content>: View where Content: View {
     
     func completion(_ complete: Bool) {
         
-        if complete && currentStep is ORKQuestionStep {
+        if complete && currentStep is ORKFormStep {
             
             if !hasNextStep || (hasNextStep && currentStepWasAnsweredOnce) {
                 shouldScrollToCTA = true
@@ -115,12 +116,24 @@ internal struct TaskContentView<Content>: View where Content: View {
             }
             
             currentResult.endDate = Date()
-            
+            let viewModel = taskManager.viewModelForStep(currentStep)
+            switch viewModel {
+            case .formStep(let formStepViewModel):
+                formStepViewModel.createORKResult()
+                debugPrint(self.currentResult)
+                // TODO: serialize these results to JSON by pulling in serializer:
+                // rdar://126868123 (Serialize results from SwiftUI Question Views)
+                break
+            case .none:
+                break
+            }
             taskManager.mark(currentStep, answered: true)
-        } else if !complete && currentStep is ORKQuestionStep {
+        } else if !complete && currentStep is ORKFormStep {
             taskManager.mark(currentStep, answered: false)
             shouldScrollToCTA = false
         }
+        
+        taskManager.finishReason = .completed
     }
     
     init(index: Int, @ViewBuilder _ content: @escaping (ORKStep, ORKStepResult) -> Content) {
@@ -132,6 +145,7 @@ internal struct TaskContentView<Content>: View where Content: View {
     // lazily, the wrapping NavigationView can find it, and trigger it when `goNext` is called.
     private var hiddenNavigationButton: some View {
         NavigationLink(isActive: $goNext, destination: {
+            // change navigation logic to use Task.stepAfterStep()
             TaskContentView(index: index + 1, content)
                 .environmentObject(taskManager)
         }, label: {
@@ -143,25 +157,28 @@ internal struct TaskContentView<Content>: View where Content: View {
     }
       
     var body: some View {
-        ScrollView {
-            if hasNextStep {
-                hiddenNavigationButton
-            }
-            ORKScrollViewReader { value in
-                content(currentStep, currentResult)
-                    .onAppear {
-                        currentResult.startDate = Date()
+        ORKScrollViewReader { value in
+            content(currentStep, currentResult)
+                .onAppear {
+                    currentResult.startDate = Date()
+                }
+                .environment(\.progress, taskManager.progressForQuestionStep(currentStep))
+                .environment((\.completion), completion)
+                .whenChanged(forceScrollToggle) { _ in
+                    withAnimation(Animation.easeInOut(duration: 1)) {
+                        value.scrollToID(Constants.CTA, anchor: nil)
                     }
-                    .environment(\.progress, taskManager.progressForQuestionStep(currentStep))
-                    .environment((\.completion), completion)
-                    .whenChanged(forceScrollToggle) { _ in
-                        withAnimation(Animation.easeInOut(duration: 1)) {
-                            value.scrollToID(Constants.CTA, anchor: nil)
-                        }
+                }
+            HStack {
+                if isSkippable && hasNextStep {
+                    Button {
+                        goNext = true
+                    } label: {
+                        Text("Skip")
                     }
-                
+                }
                 if hasNextStep {
-                    if shouldScrollToCTA || !(currentStep is ORKQuestionStep) {
+                    if shouldScrollToCTA || !(currentStep is ORKFormStep) {
                         Button {
                             goNext = true
                         } label: {
@@ -177,23 +194,19 @@ internal struct TaskContentView<Content>: View where Content: View {
                         .id(Constants.CTA)
                         .padding(.top, buttonTopPadding)
                     }
-                } else {
-                    Button {
-                        taskManager.finishReason = .completed
-                    } label: {
-                        Text(
-                            Bundle(for: TaskManager.self)
-                            .localizedString(
-                                forKey: "BUTTON_DONE",
-                                value: nil,
-                                table: "ResearchKitUI(Watch)"
-                            )
-                        ).bold()
-                    }
-                    .id(Constants.CTA)
-                    .disabled(!shouldScrollToCTA && currentStep is ORKQuestionStep)
-                    .padding(.top, buttonTopPadding)
                 }
+            }
+        }
+        .toolbar {
+            // TODO(rdar://128955364): Fix cancel button in this flow.
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    setDiscardedIfNeeded(taskManager: taskManager)
+                    dismiss()
+                } label: {
+                    Text("Cancel")
+                }
+
             }
         }
     }

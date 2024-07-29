@@ -32,6 +32,7 @@
 #import <ResearchKitCore/ORKTypes.h>
 
 #import <ResearchKitCore/ORKStep.h>
+#import <ResearchKitCore/ORKFormStep.h>
 #import <ResearchKitCore/ORKInstructionStep.h>
 #import <ResearchKitCore/ORKQuestionStep.h>
 #import <ResearchKitCore/ORKCompletionStep.h>

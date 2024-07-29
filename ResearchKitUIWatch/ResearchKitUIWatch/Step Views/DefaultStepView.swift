@@ -30,7 +30,7 @@
 
 // apple-internal
 
-import ResearchKitCore
+import ResearchKit
 import SwiftUI
 
 @available(watchOS 6.0, *)
@@ -39,12 +39,15 @@ public struct DefaultStepView: View {
     @ObservedObject
     public private(set) var step: ORKStep
 
+    private(set) var viewModel: ViewModel
+
     @ObservedObject
     public private(set) var result: ORKStepResult
     
-    init(_ step: ORKStep, result: ORKStepResult) {
+    init(_ step: ORKStep, viewModel: ViewModel, result: ORKStepResult) {
         self.step = step
         self.result = result
+        self.viewModel = viewModel
     }
 
     @ViewBuilder
@@ -53,8 +56,12 @@ public struct DefaultStepView: View {
             CompletionStepView(completionStep, result: result)
         } else if let instructionStep = step as? ORKInstructionStep {
             InstructionStepView(instructionStep, result: result)
-        } else if let questionStep = step as? ORKQuestionStep {
-            QuestionStepView(questionStep, result: result)
+        } else if step is ORKFormStep {
+            if case .formStep(let formStepViewModel) = viewModel {
+                FormStepView(viewModel: formStepViewModel)
+            } else {
+                fatalError("Attempted to create a FormStepView with incorrect ViewModel")
+            }
         } else {
             fatalError("Not Supported")
         }

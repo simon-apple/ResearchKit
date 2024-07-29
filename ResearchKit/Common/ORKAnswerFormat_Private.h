@@ -28,15 +28,11 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKAnswerFormat.h>
-#endif
-
-#if TARGET_OS_IOS
+#else
 #import <ResearchKit/ORKAnswerFormat.h>
 #endif
-
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -63,7 +59,7 @@ ORK_EXTERN id ORKNullAnswerValue(void) ORK_AVAILABLE_DECL;
  
  An `ORKConfirmTextAnswerFormat` object produces an `ORKBooleanQuestionResult` object.
  */
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS || TARGET_OS_VISION
 ORK_CLASS_AVAILABLE
 @interface ORKConfirmTextAnswerFormat : ORKTextAnswerFormat
 

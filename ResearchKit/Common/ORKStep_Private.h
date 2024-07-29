@@ -30,9 +30,7 @@
 
 #if TARGET_OS_WATCH
 #import <ResearchKitCore/ORKStep.h>
-#endif
-
-#if TARGET_OS_IOS
+#else
 #import <ResearchKit/ORKStep.h>
 #endif
 

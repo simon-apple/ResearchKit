@@ -30,17 +30,18 @@
 
 // apple-internal
 
-import ResearchKitCore
+import ResearchKit
 import SwiftUI
 import UIKit
 
-@available(watchOS 6.0, *)
 public struct TaskView<Content>: View where Content: View {
 
     @ObservedObject
     private var taskManager: TaskManager
 
     private let content: (ORKStep, ORKStepResult) -> Content
+
+    #warning("Update to TaskManagerDelegate. Changes stashed")
 
     public init(taskManager: TaskManager,
                 @ViewBuilder _ content: @escaping (ORKStep, ORKStepResult) -> Content) {
@@ -50,22 +51,21 @@ public struct TaskView<Content>: View where Content: View {
     }
 
     public var body: some View {
-        if #available(watchOSApplicationExtension 7.0, *) {
-            NavigationView {
-                TaskContentView(index: 0, content)
-                    .environmentObject(self.taskManager)
-            }
-        } else {
+        NavigationStack {
             TaskContentView(index: 0, content)
                 .environmentObject(self.taskManager)
         }
     }
 }
 
-@available(watchOS 6.0, *)
 public extension TaskView where Content == DefaultStepView {
 
     init(taskManager: TaskManager) {
-        self.init(taskManager: taskManager) { DefaultStepView($0, result: $1) }
+        self.init(taskManager: taskManager) {
+            DefaultStepView($0,
+                            viewModel: taskManager.viewModelForStep($0),
+                            result: $1
+            )
+        }
     }
 }

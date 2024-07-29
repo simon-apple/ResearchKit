@@ -34,7 +34,7 @@
 #import <ResearchKit/ORKDefines.h>
 #endif
 
-#if TARGET_OS_WATCH
+#if TARGET_OS_WATCH || TARGET_OS_VISION
 #import <ResearchKitCore/ORKDefines.h>
 #endif
 
