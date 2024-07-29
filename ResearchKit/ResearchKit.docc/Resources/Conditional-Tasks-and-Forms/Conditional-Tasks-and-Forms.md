@@ -59,12 +59,11 @@ navigableTask.setNavigationRule(navigationRule, forTriggerStepIdentifier: formSt
 
 Selecting Yes:
 
-TODO: add gif
-
+@Video(source: "conditional-tasks-and-forms-step-yes", poster: "blank.png")
 
 Selecting No:
 
-TODO: add gif
+@Video(source: "conditional-tasks-and-forms-step-no", poster: "blank.png")
 
 ### Form Item Visibility Rules
 
@@ -110,3 +109,6 @@ appleChoiceFormItem.visibilityRule = visibilityRule
  let navigableTask = ORKNavigableOrderedTask(identifier: "NavigableTaskIdentifier", steps: [formStep, completionStep])
 ```
 
+Selecting Yes & No:
+
+@Video(source: "conditional-tasks-and-forms-formItem-yes-no", poster: "blank.png")
