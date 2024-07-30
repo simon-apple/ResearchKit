@@ -30,14 +30,9 @@
 
 #import <Contacts/Contacts.h>
 #import <CoreLocation/CLLocation.h>
-
-#if TARGET_OS_WATCH
-#import <ResearchKitCore/ORKResult.h>
-#else
 #import <ResearchKit/ORKResult.h>
-#endif
 
-#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION || TARGET_OS_IOS
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS
 #import <CoreLocation/CLLocation.h>
 #endif
 

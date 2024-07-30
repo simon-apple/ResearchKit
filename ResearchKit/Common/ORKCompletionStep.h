@@ -30,12 +30,7 @@
 
 
 #import <Foundation/Foundation.h>
-
-#if TARGET_OS_WATCH
-#import <ResearchKitCore/ORKInstructionStep.h>
-#else
 #import <ResearchKit/ORKInstructionStep.h>
-#endif
 
 #if TARGET_OS_IOS
 #import <ResearchKit/ORKTask.h>

@@ -28,14 +28,9 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if TARGET_OS_WATCH
-#import <ResearchKitCore/ORKQuestionResult.h>
-#else
 #import <ResearchKit/ORKQuestionResult.h>
-#endif
 
 #import <MapKit/MapKit.h>
-
 
 NS_ASSUME_NONNULL_BEGIN
 

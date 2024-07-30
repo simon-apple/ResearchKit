@@ -6289,9 +6289,9 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2,4,7";
 			};
 			name = "Skywagon Stable";
 		};
@@ -6319,9 +6319,9 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2,4,7";
 			};
 			name = "Skywagon Internal Release";
 		};
@@ -6349,9 +6349,9 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2,4,7";
 			};
 			name = "Skywagon Public Release";
 		};
@@ -6873,9 +6873,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
 				"OTHER_SWIFT_FLAGS[arch=*]" = "$(inherited) -runtime-compatibility-version none";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2,4,7";
 			};
 			name = Debug;
 		};
@@ -6885,9 +6885,9 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2,4,7";
 			};
 			name = Release;
 		};

@@ -117,6 +117,7 @@
 		E4DBF1C22BA24B860085D6A1 /* StickyScrollView+StickyLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StickyScrollView+StickyLayout.swift"; sourceTree = "<group>"; };
 		E4E1CD512BED3AAE0030D1F5 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		E4E1CD582BED9ECE0030D1F5 /* FormRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormRow.swift; path = "Step Views/Question Views/FormRow.swift"; sourceTree = "<group>"; };
+		E4F940312C597E4A001B14BD /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4FC4FAA2BC88F3F00E0AEBF /* FormStepViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormStepViewModel.swift; path = "Step Views/FormStepViewModel.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -143,6 +144,7 @@
 		0B72132E2B4F36B900463E69 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E4F940312C597E4A001B14BD /* ResearchKitCore.framework */,
 				5E7596BC2BE049B90088F7B7 /* ResearchKit.framework */,
 				0B72135D2B4F3C7600463E69 /* ResearchKitInternal.framework */,
 				0B7213612B4F3C7F00463E69 /* ResearchKit.framework */,
@@ -587,12 +589,12 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = xros;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "xrsimulator xros macosx linux iphonesimulator iphoneos exclavekit.xros exclavekit.macosx exclavekit.iphoneos exclavecore.xros exclavecore.macosx exclavecore.iphoneos driverkit";
+				SUPPORTED_PLATFORMS = "driverkit exclavecore.iphoneos exclavecore.macosx exclavecore.xros exclavekit.iphoneos exclavekit.macosx exclavekit.xros iphoneos iphonesimulator linux macosx watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2,4,7";
 				WATCHOS_DEPLOYMENT_TARGET = 8.0;
 				XROS_DEPLOYMENT_TARGET = 1.2;
 			};
@@ -628,12 +630,12 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = xros;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "xrsimulator xros macosx linux iphonesimulator iphoneos exclavekit.xros exclavekit.macosx exclavekit.iphoneos exclavecore.xros exclavecore.macosx exclavecore.iphoneos driverkit";
+				SUPPORTED_PLATFORMS = "driverkit exclavecore.iphoneos exclavecore.macosx exclavecore.xros exclavekit.iphoneos exclavekit.macosx exclavekit.xros iphoneos iphonesimulator linux macosx watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
+				TARGETED_DEVICE_FAMILY = "1,2,4,7";
 				WATCHOS_DEPLOYMENT_TARGET = 8.0;
 				XROS_DEPLOYMENT_TARGET = 1.2;
 			};

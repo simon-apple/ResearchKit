@@ -30,14 +30,8 @@
 
 
 #import <Foundation/Foundation.h>
-
-#if TARGET_OS_WATCH
-#import <ResearchKitCore/ORKDefines.h>
-#import <ResearchKitCore/ORKStep.h>
-#else
 #import <ResearchKit/ORKDefines.h>
 #import <ResearchKit/ORKStep.h>
-#endif
 
 /**
  Values that determine the style
