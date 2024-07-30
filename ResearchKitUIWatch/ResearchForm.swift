@@ -34,9 +34,9 @@ public struct ResearchForm<Content: View>: View {
     
     @State private var navigationPaths: [String] = []
     
-    private let content: [Stepp<Content>]
+    private let content: [ResearchFormStep<Content>]
     
-    public init(@ResearchFormBuilder content: () -> [Stepp<Content>]) {
+    public init(@ResearchFormBuilder content: () -> [ResearchFormStep<Content>]) {
         self.content = content()
     }
     
@@ -96,7 +96,7 @@ public struct ResearchForm<Content: View>: View {
 
 #Preview {
     ResearchForm {
-        Stepp {
+        ResearchFormStep {
             Instructions(
                 image: Image(systemName: "hand.wave"),
                 title: Text("Welcome"),
@@ -158,7 +158,7 @@ public struct Instructions: View {
 @resultBuilder
 public struct ResearchFormBuilder {
     
-    public static func buildBlock<Content: View>(_ components: Stepp<Content>...) -> [Stepp<Content>] {
+    public static func buildBlock<Content: View>(_ components: ResearchFormStep<Content>...) -> [ResearchFormStep<Content>] {
         components
     }
     
@@ -196,7 +196,7 @@ public struct BodyItemsBuilder {
     
 }
 
-public struct Stepp<Content: View>: View {
+public struct ResearchFormStep<Content: View>: View {
     
     private let id = UUID()
     private let content: Content
