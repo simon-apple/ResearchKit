@@ -97,7 +97,7 @@ public struct ResearchForm<Content: View>: View {
 #Preview {
     ResearchForm {
         Stepp {
-            InstructionStepp(
+            Instructions(
                 image: Image(systemName: "hand.wave"),
                 title: Text("Welcome"),
                 subtitle: Text("Thank you for joining our study. Tap Next to learn more before signing up.")
@@ -106,7 +106,7 @@ public struct ResearchForm<Content: View>: View {
     }
 }
 
-public struct InstructionStepp: View {
+public struct Instructions: View {
     
     private let image: Image?
     private let title: Text?
