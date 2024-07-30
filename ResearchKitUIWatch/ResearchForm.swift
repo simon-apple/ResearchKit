@@ -30,13 +30,13 @@
 
 import SwiftUI
 
-public struct ResearchForm: View {
+public struct ResearchForm<Content: View>: View {
     
     @State private var navigationPaths: [String] = []
     
-    private let content: [InstructionStepp]
+    private let content: [Stepp<Content>]
     
-    public init(@ResearchFormBuilder content: () -> [InstructionStepp]) {
+    public init(@ResearchFormBuilder content: () -> [Stepp<Content>]) {
         self.content = content()
     }
     
@@ -49,13 +49,13 @@ public struct ResearchForm: View {
                     }
                 },
                 action: {
-                    navigationPaths.append(content[1].id.uuidString)
+                    navigationPaths.append(content[1].identifier)
                 }
             )
             .navigationDestination(for: String.self) { navigationPath in
                 step(
                     content: {
-                        content.first(where: { $0.id.uuidString == navigationPath })
+                        content.first(where: { $0.identifier == navigationPath })
                     },
                     action: {
                         
@@ -96,17 +96,18 @@ public struct ResearchForm: View {
 
 #Preview {
     ResearchForm {
-        InstructionStepp(
-            image: Image(systemName: "hand.wave"),
-            title: Text("Welcome"),
-            subtitle: Text("Thank you for joining our study. Tap Next to learn more before signing up.")
-        )
+        Stepp {
+            InstructionStepp(
+                image: Image(systemName: "hand.wave"),
+                title: Text("Welcome"),
+                subtitle: Text("Thank you for joining our study. Tap Next to learn more before signing up.")
+            )
+        }
     }
 }
 
 public struct InstructionStepp: View {
     
-    let id = UUID()
     private let image: Image?
     private let title: Text?
     private let subtitle: Text?
@@ -157,7 +158,7 @@ public struct InstructionStepp: View {
 @resultBuilder
 public struct ResearchFormBuilder {
     
-    public static func buildBlock(_ components: InstructionStepp...) -> [InstructionStepp] {
+    public static func buildBlock<Content: View>(_ components: Stepp<Content>...) -> [Stepp<Content>] {
         components
     }
     
@@ -191,6 +192,25 @@ public struct BodyItemsBuilder {
     
     public static func buildBlock(_ components: BodyItemm...) -> [BodyItemm] {
         components
+    }
+    
+}
+
+public struct Stepp<Content: View>: View {
+    
+    private let id = UUID()
+    private let content: Content
+    
+    public init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+    
+    public var body: some View {
+        content
+    }
+    
+    var identifier: String {
+        id.uuidString
     }
     
 }
