@@ -30,12 +30,12 @@
 
 import SwiftUI
 
-public struct Instructions: View {
+public struct Instruction: View {
     
     private let image: Image?
     private let title: Text?
     private let subtitle: Text?
-    private let bodyItems: [BodyItemm]
+    private let bodyItems: [InstructionBodyItem]
     
     public init(
         image: Image? = nil,
@@ -54,7 +54,7 @@ public struct Instructions: View {
         image: Image? = nil,
         title: Text? = nil,
         subtitle: Text? = nil,
-        @BodyItemsBuilder bodyItems: () -> [BodyItemm]
+        @InstructionBodyItemsBuilder bodyItems: () -> [InstructionBodyItem]
     ) {
         self.image = image
         self.title = title
@@ -79,16 +79,7 @@ public struct Instructions: View {
     
 }
 
-@resultBuilder
-public struct ResearchFormBuilder {
-    
-    public static func buildBlock(_ components: ResearchFormStep...) -> [ResearchFormStep] {
-        components
-    }
-    
-}
-
-public struct BodyItemm: View {
+public struct InstructionBodyItem: View {
     
     private let image: Image
     private let text: Text
@@ -112,29 +103,10 @@ public struct BodyItemm: View {
 }
 
 @resultBuilder
-public struct BodyItemsBuilder {
+public struct InstructionBodyItemsBuilder {
     
-    public static func buildBlock(_ components: BodyItemm...) -> [BodyItemm] {
+    public static func buildBlock(_ components: InstructionBodyItem...) -> [InstructionBodyItem] {
         components
-    }
-    
-}
-
-public struct ResearchFormStep: View {
-    
-    private let id = UUID()
-    private let content: AnyView
-    
-    public init<Content: View>(@ViewBuilder content: () -> Content) {
-        self.content = AnyView(content())
-    }
-    
-    public var body: some View {
-        content
-    }
-    
-    var identifier: String {
-        id.uuidString
     }
     
 }

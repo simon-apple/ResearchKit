@@ -30,15 +30,16 @@
 
 import SwiftUI
 
-public struct ResearchForm: View {
+public struct ResearchTask: View {
+    
     @Environment(\.dismiss) var dismiss
-    private let steps: [ResearchFormStep]
+    private let steps: [ResearchTaskStep]
     @State private var stepIdentifiers: [String] = []
     
     var onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)?
 
     public init(
-        @ResearchFormBuilder steps: () -> [ResearchFormStep],
+        @ResearchTaskBuilder steps: () -> [ResearchTaskStep],
         onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)? = nil
     ) {
         self.steps = steps()
@@ -86,7 +87,7 @@ public struct ResearchForm: View {
         }
     }
     
-    private func isLastStep(for step: ResearchFormStep) -> Bool {
+    private func isLastStep(for step: ResearchTaskStep) -> Bool {
         guard let stepIndex = index(for: step) else {
             return false
         }
@@ -110,14 +111,14 @@ public struct ResearchForm: View {
         }
     }
     
-    private func moveToStep(after step: ResearchFormStep) {
+    private func moveToStep(after step: ResearchTaskStep) {
         guard let nextStep = self.step(after: step) else {
             return
         }
         stepIdentifiers.append(nextStep.identifier)
     }
     
-    private func step(after step: ResearchFormStep) -> ResearchFormStep? {
+    private func step(after step: ResearchTaskStep) -> ResearchTaskStep? {
         guard let stepIndex = index(for: step) else {
             return nil
         }
@@ -144,14 +145,14 @@ public struct ResearchForm: View {
     }
     
     private func identifier(afterPath path: String) -> String? {
-        func step(afterPath path: String) -> ResearchFormStep? {
+        func step(afterPath path: String) -> ResearchTaskStep? {
             guard let index = index(forPath: path) else {
                 return nil
             }
             
             let nextIndex = index + 1
             
-            let instructionStep: ResearchFormStep?
+            let instructionStep: ResearchTaskStep?
             if nextIndex == steps.count {
                 instructionStep = nil
             } else {
@@ -167,11 +168,11 @@ public struct ResearchForm: View {
         steps.firstIndex(where: { $0.identifier == path })
     }
     
-    private func index(for step: ResearchFormStep) -> Int? {
+    private func index(for step: ResearchTaskStep) -> Int? {
         steps.firstIndex(where: { $0.identifier == step.identifier })
     }
     
-    private func step(atPath path: String) -> ResearchFormStep? {
+    private func step(atPath path: String) -> ResearchTaskStep? {
         steps.first(where: { $0.identifier == path })
     }
     
@@ -183,6 +184,34 @@ public struct ResearchForm: View {
             navigationTitle = ""
         }
         return navigationTitle
+    }
+    
+}
+
+public struct ResearchTaskStep: View {
+    
+    private let id = UUID()
+    private let content: AnyView
+    
+    public init<Content: View>(@ViewBuilder content: () -> Content) {
+        self.content = AnyView(content())
+    }
+    
+    public var body: some View {
+        content
+    }
+    
+    var identifier: String {
+        id.uuidString
+    }
+    
+}
+
+@resultBuilder
+public struct ResearchTaskBuilder {
+    
+    public static func buildBlock(_ components: ResearchTaskStep...) -> [ResearchTaskStep] {
+        components
     }
     
 }
