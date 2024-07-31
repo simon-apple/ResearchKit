@@ -30,82 +30,6 @@
 
 import SwiftUI
 
-public struct ResearchForm<Content: View>: View {
-    
-    @State private var navigationPaths: [String] = []
-    
-    private let content: [ResearchFormStep<Content>]
-    
-    public init(@ResearchFormBuilder content: () -> [ResearchFormStep<Content>]) {
-        self.content = content()
-    }
-    
-    public var body: some View {
-        NavigationStack(path: $navigationPaths) {
-            step(
-                content: {
-                    if let firstContent = content.first {
-                        firstContent
-                    }
-                },
-                action: {
-                    navigationPaths.append(content[1].identifier)
-                }
-            )
-            .navigationDestination(for: String.self) { navigationPath in
-                step(
-                    content: {
-                        content.first(where: { $0.identifier == navigationPath })
-                    },
-                    action: {
-                        
-                    }
-                )
-            }
-        }
-    }
-    
-    @ViewBuilder
-    private func step(@ViewBuilder content: @escaping () -> some View, action: @escaping () -> Void) -> some View {
-        StickyScrollView(
-            bodyContent: {
-                content()
-                    .padding()
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button {
-                                
-                            } label: {
-                                Text("Cancel")
-                            }
-                        }
-                    }
-            },
-            footerContent: {
-                Button(
-                    action: action,
-                    label: {
-                        Text("Next")
-                    }
-                )
-            }
-        )
-    }
-    
-}
-
-#Preview {
-    ResearchForm {
-        ResearchFormStep {
-            Instructions(
-                image: Image(systemName: "hand.wave"),
-                title: Text("Welcome"),
-                subtitle: Text("Thank you for joining our study. Tap Next to learn more before signing up.")
-            )
-        }
-    }
-}
-
 public struct Instructions: View {
     
     private let image: Image?
@@ -158,7 +82,7 @@ public struct Instructions: View {
 @resultBuilder
 public struct ResearchFormBuilder {
     
-    public static func buildBlock<Content: View>(_ components: ResearchFormStep<Content>...) -> [ResearchFormStep<Content>] {
+    public static func buildBlock(_ components: ResearchFormStep...) -> [ResearchFormStep] {
         components
     }
     
@@ -196,13 +120,13 @@ public struct BodyItemsBuilder {
     
 }
 
-public struct ResearchFormStep<Content: View>: View {
+public struct ResearchFormStep: View {
     
     private let id = UUID()
-    private let content: Content
+    private let content: AnyView
     
-    public init(@ViewBuilder content: () -> Content) {
-        self.content = content()
+    public init<Content: View>(@ViewBuilder content: () -> Content) {
+        self.content = AnyView(content())
     }
     
     public var body: some View {

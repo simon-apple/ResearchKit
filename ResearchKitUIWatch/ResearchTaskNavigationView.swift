@@ -30,18 +30,18 @@
 
 import SwiftUI
 
-public struct ResearchTaskNavigationView: View {
+public struct ResearchForm: View {
     @Environment(\.dismiss) var dismiss
-    @State private var steps: [Step]
+    private let steps: [ResearchFormStep]
     @State private var stepIdentifiers: [String] = []
     
     var onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)?
 
     public init(
-        steps: [Step],
+        @ResearchFormBuilder steps: () -> [ResearchFormStep],
         onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)? = nil
     ) {
-        self.steps = steps
+        self.steps = steps()
         self.onResearchTaskCompletion = onResearchTaskCompletion
     }
 
@@ -60,7 +60,7 @@ public struct ResearchTaskNavigationView: View {
                         }
                     },
                     content: {
-                        makeContent(for: firstStep)
+                        firstStep
                     }
                 )
                 .navigationTitle("1 of \(steps.count)")
@@ -77,9 +77,7 @@ public struct ResearchTaskNavigationView: View {
                             }
                         },
                         content: {
-                            if let stepIndex = indexForStep(atPath: path) {
-                                makeContent(forStepIndex: stepIndex)
-                            }
+                            step(atPath: path)
                         }
                     )
                     .navigationTitle(navigationTitle(atPath: path))
@@ -88,7 +86,7 @@ public struct ResearchTaskNavigationView: View {
         }
     }
     
-    private func isLastStep(for step: Step) -> Bool {
+    private func isLastStep(for step: ResearchFormStep) -> Bool {
         guard let stepIndex = index(for: step) else {
             return false
         }
@@ -112,14 +110,14 @@ public struct ResearchTaskNavigationView: View {
         }
     }
     
-    private func moveToStep(after step: Step) {
+    private func moveToStep(after step: ResearchFormStep) {
         guard let nextStep = self.step(after: step) else {
             return
         }
         stepIdentifiers.append(nextStep.identifier)
     }
     
-    private func step(after step: Step) -> Step? {
+    private func step(after step: ResearchFormStep) -> ResearchFormStep? {
         guard let stepIndex = index(for: step) else {
             return nil
         }
@@ -146,14 +144,14 @@ public struct ResearchTaskNavigationView: View {
     }
     
     private func identifier(afterPath path: String) -> String? {
-        func step(afterPath path: String) -> Step? {
+        func step(afterPath path: String) -> ResearchFormStep? {
             guard let index = index(forPath: path) else {
                 return nil
             }
             
             let nextIndex = index + 1
             
-            let instructionStep: Step?
+            let instructionStep: ResearchFormStep?
             if nextIndex == steps.count {
                 instructionStep = nil
             } else {
@@ -169,8 +167,12 @@ public struct ResearchTaskNavigationView: View {
         steps.firstIndex(where: { $0.identifier == path })
     }
     
-    private func index(for step: Step) -> Int? {
+    private func index(for step: ResearchFormStep) -> Int? {
         steps.firstIndex(where: { $0.identifier == step.identifier })
+    }
+    
+    private func step(atPath path: String) -> ResearchFormStep? {
+        steps.first(where: { $0.identifier == path })
     }
     
     private func navigationTitle(atPath path: String) -> String {
@@ -181,112 +183,6 @@ public struct ResearchTaskNavigationView: View {
             navigationTitle = ""
         }
         return navigationTitle
-    }
-    
-    @ViewBuilder
-    private func makeContent(for step: Step) -> some View {
-        if let stepIndex = index(for: step) {
-            makeContent(forStepIndex: stepIndex)
-        }
-    }
-    
-    @ViewBuilder
-    private func makeContent(forStepIndex stepIndex: Int) -> some View {
-        switch steps[stepIndex] {
-        case .formStep(let formStep):
-            VStack(alignment: .leading, spacing: 16) {
-                HeaderView(
-                    title: titleText(for: formStep),
-                    subtitle: subtitleText(for: formStep)
-                )
-                
-                ForEach(
-                    Array(formStep.items.enumerated()),
-                    id: \.offset
-                ) { formRowIndex, formRow in
-                    FormRowContent(
-                        detail: nil,
-                        formRow: .init(
-                            get: {
-                                formRow
-                            },
-                            set: { newFormRow in
-                                var newFormRows = formStep.items
-                                newFormRows[formRowIndex] = newFormRow
-                                
-                                steps[stepIndex] = .formStep(
-                                    FormStep(
-                                        id: formStep.id,
-                                        title: formStep.title,
-                                        subtitle: formStep.subtitle,
-                                        items: newFormRows
-                                    )
-                                )
-                            }
-                        )
-                    )
-                }
-            }
-        case .instructionStep(let instructionStep):
-            VStack(alignment: .leading, spacing: 16) {
-                HeaderView(
-                    image: instructionStep.iconImage,
-                    title: titleText(for: instructionStep),
-                    subtitle: subtitleText(for: instructionStep)
-                )
-                
-                ForEach(instructionStep.bodyItems) { bodyItem in
-                    HStack {
-                        bodyItem.image
-                            .frame(width: 40, height: 40)
-                            .foregroundStyle(.bodyItemIconForegroundStyle)
-                        
-                        Text(bodyItem.text)
-                            .font(.subheadline)
-                    }
-                }
-            }
-        }
-    }
-    
-    private func titleText(for formStep: FormStep) -> Text? {
-        let titleText: Text?
-        if let title = formStep.title {
-            titleText = Text(title)
-        } else  {
-            titleText = nil
-        }
-        return titleText
-    }
-    
-    private func subtitleText(for formStep: FormStep) -> Text? {
-        let subtitleText: Text?
-        if let subtitle = formStep.subtitle {
-            subtitleText = Text(subtitle)
-        } else  {
-            subtitleText = nil
-        }
-        return subtitleText
-    }
-    
-    private func titleText(for instructionStep: InstructionStep) -> Text? {
-        let titleText: Text?
-        if let title = instructionStep.title {
-            titleText = Text(title)
-        } else  {
-            titleText = nil
-        }
-        return titleText
-    }
-    
-    private func subtitleText(for instructionStep: InstructionStep) -> Text? {
-        let subtitleText: Text?
-        if let subtitle = instructionStep.subtitle {
-            subtitleText = Text(subtitle)
-        } else  {
-            subtitleText = nil
-        }
-        return subtitleText
     }
     
 }
