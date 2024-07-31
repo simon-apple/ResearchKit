@@ -297,3 +297,133 @@ public struct FormRowContent: View {
         }
     }
 }
+
+public struct ResearchForm<Content: View>: View {
+    
+    private let title: Text
+    private let subtitle: Text
+    private let content: Content
+    
+    public init(title: Text, subtitle: Text, @ViewBuilder content: () -> Content) {
+        self.title = title
+        self.subtitle = subtitle
+        self.content = content()
+    }
+    
+    public var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            HeaderView(title: title, subtitle: subtitle)
+            
+            content
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
+}
+
+public struct InputManagedDateTimeQuestion: View {
+    
+    private let title: String
+    private let detail: String
+    private let pickerPrompt: String
+    private let displayedComponents: DatePicker.Components
+    private let range: ClosedRange<Date>
+    @State private var date: Date
+    
+    public init(
+        title: String,
+        detail: String,
+        pickerPrompt: String,
+        displayedComponents: DatePicker.Components,
+        range: ClosedRange<Date>,
+        date: Date = Date()
+    ) {
+        self.title = title
+        self.detail = detail
+        self.pickerPrompt = pickerPrompt
+        self.displayedComponents = displayedComponents
+        self.range = range
+        self.date = date
+    }
+    
+    public var body: some View {
+        DateTimeView(
+            title: title,
+            detail: detail,
+            selection: $date,
+            pickerPrompt: pickerPrompt,
+            displayedComponents: .date,
+            range: Date.distantPast...Date.distantFuture
+        )
+    }
+    
+}
+
+public struct InputManagedTextQuestion<Header: View>: View {
+    
+    private let header: Header
+    private let multilineTextFieldPadding: Double = 54
+    private let prompt: String?
+    private let textFieldType: TextFieldType
+    private let characterLimit: Int
+    private let hideCharacterCountLabel: Bool
+    private let hideClearButton: Bool
+    @State private var text: String
+
+    public init(
+        @ViewBuilder header: () -> Header,
+        prompt: String?,
+        textFieldType: TextFieldType,
+        characterLimit: Int,
+        hideCharacterCountLabel: Bool = false,
+        hideClearButton: Bool = false,
+        text: String = ""
+    ) {
+        self.header = header()
+        self.prompt = prompt
+        self.textFieldType = textFieldType
+        self.characterLimit = characterLimit
+        self.hideCharacterCountLabel = hideCharacterCountLabel
+        self.hideClearButton = hideClearButton
+        self.text = text
+    }
+    
+    public var body: some View {
+        TextQuestionView(
+            header: {
+                header
+            },
+            text: $text,
+            prompt: prompt,
+            textFieldType: textFieldType,
+            characterLimit: characterLimit,
+            hideCharacterCountLabel: hideCharacterCountLabel,
+            hideClearButton: hideClearButton
+        )
+    }
+    
+}
+
+public extension InputManagedTextQuestion where Header == _SimpleFormItemViewHeader {
+    
+    init(
+        text: String,
+        title: String,
+        detail: String?,
+        prompt: String?,
+        textFieldType: TextFieldType,
+        characterLimit: Int,
+        hideCharacterCountLabel: Bool = false,
+        hideClearButton: Bool = false
+    ) {
+        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        self.text = text
+        self.prompt = prompt
+        self.textFieldType = textFieldType
+        self.characterLimit = characterLimit
+        self.hideCharacterCountLabel = hideCharacterCountLabel
+        self.hideClearButton = hideClearButton
+    }
+    
+}
+
