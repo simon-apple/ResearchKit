@@ -198,3 +198,71 @@ struct TextQuestionView_Previews: PreviewProvider {
         )
     }
 }
+
+public struct InputManagedTextQuestion<Header: View>: View {
+    
+    private let header: Header
+    private let multilineTextFieldPadding: Double = 54
+    private let prompt: String?
+    private let textFieldType: TextFieldType
+    private let characterLimit: Int
+    private let hideCharacterCountLabel: Bool
+    private let hideClearButton: Bool
+    @State private var text: String
+
+    public init(
+        @ViewBuilder header: () -> Header,
+        prompt: String?,
+        textFieldType: TextFieldType,
+        characterLimit: Int,
+        hideCharacterCountLabel: Bool = false,
+        hideClearButton: Bool = false,
+        text: String = ""
+    ) {
+        self.header = header()
+        self.prompt = prompt
+        self.textFieldType = textFieldType
+        self.characterLimit = characterLimit
+        self.hideCharacterCountLabel = hideCharacterCountLabel
+        self.hideClearButton = hideClearButton
+        self.text = text
+    }
+    
+    public var body: some View {
+        TextQuestionView(
+            header: {
+                header
+            },
+            text: $text,
+            prompt: prompt,
+            textFieldType: textFieldType,
+            characterLimit: characterLimit,
+            hideCharacterCountLabel: hideCharacterCountLabel,
+            hideClearButton: hideClearButton
+        )
+    }
+    
+}
+
+public extension InputManagedTextQuestion where Header == _SimpleFormItemViewHeader {
+    
+    init(
+        text: String,
+        title: String,
+        detail: String?,
+        prompt: String?,
+        textFieldType: TextFieldType,
+        characterLimit: Int,
+        hideCharacterCountLabel: Bool = false,
+        hideClearButton: Bool = false
+    ) {
+        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        self.text = text
+        self.prompt = prompt
+        self.textFieldType = textFieldType
+        self.characterLimit = characterLimit
+        self.hideCharacterCountLabel = hideCharacterCountLabel
+        self.hideClearButton = hideClearButton
+    }
+    
+}

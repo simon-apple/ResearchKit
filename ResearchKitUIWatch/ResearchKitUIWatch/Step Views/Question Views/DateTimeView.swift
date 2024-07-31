@@ -128,3 +128,41 @@ struct DateTimeView_Previews: PreviewProvider {
         }
     }
 }
+
+public struct InputManagedDateTimeQuestion: View {
+    
+    private let title: String
+    private let detail: String
+    private let pickerPrompt: String
+    private let displayedComponents: DatePicker.Components
+    private let range: ClosedRange<Date>
+    @State private var date: Date
+    
+    public init(
+        title: String,
+        detail: String,
+        pickerPrompt: String,
+        displayedComponents: DatePicker.Components,
+        range: ClosedRange<Date>,
+        date: Date = Date()
+    ) {
+        self.title = title
+        self.detail = detail
+        self.pickerPrompt = pickerPrompt
+        self.displayedComponents = displayedComponents
+        self.range = range
+        self.date = date
+    }
+    
+    public var body: some View {
+        DateTimeView(
+            title: title,
+            detail: detail,
+            selection: $date,
+            pickerPrompt: pickerPrompt,
+            displayedComponents: .date,
+            range: Date.distantPast...Date.distantFuture
+        )
+    }
+    
+}
