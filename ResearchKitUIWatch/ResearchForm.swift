@@ -74,7 +74,9 @@ public struct Instruction: View {
                 bodyItem
             }
         }
+#if os(iOS)
         .frame(maxWidth: .infinity, alignment: .leading)
+#endif
     }
     
 }
