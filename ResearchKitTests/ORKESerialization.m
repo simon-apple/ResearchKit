@@ -234,14 +234,6 @@ static UIEdgeInsets edgeInsetsFromDictionary(NSDictionary *dict) {
     return (UIEdgeInsets){.top = ((NSNumber *)dict[@"top"]).doubleValue, .left = ((NSNumber *)dict[@"left"]).doubleValue, .bottom = ((NSNumber *)dict[@"bottom"]).doubleValue, .right = ((NSNumber *)dict[@"right"]).doubleValue};
 }
 
-static NSDictionary *dictionaryFromCoordinate (CLLocationCoordinate2D coordinate) {
-    return @{ @"latitude": @(coordinate.latitude), @"longitude": @(coordinate.longitude) };
-}
-
-static CLLocationCoordinate2D coordinateFromDictionary(NSDictionary *dict) {
-    return (CLLocationCoordinate2D){.latitude = ((NSNumber *)dict[@"latitude"]).doubleValue, .longitude = ((NSNumber *)dict[@"longitude"]).doubleValue };
-}
-
 static ORKNumericAnswerStyle ORKNumericAnswerStyleFromString(NSString *s) {
     return tableMapReverse(s, ORKNumericAnswerStyleTable());
 }
@@ -267,6 +259,14 @@ static NSString *ORKMeasurementSystemToString(ORKMeasurementSystem measurementSy
 }
 
 #if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+static NSDictionary *dictionaryFromCoordinate (CLLocationCoordinate2D coordinate) {
+    return @{ @"latitude": @(coordinate.latitude), @"longitude": @(coordinate.longitude) };
+}
+
+static CLLocationCoordinate2D coordinateFromDictionary(NSDictionary *dict) {
+    return (CLLocationCoordinate2D){.latitude = ((NSNumber *)dict[@"latitude"]).doubleValue, .longitude = ((NSNumber *)dict[@"longitude"]).doubleValue };
+}
+
 static NSDictionary *dictionaryFromCircularRegion(CLCircularRegion *region) {
     NSDictionary *dictionary = region ?
     @{
