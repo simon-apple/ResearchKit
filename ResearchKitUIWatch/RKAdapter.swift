@@ -673,11 +673,17 @@ public class RKAdapter {
         if items.count == 1,
            let lastItem {
             groupedItems.append(lastItem)
+            return groupedItems
         }
 
         for i in 1..<items.count {
             let currentItem = items[i]
-            if currentItem.identifier.prefix(36) == lastItem?.identifier.prefix(36) {
+
+            // In some cases, a form item is given a `-header` suffix, so really
+            // we'll base our matching condition on the first 36 characters of the identifier
+            // which should just be the UUID
+            let hasMatchingIdentifiers = currentItem.identifier.prefix(36) == lastItem?.identifier.prefix(36)
+            if hasMatchingIdentifiers {
                 groupedItems.append(
                     ORKFormItem(
                         identifier: currentItem.identifier,
