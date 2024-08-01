@@ -154,7 +154,9 @@ public struct StickyScrollView<BodyContent: View, FooterContent: View>: View {
                             }
                         }
                         .edgesIgnoringSafeArea(.bottom)
+#if !os(watchOS)
                         .background(Material.bar.opacity(isFooterBackgroundVisible ? 100 : 0))
+#endif
                         .frame(maxWidth: .infinity)
                     }
                 }

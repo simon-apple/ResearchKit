@@ -51,6 +51,7 @@
 		E4DBF1BF2BA24AA40085D6A1 /* StickyScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1BE2BA24AA10085D6A1 /* StickyScrollView.swift */; };
 		E4DBF1C12BA24B190085D6A1 /* StickyFooterLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1C02BA24B150085D6A1 /* StickyFooterLayout.swift */; };
 		E4DBF1C32BA24B8B0085D6A1 /* StickyScrollView+StickyLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1C22BA24B860085D6A1 /* StickyScrollView+StickyLayout.swift */; };
+		E4E0AFCA2C5B12B40082ADF8 /* Color+ResearchFormColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E0AFC92C5B12B40082ADF8 /* Color+ResearchFormColors.swift */; };
 		E4E1CD522BED3AB20030D1F5 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E1CD512BED3AAE0030D1F5 /* ViewModel.swift */; };
 		E4E1CD592BED9ECE0030D1F5 /* FormRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E1CD582BED9ECE0030D1F5 /* FormRow.swift */; };
 		E4FC4FAB2BC88F3F00E0AEBF /* FormStepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FC4FAA2BC88F3F00E0AEBF /* FormStepViewModel.swift */; };
@@ -115,6 +116,7 @@
 		E4DBF1BE2BA24AA10085D6A1 /* StickyScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyScrollView.swift; sourceTree = "<group>"; };
 		E4DBF1C02BA24B150085D6A1 /* StickyFooterLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyFooterLayout.swift; sourceTree = "<group>"; };
 		E4DBF1C22BA24B860085D6A1 /* StickyScrollView+StickyLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StickyScrollView+StickyLayout.swift"; sourceTree = "<group>"; };
+		E4E0AFC92C5B12B40082ADF8 /* Color+ResearchFormColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+ResearchFormColors.swift"; sourceTree = "<group>"; };
 		E4E1CD512BED3AAE0030D1F5 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		E4E1CD582BED9ECE0030D1F5 /* FormRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormRow.swift; path = "Step Views/Question Views/FormRow.swift"; sourceTree = "<group>"; };
 		E4F940312C597E4A001B14BD /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -220,6 +222,7 @@
 				5E507F822C1144DE002958E2 /* Slider */,
 				5E05B53B2C2E134900A0A83B /* SwiftUIKit */,
 				0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */,
+				E4E0AFC92C5B12B40082ADF8 /* Color+ResearchFormColors.swift */,
 			);
 			path = ResearchKitUIWatch;
 			sourceTree = "<group>";
@@ -387,6 +390,7 @@
 				5EDFA9D72BFFFA2B0044C156 /* StepHeaderView.swift in Sources */,
 				5E507F812C1141F2002958E2 /* SliderValueForegroundStyle.swift in Sources */,
 				381CAC082C34C62100FCE89A /* FormRowContent.swift in Sources */,
+				E4E0AFCA2C5B12B40082ADF8 /* Color+ResearchFormColors.swift in Sources */,
 				38CD26102C1909CC000FDBB0 /* FormItemCardView.swift in Sources */,
 				380E14B02C3350A900085D2B /* ResearchTaskNavigationView.swift in Sources */,
 				E4DBF1B92B97C3060085D6A1 /* TextChoiceCell.swift in Sources */,
@@ -589,13 +593,13 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = xros;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "driverkit exclavecore.iphoneos exclavecore.macosx exclavecore.xros exclavekit.iphoneos exclavekit.macosx exclavekit.xros iphoneos iphonesimulator linux macosx watchos watchsimulator xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,4,7";
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 				XROS_DEPLOYMENT_TARGET = 1.2;
 			};
 			name = Debug;
@@ -630,13 +634,13 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = xros;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "driverkit exclavecore.iphoneos exclavecore.macosx exclavecore.xros exclavekit.iphoneos exclavekit.macosx exclavekit.xros iphoneos iphonesimulator linux macosx watchos watchsimulator xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,4,7";
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 				XROS_DEPLOYMENT_TARGET = 1.2;
 			};
 			name = Release;

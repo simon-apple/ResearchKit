@@ -1,6 +1,6 @@
 //
 /*
- Copyright (c) 2022, Apple Inc. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,12 +29,29 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-#import <ResearchKit/ORKSkin.h>
+import XCTest
 
-#if TARGET_OS_IOS
+final class RKSwiftUI_Watch_AppUITestsLaunchTests: XCTestCase {
 
-UIFont *ORKDefaultFontForStyle(UIFontTextStyle style, CGFloat sizeAdjustment);
-CGFloat ORKDefaultFontSizeForStyle(UIFontTextStyle style, CGFloat sizeAdjustment);
+    override class var runsForEachTargetApplicationUIConfiguration: Bool {
+        true
+    }
 
-#endif
+    override func setUpWithError() throws {
+        continueAfterFailure = false
+    }
+
+    @MainActor
+    func testLaunch() throws {
+        let app = XCUIApplication()
+        app.launch()
+
+        // Insert steps here to perform after app launch but before taking a screenshot,
+        // such as logging into a test account or navigating somewhere in the app
+
+        let attachment = XCTAttachment(screenshot: app.screenshot())
+        attachment.name = "Launch Screen"
+        attachment.lifetime = .keepAlways
+        add(attachment)
+    }
+}

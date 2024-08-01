@@ -50,7 +50,7 @@ public struct TextChoiceCell: View {
         HStack {
             title
                 .font(.subheadline)
-                .foregroundStyle(Color(.label))
+                .foregroundStyle(Color.choice(for: .label))
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")

@@ -1,6 +1,6 @@
 //
 /*
- Copyright (c) 2022, Apple Inc. All rights reserved.
+ Copyright (c) 2024, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,12 +29,13 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-#import <ResearchKit/ORKSkin.h>
+import SwiftUI
 
-#if TARGET_OS_IOS
-
-UIFont *ORKDefaultFontForStyle(UIFontTextStyle style, CGFloat sizeAdjustment);
-CGFloat ORKDefaultFontSizeForStyle(UIFontTextStyle style, CGFloat sizeAdjustment);
-
-#endif
+@main
+struct RKSwiftUI_Watch_AppApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}

@@ -126,20 +126,15 @@ struct ImageChoiceView: View {
                     Image(uiImage: choice.selectedImage ?? choice.normalImage)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(choice.selectedImage == nil ? Color(uiColor: .systemGray5) : Color.clear)
+                        .background(choice.selectedImage == nil ? Color.choice(for: .systemGray5) : Color.clear)
                         .cornerRadius(24)
-                        .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 24))
-                        .hoverEffect()
-                } else {
-                    Image(uiImage: choice.normalImage)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .cornerRadius(24)
-                        .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 24))
-                        .hoverEffect()                }
+#if !os(watchOS)
+                       .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 24))
+                       .hoverEffect()
+#endif
+                }
             }
             .buttonStyle(.plain)
-
         }
     }
 }

@@ -291,8 +291,6 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
 
 @implementation ORKAnswerFormat
 
-#if TARGET_OS_IOS || TARGET_OS_VISION
-
 + (ORKTextAnswerFormat *)textAnswerFormatWithMaximumLength:(NSInteger)maximumLength {
     return [[ORKTextAnswerFormat alloc] initWithMaximumLength:maximumLength];
 }
@@ -398,8 +396,6 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
                                                            vertical:vertical];
 }
 
-#endif
-
 #if TARGET_OS_IOS
 
 + (ORKValuePickerAnswerFormat *)valuePickerAnswerFormatWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices {
@@ -458,7 +454,7 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return [[ORKTimeIntervalAnswerFormat alloc] initWithDefaultInterval:defaultInterval step:step];
 }
 
-#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS // TODO: rdar://133020747 (Remove deprecated APIs from ORKLocation for iOS 18)
 + (ORKLocationAnswerFormat *)locationAnswerFormat {
     return [ORKLocationAnswerFormat new];
 }
@@ -4076,76 +4072,76 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
 @end
 // end-omit-internal-code
 
-#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS // TODO: rdar://133020747 (Remove deprecated APIs from ORKLocation for iOS 18)
 #pragma mark - ORKLocationAnswerFormat
 @implementation ORKLocationAnswerFormat
-
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        _useCurrentLocation = YES;
-    }
-    return self;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_BOOL(aDecoder, useCurrentLocation);
-        ORK_DECODE_OBJ_CLASS(aDecoder, placeholder, NSString);
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_BOOL(aCoder, useCurrentLocation);
-    ORK_ENCODE_OBJ(aCoder, placeholder);
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (ORKQuestionType)questionType {
-    return ORKQuestionTypeLocation;
-}
-
-- (Class)questionResultClass {
-    return [ORKLocationQuestionResult class];
-}
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKLocationAnswerFormat *locationAnswerFormat = [[[self class] allocWithZone:zone] init];
-    locationAnswerFormat->_useCurrentLocation = _useCurrentLocation;
-    return locationAnswerFormat;
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    
-    __typeof(self) castObject = object;
-    return (isParentSame &&
-            _useCurrentLocation == castObject.useCurrentLocation);
-}
-
-- (NSString *)stringForAnswer:(id)answer {
-    NSString *answerString = nil;
-    if ([answer isKindOfClass:[ORKLocation class]]) {
-        ORKLocation *location = answer;
-        
-        CNPostalAddress *postalAddress = location.postalAddress;
-        answerString = postalAddress ? [CNPostalAddressFormatter stringFromPostalAddress:postalAddress
-                                                                                   style:CNPostalAddressFormatterStyleMailingAddress] :
-        MKStringFromMapPoint(MKMapPointForCoordinate(location.coordinate));
-    }
-    return answerString;
-}
-
-- (BOOL)shouldShowDontKnowButton {
-    return NO;
-}
-
+//
+//- (instancetype)init {
+//    self = [super init];
+//    if (self) {
+//        _useCurrentLocation = YES;
+//    }
+//    return self;
+//}
+//
+//- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+//    self = [super initWithCoder:aDecoder];
+//    if (self) {
+//        ORK_DECODE_BOOL(aDecoder, useCurrentLocation);
+//        ORK_DECODE_OBJ_CLASS(aDecoder, placeholder, NSString);
+//    }
+//    return self;
+//}
+//
+//- (void)encodeWithCoder:(NSCoder *)aCoder {
+//    [super encodeWithCoder:aCoder];
+//    ORK_ENCODE_BOOL(aCoder, useCurrentLocation);
+//    ORK_ENCODE_OBJ(aCoder, placeholder);
+//}
+//
+//+ (BOOL)supportsSecureCoding {
+//    return YES;
+//}
+//
+//- (ORKQuestionType)questionType {
+//    return ORKQuestionTypeLocation;
+//}
+//
+//- (Class)questionResultClass {
+//    return [ORKLocationQuestionResult class];
+//}
+//
+//- (instancetype)copyWithZone:(NSZone *)zone {
+//    ORKLocationAnswerFormat *locationAnswerFormat = [[[self class] allocWithZone:zone] init];
+//    locationAnswerFormat->_useCurrentLocation = _useCurrentLocation;
+//    return locationAnswerFormat;
+//}
+//
+//- (BOOL)isEqual:(id)object {
+//    BOOL isParentSame = [super isEqual:object];
+//    
+//    __typeof(self) castObject = object;
+//    return (isParentSame &&
+//            _useCurrentLocation == castObject.useCurrentLocation);
+//}
+//
+//- (NSString *)stringForAnswer:(id)answer {
+//    NSString *answerString = nil;
+//    if ([answer isKindOfClass:[ORKLocation class]]) {
+//        ORKLocation *location = answer;
+//        
+//        CNPostalAddress *postalAddress = location.postalAddress;
+//        answerString = postalAddress ? [CNPostalAddressFormatter stringFromPostalAddress:postalAddress
+//                                                                                   style:CNPostalAddressFormatterStyleMailingAddress] :
+//        MKStringFromMapPoint(MKMapPointForCoordinate(location.coordinate));
+//    }
+//    return answerString;
+//}
+//
+//- (BOOL)shouldShowDontKnowButton {
+//    return NO;
+//}
+//
 @end
 #endif
 

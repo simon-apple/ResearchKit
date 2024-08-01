@@ -530,7 +530,7 @@ ORK_CLASS_AVAILABLE
                                                       minimumValue:(double)minimumValue
                                                       maximumValue:(double)maximumValue
                                                       defaultValue:(double)defaultValue;
-#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS
 + (ORKLocationAnswerFormat *)locationAnswerFormat;
 #endif
 

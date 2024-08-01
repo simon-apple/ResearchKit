@@ -29,14 +29,11 @@
  */
 
 #import <Contacts/Contacts.h>
-#import <CoreLocation/CLLocation.h>
 #import <ResearchKit/ORKResult.h>
 
 #if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS
 #import <CoreLocation/CLLocation.h>
 #endif
-
-#import <Contacts/Contacts.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -157,30 +154,30 @@ ORK_CLASS_AVAILABLE
  The `ORKLocation` class represents the location addess obtained from a location question.
  */
 ORK_CLASS_AVAILABLE
-@interface ORKLocation : NSObject <NSCopying, NSSecureCoding>
+@interface ORKLocation : NSObject <NSCopying, NSSecureCoding> // TODO: rdar://133020747 (Remove deprecated APIs from ORKLocation for iOS 18)
 
-+ (instancetype)new NS_UNAVAILABLE;
-- (instancetype)init NS_UNAVAILABLE;
-
-/**
- The geographical coordinate information.
- */
-@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
-
-/**
- The region describes the size of the placemark of the location.
- */
-@property (nonatomic, copy, readonly, nullable) CLCircularRegion *region;
-
-/**
- The human readable address typed in by user.
- */
-@property (nonatomic, copy, readonly, nullable) NSString *userInput;
-
-/**
- The postal address for this coordinate
- */
-@property (nonatomic, copy, readonly, nullable) CNPostalAddress *postalAddress;
+//+ (instancetype)new NS_UNAVAILABLE;
+//- (instancetype)init NS_UNAVAILABLE;
+//
+///**
+// The geographical coordinate information.
+// */
+//@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
+//
+///**
+// The region describes the size of the placemark of the location.
+// */
+//@property (nonatomic, copy, readonly, nullable) CLCircularRegion *region;
+//
+///**
+// The human readable address typed in by user.
+// */
+//@property (nonatomic, copy, readonly, nullable) NSString *userInput;
+//
+///**
+// The postal address for this coordinate
+// */
+//@property (nonatomic, copy, readonly, nullable) CNPostalAddress *postalAddress;
 
 @end
 #endif 

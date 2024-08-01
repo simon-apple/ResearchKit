@@ -42,10 +42,10 @@ extension ShapeStyle where Self == StepIconForegroundStyle {
 struct StepIconForegroundStyle: ShapeStyle {
     
     func resolve(in environment: EnvironmentValues) -> some ShapeStyle {
-#if os(iOS)
-        .blue
-#elseif os(visionOS)
+#if os(visionOS)
         .white
+#else
+        .blue
 #endif
     }
     

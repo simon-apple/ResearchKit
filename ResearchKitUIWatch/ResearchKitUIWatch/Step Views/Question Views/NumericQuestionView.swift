@@ -75,7 +75,9 @@ public struct NumericQuestionView<Header: View>: View {
             },
             content: {
                 TextField("", value: $text, format: .number, prompt: placeholder)
+#if !os(watchOS)    // TODO: rdar://133013973 (Remove numerical answer format from RKSwiftUI Watch)
                     .keyboardType(.decimalPad)
+#endif
                     .focused($focusTarget, equals: .numericQuestion)
                     .doneKeyboardToolbar(
                         condition: {
@@ -118,7 +120,7 @@ public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
 struct NumericQuestionView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            Color(uiColor: .secondarySystemBackground)
+            Color.choice(for: .secondaryBackground)
                 .ignoresSafeArea()
 
             NumericQuestionView(

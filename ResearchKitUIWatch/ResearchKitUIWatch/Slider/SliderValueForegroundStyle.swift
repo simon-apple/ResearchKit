@@ -42,11 +42,10 @@ extension ShapeStyle where Self == SliderValueForegroundStyle {
 struct SliderValueForegroundStyle: ShapeStyle {
     
     func resolve(in environment: EnvironmentValues) -> some ShapeStyle {
-#if os(iOS)
-        .blue
-#elseif os(visionOS)
+#if os(visionOS)
         Color(.label)
+#else
+        .blue
 #endif
     }
-    
 }
