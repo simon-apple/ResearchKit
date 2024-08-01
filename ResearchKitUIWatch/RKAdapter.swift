@@ -622,7 +622,9 @@ public class RKAdapter {
             return []
         }
 
-        let formRows = formItems.compactMap { formItem in
+        let groupedItems = groupItems(formItems)
+
+        let formRows = groupedItems.compactMap { formItem in
             Self.createFormRow(from: formItem)
         }
 
@@ -662,5 +664,36 @@ public class RKAdapter {
             }
         }
         return stepArray
+    }
+
+    private static func groupItems(_ items: [ORKFormItem]) -> [ORKFormItem] {
+        var groupedItems: [ORKFormItem] = []
+        var lastItem: ORKFormItem? = items[0]
+
+        if items.count == 1,
+           let lastItem {
+            groupedItems.append(lastItem)
+        }
+
+        for i in 1..<items.count {
+            let currentItem = items[i]
+            if currentItem.identifier.prefix(36) == lastItem?.identifier.prefix(36) {
+                groupedItems.append(
+                    ORKFormItem(
+                        identifier: currentItem.identifier,
+                        text: lastItem?.text,
+                        answerFormat: currentItem.answerFormat
+                    )
+                )
+                lastItem = nil
+                continue
+            } else if let lastItem {
+                groupedItems.append(lastItem)
+            } else {
+                groupedItems.append(currentItem)
+            }
+            lastItem = currentItem
+        }
+        return groupedItems
     }
 }
