@@ -84,7 +84,7 @@ public struct HeightQuestion: Identifiable {
     }
 }
 
-struct HeightQuestionView: View {
+public struct HeightQuestionView: View {
     @State var isInputActive = false
     @State var hasChanges: Bool
 
@@ -93,7 +93,7 @@ struct HeightQuestionView: View {
     let measurementSystem: MeasurementSystem
     @Binding var selection: (Int, Int)
 
-    init(title: String,
+    public init(title: String,
          detail: String?,
          measurementSystem: MeasurementSystem,
          selection: Binding<(Int, Int)>
@@ -128,7 +128,7 @@ struct HeightQuestionView: View {
         }
     }
 
-    var body: some View {
+    public var body: some View {
         FormItemCardView(title: title, detail: detail) {
             HStack {
                 Text("Select Height")

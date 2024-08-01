@@ -214,4 +214,16 @@ public struct ResearchTaskBuilder {
         components
     }
     
+    public static func buildBlock(_ components: [ResearchTaskStep]...) -> [ResearchTaskStep] {
+        components.flatMap { $0 }
+    }
+    
+    public static func buildEither(first component: [ResearchTaskStep]) -> [ResearchTaskStep] {
+        component
+    }
+    
+    public static func buildEither(second component: [ResearchTaskStep]) -> [ResearchTaskStep] {
+        component
+    }
+    
 }

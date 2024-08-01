@@ -298,26 +298,3 @@ public struct FormRowContent: View {
     }
 }
 
-public struct ResearchForm<Content: View>: View {
-    
-    private let title: Text
-    private let subtitle: Text
-    private let content: Content
-    
-    public init(title: Text, subtitle: Text, @ViewBuilder content: () -> Content) {
-        self.title = title
-        self.subtitle = subtitle
-        self.content = content()
-    }
-    
-    public var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            HeaderView(title: title, subtitle: subtitle)
-            
-            content
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-    
-}
-

@@ -36,6 +36,14 @@ public struct ImageChoice: Identifiable {
     public let selectedImage: UIImage?
     public let text: String
     public let value: Int
+    
+    public init(id: UUID, normalImage: UIImage, selectedImage: UIImage?, text: String, value: Int) {
+        self.id = id
+        self.normalImage = normalImage
+        self.selectedImage = selectedImage
+        self.text = text
+        self.value = value
+    }
 }
 
 public struct ImageChoiceQuestion: Identifiable {
@@ -51,7 +59,7 @@ public struct ImageChoiceQuestion: Identifiable {
     public let selections: [Int]
 }
 
-struct ImageChoiceView: View {
+public struct ImageChoiceView: View {
     let title: String
     let detail: String?
     let choices: [ImageChoice]
@@ -59,8 +67,24 @@ struct ImageChoiceView: View {
     let vertical: Bool
 
     @Binding var selection: [Int]
+    
+    public init(
+        title: String,
+        detail: String?,
+        choices: [ImageChoice],
+        style: ImageChoiceQuestion.ChoiceSelectionType,
+        vertical: Bool,
+        selection: Binding<[Int]>
+    ) {
+        self.title = title
+        self.detail = detail
+        self.choices = choices
+        self.style = style
+        self.vertical = vertical
+        self._selection = selection
+    }
 
-    var body: some View {
+    public var body: some View {
         FormItemCardView(title: title, detail: detail) {
             VStack {
                 if style == .multiple {
