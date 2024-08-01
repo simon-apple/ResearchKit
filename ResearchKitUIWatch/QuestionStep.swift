@@ -30,23 +30,22 @@
 
 import SwiftUI
 
-public enum Step {
-    
-    case formStep(FormStep)
-    case instructionStep(InstructionStep)
-    case questionStep(QuestionStep)
+public struct QuestionStep {
+    let identifier: String
+    let title: String
+    let question: String
+    let answer: FormRow
 
-    var identifier: String {
-        let identifier: String
-        switch self {
-        case .formStep(let formStep):
-            identifier = formStep.identifier
-        case .instructionStep(let instructionStep):
-            identifier = instructionStep.identifier
-        case .questionStep(let questionStep):
-            identifier = questionStep.identifier
-        }
-        return identifier
+    public init(
+        identifier: String,
+        title: String,
+        question: String,
+        answer: FormRow
+    ) {
+        self.identifier = identifier
+        self.title = title
+        self.question = question
+        self.answer = answer
     }
-    
 }
+

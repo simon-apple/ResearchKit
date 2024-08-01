@@ -246,7 +246,32 @@ public struct ResearchTaskNavigationView: View {
                     }
                 }
             }
+        case .questionStep(let questionStep):
+            VStack(alignment: .leading, spacing: 16) {
+                HeaderView(
+                    title: questionStep.title,
+                    subtitle: nil
+                )
+
+                FormRowContent(
+                    detail: nil,
+                    formRow: .init(
+                        get: {
+                            questionStep.answer
+                        },
+                        set: { newFormRow in
+                            steps[stepIndex] = .questionStep(
+                                QuestionStep(
+                                    identifier: questionStep.identifier,
+                                    title: questionStep.title,
+                                    question: questionStep.question,
+                                    answer: newFormRow
+                                )
+                            )
+                        }
+                    )
+                )
+            }
         }
     }
-    
 }
