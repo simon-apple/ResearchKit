@@ -668,38 +668,49 @@ public class RKAdapter {
 
     private static func groupItems(_ items: [ORKFormItem]) -> [ORKFormItem] {
         var groupedItems: [ORKFormItem] = []
-        var lastItem: ORKFormItem? = items[0]
+        var builder: ORKFormItem?
 
-        if items.count == 1,
-           let lastItem {
-            groupedItems.append(lastItem)
-            return groupedItems
-        }
+        for item in items {
+            if builder == nil {
+                builder = item
+                continue
+            }
 
-        for i in 1..<items.count {
-            let currentItem = items[i]
-
-            // In some cases, a form item is given a `-header` suffix, so really
-            // we'll base our matching condition on the first 36 characters of the identifier
-            // which should just be the UUID
-            let hasMatchingIdentifiers = currentItem.identifier.prefix(36) == lastItem?.identifier.prefix(36)
-            if hasMatchingIdentifiers {
+            if hasMatchingIdentifiers(firstIdentifier: item.identifier, secondIdentifier: builder?.identifier ?? "") {
                 groupedItems.append(
                     ORKFormItem(
-                        identifier: currentItem.identifier,
-                        text: lastItem?.text,
-                        answerFormat: currentItem.answerFormat
+                        identifier: item.identifier,
+                        text: builder?.text,
+                        answerFormat: item.answerFormat
                     )
                 )
-                lastItem = nil
-                continue
-            } else if let lastItem {
-                groupedItems.append(lastItem)
+                builder = nil
             } else {
-                groupedItems.append(currentItem)
+                if let safeBuilder = builder {
+                    groupedItems.append(safeBuilder)
+                    builder = item
+                }
             }
-            lastItem = currentItem
+        }
+        if let builder {
+            groupedItems.append(builder)
         }
         return groupedItems
+    }
+
+    private static func extractUUID(_ string: String) -> String? {
+        let uuidRegex = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+        guard let range = string.range(of: uuidRegex, options: .regularExpression, range: nil, locale: nil) else {
+            return nil
+        }
+        let uuidString = String(string[range])
+        return uuidString
+    }
+
+    private static func hasMatchingIdentifiers(firstIdentifier: String, secondIdentifier: String) -> Bool {
+        guard let firstUUID = Self.extractUUID(firstIdentifier),
+              let secondUUID = Self.extractUUID(secondIdentifier) else { return false }
+
+        return firstUUID == secondUUID
     }
 }
