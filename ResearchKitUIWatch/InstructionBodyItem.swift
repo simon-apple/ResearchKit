@@ -30,57 +30,6 @@
 
 import SwiftUI
 
-public struct Instruction: View {
-    
-    private let image: Image?
-    private let title: Text?
-    private let subtitle: Text?
-    private let bodyItems: [InstructionBodyItem]
-    
-    public init(
-        image: Image? = nil,
-        title: Text? = nil,
-        subtitle: Text? = nil
-    ) {
-        self.init(
-            image: image,
-            title: title,
-            subtitle: subtitle,
-            bodyItems: {}
-        )
-    }
-    
-    public init(
-        image: Image? = nil,
-        title: Text? = nil,
-        subtitle: Text? = nil,
-        @InstructionBodyItemsBuilder bodyItems: () -> [InstructionBodyItem]
-    ) {
-        self.image = image
-        self.title = title
-        self.subtitle = subtitle
-        self.bodyItems = bodyItems()
-    }
-    
-    public var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            HeaderView(
-                image: image,
-                title: title,
-                subtitle: subtitle
-            )
-            
-            ForEach(Array(bodyItems.enumerated()), id: \.offset) { _, bodyItem in
-                bodyItem
-            }
-        }
-#if os(iOS)
-        .frame(maxWidth: .infinity, alignment: .leading)
-#endif
-    }
-    
-}
-
 public struct InstructionBodyItem: View {
     
     private let image: Image
@@ -100,15 +49,6 @@ public struct InstructionBodyItem: View {
             text
                 .font(.subheadline)
         }
-    }
-    
-}
-
-@resultBuilder
-public struct InstructionBodyItemsBuilder {
-    
-    public static func buildBlock(_ components: InstructionBodyItem...) -> [InstructionBodyItem] {
-        components
     }
     
 }

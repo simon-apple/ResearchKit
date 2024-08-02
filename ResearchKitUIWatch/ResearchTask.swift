@@ -191,18 +191,93 @@ public struct ResearchTask: View {
 public struct ResearchTaskStep: View {
     
     private let id = UUID()
+    private let header: AnyView
     private let content: AnyView
     
-    public init<Content: View>(@ViewBuilder content: () -> Content) {
+    public init(
+        @ViewBuilder header: () -> some View,
+        @ViewBuilder content: () -> some View
+    ) {
+        self.header = AnyView(header())
         self.content = AnyView(content())
     }
     
     public var body: some View {
-        content
+        VStack(alignment: .leading, spacing: 16) {
+            header
+            content
+        }
+#if os(iOS)
+        .frame(maxWidth: .infinity, alignment: .leading)
+#endif
     }
     
     var identifier: String {
         id.uuidString
+    }
+    
+}
+
+public extension ResearchTaskStep {
+    
+    init(@ViewBuilder content: () -> some View) {
+        self.init(
+            header: {
+                EmptyView()
+            },
+            content: content
+        )
+    }
+    
+}
+
+public extension ResearchTaskStep {
+    
+    init(
+        image: Image? = nil,
+        title: String? = nil,
+        subtitle: String? = nil
+    ) {
+        self.init(
+            image: image,
+            title: title,
+            subtitle: subtitle,
+            content: {
+                EmptyView()
+            }
+        )
+    }
+
+    init(
+        image: Image? = nil,
+        title: String? = nil,
+        subtitle: String? = nil,
+        @ViewBuilder content: () -> some View
+    ) {
+        let titleText: Text?
+        if let title {
+            titleText = Text(title)
+        } else {
+            titleText = nil
+        }
+        
+        let subtitleText: Text?
+        if let subtitle {
+            subtitleText = Text(subtitle)
+        } else {
+            subtitleText = nil
+        }
+        
+        self.init(
+            header: {
+                HeaderView(
+                    image: image,
+                    title: titleText,
+                    subtitle: subtitleText
+                )
+            },
+            content: content
+        )
     }
     
 }
