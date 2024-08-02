@@ -234,14 +234,6 @@ static UIEdgeInsets edgeInsetsFromDictionary(NSDictionary *dict) {
     return (UIEdgeInsets){.top = ((NSNumber *)dict[@"top"]).doubleValue, .left = ((NSNumber *)dict[@"left"]).doubleValue, .bottom = ((NSNumber *)dict[@"bottom"]).doubleValue, .right = ((NSNumber *)dict[@"right"]).doubleValue};
 }
 
-static NSDictionary *dictionaryFromCoordinate (CLLocationCoordinate2D coordinate) {
-    return @{ @"latitude": @(coordinate.latitude), @"longitude": @(coordinate.longitude) };
-}
-
-static CLLocationCoordinate2D coordinateFromDictionary(NSDictionary *dict) {
-    return (CLLocationCoordinate2D){.latitude = ((NSNumber *)dict[@"latitude"]).doubleValue, .longitude = ((NSNumber *)dict[@"longitude"]).doubleValue };
-}
-
 static ORKNumericAnswerStyle ORKNumericAnswerStyleFromString(NSString *s) {
     return tableMapReverse(s, ORKNumericAnswerStyleTable());
 }
@@ -267,6 +259,14 @@ static NSString *ORKMeasurementSystemToString(ORKMeasurementSystem measurementSy
 }
 
 #if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+static NSDictionary *dictionaryFromCoordinate (CLLocationCoordinate2D coordinate) {
+    return @{ @"latitude": @(coordinate.latitude), @"longitude": @(coordinate.longitude) };
+}
+
+static CLLocationCoordinate2D coordinateFromDictionary(NSDictionary *dict) {
+    return (CLLocationCoordinate2D){.latitude = ((NSNumber *)dict[@"latitude"]).doubleValue, .longitude = ((NSNumber *)dict[@"longitude"]).doubleValue };
+}
+
 static NSDictionary *dictionaryFromCircularRegion(CLCircularRegion *region) {
     NSDictionary *dictionary = region ?
     @{
@@ -2501,6 +2501,55 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                  (@{
                      PROPERTY(retryCount, NSNumber, NSObject, NO, nil, nil)
                   })),
+           ENTRY(ORKAgeAnswerFormat,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                    return [[ORKAgeAnswerFormat alloc] initWithMinimumAge:((NSNumber *)GETPROP(dict, minimumAge)).integerValue
+                                                               maximumAge:((NSNumber *)GETPROP(dict, maximumAge)).integerValue
+                                                     minimumAgeCustomText:GETPROP(dict, minimumAgeCustomText)
+                                                     maximumAgeCustomText:GETPROP(dict, maximumAgeCustomText)
+                                                                 showYear:((NSNumber *)GETPROP(dict, showYear)).boolValue
+                                                         useYearForResult:((NSNumber *)GETPROP(dict, useYearForResult)).boolValue
+                                                       treatMinAgeAsRange:((NSNumber *)GETPROP(dict, treatMinAgeAsRange)).boolValue
+                                                       treatMaxAgeAsRange:((NSNumber *)GETPROP(dict, treatMaxAgeAsRange)).boolValue
+                                                             defaultValue:((NSNumber *)GETPROP(dict, defaultValue)).integerValue];
+                 },
+                 (@{
+                    PROPERTY(minimumAge, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(maximumAge, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(minimumAgeCustomText, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(maximumAgeCustomText, NSString, NSObject, YES, nil, nil),
+                    PROPERTY(showYear, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(useYearForResult, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(treatMinAgeAsRange, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(treatMaxAgeAsRange, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(relativeYear, NSNumber, NSObject, YES, nil, nil),
+                    PROPERTY(defaultValue, NSNumber, NSObject, NO, nil, nil),
+                    })),
+           ENTRY(ORKColorChoiceAnswerFormat,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+                     return [[ORKColorChoiceAnswerFormat alloc] initWithStyle:((NSNumber *)GETPROP(dict, style)).integerValue colorChoices:GETPROP(dict, colorChoices)];
+                 },
+                 (@{
+                    PROPERTY(style, NSNumber, NSObject, NO, NUMTOSTRINGBLOCK(ORKChoiceAnswerStyleTable()), STRINGTONUMBLOCK(ORKChoiceAnswerStyleTable())),
+                    PROPERTY(colorChoices, ORKColorChoice, NSArray, NO, nil, nil),
+                    })),
+           ENTRY(ORKColorChoice,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKColorChoice alloc] initWithColor:GETPROP(dict, color)
+                                                       text:GETPROP(dict, text)
+                                                 detailText:GETPROP(dict, detailText)
+                                                      value:GETPROP(dict, value)
+                                                  exclusive:((NSNumber *)GETPROP(dict, exclusive)).boolValue];
+                 },
+                 (@{
+                    PROPERTY(text, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(detailText, NSString, NSObject, NO, nil, nil),
+                    PROPERTY(value, NSObject, NSObject, NO, nil, nil),
+                    PROPERTY(exclusive, NSNumber, NSObject, NO, nil, nil),
+                    PROPERTY(color, UIColor, NSObject, YES,
+                             ^id(id color, __unused ORKESerializationContext *context) { return dictionaryFromColor(color); },
+                             ^id(id dict, __unused ORKESerializationContext *context) { return  colorFromDictionary(dict); })
+                    })),
 #if RK_APPLE_INTERNAL && ORK_FEATURE_AV_JOURNALING
            ENTRY(ORKAVJournalingPredefinedTask,
             ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
@@ -2549,30 +2598,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
             (@{})),
 #endif
 #if RK_APPLE_INTERNAL
-           ENTRY(ORKAgeAnswerFormat,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                    return [[ORKAgeAnswerFormat alloc] initWithMinimumAge:((NSNumber *)GETPROP(dict, minimumAge)).integerValue
-                                                               maximumAge:((NSNumber *)GETPROP(dict, maximumAge)).integerValue
-                                                     minimumAgeCustomText:GETPROP(dict, minimumAgeCustomText)
-                                                     maximumAgeCustomText:GETPROP(dict, maximumAgeCustomText)
-                                                                 showYear:((NSNumber *)GETPROP(dict, showYear)).boolValue
-                                                         useYearForResult:((NSNumber *)GETPROP(dict, useYearForResult)).boolValue
-                                                       treatMinAgeAsRange:((NSNumber *)GETPROP(dict, treatMinAgeAsRange)).boolValue
-                                                       treatMaxAgeAsRange:((NSNumber *)GETPROP(dict, treatMaxAgeAsRange)).boolValue
-                                                             defaultValue:((NSNumber *)GETPROP(dict, defaultValue)).integerValue];
-                 },
-                 (@{
-                    PROPERTY(minimumAge, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(maximumAge, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(minimumAgeCustomText, NSString, NSObject, YES, nil, nil),
-                    PROPERTY(maximumAgeCustomText, NSString, NSObject, YES, nil, nil),
-                    PROPERTY(showYear, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(useYearForResult, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(treatMinAgeAsRange, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(treatMaxAgeAsRange, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(relativeYear, NSNumber, NSObject, YES, nil, nil),
-                    PROPERTY(defaultValue, NSNumber, NSObject, NO, nil, nil),
-                    })),
            ENTRY(ORKRelativeGroup,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                     return [[ORKRelativeGroup alloc] initWithIdentifier:GETPROP(dict, identifier)
@@ -2637,31 +2662,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                 PROPERTY(conditionStepConfiguration, ORKConditionStepConfiguration, NSObject, YES, nil, nil),
                 PROPERTY(relativeGroups, ORKRelativeGroup, NSArray, YES, nil, nil),
            })),
-           ENTRY(ORKColorChoiceAnswerFormat,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-                     return [[ORKColorChoiceAnswerFormat alloc] initWithStyle:((NSNumber *)GETPROP(dict, style)).integerValue colorChoices:GETPROP(dict, colorChoices)];
-                 },
-                 (@{
-                    PROPERTY(style, NSNumber, NSObject, NO, NUMTOSTRINGBLOCK(ORKChoiceAnswerStyleTable()), STRINGTONUMBLOCK(ORKChoiceAnswerStyleTable())),
-                    PROPERTY(colorChoices, ORKColorChoice, NSArray, NO, nil, nil),
-                    })),
-           ENTRY(ORKColorChoice,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKColorChoice alloc] initWithColor:GETPROP(dict, color)
-                                                       text:GETPROP(dict, text)
-                                                 detailText:GETPROP(dict, detailText)
-                                                      value:GETPROP(dict, value)
-                                                  exclusive:((NSNumber *)GETPROP(dict, exclusive)).boolValue];
-                 },
-                 (@{
-                    PROPERTY(text, NSString, NSObject, NO, nil, nil),
-                    PROPERTY(detailText, NSString, NSObject, NO, nil, nil),
-                    PROPERTY(value, NSObject, NSObject, NO, nil, nil),
-                    PROPERTY(exclusive, NSNumber, NSObject, NO, nil, nil),
-                    PROPERTY(color, UIColor, NSObject, YES,
-                             ^id(id color, __unused ORKESerializationContext *context) { return dictionaryFromColor(color); },
-                             ^id(id dict, __unused ORKESerializationContext *context) { return  colorFromDictionary(dict); })
-                    })),
            ENTRY(ORKTinnitusTypeStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                return [[ORKTinnitusTypeStep alloc] initWithIdentifier:GETPROP(dict, identifier)];

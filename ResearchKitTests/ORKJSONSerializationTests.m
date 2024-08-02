@@ -323,6 +323,7 @@ ORK_MAKE_TEST_INIT(ORKWebViewStep, ^{
     return webViewStep;
 });
 ORK_MAKE_TEST_INIT(ORK3DModelStep, ^{return [[self.class alloc] initWithIdentifier:NSUUID.UUID.UUIDString modelManager: [[ORK3DModelManager alloc] init]]; });
+ORK_MAKE_TEST_INIT(ORKAgeAnswerFormat, ^{return [self initWithMinimumAge:0 maximumAge:80 minimumAgeCustomText:nil maximumAgeCustomText:nil showYear:NO useYearForResult:NO treatMinAgeAsRange:false treatMaxAgeAsRange:false defaultValue:0];});
 
 #if RK_APPLE_INTERNAL && ORK_FEATURE_AV_JOURNALING
 ORK_MAKE_TEST_INIT(ORKAVJournalingPredefinedTask, ^{
@@ -341,7 +342,6 @@ ORK_MAKE_TEST_INIT(ORKFaceDetectionStep, ^{
 #endif
 
 #if RK_APPLE_INTERNAL
-ORK_MAKE_TEST_INIT(ORKAgeAnswerFormat, ^{return [self initWithMinimumAge:0 maximumAge:80 minimumAgeCustomText:nil maximumAgeCustomText:nil showYear:NO useYearForResult:NO treatMinAgeAsRange:false treatMaxAgeAsRange:false defaultValue:0];});
 
 ORK_MAKE_TEST_INIT(ORKSpeechInNoisePredefinedTask, ^{
     ORKStep *stepA = [[ORKStep alloc] initWithIdentifier:[NSUUID UUID].UUIDString];
@@ -364,11 +364,7 @@ ORK_MAKE_TEST_INIT(ORKTinnitusPredefinedTask, ^{
 });
 #endif
 ORK_MAKE_TEST_INIT(ORKImageChoice, ^{return [super init];});
-
-#if RK_APPLE_INTERNAL
 ORK_MAKE_TEST_INIT(ORKColorChoice, ^{return [super init];});
-#endif
-
 ORK_MAKE_TEST_INIT(ORKTextChoice, ^{return [super init];});
 ORK_MAKE_TEST_INIT(ORKTextChoiceOther, ^{return [self initWithText:@"test" primaryTextAttributedString:nil detailText:@"test1" detailTextAttributedString:nil value:@"value" exclusive:YES textViewPlaceholderText:@"test2" textViewInputOptional:NO textViewStartsHidden:YES];});
 ORK_MAKE_TEST_INIT(ORKPredicateStepNavigationRule, ^{return [self initWithResultPredicates:@[[ORKResultPredicate predicateForBooleanQuestionResultWithResultSelector:[ORKResultSelector selectorWithResultIdentifier:@"test"] expectedAnswer:YES]] destinationStepIdentifiers:@[@"test2"]];});
@@ -619,7 +615,8 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
         NSArray<NSString *> *internalPropertyExclusionList = @[
             @"ORKSpeechInNoisePredefinedTask.steps",
             @"ORKAVJournalingPredefinedTask.steps",
-            @"ORKTinnitusPredefinedTask.steps"
+            @"ORKTinnitusPredefinedTask.steps",
+            @"ORKSelectableHeadphoneDetectorPredefinedTask.steps"
         ];
         _propertyExclusionList = [_propertyExclusionList arrayByAddingObjectsFromArray:internalPropertyExclusionList];
 #endif
@@ -702,11 +699,11 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKTextAnswerFormat.passwordRules",
                                           @"ORKTextAnswerFormat.spellCheckingType",
                                           @"ORKTextAnswerFormat.textContentType",
+                                          @"ORKColorChoice.value",
+                                          @"ORKColorChoice.value",
 #if RK_APPLE_INTERNAL
                                           @"ORKTextAnswerFormat.scrubbers",
-                                          @"ORKColorChoice.value",
                                           @"ORKHealthCondition.value",
-                                          @"ORKColorChoice.value",
 #endif
                                           @"ORKTextChoice.detailTextAttributedString",
                                           @"ORKTextChoice.primaryTextAttributedString",
@@ -732,8 +729,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
             @"ORKFaceDetectionBlurFooterView.timerLabel",
             @"ORKBLEScanPeripheralsStepResult.centralManager",
             @"ORKBLEScanPeripheralsStepResult.connectedPeripherals",
-            @"ORKHeadphoneDetectStep.lockedToAppleHeadphoneType",
-            @"ORKSelectableHeadphoneDetectorPredefinedTask.steps"
+            @"ORKHeadphoneDetectStep.lockedToAppleHeadphoneType"
         ];
         _knownNotSerializedProperties = [_knownNotSerializedProperties arrayByAddingObjectsFromArray:internalKnownNotSerializedProperties];
 #endif
@@ -1170,10 +1166,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
             [(ORKDateAnswerFormat *)instance _setCurrentDateOverride:dateFormatOverrideDate];
             [(ORKDateAnswerFormat *)instance setDaysAfterCurrentDateToSetMinimumDate:1];
             [(ORKDateAnswerFormat *)instance setDaysBeforeCurrentDateToSetMinimumDate:1];
-        }
-        
-#if RK_APPLE_INTERNAL
-        if ([aClass isSubclassOfClass:[ORKAgeAnswerFormat class]]) {
+        } else if ([aClass isSubclassOfClass:[ORKAgeAnswerFormat class]]) {
             [instance setValue:@(0) forKey:@"minimumAge"];
             [instance setValue:@(80) forKey:@"maximumAge"];
             [instance setValue:@(0) forKey:@"defaultValue"];
@@ -1181,7 +1174,6 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
         } else if ([aClass isSubclassOfClass:[ORKColorChoice class]]) {
             [instance setValue:@"blah" forKey:@"value"];
         }
-#endif
 
         // Serialization
         NSDictionary *instanceDictionary = [ORKESerializer JSONObjectForObject:instance context:context error:NULL];
@@ -1560,12 +1552,12 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
                                        @"ORKSpeechRecognitionStep.shouldHideTranscript",
                                        @"ORKWebViewStepResult.html",
                                        @"ORKWebViewStepResult.htmlWithSignature",
-#if RK_APPLE_INTERNAL
-                                       @"ORKISpeechRecognitionStep.shouldHideTranscript",
                                        @"ORKAgeAnswerFormat.minimumAge",
                                        @"ORKAgeAnswerFormat.maximumAge",
                                        @"ORKAgeAnswerFormat.relativeYear",
                                        @"ORKAgeAnswerFormat.defaultValue",
+#if RK_APPLE_INTERNAL
+                                       @"ORKISpeechRecognitionStep.shouldHideTranscript",
 #endif
                                        @"ORKTableStep.isBulleted",
                                        @"ORKTableStep.allowsSelection",

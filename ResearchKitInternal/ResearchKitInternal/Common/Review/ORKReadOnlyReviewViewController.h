@@ -33,18 +33,54 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, ORKReadOnlyStepType) {
+    /**
+     Will parse and display the results of all ORKFormSteps within 
+     the provided task.
+     */
     ORKReadOnlyStepTypeFormStep,
+    
+    /**
+     Will parse and display the results of all ORKFormSteps and
+     ORKQuestionSteps within the provided task.
+     */
+    ORKReadOnlyStepTypeSurveyStep,
+    
+    /**
+     Will parse and display the results of all ORKFamilyHistorySteps
+     within the provided task.
+     */
     ORKReadOnlyStepTypeFamilyHistoryStep
 } ORK_ENUM_AVAILABLE;
 
 @class ORKOrderedTask;
 @class ORKTaskResult;
 
+/**
+ A view controller that presents results for specific ResearchKit steps.
+ */
+
 @interface ORKReadOnlyReviewViewController : UIViewController
 
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
+- (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
+
+/**
+ Returns a new ORKReadOnlyReviewViewController with the provided task
+ and result.
+ 
+ @param task    The ORKTask that should contain the targeted steps.
+ @param result    The ORKTaskResult generated from the provided ``task``.
+ @param readOnlyStepType    Enum specifying the type of step to extract results from.
+ @param title    The primary text to display for the step.
+ @param detailText    The detail text displayed below the content of the ``text`` property.
+ @param navTitle    The text displayed via the navigationItem's title.
+ */
 - (instancetype)initWithTask:(ORKOrderedTask *)task
                       result:(ORKTaskResult *)result
-            readOnlyStepType:(ORKReadOnlyStepType)readOnlyStepType;
+            readOnlyStepType:(ORKReadOnlyStepType)readOnlyStepType
+                       title:(nullable NSString *)title
+                  detailText:(nullable NSString *)detailText
+                    navTitle:(nullable NSString *)navTitle NS_DESIGNATED_INITIALIZER;
 
 @end
 

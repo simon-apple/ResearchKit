@@ -61,10 +61,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class ORKBooleanAnswerFormat;
-#if RK_APPLE_INTERNAL
 @class ORKColorChoiceAnswerFormat;
 @class ORKColorChoice;
-#endif
 @class ORKTextChoiceAnswerFormat;
 @class ORKTextChoice;
 
@@ -127,10 +125,8 @@ ORK_CLASS_AVAILABLE
 + (ORKTextChoiceAnswerFormat *)choiceAnswerFormatWithStyle:(ORKChoiceAnswerStyle)style
                                                textChoices:(NSArray<ORKTextChoice *> *)textChoices;
 
-#if RK_APPLE_INTERNAL
 + (ORKColorChoiceAnswerFormat *)choiceAnswerFormatWithStyle:(ORKChoiceAnswerStyle)style
                                                colorChoices:(NSArray<ORKColorChoice *> *)colorChoices;
-#endif
 
 /// @name Validation
 
@@ -204,7 +200,7 @@ ORK_CLASS_AVAILABLE
 
 @end
 
-#if RK_APPLE_INTERNAL
+
 ORK_CLASS_AVAILABLE
 @interface ORKColorChoiceAnswerFormat : ORKAnswerFormat
 
@@ -219,7 +215,6 @@ ORK_CLASS_AVAILABLE
 @property (copy, readonly) NSArray<ORKColorChoice *> *colorChoices;
 
 @end
-#endif
 
 
 /**
@@ -415,7 +410,6 @@ ORK_CLASS_AVAILABLE
 @end
 
 
-#if RK_APPLE_INTERNAL
 ORK_CLASS_AVAILABLE
 @interface ORKColorChoice: NSObject <NSSecureCoding, NSCopying, NSObject>
 
@@ -444,7 +438,6 @@ ORK_CLASS_AVAILABLE
 @property (readonly) BOOL exclusive;
 
 @end
-#endif
 
 @interface ORKAnswerFormat()
 
@@ -2090,8 +2083,6 @@ ORK_CLASS_AVAILABLE
 
 @end
 
-// start-omit-internal-code
-
 /**
  The `ORKAgeAnswerFormat` class represents the answer format for questions that require users
  to enter a weight.
@@ -2220,7 +2211,6 @@ ORK_CLASS_AVAILABLE
 
 @end
 
-// end-omit-internal-code
 
 /**
  The `ORKLocationAnswerFormat` class represents the answer format for questions that collect a location response

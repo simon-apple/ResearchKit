@@ -72,6 +72,10 @@ static NSString *const ORKHeadphoneGlyphNameAirpodsPro = @"airpods_pro";
 static NSString *const ORKHeadphoneGlyphNameAirpodsMax = @"airpods_max";
 static NSString *const ORKHeadphoneGlyphNameEarpods = @"earpods";
 
+NSString * const ORKHeadphoneDetectStepViewAccessibilityIdentifier = @"ORKHeadphoneDetectStepView";
+NSString * const ORKHeadphoneTypeTextLabelAccessibilityIdentifier = @"ORKHeadphoneTypeTextLabel";
+NSString * const ORKNoiseCancellationRequiredAccessibilityIdentifier = @"ORKNoiseCancellationRequiredLabel";
+
 typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     /** Unknown*/
@@ -362,6 +366,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _orangeLabel.textAlignment = NSTextAlignmentLeft;
     _orangeLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
+    _orangeLabel.accessibilityIdentifier = ORKNoiseCancellationRequiredAccessibilityIdentifier;
+    
     _extraLabelsContainerView.translatesAutoresizingMaskIntoConstraints = NO;
     [_extraLabelsContainerView addSubview:_orangeLabelImage];
     [_extraLabelsContainerView addSubview:_orangeLabel];
@@ -419,6 +425,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     NSString *titleAndTextAccessibilityLabel = [NSString stringWithFormat:@"%@ %@", _titleLabel.text, _textLabel.text];
     _titleLabel.accessibilityLabel = titleAndTextAccessibilityLabel;
+    
+    _titleLabel.accessibilityIdentifier = ORKHeadphoneTypeTextLabelAccessibilityIdentifier;
     
     self.accessibilityElements = (NSArray *)[mutableAccessibilityElements copy];
 }
@@ -971,6 +979,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     [super viewDidLoad];
     self.stepView.navigationFooterView.optional = YES;
     self.stepView.navigationFooterView.continueEnabled = NO;
+    
+    self.view.accessibilityIdentifier = ORKHeadphoneDetectStepViewAccessibilityIdentifier;
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
