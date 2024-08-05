@@ -33,6 +33,8 @@
 
 #import "ORKCaption1Label.h"
 #import "ORKChoiceViewCell_Internal.h"
+#import "ORKChoiceViewCell+ORKColorChoice.h"
+#import "ORKColorChoiceCellGroup.h"
 #import "ORKFormItemCell.h"
 #import "ORKFormSectionTitleLabel.h"
 #import "ORKStepHeaderView_Internal.h"
@@ -72,10 +74,6 @@
 
 #import <Researchkit/ORKFormItemVisibilityRule.h>
 
-#if RK_APPLE_INTERNAL
-#import "ORKColorChoiceCellGroup.h"
-#import "ORKChoiceViewCell+ORKColorChoice.h"
-#endif
 
 static const CGFloat TableViewYOffsetStandard = 30.0;
 static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
@@ -223,9 +221,7 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
 
 @property (nonatomic, strong) ORKTextChoiceCellGroup *textChoiceCellGroup;
 
-#if RK_APPLE_INTERNAL
 @property (nonatomic, strong) ORKColorChoiceCellGroup *colorChoiceCellGroup;
-#endif
 
 - (void)addFormItem:(ORKFormItem *)item;
 
@@ -269,8 +265,6 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
         
     } else {
         
-        
-#if RK_APPLE_INTERNAL
         if ([[item impliedAnswerFormat] isKindOfClass:[ORKColorChoiceAnswerFormat class]]) {
             _hasChoiceRows = YES;
             ORKColorChoiceAnswerFormat *colorChoiceAnswerFormat = (ORKColorChoiceAnswerFormat *)[item impliedAnswerFormat];
@@ -287,8 +281,7 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
             
             return;
         }
-#endif
-          
+        
         ORKTableCellItem *cellItem = [[ORKTableCellItem alloc] initWithFormItem:item];
         [(NSMutableArray *)self.items addObject:cellItem];
     }
@@ -896,11 +889,7 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
             
             // Step 2/2: Are we adding a single identifier for this formItem or exploding the formItem into an identifier per choice?
             // [RDLS:NOTE] unfortunately, besides checking isKindOfClass, we can't tell when we need to convert choices into tableView items. Some answerFormats have choices but don't want to be converted to one row per choice
-#if RK_APPLE_INTERNAL
             if (ORKDynamicCast(answerFormat, ORKTextChoiceAnswerFormat) != nil || ORKDynamicCast(answerFormat, ORKColorChoiceAnswerFormat) != nil) {
-#else
-            if (ORKDynamicCast(answerFormat, ORKTextChoiceAnswerFormat) != nil) {
-#endif
                 // Make one row per choice, we probably made a section already since formItems with choice answerFormats are requiresSingleSection==YES
                 NSArray *choices = answerFormat.choices;
                 [choices enumerateObjectsUsingBlock:^(id eachChoice, NSUInteger index, BOOL *stop) {
@@ -1692,12 +1681,11 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
                 [choiceViewCell configureWithTextChoice:textChoice isLastItem:isLastItem];
             }
             
-#if RK_APPLE_INTERNAL
             if ([answerFormat isKindOfClass:[ORKColorChoiceAnswerFormat class]]) {
                 ORKColorChoice *colorChoice = [answerFormat.choices objectAtIndex:choiceIndex];
                 [choiceViewCell configureWithColorChoice:colorChoice isLastItem:isLastItem];
             }
-#endif
+            
             id answer = _savedAnswers[formItemIdentifier];
             ORKChoiceAnswerFormatHelper *helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:answerFormat];
             NSArray *selectedIndexes = [helper selectedIndexesForAnswer:answer];
@@ -1803,20 +1791,12 @@ static CGFloat ORKLabelWidth(NSString *text) {
         // the formItem
         BOOL shouldAllowMultiSelection = YES; // assume multiple selection by default
         
-#if RK_APPLE_INTERNAL
         ORKColorChoiceAnswerFormat *colorChoiceAnswerFormat = ORKDynamicCast(formItem.impliedAnswerFormat, ORKColorChoiceAnswerFormat);
         if (textChoiceAnswerFormat != nil || colorChoiceAnswerFormat != nil) {
             ORKChoiceAnswerFormatHelper *helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:textChoiceAnswerFormat ? : colorChoiceAnswerFormat];
             
             // does the answerFormat want multiple selection?
             BOOL answerFormatAllowsMultiSelection = textChoiceAnswerFormat ? (textChoiceAnswerFormat.style == ORKChoiceAnswerStyleMultipleChoice) : (colorChoiceAnswerFormat.style == ORKChoiceAnswerStyleMultipleChoice);
-#else
-        if (textChoiceAnswerFormat != nil) {
-            ORKChoiceAnswerFormatHelper *helper = [[ORKChoiceAnswerFormatHelper alloc] initWithAnswerFormat:textChoiceAnswerFormat];
-            
-            // does the answerFormat want multiple selection?
-            BOOL answerFormatAllowsMultiSelection = textChoiceAnswerFormat.style == ORKChoiceAnswerStyleMultipleChoice;
-#endif
             
             id answer = _savedAnswers[itemIdentifier.formItemIdentifier];
             NSMutableSet* selectedIndexes = [[NSMutableSet alloc] initWithArray:[helper selectedIndexesForAnswer:answer]];
@@ -1835,12 +1815,10 @@ static CGFloat ORKLabelWidth(NSString *text) {
                 choiceIsExclusive = selectedChoice.exclusive;
             }
             
-#if RK_APPLE_INTERNAL
             if (!textChoiceAnswerFormat) {
                 ORKColorChoice *selectedChoice = (previousSingleSelection != NSNotFound) ? [helper colorChoiceAtIndex:previousSingleSelection] : nil;
                 choiceIsExclusive = selectedChoice.exclusive;
             }
-#endif
             
             shouldAllowMultiSelection = shouldAllowMultiSelection && !choiceIsExclusive;
 
@@ -1975,10 +1953,7 @@ static CGFloat ORKLabelWidth(NSString *text) {
     }
     
     hasMultipleChoiceFormItem = (sectionFormItem.impliedAnswerFormat.questionType == ORKQuestionTypeMultipleChoice) ? YES : NO;
-    
-#if RK_APPLE_INTERNAL
     shouldIgnoreDarkMode = [sectionFormItem.impliedAnswerFormat isKindOfClass:[ORKColorChoiceAnswerFormat class]];
-#endif
     
     ORKSurveyCardHeaderView *cardHeaderView = (ORKSurveyCardHeaderView *)[tableView dequeueReusableHeaderFooterViewWithIdentifier: ORKSurveyCardHeaderViewIdentifier];
     
