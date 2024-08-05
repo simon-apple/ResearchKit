@@ -2504,6 +2504,8 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
      
     private var familyHistoryTask: ORKTask {
+        // TODO:
+        /*
         if let path = Bundle.main.path(forResource: "family_history_task", ofType: "json", inDirectory: "TaskExamples") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path))
@@ -2516,7 +2518,8 @@ enum TaskListRow: Int, CustomStringConvertible {
                 print("error while decoding task")
             }
         }
-        
+         */
+
         let familyHistoryStep = TaskListRowSteps.familyHistoryStepExample
         
         let completionStep = ORKCompletionStep(identifier: "FamilyHistoryCompletionStep")
