@@ -58,9 +58,6 @@ static NSString *const kEarPods = @"EarPods";
 }
 
 + (NSArray<ORKStep *> *)selectableHeaphoneSteps {
-#if TARGET_OS_SIMULATOR
-    return @[];
-#else
     NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
     
     ORKFormStep *formStep = [[ORKFormStep alloc] initWithIdentifier:ORKSelectableFormStepIdentifier];
@@ -97,7 +94,6 @@ static NSString *const kEarPods = @"EarPods";
     [steps addObject:step];
     
     return steps;
-#endif
 }
 
 - (BOOL)stepIsHeadphoneDetectStep:(ORKStep *)step {

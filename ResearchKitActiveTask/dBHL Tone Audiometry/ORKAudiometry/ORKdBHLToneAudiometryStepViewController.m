@@ -57,6 +57,8 @@
 #import "ORKNavigableOrderedTask.h"
 #import "ORKStepNavigationRule.h"
 
+NSString * const ORKdBHLToneAudiometryStepViewAccessibilityIdentifier = @"ORKdBHLToneAudiometryStepView";
+
 
 @interface ORKdBHLToneAudiometryStepViewController () <ORKdBHLToneAudiometryAudioGeneratorDelegate> {
     ORKdBHLToneAudiometryFrequencySample *_resultSample;
@@ -109,6 +111,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.view.accessibilityIdentifier = ORKdBHLToneAudiometryStepViewAccessibilityIdentifier;
 }
 
 - (ORKdBHLToneAudiometryAudioGenerator *)createAudioGeneratorFromHeadphoneType:(ORKHeadphoneTypeIdentifier)type {

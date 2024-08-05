@@ -139,16 +139,16 @@ enum TaskListRow: Int, CustomStringConvertible {
     case consentTask
     case consentDoc
     case usdzModel
+    case ageQuestion
+    case colorChoiceQuestion
     
     #if RK_APPLE_INTERNAL
-    case ageQuestion
     case platterUIQuestion
     case predefinedSpeechInNoiseTask
     case predefinedAVJournalingTask
     case predefinedTinnitusTask
     case predefinedSelectableHeadphoneTask
     case ble
-    case textQuestionPIIScrubbing
     case methodOfAdjustmentdBHLToneAudiometryTask
     case newdBHLToneAudiometryTask
     case customStepTask
@@ -157,13 +157,12 @@ enum TaskListRow: Int, CustomStringConvertible {
     case studySignPostStep
     case familyHistoryReviewTask
     case longHeaderTask
-    case colorChoiceQuestion
     case familyHistory
     case booleanConditionalFormTask
     case readOnlyFormStepTask
     case readOnlyFamilyHistoryTask
-    case decodedTask
-    case decodedSwiftUITask
+    case textQuestionPIIScrubbing
+    case textChoiceImageQuestionStepTask
     #endif
     
     class TaskListRowSection {
@@ -191,7 +190,9 @@ enum TaskListRow: Int, CustomStringConvertible {
                 ]),
             TaskListRowSection(title: "Survey Questions", rows:
                 [
+                    .ageQuestion,
                     .booleanQuestion,
+                    .colorChoiceQuestion,
                     .customBooleanQuestion,
                     .dateTimeQuestion,
                     .dateQuestion,
@@ -264,13 +265,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             let internalSections = [
             TaskListRowSection(title: "Internal", rows:
                 [
-                    .ageQuestion,
                     .ble,
                     .booleanConditionalFormTask,
                     .customStepTask,
-                    .colorChoiceQuestion,
-                    .decodedSwiftUITask,
-                    .decodedTask,
                     .familyHistory,
                     .familyHistoryReviewTask,
                     .longHeaderTask,
@@ -286,7 +283,8 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .settingStatusStepTask,
                     .studyPromoTask,
                     .studySignPostStep,
-                    .textQuestionPIIScrubbing,
+                    .textChoiceImageQuestionStepTask,
+                    .textQuestionPIIScrubbing
                 ])]
             defaultSections = (defaultSections + internalSections)
             #endif
@@ -517,9 +515,13 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .usdzModel:
             return NSLocalizedString("USDZ Model", comment: "")
             
-        #if RK_APPLE_INTERNAL
         case .ageQuestion:
             return NSLocalizedString("Age Question", comment: "")
+            
+        case .colorChoiceQuestion:
+            return NSLocalizedString("Color Choice Question", comment: "")
+            
+        #if RK_APPLE_INTERNAL
             
         case .platterUIQuestion:
             return NSLocalizedString("Platter UI Question", comment: "")
@@ -534,13 +536,10 @@ enum TaskListRow: Int, CustomStringConvertible {
             return NSLocalizedString("Predefined Tinnitus", comment: "")
             
         case .predefinedSelectableHeadphoneTask:
-            return NSLocalizedString("Selectable Heaphone Detector", comment: "")
+            return NSLocalizedString("Selectable Headphone Detector", comment: "")
         
         case .ble:
             return NSLocalizedString("BLE", comment: "")
-            
-        case .textQuestionPIIScrubbing:
-            return NSLocalizedString("Text Question PII Scrubbing", comment: "")
             
         case .methodOfAdjustmentdBHLToneAudiometryTask:
             return NSLocalizedString("Method Of Adjustment Tone Audiometry", comment: "")
@@ -560,9 +559,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .studySignPostStep:
             return NSLocalizedString("Study Sign Post Step", comment: "")
             
-        case .colorChoiceQuestion:
-            return NSLocalizedString("Color Choice Question", comment: "")
-            
         case .familyHistory:
             return NSLocalizedString("Family History Step", comment: "")
             
@@ -580,13 +576,12 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .readOnlyFamilyHistoryTask:
             return NSLocalizedString("Read Only Family History Step Task", comment: "")
-            
-        case .decodedTask:
-            return NSLocalizedString("Decoded Task", comment: "")
         
+        case .textQuestionPIIScrubbing:
+            return NSLocalizedString("Text Question PII Scrubbing", comment: "")
             
-        case .decodedSwiftUITask:
-            return NSLocalizedString("Decode Task (SwiftUI)", comment: "")
+        case .textChoiceImageQuestionStepTask:
+            return NSLocalizedString("Text Choice & Image (QuestionStep)", comment: "")
         #endif
             
         case .surveyWithMultipleOptions:
@@ -801,15 +796,16 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .usdzModel:
             return usdzModel
             
-        #if RK_APPLE_INTERNAL
         case .ageQuestion:
             return ageQuestionTask
             
+        case .colorChoiceQuestion:
+            return ColorChoiceQuestionTask
+            
+        #if RK_APPLE_INTERNAL
+            
         case .platterUIQuestion:
             return platterQuestionTask
-            
-        case .textQuestionPIIScrubbing:
-            return textQuestionPIIScrubbingTask
             
         case .predefinedSpeechInNoiseTask:
             return predefinedSpeechInNoiseTask
@@ -850,9 +846,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .longHeaderTask:
             return longHeaderTask
             
-        case .colorChoiceQuestion:
-            return ColorChoiceQuestionTask
-            
         case .familyHistory:
             return familyHistoryTask
         
@@ -865,11 +858,11 @@ enum TaskListRow: Int, CustomStringConvertible {
         case .readOnlyFamilyHistoryTask:
             return readonlyFamilyHistoryTask
             
-        case .decodedTask:
-            return decodedTask
+        case .textQuestionPIIScrubbing:
+            return textQuestionPIIScrubbingTask
             
-        case .decodedSwiftUITask:
-            return decodedSwiftUITask
+        case .textChoiceImageQuestionStepTask:
+            return textChoiceImageQuestionStepTask
             
         #endif
         case .textChoiceQuestionWithImageTask:
@@ -2022,8 +2015,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         let usdzModelStep = TaskListRowSteps.usdzModelExample
         return ORKOrderedTask(identifier: String(describing: Identifier.usdzModelTask), steps: [usdzModelStep])
     }
-
-    #if RK_APPLE_INTERNAL
+    
     /// This task demonstrates a question asking for the user age.
     private var ageQuestionTask: ORKTask {
         let ageFormItemSectionHeader1 = ORKFormItem(sectionTitle: "What is your age?", detailText: "Age question with default values.", learnMoreItem: nil, showsProgress: true)
@@ -2096,6 +2088,60 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         return ORKOrderedTask(identifier: String(describing: Identifier.ageQuestionTask), steps: [step, step2, step3, step4, completionStep])
     }
+    
+    private var ColorChoiceQuestionTask: ORKTask {
+        let colorChoiceOneText = NSLocalizedString("Choice 1", comment: "")
+        let colorChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
+        let colorChoiceThreeText = NSLocalizedString("Choice 3", comment: "")
+        let colorChoiceFourText = NSLocalizedString("Choice 4", comment: "")
+        let colorChoiceFiveText = NSLocalizedString("Choice 5", comment: "")
+        let colorChoiceSixText = NSLocalizedString("Choice 6", comment: "")
+        let colorChoiceSevenText = NSLocalizedString("None of the above", comment: "")
+        
+        let colorOne = UIColor(red: 244/255, green: 208/255, blue: 176/255, alpha: 1.0)
+        let colorTwo = UIColor(red: 232/255, green: 180/255, blue: 143/255, alpha: 1.0)
+        let colorThree = UIColor(red: 211/255, green: 158/255, blue: 124/255, alpha: 1.0)
+        let colorFour = UIColor(red: 187/255, green: 119/255, blue: 80/255, alpha: 1.0)
+        let colorFive = UIColor(red: 165/255, green: 93/255, blue: 43/255, alpha: 1.0)
+        let colorSix = UIColor(red: 60/255, green: 32/255, blue: 29/255, alpha: 1.0)
+        
+        let colorChoices = [
+            ORKColorChoice(color: colorOne, text: colorChoiceOneText, detailText: nil, value: "choice_1" as NSString),
+            ORKColorChoice(color: colorTwo, text: colorChoiceTwoText, detailText: nil, value: "choice_2" as NSString),
+            ORKColorChoice(color: colorThree, text: colorChoiceThreeText, detailText: nil, value: "choice_3" as NSString),
+            ORKColorChoice(color: colorFour, text: colorChoiceFourText, detailText: nil, value: "choice_4" as NSString),
+            ORKColorChoice(color: colorFive, text: colorChoiceFiveText, detailText: nil, value: "choice_5" as NSString),
+            ORKColorChoice(color: colorSix, text: colorChoiceSixText, detailText: nil, value: "choice_6" as NSString),
+            ORKColorChoice(color: nil, text: colorChoiceSevenText, detailText: nil, value: "choice_7" as NSString)
+        ]
+        
+        let answerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, colorChoices: colorChoices)
+        let formItem = ORKFormItem(identifier: String(describing: Identifier.colorChoiceQuestionFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: answerFormat)
+        formItem.detailText = "Select your favorite color from the offerings below"
+        let formStep = ORKFormStep(identifier: String(describing: Identifier.colorChoiceQuestionStep), title: NSLocalizedString("Color Choice", comment: ""), text: TaskListRowStrings.exampleDetailText)
+        
+        formStep.formItems = [formItem]
+        
+        let colorChoicesSwatchOnly = [
+            ORKColorChoice(color: colorOne, text: nil, detailText: nil, value: "choice_1" as NSString),
+            ORKColorChoice(color: colorTwo, text: nil, detailText: nil, value: "choice_2" as NSString),
+            ORKColorChoice(color: colorThree, text: nil, detailText: nil, value: "choice_3" as NSString),
+            ORKColorChoice(color: colorFour, text: nil, detailText: nil, value: "choice_4" as NSString),
+            ORKColorChoice(color: colorFive, text: nil, detailText: nil, value: "choice_5" as NSString),
+            ORKColorChoice(color: colorSix, text: nil, detailText: nil, value: "choice_6" as NSString),
+        ]
+        
+        let answerFormatSwatchOnly = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, colorChoices: colorChoicesSwatchOnly)
+        let formItemSwatchOnly = ORKFormItem(identifier: String(describing: Identifier.colorChoiceQuestionFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: answerFormatSwatchOnly)
+        
+        let formStepSwatchOnly = ORKFormStep(identifier: String(describing: Identifier.colorChoiceQuestionStepSwatchOnly), title: NSLocalizedString("Color Choice No Text", comment: ""), text: TaskListRowStrings.exampleDetailText)
+        
+        formStepSwatchOnly.formItems = [formItemSwatchOnly]
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.colorChoiceQuestionTask), steps: [formStep, formStepSwatchOnly])
+    }
+    
+    #if RK_APPLE_INTERNAL
     
     private var platterQuestionTask: ORKTask {
         
@@ -2323,15 +2369,13 @@ enum TaskListRow: Int, CustomStringConvertible {
         if let path = Bundle.main.path(forResource: "demographics_task", ofType: "json", inDirectory: "TaskExamples") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path))
+                let task = try ORKESerializer.object(fromJSONData: data) as? ORKNavigableOrderedTask
                 
-                let coreEntryProvider = ORKCoreSerializationEntryProvider()
-                let serializer = ORKIESerializer(entryProviders: [coreEntryProvider])
-                
-                if let task = serializer.object(fromJSONData: data, error: nil) as? ORKNavigableOrderedTask {
+                if let task = task {
                     return task
                 }
             } catch {
-                print("error while decoding json")
+                print("error while decoding task")
             }
         }
         
@@ -2353,42 +2397,11 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.familyHistoryStep), steps: [instructionStep, familyHistoryStep, completionStep])
     }
     
-    private var decodedTask: ORKTask {
-        if let path = Bundle.main.path(forResource: "demographics_task", ofType: "json", inDirectory: "jsonExamples") {
-            do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: path))
-                
-                let coreEntryProvider = ORKCoreSerializationEntryProvider()
-                let serializer = ORKIESerializer(entryProviders: [coreEntryProvider])
-                
-                if let task = serializer.object(fromJSONData: data, error: nil) as? ORKNavigableOrderedTask {
-                    return task
-                }
-            } catch {
-                print("error while decoding json")
-            }
-        }
+    private var textChoiceImageQuestionStepTask: ORKTask {
+        let questionStep = TaskListRowSteps.textChoiceImagesQuestionStepExample
+        let completionStep = TaskListRowSteps.completionStepExample
         
-        return formTask
-    }
-    
-    private var decodedSwiftUITask: ORKTask {
-        if let path = Bundle.main.path(forResource: "demographics_task", ofType: "json", inDirectory: "jsonExamples") {
-            do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: path))
-                
-                //let swiftUIEntryProvider = ORKSwiftUISerializationEntryProvider()
-                //let serializer = ORKIESerializer(entryProviders: [swiftUIEntryProvider])
-               
-                if let task = ORKIESerializer.swiftUI_object(fromJSONData: data, error: nil) as? ORKOrderedTask {
-                    return task
-                }
-            } catch {
-                print("error while decoding json")
-            }
-        }
-        
-        return formTask
+        return ORKOrderedTask(identifier: String(describing: Identifier.textChoiceQuestionTask), steps: [questionStep, completionStep])
     }
     
     /**
@@ -2431,61 +2444,21 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         return ORKOrderedTask(identifier: String(describing: Identifier.textQuestionPIIScrubbingTask), steps: [emailPIIScrubberFormStep, SSNPIIScrubberFormStep])
     }
-    
-    private var ColorChoiceQuestionTask: ORKTask {
-        let colorChoiceOneText = NSLocalizedString("Choice 1", comment: "")
-        let colorChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
-        let colorChoiceThreeText = NSLocalizedString("Choice 3", comment: "")
-        let colorChoiceFourText = NSLocalizedString("Choice 4", comment: "")
-        let colorChoiceFiveText = NSLocalizedString("Choice 5", comment: "")
-        let colorChoiceSixText = NSLocalizedString("Choice 6", comment: "")
-        let colorChoiceSevenText = NSLocalizedString("None of the above", comment: "")
-        
-        let colorOne = UIColor(red: 244/255, green: 208/255, blue: 176/255, alpha: 1.0)
-        let colorTwo = UIColor(red: 232/255, green: 180/255, blue: 143/255, alpha: 1.0)
-        let colorThree = UIColor(red: 211/255, green: 158/255, blue: 124/255, alpha: 1.0)
-        let colorFour = UIColor(red: 187/255, green: 119/255, blue: 80/255, alpha: 1.0)
-        let colorFive = UIColor(red: 165/255, green: 93/255, blue: 43/255, alpha: 1.0)
-        let colorSix = UIColor(red: 60/255, green: 32/255, blue: 29/255, alpha: 1.0)
-        
-        let colorChoices = [
-            ORKColorChoice(color: colorOne, text: colorChoiceOneText, detailText: nil, value: "choice_1" as NSString),
-            ORKColorChoice(color: colorTwo, text: colorChoiceTwoText, detailText: nil, value: "choice_2" as NSString),
-            ORKColorChoice(color: colorThree, text: colorChoiceThreeText, detailText: nil, value: "choice_3" as NSString),
-            ORKColorChoice(color: colorFour, text: colorChoiceFourText, detailText: nil, value: "choice_4" as NSString),
-            ORKColorChoice(color: colorFive, text: colorChoiceFiveText, detailText: nil, value: "choice_5" as NSString),
-            ORKColorChoice(color: colorSix, text: colorChoiceSixText, detailText: nil, value: "choice_6" as NSString),
-            ORKColorChoice(color: nil, text: colorChoiceSevenText, detailText: nil, value: "choice_7" as NSString)
-        ]
-        
-        let answerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, colorChoices: colorChoices)
-        let formItem = ORKFormItem(identifier: String(describing: Identifier.colorChoiceQuestionFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: answerFormat)
-        formItem.detailText = "Select your favorite color from the offerings below"
-        let formStep = ORKFormStep(identifier: String(describing: Identifier.colorChoiceQuestionStep), title: NSLocalizedString("Color Choice", comment: ""), text: TaskListRowStrings.exampleDetailText)
-        
-        formStep.formItems = [formItem]
-        
-        let colorChoicesSwatchOnly = [
-            ORKColorChoice(color: colorOne, text: nil, detailText: nil, value: "choice_1" as NSString),
-            ORKColorChoice(color: colorTwo, text: nil, detailText: nil, value: "choice_2" as NSString),
-            ORKColorChoice(color: colorThree, text: nil, detailText: nil, value: "choice_3" as NSString),
-            ORKColorChoice(color: colorFour, text: nil, detailText: nil, value: "choice_4" as NSString),
-            ORKColorChoice(color: colorFive, text: nil, detailText: nil, value: "choice_5" as NSString),
-            ORKColorChoice(color: colorSix, text: nil, detailText: nil, value: "choice_6" as NSString),
-        ]
-        
-        let answerFormatSwatchOnly = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, colorChoices: colorChoicesSwatchOnly)
-        let formItemSwatchOnly = ORKFormItem(identifier: String(describing: Identifier.colorChoiceQuestionFormItem), text: TaskListRowStrings.exampleQuestionText, answerFormat: answerFormatSwatchOnly)
-        
-        let formStepSwatchOnly = ORKFormStep(identifier: String(describing: Identifier.colorChoiceQuestionStepSwatchOnly), title: NSLocalizedString("Color Choice No Text", comment: ""), text: TaskListRowStrings.exampleDetailText)
-        
-        formStepSwatchOnly.formItems = [formItemSwatchOnly]
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.colorChoiceQuestionTask), steps: [formStep, formStepSwatchOnly])
-    }
-    
-    //TODO: rdar://113873048 (Update internal FxH task to match ResearchApp bundle)
+     
     private var familyHistoryTask: ORKTask {
+        if let path = Bundle.main.path(forResource: "family_history_task", ofType: "json", inDirectory: "TaskExamples") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+                let task = try ORKESerializer.object(fromJSONData: data) as? ORKNavigableOrderedTask
+                
+                if let task = task {
+                    return task
+                }
+            } catch {
+                print("error while decoding task")
+            }
+        }
+        
         let familyHistoryStep = TaskListRowSteps.familyHistoryStepExample
         
         let completionStep = ORKCompletionStep(identifier: "FamilyHistoryCompletionStep")

@@ -308,6 +308,7 @@ static NSString *ORKBulletUnicode = @"\u2981";
         [_cardView addSubview:imageView];
         [imageView.leadingAnchor constraintEqualToAnchor:_cardView.leadingAnchor].active = YES;
         [imageView.centerYAnchor constraintEqualToAnchor:_cardView.centerYAnchor].active = YES;
+        [_cardView.heightAnchor constraintGreaterThanOrEqualToAnchor:imageView.heightAnchor].active = YES;
         _cardStyleAccessoryView = imageView;
     } else {
         [self addArrangedSubview:imageView];
