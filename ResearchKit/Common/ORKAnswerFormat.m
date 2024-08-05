@@ -4070,8 +4070,7 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
 @end
 
 
-#if TARGET_OS_IOS
-#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+#if TARGET_OS_IOS && ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 #pragma mark - ORKLocationAnswerFormat
 @implementation ORKLocationAnswerFormat
 
@@ -4142,7 +4141,6 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
 }
 
 @end
-#endif
 #endif
 
 #pragma mark ORKSESAnswerFormat
