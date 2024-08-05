@@ -163,8 +163,6 @@ enum TaskListRow: Int, CustomStringConvertible {
     case readOnlyFamilyHistoryTask
     case textQuestionPIIScrubbing
     case textChoiceImageQuestionStepTask
-    case decodedTask
-    case decodedSwiftUITask
     #endif
     
     class TaskListRowSection {
@@ -270,9 +268,6 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .ble,
                     .booleanConditionalFormTask,
                     .customStepTask,
-                    .colorChoiceQuestion,
-                    .decodedSwiftUITask,
-                    .decodedTask,
                     .familyHistory,
                     .familyHistoryReviewTask,
                     .longHeaderTask,
@@ -587,13 +582,6 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .textChoiceImageQuestionStepTask:
             return NSLocalizedString("Text Choice & Image (QuestionStep)", comment: "")
-            
-        case .decodedTask:
-            return NSLocalizedString("Decoded Task", comment: "")
-        
-            
-        case .decodedSwiftUITask:
-            return NSLocalizedString("Decode Task (SwiftUI)", comment: "")
         #endif
             
         case .surveyWithMultipleOptions:
@@ -875,12 +863,6 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .textChoiceImageQuestionStepTask:
             return textChoiceImageQuestionStepTask
-            
-        case .decodedTask:
-            return decodedTask
-            
-        case .decodedSwiftUITask:
-            return decodedSwiftUITask
             
         #endif
         case .textChoiceQuestionWithImageTask:
@@ -2387,15 +2369,13 @@ enum TaskListRow: Int, CustomStringConvertible {
         if let path = Bundle.main.path(forResource: "demographics_task", ofType: "json", inDirectory: "TaskExamples") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path))
+                let task = try ORKESerializer.object(fromJSONData: data) as? ORKNavigableOrderedTask
                 
-                let coreEntryProvider = ORKCoreSerializationEntryProvider()
-                let serializer = ORKIESerializer(entryProviders: [coreEntryProvider])
-                
-                if let task = serializer.object(fromJSONData: data, error: nil) as? ORKNavigableOrderedTask {
+                if let task = task {
                     return task
                 }
             } catch {
-                print("error while decoding json")
+                print("error while decoding task")
             }
         }
         
@@ -2422,44 +2402,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         let completionStep = TaskListRowSteps.completionStepExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.textChoiceQuestionTask), steps: [questionStep, completionStep])
-    }
-    
-    private var decodedTask: ORKTask {
-        if let path = Bundle.main.path(forResource: "demographics_task", ofType: "json", inDirectory: "jsonExamples") {
-            do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: path))
-                
-                let coreEntryProvider = ORKCoreSerializationEntryProvider()
-                let serializer = ORKIESerializer(entryProviders: [coreEntryProvider])
-                
-                if let task = serializer.object(fromJSONData: data, error: nil) as? ORKNavigableOrderedTask {
-                    return task
-                }
-            } catch {
-                print("error while decoding json")
-            }
-        }
-        
-        return formTask
-    }
-    
-    private var decodedSwiftUITask: ORKTask {
-        if let path = Bundle.main.path(forResource: "demographics_task", ofType: "json", inDirectory: "jsonExamples") {
-            do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: path))
-                
-                //let swiftUIEntryProvider = ORKSwiftUISerializationEntryProvider()
-                //let serializer = ORKIESerializer(entryProviders: [swiftUIEntryProvider])
-               
-                if let task = ORKIESerializer.swiftUI_object(fromJSONData: data, error: nil) as? ORKOrderedTask {
-                    return task
-                }
-            } catch {
-                print("error while decoding json")
-            }
-        }
-        
-        return formTask
     }
     
     /**
