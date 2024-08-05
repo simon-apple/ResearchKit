@@ -74,6 +74,7 @@ public struct ResearchTaskNavigationView: View {
                                 moveToStep(afterPath: path)
                             } else {
                                 onResearchTaskCompletion?(completion)
+                                dismiss()
                             }
                         },
                         content: {
