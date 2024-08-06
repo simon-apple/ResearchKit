@@ -34,7 +34,8 @@ public enum Step {
     
     case formStep(FormStep)
     case instructionStep(InstructionStep)
-    
+    case questionStep(QuestionStep)
+
     var identifier: String {
         let identifier: String
         switch self {
@@ -42,6 +43,8 @@ public enum Step {
             identifier = formStep.identifier
         case .instructionStep(let instructionStep):
             identifier = instructionStep.identifier
+        case .questionStep(let questionStep):
+            identifier = questionStep.identifier
         }
         return identifier
     }

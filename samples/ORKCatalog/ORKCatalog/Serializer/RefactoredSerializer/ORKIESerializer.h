@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
+ Copyright (c) 2015, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,33 +29,29 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-#if TARGET_OS_IOS || TARGET_OS_VISION
-#import <ResearchKit/ORKDefines.h>
-#endif
-
-#if TARGET_OS_WATCH
-#import <ResearchKitCore/ORKDefines.h>
-#endif
+#import "ORKESerialization+Helpers.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKStep;
+@interface ORKIESerializer : NSObject
 
-/**
- A configuration that navigates to a
- specific step to end the task early.
- */
-ORK_CLASS_AVAILABLE
-@interface ORKEarlyTerminationConfiguration : NSObject <NSSecureCoding, NSCopying>
+- (instancetype)initWithEntryProviders:(NSArray<ORKSerializationEntryProvider *> *)entryProviders;
 
-- (instancetype)init NS_UNAVAILABLE;
+- (id)objectFromJSONData:(NSData *)data error:(NSError **)error;
 
-- (instancetype)initWithButtonText:(NSString *)buttonText earlyTerminationStep:(ORKStep *)earlyTerminationStep;
+// TODO: implement the below instance methods
 
-@property (nonatomic, readonly, copy) NSString *buttonText;
+//- (nullable NSDictionary *)JSONObjectForObject:(id)object error:(NSError **)error;
 
-@property (nonatomic, readonly, copy) ORKStep *earlyTerminationStep;
+//- (nullable NSData *)JSONDataForObject:(id)object error:(NSError **)error;
+
+//- (nullable id)objectFromJSONObject:(NSDictionary *)object error:(NSError **)error;
+
+//- (nullable id)objectFromJSONObject:(NSDictionary *)object context:(ORKESerializationContext *)context error:(NSError **)error;
+
+//- (NSDictionary *)JSONObjectForObject:(id)object context:(ORKESerializationContext *)context error:(__unused NSError **)error;
 
 @end
 

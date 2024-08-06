@@ -70,7 +70,7 @@ NSString *ORKQuestionTypeString(ORKQuestionType questionType);
 @end
 
 ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKAnswerFormat)
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS || TARGET_OS_VISION
 ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKImageChoiceAnswerFormat)
 ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKValuePickerAnswerFormat)
 ORK_DESIGNATE_CODING_AND_SERIALIZATION_INITIALIZERS(ORKMultipleValuePickerAnswerFormat)
@@ -217,6 +217,7 @@ NSArray<Class> *ORKAllowableValueClasses(void);
 @end
 
 #if TARGET_OS_IOS
+
 @interface ORKValuePickerAnswerFormat ()
 
 - (instancetype)initWithTextChoices:(NSArray<ORKTextChoice *> *)textChoices nullChoice:(ORKTextChoice *)nullChoice NS_DESIGNATED_INITIALIZER;
@@ -224,7 +225,6 @@ NSArray<Class> *ORKAllowableValueClasses(void);
 - (ORKTextChoice *)nullTextChoice;
 
 @end
-
 
 @interface ORKImageChoice () <ORKAnswerOption>
 

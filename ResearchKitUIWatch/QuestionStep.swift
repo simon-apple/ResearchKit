@@ -1,21 +1,21 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
- 
+ Copyright (c) 2024, Apple Inc. All rights reserved.
+
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
- 
+
  1.  Redistributions of source code must retain the above copyright notice, this
  list of conditions and the following disclaimer.
- 
+
  2.  Redistributions in binary form must reproduce the above copyright notice,
  this list of conditions and the following disclaimer in the documentation and/or
  other materials provided with the distribution.
- 
+
  3.  Neither the name of the copyright holder(s) nor the names of any contributors
  may be used to endorse or promote products derived from this software without
  specific prior written permission. No license is granted to the trademarks of
  the copyright holders even if such marks are included in this software.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,35 +28,24 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+import SwiftUI
 
-#if TARGET_OS_IOS || TARGET_OS_VISION
-#import <ResearchKit/ORKDefines.h>
-#endif
+public struct QuestionStep {
+    let identifier: String
+    let title: String
+    let question: String
+    let answer: FormRow
 
-#if TARGET_OS_WATCH
-#import <ResearchKitCore/ORKDefines.h>
-#endif
+    public init(
+        identifier: String,
+        title: String,
+        question: String,
+        answer: FormRow
+    ) {
+        self.identifier = identifier
+        self.title = title
+        self.question = question
+        self.answer = answer
+    }
+}
 
-NS_ASSUME_NONNULL_BEGIN
-
-@class ORKStep;
-
-/**
- A configuration that navigates to a
- specific step to end the task early.
- */
-ORK_CLASS_AVAILABLE
-@interface ORKEarlyTerminationConfiguration : NSObject <NSSecureCoding, NSCopying>
-
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithButtonText:(NSString *)buttonText earlyTerminationStep:(ORKStep *)earlyTerminationStep;
-
-@property (nonatomic, readonly, copy) NSString *buttonText;
-
-@property (nonatomic, readonly, copy) ORKStep *earlyTerminationStep;
-
-@end
-
-NS_ASSUME_NONNULL_END

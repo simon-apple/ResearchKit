@@ -34,7 +34,36 @@ import SwiftUI
 
 public class RKAdapter {
     public static func createFormRow(from item: ORKFormItem) -> FormRow? {
-        switch item.answerFormat {
+        guard let answerFormat = item.answerFormat else {
+            return nil
+        }
+
+        return Self.createFormRow(from: item.identifier, with: item.text ?? "", detail: item.detailText, placeholder: item.placeholder, answer: answerFormat)
+    }
+
+    public static func createFormRow(from step: ORKStep, for answer: ORKAnswerFormat) -> FormRow? {
+        let itemText: String? = {
+            if let questionStep = step as? ORKQuestionStep {
+                return questionStep.question ?? step.text
+            } else {
+                return step.text
+            }
+        }()
+
+        let placeholder: String? = {
+            if let formStep = step as? ORKFormStep,
+               let placeholder = formStep.formItems?.first?.placeholder {
+                return placeholder
+            }
+            return nil
+        }()
+
+        return Self.createFormRow(from: step.identifier, with: itemText ?? "", detail: step.detailText, placeholder: placeholder, answer: answer)
+    }
+
+    public static func createFormRow(from identifier: String, with title: String, detail: String?, placeholder: String? = nil, answer: ORKAnswerFormat) -> FormRow? {
+
+        switch answer {
         case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
             var answerOptions : [MultipleChoiceOption] = []
             textChoiceAnswerFormat.textChoices.forEach { textChoice in
@@ -47,8 +76,8 @@ public class RKAdapter {
             }
             return FormRow.multipleChoiceRow(
                 MultipleChoiceQuestion(
-                    id: item.identifier,
-                    title: item.text,
+                    id: identifier,
+                    title: title,
                     choices: answerOptions,
                     selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
                 )
@@ -56,15 +85,15 @@ public class RKAdapter {
         case let scaleAnswerFormat as ORKScaleAnswerFormat:
             return FormRow.intSliderRow(
                 ScaleSliderQuestion(
-                    id: item.identifier,
-                    title: item.text ?? "",
+                    id: identifier,
+                    title: title,
                     step: scaleAnswerFormat.step,
                     range: scaleAnswerFormat.minimum...scaleAnswerFormat.maximum,
                     value: scaleAnswerFormat.defaultValue
                 )
             )
         case let continuousScaleAnswerFormat as ORKContinuousScaleAnswerFormat:
-            
+
             // Current ORKContinuousScaleAnswerFormat does not allow user to specify step size so we can create an approximation,
             // falling back on 0.01 as our step size if required.
             var stepSize = 0.01
@@ -74,14 +103,14 @@ public class RKAdapter {
             }
             return FormRow.doubleSliderRow(
                 ScaleSliderQuestion(
-                    id: item.identifier,
-                    title: item.text ?? "",
+                    id: identifier,
+                    title: title,
                     step: stepSize,
                     range: continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum,
                     value: continuousScaleAnswerFormat.defaultValue
                 )
             )
-            
+
         case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
             let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
                 MultipleChoiceOption(
@@ -95,11 +124,11 @@ public class RKAdapter {
             if answerOptions.indices.contains(textChoiceScaleAnswerFormat.defaultIndex) {
                 defaultOption = answerOptions[textChoiceScaleAnswerFormat.defaultIndex]
             }
-            
+
             return FormRow.textSliderStep(
                 ScaleSliderQuestion(
-                    id: item.identifier,
-                    title: item.text ?? "",
+                    id: identifier,
+                    title: title,
                     options: answerOptions,
                     selectedMultipleChoiceOption: defaultOption
                 )
@@ -107,10 +136,10 @@ public class RKAdapter {
         case let textAnswerFormat as ORKTextAnswerFormat:
             return FormRow.textRow(
                 TextQuestion(
-                    title: item.text ?? "",
-                    id: item.identifier,
+                    title: title,
+                    id: identifier,
                     text: textAnswerFormat.defaultTextAnswer ?? "",
-                    prompt: textAnswerFormat.placeholder ?? "",
+                    prompt: placeholder ?? "",
                     textFieldType: textAnswerFormat.multipleLines ? .multiline : .singleLine,
                     characterLimit: textAnswerFormat.maximumLength,
                     hideCharacterCountLabel: textAnswerFormat.hideCharacterCountLabel,
@@ -119,7 +148,7 @@ public class RKAdapter {
             )
         case let dateTimeAnswerFormat as ORKDateAnswerFormat:
             let prompt: String = {
-                if let placeholder = item.placeholder {
+                if let placeholder {
                     return placeholder
                 }
 
@@ -157,8 +186,8 @@ public class RKAdapter {
 
             return FormRow.dateRow(
                 DateQuestion(
-                    id: item.identifier,
-                    title: item.text ?? "",
+                    id: identifier,
+                    title: title,
                     selection: Date(),
                     pickerPrompt: prompt,
                     displayedComponents: components,
@@ -168,9 +197,9 @@ public class RKAdapter {
         case let numericAnswerFormat as ORKNumericAnswerFormat:
             return FormRow.numericRow(
                 NumericQuestion(
-                    id: item.identifier,
-                    title: item.text ?? "",
-                    detail: item.detailText,
+                    id: identifier,
+                    title: title,
+                    detail: detail,
                     prompt: numericAnswerFormat.placeholder ?? "Tap to answer",
                     number: numericAnswerFormat.defaultNumericAnswer
                 )
@@ -207,9 +236,9 @@ public class RKAdapter {
 
             return FormRow.heightRow(
                 HeightQuestion(
-                    id: item.identifier,
-                    title: item.text ?? "",
-                    detail: item.detailText,
+                    id: identifier,
+                    title: title,
+                    detail: detail,
                     measurementSystem: measurementSystem,
                     selection: (initialPrimaryValue, 4) // Denotes 4 inches which is paired with a 5 foot selection (162 cm)
                 )
@@ -272,9 +301,9 @@ public class RKAdapter {
 
             return FormRow.weightRow(
                 WeightQuestion(
-                    id: item.identifier,
-                    title: item.text ?? "",
-                    detail: item.detailText,
+                    id: identifier,
+                    title: title,
+                    detail: detail,
                     measurementSystem: measurementSystem,
                     precision: precision,
                     defaultValue: defaultValue,
@@ -306,9 +335,9 @@ public class RKAdapter {
 
             return FormRow.imageRow(
                 ImageChoiceQuestion(
-                    title: item.text ?? "",
-                    detail: item.detailText,
-                    id: item.identifier,
+                    title: title,
+                    detail: detail,
+                    id: identifier,
                     choices: choices,
                     style: style,
                     vertical: imageChoiceAnswerFormat.isVertical,
@@ -327,10 +356,98 @@ public class RKAdapter {
             return []
         }
 
-        let formRows = formItems.compactMap { formItem in
+        let groupedItems = groupItems(formItems)
+
+        let formRows = groupedItems.compactMap { formItem in
             Self.createFormRow(from: formItem)
         }
 
         return formRows
+    }
+
+    static public func createStepsFromORKTask(_ task: ORKOrderedTask) -> [Step] {
+        let steps = task.steps
+        var stepArray: [Step] = []
+        for step in steps {
+            if let formStep = step as? ORKFormStep {
+                stepArray.append(.formStep(
+                    FormStep(
+                        id: UUID(uuidString: step.identifier) ?? UUID(),
+                        title: step.title,
+                        subtitle: step.detailText,
+                        items: RKAdapter.createFormRowsFromORKStep(formStep)
+                    )
+                ))
+            } else if let questionStep = step as? ORKQuestionStep {
+                stepArray.append(.questionStep(
+                    QuestionStep(
+                        identifier: questionStep.identifier,
+                        title: questionStep.title ?? "",
+                        question: questionStep.question ?? "",
+                        answer: RKAdapter.createFormRow(from: questionStep, for: questionStep.answerFormat!)!
+                    )
+                ))
+            } else if let instructionStep = step as? ORKInstructionStep {
+                stepArray.append(.instructionStep(
+                    InstructionStep(
+                        identifier: instructionStep.identifier,
+                        title: instructionStep.title ?? "",
+                        subtitle: instructionStep.text
+                    )
+                ))
+            }
+        }
+        return stepArray
+    }
+
+    private static func groupItems(_ items: [ORKFormItem]) -> [ORKFormItem] {
+        var groupedItems: [ORKFormItem] = []
+        var builder: ORKFormItem?
+
+        for item in items {
+            if builder == nil {
+                builder = item
+                continue
+            }
+
+            if hasMatchingIdentifiers(firstIdentifier: item.identifier, secondIdentifier: builder?.identifier ?? "") {
+                let newFormItem = ORKFormItem(
+                    identifier: item.identifier,
+                    text: builder?.text,
+                    answerFormat: item.answerFormat
+                )
+                newFormItem.placeholder = item.placeholder
+
+                groupedItems.append(
+                    newFormItem
+                )
+                builder = nil
+            } else {
+                if let safeBuilder = builder {
+                    groupedItems.append(safeBuilder)
+                    builder = item
+                }
+            }
+        }
+        if let builder {
+            groupedItems.append(builder)
+        }
+        return groupedItems
+    }
+
+    private static func extractUUID(_ string: String) -> String? {
+        let uuidRegex = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+        guard let range = string.range(of: uuidRegex, options: .regularExpression, range: nil, locale: nil) else {
+            return nil
+        }
+        let uuidString = String(string[range])
+        return uuidString
+    }
+
+    private static func hasMatchingIdentifiers(firstIdentifier: String, secondIdentifier: String) -> Bool {
+        guard let firstUUID = Self.extractUUID(firstIdentifier),
+              let secondUUID = Self.extractUUID(secondIdentifier) else { return false }
+
+        return firstUUID == secondUUID
     }
 }
