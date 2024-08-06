@@ -31,16 +31,13 @@
 
 #import "ORKPicker.h"
 
+#import "ORKAgePicker.h"
 #import "ORKDateTimePicker.h"
 #import "ORKHeightPicker.h"
 #import "ORKWeightPicker.h"
 #import "ORKTimeIntervalPicker.h"
 #import "ORKValuePicker.h"
 #import "ORKMultipleValuePicker.h"
-
-// start-omit-internal-code
-#import "ORKAgePicker.h"
-// end-omit-internal-code
 
 #import "ORKAnswerFormat.h"
 
@@ -74,13 +71,9 @@
         picker = [[ORKWeightPicker alloc] initWithAnswerFormat:answerFormat answer:answer pickerDelegate:delegate];
     } else if ([answerFormat isKindOfClass:[ORKMultipleValuePickerAnswerFormat class]]) {
         picker = [[ORKMultipleValuePicker alloc] initWithAnswerFormat:answerFormat answer:answer pickerDelegate:delegate];
-    }
-    
-    // start-omit-internal-code
-    if ([answerFormat isKindOfClass:[ORKAgeAnswerFormat class]]) {
+    } else if ([answerFormat isKindOfClass:[ORKAgeAnswerFormat class]]) {
         picker = [[ORKAgePicker alloc] initWithAnswerFormat:answerFormat answer:answer pickerDelegate:delegate];
     }
-    // end-omit-internal-code
     
     NSAssert(picker, @"Cannot create picker for answer format %@", answerFormat);
     

@@ -75,6 +75,7 @@ public struct ResearchTask: View {
                                 moveToStep(afterPath: path)
                             } else {
                                 onResearchTaskCompletion?(completion)
+                                dismiss()
                             }
                         },
                         content: {
@@ -300,5 +301,4 @@ public struct ResearchTaskBuilder {
     public static func buildEither(second component: [ResearchTaskStep]) -> [ResearchTaskStep] {
         component
     }
-    
 }

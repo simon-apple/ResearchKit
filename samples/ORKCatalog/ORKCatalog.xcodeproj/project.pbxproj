@@ -27,6 +27,8 @@
 		3E39B9FE1ABF683700C2ABE5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E39B9FC1ABF683700C2ABE5 /* LaunchScreen.xib */; };
 		3E39BA001ABF683F00C2ABE5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E39B9FF1ABF683F00C2ABE5 /* Images.xcassets */; };
 		3ED967B81AC13D37007E2D83 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3ED967BA1AC13D37007E2D83 /* Localizable.strings */; };
+		518E16CA2C248F5500F44B98 /* ORKESerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16C92C248F5500F44B98 /* ORKESerializer.m */; };
+		518E16D52C24DA2B00F44B98 /* TaskExamples in Resources */ = {isa = PBXBuildFile; fileRef = 518E16D42C24DA2B00F44B98 /* TaskExamples */; };
 		51AF19862B59F3A900D3B399 /* ORKKeychainWrapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AF19852B59F3A900D3B399 /* ORKKeychainWrapperTests.m */; };
 		51BD8FC729D3AE2E0001D54E /* Sentence1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC629D3AE2E0001D54E /* Sentence1.wav */; };
 		51C173282BA4B4E1006604FB /* sphere_model.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 51C173272BA4B4E1006604FB /* sphere_model.usdz */; };
@@ -40,11 +42,11 @@
 		86B89AA51AB2C0A5001626A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B89A9C1AB2C0A5001626A4 /* AppDelegate.swift */; };
 		8C1F9E9E2C0F857100A6C0D5 /* DateFormatterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1F9E9D2C0F857100A6C0D5 /* DateFormatterManager.swift */; };
 		8C49088C2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C49088B2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift */; };
-		8C49088E2B7ECEEB00DA6E2D /* OpenAndCancelActiveTasksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelActiveTasksUITests.swift */; };
-		8C4908962B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908952B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestionUITests.swift */; };
-		8C4908982B7ECF6200DA6E2D /* OpenAndCancelSurveysUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908972B7ECF6200DA6E2D /* OpenAndCancelSurveysUITests.swift */; };
+		8C49088E2B7ECEEB00DA6E2D /* OpenAndCancelUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelUITests.swift */; };
 		8C49089A2B7ECF9400DA6E2D /* ActiveStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908992B7ECF9400DA6E2D /* ActiveStepScreen.swift */; };
 		8C67958C2BC3B09B00DE7286 /* TaskListRowConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F210FD2B49D04F0072B536 /* TaskListRowConstants.swift */; };
+		8C6C5BFB2C41D13C00DEEAD3 /* ActiveTasksBaseUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6C5BFA2C41D13C00DEEAD3 /* ActiveTasksBaseUITest.swift */; };
+		8C6C5BFD2C41D1C200DEEAD3 /* ActiveTasksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6C5BFC2C41D1C200DEEAD3 /* ActiveTasksUITests.swift */; };
 		8C7C541D2B4F5CF900A2E513 /* Answers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C541C2B4F5CF900A2E513 /* Answers.swift */; };
 		8C7C54202B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */; };
 		8C7C54222B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54212B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift */; };
@@ -53,8 +55,17 @@
 		8C7C54282B4F67E200A2E513 /* Springboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54272B4F67E200A2E513 /* Springboard.swift */; };
 		8C7C542A2B4F680B00A2E513 /* RequestPermissionsStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */; };
 		8C89CD592BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */; };
+		8C97802B2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C97802A2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift */; };
+		8C97802D2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C97802C2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift */; };
 		8CBA19C72BE14AF3000E7205 /* LocaleDependentBaseUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBA19C62BE14AF3000E7205 /* LocaleDependentBaseUITest.swift */; };
+		8CC4876B2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */; };
 		8CCB03732B86AA8A00096C86 /* UITestLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCB03722B86AA8A00096C86 /* UITestLogger.swift */; };
+		8CE15F442C0D5D69003C1008 /* ToneAudiometryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F432C0D5D69003C1008 /* ToneAudiometryUITests.swift */; };
+		8CE15F462C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F452C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift */; };
+		8CE15F482C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F472C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift */; };
+		8CE15F4A2C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F492C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift */; };
+		8CE15F4C2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F4B2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift */; };
+		8CE15F4E2C0D731E003C1008 /* SettingsAppScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F4D2C0D731E003C1008 /* SettingsAppScreens.swift */; };
 		8CECC5EB2B978265002266B9 /* OnboardingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */; };
 		8CECC5ED2B978683002266B9 /* InstructionStepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EC2B978683002266B9 /* InstructionStepUITests.swift */; };
 		8CECC5EF2B978B3D002266B9 /* WebViewStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EE2B978B3D002266B9 /* WebViewStepScreen.swift */; };
@@ -232,6 +243,10 @@
 		3E39B9FF1ABF683F00C2ABE5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3ED967B91AC13D37007E2D83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5116D0BF2677FB780010FAB1 /* ResearchKit-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Shared.xcconfig"; sourceTree = "<group>"; };
+		518E16C72C248F5400F44B98 /* ORKCatalog-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKCatalog-Bridging-Header.h"; sourceTree = "<group>"; };
+		518E16C82C248F5500F44B98 /* ORKESerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKESerializer.h; sourceTree = "<group>"; };
+		518E16C92C248F5500F44B98 /* ORKESerializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKESerializer.m; sourceTree = "<group>"; };
+		518E16D42C24DA2B00F44B98 /* TaskExamples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TaskExamples; sourceTree = "<group>"; };
 		51AF19772B59F1E400D3B399 /* ORKCatalogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ORKCatalogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51AF19852B59F3A900D3B399 /* ORKKeychainWrapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKKeychainWrapperTests.m; sourceTree = "<group>"; };
 		51BD8FC629D3AE2E0001D54E /* Sentence1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Sentence1.wav; path = List1/Sentence1.wav; sourceTree = "<group>"; };
@@ -249,12 +264,13 @@
 		86B89A9C1AB2C0A5001626A4 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ORKCatalog/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		8C1F9E9D2C0F857100A6C0D5 /* DateFormatterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterManager.swift; sourceTree = "<group>"; };
 		8C49088B2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelBaseUITest.swift; sourceTree = "<group>"; };
-		8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelActiveTasksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelActiveTasksUITests.swift; sourceTree = "<group>"; };
-		8C4908952B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestionUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelSurveyQuestionUITests.swift; sourceTree = "<group>"; };
-		8C4908972B7ECF6200DA6E2D /* OpenAndCancelSurveysUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelSurveysUITests.swift; sourceTree = "<group>"; };
+		8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelUITests.swift; sourceTree = "<group>"; };
 		8C4908992B7ECF9400DA6E2D /* ActiveStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveStepScreen.swift; sourceTree = "<group>"; };
 		8C49089B2B7ED08000DA6E2D /* LaunchTasksUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = LaunchTasksUITests.xctestplan; sourceTree = "<group>"; };
 		8C67958E2BC4B84500DE7286 /* SurveysRegressionUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = SurveysRegressionUITests.xctestplan; sourceTree = "<group>"; };
+		8C6C5BFA2C41D13C00DEEAD3 /* ActiveTasksBaseUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTasksBaseUITest.swift; sourceTree = "<group>"; };
+		8C6C5BFC2C41D1C200DEEAD3 /* ActiveTasksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTasksUITests.swift; sourceTree = "<group>"; };
+		8C6C5BFE2C41DC0200DEEAD3 /* ActiveTasksUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ActiveTasksUITests.xctestplan; sourceTree = "<group>"; };
 		8C7C541C2B4F5CF900A2E513 /* Answers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answers.swift; sourceTree = "<group>"; };
 		8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsLocaleDependentUITests.swift; sourceTree = "<group>"; };
 		8C7C54212B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessRequestPermissionStepUITests.swift; sourceTree = "<group>"; };
@@ -263,8 +279,17 @@
 		8C7C54272B4F67E200A2E513 /* Springboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Springboard.swift; sourceTree = "<group>"; };
 		8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPermissionsStepScreen.swift; sourceTree = "<group>"; };
 		8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsResultsUITests.swift; sourceTree = "<group>"; };
+		8C97802A2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneAudiometryInternalAirPodsUITests.swift; sourceTree = "<group>"; };
+		8C97802C2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneAudiometryInternalBaseUITests.swift; sourceTree = "<group>"; };
 		8CBA19C62BE14AF3000E7205 /* LocaleDependentBaseUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocaleDependentBaseUITest.swift; sourceTree = "<group>"; };
+		8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsHealthKitIntegrationUITests.swift; sourceTree = "<group>"; };
 		8CCB03722B86AA8A00096C86 /* UITestLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestLogger.swift; sourceTree = "<group>"; };
+		8CE15F432C0D5D69003C1008 /* ToneAudiometryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneAudiometryUITests.swift; sourceTree = "<group>"; };
+		8CE15F452C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentSPLMeterStepScreen.swift; sourceTree = "<group>"; };
+		8CE15F472C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHLToneAudiometryStepScreen.swift; sourceTree = "<group>"; };
+		8CE15F492C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadphoneDetectStepScreen.swift; sourceTree = "<group>"; };
+		8CE15F4B2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneAudiometryInternalAirPodsProUITests.swift; sourceTree = "<group>"; };
+		8CE15F4D2C0D731E003C1008 /* SettingsAppScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAppScreens.swift; sourceTree = "<group>"; };
 		8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingUITests.swift; sourceTree = "<group>"; };
 		8CECC5EC2B978683002266B9 /* InstructionStepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionStepUITests.swift; sourceTree = "<group>"; };
 		8CECC5EE2B978B3D002266B9 /* WebViewStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewStepScreen.swift; sourceTree = "<group>"; };
@@ -394,6 +419,9 @@
 				0B58E51B2981D293007263DA /* UserDefaultKeys.swift */,
 				0BE9D5172943E92700DA0625 /* ResearchKitView.swift */,
 				0B31EE4629887C4E00CD0D24 /* WrapperViewController.swift */,
+				518E16C82C248F5500F44B98 /* ORKESerializer.h */,
+				518E16C92C248F5500F44B98 /* ORKESerializer.m */,
+				518E16C72C248F5400F44B98 /* ORKCatalog-Bridging-Header.h */,
 			);
 			name = "Presenting Tasks";
 			sourceTree = "<group>";
@@ -484,6 +512,16 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		8C6C5BF92C41D0D700DEEAD3 /* ActiveTasksUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8C97802E2C0E744F0018609A /* ToneAudiometryUITests */,
+				8C6C5BFA2C41D13C00DEEAD3 /* ActiveTasksBaseUITest.swift */,
+				8C6C5BFC2C41D1C200DEEAD3 /* ActiveTasksUITests.swift */,
+			);
+			path = ActiveTasksUITests;
+			sourceTree = "<group>";
+		};
 		8C89CD572BCD08F000C61F8A /* ResultsUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -492,13 +530,22 @@
 			path = ResultsUITests;
 			sourceTree = "<group>";
 		};
+		8C97802E2C0E744F0018609A /* ToneAudiometryUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8CE15F432C0D5D69003C1008 /* ToneAudiometryUITests.swift */,
+				8C97802C2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift */,
+				8C97802A2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift */,
+				8CE15F4B2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift */,
+			);
+			path = ToneAudiometryUITests;
+			sourceTree = "<group>";
+		};
 		8CD2A5ED2B7EC68C0078AB5F /* LaunchTasksUITests */ = {
 			isa = PBXGroup;
 			children = (
 				8C49088B2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift */,
-				8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelActiveTasksUITests.swift */,
-				8C4908952B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestionUITests.swift */,
-				8C4908972B7ECF6200DA6E2D /* OpenAndCancelSurveysUITests.swift */,
+				8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelUITests.swift */,
 			);
 			path = LaunchTasksUITests;
 			sourceTree = "<group>";
@@ -514,6 +561,7 @@
 				8CFF29262AE9CBBC000DC99E /* RegressionUITests.xctestplan */,
 				8C49089B2B7ED08000DA6E2D /* LaunchTasksUITests.xctestplan */,
 				8C67958E2BC4B84500DE7286 /* SurveysRegressionUITests.xctestplan */,
+				8C6C5BFE2C41DC0200DEEAD3 /* ActiveTasksUITests.xctestplan */,
 				8C7C541C2B4F5CF900A2E513 /* Answers.swift */,
 			);
 			path = InternalUITests;
@@ -554,7 +602,9 @@
 				8CECC6062B9A28FE002266B9 /* SwiftUIAdaptorUITests.swift */,
 				8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */,
 				8C7C54212B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift */,
+				8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */,
 				8C89CD572BCD08F000C61F8A /* ResultsUITests */,
+				8C6C5BF92C41D0D700DEEAD3 /* ActiveTasksUITests */,
 				8CD2A5ED2B7EC68C0078AB5F /* LaunchTasksUITests */,
 			);
 			path = UITests;
@@ -595,6 +645,10 @@
 				8CECC5F82B97AC03002266B9 /* PasscodeStepScreen.swift */,
 				8CECC5FA2B97ACFE002266B9 /* VerificationStepScreen.swift */,
 				8CECC5FC2B97AFB7002266B9 /* CustomStepScreen.swift */,
+				8CE15F452C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift */,
+				8CE15F472C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift */,
+				8CE15F492C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift */,
+				8CE15F4D2C0D731E003C1008 /* SettingsAppScreens.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -619,6 +673,7 @@
 		BC74787A1B990EED0072BFE8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				518E16D42C24DA2B00F44B98 /* TaskExamples */,
 				51C173272BA4B4E1006604FB /* sphere_model.usdz */,
 				51BD8FC629D3AE2E0001D54E /* Sentence1.wav */,
 				0BEE14A5286BC6A9005F26D1 /* Scrubbers */,
@@ -751,7 +806,7 @@
 					};
 					869230BD1AAA890A00BFE11B = {
 						CreatedOnToolsVersion = 6.2;
-						LastSwiftMigration = 1020;
+						LastSwiftMigration = 1530;
 						ProvisioningStyle = Automatic;
 					};
 					9622282924F04D780056E74D = {
@@ -869,6 +924,7 @@
 				5D3800B52459F4FF00E7D2BD /* PracticeList in Resources */,
 				B125E3D41B1BA47600FF8759 /* tap.aif in Resources */,
 				3E39B9FE1ABF683700C2ABE5 /* LaunchScreen.xib in Resources */,
+				518E16D52C24DA2B00F44B98 /* TaskExamples in Resources */,
 				5D1CE45123FB1DFE004CB416 /* List1 in Resources */,
 				5DB068EA25AE5940000F3170 /* TinnitusSounds1 in Resources */,
 				3ED967B81AC13D37007E2D83 /* Localizable.strings in Resources */,
@@ -908,6 +964,7 @@
 			files = (
 				0B58E51C2981D293007263DA /* UserDefaultKeys.swift in Sources */,
 				0BE9D51C2943F42600DA0625 /* SettingsView.swift in Sources */,
+				518E16CA2C248F5500F44B98 /* ORKESerializer.m in Sources */,
 				0B270D6C28D147AC0072BEA1 /* StudyPromoViewController.swift in Sources */,
 				51F210FE2B49D04F0072B536 /* TaskListRowConstants.swift in Sources */,
 				BC9A273E1B82741900BDA84D /* ResultViewController.swift in Sources */,
@@ -934,27 +991,35 @@
 				8CECC5F92B97AC03002266B9 /* PasscodeStepScreen.swift in Sources */,
 				8CECC5F52B97A8CF002266B9 /* MiscellaneousUITests.swift in Sources */,
 				8CECC5EF2B978B3D002266B9 /* WebViewStepScreen.swift in Sources */,
-				8C4908982B7ECF6200DA6E2D /* OpenAndCancelSurveysUITests.swift in Sources */,
+				8C97802B2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift in Sources */,
+				8C97802D2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift in Sources */,
 				8CECC6072B9A28FE002266B9 /* SwiftUIAdaptorUITests.swift in Sources */,
 				8CECC6032B97CF8C002266B9 /* ResultsTab.swift in Sources */,
 				8CFF29072AE9BE99000DC99E /* WaitUtils.swift in Sources */,
 				8CECC6012B97CF6C002266B9 /* SettingsTab.swift in Sources */,
+				8CE15F4C2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift in Sources */,
 				8C7C542A2B4F680B00A2E513 /* RequestPermissionsStepScreen.swift in Sources */,
 				8C7C54222B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift in Sources */,
 				9622283924F04DBF0056E74D /* TaskScreen.swift in Sources */,
+				8CE15F462C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift in Sources */,
 				8CECC5EB2B978265002266B9 /* OnboardingUITests.swift in Sources */,
 				8CFF29142AE9C3E9000DC99E /* TasksTab.swift in Sources */,
+				8C6C5BFD2C41D1C200DEEAD3 /* ActiveTasksUITests.swift in Sources */,
 				8C49088C2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift in Sources */,
 				8CECC6052B99315E002266B9 /* InternalUITests.swift in Sources */,
 				8CFF29252AE9CB4A000DC99E /* SurveyQuestionsUITests.swift in Sources */,
-				8C49088E2B7ECEEB00DA6E2D /* OpenAndCancelActiveTasksUITests.swift in Sources */,
+				8CE15F4A2C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift in Sources */,
+				8C49088E2B7ECEEB00DA6E2D /* OpenAndCancelUITests.swift in Sources */,
 				8C7C54242B4F677300A2E513 /* HealthApp.swift in Sources */,
 				8CCB03732B86AA8A00096C86 /* UITestLogger.swift in Sources */,
 				8CFF290B2AE9C051000DC99E /* XCTestCase.swift in Sources */,
 				8CFF29092AE9BEF9000DC99E /* XCUIElementQuery.swift in Sources */,
+				8CE15F4E2C0D731E003C1008 /* SettingsAppScreens.swift in Sources */,
 				9622283B24F04DFE0056E74D /* CommonElements.swift in Sources */,
+				8CC4876B2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift in Sources */,
 				8C7C541D2B4F5CF900A2E513 /* Answers.swift in Sources */,
 				8CFF29182AE9C674000DC99E /* InstructionStepScreen.swift in Sources */,
+				8C6C5BFB2C41D13C00DEEAD3 /* ActiveTasksBaseUITest.swift in Sources */,
 				8C67958C2BC3B09B00DE7286 /* TaskListRowConstants.swift in Sources */,
 				8CBA19C72BE14AF3000E7205 /* LocaleDependentBaseUITest.swift in Sources */,
 				9622284124F04EEF0056E74D /* PreSubmissionTests.swift in Sources */,
@@ -963,10 +1028,12 @@
 				8C7C54282B4F67E200A2E513 /* Springboard.swift in Sources */,
 				9622283F24F04EBA0056E74D /* Helpers.swift in Sources */,
 				8CFF290F2AE9C24A000DC99E /* AccessibilityIdentifiers.swift in Sources */,
+				8CE15F442C0D5D69003C1008 /* ToneAudiometryUITests.swift in Sources */,
 				8CFF29122AE9C395000DC99E /* TabBar.swift in Sources */,
 				8CFF290D2AE9C06E000DC99E /* XCUIElement.swift in Sources */,
 				8CECC5ED2B978683002266B9 /* InstructionStepUITests.swift in Sources */,
 				8C89CD592BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift in Sources */,
+				8CE15F482C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift in Sources */,
 				8CECC5F12B9791AD002266B9 /* PDFViewerStepScreen.swift in Sources */,
 				8CFF29162AE9C452000DC99E /* Step.swift in Sources */,
 				8CECC5F32B97A78E002266B9 /* WaitStepScreen.swift in Sources */,
@@ -978,7 +1045,6 @@
 				8C7C54262B4F678E00A2E513 /* HealthAccess.swift in Sources */,
 				8CECC5FF2B97B61E002266B9 /* LearnMoreStepScreen.swift in Sources */,
 				9622283D24F04E6F0056E74D /* AllowScreens.swift in Sources */,
-				8C4908962B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestionUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1155,6 +1221,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.researchkit-samplecode.$(PRODUCT_NAME:rfc1034identifier)-qa";
 				PRODUCT_NAME = ORKCatalog;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ORKCatalog/ORKCatalog-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1237,6 +1304,7 @@
 				PRODUCT_NAME = ORKCatalog;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "ORKCatalog/ORKCatalog-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1319,6 +1387,7 @@
 				PRODUCT_NAME = ORKCatalog;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "ORKCatalog/ORKCatalog-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1952,6 +2021,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.researchkit-samplecode.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ORKCatalog;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ORKCatalog/ORKCatalog-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1984,6 +2054,7 @@
 				PRODUCT_NAME = ORKCatalog;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "ORKCatalog/ORKCatalog-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
