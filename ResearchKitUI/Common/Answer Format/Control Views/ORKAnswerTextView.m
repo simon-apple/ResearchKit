@@ -70,6 +70,7 @@
     _placeholderTextView = [[UITextView alloc] initWithFrame:CGRectZero];
     _placeholderTextView.textColor = [UIColor placeholderTextColor];
     _placeholderTextView.userInteractionEnabled = NO;
+    _placeholderTextView.isAccessibilityElement = NO;
     _placeholderTextView.translatesAutoresizingMaskIntoConstraints = NO;
     [self insertSubview:_placeholderTextView atIndex:0];
     
