@@ -182,6 +182,14 @@
     return YES;
 }
 
+- (NSString *)accessibilityLabel {
+    if (!_placeholderTextView.hidden) {
+        return _placeholderTextView.text;
+    } else {
+        return [super accessibilityLabel];
+    }
+}
+
 - (NSArray<UIAccessibilityCustomAction *> *)accessibilityCustomActions
 {
     NSArray<UIAccessibilityCustomAction *> *actions = nil;
