@@ -127,7 +127,6 @@ typedef NS_ENUM(NSInteger, ORKQuestionType) {
      */
     ORKQuestionTypeSES,
     
-    // start-omit-internal-code
     /**
      In an age question, the participant can enter an age by using an age picker.
      */
@@ -137,7 +136,6 @@ typedef NS_ENUM(NSInteger, ORKQuestionType) {
      In an age question, the participant can enter an age by using an age picker. ORKQuestionTypeYear will be used if the useYearForResult property of the question's ORKAgeAnswerFormat is set to true.
      */
     ORKQuestionTypeYear
-    // end-omit-internal-code
 } ORK_ENUM_AVAILABLE;
 
 

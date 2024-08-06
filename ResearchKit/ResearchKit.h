@@ -50,11 +50,15 @@
 #import <ResearchKit/ORKStep.h>
 #import <ResearchKit/ORKTask.h>
 #import <ResearchKit/ORKTypes.h>
+#import <ResearchKit/ORKResultPredicate.h>
+#import <ResearchKit/ORKBodyItem.h>
+#import <ResearchKit/ORKEarlyTerminationConfiguration.h>
+#import <ResearchKit/ORKNavigableOrderedTask.h>
+#import <ResearchKit/ORKStepNavigationRule.h>
 
 // Import these files for iOS only.
 #if !TARGET_OS_WATCH && !TARGET_OS_VISION
 #import <ResearchKit/ORKDefines.h>
-
 #import <ResearchKit/ORKActiveStep.h>
 #import <ResearchKit/ORKConsentReviewStep.h>
 #import <ResearchKit/ORKConsentSharingStep.h>
@@ -81,8 +85,6 @@
 #import <ResearchKit/ORKSecondaryTaskStep.h>
 #import <ResearchKit/ORKRequestPermissionsStep.h>
 
-#import <ResearchKit/ORKNavigableOrderedTask.h>
-#import <ResearchKit/ORKStepNavigationRule.h>
 
 #import <ResearchKit/ORKHealthAnswerFormat.h>
 
@@ -102,9 +104,6 @@
 #import <ResearchKit/ORKConsentSignature.h>
 
 #import <ResearchKit/ORKKeychainWrapper.h>
-
-#import <ResearchKit/ORKBodyItem.h>
-
 #import <ResearchKit/ORKDataCollectionManager.h>
 #import <ResearchKit/ORKCollector.h>
 
@@ -116,10 +115,7 @@
 #import <ResearchKit/ORKLocationPermissionType.h>
 
 #import <ResearchKit/ORKDeprecated.h>
-
-#import <ResearchKit/ORKEarlyTerminationConfiguration.h>
 #import <ResearchKit/ORKBundleAsset.h>
 #import <ResearchKit/HKSample+ORKJSONDictionary.h>
 #import <ResearchKit/CMMotionActivity+ORKJSONDictionary.h>
-
 #endif

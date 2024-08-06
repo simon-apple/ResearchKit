@@ -27,9 +27,14 @@
   "testTargets" : [
     {
       "skippedTests" : [
+        "ActiveTasksAudioUITests",
+        "ActiveTasksBaseUITest",
+        "ActiveTasksFitnessUITests",
+        "ActiveTasksOtherUITests",
         "Helpers",
         "OpenAndCancelActiveTaskOther",
         "OpenAndCancelActiveTaskOtherUITests",
+        "OpenAndCancelActiveTasksUITests",
         "OpenAndCancelAudioTasks",
         "OpenAndCancelAudioTasksUITests",
         "OpenAndCancelBaseUITest",
@@ -39,11 +44,17 @@
         "OpenAndCancelInternalTasksUITests",
         "OpenAndCancelMiscellaneousTasks",
         "OpenAndCancelMiscellaneousTasksUITests",
+        "OpenAndCancelOnboardingTasksUITests",
         "OpenAndCancelSurveyQuestion",
         "OpenAndCancelSurveyQuestionUITests",
         "OpenAndCancelSurveys",
         "OpenAndCancelSurveysUITests",
-        "PreSubmissionTests"
+        "PreSubmissionTests",
+        "ToneAudiometryInternalAirPodsProUITests",
+        "ToneAudiometryInternalAirPodsUITests",
+        "ToneAudiometryInternalBaseUITests",
+        "ToneAudiometryInternalUITests",
+        "ToneAudiometryUITests"
       ],
       "target" : {
         "containerPath" : "container:ORKCatalog.xcodeproj",

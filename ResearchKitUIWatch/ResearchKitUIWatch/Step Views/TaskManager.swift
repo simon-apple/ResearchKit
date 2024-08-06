@@ -58,8 +58,8 @@ open class TaskManager: ObservableObject {
     @Published
     public private(set) var result: ORKTaskResult
 
-    private(set) var task: ORKOrderedTask
-    
+    public private(set) var task: ORKOrderedTask
+
     @Published
     internal private(set) var answeredSteps: Set<ORKStep> = []
     

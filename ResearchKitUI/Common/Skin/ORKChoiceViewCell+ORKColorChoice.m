@@ -28,8 +28,6 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// apple-internal
-
 #import "ORKChoiceViewCell+ORKColorChoice.h"
 
 @implementation ORKChoiceViewCell (ORKColorChoice)
