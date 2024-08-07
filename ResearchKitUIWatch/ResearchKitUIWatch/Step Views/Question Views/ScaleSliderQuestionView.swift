@@ -35,6 +35,8 @@ import SwiftUI
 // TODO(rdar://129033515): Update name of this module to reflect just the slider without the header.
 public struct ScaleSliderQuestionView: View {
 
+    let id: String
+    
     var title: String
 
     var detail: String?
@@ -81,12 +83,14 @@ public struct ScaleSliderQuestionView: View {
     }
 
     public init(
+        id: String,
         title: String,
         detail: String? = nil,
         range: ClosedRange<Double>,
         step: Double = 1.0,
         selection: Binding<Double>
     ) {
+        self.id = id
         self.title = title
         self.detail = detail
         self.scaleSelectionConfiguration = .doubleRange(range)
@@ -97,12 +101,14 @@ public struct ScaleSliderQuestionView: View {
 
     // The int version
     public init(
+        id: String,
         title: String,
         detail: String? = nil,
         range: ClosedRange<Int>,
         step: Double = 1.0,
         selection: Binding<Int>
     ) {
+        self.id = id
         self.title = title
         self.detail = detail
         self.scaleSelectionConfiguration = .integerRange(range)
@@ -113,11 +119,13 @@ public struct ScaleSliderQuestionView: View {
 
     // The multi choice version
     public init(
+        id: String,
         title: String,
         detail: String? = nil,
         multipleChoiceOptions: [MultipleChoiceOption],
         selection: Binding<MultipleChoiceOption>
     ) {
+        self.id = id
         self.title = title
         self.detail = detail
         self.scaleSelectionConfiguration = .textChoice(multipleChoiceOptions)
@@ -263,6 +271,7 @@ struct ScaleSliderQuestionView_Previews: PreviewProvider {
                 .ignoresSafeArea()
 
             ScaleSliderQuestionView(
+                id: UUID().uuidString,
                 title: "On a scale of 1-10, how would you rate today?",
                 range: 1...10,
                 selection: .constant(7)
@@ -274,6 +283,8 @@ struct ScaleSliderQuestionView_Previews: PreviewProvider {
 }
 
 public struct InputManagedScaleSliderQuestion: View {
+    
+    private let id: String
     
     private let title: String
 
@@ -316,12 +327,14 @@ public struct InputManagedScaleSliderQuestion: View {
     }
     
     public init(
+        id: String,
         title: String,
         detail: String? = nil,
         range: ClosedRange<Double>,
         step: Double = 1.0,
         selection: Double = 5
     ) {
+        self.id = id
         self.title = title
         self.detail = detail
         self.scaleSelectionConfiguration = .doubleRange(range)
@@ -331,12 +344,14 @@ public struct InputManagedScaleSliderQuestion: View {
 
     // The int version
     public init(
+        id: String,
         title: String,
         detail: String? = nil,
         range: ClosedRange<Int>,
         step: Double = 1.0,
         selection: Int
     ) {
+        self.id = id
         self.title = title
         self.detail = detail
         self.scaleSelectionConfiguration = .integerRange(range)
@@ -346,11 +361,13 @@ public struct InputManagedScaleSliderQuestion: View {
 
     // The multi choice version
     public init(
+        id: String,
         title: String,
         detail: String? = nil,
         multipleChoiceOptions: [MultipleChoiceOption],
         selection: MultipleChoiceOption
     ) {
+        self.id = id
         self.title = title
         self.detail = detail
         self.scaleSelectionConfiguration = .textChoice(multipleChoiceOptions)
@@ -362,6 +379,7 @@ public struct InputManagedScaleSliderQuestion: View {
         switch (scaleSelectionConfiguration, selection) {
         case let (.textChoice(multipleChoiceOptions), .textChoice(textSelection)):
             ScaleSliderQuestionView(
+                id: id,
                 title: title,
                 detail: detail,
                 multipleChoiceOptions: multipleChoiceOptions,
@@ -376,6 +394,7 @@ public struct InputManagedScaleSliderQuestion: View {
             )
         case let (.integerRange(closedRange), .int(integerSelection)):
             ScaleSliderQuestionView(
+                id: id,
                 title: title,
                 detail: detail,
                 range: closedRange,
@@ -390,6 +409,7 @@ public struct InputManagedScaleSliderQuestion: View {
             )
         case let (.doubleRange(closedRange), .double(doubleSelection)):
             ScaleSliderQuestionView(
+                id: id,
                 title: title,
                 detail: detail,
                 range: closedRange,

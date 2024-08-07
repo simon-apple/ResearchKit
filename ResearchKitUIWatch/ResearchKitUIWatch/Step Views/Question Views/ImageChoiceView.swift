@@ -60,6 +60,8 @@ public struct ImageChoiceQuestion: Identifiable {
 }
 
 public struct ImageChoiceView: View {
+    
+    let id: String
     let title: String
     let detail: String?
     let choices: [ImageChoice]
@@ -69,6 +71,7 @@ public struct ImageChoiceView: View {
     @Binding var selection: [Int]
     
     public init(
+        id: String,
         title: String,
         detail: String?,
         choices: [ImageChoice],
@@ -76,6 +79,7 @@ public struct ImageChoiceView: View {
         vertical: Bool,
         selection: Binding<[Int]>
     ) {
+        self.id = id
         self.title = title
         self.detail = detail
         self.choices = choices
@@ -171,6 +175,7 @@ public struct ImageChoiceView: View {
 #Preview {
     @Previewable @State var selection: [Int] = []
     ImageChoiceView(
+        id: UUID().uuidString,
         title: "Which do you prefer?",
         detail: nil,
         choices: [
@@ -197,6 +202,7 @@ public struct ImageChoiceView: View {
 
 public struct InputManagedImageChoice: View {
     
+    private let id: String
     private let title: String
     private let detail: String?
     private let choices: [ImageChoice]
@@ -205,6 +211,7 @@ public struct InputManagedImageChoice: View {
     @State private var selection: [Int]
     
     init(
+        id: String,
         title: String,
         detail: String? = nil,
         choices: [ImageChoice],
@@ -212,6 +219,7 @@ public struct InputManagedImageChoice: View {
         vertical: Bool,
         selection: [Int]
     ) {
+        self.id = id
         self.title = title
         self.detail = detail
         self.choices = choices
@@ -222,6 +230,7 @@ public struct InputManagedImageChoice: View {
     
     public var body: some View {
         ImageChoiceView(
+            id: id,
             title: title,
             detail: detail,
             choices: choices,

@@ -73,6 +73,7 @@ public struct TextQuestionView<Header: View>: View {
         
     }
     
+    let id: String
     let header: Header
     let multilineTextFieldPadding: Double = 54
     @FocusState private var focusTarget: FocusTarget?
@@ -84,6 +85,7 @@ public struct TextQuestionView<Header: View>: View {
     let hideClearButton: Bool
 
     init(
+        id: String,
         @ViewBuilder header: () -> Header,
         text: Binding<String>,
         prompt: String?,
@@ -92,6 +94,7 @@ public struct TextQuestionView<Header: View>: View {
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false
     ) {
+        self.id = id
         self.header = header()
         self._text = text
         self.prompt = prompt
@@ -166,6 +169,7 @@ public struct TextQuestionView<Header: View>: View {
 
 public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
     init(
+        id: String,
         text: Binding<String>,
         title: String,
         detail: String?,
@@ -175,6 +179,7 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false
     ) {
+        self.id = id
         self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
         self._text = text
         self.prompt = prompt
@@ -188,6 +193,7 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
 struct TextQuestionView_Previews: PreviewProvider {
     static var previews: some View {
         TextQuestionView(
+            id: UUID().uuidString,
             text: .constant("Hello world!"),
             title: "What is your name?",
             detail: nil,
@@ -201,6 +207,7 @@ struct TextQuestionView_Previews: PreviewProvider {
 
 public struct InputManagedTextQuestion<Header: View>: View {
     
+    private let id: String
     private let header: Header
     private let multilineTextFieldPadding: Double = 54
     private let prompt: String?
@@ -211,6 +218,7 @@ public struct InputManagedTextQuestion<Header: View>: View {
     @State private var text: String
 
     public init(
+        id: String,
         @ViewBuilder header: () -> Header,
         prompt: String?,
         textFieldType: TextFieldType,
@@ -219,6 +227,7 @@ public struct InputManagedTextQuestion<Header: View>: View {
         hideClearButton: Bool = false,
         text: String = ""
     ) {
+        self.id = id
         self.header = header()
         self.prompt = prompt
         self.textFieldType = textFieldType
@@ -230,6 +239,7 @@ public struct InputManagedTextQuestion<Header: View>: View {
     
     public var body: some View {
         TextQuestionView(
+            id: id,
             header: {
                 header
             },
@@ -247,6 +257,7 @@ public struct InputManagedTextQuestion<Header: View>: View {
 public extension InputManagedTextQuestion where Header == _SimpleFormItemViewHeader {
     
     init(
+        id: String,
         text: String,
         title: String,
         detail: String? = nil,
@@ -256,6 +267,7 @@ public extension InputManagedTextQuestion where Header == _SimpleFormItemViewHea
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false
     ) {
+        self.id = id
         self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
         self.text = text
         self.prompt = prompt

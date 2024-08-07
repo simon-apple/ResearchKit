@@ -88,16 +88,20 @@ public struct HeightQuestionView: View {
     @State var isInputActive = false
     @State var hasChanges: Bool
 
+    let id: String
     let title: String
     let detail: String?
     let measurementSystem: MeasurementSystem
     @Binding var selection: (Int, Int)
-
-    public init(title: String,
-         detail: String?,
-         measurementSystem: MeasurementSystem,
-         selection: Binding<(Int, Int)>
+    
+    public init(
+        id: String,
+        title: String,
+        detail: String?,
+        measurementSystem: MeasurementSystem,
+        selection: Binding<(Int, Int)>
     ) {
+        self.id = id
         self.hasChanges = false
         self.title = title
         self.detail = detail
@@ -232,6 +236,7 @@ struct HeightPickerView: View {
 #Preview {
     @Previewable @State var selection: (Int, Int) = (22, 2)
     HeightQuestionView(
+        id: UUID().uuidString,
         title: "Height question here",
         detail: nil,
         measurementSystem: .USC,
@@ -241,17 +246,20 @@ struct HeightPickerView: View {
 
 public struct InputManagedHeightQuestion: View {
     
+    private let id: String
     private let title: String
     private let detail: String?
     private let measurementSystem: MeasurementSystem
     @State private var selection: (Int, Int)
     
     init(
+        id: String,
         title: String,
         detail: String? = nil,
         measurementSystem: MeasurementSystem,
         selection: (Int, Int)
     ) {
+        self.id = id
         self.title = title
         self.detail = detail
         self.measurementSystem = measurementSystem
@@ -260,6 +268,7 @@ public struct InputManagedHeightQuestion: View {
     
     public var body: some View {
         HeightQuestionView(
+            id: id,
             title: title,
             detail: detail,
             measurementSystem: measurementSystem,

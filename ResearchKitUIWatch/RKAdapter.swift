@@ -384,6 +384,7 @@ public class RKAdapter {
                             switch answerFormat {
                             case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
                                 InputManagedMultipleChoiceQuestion(
+                                    id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     choices: textChoiceAnswerFormat.textChoices.map { textChoice in
                                         MultipleChoiceOption(
@@ -396,6 +397,7 @@ public class RKAdapter {
                                 )
                             case let scaleAnswerFormat as ORKScaleAnswerFormat:
                                 InputManagedScaleSliderQuestion(
+                                    id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     range: scaleAnswerFormat.minimum...scaleAnswerFormat.maximum,
                                     step: Double(scaleAnswerFormat.step),
@@ -414,6 +416,7 @@ public class RKAdapter {
                                 }()
                                 
                                 InputManagedScaleSliderQuestion(
+                                    id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     range: continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum,
                                     step: stepSize,
@@ -429,6 +432,7 @@ public class RKAdapter {
                                 
                                 if answerOptions.indices.contains(textChoiceScaleAnswerFormat.defaultIndex) {
                                     InputManagedScaleSliderQuestion(
+                                        id: formItem.identifier,
                                         title: formItem.text ?? "",
                                         multipleChoiceOptions: answerOptions,
                                         selection: answerOptions[textChoiceScaleAnswerFormat.defaultIndex]
@@ -436,6 +440,7 @@ public class RKAdapter {
                                 }
                             case let textAnswerFormat as ORKTextAnswerFormat:
                                 InputManagedTextQuestion(
+                                    id: formItem.identifier,
                                     text: textAnswerFormat.defaultTextAnswer ?? "",
                                     title: formItem.text ?? "",
                                     prompt: formItem.placeholder,
@@ -485,6 +490,7 @@ public class RKAdapter {
                                 // TODO: Make details nil.
                                 
                                 InputManagedDateTimeQuestion(
+                                    id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     pickerPrompt: prompt,
                                     displayedComponents: components,
@@ -493,6 +499,7 @@ public class RKAdapter {
                                 )
                             case let numericAnswerFormat as ORKNumericAnswerFormat:
                                 InputManagedNumericQuestion(
+                                    id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     prompt: numericAnswerFormat.placeholder ?? "Tap to answer",
                                     text: numericAnswerFormat.defaultNumericAnswer?.decimalValue
@@ -528,6 +535,7 @@ public class RKAdapter {
                                 }()
                                 
                                 InputManagedHeightQuestion(
+                                    id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     measurementSystem: measurementSystem,
                                     selection: (initialPrimaryValue, 4)
@@ -591,6 +599,7 @@ public class RKAdapter {
                                 }()
                                 
                                 InputManagedWeightQuestion(
+                                    id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     measurementSystem: measurementSystem,
                                     precision: precision,
@@ -621,6 +630,7 @@ public class RKAdapter {
                                 }()
                                 
                                 InputManagedImageChoice(
+                                    id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     choices: choices,
                                     style: style,

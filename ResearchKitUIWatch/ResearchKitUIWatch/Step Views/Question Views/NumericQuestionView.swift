@@ -63,6 +63,7 @@ public struct NumericQuestionView<Header: View>: View {
         
     }
     
+    private let id: String
     @Binding var text: Decimal?
     private let header: Header
     private let prompt: String?
@@ -103,11 +104,13 @@ public struct NumericQuestionView<Header: View>: View {
 public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
     
     init(
+        id: String,
         text: Binding<Decimal?>,
         title: String,
         detail: String?,
         prompt: String?
     ) {
+        self.id = id
         self._text = text
         header = _SimpleFormItemViewHeader(title: title, detail: detail)
         self.prompt = prompt
@@ -122,6 +125,7 @@ struct NumericQuestionView_Previews: PreviewProvider {
                 .ignoresSafeArea()
 
             NumericQuestionView(
+                id: UUID().uuidString,
                 text: .constant(22.0),
                 title: "How old are you?",
                 detail: nil,
@@ -135,17 +139,20 @@ struct NumericQuestionView_Previews: PreviewProvider {
 
 public struct InputManagedNumericQuestion: View {
     
+    private let id: String
     private let title: String
     private let detail: String?
     private let prompt: String?
     @State private var text: Decimal?
     
     public init(
+        id: String,
         title: String,
         detail: String? = nil,
         prompt: String? = nil,
         text: Decimal?
     ) {
+        self.id = id
         self.title = title
         self.detail = detail
         self.prompt = prompt
@@ -154,6 +161,7 @@ public struct InputManagedNumericQuestion: View {
     
     public var body: some View {
         NumericQuestionView(
+            id: id,
             text: $text,
             title: title,
             detail: detail,

@@ -34,6 +34,7 @@ public struct WeightQuestionView: View {
     @State var isInputActive = false
     @State var hasChanges: Bool
 
+    let id: String
     let title: String
     let detail: String?
     let measurementSystem: MeasurementSystem
@@ -43,15 +44,18 @@ public struct WeightQuestionView: View {
     let maximumValue: Double?
     @Binding var selection: (Double, Double)
 
-    public init(title: String,
-         detail: String?,
-         measurementSystem: MeasurementSystem,
-         precision: NumericPrecision = .default,
-         defaultValue: Double?,
-         minimumValue: Double?,
-         maximumValue: Double?,
-         selection: Binding<(Double, Double)>
+    public init(
+        id: String,
+        title: String,
+        detail: String?,
+        measurementSystem: MeasurementSystem,
+        precision: NumericPrecision = .default,
+        defaultValue: Double?,
+        minimumValue: Double?,
+        maximumValue: Double?,
+        selection: Binding<(Double, Double)>
     ) {
+        self.id = id
         self.hasChanges = false
         self.title = title
         self.detail = detail
@@ -335,6 +339,7 @@ struct WeightPickerView: View {
 #Preview {
     @Previewable @State var selection: (Double, Double) = (133, 0)
     WeightQuestionView(
+        id: UUID().uuidString,
         title: "Weight question here",
         detail: nil,
         measurementSystem: .USC,
@@ -348,6 +353,7 @@ struct WeightPickerView: View {
 
 public struct InputManagedWeightQuestion: View {
     
+    private let id: String
     private let title: String
     private let detail: String?
     private let measurementSystem: MeasurementSystem
@@ -358,6 +364,7 @@ public struct InputManagedWeightQuestion: View {
     @State private var selection: (Double, Double)
     
     init(
+        id: String,
         title: String,
         detail: String? = nil,
         measurementSystem: MeasurementSystem,
@@ -367,6 +374,7 @@ public struct InputManagedWeightQuestion: View {
         maximumValue: Double?,
         selection: (Double, Double)
     ) {
+        self.id = id
         self.title = title
         self.detail = detail
         self.measurementSystem = measurementSystem
@@ -379,6 +387,7 @@ public struct InputManagedWeightQuestion: View {
     
     public var body: some View {
         WeightQuestionView(
+            id: id,
             title: title,
             detail: detail,
             measurementSystem: measurementSystem,
