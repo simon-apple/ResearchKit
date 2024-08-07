@@ -96,7 +96,7 @@ public struct TextQuestionView<Header: View>: View {
         self._text = text
         self.prompt = prompt
         self.textFieldType = textFieldType
-        self.characterLimit = characterLimit
+        self.characterLimit = characterLimit > 0 ? characterLimit : .max
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
     }
@@ -128,34 +128,41 @@ public struct TextQuestionView<Header: View>: View {
                     .focused($focusTarget, equals: .textQuestion)
                     .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
                     .contentShape(Rectangle())
+                    .onAppear(perform: {
+                        if textFieldType == .singleLine {
+                            UITextField.appearance().clearButtonMode = .whileEditing
+                        }
+                    })
 
-                HStack {
-                    if hideCharacterCountLabel == false {
-                        Text("\(text.count)/\(characterLimit)")
-                    }
-                    Spacer()
+                if textFieldType == .multiline {
+                    HStack {
+                        if hideCharacterCountLabel == false {
+                            Text("\(text.count)/\(characterLimit)")
+                        }
+                        Spacer()
 
-                    if !hideClearButton {
-                        Button {
-                            text = ""
-                        } label: {
-                            Text("Clear")
+                        if !hideClearButton {
+                            Button {
+                                text = ""
+                            } label: {
+                                Text("Clear")
+                            }
                         }
                     }
-                }
 #if os(iOS)
-                .doneKeyboardToolbar(
-                    condition: {
-                        focusTarget == .textQuestion
-                    },
-                    action: {
-                        focusTarget = nil
-                    }
-                )
+                    .doneKeyboardToolbar(
+                        condition: {
+                            focusTarget == .textQuestion
+                        },
+                        action: {
+                            focusTarget = nil
+                        }
+                    )
 #endif
-                .onChange(of: text) { oldValue, newValue in
-                    if text.count > characterLimit {
-                        text = oldValue
+                    .onChange(of: text) { oldValue, newValue in
+                        if text.count > characterLimit {
+                            text = oldValue
+                        }
                     }
                 }
             }
