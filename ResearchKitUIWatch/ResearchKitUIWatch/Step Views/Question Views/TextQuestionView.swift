@@ -249,7 +249,7 @@ public extension InputManagedTextQuestion where Header == _SimpleFormItemViewHea
     init(
         text: String,
         title: String,
-        detail: String?,
+        detail: String? = nil,
         prompt: String?,
         textFieldType: TextFieldType,
         characterLimit: Int,

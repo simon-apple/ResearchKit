@@ -194,3 +194,41 @@ public struct ImageChoiceView: View {
         selection: $selection
     )
 }
+
+public struct InputManagedImageChoice: View {
+    
+    private let title: String
+    private let detail: String?
+    private let choices: [ImageChoice]
+    private let style: ImageChoiceQuestion.ChoiceSelectionType
+    private let vertical: Bool
+    @State private var selection: [Int]
+    
+    init(
+        title: String,
+        detail: String? = nil,
+        choices: [ImageChoice],
+        style: ImageChoiceQuestion.ChoiceSelectionType,
+        vertical: Bool,
+        selection: [Int]
+    ) {
+        self.title = title
+        self.detail = detail
+        self.choices = choices
+        self.style = style
+        self.vertical = vertical
+        self.selection = selection
+    }
+    
+    public var body: some View {
+        ImageChoiceView(
+            title: title,
+            detail: detail,
+            choices: choices,
+            style: style,
+            vertical: vertical,
+            selection: $selection
+        )
+    }
+    
+}

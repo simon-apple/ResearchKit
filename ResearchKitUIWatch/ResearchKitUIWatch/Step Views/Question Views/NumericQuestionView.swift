@@ -132,3 +132,33 @@ struct NumericQuestionView_Previews: PreviewProvider {
 
     }
 }
+
+public struct InputManagedNumericQuestion: View {
+    
+    private let title: String
+    private let detail: String?
+    private let prompt: String?
+    @State private var text: Decimal?
+    
+    public init(
+        title: String,
+        detail: String? = nil,
+        prompt: String? = nil,
+        text: Decimal?
+    ) {
+        self.title = title
+        self.detail = detail
+        self.prompt = prompt
+        self.text = text
+    }
+    
+    public var body: some View {
+        NumericQuestionView(
+            text: $text,
+            title: title,
+            detail: detail,
+            prompt: prompt
+        )
+    }
+    
+}

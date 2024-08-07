@@ -239,3 +239,32 @@ struct HeightPickerView: View {
     )
 }
 
+public struct InputManagedHeightQuestion: View {
+    
+    private let title: String
+    private let detail: String?
+    private let measurementSystem: MeasurementSystem
+    @State private var selection: (Int, Int)
+    
+    init(
+        title: String,
+        detail: String? = nil,
+        measurementSystem: MeasurementSystem,
+        selection: (Int, Int)
+    ) {
+        self.title = title
+        self.detail = detail
+        self.measurementSystem = measurementSystem
+        self.selection = selection
+    }
+    
+    public var body: some View {
+        HeightQuestionView(
+            title: title,
+            detail: detail,
+            measurementSystem: measurementSystem,
+            selection: $selection
+        )
+    }
+    
+}

@@ -120,3 +120,37 @@ struct MultipleChoiceQuestionView_Previews: PreviewProvider {
 
     }
 }
+
+public struct InputManagedMultipleChoiceQuestion: View {
+    
+    private let title: String
+    private let detail: String?
+    private let choices: [MultipleChoiceOption]
+    @State private var selectedChoices: [MultipleChoiceOption] = []
+    private let selectionType: MultipleChoiceQuestion.ChoiceSelectionType
+    
+    public init(
+        title: String,
+        detail: String? = nil,
+        choices: [MultipleChoiceOption],
+        selectedChoices: [MultipleChoiceOption],
+        selectionType: MultipleChoiceQuestion.ChoiceSelectionType
+    ) {
+        self.title = title
+        self.detail = detail
+        self.choices = choices
+        self.selectedChoices = selectedChoices
+        self.selectionType = selectionType
+    }
+    
+    public var body: some View {
+        MultipleChoiceQuestionView(
+            title: title,
+            detail: detail,
+            choices: choices,
+            selectionType: selectionType,
+            result: $selectedChoices
+        )
+    }
+    
+}

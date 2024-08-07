@@ -346,3 +346,48 @@ struct WeightPickerView: View {
     )
 }
 
+public struct InputManagedWeightQuestion: View {
+    
+    private let title: String
+    private let detail: String?
+    private let measurementSystem: MeasurementSystem
+    private let precision: NumericPrecision
+    private let defaultValue: Double?
+    private let minimumValue: Double?
+    private let maximumValue: Double?
+    @State private var selection: (Double, Double)
+    
+    init(
+        title: String,
+        detail: String? = nil,
+        measurementSystem: MeasurementSystem,
+        precision: NumericPrecision,
+        defaultValue: Double?,
+        minimumValue: Double?,
+        maximumValue: Double?,
+        selection: (Double, Double)
+    ) {
+        self.title = title
+        self.detail = detail
+        self.measurementSystem = measurementSystem
+        self.precision = precision
+        self.defaultValue = defaultValue
+        self.minimumValue = minimumValue
+        self.maximumValue = maximumValue
+        self.selection = selection
+    }
+    
+    public var body: some View {
+        WeightQuestionView(
+            title: title,
+            detail: detail,
+            measurementSystem: measurementSystem,
+            precision: precision,
+            defaultValue: defaultValue,
+            minimumValue: minimumValue,
+            maximumValue: maximumValue,
+            selection: $selection
+        )
+    }
+    
+}

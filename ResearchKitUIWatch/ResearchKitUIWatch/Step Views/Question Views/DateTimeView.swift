@@ -132,7 +132,7 @@ struct DateTimeView_Previews: PreviewProvider {
 public struct InputManagedDateTimeQuestion: View {
     
     private let title: String
-    private let detail: String
+    private let detail: String?
     private let pickerPrompt: String
     private let displayedComponents: DatePicker.Components
     private let range: ClosedRange<Date>
@@ -140,7 +140,7 @@ public struct InputManagedDateTimeQuestion: View {
     
     public init(
         title: String,
-        detail: String,
+        detail: String? = nil,
         pickerPrompt: String,
         displayedComponents: DatePicker.Components,
         range: ClosedRange<Date>,

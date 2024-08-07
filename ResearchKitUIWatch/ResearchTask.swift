@@ -256,14 +256,14 @@ public extension ResearchTaskStep {
         @ViewBuilder content: () -> some View
     ) {
         let titleText: Text?
-        if let title {
+        if let title, !title.isEmpty {
             titleText = Text(title)
         } else {
             titleText = nil
         }
         
         let subtitleText: Text?
-        if let subtitle {
+        if let subtitle, !subtitle.isEmpty {
             subtitleText = Text(subtitle)
         } else {
             subtitleText = nil
@@ -301,4 +301,13 @@ public struct ResearchTaskBuilder {
     public static func buildEither(second component: [ResearchTaskStep]) -> [ResearchTaskStep] {
         component
     }
+    
+    public static func buildArray(_ components: [[ResearchTaskStep]]) -> [ResearchTaskStep] {
+        components.flatMap { $0 }
+    }
+    
+    public static func buildOptional(_ component: [ResearchTaskStep]?) -> [ResearchTaskStep] {
+        component ?? []
+    }
+    
 }
