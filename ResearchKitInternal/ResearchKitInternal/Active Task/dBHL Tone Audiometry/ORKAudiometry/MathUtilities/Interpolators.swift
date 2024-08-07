@@ -75,7 +75,7 @@ public class Interpolators: NSObject {
 extension Array {
     // from swift-algorithms
     @inlinable
-    func partitioningIndex(where belongsInSecondPartition: (Element) throws -> Bool)
+    public func partitioningIndex(where belongsInSecondPartition: (Element) throws -> Bool)
     rethrows -> Index {
         var currentCount = self.count
         var currentIndex = self.startIndex
