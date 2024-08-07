@@ -487,8 +487,6 @@ public class RKAdapter {
                                     }
                                 }()
                                 
-                                // TODO: Make details nil.
-                                
                                 InputManagedDateTimeQuestion(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
