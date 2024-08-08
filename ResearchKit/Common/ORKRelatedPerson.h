@@ -28,38 +28,53 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
+#import <ResearchKit/ORKAnswerFormat.h>
+#import <ResearchKit/ORKFormStep.h>
 #import <ResearchKit/ORKTypes.h>
 
+
 @class ORKTaskResult;
-@class ORKFormStep;
+
+#if RK_APPLE_INTERNAL
+@class ORKAgeAnswerFormat;
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
-@interface ORKRelativeGroup : NSObject
+@interface ORKRelatedPerson : NSObject <NSSecureCoding, NSCopying>
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
-                              name:(NSString *)name
-                      sectionTitle:(NSString *)title
-                 sectionDetailText:(NSString *)detailText
+                   groupIdentifier:(NSString *)groupIdentifier
             identifierForCellTitle:(NSString *)identifierForCellTitle
-                        maxAllowed:(NSUInteger)maxAllowed
-                         formSteps:(NSArray<ORKFormStep *> *)formSteps
-             detailTextIdentifiers:(NSArray<NSString *> *)detailTextIdentifiers NS_DESIGNATED_INITIALIZER;
+                        taskResult:(ORKTaskResult *)result NS_DESIGNATED_INITIALIZER;
 
 @property (nonatomic, readonly, copy) NSString *identifier;
-@property (nonatomic, readonly, copy) NSString *name;
-@property (nonatomic, readonly, copy) NSString *sectionTitle;
-@property (nonatomic, readonly, copy) NSString *sectionDetailText;
+@property (nonatomic, readonly, copy) NSString *groupIdentifier;
 @property (nonatomic, readonly, copy) NSString *identifierForCellTitle;
-@property (nonatomic, readonly) NSUInteger maxAllowed;
-@property (nonatomic, readonly, copy) NSArray<ORKFormStep *> *formSteps;
-@property (nonatomic, readonly, copy) NSArray<NSString *> *detailTextIdentifiers;
+@property (nonatomic, copy) ORKTaskResult *taskResult;
+
+- (nullable NSString *)getTitleValueWithIdentifier:(NSString *)identifier;
+
+- (NSArray<NSString *> *)getDetailListValuesWithIdentifiers:(NSArray<NSString *> *)identifiers
+                                    displayInfoKeyAndValues:(NSDictionary<NSString *, NSDictionary<NSString *, NSString *> *> *)displayInfoKeyAndValues;
+
+- (NSArray<NSString *> *)getConditionsListWithStepIdentifier:(NSString *)stepIdentifier
+                                          formItemIdentifier:(NSString *)formItemIdentifier
+                                         conditionsKeyValues:(NSDictionary<NSString *, NSString *> *)conditionsKeyValues;
+
+#if RK_APPLE_INTERNAL
+- (nullable NSNumber *)getAgeFromFormSteps:(NSArray<ORKFormStep *> *)formSteps;
+
+- (void)setAgeAnswerFormat:(ORKAgeAnswerFormat *)ageAnswerFormat
+     ageFormItemIdentifier:(NSString *)ageFormItemIdentifier;
+
+#endif
 
 @end
 

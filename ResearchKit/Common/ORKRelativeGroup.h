@@ -28,38 +28,39 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitInternal/ORKFamilyHistoryStepViewController.h>
+#import <Foundation/Foundation.h>
+
+#import <ResearchKit/ORKTypes.h>
+
+
+@class ORKTaskResult;
+@class ORKFormStep;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKFamilyHistoryReviewController;
-@class ORKOrderedTask;
-@class ORKNavigableOrderedTask;
-
-@protocol ORKFamilyHistoryReviewControllerDelegate <NSObject>
-@required
-- (void)familyHistoryReviewController:(ORKFamilyHistoryReviewController *)familyHistoryReviewController didUpdateResult:(ORKTaskResult *)updatedResult source:(ORKTaskResult *)resultSource;
-- (void)familyHistoryReviewControllerDidSelectIncompleteCell:(ORKFamilyHistoryReviewController *)familyHistoryReviewController;
-@end
-
 ORK_CLASS_AVAILABLE
-@interface ORKFamilyHistoryReviewController : ORKFamilyHistoryStepViewController
+@interface ORKRelativeGroup : NSObject
 
-- (instancetype)initWithTask:(ORKOrderedTask *)task
-                      result:(ORKTaskResult *)result
-                    delegate:(id<ORKFamilyHistoryReviewControllerDelegate>)delegate;
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithTask:(ORKNavigableOrderedTask *)task
-                    delegate:(id<ORKFamilyHistoryReviewControllerDelegate>)delegate
-                 isCompleted:(BOOL)isCompleted
-              incompleteText:(NSString *)incompleteText;
+- (instancetype)initWithIdentifier:(NSString *)identifier
+                              name:(NSString *)name
+                      sectionTitle:(NSString *)title
+                 sectionDetailText:(NSString *)detailText
+            identifierForCellTitle:(NSString *)identifierForCellTitle
+                        maxAllowed:(NSUInteger)maxAllowed
+                         formSteps:(NSArray<ORKFormStep *> *)formSteps
+             detailTextIdentifiers:(NSArray<NSString *> *)detailTextIdentifiers NS_DESIGNATED_INITIALIZER;
 
-- (void)updateResultSource:(ORKTaskResult *)taskResult;
-- (void)setText:(NSString *)text;
-
-@property (nonatomic, weak) id<ORKFamilyHistoryReviewControllerDelegate> reviewDelegate;
-
-@property (nonatomic, nullable) NSString *reviewTitle;
+@property (nonatomic, readonly, copy) NSString *identifier;
+@property (nonatomic, readonly, copy) NSString *name;
+@property (nonatomic, readonly, copy) NSString *sectionTitle;
+@property (nonatomic, readonly, copy) NSString *sectionDetailText;
+@property (nonatomic, readonly, copy) NSString *identifierForCellTitle;
+@property (nonatomic, readonly) NSUInteger maxAllowed;
+@property (nonatomic, readonly, copy) NSArray<ORKFormStep *> *formSteps;
+@property (nonatomic, readonly, copy) NSArray<NSString *> *detailTextIdentifiers;
 
 @end
 

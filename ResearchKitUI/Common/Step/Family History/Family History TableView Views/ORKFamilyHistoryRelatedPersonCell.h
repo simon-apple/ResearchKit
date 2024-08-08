@@ -28,55 +28,40 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKFamilyHistoryResult.h"
+@import UIKit;
 
-#import "ORKRelatedPerson.h"
+NS_ASSUME_NONNULL_BEGIN
 
-#import <ResearchKit/ORKResult_Private.h>
-#import <ResearchKit/ORKHelpers_Internal.h>
+@class ORKFamilyHistoryRelatedPersonCell;
+@protocol ORKFamilyHistoryRelatedPersonCellDelegate;
+
+typedef NS_ENUM(NSInteger, ORKFamilyHistoryTooltipOption) {
+    ORKFamilyHistoryTooltipOptionEdit,
+    ORKFamilyHistoryTooltipOptionDelete
+};
 
 
-@implementation ORKFamilyHistoryResult
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_OBJ(aCoder, relatedPersons);
-    ORK_ENCODE_OBJ(aCoder, displayedConditions);
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_OBJ_ARRAY(aDecoder, relatedPersons, ORKRelatedPerson);
-        ORK_DECODE_OBJ_ARRAY(aDecoder, displayedConditions, NSString);
-    }
-    return self;
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
+@protocol ORKFamilyHistoryRelatedPersonCellDelegate <NSObject>
     
-    __typeof(self) castObject = object;
-    return (isParentSame &&
-            ORKEqualObjects(self.relatedPersons, castObject.relatedPersons) &&
-            ORKEqualObjects(self.displayedConditions, castObject.displayedConditions));
-}
+- (void)familyHistoryRelatedPersonCell:(ORKFamilyHistoryRelatedPersonCell *)relatedPersonCell
+                          tappedOption:(ORKFamilyHistoryTooltipOption)option;
+    
+@end
 
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKFamilyHistoryResult *result = [super copyWithZone:zone];
 
-    result->_relatedPersons = ORKArrayCopyObjects(_relatedPersons);
-    result->_displayedConditions = [_displayedConditions copy];
+@interface ORKFamilyHistoryRelatedPersonCell : UITableViewCell
 
-    return result;
-}
+@property (nonatomic) NSString *title;
+@property (nonatomic) NSString *relativeID;
+@property (nonatomic) NSArray<NSString *> *detailValues;
+@property (nonatomic) NSArray<NSString *> *conditionValues;
+@property (nonatomic) BOOL isLastItemBeforeAddRelativeButton;
+@property (nonatomic, weak, nullable) id<ORKFamilyHistoryRelatedPersonCellDelegate> delegate;
 
-- (NSUInteger)hash {
-    return super.hash ^ self.relatedPersons.hash ^ self.displayedConditions.hash;
-}
+- (void)configureWithDetailValues:(NSArray<NSString *> *)detailValues
+                 conditionsValues:(NSArray<NSString *> *)conditionsValues
+isLastItemBeforeAddRelativeButton:(BOOL)isLastItemBeforeAddRelativeButton;
 
 @end
+
+NS_ASSUME_NONNULL_END

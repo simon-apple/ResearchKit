@@ -28,39 +28,38 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import <ResearchKitUI/ORKFamilyHistoryStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKFamilyHistoryRelatedPersonCell;
-@protocol ORKFamilyHistoryRelatedPersonCellDelegate;
+@class ORKFamilyHistoryReviewController;
+@class ORKOrderedTask;
+@class ORKNavigableOrderedTask;
 
-typedef NS_ENUM(NSInteger, ORKFamilyHistoryTooltipOption) {
-    ORKFamilyHistoryTooltipOptionEdit,
-    ORKFamilyHistoryTooltipOptionDelete
-};
-
-
-@protocol ORKFamilyHistoryRelatedPersonCellDelegate <NSObject>
-    
-- (void)familyHistoryRelatedPersonCell:(ORKFamilyHistoryRelatedPersonCell *)relatedPersonCell
-                          tappedOption:(ORKFamilyHistoryTooltipOption)option;
-    
+@protocol ORKFamilyHistoryReviewControllerDelegate <NSObject>
+@required
+- (void)familyHistoryReviewController:(ORKFamilyHistoryReviewController *)familyHistoryReviewController didUpdateResult:(ORKTaskResult *)updatedResult source:(ORKTaskResult *)resultSource;
+- (void)familyHistoryReviewControllerDidSelectIncompleteCell:(ORKFamilyHistoryReviewController *)familyHistoryReviewController;
 @end
 
+ORK_CLASS_AVAILABLE
+@interface ORKFamilyHistoryReviewController : ORKFamilyHistoryStepViewController
 
-@interface ORKFamilyHistoryRelatedPersonCell : UITableViewCell
+- (instancetype)initWithTask:(ORKOrderedTask *)task
+                      result:(ORKTaskResult *)result
+                    delegate:(id<ORKFamilyHistoryReviewControllerDelegate>)delegate;
 
-@property (nonatomic) NSString *title;
-@property (nonatomic) NSString *relativeID;
-@property (nonatomic) NSArray<NSString *> *detailValues;
-@property (nonatomic) NSArray<NSString *> *conditionValues;
-@property (nonatomic) BOOL isLastItemBeforeAddRelativeButton;
-@property (nonatomic, weak, nullable) id<ORKFamilyHistoryRelatedPersonCellDelegate> delegate;
+- (instancetype)initWithTask:(ORKNavigableOrderedTask *)task
+                    delegate:(id<ORKFamilyHistoryReviewControllerDelegate>)delegate
+                 isCompleted:(BOOL)isCompleted
+              incompleteText:(NSString *)incompleteText;
 
-- (void)configureWithDetailValues:(NSArray<NSString *> *)detailValues
-                 conditionsValues:(NSArray<NSString *> *)conditionsValues
-isLastItemBeforeAddRelativeButton:(BOOL)isLastItemBeforeAddRelativeButton;
+- (void)updateResultSource:(ORKTaskResult *)taskResult;
+- (void)setText:(NSString *)text;
+
+@property (nonatomic, weak) id<ORKFamilyHistoryReviewControllerDelegate> reviewDelegate;
+
+@property (nonatomic, nullable) NSString *reviewTitle;
 
 @end
 

@@ -1,3 +1,4 @@
+//
 /*
  Copyright (c) 2023, Apple Inc. All rights reserved.
  
@@ -28,31 +29,16 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-
-#import <ResearchKit/ORKTypes.h>
-
-@class ORKTaskResult;
-@class ORKHealthCondition;
-@class ORKFormItem;
+#import "ORKFamilyHistoryStepViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
+@interface ORKFamilyHistoryStepViewController (ORKFamilyHistoryReviewSupport) <UITableViewDelegate, UITableViewDataSource>
 
-ORK_CLASS_AVAILABLE
-@interface ORKConditionStepConfiguration : NSObject <NSSecureCoding, NSCopying>
-
-+ (instancetype)new NS_UNAVAILABLE;
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithStepIdentifier:(NSString *)stepIdentifier
-          conditionsFormItemIdentifier:(NSString *)conditionsFormItemIdentifier
-                            conditions:(NSArray<ORKHealthCondition *> *)conditions
-                             formItems:(NSArray<ORKFormItem *> *)formItems NS_DESIGNATED_INITIALIZER;
-
-@property (nonatomic, readonly, copy) NSString *stepIdentifier;
-@property (nonatomic, readonly, copy) NSString *conditionsFormItemIdentifier;
-@property (nonatomic, readonly, copy) NSArray<ORKHealthCondition *> *conditions;
-@property (nonatomic, copy) NSArray<ORKFormItem *> *formItems;
+- (void)setupFooterViewIfNeeded;
+- (void)handleRelatedPersonTaskResult:(ORKTaskResult *)taskResult taskIdentifier:(NSString *)identifier;
+- (void)updateDisplayedConditionsFromTaskResult:(ORKTaskResult *)taskResult;
+- (NSInteger)numberOfRowsForRelativeGroupInSection:(NSInteger)section;
+- (void)updateViewColors;
 
 @end
 
