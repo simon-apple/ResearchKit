@@ -33,6 +33,7 @@ import SwiftUI
 // TODO(rdar://129033515): Update name of this module to reflect just the choice options without the header.
 public struct MultipleChoiceQuestionView: View {
 
+    let id: String
     let title: String
     let choices: [MultipleChoiceOption]
     let selectionType: MultipleChoiceQuestion.ChoiceSelectionType
@@ -44,12 +45,14 @@ public struct MultipleChoiceQuestionView: View {
 
     // TODO(rdar://129033515): Remove title parameter from initializer since the body reflects just the options.
     public init(
+        id: String,
         title: String,
         detail: String? = nil,
         choices: [MultipleChoiceOption],
         selectionType: MultipleChoiceQuestion.ChoiceSelectionType,
         result: Binding<[MultipleChoiceOption]>
     ) {
+        self.id = id
         self.title = title
         self.detail = detail
         self.choices = choices
@@ -106,6 +109,7 @@ struct MultipleChoiceQuestionView_Previews: PreviewProvider {
                 .ignoresSafeArea()
 
             MultipleChoiceQuestionView(
+                id: UUID().uuidString,
                 title: "Which do you prefer?",
                 choices: [
                     MultipleChoiceOption(id: "a", choiceText: "Option A"),
@@ -119,4 +123,42 @@ struct MultipleChoiceQuestionView_Previews: PreviewProvider {
         }
 
     }
+}
+
+public struct InputManagedMultipleChoiceQuestion: View {
+    
+    private let id: String
+    private let title: String
+    private let detail: String?
+    private let choices: [MultipleChoiceOption]
+    @State private var selectedChoices: [MultipleChoiceOption] = []
+    private let selectionType: MultipleChoiceQuestion.ChoiceSelectionType
+    
+    public init(
+        id: String,
+        title: String,
+        detail: String? = nil,
+        choices: [MultipleChoiceOption],
+        selectedChoices: [MultipleChoiceOption],
+        selectionType: MultipleChoiceQuestion.ChoiceSelectionType
+    ) {
+        self.id = id
+        self.title = title
+        self.detail = detail
+        self.choices = choices
+        self.selectedChoices = selectedChoices
+        self.selectionType = selectionType
+    }
+    
+    public var body: some View {
+        MultipleChoiceQuestionView(
+            id: id,
+            title: title,
+            detail: detail,
+            choices: choices,
+            selectionType: selectionType,
+            result: $selectedChoices
+        )
+    }
+    
 }

@@ -19,7 +19,7 @@
 		0B7213522B4F39CC00463E69 /* ORKScrollViewReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72134C2B4F39CC00463E69 /* ORKScrollViewReader.swift */; };
 		0B7213532B4F39CC00463E69 /* View+OnChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72134D2B4F39CC00463E69 /* View+OnChange.swift */; };
 		0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */ = {isa = PBXBuildFile; fileRef = 0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */; };
-		380E14B02C3350A900085D2B /* ResearchTaskNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380E14AF2C3350A900085D2B /* ResearchTaskNavigationView.swift */; };
+		380E14B02C3350A900085D2B /* ResearchTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380E14AF2C3350A900085D2B /* ResearchTask.swift */; };
 		380E14B22C3350D900085D2B /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380E14B12C3350D600085D2B /* Step.swift */; };
 		3815C0142C2081CE00A29CD3 /* DateTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3815C0132C2081CE00A29CD3 /* DateTimeView.swift */; };
 		381CAC082C34C62100FCE89A /* FormRowContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC072C34C61D00FCE89A /* FormRowContent.swift */; };
@@ -43,8 +43,10 @@
 		5EBAA2892C3E064900F193C6 /* InstructionStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBAA2882C3E064900F193C6 /* InstructionStep.swift */; };
 		5EBAA28D2C40634800F193C6 /* BodyItemIconForegroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBAA28C2C40634800F193C6 /* BodyItemIconForegroundStyle.swift */; };
 		5EBAA28F2C4063C100F193C6 /* StepIconForegroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBAA28E2C4063C100F193C6 /* StepIconForegroundStyle.swift */; };
+		5ED16E272C5AF7E50072016D /* InstructionBodyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED16E262C5AF7DF0072016D /* InstructionBodyItem.swift */; };
 		5EDFA9D72BFFFA2B0044C156 /* StepHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDFA9D62BFFFA2B0044C156 /* StepHeaderView.swift */; };
 		5EDFA9D92BFFFF0F0044C156 /* ListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDFA9D82BFFFF0F0044C156 /* ListHeaderView.swift */; };
+		5EE5FD122C63DCDD004BBABF /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE5FD112C63DCDD004BBABF /* QuestionView.swift */; };
 		BA32DE9F2BCF34440041A937 /* ScaleSliderQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA32DE9E2BCF34440041A937 /* ScaleSliderQuestionView.swift */; };
 		E4DBF1B42B97C2980085D6A1 /* BooleanQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B32B97C2980085D6A1 /* BooleanQuestionView.swift */; };
 		E4DBF1B62B97C2B30085D6A1 /* MultipleChoiceQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B52B97C2AC0085D6A1 /* MultipleChoiceQuestionView.swift */; };
@@ -84,7 +86,7 @@
 		0B72136A2B4F3D1D00463E69 /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF86B1D2B4F360000E3790E /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ResearchKitUIWatch.docc; sourceTree = "<group>"; };
-		380E14AF2C3350A900085D2B /* ResearchTaskNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchTaskNavigationView.swift; sourceTree = "<group>"; };
+		380E14AF2C3350A900085D2B /* ResearchTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchTask.swift; sourceTree = "<group>"; };
 		380E14B12C3350D600085D2B /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		3815C0132C2081CE00A29CD3 /* DateTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeView.swift; sourceTree = "<group>"; };
 		381CAC072C34C61D00FCE89A /* FormRowContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormRowContent.swift; sourceTree = "<group>"; };
@@ -108,8 +110,10 @@
 		5EBAA2882C3E064900F193C6 /* InstructionStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionStep.swift; sourceTree = "<group>"; };
 		5EBAA28C2C40634800F193C6 /* BodyItemIconForegroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyItemIconForegroundStyle.swift; sourceTree = "<group>"; };
 		5EBAA28E2C4063C100F193C6 /* StepIconForegroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepIconForegroundStyle.swift; sourceTree = "<group>"; };
+		5ED16E262C5AF7DF0072016D /* InstructionBodyItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionBodyItem.swift; sourceTree = "<group>"; };
 		5EDFA9D62BFFFA2B0044C156 /* StepHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepHeaderView.swift; sourceTree = "<group>"; };
 		5EDFA9D82BFFFF0F0044C156 /* ListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHeaderView.swift; sourceTree = "<group>"; };
+		5EE5FD112C63DCDD004BBABF /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		BA32DE9E2BCF34440041A937 /* ScaleSliderQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleSliderQuestionView.swift; sourceTree = "<group>"; };
 		E4DBF1B32B97C2980085D6A1 /* BooleanQuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanQuestionView.swift; sourceTree = "<group>"; };
 		E4DBF1B52B97C2AC0085D6A1 /* MultipleChoiceQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleChoiceQuestionView.swift; sourceTree = "<group>"; };
@@ -184,8 +188,9 @@
 		0BF86B132B4F360000E3790E = {
 			isa = PBXGroup;
 			children = (
+				5ED16E262C5AF7DF0072016D /* InstructionBodyItem.swift */,
 				381CAC0B2C35F4C300FCE89A /* ResearchTaskCompletion.swift */,
-				380E14AF2C3350A900085D2B /* ResearchTaskNavigationView.swift */,
+				380E14AF2C3350A900085D2B /* ResearchTask.swift */,
 				381CAC092C35E05A00FCE89A /* ResearchTaskStepContentView.swift */,
 				381CAC072C34C61D00FCE89A /* FormRowContent.swift */,
 				38CD26382C1B90F3000FDBB0 /* RKAdapter.swift */,
@@ -275,6 +280,7 @@
 				3815C0132C2081CE00A29CD3 /* DateTimeView.swift */,
 				5E44D4472C24A6FF0045007E /* NumericQuestionView.swift */,
 				38F4F6C52C4AD35C004E7A8D /* ImageChoiceView.swift */,
+				5EE5FD112C63DCDD004BBABF /* QuestionView.swift */,
 			);
 			path = "Question Views";
 			sourceTree = "<group>";
@@ -390,7 +396,7 @@
 				5E507F812C1141F2002958E2 /* SliderValueForegroundStyle.swift in Sources */,
 				381CAC082C34C62100FCE89A /* FormRowContent.swift in Sources */,
 				38CD26102C1909CC000FDBB0 /* FormItemCardView.swift in Sources */,
-				380E14B02C3350A900085D2B /* ResearchTaskNavigationView.swift in Sources */,
+				380E14B02C3350A900085D2B /* ResearchTask.swift in Sources */,
 				E4DBF1B92B97C3060085D6A1 /* TextChoiceCell.swift in Sources */,
 				5E05B53D2C2E135D00A0A83B /* DoneKeyboardToolbar.swift in Sources */,
 				3815C0142C2081CE00A29CD3 /* DateTimeView.swift in Sources */,
@@ -413,11 +419,13 @@
 				0B7213402B4F395C00463E69 /* TaskManager.swift in Sources */,
 				5EDFA9D92BFFFF0F0044C156 /* ListHeaderView.swift in Sources */,
 				381CAC102C3C759200FCE89A /* HeightQuestionView.swift in Sources */,
+				5EE5FD122C63DCDD004BBABF /* QuestionView.swift in Sources */,
 				0B72132D2B4F368600463E69 /* DefaultStepView.swift in Sources */,
 				381CAC0A2C35E06500FCE89A /* ResearchTaskStepContentView.swift in Sources */,
 				0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */,
 				380E14B22C3350D900085D2B /* Step.swift in Sources */,
 				380E14B22C3350D900085D2B /* Step.swift in Sources */,
+				5ED16E272C5AF7E50072016D /* InstructionBodyItem.swift in Sources */,
 				381E23F12C4097070095EBBB /* WeightQuestion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

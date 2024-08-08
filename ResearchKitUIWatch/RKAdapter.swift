@@ -265,6 +265,8 @@ public class RKAdapter {
                     return .high
                 case .low:
                     return .low
+                @unknown default:
+                    return .default
                 }
             }()
 
@@ -363,6 +365,323 @@ public class RKAdapter {
         }
 
         return formRows
+    }
+    
+    @ResearchTaskBuilder
+    static public func createSteps(for task: ORKOrderedTask) -> [ResearchTaskStep] {
+        for step in task.steps {
+            researchTaskStep(for: step)
+        }
+    }
+    
+    @ResearchTaskBuilder
+    static private func researchTaskStep(for step: ORKStep) -> [ResearchTaskStep] {
+        if let formStep = step as? ORKFormStep {
+            ResearchTaskStep(title: formStep.title, subtitle: formStep.detailText) {
+                if let formItems = formStep.formItems {
+                    ForEach(groupItems(formItems), id: \.identifier) { formItem in
+                        if let answerFormat = formItem.answerFormat {
+                            switch answerFormat {
+                            case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
+                                InputManagedMultipleChoiceQuestion(
+                                    id: formItem.identifier,
+                                    title: formItem.text ?? "",
+                                    choices: textChoiceAnswerFormat.textChoices.map { textChoice in
+                                        MultipleChoiceOption(
+                                            id: UUID().uuidString,
+                                            choiceText: textChoice.text
+                                        )
+                                    },
+                                    selectedChoices: [],
+                                    selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
+                                )
+                            case let scaleAnswerFormat as ORKScaleAnswerFormat:
+                                InputManagedScaleSliderQuestion(
+                                    id: formItem.identifier,
+                                    title: formItem.text ?? "",
+                                    range: scaleAnswerFormat.minimum...scaleAnswerFormat.maximum,
+                                    step: Double(scaleAnswerFormat.step),
+                                    selection: scaleAnswerFormat.defaultValue
+                                )
+                            case let continuousScaleAnswerFormat as ORKContinuousScaleAnswerFormat:
+                                let stepSize: Double = {
+                                    // Current ORKContinuousScaleAnswerFormat does not allow user to specify step size so we can create an approximation,
+                                    // falling back on 0.01 as our step size if required.
+                                    var stepSize = 0.01
+                                    let numberOfValues = continuousScaleAnswerFormat.maximum - continuousScaleAnswerFormat.minimum
+                                    if numberOfValues > 0 {
+                                        stepSize = 1.0 / numberOfValues
+                                    }
+                                    return stepSize
+                                }()
+                                
+                                InputManagedScaleSliderQuestion(
+                                    id: formItem.identifier,
+                                    title: formItem.text ?? "",
+                                    range: continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum,
+                                    step: stepSize,
+                                    selection: continuousScaleAnswerFormat.defaultValue
+                                )
+                            case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
+                                let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
+                                    MultipleChoiceOption(
+                                        id: UUID().uuidString,
+                                        choiceText: textChoice.text
+                                    )
+                                }
+                                
+                                if answerOptions.indices.contains(textChoiceScaleAnswerFormat.defaultIndex) {
+                                    InputManagedScaleSliderQuestion(
+                                        id: formItem.identifier,
+                                        title: formItem.text ?? "",
+                                        multipleChoiceOptions: answerOptions,
+                                        selection: answerOptions[textChoiceScaleAnswerFormat.defaultIndex]
+                                    )
+                                }
+                            case let textAnswerFormat as ORKTextAnswerFormat:
+                                InputManagedTextQuestion(
+                                    id: formItem.identifier,
+                                    text: textAnswerFormat.defaultTextAnswer ?? "",
+                                    title: formItem.text ?? "",
+                                    prompt: formItem.placeholder,
+                                    textFieldType: textAnswerFormat.multipleLines ? .multiline : .singleLine,
+                                    characterLimit: textAnswerFormat.maximumLength,
+                                    hideCharacterCountLabel: textAnswerFormat.hideCharacterCountLabel,
+                                    hideClearButton: textAnswerFormat.hideClearButton
+                                )
+                            case let dateTimeAnswerFormat as ORKDateAnswerFormat:
+                                let prompt: String = {
+                                    if let placeholder = formItem.placeholder {
+                                        return placeholder
+                                    }
+
+                                    if dateTimeAnswerFormat.style == .dateAndTime {
+                                        return "Select Date and Time"
+                                    } else {
+                                        return "Select Date"
+                                    }
+                                }()
+
+                                let startDate: Date = {
+                                    if let date = dateTimeAnswerFormat.minimumDate {
+                                        return date
+                                    }
+                                    return Date.distantPast
+                                }()
+
+                                let endDate: Date = {
+                                    if let date = dateTimeAnswerFormat.maximumDate {
+                                        return date
+                                    }
+                                    return Date.distantFuture
+                                }()
+
+                                let components: DatePicker.Components = {
+                                    switch dateTimeAnswerFormat.style {
+                                    case .date:
+                                        return [.date]
+                                    case .dateAndTime:
+                                        return [.date, .hourAndMinute]
+                                    default:
+                                        return [.date]
+                                    }
+                                }()
+                                
+                                InputManagedDateTimeQuestion(
+                                    id: formItem.identifier,
+                                    title: formItem.text ?? "",
+                                    pickerPrompt: prompt,
+                                    displayedComponents: components,
+                                    range: startDate...endDate,
+                                    date: Date()
+                                )
+                            case let numericAnswerFormat as ORKNumericAnswerFormat:
+                                InputManagedNumericQuestion(
+                                    id: formItem.identifier,
+                                    title: formItem.text ?? "",
+                                    prompt: numericAnswerFormat.placeholder ?? "Tap to answer",
+                                    text: numericAnswerFormat.defaultNumericAnswer?.decimalValue
+                                )
+                            case let heightAnswerFormat as ORKHeightAnswerFormat:
+                                let measurementSystem: MeasurementSystem = {
+                                    switch heightAnswerFormat.measurementSystem {
+                                    case .USC:
+                                        return .USC
+                                    case .local:
+                                        return .local
+                                    case .metric:
+                                        return .metric
+                                    @unknown default:
+                                        return .metric
+                                    }
+                                }()
+
+                                let initialPrimaryValue: Int = {
+                                    // To set the picker at a nice middle of the road height
+                                    // we will set it to 5 feet initially
+                                    if measurementSystem == .USC {
+                                        return 5
+                                    }
+
+                                    // Similar to above, this equate to 5'4" which
+                                    // is a good starting point for the picker.
+                                    if measurementSystem == .metric {
+                                        return 162
+                                    }
+
+                                    return Locale.current.measurementSystem == .us ? 5 : 162
+                                }()
+                                
+                                InputManagedHeightQuestion(
+                                    id: formItem.identifier,
+                                    title: formItem.text ?? "",
+                                    measurementSystem: measurementSystem,
+                                    selection: (initialPrimaryValue, 4)
+                                )
+                            case let weightAnswerFormat as ORKWeightAnswerFormat:
+                                let measurementSystem: MeasurementSystem = {
+                                    switch weightAnswerFormat.measurementSystem {
+                                    case .USC:
+                                        return .USC
+                                    case .local:
+                                        return .local
+                                    case .metric:
+                                        return .metric
+                                    @unknown default:
+                                        return .metric
+                                    }
+                                }()
+
+                                let precision: NumericPrecision = {
+                                    switch weightAnswerFormat.numericPrecision {
+                                    case .default:
+                                        return .default
+                                    case .high:
+                                        return .high
+                                    case .low:
+                                        return .low
+                                    @unknown default:
+                                        return .default
+                                    }
+                                }()
+                                
+                                // At the moment the RK API for weight answer format defaults these values
+                                // to the `greatestFiniteMagnitude` if you don't explicitly pass them in.
+                                // We want to check for that here and pass in a valid value.
+                                let defaultValue: Double = {
+                                    if weightAnswerFormat.defaultValue == Double.greatestFiniteMagnitude {
+                                        if measurementSystem == .USC {
+                                            return 133
+                                        } else {
+                                            return 60
+                                        }
+                                    }
+
+                                    return weightAnswerFormat.defaultValue
+                                }()
+
+                                let minimumValue: Double? = {
+                                    if weightAnswerFormat.minimumValue == Double.greatestFiniteMagnitude {
+                                        return nil
+                                    }
+
+                                    return weightAnswerFormat.minimumValue
+                                }()
+
+                                let maximumValue: Double? = {
+                                    if weightAnswerFormat.maximumValue == Double.greatestFiniteMagnitude {
+                                        return nil
+                                    }
+
+                                    return weightAnswerFormat.maximumValue
+                                }()
+                                
+                                InputManagedWeightQuestion(
+                                    id: formItem.identifier,
+                                    title: formItem.text ?? "",
+                                    measurementSystem: measurementSystem,
+                                    precision: precision,
+                                    defaultValue: defaultValue,
+                                    minimumValue: minimumValue,
+                                    maximumValue: maximumValue,
+                                    selection: (defaultValue, 0)
+                                )
+                            case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
+                                let choices = imageChoiceAnswerFormat.imageChoices.map { choice in
+                                    let value = (choice.value as? NSNumber) as! Int
+                                    return ImageChoice(
+                                        id: UUID(),
+                                        normalImage: choice.normalStateImage,
+                                        selectedImage: choice.selectedStateImage,
+                                        text: choice.text!, value: value
+                                    )
+                                }
+
+                                let style: ImageChoiceQuestion.ChoiceSelectionType = {
+                                    switch imageChoiceAnswerFormat.style {
+                                        case .singleChoice:
+                                        return .single
+                                    case .multipleChoice:
+                                        return .multiple
+                                    default: return .single
+                                    }
+                                }()
+                                
+                                InputManagedImageChoice(
+                                    id: formItem.identifier,
+                                    title: formItem.text ?? "",
+                                    choices: choices,
+                                    style: style,
+                                    vertical: imageChoiceAnswerFormat.isVertical,
+                                    selection: []
+                                )
+                            default:
+                                EmptyView()
+                            }
+                        }
+                    }
+                }
+            }
+        } else if let questionStep = step as? ORKQuestionStep {
+            ResearchTaskStep(title: questionStep.title, subtitle: questionStep.detailText) {
+                InputManagedQuestionView(
+                    id: questionStep.identifier,
+                    question: questionStep.question ?? "",
+                    answer: RKAdapter.createFormRow(from: questionStep, for: questionStep.answerFormat!)!
+                )
+            }
+        } else if let instructionStep = step as? ORKInstructionStep {
+            let image: Image? = {
+                let image: Image?
+                if let iconImage = instructionStep.iconImage {
+                    image = Image(uiImage: iconImage)
+                } else {
+                    image = nil
+                }
+                return image
+            }()
+            
+            ResearchTaskStep(
+                image: image,
+                title: instructionStep.title,
+                subtitle: instructionStep.text
+            ) {
+                if let bodyItems = instructionStep.bodyItems {
+                    ForEach(Array(bodyItems.enumerated()), id: \.offset) { _, bodyItem in
+                        HStack {
+                            if let image = bodyItem.image {
+                                Image(uiImage: image)
+                                    .frame(width: 40, height: 40)
+                                    .foregroundStyle(.bodyItemIconForegroundStyle)
+                            }
+                            
+                            Text(bodyItem.text ?? "")
+                                .font(.subheadline)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     static public func createStepsFromORKTask(_ task: ORKOrderedTask) -> [Step] {

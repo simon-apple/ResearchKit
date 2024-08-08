@@ -35,6 +35,8 @@ import SwiftUI
 // TODO(rdar://129033515): Update name of this module to reflect just the slider without the header.
 public struct ScaleSliderQuestionView: View {
 
+    let id: String
+    
     var title: String
 
     var detail: String?
@@ -81,12 +83,14 @@ public struct ScaleSliderQuestionView: View {
     }
 
     public init(
+        id: String,
         title: String,
         detail: String? = nil,
         range: ClosedRange<Double>,
         step: Double = 1.0,
         selection: Binding<Double>
     ) {
+        self.id = id
         self.title = title
         self.detail = detail
         self.scaleSelectionConfiguration = .doubleRange(range)
@@ -97,12 +101,14 @@ public struct ScaleSliderQuestionView: View {
 
     // The int version
     public init(
+        id: String,
         title: String,
         detail: String? = nil,
         range: ClosedRange<Int>,
         step: Double = 1.0,
         selection: Binding<Int>
     ) {
+        self.id = id
         self.title = title
         self.detail = detail
         self.scaleSelectionConfiguration = .integerRange(range)
@@ -113,11 +119,13 @@ public struct ScaleSliderQuestionView: View {
 
     // The multi choice version
     public init(
+        id: String,
         title: String,
         detail: String? = nil,
         multipleChoiceOptions: [MultipleChoiceOption],
         selection: Binding<MultipleChoiceOption>
     ) {
+        self.id = id
         self.title = title
         self.detail = detail
         self.scaleSelectionConfiguration = .textChoice(multipleChoiceOptions)
@@ -263,6 +271,7 @@ struct ScaleSliderQuestionView_Previews: PreviewProvider {
                 .ignoresSafeArea()
 
             ScaleSliderQuestionView(
+                id: UUID().uuidString,
                 title: "On a scale of 1-10, how would you rate today?",
                 range: 1...10,
                 selection: .constant(7)
@@ -273,3 +282,149 @@ struct ScaleSliderQuestionView_Previews: PreviewProvider {
     }
 }
 
+public struct InputManagedScaleSliderQuestion: View {
+    
+    private let id: String
+    
+    private let title: String
+
+    private let detail: String?
+
+    private let scaleSelectionConfiguration: ScaleSelectionConfiguration
+
+    private let step: Double
+    
+    @State private var selection: ScaleSelectionValue
+    
+    private enum ScaleSelectionValue: Equatable {
+        static func == (
+            lhs: ScaleSelectionValue,
+            rhs: ScaleSelectionValue
+        ) -> Bool {
+            switch lhs {
+            case .textChoice(let lhsMultipleChoiceOption):
+                guard case .textChoice(let rhsMultipleChoiceOption) = rhs else {
+                    return false
+                }
+                return rhsMultipleChoiceOption.id == lhsMultipleChoiceOption.id
+            case .int(let lhsInteger):
+                guard case .int(let rhsInteger) = rhs else {
+                    return false
+                }
+                return lhsInteger == rhsInteger
+            case .double(let lhsDouble):
+                guard case .double(let rhsDouble) = rhs else {
+                    return false
+                }
+                return rhsDouble == lhsDouble
+            }
+            
+        }
+
+        case textChoice(MultipleChoiceOption)
+        case int(Int)
+        case double(Double)
+    }
+    
+    public init(
+        id: String,
+        title: String,
+        detail: String? = nil,
+        range: ClosedRange<Double>,
+        step: Double = 1.0,
+        selection: Double = 5
+    ) {
+        self.id = id
+        self.title = title
+        self.detail = detail
+        self.scaleSelectionConfiguration = .doubleRange(range)
+        self.step = step
+        self.selection = .double(selection)
+    }
+
+    // The int version
+    public init(
+        id: String,
+        title: String,
+        detail: String? = nil,
+        range: ClosedRange<Int>,
+        step: Double = 1.0,
+        selection: Int
+    ) {
+        self.id = id
+        self.title = title
+        self.detail = detail
+        self.scaleSelectionConfiguration = .integerRange(range)
+        self.step = step
+        self.selection = .int(selection)
+    }
+
+    // The multi choice version
+    public init(
+        id: String,
+        title: String,
+        detail: String? = nil,
+        multipleChoiceOptions: [MultipleChoiceOption],
+        selection: MultipleChoiceOption
+    ) {
+        self.id = id
+        self.title = title
+        self.detail = detail
+        self.scaleSelectionConfiguration = .textChoice(multipleChoiceOptions)
+        self.step = 1.0
+        self.selection = .textChoice(selection)
+    }
+    
+    public var body: some View {
+        switch (scaleSelectionConfiguration, selection) {
+        case let (.textChoice(multipleChoiceOptions), .textChoice(textSelection)):
+            ScaleSliderQuestionView(
+                id: id,
+                title: title,
+                detail: detail,
+                multipleChoiceOptions: multipleChoiceOptions,
+                selection: .init(
+                    get: {
+                        textSelection
+                    },
+                    set: { newValue in
+                        selection = .textChoice(newValue)
+                    }
+                )
+            )
+        case let (.integerRange(closedRange), .int(integerSelection)):
+            ScaleSliderQuestionView(
+                id: id,
+                title: title,
+                detail: detail,
+                range: closedRange,
+                selection: .init(
+                    get: {
+                        integerSelection
+                    },
+                    set: { newValue in
+                        selection = .int(newValue)
+                    }
+                )
+            )
+        case let (.doubleRange(closedRange), .double(doubleSelection)):
+            ScaleSliderQuestionView(
+                id: id,
+                title: title,
+                detail: detail,
+                range: closedRange,
+                selection: .init(
+                    get: {
+                        doubleSelection
+                    },
+                    set: { newValue in
+                        selection = .double(newValue)
+                    }
+                )
+            )
+        default:
+            EmptyView()
+        }
+    }
+    
+}

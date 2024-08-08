@@ -31,7 +31,7 @@
 import SwiftUI
 
 public struct DateQuestion: Identifiable {
-    public var id: String
+    public let id: String
     public var title: String
     public var selection: Date
     public var pickerPrompt: String
@@ -56,20 +56,23 @@ public struct DateQuestion: Identifiable {
 }
 
 public struct DateTimeView<Header: View>: View {
+    
+    let id: String
     let header: Header
-
     @Binding var selection: Date
     let pickerPrompt: String
     let displayedComponents: DatePicker.Components
     let range: ClosedRange<Date>
 
     public init(
+        id: String,
         @ViewBuilder header: () -> Header,
         selection: Binding<Date>,
         pickerPrompt: String,
         displayedComponents: DatePicker.Components,
         range: ClosedRange<Date>
     ) {
+        self.id = id
         self.header = header()
         self._selection = selection
         self.pickerPrompt = pickerPrompt
@@ -96,6 +99,7 @@ public struct DateTimeView<Header: View>: View {
 
 public extension DateTimeView where Header == _SimpleFormItemViewHeader {
     init(
+        id: String,
         title: String,
         detail: String?,
         selection: Binding<Date>,
@@ -103,6 +107,7 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
         displayedComponents: DatePicker.Components,
         range: ClosedRange<Date>
     ) {
+        self.id = id
         self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
         self._selection = selection
         self.pickerPrompt = pickerPrompt
@@ -117,6 +122,7 @@ struct DateTimeView_Previews: PreviewProvider {
             Color(uiColor: .secondarySystemBackground)
                 .ignoresSafeArea()
             DateTimeView(
+                id: UUID().uuidString,
                 title: "What is your age",
                 detail: nil,
                 selection: .constant(Date()),
@@ -127,4 +133,46 @@ struct DateTimeView_Previews: PreviewProvider {
             .padding(.horizontal)
         }
     }
+}
+
+public struct InputManagedDateTimeQuestion: View {
+    
+    private let id: String
+    private let title: String
+    private let detail: String?
+    private let pickerPrompt: String
+    private let displayedComponents: DatePicker.Components
+    private let range: ClosedRange<Date>
+    @State private var date: Date
+    
+    public init(
+        id: String,
+        title: String,
+        detail: String? = nil,
+        pickerPrompt: String,
+        displayedComponents: DatePicker.Components,
+        range: ClosedRange<Date>,
+        date: Date = Date()
+    ) {
+        self.id = id
+        self.title = title
+        self.detail = detail
+        self.pickerPrompt = pickerPrompt
+        self.displayedComponents = displayedComponents
+        self.range = range
+        self.date = date
+    }
+    
+    public var body: some View {
+        DateTimeView(
+            id: id,
+            title: title,
+            detail: detail,
+            selection: $date,
+            pickerPrompt: pickerPrompt,
+            displayedComponents: .date,
+            range: Date.distantPast...Date.distantFuture
+        )
+    }
+    
 }

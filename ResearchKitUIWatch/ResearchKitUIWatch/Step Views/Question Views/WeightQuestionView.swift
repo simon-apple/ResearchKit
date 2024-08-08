@@ -30,10 +30,11 @@
 
 import SwiftUI
 
-struct WeightQuestionView: View {
+public struct WeightQuestionView: View {
     @State var isInputActive = false
     @State var hasChanges: Bool
 
+    let id: String
     let title: String
     let detail: String?
     let measurementSystem: MeasurementSystem
@@ -43,15 +44,18 @@ struct WeightQuestionView: View {
     let maximumValue: Double?
     @Binding var selection: (Double, Double)
 
-    init(title: String,
-         detail: String?,
-         measurementSystem: MeasurementSystem,
-         precision: NumericPrecision = .default,
-         defaultValue: Double?,
-         minimumValue: Double?,
-         maximumValue: Double?,
-         selection: Binding<(Double, Double)>
+    public init(
+        id: String,
+        title: String,
+        detail: String?,
+        measurementSystem: MeasurementSystem,
+        precision: NumericPrecision = .default,
+        defaultValue: Double?,
+        minimumValue: Double?,
+        maximumValue: Double?,
+        selection: Binding<(Double, Double)>
     ) {
+        self.id = id
         self.hasChanges = false
         self.title = title
         self.detail = detail
@@ -97,7 +101,7 @@ struct WeightQuestionView: View {
         }
     }
 
-    var body: some View {
+    public var body: some View {
         FormItemCardView(title: title, detail: detail) {
             HStack {
                 Text("Select Weight")
@@ -335,6 +339,7 @@ struct WeightPickerView: View {
 #Preview {
     @Previewable @State var selection: (Double, Double) = (133, 0)
     WeightQuestionView(
+        id: UUID().uuidString,
         title: "Weight question here",
         detail: nil,
         measurementSystem: .USC,
@@ -346,3 +351,52 @@ struct WeightPickerView: View {
     )
 }
 
+public struct InputManagedWeightQuestion: View {
+    
+    private let id: String
+    private let title: String
+    private let detail: String?
+    private let measurementSystem: MeasurementSystem
+    private let precision: NumericPrecision
+    private let defaultValue: Double?
+    private let minimumValue: Double?
+    private let maximumValue: Double?
+    @State private var selection: (Double, Double)
+    
+    init(
+        id: String,
+        title: String,
+        detail: String? = nil,
+        measurementSystem: MeasurementSystem,
+        precision: NumericPrecision,
+        defaultValue: Double?,
+        minimumValue: Double?,
+        maximumValue: Double?,
+        selection: (Double, Double)
+    ) {
+        self.id = id
+        self.title = title
+        self.detail = detail
+        self.measurementSystem = measurementSystem
+        self.precision = precision
+        self.defaultValue = defaultValue
+        self.minimumValue = minimumValue
+        self.maximumValue = maximumValue
+        self.selection = selection
+    }
+    
+    public var body: some View {
+        WeightQuestionView(
+            id: id,
+            title: title,
+            detail: detail,
+            measurementSystem: measurementSystem,
+            precision: precision,
+            defaultValue: defaultValue,
+            minimumValue: minimumValue,
+            maximumValue: maximumValue,
+            selection: $selection
+        )
+    }
+    
+}

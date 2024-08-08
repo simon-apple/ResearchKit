@@ -30,18 +30,19 @@
 
 import SwiftUI
 
-public struct ResearchTaskNavigationView: View {
+public struct ResearchTask: View {
+    
     @Environment(\.dismiss) var dismiss
-    @State private var steps: [Step]
+    private let steps: [ResearchTaskStep]
     @State private var stepIdentifiers: [String] = []
     
     var onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)?
 
     public init(
-        steps: [Step],
+        @ResearchTaskBuilder steps: () -> [ResearchTaskStep],
         onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)? = nil
     ) {
-        self.steps = steps
+        self.steps = steps()
         self.onResearchTaskCompletion = onResearchTaskCompletion
     }
 
@@ -60,7 +61,7 @@ public struct ResearchTaskNavigationView: View {
                         }
                     },
                     content: {
-                        makeContent(for: firstStep)
+                        firstStep
                     }
                 )
                 .navigationTitle("1 of \(steps.count)")
@@ -78,9 +79,7 @@ public struct ResearchTaskNavigationView: View {
                             }
                         },
                         content: {
-                            if let stepIndex = indexForStep(atPath: path) {
-                                makeContent(forStepIndex: stepIndex)
-                            }
+                            step(atPath: path)
                         }
                     )
                     .navigationTitle(navigationTitle(atPath: path))
@@ -89,7 +88,7 @@ public struct ResearchTaskNavigationView: View {
         }
     }
     
-    private func isLastStep(for step: Step) -> Bool {
+    private func isLastStep(for step: ResearchTaskStep) -> Bool {
         guard let stepIndex = index(for: step) else {
             return false
         }
@@ -113,14 +112,14 @@ public struct ResearchTaskNavigationView: View {
         }
     }
     
-    private func moveToStep(after step: Step) {
+    private func moveToStep(after step: ResearchTaskStep) {
         guard let nextStep = self.step(after: step) else {
             return
         }
         stepIdentifiers.append(nextStep.identifier)
     }
     
-    private func step(after step: Step) -> Step? {
+    private func step(after step: ResearchTaskStep) -> ResearchTaskStep? {
         guard let stepIndex = index(for: step) else {
             return nil
         }
@@ -147,14 +146,14 @@ public struct ResearchTaskNavigationView: View {
     }
     
     private func identifier(afterPath path: String) -> String? {
-        func step(afterPath path: String) -> Step? {
+        func step(afterPath path: String) -> ResearchTaskStep? {
             guard let index = index(forPath: path) else {
                 return nil
             }
             
             let nextIndex = index + 1
             
-            let instructionStep: Step?
+            let instructionStep: ResearchTaskStep?
             if nextIndex == steps.count {
                 instructionStep = nil
             } else {
@@ -170,8 +169,12 @@ public struct ResearchTaskNavigationView: View {
         steps.firstIndex(where: { $0.identifier == path })
     }
     
-    private func index(for step: Step) -> Int? {
+    private func index(for step: ResearchTaskStep) -> Int? {
         steps.firstIndex(where: { $0.identifier == step.identifier })
+    }
+    
+    private func step(atPath path: String) -> ResearchTaskStep? {
+        steps.first(where: { $0.identifier == path })
     }
     
     private func navigationTitle(atPath path: String) -> String {
@@ -184,95 +187,127 @@ public struct ResearchTaskNavigationView: View {
         return navigationTitle
     }
     
-    @ViewBuilder
-    private func makeContent(for step: Step) -> some View {
-        if let stepIndex = index(for: step) {
-            makeContent(forStepIndex: stepIndex)
-        }
+}
+
+public struct ResearchTaskStep: View {
+    
+    private let id = UUID()
+    private let header: AnyView
+    private let content: AnyView
+    
+    public init(
+        @ViewBuilder header: () -> some View,
+        @ViewBuilder content: () -> some View
+    ) {
+        self.header = AnyView(header())
+        self.content = AnyView(content())
     }
     
-    @ViewBuilder
-    private func makeContent(forStepIndex stepIndex: Int) -> some View {
-        switch steps[stepIndex] {
-        case .formStep(let formStep):
-            VStack(alignment: .leading, spacing: 16) {
-                HeaderView(
-                    title: formStep.title,
-                    subtitle: formStep.subtitle
-                )
-                
-                ForEach(
-                    Array(formStep.items.enumerated()),
-                    id: \.offset
-                ) { formRowIndex, formRow in
-                    FormRowContent(
-                        detail: nil,
-                        formRow: .init(
-                            get: {
-                                formRow
-                            },
-                            set: { newFormRow in
-                                var newFormRows = formStep.items
-                                newFormRows[formRowIndex] = newFormRow
-                                
-                                steps[stepIndex] = .formStep(
-                                    FormStep(
-                                        id: formStep.id,
-                                        title: formStep.title,
-                                        subtitle: formStep.subtitle,
-                                        items: newFormRows
-                                    )
-                                )
-                            }
-                        )
-                    )
-                }
-            }
-        case .instructionStep(let instructionStep):
-            VStack(alignment: .leading, spacing: 16) {
-                HeaderView(
-                    image: instructionStep.iconImage,
-                    title: instructionStep.title,
-                    subtitle: instructionStep.subtitle
-                )
-                
-                ForEach(instructionStep.bodyItems) { bodyItem in
-                    HStack {
-                        bodyItem.image
-                            .frame(width: 40, height: 40)
-                            .foregroundStyle(.bodyItemIconForegroundStyle)
-                        
-                        Text(bodyItem.text)
-                            .font(.subheadline)
-                    }
-                }
-            }
-        case .questionStep(let questionStep):
-            VStack(alignment: .leading, spacing: 16) {
-                HeaderView(
-                    title: questionStep.title,
-                    subtitle: nil
-                )
-
-                FormRowContent(
-                    detail: nil,
-                    formRow: .init(
-                        get: {
-                            questionStep.answer
-                        },
-                        set: { newFormRow in
-                            steps[stepIndex] = .questionStep(
-                                QuestionStep(
-                                    identifier: questionStep.identifier,
-                                    title: questionStep.title,
-                                    question: questionStep.question,
-                                    answer: newFormRow
-                                )
-                            )
-                        }
-                    )
-                )
-            }
+    public var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            header
+            content
         }
+#if os(iOS)
+        .frame(maxWidth: .infinity, alignment: .leading)
+#endif
     }
+    
+    var identifier: String {
+        id.uuidString
+    }
+    
+}
+
+public extension ResearchTaskStep {
+    
+    init(@ViewBuilder content: () -> some View) {
+        self.init(
+            header: {
+                EmptyView()
+            },
+            content: content
+        )
+    }
+    
+}
+
+public extension ResearchTaskStep {
+    
+    init(
+        image: Image? = nil,
+        title: String? = nil,
+        subtitle: String? = nil
+    ) {
+        self.init(
+            image: image,
+            title: title,
+            subtitle: subtitle,
+            content: {
+                EmptyView()
+            }
+        )
+    }
+
+    init(
+        image: Image? = nil,
+        title: String? = nil,
+        subtitle: String? = nil,
+        @ViewBuilder content: () -> some View
+    ) {
+        let titleText: Text?
+        if let title, !title.isEmpty {
+            titleText = Text(title)
+        } else {
+            titleText = nil
+        }
+        
+        let subtitleText: Text?
+        if let subtitle, !subtitle.isEmpty {
+            subtitleText = Text(subtitle)
+        } else {
+            subtitleText = nil
+        }
+        
+        self.init(
+            header: {
+                HeaderView(
+                    image: image,
+                    title: titleText,
+                    subtitle: subtitleText
+                )
+            },
+            content: content
+        )
+    }
+    
+}
+
+@resultBuilder
+public struct ResearchTaskBuilder {
+    
+    public static func buildBlock(_ components: ResearchTaskStep...) -> [ResearchTaskStep] {
+        components
+    }
+    
+    public static func buildBlock(_ components: [ResearchTaskStep]...) -> [ResearchTaskStep] {
+        components.flatMap { $0 }
+    }
+    
+    public static func buildEither(first component: [ResearchTaskStep]) -> [ResearchTaskStep] {
+        component
+    }
+    
+    public static func buildEither(second component: [ResearchTaskStep]) -> [ResearchTaskStep] {
+        component
+    }
+    
+    public static func buildArray(_ components: [[ResearchTaskStep]]) -> [ResearchTaskStep] {
+        components.flatMap { $0 }
+    }
+    
+    public static func buildOptional(_ component: [ResearchTaskStep]?) -> [ResearchTaskStep] {
+        component ?? []
+    }
+    
 }
