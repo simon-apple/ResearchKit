@@ -32,12 +32,26 @@
 import SwiftUI
 
 public struct ResearchTaskStepContentView<Content: View>: View {
+    @State
+    private var managedTaskResult: ResearchTaskResult = ResearchTaskResult()
+
     private let content: Content
 
     let isLastStep: Bool
     var onStepCompletion: ((ResearchTaskCompletion) -> Void)?
 
-    init(
+//    public init(
+//        isLastStep: Bool,
+//        onStepCompletion: ((ResearchTaskCompletion) -> Void)? = nil,
+//        @ViewBuilder content: () -> Content
+//    ) {
+//        self.isLastStep = isLastStep
+//        self.content = content()
+//        self.onStepCompletion = onStepCompletion
+//        self.onSubmit = nil
+//    }
+
+    public init(
         isLastStep: Bool,
         onStepCompletion: ((ResearchTaskCompletion) -> Void)? = nil,
         @ViewBuilder content: () -> Content
@@ -60,12 +74,13 @@ public struct ResearchTaskStepContentView<Content: View>: View {
                         }
                     }
                 }
+                .environment(managedTaskResult)
         } footerContent: {
             Button {
                 if isLastStep {
-                    onStepCompletion?(.completed)
+                    onStepCompletion?(.completed(managedTaskResult))
                 } else {
-                    onStepCompletion?(.saved)
+                    onStepCompletion?(.saved(managedTaskResult))
                 }
             } label: {
                 Text(isLastStep ? "Done" : "Next")
@@ -86,4 +101,54 @@ public struct ResearchTaskStepContentView<Content: View>: View {
         300
 #endif
     }
+
+    // TODO: Is there a way to avoid exposing this if the dev isn't using managed results?
+    public func onSurveyCompletion(_ perform: @escaping (ResearchTaskCompletion) -> Void) -> ResearchTaskStepContentView<Content> {
+        return ResearchTaskStepContentView(
+            isLastStep: self.isLastStep,
+            onStepCompletion: perform,
+            content: { content }
+        )
+    }
+
+    // Alt version without the passing the managed result back to the dev
+    public func onSurveyCompletion(_ perform: @escaping () -> Void) -> ResearchTaskStepContentView<Content> {
+        return ResearchTaskStepContentView(
+            isLastStep: self.isLastStep,
+            onStepCompletion: { _ in perform() },
+            content: { content }
+        )
+    }
 }
+
+public final class ResearchTaskResult: Observable {
+
+    // You don't want this init to be public, b/c you son't want developers injecting it into your env
+    init() {}
+
+    // TODO: Is the "any" usage here inefficient when it comes to Observable diffing? Can we do better with an enum with cases for each result type?
+    @Published
+    private var stepResults: [String: Any] = [:]
+
+    public func resultForStep<Result>(key: StepResultKey<Result>) -> Result {
+        // TODO: Handle type mismatch and don't force cast
+        return stepResults[key.id] as! Result
+    }
+
+    func setResultForStep<Result>(_ result: Result, key: StepResultKey<Result>) {
+        stepResults[key.id] = result
+    }
+}
+
+// TODO: If you'd like, skip this and just use Strings as keys. But this route eliminates the need for type casting.
+// TODO: Explore using macros to type results automatically instead of relying on this
+public struct StepResultKey<Result> {
+
+    let id: String
+
+    public static func text(id: String) -> StepResultKey<String> {
+        return StepResultKey<String>(id: id)
+    }
+}
+
+

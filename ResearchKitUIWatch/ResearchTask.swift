@@ -31,7 +31,7 @@
 import SwiftUI
 
 public struct ResearchTask: View {
-    
+    private let taskKey: StepResultKey = .text(id: "the-task")
     @Environment(\.dismiss) var dismiss
     private let steps: [ResearchTaskStep]
     @State private var stepIdentifiers: [String] = []
@@ -49,40 +49,40 @@ public struct ResearchTask: View {
     public var body: some View {
         NavigationStack(path: $stepIdentifiers) {
             if let firstStep = steps.first {
-                ResearchTaskStepContentView(
-                    isLastStep: isLastStep(for: firstStep),
-                    onStepCompletion: { completion in
-                        if completion == .discarded {
-                            dismiss()
-                        } else if completion == .saved {
-                            moveToStep(after: firstStep)
-                        } else {
-                            onResearchTaskCompletion?(completion)
-                        }
-                    },
-                    content: {
-                        firstStep
+                ResearchTaskStepContentView(isLastStep: isLastStep(for: firstStep)) { completion in
+                    switch completion {
+                    case .failed, .discarded, .terminated:
+                        dismiss()
+                    case .completed(let result):
+                        onResearchTaskCompletion?(completion)
+                    case .saved(let result):
+                        moveToStep(after: firstStep)
                     }
-                )
+                } content: {
+                    firstStep
+                }
                 .navigationTitle("1 of \(steps.count)")
                 .navigationDestination(for: String.self) { path in
                     ResearchTaskStepContentView(
-                        isLastStep: isLastStep(atPath: path),
-                        onStepCompletion: { completion in
-                            if completion == .discarded {
+                        isLastStep: isLastStep(atPath: path)) { completion in
+                            switch completion {
+                            case .failed, .discarded, .terminated:
                                 dismiss()
-                            } else if completion == .saved {
-                                moveToStep(afterPath: path)
-                            } else {
+                            case .completed(let result):
                                 onResearchTaskCompletion?(completion)
                                 dismiss()
+                            case .saved(let result):
+                                moveToStep(after: firstStep)
                             }
-                        },
-                        content: {
+                        } content: {
                             step(atPath: path)
                         }
-                    )
-                    .navigationTitle(navigationTitle(atPath: path))
+                        .onSurveyCompletion { result in
+                            guard case .completed(let researchTaskResult) = result else {
+                                print(researchTaskResult.resultForStep(key: taskKey))
+                            }
+                        }
+                        .navigationTitle(navigationTitle(atPath: path))
                 }
             }
         }
