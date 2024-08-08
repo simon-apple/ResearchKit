@@ -31,7 +31,7 @@
 import SwiftUI
 
 
-/// This view represents a legacy question component that appears in JSON data from template editors such as Study Editor.
+/// This view represents a legacy question component that appears in JSON data representation of surveys.
 struct InputManagedQuestionView: View {
     
     private let id: String
