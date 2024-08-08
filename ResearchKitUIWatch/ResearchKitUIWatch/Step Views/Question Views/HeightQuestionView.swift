@@ -85,9 +85,6 @@ public struct HeightQuestion: Identifiable {
 }
 
 public struct HeightQuestionView: View {
-    @Environment(ResearchTaskResult.self)
-    private var managedTaskResult
-
     @State var isInputActive = false
     @State var hasChanges: Bool
 

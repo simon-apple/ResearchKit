@@ -27,6 +27,8 @@
 		381CAC0C2C35F4CE00FCE89A /* ResearchTaskCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC0B2C35F4C300FCE89A /* ResearchTaskCompletion.swift */; };
 		381CAC102C3C759200FCE89A /* HeightQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC0F2C3C759200FCE89A /* HeightQuestionView.swift */; };
 		381E23F12C4097070095EBBB /* WeightQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381E23F02C4097040095EBBB /* WeightQuestion.swift */; };
+		3820BE212C6574C00012CB2C /* ResearchTaskResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820BE1F2C6574350012CB2C /* ResearchTaskResult.swift */; };
+		3820BE222C6574C50012CB2C /* StepResultKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820BE202C6574640012CB2C /* StepResultKey.swift */; };
 		382A57412C5AB02C00EE7DB3 /* QuestionStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382A57402C5AB02700EE7DB3 /* QuestionStep.swift */; };
 		382CF7852C3F2632000F3433 /* WeightQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382CF7842C3F262F000F3433 /* WeightQuestionView.swift */; };
 		386ABFBE2C2F800E0006B84D /* MultipleChoiceQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386ABFBD2C2F80060006B84D /* MultipleChoiceQuestion.swift */; };
@@ -94,6 +96,8 @@
 		381CAC0B2C35F4C300FCE89A /* ResearchTaskCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchTaskCompletion.swift; sourceTree = "<group>"; };
 		381CAC0F2C3C759200FCE89A /* HeightQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightQuestionView.swift; sourceTree = "<group>"; };
 		381E23F02C4097040095EBBB /* WeightQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightQuestion.swift; sourceTree = "<group>"; };
+		3820BE1F2C6574350012CB2C /* ResearchTaskResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchTaskResult.swift; sourceTree = "<group>"; };
+		3820BE202C6574640012CB2C /* StepResultKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepResultKey.swift; sourceTree = "<group>"; };
 		382A57402C5AB02700EE7DB3 /* QuestionStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionStep.swift; sourceTree = "<group>"; };
 		382CF7842C3F262F000F3433 /* WeightQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightQuestionView.swift; sourceTree = "<group>"; };
 		386ABFBD2C2F80060006B84D /* MultipleChoiceQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleChoiceQuestion.swift; sourceTree = "<group>"; };
@@ -188,6 +192,7 @@
 		0BF86B132B4F360000E3790E = {
 			isa = PBXGroup;
 			children = (
+				3820BE1E2C65742D0012CB2C /* Results */,
 				5ED16E262C5AF7DF0072016D /* InstructionBodyItem.swift */,
 				381CAC0B2C35F4C300FCE89A /* ResearchTaskCompletion.swift */,
 				380E14AF2C3350A900085D2B /* ResearchTask.swift */,
@@ -227,6 +232,15 @@
 				0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */,
 			);
 			path = ResearchKitUIWatch;
+			sourceTree = "<group>";
+		};
+		3820BE1E2C65742D0012CB2C /* Results */ = {
+			isa = PBXGroup;
+			children = (
+				3820BE202C6574640012CB2C /* StepResultKey.swift */,
+				3820BE1F2C6574350012CB2C /* ResearchTaskResult.swift */,
+			);
+			path = Results;
 			sourceTree = "<group>";
 		};
 		386ABFBF2C2F80380006B84D /* Question Models */ = {
@@ -382,6 +396,7 @@
 				5E44D4482C24A6FF0045007E /* NumericQuestionView.swift in Sources */,
 				0B7213502B4F39CC00463E69 /* TaskContentView.swift in Sources */,
 				0B7213522B4F39CC00463E69 /* ORKScrollViewReader.swift in Sources */,
+				3820BE222C6574C50012CB2C /* StepResultKey.swift in Sources */,
 				E4DBF1BF2BA24AA40085D6A1 /* StickyScrollView.swift in Sources */,
 				E4FC4FAB2BC88F3F00E0AEBF /* FormStepViewModel.swift in Sources */,
 				0B7213462B4F398500463E69 /* FormStepView.swift in Sources */,
@@ -410,6 +425,7 @@
 				386ABFBE2C2F800E0006B84D /* MultipleChoiceQuestion.swift in Sources */,
 				38CD263B2C1BA6EA000FDBB0 /* TextQuestionView.swift in Sources */,
 				386ABFC42C2F80DE0006B84D /* ScaleSliderQuestion.swift in Sources */,
+				3820BE212C6574C00012CB2C /* ResearchTaskResult.swift in Sources */,
 				38CD26392C1B90F3000FDBB0 /* RKAdapter.swift in Sources */,
 				5EBAA2892C3E064900F193C6 /* InstructionStep.swift in Sources */,
 				BA32DE9F2BCF34440041A937 /* ScaleSliderQuestionView.swift in Sources */,

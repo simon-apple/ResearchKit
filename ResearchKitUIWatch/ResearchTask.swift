@@ -77,11 +77,6 @@ public struct ResearchTask: View {
                         } content: {
                             step(atPath: path)
                         }
-                        .onSurveyCompletion { result in
-                            guard case .completed(let researchTaskResult) = result else {
-                                print(researchTaskResult.resultForStep(key: taskKey))
-                            }
-                        }
                         .navigationTitle(navigationTitle(atPath: path))
                 }
             }
