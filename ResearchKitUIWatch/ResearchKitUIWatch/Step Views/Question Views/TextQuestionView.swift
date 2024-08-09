@@ -73,6 +73,7 @@ public struct TextQuestionView<Header: View>: View {
         
     }
     
+    let id: String
     let header: Header
     let multilineTextFieldPadding: Double = 54
     @FocusState private var focusTarget: FocusTarget?
@@ -84,6 +85,7 @@ public struct TextQuestionView<Header: View>: View {
     let hideClearButton: Bool
 
     init(
+        id: String,
         @ViewBuilder header: () -> Header,
         text: Binding<String>,
         prompt: String?,
@@ -92,11 +94,12 @@ public struct TextQuestionView<Header: View>: View {
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false
     ) {
+        self.id = id
         self.header = header()
         self._text = text
         self.prompt = prompt
         self.textFieldType = textFieldType
-        self.characterLimit = characterLimit
+        self.characterLimit = characterLimit > 0 ? characterLimit : .max
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
     }
@@ -128,34 +131,43 @@ public struct TextQuestionView<Header: View>: View {
                     .focused($focusTarget, equals: .textQuestion)
                     .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
                     .contentShape(Rectangle())
+                    .onAppear(perform: {
+#if !os(watchOS)
+                        if textFieldType == .singleLine {
+                            UITextField.appearance().clearButtonMode = .whileEditing
+                        }
+#endif
+                    })
 
-                HStack {
-                    if hideCharacterCountLabel == false {
-                        Text("\(text.count)/\(characterLimit)")
-                    }
-                    Spacer()
+                if textFieldType == .multiline {
+                    HStack {
+                        if hideCharacterCountLabel == false {
+                            Text("\(text.count)/\(characterLimit)")
+                        }
+                        Spacer()
 
-                    if !hideClearButton {
-                        Button {
-                            text = ""
-                        } label: {
-                            Text("Clear")
+                        if !hideClearButton {
+                            Button {
+                                text = ""
+                            } label: {
+                                Text("Clear")
+                            }
                         }
                     }
-                }
 #if os(iOS)
-                .doneKeyboardToolbar(
-                    condition: {
-                        focusTarget == .textQuestion
-                    },
-                    action: {
-                        focusTarget = nil
-                    }
-                )
+                    .doneKeyboardToolbar(
+                        condition: {
+                            focusTarget == .textQuestion
+                        },
+                        action: {
+                            focusTarget = nil
+                        }
+                    )
 #endif
-                .onChange(of: text) { oldValue, newValue in
-                    if text.count > characterLimit {
-                        text = oldValue
+                    .onChange(of: text) { oldValue, newValue in
+                        if text.count > characterLimit {
+                            text = oldValue
+                        }
                     }
                 }
             }
@@ -166,6 +178,7 @@ public struct TextQuestionView<Header: View>: View {
 
 public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
     init(
+        id: String,
         text: Binding<String>,
         title: String,
         detail: String?,
@@ -175,6 +188,7 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false
     ) {
+        self.id = id
         self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
         self._text = text
         self.prompt = prompt
@@ -188,6 +202,7 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
 struct TextQuestionView_Previews: PreviewProvider {
     static var previews: some View {
         TextQuestionView(
+            id: UUID().uuidString,
             text: .constant("Hello world!"),
             title: "What is your name?",
             detail: nil,
@@ -197,4 +212,78 @@ struct TextQuestionView_Previews: PreviewProvider {
             hideCharacterCountLabel: true
         )
     }
+}
+
+public struct InputManagedTextQuestion<Header: View>: View {
+    
+    private let id: String
+    private let header: Header
+    private let multilineTextFieldPadding: Double = 54
+    private let prompt: String?
+    private let textFieldType: TextFieldType
+    private let characterLimit: Int
+    private let hideCharacterCountLabel: Bool
+    private let hideClearButton: Bool
+    @State private var text: String
+
+    public init(
+        id: String,
+        @ViewBuilder header: () -> Header,
+        prompt: String?,
+        textFieldType: TextFieldType,
+        characterLimit: Int,
+        hideCharacterCountLabel: Bool = false,
+        hideClearButton: Bool = false,
+        text: String = ""
+    ) {
+        self.id = id
+        self.header = header()
+        self.prompt = prompt
+        self.textFieldType = textFieldType
+        self.characterLimit = characterLimit
+        self.hideCharacterCountLabel = hideCharacterCountLabel
+        self.hideClearButton = hideClearButton
+        self.text = text
+    }
+    
+    public var body: some View {
+        TextQuestionView(
+            id: id,
+            header: {
+                header
+            },
+            text: $text,
+            prompt: prompt,
+            textFieldType: textFieldType,
+            characterLimit: characterLimit,
+            hideCharacterCountLabel: hideCharacterCountLabel,
+            hideClearButton: hideClearButton
+        )
+    }
+    
+}
+
+public extension InputManagedTextQuestion where Header == _SimpleFormItemViewHeader {
+    
+    init(
+        id: String,
+        text: String,
+        title: String,
+        detail: String? = nil,
+        prompt: String?,
+        textFieldType: TextFieldType,
+        characterLimit: Int,
+        hideCharacterCountLabel: Bool = false,
+        hideClearButton: Bool = false
+    ) {
+        self.id = id
+        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        self.text = text
+        self.prompt = prompt
+        self.textFieldType = textFieldType
+        self.characterLimit = characterLimit
+        self.hideCharacterCountLabel = hideCharacterCountLabel
+        self.hideClearButton = hideClearButton
+    }
+    
 }

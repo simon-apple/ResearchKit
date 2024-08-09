@@ -1,21 +1,21 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
- 
+ Copyright (c) 2024, Apple Inc. All rights reserved.
+
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
- 
+
  1.  Redistributions of source code must retain the above copyright notice, this
  list of conditions and the following disclaimer.
- 
+
  2.  Redistributions in binary form must reproduce the above copyright notice,
  this list of conditions and the following disclaimer in the documentation and/or
  other materials provided with the distribution.
- 
+
  3.  Neither the name of the copyright holder(s) nor the names of any contributors
  may be used to endorse or promote products derived from this software without
  specific prior written permission. No license is granted to the trademarks of
  the copyright holders even if such marks are included in this software.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,20 +28,48 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ORKBodyItem.h>
+import SwiftUI
 
-NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKBodyItem ()
+/// This view represents a legacy question component that appears in JSON data representation of surveys.
+struct InputManagedQuestionView: View {
+    
+    private let id: String
+    private let question: String
+    @State private var answer: FormRow
+    
+    // TODO(rdar://133485185): Move away from FormRow.
+    
+    init(
+        id: String,
+        question: String,
+        answer: FormRow
+    ) {
+        self.id = id
+        self.question = question
+        self.answer = answer
+    }
+    
+    var body: some View {
+        FormRowContent(
+            detail: nil,
+            formRow: $answer
+        )
+    }
+    
+}
 
-#if !TARGET_OS_WATCH
-@property (nonatomic, copy, nullable) void (^customButtonConfigurationHandler)(UIButton *button);
-
-- (instancetype)initWithCustomButtonConfigurationHandler:(void(^)(UIButton *button))configurationHandler;
-#endif
-
-- (BOOL)isCustomButtonItemType;
-
-@end
-
-NS_ASSUME_NONNULL_END
+#Preview {
+    InputManagedQuestionView(
+        id: UUID().uuidString,
+        question: "Your question here.",
+        answer: .intSliderRow(
+            ScaleSliderQuestion(
+                id: UUID().uuidString,
+                title: "Your title here",
+                range: 0...10,
+                value: 5
+            )
+        )
+    )
+}

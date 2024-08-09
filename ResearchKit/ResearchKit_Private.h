@@ -30,6 +30,7 @@
 
 #import <ResearchKit/ORKAnswerFormat_Internal.h>
 #import <ResearchKit/ORKAnswerFormat_Private.h>
+#import <ResearchKit/ORKBodyItem_Internal.h>
 #import <ResearchKit/ORKChoiceAnswerFormatHelper.h>
 #import <ResearchKit/ORKCollectionResult_Private.h>
 #import <ResearchKit/ORKErrors.h>
@@ -45,7 +46,6 @@
 #if !TARGET_OS_WATCH && !TARGET_OS_VISION
 #import <ResearchKit/CLLocationManager+ResearchKit.h>
 #import <ResearchKit/ORKActiveStep_Internal.h>
-#import <ResearchKit/ORKBodyItem_Internal.h>
 #import <ResearchKit/ORKConsentDocument_Private.h>
 #import <ResearchKit/ORKConsentSection_Private.h>
 #import <ResearchKit/ORKDataLogger.h>

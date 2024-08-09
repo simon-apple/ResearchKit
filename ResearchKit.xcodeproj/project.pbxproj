@@ -279,7 +279,7 @@
 		5D04885725F19A7A0006C68B /* ORKDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04885525F19A7A0006C68B /* ORKDevice.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D04885825F19A7A0006C68B /* ORKDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D04885625F19A7A0006C68B /* ORKDevice.m */; };
 		5D04885C25F1B3AB0006C68B /* ORKDevice_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04885B25F1B3AB0006C68B /* ORKDevice_Private.h */; platformFilters = (ios, ); settings = {ATTRIBUTES = (Private, ); }; };
-		5D43C5D424255675006F4084 /* ORKBodyItem_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D43C5D324255675006F4084 /* ORKBodyItem_Internal.h */; platformFilters = (ios, ); settings = {ATTRIBUTES = (Private, ); }; };
+		5D43C5D424255675006F4084 /* ORKBodyItem_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D43C5D324255675006F4084 /* ORKBodyItem_Internal.h */; platformFilters = (ios, watchos, ); settings = {ATTRIBUTES = (Private, ); }; };
 		5DABE5AE24DA173F00570C57 /* ResearchKit_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 5DABE5AD24DA16E600570C57 /* ResearchKit_Prefix.pch */; platformFilters = (ios, ); };
 		5E6AB7DF2BC86900009ED0D5 /* ORKTaskViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6AB7DE2BC86900009ED0D5 /* ORKTaskViewControllerTests.swift */; };
 		5EB91CC62BCE2ED500BBF23E /* ORKActiveStepQuantityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40AFB1A8D7C5B00081FAC /* ORKActiveStepQuantityView.m */; };

@@ -36,6 +36,14 @@ public struct ImageChoice: Identifiable {
     public let selectedImage: UIImage?
     public let text: String
     public let value: Int
+    
+    public init(id: UUID, normalImage: UIImage, selectedImage: UIImage?, text: String, value: Int) {
+        self.id = id
+        self.normalImage = normalImage
+        self.selectedImage = selectedImage
+        self.text = text
+        self.value = value
+    }
 }
 
 public struct ImageChoiceQuestion: Identifiable {
@@ -51,7 +59,9 @@ public struct ImageChoiceQuestion: Identifiable {
     public let selections: [Int]
 }
 
-struct ImageChoiceView: View {
+public struct ImageChoiceView: View {
+    
+    let id: String
     let title: String
     let detail: String?
     let choices: [ImageChoice]
@@ -59,8 +69,26 @@ struct ImageChoiceView: View {
     let vertical: Bool
 
     @Binding var selection: [Int]
+    
+    public init(
+        id: String,
+        title: String,
+        detail: String?,
+        choices: [ImageChoice],
+        style: ImageChoiceQuestion.ChoiceSelectionType,
+        vertical: Bool,
+        selection: Binding<[Int]>
+    ) {
+        self.id = id
+        self.title = title
+        self.detail = detail
+        self.choices = choices
+        self.style = style
+        self.vertical = vertical
+        self._selection = selection
+    }
 
-    var body: some View {
+    public var body: some View {
         FormItemCardView(title: title, detail: detail) {
             VStack {
                 if style == .multiple {
@@ -142,6 +170,7 @@ struct ImageChoiceView: View {
 #Preview {
     @Previewable @State var selection: [Int] = []
     ImageChoiceView(
+        id: UUID().uuidString,
         title: "Which do you prefer?",
         detail: nil,
         choices: [
@@ -164,4 +193,46 @@ struct ImageChoiceView: View {
         vertical: true,
         selection: $selection
     )
+}
+
+public struct InputManagedImageChoice: View {
+    
+    private let id: String
+    private let title: String
+    private let detail: String?
+    private let choices: [ImageChoice]
+    private let style: ImageChoiceQuestion.ChoiceSelectionType
+    private let vertical: Bool
+    @State private var selection: [Int]
+    
+    init(
+        id: String,
+        title: String,
+        detail: String? = nil,
+        choices: [ImageChoice],
+        style: ImageChoiceQuestion.ChoiceSelectionType,
+        vertical: Bool,
+        selection: [Int]
+    ) {
+        self.id = id
+        self.title = title
+        self.detail = detail
+        self.choices = choices
+        self.style = style
+        self.vertical = vertical
+        self.selection = selection
+    }
+    
+    public var body: some View {
+        ImageChoiceView(
+            id: id,
+            title: title,
+            detail: detail,
+            choices: choices,
+            style: style,
+            vertical: vertical,
+            selection: $selection
+        )
+    }
+    
 }

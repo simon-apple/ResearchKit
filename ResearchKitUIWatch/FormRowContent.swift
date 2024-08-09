@@ -47,6 +47,7 @@ public struct FormRowContent: View {
         switch formRow {
         case .multipleChoiceRow(let multipleChoiceValue):
             MultipleChoiceQuestionView(
+                id: multipleChoiceValue.id,
                 title: multipleChoiceValue.title ?? "",
                 detail: detail,
                 choices: multipleChoiceValue.choices,
@@ -70,6 +71,7 @@ public struct FormRowContent: View {
             )
         case .doubleSliderRow(let doubleSliderQuestion):
             ScaleSliderQuestionView(
+                id: doubleSliderQuestion.id,
                 title: doubleSliderQuestion.title,
                 detail: detail,
                 range: doubleSliderQuestion.range,
@@ -94,6 +96,7 @@ public struct FormRowContent: View {
             
         case .intSliderRow(let intSliderQuestion):
             ScaleSliderQuestionView(
+                id: intSliderQuestion.id,
                 title: intSliderQuestion.title,
                 detail: detail,
                 range: intSliderQuestion.range,
@@ -116,6 +119,7 @@ public struct FormRowContent: View {
             
         case .textSliderStep(let textSliderQuestion):
             ScaleSliderQuestionView(
+                id: textSliderQuestion.id,
                 title: textSliderQuestion.title,
                 detail: detail,
                 multipleChoiceOptions: textSliderQuestion.multipleChoiceOptions,
@@ -135,6 +139,7 @@ public struct FormRowContent: View {
             )
         case .textRow(let textQuestion):
             TextQuestionView(
+                id: textQuestion.id,
                 text: .init(
                     get: {
                         textQuestion.text
@@ -164,6 +169,7 @@ public struct FormRowContent: View {
             )
         case .dateRow(let dateQuestion):
             DateTimeView(
+                id: dateQuestion.id,
                 title: dateQuestion.title,
                 detail: detail,
                 selection: .init(
@@ -189,6 +195,7 @@ public struct FormRowContent: View {
             )
         case .numericRow(let numericQuestion):
             NumericQuestionView(
+                id: numericQuestion.id,
                 text: .init(
                     get: {
                         let decimal: Decimal?
@@ -217,6 +224,7 @@ public struct FormRowContent: View {
             )
         case .heightRow(let heightQuestion):
             HeightQuestionView(
+                id: heightQuestion.id,
                 title: heightQuestion.title,
                 detail: detail,
                 measurementSystem: heightQuestion.measurementSystem,
@@ -241,6 +249,7 @@ public struct FormRowContent: View {
             )
         case .weightRow(let weightQuestion):
             WeightQuestionView(
+                id: weightQuestion.id,
                 title: weightQuestion.title,
                 detail: detail,
                 measurementSystem: weightQuestion.measurementSystem,
@@ -273,6 +282,7 @@ public struct FormRowContent: View {
             )
         case .imageRow(let imageQuestion):
             ImageChoiceView(
+                id: imageQuestion.id,
                 title: imageQuestion.title,
                 detail: detail,
                 choices: imageQuestion.choices,
@@ -297,3 +307,4 @@ public struct FormRowContent: View {
         }
     }
 }
+
