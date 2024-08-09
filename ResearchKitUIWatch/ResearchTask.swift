@@ -72,7 +72,7 @@ public struct ResearchTask: View {
                                 onResearchTaskCompletion?(completion)
                                 dismiss()
                             case .saved(let result):
-                                moveToStep(after: firstStep)
+                                moveToStep(afterPath: path)
                             }
                         } content: {
                             step(atPath: path)

@@ -90,7 +90,7 @@ public struct TextQuestionView<Header: View>: View {
         switch result {
         case let .managed(key: key):
             return Binding(
-                get: { managedTaskResult.resultForStep(key: key)},
+                get: { managedTaskResult.resultForStep(key: key) ?? ""},
                 set: { managedTaskResult.setResultForStep($0, key: key) }
             )
         case let .provided(value):
@@ -98,7 +98,7 @@ public struct TextQuestionView<Header: View>: View {
         }
     }
 
-    init(
+    public init(
         id: String,
         @ViewBuilder header: () -> Header,
         prompt: String?,
@@ -116,6 +116,25 @@ public struct TextQuestionView<Header: View>: View {
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
         self.result = .provided(value: result)
+    }
+
+    public init(
+        id: String,
+        @ViewBuilder header: () -> Header,
+        prompt: String?,
+        textFieldType: TextFieldType,
+        characterLimit: Int,
+        hideCharacterCountLabel: Bool = false,
+        hideClearButton: Bool = false
+    ) {
+        self.id = id
+        self.header = header()
+        self.prompt = prompt
+        self.textFieldType = textFieldType
+        self.characterLimit = characterLimit
+        self.hideCharacterCountLabel = hideCharacterCountLabel
+        self.hideClearButton = hideClearButton
+        self.result = .managed(key: .text(id: id))
     }
 
     private var axis: Axis {
@@ -202,6 +221,26 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
         self.hideClearButton = hideClearButton
         self.result = .provided(value: result)
     }
+
+    init(
+        id: String,
+        title: String,
+        detail: String?,
+        prompt: String?,
+        textFieldType: TextFieldType,
+        characterLimit: Int,
+        hideCharacterCountLabel: Bool = false,
+        hideClearButton: Bool = false
+    ) {
+        self.id = id
+        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        self.prompt = prompt
+        self.textFieldType = textFieldType
+        self.characterLimit = characterLimit
+        self.hideCharacterCountLabel = hideCharacterCountLabel
+        self.hideClearButton = hideClearButton
+        self.result = .managed(key: .text(id: id))
+    }
 }
 
 struct TextQuestionView_Previews: PreviewProvider {
@@ -216,76 +255,5 @@ struct TextQuestionView_Previews: PreviewProvider {
             hideCharacterCountLabel: true,
             result: .constant("Tom Riddle")
         )
-    }
-}
-
-public struct InputManagedTextQuestion<Header: View>: View {
-    
-    private let id: String
-    private let header: Header
-    private let multilineTextFieldPadding: Double = 54
-    private let prompt: String?
-    private let textFieldType: TextFieldType
-    private let characterLimit: Int
-    private let hideCharacterCountLabel: Bool
-    private let hideClearButton: Bool
-    @State private var text: String = ""
-
-    public init(
-        id: String,
-        @ViewBuilder header: () -> Header,
-        prompt: String?,
-        textFieldType: TextFieldType,
-        characterLimit: Int,
-        hideCharacterCountLabel: Bool = false,
-        hideClearButton: Bool = false
-    ) {
-        self.id = id
-        self.header = header()
-        self.prompt = prompt
-        self.textFieldType = textFieldType
-        self.characterLimit = characterLimit
-        self.hideCharacterCountLabel = hideCharacterCountLabel
-        self.hideClearButton = hideClearButton
-    }
-    
-    public var body: some View {
-        TextQuestionView(
-            id: id,
-            header: {
-                header
-            },
-            prompt: prompt,
-            textFieldType: textFieldType,
-            characterLimit: characterLimit,
-            hideCharacterCountLabel: hideCharacterCountLabel,
-            hideClearButton: hideClearButton,
-            result: $text
-        )
-    }
-    
-}
-
-public extension InputManagedTextQuestion where Header == _SimpleFormItemViewHeader {
-    
-    init(
-        id: String,
-        text: String,
-        title: String,
-        detail: String? = nil,
-        prompt: String?,
-        textFieldType: TextFieldType,
-        characterLimit: Int,
-        hideCharacterCountLabel: Bool = false,
-        hideClearButton: Bool = false
-    ) {
-        self.id = id
-        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
-        self.text = text
-        self.prompt = prompt
-        self.textFieldType = textFieldType
-        self.characterLimit = characterLimit
-        self.hideCharacterCountLabel = hideCharacterCountLabel
-        self.hideClearButton = hideClearButton
     }
 }

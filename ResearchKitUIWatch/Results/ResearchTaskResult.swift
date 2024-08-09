@@ -39,9 +39,12 @@ public final class ResearchTaskResult: Observable {
     @Published
     private var stepResults: [String: Any] = [:]
 
-    public func resultForStep<Result>(key: StepResultKey<Result>) -> Result {
-        // TODO: Handle type mismatch and don't force cast
-        return stepResults[key.id] as! Result
+    func resultForStep<Result>(key: StepResultKey<Result>) -> Result? {
+        if let value = stepResults[key.id] as? Result {
+            return value
+        } else {
+            return nil
+        }
     }
 
     func setResultForStep<Result>(_ result: Result, key: StepResultKey<Result>) {

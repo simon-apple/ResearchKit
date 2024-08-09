@@ -439,10 +439,10 @@ public class RKAdapter {
                                     )
                                 }
                             case let textAnswerFormat as ORKTextAnswerFormat:
-                                InputManagedTextQuestion(
+                                TextQuestionView(
                                     id: formItem.identifier,
-                                    text: textAnswerFormat.defaultTextAnswer ?? "",
                                     title: formItem.text ?? "",
+                                    detail: "",
                                     prompt: formItem.placeholder,
                                     textFieldType: textAnswerFormat.multipleLines ? .multiline : .singleLine,
                                     characterLimit: textAnswerFormat.maximumLength,
