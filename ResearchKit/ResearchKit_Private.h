@@ -40,12 +40,12 @@
 #import <ResearchKit/ORKResult_Private.h>
 #import <ResearchKit/ORKStep_Private.h>
 #import <ResearchKit/ORKDevice.h>
-#import <ResearchKit/ORKBodyItem_Internal.h>
 #import <ResearchKit/ORKStepNavigationRule_Private.h>
 
 #if !TARGET_OS_WATCH && !TARGET_OS_VISION
 #import <ResearchKit/CLLocationManager+ResearchKit.h>
 #import <ResearchKit/ORKActiveStep_Internal.h>
+#import <ResearchKit/ORKBodyItem_Internal.h>
 #import <ResearchKit/ORKConsentDocument_Private.h>
 #import <ResearchKit/ORKConsentSection_Private.h>
 #import <ResearchKit/ORKDataLogger.h>
