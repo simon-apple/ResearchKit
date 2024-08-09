@@ -140,7 +140,14 @@ public struct FormRowContent: View {
         case .textRow(let textQuestion):
             TextQuestionView(
                 id: textQuestion.id,
-                text: .init(
+                title: textQuestion.title,
+                detail: detail,
+                prompt: textQuestion.prompt,
+                textFieldType: textQuestion.textFieldType,
+                characterLimit: textQuestion.characterLimit,
+                hideCharacterCountLabel: textQuestion.hideCharacterCountLabel,
+                hideClearButton: textQuestion.hideClearButton,
+                result: .init(
                     get: {
                         textQuestion.text
                     },
@@ -158,14 +165,7 @@ public struct FormRowContent: View {
                             )
                         )
                     }
-                ),
-                title: textQuestion.title,
-                detail: detail,
-                prompt: textQuestion.prompt,
-                textFieldType: textQuestion.textFieldType,
-                characterLimit: textQuestion.characterLimit,
-                hideCharacterCountLabel: textQuestion.hideCharacterCountLabel,
-                hideClearButton: textQuestion.hideClearButton
+                )
             )
         case .dateRow(let dateQuestion):
             DateTimeView(
@@ -288,7 +288,7 @@ public struct FormRowContent: View {
                 choices: imageQuestion.choices,
                 style: imageQuestion.style,
                 vertical: imageQuestion.vertical,
-                selection: .init(get: {
+                result: .init(get: {
                     return imageQuestion.selections
                 }, set: { newValue in
                     $formRow.wrappedValue = .imageRow(

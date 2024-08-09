@@ -626,14 +626,14 @@ public class RKAdapter {
                                     default: return .single
                                     }
                                 }()
-                                
-                                InputManagedImageChoice(
+
+                                ImageChoiceView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
+                                    detail: formItem.detailText,
                                     choices: choices,
                                     style: style,
-                                    vertical: imageChoiceAnswerFormat.isVertical,
-                                    selection: []
+                                    vertical: imageChoiceAnswerFormat.isVertical
                                 )
                             default:
                                 EmptyView()

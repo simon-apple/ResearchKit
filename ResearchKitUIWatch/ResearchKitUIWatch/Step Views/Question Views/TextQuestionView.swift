@@ -79,31 +79,43 @@ public struct TextQuestionView<Header: View>: View {
     let header: Header
     let multilineTextFieldPadding: Double = 54
     @FocusState private var focusTarget: FocusTarget?
-    @Binding var text: String
     let prompt: String?
     let textFieldType: TextFieldType
     let characterLimit: Int
     let hideCharacterCountLabel: Bool
     let hideClearButton: Bool
+    let result: QuestionStepResult<String>
+
+    private var resolvedResult: Binding<String> {
+        switch result {
+        case let .managed(key: key):
+            return Binding(
+                get: { managedTaskResult.resultForStep(key: key)},
+                set: { managedTaskResult.setResultForStep($0, key: key) }
+            )
+        case let .provided(value):
+            return value
+        }
+    }
 
     init(
         id: String,
         @ViewBuilder header: () -> Header,
-        text: Binding<String>,
         prompt: String?,
         textFieldType: TextFieldType,
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
-        hideClearButton: Bool = false
+        hideClearButton: Bool = false,
+        result: Binding<String>
     ) {
         self.id = id
         self.header = header()
-        self._text = text
         self.prompt = prompt
         self.textFieldType = textFieldType
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
+        self.result = .provided(value: result)
     }
 
     private var axis: Axis {
@@ -128,7 +140,7 @@ public struct TextQuestionView<Header: View>: View {
             header
         } content: {
             VStack {
-                TextField("", text: $text, prompt: placeholder, axis: axis)
+                TextField("", text: resolvedResult, prompt: placeholder, axis: axis)
                     .textFieldStyle(.plain) // Text binding's `didSet` called twice if this is not set.
                     .focused($focusTarget, equals: .textQuestion)
                     .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
@@ -136,13 +148,13 @@ public struct TextQuestionView<Header: View>: View {
 
                 HStack {
                     if hideCharacterCountLabel == false {
-                        Text("\(text.count)/\(characterLimit)")
+                        Text("\(resolvedResult.wrappedValue.count)/\(characterLimit)")
                     }
                     Spacer()
 
                     if !hideClearButton {
                         Button {
-                            text = ""
+                            print("Clear")
                         } label: {
                             Text("Clear")
                         }
@@ -158,9 +170,9 @@ public struct TextQuestionView<Header: View>: View {
                     }
                 )
 #endif
-                .onChange(of: text) { oldValue, newValue in
-                    if text.count > characterLimit {
-                        text = oldValue
+                .onChange(of: resolvedResult.wrappedValue) { oldValue, newValue in
+                    if resolvedResult.wrappedValue.count > characterLimit {
+
                     }
                 }
             }
@@ -172,23 +184,23 @@ public struct TextQuestionView<Header: View>: View {
 public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
     init(
         id: String,
-        text: Binding<String>,
         title: String,
         detail: String?,
         prompt: String?,
         textFieldType: TextFieldType,
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
-        hideClearButton: Bool = false
+        hideClearButton: Bool = false,
+        result: Binding<String>
     ) {
         self.id = id
         self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
-        self._text = text
         self.prompt = prompt
         self.textFieldType = textFieldType
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
+        self.result = .provided(value: result)
     }
 }
 
@@ -196,13 +208,13 @@ struct TextQuestionView_Previews: PreviewProvider {
     static var previews: some View {
         TextQuestionView(
             id: UUID().uuidString,
-            text: .constant("Hello world!"),
             title: "What is your name?",
             detail: nil,
             prompt: "Tap to write",
             textFieldType: .multiline,
             characterLimit: 10,
-            hideCharacterCountLabel: true
+            hideCharacterCountLabel: true,
+            result: .constant("Tom Riddle")
         )
     }
 }
@@ -217,7 +229,7 @@ public struct InputManagedTextQuestion<Header: View>: View {
     private let characterLimit: Int
     private let hideCharacterCountLabel: Bool
     private let hideClearButton: Bool
-    @State private var text: String
+    @State private var text: String = ""
 
     public init(
         id: String,
@@ -226,8 +238,7 @@ public struct InputManagedTextQuestion<Header: View>: View {
         textFieldType: TextFieldType,
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
-        hideClearButton: Bool = false,
-        text: String = ""
+        hideClearButton: Bool = false
     ) {
         self.id = id
         self.header = header()
@@ -236,7 +247,6 @@ public struct InputManagedTextQuestion<Header: View>: View {
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.text = text
     }
     
     public var body: some View {
@@ -245,12 +255,12 @@ public struct InputManagedTextQuestion<Header: View>: View {
             header: {
                 header
             },
-            text: $text,
             prompt: prompt,
             textFieldType: textFieldType,
             characterLimit: characterLimit,
             hideCharacterCountLabel: hideCharacterCountLabel,
-            hideClearButton: hideClearButton
+            hideClearButton: hideClearButton,
+            result: $text
         )
     }
     
@@ -278,5 +288,4 @@ public extension InputManagedTextQuestion where Header == _SimpleFormItemViewHea
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
     }
-    
 }

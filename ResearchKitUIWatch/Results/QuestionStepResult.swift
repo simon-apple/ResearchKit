@@ -27,19 +27,10 @@
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+import SwiftUI
 
-// TODO: If you'd like, skip this and just use Strings as keys. But this route eliminates the need for type casting.
-// TODO: Explore using macros to type results automatically instead of relying on this
-public struct StepResultKey<Result> {
-
-    let id: String
-
-    public static func text(id: String) -> StepResultKey<String> {
-        return StepResultKey<String>(id: id)
-    }
-
-    public static func imageChoice(id: String) -> StepResultKey<[Int]> {
-        return StepResultKey<[Int]>(id: id)
-    }
+enum QuestionStepResult<Result> {
+    case managed(key: StepResultKey<Result>)
+    case provided(value: Binding<Result>)
 }
 

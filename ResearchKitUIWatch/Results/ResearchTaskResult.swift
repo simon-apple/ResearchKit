@@ -33,7 +33,7 @@ import SwiftUI
 public final class ResearchTaskResult: Observable {
 
     // You don't want this init to be public, b/c you son't want developers injecting it into your env
-    init() {}
+    public init() {}
 
     // TODO: Is the "any" usage here inefficient when it comes to Observable diffing? Can we do better with an enum with cases for each result type?
     @Published

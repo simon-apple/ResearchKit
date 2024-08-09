@@ -60,16 +60,29 @@ public struct ImageChoiceQuestion: Identifiable {
 }
 
 public struct ImageChoiceView: View {
-    
+    @Environment(ResearchTaskResult.self)
+    private var managedTaskResult
+
     let id: String
     let title: String
     let detail: String?
     let choices: [ImageChoice]
     let style: ImageChoiceQuestion.ChoiceSelectionType
     let vertical: Bool
+    private let result: QuestionStepResult<[Int]>
 
-    @Binding var selection: [Int]
-    
+    private var resolvedResult: Binding<[Int]> {
+        switch result {
+        case .managed(let key):
+            return Binding(
+                get: { managedTaskResult.resultForStep(key: key) },
+                set: { managedTaskResult.setResultForStep($0, key: key) }
+            )
+        case .provided(let value):
+            return value
+        }
+    }
+
     public init(
         id: String,
         title: String,
@@ -77,7 +90,7 @@ public struct ImageChoiceView: View {
         choices: [ImageChoice],
         style: ImageChoiceQuestion.ChoiceSelectionType,
         vertical: Bool,
-        selection: Binding<[Int]>
+        result: Binding<[Int]>
     ) {
         self.id = id
         self.title = title
@@ -85,7 +98,24 @@ public struct ImageChoiceView: View {
         self.choices = choices
         self.style = style
         self.vertical = vertical
-        self._selection = selection
+        self.result = .provided(value: result)
+    }
+
+    public init(
+        id: String,
+        title: String,
+        detail: String?,
+        choices: [ImageChoice],
+        style: ImageChoiceQuestion.ChoiceSelectionType,
+        vertical: Bool
+    ) {
+        self.id = id
+        self.title = title
+        self.detail = detail
+        self.choices = choices
+        self.style = style
+        self.vertical = vertical
+        self.result = .managed(key: .imageChoice(id: id))
     }
 
     public var body: some View {
@@ -121,13 +151,13 @@ public struct ImageChoiceView: View {
 
     @ViewBuilder
     func selectionText() -> some View {
-        if selection.isEmpty {
+        if resolvedResult.wrappedValue.isEmpty {
             Text("Tap to select")
                     .foregroundStyle(.secondary)
         } else {
             let strings: [String] = {
                 var strings: [String] = []
-                for i in selection.sorted() {
+                for i in resolvedResult.wrappedValue.sorted() {
                     if let choice = choices.first(where: { $0.value == i }) {
                         strings.append(choice.text)
                     }
@@ -144,13 +174,13 @@ public struct ImageChoiceView: View {
     func imageChoices() -> some View {
         ForEach(choices, id: \.id) { choice in
             Button {
-                if let index = selection.firstIndex(where: { $0 == choice.value }) {
-                    selection.remove(at: index)
+                if let index = resolvedResult.wrappedValue.firstIndex(where: { $0 == choice.value }) {
+                    resolvedResult.wrappedValue.remove(at: index)
                 } else {
-                    selection.append(choice.value)
+                    resolvedResult.wrappedValue.append(choice.value)
                 }
             } label: {
-                if selection.contains(choice.value) {
+                if resolvedResult.wrappedValue.contains(choice.value) {
                     Image(uiImage: choice.selectedImage ?? choice.normalImage)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -196,48 +226,6 @@ public struct ImageChoiceView: View {
         ],
         style: .single,
         vertical: true,
-        selection: $selection
+        result: $selection
     )
-}
-
-public struct InputManagedImageChoice: View {
-    
-    private let id: String
-    private let title: String
-    private let detail: String?
-    private let choices: [ImageChoice]
-    private let style: ImageChoiceQuestion.ChoiceSelectionType
-    private let vertical: Bool
-    @State private var selection: [Int]
-    
-    init(
-        id: String,
-        title: String,
-        detail: String? = nil,
-        choices: [ImageChoice],
-        style: ImageChoiceQuestion.ChoiceSelectionType,
-        vertical: Bool,
-        selection: [Int]
-    ) {
-        self.id = id
-        self.title = title
-        self.detail = detail
-        self.choices = choices
-        self.style = style
-        self.vertical = vertical
-        self.selection = selection
-    }
-    
-    public var body: some View {
-        ImageChoiceView(
-            id: id,
-            title: title,
-            detail: detail,
-            choices: choices,
-            style: style,
-            vertical: vertical,
-            selection: $selection
-        )
-    }
-    
 }
