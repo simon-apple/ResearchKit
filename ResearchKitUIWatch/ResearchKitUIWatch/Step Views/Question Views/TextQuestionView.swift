@@ -131,7 +131,7 @@ public struct TextQuestionView<Header: View>: View {
         self.header = header()
         self.prompt = prompt
         self.textFieldType = textFieldType
-        self.characterLimit = characterLimit
+        self.characterLimit = characterLimit > 0 ? characterLimit : .max
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
         self.result = .managed(key: .text(id: id))
@@ -164,34 +164,41 @@ public struct TextQuestionView<Header: View>: View {
                     .focused($focusTarget, equals: .textQuestion)
                     .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
                     .contentShape(Rectangle())
+                    .onAppear(perform: {
+                        if textFieldType == .singleLine {
+                            UITextField.appearance().clearButtonMode = .whileEditing
+                        }
+                    })
 
-                HStack {
-                    if hideCharacterCountLabel == false {
-                        Text("\(resolvedResult.wrappedValue.count)/\(characterLimit)")
-                    }
-                    Spacer()
+                if textFieldType == .multiline {
+                    HStack {
+                        if hideCharacterCountLabel == false {
+                            Text("\(resolvedResult.wrappedValue.count)/\(characterLimit)")
+                        }
+                        Spacer()
 
-                    if !hideClearButton {
-                        Button {
-                            print("Clear")
-                        } label: {
-                            Text("Clear")
+                        if !hideClearButton {
+                            Button {
+                                // TODO: Re-implement clear here
+                            } label: {
+                                Text("Clear")
+                            }
                         }
                     }
-                }
 #if os(iOS)
-                .doneKeyboardToolbar(
-                    condition: {
-                        focusTarget == .textQuestion
-                    },
-                    action: {
-                        focusTarget = nil
-                    }
-                )
+                    .doneKeyboardToolbar(
+                        condition: {
+                            focusTarget == .textQuestion
+                        },
+                        action: {
+                            focusTarget = nil
+                        }
+                    )
 #endif
-                .onChange(of: resolvedResult.wrappedValue) { oldValue, newValue in
-                    if resolvedResult.wrappedValue.count > characterLimit {
-
+                    .onChange(of: resolvedResult.wrappedValue) { oldValue, newValue in
+                        if text.count > characterLimit {
+                            text = oldValue
+                        }
                     }
                 }
             }
