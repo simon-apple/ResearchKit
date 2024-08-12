@@ -63,7 +63,7 @@ public struct ImageChoiceView: View {
     
     private enum StateManagementType {
         
-        case managed, unmanaged(Binding<[Int]>)
+        case automatic, manual(Binding<[Int]>)
         
     }
     
@@ -91,9 +91,9 @@ public struct ImageChoiceView: View {
     private var selection: Binding<[Int]> {
         let selection: Binding<[Int]>
         switch stateManagementType {
-        case .managed:
+        case .automatic:
             selection = resolvedManagedResult
-        case .unmanaged(let binding):
+        case .manual(let binding):
             selection = binding
         }
         return selection
@@ -115,7 +115,7 @@ public struct ImageChoiceView: View {
         self.style = style
         self.vertical = vertical
         self.initialManagedResult = selection
-        self.stateManagementType = .managed
+        self.stateManagementType = .automatic
     }
     
     public init(
@@ -134,7 +134,7 @@ public struct ImageChoiceView: View {
         self.style = style
         self.vertical = vertical
         self.initialManagedResult = []
-        self.stateManagementType = .unmanaged(selection)
+        self.stateManagementType = .manual(selection)
     }
 
     public var body: some View {
