@@ -98,7 +98,7 @@ public struct ImageChoiceView: View {
         choices: [ImageChoice],
         style: ImageChoiceQuestion.ChoiceSelectionType,
         vertical: Bool,
-        selection: [Int]
+        selection: [Int] = []
     ) {
         self.id = id
         self.title = title

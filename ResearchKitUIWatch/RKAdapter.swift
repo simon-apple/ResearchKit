@@ -632,8 +632,7 @@ public class RKAdapter {
                                     title: formItem.text ?? "",
                                     choices: choices,
                                     style: style,
-                                    vertical: imageChoiceAnswerFormat.isVertical,
-                                    selection: []
+                                    vertical: imageChoiceAnswerFormat.isVertical
                                 )
                             default:
                                 EmptyView()
