@@ -387,20 +387,20 @@ ORK_MAKE_TEST_INIT_ALT(CLCircularRegion, (^{
 }));
 
 #if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
-//ORK_MAKE_TEST_INIT(ORKLocation, (^{
-//    CNMutablePostalAddress *postalAddress = [[CNMutablePostalAddress alloc] init];
-//    postalAddress.city = @"cityA";
-//    postalAddress.street = @"street";
-//    ORKLocation *location = [self initWithCoordinate:CLLocationCoordinate2DMake(2.0, 3.0) region:[[CLCircularRegion alloc] orktest_init] userInput:@"addressStringA" postalAddress:postalAddress];
-//    return location;
-//}));
-//ORK_MAKE_TEST_INIT_ALT(ORKLocation, (^{
-//    CNMutablePostalAddress *postalAddress = [[CNMutablePostalAddress alloc] init];
-//    postalAddress.city = @"cityB";
-//    postalAddress.street = @"street";
-//    ORKLocation *location = [self initWithCoordinate:CLLocationCoordinate2DMake(4.0, 5.0) region:[[CLCircularRegion alloc] orktest_init_alt] userInput:@"addressStringB" postalAddress:postalAddress];
-//    return location;
-//}));
+ORK_MAKE_TEST_INIT(ORKLocation, (^{
+    CNMutablePostalAddress *postalAddress = [[CNMutablePostalAddress alloc] init];
+    postalAddress.city = @"cityA";
+    postalAddress.street = @"street";
+    ORKLocation *location = [self initWithCoordinate:CLLocationCoordinate2DMake(2.0, 3.0) region:[[CLCircularRegion alloc] orktest_init] userInput:@"addressStringA" postalAddress:postalAddress];
+    return location;
+}));
+ORK_MAKE_TEST_INIT_ALT(ORKLocation, (^{
+    CNMutablePostalAddress *postalAddress = [[CNMutablePostalAddress alloc] init];
+    postalAddress.city = @"cityB";
+    postalAddress.street = @"street";
+    ORKLocation *location = [self initWithCoordinate:CLLocationCoordinate2DMake(4.0, 5.0) region:[[CLCircularRegion alloc] orktest_init_alt] userInput:@"addressStringB" postalAddress:postalAddress];
+    return location;
+}));
 #endif
 
 ORK_MAKE_TEST_INIT(HKSampleType, (^{
@@ -574,7 +574,12 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                                  [ORKTouchAbilityRotationResult class],
                                                  [ORKTouchAbilityLongPressResult class],
                                                  [ORKTouchAbilitySwipeResult class],
-                                                 [ORKTouchAbilityScrollResult class]
+                                                 [ORKTouchAbilityScrollResult class],
+                                                 // TODO: rdar://133020747 (Remove deprecated APIs from ORKLocation for iOS 18)
+                                                 [ORKLocation class],
+                                                 [ORKLocationQuestionResult class],
+                                                 [ORKLocationAnswerFormat class],
+                                                 [ORKLocationRecorderConfiguration class]
                                                  ];
         
         _propertyExclusionList = @[
@@ -720,7 +725,12 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKLearnMoreItem.delegate",
                                           @"ORKSpeechRecognitionResult.recognitionMetadata",
                                           @"ORKAccuracyStroopStep.actualDisplayColor",
-                                          @"ORKAudioStreamerConfiguration.bypassAudioEngineStart"
+                                          @"ORKAudioStreamerConfiguration.bypassAudioEngineStart",
+                                          // TODO: rdar://133020747 (Remove deprecated APIs from ORKLocation for iOS 18)
+                                          @"ORKLocation.postalAddress",
+                                          @"ORKLocation.coordinate",
+                                          @"ORKLocation.userInput",
+                                          @"ORKLocation.region"
                                           ];
         
 #if RK_APPLE_INTERNAL
@@ -1295,9 +1305,9 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
         [instance setValue:index?[NSTimeZone timeZoneWithName:[NSTimeZone knownTimeZoneNames][0]]:[NSTimeZone timeZoneForSecondsFromGMT:1000] forKey:p.propertyName];
     } 
 #if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
-//    else if (p.propertyClass == [ORKLocation class]) {
-//        [instance setValue:(index ? [[ORKLocation alloc] orktest_init] : [[ORKLocation alloc] orktest_init_alt]) forKey:p.propertyName];
-//    }
+    else if (p.propertyClass == [ORKLocation class]) {
+        [instance setValue:(index ? [[ORKLocation alloc] orktest_init] : [[ORKLocation alloc] orktest_init_alt]) forKey:p.propertyName];
+    }
 #endif
      else if (p.propertyClass == [CLCircularRegion class]) {
         [instance setValue:index?[[CLCircularRegion alloc] orktest_init_alt]:[[CLCircularRegion alloc] orktest_init] forKey:p.propertyName];
