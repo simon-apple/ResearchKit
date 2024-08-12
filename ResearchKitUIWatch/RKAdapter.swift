@@ -627,7 +627,7 @@ public class RKAdapter {
                                     }
                                 }()
                                 
-                                InputManagedImageChoice(
+                                ImageChoiceView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     choices: choices,
