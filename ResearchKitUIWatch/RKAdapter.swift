@@ -594,7 +594,7 @@ public class RKAdapter {
                                     return weightAnswerFormat.maximumValue
                                 }()
                                 
-                                InputManagedWeightQuestion(
+                                WeightQuestionView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     measurementSystem: measurementSystem,
