@@ -61,13 +61,7 @@ public struct ImageChoiceQuestion: Identifiable {
 
 public struct ImageChoiceView: View {
     
-    private enum StateManagementType {
-        
-        case automatic, manual(Binding<[Int]>)
-        
-    }
-    
-    private let stateManagementType: StateManagementType
+    private let stateManagementType: StateManagementType<[Int]>
     
     @State
     private var managedResult: [Int]?

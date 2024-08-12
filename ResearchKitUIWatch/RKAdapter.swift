@@ -496,11 +496,11 @@ public class RKAdapter {
                                     date: Date()
                                 )
                             case let numericAnswerFormat as ORKNumericAnswerFormat:
-                                InputManagedNumericQuestion(
+                                NumericQuestionView(
                                     id: formItem.identifier,
+                                    text: numericAnswerFormat.defaultNumericAnswer?.decimalValue,
                                     title: formItem.text ?? "",
-                                    prompt: numericAnswerFormat.placeholder ?? "Tap to answer",
-                                    text: numericAnswerFormat.defaultNumericAnswer?.decimalValue
+                                    prompt: numericAnswerFormat.placeholder ?? "Tap to answer"
                                 )
                             case let heightAnswerFormat as ORKHeightAnswerFormat:
                                 let measurementSystem: MeasurementSystem = {
