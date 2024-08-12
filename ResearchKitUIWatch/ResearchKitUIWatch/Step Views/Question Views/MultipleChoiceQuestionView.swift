@@ -93,7 +93,6 @@ public struct MultipleChoiceQuestionView: View {
         self.detail = detail
         self.choices = choices
         self.selectionType = selectionType
-        self.managedResult = []
         self.stateManagementType = .manual(result)
     }
 

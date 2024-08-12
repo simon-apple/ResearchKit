@@ -125,7 +125,6 @@ public struct ImageChoiceView: View {
         self.choices = choices
         self.style = style
         self.vertical = vertical
-        self.managedResult = []
         self.stateManagementType = .manual(selection)
     }
 
