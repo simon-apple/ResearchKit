@@ -141,7 +141,7 @@ public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
     
     init(
         id: String,
-        text: Decimal?,
+        text: Decimal? = nil,
         title: String,
         detail: String? = nil,
         prompt: String?
