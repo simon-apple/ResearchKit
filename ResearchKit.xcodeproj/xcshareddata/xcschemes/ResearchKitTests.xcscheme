@@ -57,6 +57,33 @@
                <Test
                   Identifier = "ORKJSONSerializationTests">
                </Test>
+               <Test
+                  Identifier = "ORKJSONSerializationTests/testAddResult">
+               </Test>
+               <Test
+                  Identifier = "ORKJSONSerializationTests/testDateComponentsSerialization">
+               </Test>
+               <Test
+                  Identifier = "ORKJSONSerializationTests/testEquality">
+               </Test>
+               <Test
+                  Identifier = "ORKJSONSerializationTests/testInvalidDBHLValue">
+               </Test>
+               <Test
+                  Identifier = "ORKJSONSerializationTests/testMissingDefaultValueKeyInScaleAnswerFormat">
+               </Test>
+               <Test
+                  Identifier = "ORKJSONSerializationTests/testORKSampleDeserialization">
+               </Test>
+               <Test
+                  Identifier = "ORKJSONSerializationTests/testORKSerialization">
+               </Test>
+               <Test
+                  Identifier = "ORKJSONSerializationTests/testSecureCoding">
+               </Test>
+               <Test
+                  Identifier = "ORKJSONSerializationTests/testTaskModel">
+               </Test>
             </SkippedTests>
          </TestableReference>
       </Testables>
