@@ -74,12 +74,10 @@ public struct ImageChoiceView: View {
     
     private var resolvedManagedResult: Binding<[Int]> {
         Binding(
-            get: { managedResult ?? initialManagedResult },
+            get: { managedResult ?? [] },
             set: { managedResult = $0 }
         )
     }
-    
-    private let initialManagedResult: [Int]
     
     let id: String
     let title: String
@@ -114,7 +112,7 @@ public struct ImageChoiceView: View {
         self.choices = choices
         self.style = style
         self.vertical = vertical
-        self.initialManagedResult = selection
+        self.managedResult = selection
         self.stateManagementType = .automatic
     }
     
@@ -133,7 +131,7 @@ public struct ImageChoiceView: View {
         self.choices = choices
         self.style = style
         self.vertical = vertical
-        self.initialManagedResult = []
+        self.managedResult = []
         self.stateManagementType = .manual(selection)
     }
 
