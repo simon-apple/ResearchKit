@@ -55,12 +55,6 @@ public struct NumericQuestion: Identifiable {
     
 }
 
-enum StateManagementType<T> {
-    
-    case automatic, manual(Binding<T>)
-    
-}
-
 public struct NumericQuestionView<Header: View>: View {
     
     enum FocusTarget {
