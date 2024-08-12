@@ -575,6 +575,8 @@ ORK_CLASS_AVAILABLE
  */
 @property (nonatomic, assign) BOOL discardable;
 
+@property (nonatomic, assign) BOOL skipSaveResultsConfirmation;
+
 @property (nonatomic) ORKTaskViewControllerReviewMode reviewMode;
 
 @property (nonatomic, nullable) ORKInstructionStep * reviewInstructionStep;

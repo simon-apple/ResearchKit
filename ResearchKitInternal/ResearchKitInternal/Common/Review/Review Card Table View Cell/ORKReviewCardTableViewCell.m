@@ -82,7 +82,7 @@ static const CGFloat DividerViewTopBottomPadding = 10.0;
 - (void)_setupBackgoundView {
     if (!_backgroundView) {
         _backgroundView = [UIView new];
-        _backgroundView.backgroundColor = [UIColor systemGroupedBackgroundColor];
+        _backgroundView.backgroundColor = [UIColor tertiarySystemGroupedBackgroundColor];
         _backgroundView.clipsToBounds = YES;
         _backgroundView.layer.cornerRadius = BackgroundViewCornerRadius;
         _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;

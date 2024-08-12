@@ -250,6 +250,7 @@
                                         actionWithTitle:ORKILocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction *action) {
+                [self.dBHLToneAudiometryStep resetAudiometryEngine];
                 [[self taskViewController] restartTask];
             }];
             [alertController addAction:startOver];
