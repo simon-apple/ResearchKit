@@ -73,13 +73,6 @@ public struct ImageChoiceView: View {
         )
     }
     
-    let id: String
-    let title: String
-    let detail: String?
-    let choices: [ImageChoice]
-    let style: ImageChoiceQuestion.ChoiceSelectionType
-    let vertical: Bool
-
     private var selection: Binding<[Int]> {
         let selection: Binding<[Int]>
         switch stateManagementType {
@@ -90,6 +83,13 @@ public struct ImageChoiceView: View {
         }
         return selection
     }
+    
+    let id: String
+    let title: String
+    let detail: String?
+    let choices: [ImageChoice]
+    let style: ImageChoiceQuestion.ChoiceSelectionType
+    let vertical: Bool
     
     public init(
         id: String,

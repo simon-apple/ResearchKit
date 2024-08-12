@@ -75,8 +75,6 @@ public struct NumericQuestionView<Header: View>: View {
         )
     }
     
-    private let id: String
-    
     private var selection: Binding<Decimal?> {
         let selection: Binding<Decimal?>
         switch stateManagementType {
@@ -88,6 +86,7 @@ public struct NumericQuestionView<Header: View>: View {
         return selection
     }
     
+    private let id: String
     private let header: Header
     private let prompt: String?
     @FocusState private var focusTarget: FocusTarget?

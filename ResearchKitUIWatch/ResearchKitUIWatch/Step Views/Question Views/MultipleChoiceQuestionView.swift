@@ -44,12 +44,7 @@ public struct MultipleChoiceQuestionView: View {
             set: { managedResult = $0 }
         )
     }
-
-    let id: String
-    let title: String
-    let choices: [MultipleChoiceOption]
-    let selectionType: MultipleChoiceQuestion.ChoiceSelectionType
-
+    
     private var selection: Binding<[MultipleChoiceOption]> {
         let selection: Binding<[MultipleChoiceOption]>
         switch stateManagementType {
@@ -61,7 +56,11 @@ public struct MultipleChoiceQuestionView: View {
         return selection
     }
 
+    let id: String
+    let title: String
     let detail: String?
+    let choices: [MultipleChoiceOption]
+    let selectionType: MultipleChoiceQuestion.ChoiceSelectionType
     
     public init(
         id: String,
