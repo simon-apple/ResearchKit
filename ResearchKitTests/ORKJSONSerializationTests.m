@@ -574,12 +574,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                                  [ORKTouchAbilityRotationResult class],
                                                  [ORKTouchAbilityLongPressResult class],
                                                  [ORKTouchAbilitySwipeResult class],
-                                                 [ORKTouchAbilityScrollResult class],
-                                                 // TODO: rdar://133020747 (Remove deprecated APIs from ORKLocation for iOS 18)
-                                                 [ORKLocation class],
-                                                 [ORKLocationQuestionResult class],
-                                                 [ORKLocationAnswerFormat class],
-                                                 [ORKLocationRecorderConfiguration class]
+                                                 [ORKTouchAbilityScrollResult class]
                                                  ];
         
         _propertyExclusionList = @[
@@ -725,12 +720,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKLearnMoreItem.delegate",
                                           @"ORKSpeechRecognitionResult.recognitionMetadata",
                                           @"ORKAccuracyStroopStep.actualDisplayColor",
-                                          @"ORKAudioStreamerConfiguration.bypassAudioEngineStart",
-                                          // TODO: rdar://133020747 (Remove deprecated APIs from ORKLocation for iOS 18)
-                                          @"ORKLocation.postalAddress",
-                                          @"ORKLocation.coordinate",
-                                          @"ORKLocation.userInput",
-                                          @"ORKLocation.region"
+                                          @"ORKAudioStreamerConfiguration.bypassAudioEngineStart"
                                           ];
         
 #if RK_APPLE_INTERNAL

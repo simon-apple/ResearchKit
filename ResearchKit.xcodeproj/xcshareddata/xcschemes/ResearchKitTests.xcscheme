@@ -54,6 +54,9 @@
                <Test
                   Identifier = "ORKDataCollectionTests">
                </Test>
+               <Test
+                  Identifier = "ORKJSONSerializationTests">
+               </Test>
             </SkippedTests>
          </TestableReference>
       </Testables>
