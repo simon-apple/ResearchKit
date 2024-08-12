@@ -486,13 +486,12 @@ public class RKAdapter {
                                     }
                                 }()
                                 
-                                InputManagedDateTimeQuestion(
+                                DateTimeView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     pickerPrompt: prompt,
                                     displayedComponents: components,
-                                    range: startDate...endDate,
-                                    date: Date()
+                                    range: startDate...endDate
                                 )
                             case let numericAnswerFormat as ORKNumericAnswerFormat:
                                 NumericQuestionView(
