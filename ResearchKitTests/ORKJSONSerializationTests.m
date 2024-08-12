@@ -92,7 +92,7 @@ static BOOL ORKIsResearchKitClass(Class class) {
    classesToExclude = [classesToExclude arrayByAddingObjectsFromArray:excludedJSONFiles];
 #endif
     
-#if !ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+//#if !ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
     NSArray<NSString *> *locationClasses = @[
         @"ORKLocation",
         @"ORKLocationQuestionResult",
@@ -101,7 +101,7 @@ static BOOL ORKIsResearchKitClass(Class class) {
     ];
    
    classesToExclude = [classesToExclude arrayByAddingObjectsFromArray:locationClasses];
-#endif
+//#endif
     
     
     return classesToExclude;
