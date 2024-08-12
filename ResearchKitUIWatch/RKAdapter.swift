@@ -530,7 +530,7 @@ public class RKAdapter {
                                     return Locale.current.measurementSystem == .us ? 5 : 162
                                 }()
                                 
-                                InputManagedHeightQuestion(
+                                HeightQuestionView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     measurementSystem: measurementSystem,
