@@ -383,7 +383,7 @@ public class RKAdapter {
                         if let answerFormat = formItem.answerFormat {
                             switch answerFormat {
                             case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
-                                InputManagedMultipleChoiceQuestion(
+                                MultipleChoiceQuestionView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     choices: textChoiceAnswerFormat.textChoices.map { textChoice in
@@ -392,7 +392,6 @@ public class RKAdapter {
                                             choiceText: textChoice.text
                                         )
                                     },
-                                    selectedChoices: [],
                                     selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
                                 )
                             case let scaleAnswerFormat as ORKScaleAnswerFormat:
