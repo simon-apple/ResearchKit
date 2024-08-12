@@ -438,7 +438,7 @@ public class RKAdapter {
                                     )
                                 }
                             case let textAnswerFormat as ORKTextAnswerFormat:
-                                InputManagedTextQuestion(
+                                TextQuestionView(
                                     id: formItem.identifier,
                                     text: textAnswerFormat.defaultTextAnswer ?? "",
                                     title: formItem.text ?? "",
