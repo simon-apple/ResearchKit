@@ -86,6 +86,9 @@ public struct DateTimeView<Header: View>: View {
     let displayedComponents: DatePicker.Components
     let range: ClosedRange<Date>
     
+    @State
+    private var showDatePickerModal = false
+    
     public init(
         id: String,
         @ViewBuilder header: () -> Header,
@@ -123,20 +126,59 @@ public struct DateTimeView<Header: View>: View {
         FormItemCardView {
             header
         } content: {
+#if os(watchOS)
+            Text(selection.wrappedValue, format: .dateTime.day().month().year())
+                .padding()
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    showDatePickerModal.toggle()
+                }
+                .sheet(isPresented: $showDatePickerModal) {
+                    VStack {
+                        header
+                        WatchDataPickerDetailView(
+                            pickerPrompt: pickerPrompt,
+                            selection: selection,
+                            displayedComponents: displayedComponents,
+                            range: range
+                        )
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Back", systemImage: "chevron.left") {
+                                    showDatePickerModal.toggle()
+                                }
+                            }
+                        }
+                    }
+                }
+#else
             DatePicker(
                 pickerPrompt,
                 selection: selection,
                 in: range,
                 displayedComponents: displayedComponents
             )
-#if os(watchOS)
-            .datePickerStyle(.automatic)
-#else
             .datePickerStyle(.compact)
-#endif
             .foregroundStyle(.primary)
             .padding()
+#endif
         }
+    }
+}
+
+private struct WatchDataPickerDetailView: View {
+    let pickerPrompt: String
+    var selection: Binding<Date>
+    let displayedComponents: DatePicker.Components
+    let range: ClosedRange<Date>
+    
+    var body: some View {
+        DatePicker(
+            pickerPrompt,
+            selection: selection,
+            in: range,
+            displayedComponents: displayedComponents
+        )
     }
 }
 
@@ -179,21 +221,21 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
     
 }
 
-struct DateTimeView_Previews: PreviewProvider {
-    static var previews: some View {
-        ZStack {
-            Color.choice(for: .secondaryBackground)
-                .ignoresSafeArea()
-            DateTimeView(
-                id: UUID().uuidString,
-                title: "What is your age",
-                detail: nil,
-                selection: .constant(Date()),
-                pickerPrompt: "Select Date and Time",
-                displayedComponents: [.date, .hourAndMinute],
-                range: Date.distantPast...Date.distantFuture
-            )
-            .padding(.horizontal)
-        }
+#Preview {
+    @Previewable @State var date: Date = Date()
+    ZStack {
+        Color.choice(for: .secondaryBackground)
+            .ignoresSafeArea()
+        DateTimeView(
+            id: UUID().uuidString,
+            title: "What is your age",
+            detail: nil,
+            selection: $date,
+            pickerPrompt: "Select Date and Time",
+            displayedComponents: [.date, .hourAndMinute],
+            range: Date.distantPast...Date.distantFuture
+        )
+        .padding(.horizontal)
     }
 }
+
