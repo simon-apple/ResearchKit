@@ -39,12 +39,13 @@
 #import <ResearchKit/ORKSkin.h>
 
 #import <ResearchKitUI/ORKFamilyHistoryRelatedPersonCell.h>
-#import <ResearchKitInternal/ResearchKitInternal.h>
 #import <ResearchKitUI/ORKFamilyHistoryTableFooterView.h>
 #import <ResearchKitUI/ORKStepViewController_Internal.h>
 #import <ResearchKitUI/ORKReviewIncompleteCell.h>
 #import <ResearchkitUI/ORKTableContainerView.h>
 #import <ResearchKitUI/ORKTaskViewController_Internal.h>
+
+#import <ResearchKitInternal/ResearchKitInternal.h>
 
 
 @interface ORKFamilyHistoryReviewController (ORKFamilyHistoryReviewSupport)

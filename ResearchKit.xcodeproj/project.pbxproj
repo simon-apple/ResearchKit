@@ -243,6 +243,7 @@
 		519CE8452C658654003BB584 /* ORKFamilyHistoryTableHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 519CE83F2C658654003BB584 /* ORKFamilyHistoryTableHeaderView.h */; };
 		519CE8462C658654003BB584 /* ORKFamilyHistoryTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 519CE8402C658654003BB584 /* ORKFamilyHistoryTableHeaderView.m */; };
 		519CE85C2C6AD858003BB584 /* ORKFamilyHistoryStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 519CE85B2C6AD858003BB584 /* ORKFamilyHistoryStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		519CE85F2C6BC1DB003BB584 /* ORKFamilyHistoryResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519CE85E2C6BC1DB003BB584 /* ORKFamilyHistoryResultTests.swift */; };
 		51A11F172BD08D5E0060C07E /* HKSample+ORKJSONDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 51A11F132BD08D5D0060C07E /* HKSample+ORKJSONDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51A11F182BD08D5E0060C07E /* CMMotionActivity+ORKJSONDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A11F142BD08D5D0060C07E /* CMMotionActivity+ORKJSONDictionary.m */; };
 		51A11F192BD08D5E0060C07E /* HKSample+ORKJSONDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A11F152BD08D5D0060C07E /* HKSample+ORKJSONDictionary.m */; };
@@ -1509,6 +1510,7 @@
 		519CE83F2C658654003BB584 /* ORKFamilyHistoryTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKFamilyHistoryTableHeaderView.h; sourceTree = "<group>"; };
 		519CE8402C658654003BB584 /* ORKFamilyHistoryTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKFamilyHistoryTableHeaderView.m; sourceTree = "<group>"; };
 		519CE85B2C6AD858003BB584 /* ORKFamilyHistoryStepViewController_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKFamilyHistoryStepViewController_Private.h; sourceTree = "<group>"; };
+		519CE85E2C6BC1DB003BB584 /* ORKFamilyHistoryResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ORKFamilyHistoryResultTests.swift; sourceTree = "<group>"; };
 		51A11F132BD08D5D0060C07E /* HKSample+ORKJSONDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HKSample+ORKJSONDictionary.h"; sourceTree = "<group>"; };
 		51A11F142BD08D5D0060C07E /* CMMotionActivity+ORKJSONDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMMotionActivity+ORKJSONDictionary.m"; sourceTree = "<group>"; };
 		51A11F152BD08D5D0060C07E /* HKSample+ORKJSONDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HKSample+ORKJSONDictionary.m"; sourceTree = "<group>"; };
@@ -2757,6 +2759,14 @@
 			path = "Family History TableView Views";
 			sourceTree = "<group>";
 		};
+		519CE85D2C6BC1C5003BB584 /* Family History */ = {
+			isa = PBXGroup;
+			children = (
+				519CE85E2C6BC1DB003BB584 /* ORKFamilyHistoryResultTests.swift */,
+			);
+			name = "Family History";
+			sourceTree = "<group>";
+		};
 		51A11F1B2BD094A00060C07E /* Custom View */ = {
 			isa = PBXGroup;
 			children = (
@@ -3099,6 +3109,7 @@
 		86CC8EA61AC09383001CCD89 /* ResearchKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				519CE85D2C6BC1C5003BB584 /* Family History */,
 				51EB9A592B8D1CB80064A515 /* FormatterTests */,
 				51AF19512B583B5B00D3B399 /* ORKESerializationTests */,
 				51CB80D42AFEBE4800A1F410 /* ConditionalFormItems */,
@@ -5791,6 +5802,7 @@
 				0B9A990F2A8AC47500D64C40 /* NSObject+TestingSupport.m in Sources */,
 				BC4D521F27B326EA0099DC18 /* ORKSecureCodingTests.swift in Sources */,
 				86D348021AC161B0006DB02B /* ORKRecorderTests.m in Sources */,
+				519CE85F2C6BC1DB003BB584 /* ORKFamilyHistoryResultTests.swift in Sources */,
 				1490DCFC224D4867003FEEDA /* ORKEnvironmentSPLMeterResultTests.swift in Sources */,
 				51CB80D62AFEBE7E00A1F410 /* ORKFormStepViewControllerConditionalFormItemsTests.swift in Sources */,
 				51AF19582B583BBA00D3B399 /* ORKDataCollectionTests.m in Sources */,

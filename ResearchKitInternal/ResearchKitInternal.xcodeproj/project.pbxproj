@@ -91,7 +91,6 @@
 		51CB6DA929C0F36E00A85D79 /* ORKIInstructionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CB6DA729C0F36E00A85D79 /* ORKIInstructionStepViewController.m */; };
 		51CB6DB529C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51CB6DB329C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		51CB6DB629C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CB6DB429C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.m */; };
-		51D9B86F2B22950100927FDF /* ORKFamilyHistoryResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D9B86E2B22950100927FDF /* ORKFamilyHistoryResultTests.swift */; };
 		51F211312B5067AB0072B536 /* ORKAudioDictationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F2112F2B5067AA0072B536 /* ORKAudioDictationView.m */; };
 		51F211322B5067AB0072B536 /* ORKAudioDictationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F211302B5067AA0072B536 /* ORKAudioDictationView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51F716DE29808E0200D8ACF7 /* ORKICompletionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51F716DC29808E0200D8ACF7 /* ORKICompletionStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -378,7 +377,6 @@
 		51CB6DA729C0F36E00A85D79 /* ORKIInstructionStepViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIInstructionStepViewController.m; sourceTree = "<group>"; };
 		51CB6DB329C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSensitiveURLLearnMoreInstructionStep.h; sourceTree = "<group>"; };
 		51CB6DB429C1133400A85D79 /* ORKSensitiveURLLearnMoreInstructionStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSensitiveURLLearnMoreInstructionStep.m; sourceTree = "<group>"; };
-		51D9B86E2B22950100927FDF /* ORKFamilyHistoryResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKFamilyHistoryResultTests.swift; sourceTree = "<group>"; };
 		51F2112F2B5067AA0072B536 /* ORKAudioDictationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKAudioDictationView.m; sourceTree = "<group>"; };
 		51F211302B5067AA0072B536 /* ORKAudioDictationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKAudioDictationView.h; sourceTree = "<group>"; };
 		51F716DC29808E0200D8ACF7 /* ORKICompletionStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKICompletionStepViewController.h; sourceTree = "<group>"; };
@@ -1253,7 +1251,6 @@
 		CA77D23A28AFF89300400292 /* ResearchKitInternalTests */ = {
 			isa = PBXGroup;
 			children = (
-				51D9B86E2B22950100927FDF /* ORKFamilyHistoryResultTests.swift */,
 				CA58F8B928B5557C00761769 /* ORKNewAudiometryTests.swift */,
 				CA0AC56428BD4DA600E80040 /* ORKTinnitusPuretoneViewControllerTests.swift */,
 				CA0AC56628BD4F9200E80040 /* ORKStepViewControllerHelpers.swift */,
@@ -1718,7 +1715,6 @@
 				51BD907329FB35DD0001D54E /* ORKActiveTaskResultTests.swift in Sources */,
 				CA0AC56728BD4F9200E80040 /* ORKStepViewControllerHelpers.swift in Sources */,
 				CA0AC56528BD4DA600E80040 /* ORKTinnitusPuretoneViewControllerTests.swift in Sources */,
-				51D9B86F2B22950100927FDF /* ORKFamilyHistoryResultTests.swift in Sources */,
 				CA58F8BA28B5557C00761769 /* ORKNewAudiometryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

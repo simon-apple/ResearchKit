@@ -2142,6 +2142,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
     
     private var familyHistoryTask: ORKTask {
+#if RK_APPLE_INTERNAL
         if let path = Bundle.main.path(forResource: "family_history_task", ofType: "json", inDirectory: "TaskExamples") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path))
@@ -2154,6 +2155,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                 print("error while decoding task")
             }
         }
+#endif
         
         let familyHistoryStep = TaskListRowSteps.familyHistoryStepExample
         
