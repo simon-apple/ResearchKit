@@ -197,6 +197,11 @@ internal struct TaskContentView<Content>: View where Content: View {
                 }
             }
         }
+#if os(watchOS)
+        .onDisappear {
+            setDiscardedIfNeeded(taskManager: taskManager)
+        }
+#else
         .toolbar {
             // TODO(rdar://128955364): Fix cancel button in this flow.
             ToolbarItem(placement: .topBarTrailing) {
@@ -206,8 +211,8 @@ internal struct TaskContentView<Content>: View where Content: View {
                 } label: {
                     Text("Cancel")
                 }
-
             }
         }
+#endif
     }
 }
