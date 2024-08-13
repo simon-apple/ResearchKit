@@ -76,7 +76,7 @@ public struct ImageChoiceView: View {
         case .managed(let key):
             return Binding(
                 get: { managedTaskResult.resultForStep(key: key) ?? [] },
-                set: { managedTaskResult.setResultForStep($0, key: key) }
+                set: { managedTaskResult.setResultForStep($0, format: .image, key: key) }
             )
         case .provided(let value):
             return value

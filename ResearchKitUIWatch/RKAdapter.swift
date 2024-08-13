@@ -769,4 +769,29 @@ public class RKAdapter {
 
         return firstUUID == secondUUID
     }
+
+    public static func createORKResults(from taskResult: ResearchTaskResult) -> [ORKResult] {
+        let resultsDictionary = taskResult.stepResults
+
+        var resultsArray: [ORKResult] = []
+        resultsDictionary.forEach { entry in
+            let value = entry.value
+            switch value.format {
+            case .text:
+                let result = ORKTextQuestionResult(identifier: value.id)
+                if let answer = value.answer as? String {
+                    result.textAnswer = answer
+                }
+                resultsArray.append(result)
+            default:
+                resultsArray.append(ORKResult(identifier: entry.key))
+            }
+        }
+
+        return resultsArray
+    }
+
+    public static func restoreData(_ data: Data, to steps: [ResearchTaskStep]) {
+
+    }
 }

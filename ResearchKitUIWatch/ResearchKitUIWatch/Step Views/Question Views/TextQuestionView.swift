@@ -91,7 +91,7 @@ public struct TextQuestionView<Header: View>: View {
         case let .managed(key: key):
             return Binding(
                 get: { managedTaskResult.resultForStep(key: key) ?? ""},
-                set: { managedTaskResult.setResultForStep($0, key: key) }
+                set: { managedTaskResult.setResultForStep($0, format: .text, key: key) }
             )
         case let .provided(value):
             return value
@@ -196,8 +196,8 @@ public struct TextQuestionView<Header: View>: View {
                     )
 #endif
                     .onChange(of: resolvedResult.wrappedValue) { oldValue, newValue in
-                        if text.count > characterLimit {
-                            text = oldValue
+                        if resolvedResult.wrappedValue.count > characterLimit {
+                            resolvedResult.wrappedValue = oldValue
                         }
                     }
                 }

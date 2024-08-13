@@ -30,6 +30,22 @@
 
 import SwiftUI
 
+enum AnswerFormat: String, CaseIterable {
+    case text
+    case numeric
+    case boolean
+    case date
+    case time
+    case dateTime
+    case image
+}
+
+struct StepResult {
+    let id: String
+    let format: AnswerFormat
+    let answer: Any
+}
+
 public final class ResearchTaskResult: Observable {
 
     // You don't want this init to be public, b/c you son't want developers injecting it into your env
@@ -37,7 +53,7 @@ public final class ResearchTaskResult: Observable {
 
     // TODO: Is the "any" usage here inefficient when it comes to Observable diffing? Can we do better with an enum with cases for each result type?
     @Published
-    private var stepResults: [String: Any] = [:]
+    var stepResults: [String: StepResult] = [:]
 
     func resultForStep<Result>(key: StepResultKey<Result>) -> Result? {
         if let value = stepResults[key.id] as? Result {
@@ -47,8 +63,12 @@ public final class ResearchTaskResult: Observable {
         }
     }
 
-    func setResultForStep<Result>(_ result: Result, key: StepResultKey<Result>) {
-        stepResults[key.id] = result
+    func setResultForStep<Result>(_ result: Result, format: AnswerFormat, key: StepResultKey<Result>) {
+        stepResults[key.id] = StepResult(
+            id: key.id,
+            format: format,
+            answer: result
+        )
     }
 }
 
