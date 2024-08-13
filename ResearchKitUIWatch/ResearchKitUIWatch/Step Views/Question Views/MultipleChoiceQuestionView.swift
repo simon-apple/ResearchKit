@@ -44,7 +44,7 @@ public struct MultipleChoiceQuestionView: View {
                     managedTaskResult.resultForStep(key: key) ?? []
                 },
                 set: {
-                    managedTaskResult.setResultForStep($0, format: .multipleChoice, key: key)
+                    managedTaskResult.setResultForStep(.multipleChoice($0), key: key)
                 }
             )
         case let .manual(value):

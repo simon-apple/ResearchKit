@@ -91,7 +91,7 @@ public struct TextQuestionView<Header: View>: View {
         case let .automatic(key: key):
             return Binding(
                 get: { managedTaskResult.resultForStep(key: key) ?? ""},
-                set: { managedTaskResult.setResultForStep($0, format: .text, key: key) }
+                set: { managedTaskResult.setResultForStep(.text($0), key: key) }
             )
         case let .manual(value):
             return value

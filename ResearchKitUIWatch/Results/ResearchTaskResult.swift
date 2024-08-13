@@ -31,19 +31,13 @@
 import SwiftUI
 
 enum AnswerFormat {
-    case text
-    case numeric
-    case date
-    case height
-    case weight
-    case image
-    case multipleChoice
-}
-
-struct StepResult {
-    let id: String
-    let format: AnswerFormat
-    let answer: Any
+    case text(String)
+    case numeric(Decimal)
+    case date(Date)
+    case height((Int, Int))
+    case weight((Double, Double))
+    case image([Int])
+    case multipleChoice([MultipleChoiceOption])
 }
 
 public final class ResearchTaskResult: ObservableObject {
@@ -51,24 +45,33 @@ public final class ResearchTaskResult: ObservableObject {
     // You don't want this init to be public, b/c you son't want developers injecting it into your env
     public init() {}
 
-    // TODO: Is the "any" usage here inefficient when it comes to Observable diffing? Can we do better with an enum with cases for each result type?
     @Published
-    var stepResults: [String: StepResult] = [:]
+    var stepResults: [String: AnswerFormat] = [:]
 
     func resultForStep<Result>(key: StepResultKey<Result>) -> Result? {
-        if let value = stepResults[key.id]?.answer as? Result {
-            return value
-        } else {
+        let answerFormat = stepResults[key.id]
+        switch answerFormat {
+        case .text(let string):
+            return string as? Result
+        case .numeric(let decimal):
+            return decimal as? Result
+        case .date(let date):
+            return date as? Result
+        case .height(let height):
+            return height as? Result
+        case .weight(let weight):
+            return weight as? Result
+        case .image(let image):
+            return image as? Result
+        case .multipleChoice(let multipleChoice):
+            return multipleChoice as? Result
+        default:
             return nil
         }
     }
 
-    func setResultForStep<Result>(_ result: Result, format: AnswerFormat, key: StepResultKey<Result>) {
-        stepResults[key.id] = StepResult(
-            id: key.id,
-            format: format,
-            answer: result
-        )
+    func setResultForStep<Result>(_ format: AnswerFormat, key: StepResultKey<Result>) {
+        stepResults[key.id] = format
     }
 }
 

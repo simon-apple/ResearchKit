@@ -756,12 +756,16 @@ public class RKAdapter {
         var resultsArray: [ORKResult] = []
         resultsDictionary.forEach { entry in
             let value = entry.value
-            switch value.format {
+            switch value {
             case .text:
-                let result = ORKTextQuestionResult(identifier: value.id)
-                if let answer = value.answer as? String {
-                    result.textAnswer = answer
+                let result = ORKTextQuestionResult(identifier: entry.key)
+                switch value {
+                case .text(let text):
+                    result.textAnswer = text
+                default:
+                    result.textAnswer = nil
                 }
+
                 resultsArray.append(result)
             default:
                 resultsArray.append(ORKResult(identifier: entry.key))

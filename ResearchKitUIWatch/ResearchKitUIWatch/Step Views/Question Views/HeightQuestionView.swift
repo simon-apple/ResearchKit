@@ -118,7 +118,7 @@ public struct HeightQuestionView: View {
         case let .automatic(key: key):
             return Binding(
                 get: { managedTaskResult.resultForStep(key: key) ?? (initialPrimaryValue, 4) },
-                set: { managedTaskResult.setResultForStep($0, format: .height, key: key) }
+                set: { managedTaskResult.setResultForStep(.height($0), key: key) }
             )
         case let .manual(value):
             return value
