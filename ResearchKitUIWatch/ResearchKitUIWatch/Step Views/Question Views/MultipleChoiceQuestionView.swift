@@ -32,16 +32,52 @@ import SwiftUI
 
 // TODO(rdar://129033515): Update name of this module to reflect just the choice options without the header.
 public struct MultipleChoiceQuestionView: View {
+    
+    private let stateManagementType: StateManagementType<[MultipleChoiceOption]>
+    
+    @State
+    private var managedResult: [MultipleChoiceOption]?
+    
+    private var resolvedManagedResult: Binding<[MultipleChoiceOption]> {
+        Binding(
+            get: { managedResult ?? [] },
+            set: { managedResult = $0 }
+        )
+    }
+    
+    private var selection: Binding<[MultipleChoiceOption]> {
+        let selection: Binding<[MultipleChoiceOption]>
+        switch stateManagementType {
+        case .automatic:
+            selection = resolvedManagedResult
+        case .manual(let binding):
+            selection = binding
+        }
+        return selection
+    }
 
     let id: String
     let title: String
+    let detail: String?
     let choices: [MultipleChoiceOption]
     let selectionType: MultipleChoiceQuestion.ChoiceSelectionType
-
-    @Binding
-    var result: [MultipleChoiceOption]
-
-    let detail: String?
+    
+    public init(
+        id: String,
+        title: String,
+        detail: String? = nil,
+        choices: [MultipleChoiceOption],
+        selectionType: MultipleChoiceQuestion.ChoiceSelectionType,
+        result: [MultipleChoiceOption] = []
+    ) {
+        self.id = id
+        self.title = title
+        self.detail = detail
+        self.choices = choices
+        self.selectionType = selectionType
+        self.managedResult = result
+        self.stateManagementType = .automatic
+    }
 
     // TODO(rdar://129033515): Remove title parameter from initializer since the body reflects just the options.
     public init(
@@ -57,7 +93,7 @@ public struct MultipleChoiceQuestionView: View {
         self.detail = detail
         self.choices = choices
         self.selectionType = selectionType
-        _result = result
+        self.stateManagementType = .manual(result)
     }
 
     public var body: some View {
@@ -70,7 +106,7 @@ public struct MultipleChoiceQuestionView: View {
 
                     TextChoiceCell(
                         title: Text(option.choiceText),
-                        isSelected: result.contains(where: { choice in
+                        isSelected: selection.wrappedValue.contains(where: { choice in
                             choice.id == option.id
                         })
                     ) {
@@ -88,16 +124,16 @@ public struct MultipleChoiceQuestionView: View {
     }
 
     private func choiceSelected(_ option: MultipleChoiceOption) {
-        if result.contains(where: { $0.id == option.id }) {
-            result.removeAll { choice in
+        if selection.wrappedValue.contains(where: { $0.id == option.id }) {
+            selection.wrappedValue.removeAll { choice in
                 choice.id == option.id
             }
         } else {
             switch selectionType {
             case .single:
-                result = [option]
+                selection.wrappedValue = [option]
             case .multiple:
-                result.append(option)
+                selection.wrappedValue.append(option)
             }
         }
     }
@@ -125,42 +161,4 @@ struct MultipleChoiceQuestionView_Previews: PreviewProvider {
         }
 
     }
-}
-
-public struct InputManagedMultipleChoiceQuestion: View {
-    
-    private let id: String
-    private let title: String
-    private let detail: String?
-    private let choices: [MultipleChoiceOption]
-    @State private var selectedChoices: [MultipleChoiceOption] = []
-    private let selectionType: MultipleChoiceQuestion.ChoiceSelectionType
-    
-    public init(
-        id: String,
-        title: String,
-        detail: String? = nil,
-        choices: [MultipleChoiceOption],
-        selectedChoices: [MultipleChoiceOption],
-        selectionType: MultipleChoiceQuestion.ChoiceSelectionType
-    ) {
-        self.id = id
-        self.title = title
-        self.detail = detail
-        self.choices = choices
-        self.selectedChoices = selectedChoices
-        self.selectionType = selectionType
-    }
-    
-    public var body: some View {
-        MultipleChoiceQuestionView(
-            id: id,
-            title: title,
-            detail: detail,
-            choices: choices,
-            selectionType: selectionType,
-            result: $selectedChoices
-        )
-    }
-    
 }

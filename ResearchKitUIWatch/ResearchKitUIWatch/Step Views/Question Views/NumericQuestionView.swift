@@ -63,8 +63,30 @@ public struct NumericQuestionView<Header: View>: View {
         
     }
     
+    private let stateManagementType: StateManagementType<Decimal?>
+    
+    @State
+    private var managedResult: Decimal?
+    
+    private var resolvedManagedResult: Binding<Decimal?> {
+        Binding(
+            get: { managedResult },
+            set: { managedResult = $0 }
+        )
+    }
+    
+    private var selection: Binding<Decimal?> {
+        let selection: Binding<Decimal?>
+        switch stateManagementType {
+        case .automatic:
+            selection = resolvedManagedResult
+        case .manual(let binding):
+            selection = binding
+        }
+        return selection
+    }
+    
     private let id: String
-    @Binding var text: Decimal?
     private let header: Header
     private let prompt: String?
     @FocusState private var focusTarget: FocusTarget?
@@ -75,10 +97,10 @@ public struct NumericQuestionView<Header: View>: View {
                 header
             },
             content: {
-                TextField("", value: $text, format: .number, prompt: placeholder)
+
 #if !os(watchOS)    // TODO: rdar://133013973 (Remove numerical answer format from RKSwiftUI Watch)
+                TextField("", value: selection, format: .number, prompt: placeholder)
                     .keyboardType(.decimalPad)
-#endif
                     .focused($focusTarget, equals: .numericQuestion)
                     .doneKeyboardToolbar(
                         condition: {
@@ -89,6 +111,7 @@ public struct NumericQuestionView<Header: View>: View {
                         }
                     )
                     .padding()
+#endif
             }
         )
     }
@@ -109,13 +132,27 @@ public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
         id: String,
         text: Binding<Decimal?>,
         title: String,
-        detail: String?,
+        detail: String? = nil,
         prompt: String?
     ) {
         self.id = id
-        self._text = text
         header = _SimpleFormItemViewHeader(title: title, detail: detail)
         self.prompt = prompt
+        self.stateManagementType = .manual(text)
+    }
+    
+    init(
+        id: String,
+        text: Decimal? = nil,
+        title: String,
+        detail: String? = nil,
+        prompt: String?
+    ) {
+        self.id = id
+        header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        self.prompt = prompt
+        self.managedResult = text
+        self.stateManagementType = .automatic
     }
     
 }
@@ -137,38 +174,4 @@ struct NumericQuestionView_Previews: PreviewProvider {
         }
 
     }
-}
-
-public struct InputManagedNumericQuestion: View {
-    
-    private let id: String
-    private let title: String
-    private let detail: String?
-    private let prompt: String?
-    @State private var text: Decimal?
-    
-    public init(
-        id: String,
-        title: String,
-        detail: String? = nil,
-        prompt: String? = nil,
-        text: Decimal?
-    ) {
-        self.id = id
-        self.title = title
-        self.detail = detail
-        self.prompt = prompt
-        self.text = text
-    }
-    
-    public var body: some View {
-        NumericQuestionView(
-            id: id,
-            text: $text,
-            title: title,
-            detail: detail,
-            prompt: prompt
-        )
-    }
-    
 }
