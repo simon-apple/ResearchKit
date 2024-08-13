@@ -220,7 +220,7 @@ public struct HeightQuestionView: View {
                 ) {
                     HeightPickerView(
                         measurementSystem: measurementSystem,
-                        selection: $selection,
+                        selection: selection,
                         hasChanges: $hasChanges
                     )
                 }
