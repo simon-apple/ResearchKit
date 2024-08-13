@@ -179,7 +179,7 @@ public struct TextQuestionView<Header: View>: View {
 
                         if !hideClearButton {
                             Button {
-                                // TODO: Re-implement clear here
+                                resolvedResult.wrappedValue = ""
                             } label: {
                                 Text("Clear")
                             }
@@ -208,6 +208,29 @@ public struct TextQuestionView<Header: View>: View {
 }
 
 public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
+    
+    init(
+        id: String,
+        text: String? = nil,
+        title: String,
+        detail: String? = nil,
+        prompt: String?,
+        textFieldType: TextFieldType,
+        characterLimit: Int,
+        hideCharacterCountLabel: Bool = false,
+        hideClearButton: Bool = false
+    ) {
+        self.id = id
+        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        self.prompt = prompt
+        self.textFieldType = textFieldType
+        self.characterLimit = characterLimit
+        self.hideCharacterCountLabel = hideCharacterCountLabel
+        self.hideClearButton = hideClearButton
+        self.managedResult = text
+        self.stateManagementType = .automatic
+    }
+    
     init(
         id: String,
         title: String,
@@ -232,7 +255,7 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
     init(
         id: String,
         title: String,
-        detail: String?,
+        detail: String? = nil,
         prompt: String?,
         textFieldType: TextFieldType,
         characterLimit: Int,
@@ -248,6 +271,7 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
         self.hideClearButton = hideClearButton
         self.result = .managed(key: .text(id: id))
     }
+    
 }
 
 struct TextQuestionView_Previews: PreviewProvider {
