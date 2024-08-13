@@ -127,30 +127,26 @@ public struct DateTimeView<Header: View>: View {
             header
         } content: {
 #if os(watchOS)
-            Text(selection.wrappedValue, format: .dateTime.day().month().year())
-                .padding()
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    showDatePickerModal.toggle()
+            Button {
+                showDatePickerModal.toggle()
+            } label: {
+                Text(selection.wrappedValue, format: .dateTime.day().month().year())
+            }
+            .buttonBorderShape(.roundedRectangle)
+            .buttonStyle(.bordered)
+            .padding()
+            .navigationDestination(isPresented: $showDatePickerModal) {
+                VStack(alignment: .leading) {
+                    header
+                    WatchDataPickerDetailView(
+                        pickerPrompt: pickerPrompt,
+                        selection: selection,
+                        displayedComponents: displayedComponents,
+                        range: range
+                    )
+                    .padding(.horizontal)
                 }
-                .sheet(isPresented: $showDatePickerModal) {
-                    VStack {
-                        header
-                        WatchDataPickerDetailView(
-                            pickerPrompt: pickerPrompt,
-                            selection: selection,
-                            displayedComponents: displayedComponents,
-                            range: range
-                        )
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button("Back", systemImage: "chevron.left") {
-                                    showDatePickerModal.toggle()
-                                }
-                            }
-                        }
-                    }
-                }
+            }
 #else
             DatePicker(
                 pickerPrompt,
@@ -223,13 +219,11 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
 
 #Preview {
     @Previewable @State var date: Date = Date()
-    ZStack {
-        Color.choice(for: .secondaryBackground)
-            .ignoresSafeArea()
+    NavigationStack {
         DateTimeView(
             id: UUID().uuidString,
-            title: "What is your age",
-            detail: nil,
+            title: "What is your birthday?",
+            detail: "Question 1 of 4",
             selection: $date,
             pickerPrompt: "Select Date and Time",
             displayedComponents: [.date, .hourAndMinute],
