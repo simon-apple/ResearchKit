@@ -30,19 +30,19 @@
 
 #import "ORKFamilyHistoryResultModel.h"
 
-#import "ORKConditionStepConfiguration.h"
-#import "ORKFamilyHistoryResult.h"
-#import "ORKFamilyHistoryStep.h"
-#import "ORKHealthCondition.h"
 #import "ORKIUtils.h"
-#import "ORKRelatedPerson.h"
-#import "ORKRelativeGroup.h"
 #import "ORKReviewCard.h"
 #import "ORKReviewCardItem.h"
 #import "ORKReviewCardSection.h"
 
 #import <ResearchKit/ORKCollectionResult.h>
+#import <ResearchKit/ORKConditionStepConfiguration.h>
+#import <ResearchKit/ORKFamilyHistoryResult.h>
+#import <ResearchKit/ORKFamilyHistoryStep.h>
+#import <ResearchKit/ORKHealthCondition.h>
 #import <ResearchKit/ORKQuestionResult_Private.h>
+#import <ResearchKit/ORKRelatedPerson.h>
+#import <ResearchKit/ORKRelativeGroup.h>
 #import <ResearchKit/ORKTask.h>
 
 NSString * const ORKHealthConditionIDontKnowChoice = @"do not know";

@@ -61,6 +61,8 @@
 		5192BF6D2AE19718006E43FB /* LoudnessEQ_AIRPODSMAX.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF692AE19718006E43FB /* LoudnessEQ_AIRPODSMAX.plist */; };
 		5192BF6E2AE19718006E43FB /* LoudnessEQ_AIRPODSPRO.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF6A2AE19718006E43FB /* LoudnessEQ_AIRPODSPRO.plist */; };
 		5192BF6F2AE19718006E43FB /* LoudnessEQ_EARPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5192BF6B2AE19718006E43FB /* LoudnessEQ_EARPODS.plist */; };
+		519CE8582C6AD68B003BB584 /* ORKFamilyHistoryReviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 519CE8552C6AD68A003BB584 /* ORKFamilyHistoryReviewController.m */; };
+		519CE85A2C6AD68B003BB584 /* ORKFamilyHistoryReviewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 519CE8572C6AD68B003BB584 /* ORKFamilyHistoryReviewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51A11FB22BE6817A0060C07E /* ORKSettingStatusStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 51A11FB02BE6817A0060C07E /* ORKSettingStatusStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51A11FB32BE6817A0060C07E /* ORKSettingStatusStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A11FB12BE6817A0060C07E /* ORKSettingStatusStep.m */; };
 		51A11FB62BE688410060C07E /* ORKSettingStatusStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 51A11FB42BE688410060C07E /* ORKSettingStatusStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -341,6 +343,8 @@
 		5192BF692AE19718006E43FB /* LoudnessEQ_AIRPODSMAX.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LoudnessEQ_AIRPODSMAX.plist; sourceTree = "<group>"; };
 		5192BF6A2AE19718006E43FB /* LoudnessEQ_AIRPODSPRO.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LoudnessEQ_AIRPODSPRO.plist; sourceTree = "<group>"; };
 		5192BF6B2AE19718006E43FB /* LoudnessEQ_EARPODS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LoudnessEQ_EARPODS.plist; sourceTree = "<group>"; };
+		519CE8552C6AD68A003BB584 /* ORKFamilyHistoryReviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKFamilyHistoryReviewController.m; sourceTree = "<group>"; };
+		519CE8572C6AD68B003BB584 /* ORKFamilyHistoryReviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKFamilyHistoryReviewController.h; sourceTree = "<group>"; };
 		51A11FB02BE6817A0060C07E /* ORKSettingStatusStep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSettingStatusStep.h; sourceTree = "<group>"; };
 		51A11FB12BE6817A0060C07E /* ORKSettingStatusStep.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSettingStatusStep.m; sourceTree = "<group>"; };
 		51A11FB42BE688410060C07E /* ORKSettingStatusStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSettingStatusStepViewController.h; sourceTree = "<group>"; };
@@ -705,6 +709,23 @@
 			path = Mapper;
 			sourceTree = "<group>";
 		};
+		519CE8532C6AD609003BB584 /* Family History */ = {
+			isa = PBXGroup;
+			children = (
+				519CE8542C6AD616003BB584 /* Family History Review Controller */,
+			);
+			path = "Family History";
+			sourceTree = "<group>";
+		};
+		519CE8542C6AD616003BB584 /* Family History Review Controller */ = {
+			isa = PBXGroup;
+			children = (
+				519CE8572C6AD68B003BB584 /* ORKFamilyHistoryReviewController.h */,
+				519CE8552C6AD68A003BB584 /* ORKFamilyHistoryReviewController.m */,
+			);
+			path = "Family History Review Controller";
+			sourceTree = "<group>";
+		};
 		51A11FAF2BE681380060C07E /* Settings Status Step */ = {
 			isa = PBXGroup;
 			children = (
@@ -791,6 +812,7 @@
 		51F716D529808B0000D8ACF7 /* Step */ = {
 			isa = PBXGroup;
 			children = (
+				519CE8532C6AD609003BB584 /* Family History */,
 				51A11FAF2BE681380060C07E /* Settings Status Step */,
 				51F716D729808B5600D8ACF7 /* Completion Step */,
 				51F716D629808B0E00D8ACF7 /* Instruction Step */,
@@ -1404,6 +1426,7 @@
 				CA5B6D7828BD1F38002C3BA4 /* ORKTinnitusTypeStepViewController.h in Headers */,
 				CA3FF9EA28B5705300A33B6B /* ORKFaceDetectionStep.h in Headers */,
 				CA5B6D6728BD1F38002C3BA4 /* ORKTinnitusPureToneResult.h in Headers */,
+				519CE85A2C6AD68B003BB584 /* ORKFamilyHistoryReviewController.h in Headers */,
 				51BD8FF429D88DDA0001D54E /* ORKSoftLinking.h in Headers */,
 				51F716F32981DE1B00D8ACF7 /* ORKISpeechInNoiseStepViewController.h in Headers */,
 				CA0AC57728BFFAB700E80040 /* ORKIUtils.h in Headers */,
@@ -1590,6 +1613,7 @@
 				CA58F8A628B5330E00761769 /* subalgorithms.c in Sources */,
 				CA77D2A228AFFB4700400292 /* ORKFlamesView.m in Sources */,
 				51274A702C0697ED0033E905 /* ORKSettingStatusResult.m in Sources */,
+				519CE8582C6AD68B003BB584 /* ORKFamilyHistoryReviewController.m in Sources */,
 				CA58F8A928B5330E00761769 /* print.c in Sources */,
 				511E8D692996FEC200A384A5 /* ORKITaskViewController.m in Sources */,
 				51BD906929F73BE80001D54E /* ORKITypes.m in Sources */,

@@ -50,6 +50,7 @@
 #import <ResearchKitInternal/ORKdBHLToneAudiometryMethodOfAdjustmentStep.h>
 #import <ResearchKitInternal/ORKdBHLToneAudiometryMethodOfAdjustmentStepViewController.h>
 #import <ResearchKitInternal/ORKFaceDetectionStepViewController.h>
+#import <ResearchKitInternal/ORKFamilyHistoryReviewController.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectResult.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectStep.h>
 #import <ResearchKitInternal/ORKHeadphoneDetector.h>

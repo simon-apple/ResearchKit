@@ -29,7 +29,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKFamilyHistoryStepViewController.h"
+#import <ResearchKitUI/ORKFamilyHistoryStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 @interface ORKFamilyHistoryStepViewController (ORKFamilyHistoryReviewSupport) <UITableViewDelegate, UITableViewDataSource>

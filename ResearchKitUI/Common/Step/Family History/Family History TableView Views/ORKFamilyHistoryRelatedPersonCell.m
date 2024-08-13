@@ -34,7 +34,6 @@
 
 #import <ResearchKit/ORKHelpers_Internal.h>
 
-
 static const CGFloat BackgroundViewBottomPadding = 18.0;
 static const CGFloat CellLeftRightPadding = 12.0;
 static const CGFloat CellTopBottomPadding = 12.0;

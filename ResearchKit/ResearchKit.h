@@ -40,7 +40,6 @@
 #import <ResearchKit/ORKCompletionStep.h>
 #import <ResearchKit/ORKConsentReviewStep.h>
 #import <ResearchKit/ORKConsentSharingStep.h>
-#import <ResearchKit/ORKFamilyHistoryStep.h>
 #import <ResearchKit/ORKFormStep.h>
 #import <ResearchKit/ORKFormItemVisibilityRule.h>
 #import <ResearchKit/ORKHTMLPDFWriter.h>
@@ -126,6 +125,3 @@
 #import <ResearchKit/ORKHealthCondition.h>
 #import <ResearchKit/ORKRelatedPerson.h>
 #import <ResearchKit/ORKRelativeGroup.h>
-
-//#import <ResearchKitInternal/ORKFamilyHistoryStepViewController.h>
-//#import <ResearchKitInternal/ORKFamilyHistoryReviewController.h>
