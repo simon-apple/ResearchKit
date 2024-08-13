@@ -26,7 +26,7 @@ ORK_FEATURE_CLLOCATIONMANAGER_DEFINITIONS_1 = ORK_FEATURE_CLLOCATIONMANAGER_AUTH
 // for NSLocationAlwaysAndWhenInUseUsageDescription and NSLocationWhenInUseUsageDescription.
 // If your app doesn't use ORKLocationRecorder and doesn't specify these Info.plist strings, disable
 // ResearchKit's CLLocationManager authorization
-ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION = 1
+ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION = 0
 
 // Some HealthKit API calls used within the framework require your app to disclose using HealthKit and provide a reason during app store review.
 // If your app does not use HealthKit or any of the ResearchKit HealthKit APIs, disable ResearchKit's HealthKit authorization.

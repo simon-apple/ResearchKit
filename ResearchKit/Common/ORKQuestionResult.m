@@ -326,7 +326,7 @@
 
 @end
 
-#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS 
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 // TODO: rdar://133020747 (Remove deprecated APIs from ORKLocation for iOS 18)
 #pragma mark - ORKLocationQuestionResult
 
@@ -340,37 +340,37 @@
     ORKThrowMethodUnavailableException();
 }
 
-//- (instancetype)initWithCoordinate:(CLLocationCoordinate2D)coordinate
-//                            region:(CLCircularRegion *)region
-//                         userInput:(NSString *)userInput
-//                     postalAddress:(CNPostalAddress *)postalAddress{
-//    self = [super init];
-//    if (self) {
-//        _coordinate = coordinate;
-//        _region = [region copy];
-//        _userInput = [userInput copy];
-//        _postalAddress = [postalAddress copy];
-//    }
-//    return self;
-//}
+- (instancetype)initWithCoordinate:(CLLocationCoordinate2D)coordinate
+                            region:(CLCircularRegion *)region
+                         userInput:(NSString *)userInput
+                     postalAddress:(CNPostalAddress *)postalAddress{
+    self = [super init];
+    if (self) {
+        _coordinate = coordinate;
+        _region = [region copy];
+        _userInput = [userInput copy];
+        _postalAddress = [postalAddress copy];
+    }
+    return self;
+}
 
-//- (instancetype)initWithPlacemark:(CLPlacemark *)placemark userInput:(NSString *)userInput {
-//    self = [super init];
-//    if (self) {
-//        _coordinate = placemark.location.coordinate;
-//        _userInput =  [userInput copy];
-//        _region = [placemark.region isKindOfClass:[CLCircularRegion class]] ? [placemark.region copy]  : nil;
-//        _postalAddress = [placemark.postalAddress copy];
-//    }
-//    return self;
-//}
-//
-//- (id)copyWithZone:(NSZone *)zone {
-//    return [[[self class] alloc] initWithCoordinate:self.coordinate
-//                                             region:self.region
-//                                          userInput:self.userInput
-//                                      postalAddress:self.postalAddress];
-//}
+- (instancetype)initWithPlacemark:(CLPlacemark *)placemark userInput:(NSString *)userInput {
+    self = [super init];
+    if (self) {
+        _coordinate = placemark.location.coordinate;
+        _userInput =  [userInput copy];
+        _region = [placemark.region isKindOfClass:[CLCircularRegion class]] ? [placemark.region copy]  : nil;
+        _postalAddress = [placemark.postalAddress copy];
+    }
+    return self;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    return [[[self class] alloc] initWithCoordinate:self.coordinate
+                                             region:self.region
+                                          userInput:self.userInput
+                                      postalAddress:self.postalAddress];
+}
 
 + (BOOL)supportsSecureCoding {
     return YES;

@@ -4067,73 +4067,73 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
 
 #pragma mark - ORKLocationAnswerFormat
 @implementation ORKLocationAnswerFormat
-//
-//- (instancetype)init {
-//    self = [super init];
-//    if (self) {
-//        _useCurrentLocation = YES;
-//    }
-//    return self;
-//}
-//
-//- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-//    self = [super initWithCoder:aDecoder];
-//    if (self) {
-//        ORK_DECODE_BOOL(aDecoder, useCurrentLocation);
-//        ORK_DECODE_OBJ_CLASS(aDecoder, placeholder, NSString);
-//    }
-//    return self;
-//}
-//
-//- (void)encodeWithCoder:(NSCoder *)aCoder {
-//    [super encodeWithCoder:aCoder];
-//    ORK_ENCODE_BOOL(aCoder, useCurrentLocation);
-//    ORK_ENCODE_OBJ(aCoder, placeholder);
-//}
-//
-//+ (BOOL)supportsSecureCoding {
-//    return YES;
-//}
-//
-//- (ORKQuestionType)questionType {
-//    return ORKQuestionTypeLocation;
-//}
-//
-//- (Class)questionResultClass {
-//    return [ORKLocationQuestionResult class];
-//}
-//
-//- (instancetype)copyWithZone:(NSZone *)zone {
-//    ORKLocationAnswerFormat *locationAnswerFormat = [[[self class] allocWithZone:zone] init];
-//    locationAnswerFormat->_useCurrentLocation = _useCurrentLocation;
-//    return locationAnswerFormat;
-//}
-//
-//- (BOOL)isEqual:(id)object {
-//    BOOL isParentSame = [super isEqual:object];
-//    
-//    __typeof(self) castObject = object;
-//    return (isParentSame &&
-//            _useCurrentLocation == castObject.useCurrentLocation);
-//}
-//
-//- (NSString *)stringForAnswer:(id)answer {
-//    NSString *answerString = nil;
-//    if ([answer isKindOfClass:[ORKLocation class]]) {
-//        ORKLocation *location = answer;
-//        
-//        CNPostalAddress *postalAddress = location.postalAddress;
-//        answerString = postalAddress ? [CNPostalAddressFormatter stringFromPostalAddress:postalAddress
-//                                                                                   style:CNPostalAddressFormatterStyleMailingAddress] :
-//        MKStringFromMapPoint(MKMapPointForCoordinate(location.coordinate));
-//    }
-//    return answerString;
-//}
-//
-//- (BOOL)shouldShowDontKnowButton {
-//    return NO;
-//}
-//
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _useCurrentLocation = YES;
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        ORK_DECODE_BOOL(aDecoder, useCurrentLocation);
+        ORK_DECODE_OBJ_CLASS(aDecoder, placeholder, NSString);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_BOOL(aCoder, useCurrentLocation);
+    ORK_ENCODE_OBJ(aCoder, placeholder);
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (ORKQuestionType)questionType {
+    return ORKQuestionTypeLocation;
+}
+
+- (Class)questionResultClass {
+    return [ORKLocationQuestionResult class];
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKLocationAnswerFormat *locationAnswerFormat = [[[self class] allocWithZone:zone] init];
+    locationAnswerFormat->_useCurrentLocation = _useCurrentLocation;
+    return locationAnswerFormat;
+}
+
+- (BOOL)isEqual:(id)object {
+    BOOL isParentSame = [super isEqual:object];
+    
+    __typeof(self) castObject = object;
+    return (isParentSame &&
+            _useCurrentLocation == castObject.useCurrentLocation);
+}
+
+- (NSString *)stringForAnswer:(id)answer {
+    NSString *answerString = nil;
+    if ([answer isKindOfClass:[ORKLocation class]]) {
+        ORKLocation *location = answer;
+        
+        CNPostalAddress *postalAddress = location.postalAddress;
+        answerString = postalAddress ? [CNPostalAddressFormatter stringFromPostalAddress:postalAddress
+                                                                                   style:CNPostalAddressFormatterStyleMailingAddress] :
+        MKStringFromMapPoint(MKMapPointForCoordinate(location.coordinate));
+    }
+    return answerString;
+}
+
+- (BOOL)shouldShowDontKnowButton {
+    return NO;
+}
+
 @end
 #endif
 
