@@ -84,16 +84,16 @@ public struct TextQuestionView<Header: View>: View {
     let characterLimit: Int
     let hideCharacterCountLabel: Bool
     let hideClearButton: Bool
-    let result: QuestionStepResult<String>
+    let result: StateManagementType<String>
 
     private var resolvedResult: Binding<String> {
         switch result {
-        case let .managed(key: key):
+        case let .automatic(key: key):
             return Binding(
                 get: { managedTaskResult.resultForStep(key: key) ?? ""},
                 set: { managedTaskResult.setResultForStep($0, format: .text, key: key) }
             )
-        case let .provided(value):
+        case let .manual(value):
             return value
         }
     }
@@ -115,7 +115,7 @@ public struct TextQuestionView<Header: View>: View {
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.result = .provided(value: result)
+        self.result = .manual(result)
     }
 
     public init(
@@ -134,7 +134,7 @@ public struct TextQuestionView<Header: View>: View {
         self.characterLimit = characterLimit > 0 ? characterLimit : .max
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.result = .managed(key: .text(id: id))
+        self.result = .automatic(key: .text(id: id))
     }
 
     private var axis: Axis {
@@ -208,29 +208,6 @@ public struct TextQuestionView<Header: View>: View {
 }
 
 public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
-    
-    init(
-        id: String,
-        text: String? = nil,
-        title: String,
-        detail: String? = nil,
-        prompt: String?,
-        textFieldType: TextFieldType,
-        characterLimit: Int,
-        hideCharacterCountLabel: Bool = false,
-        hideClearButton: Bool = false
-    ) {
-        self.id = id
-        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
-        self.prompt = prompt
-        self.textFieldType = textFieldType
-        self.characterLimit = characterLimit
-        self.hideCharacterCountLabel = hideCharacterCountLabel
-        self.hideClearButton = hideClearButton
-        self.managedResult = text
-        self.stateManagementType = .automatic
-    }
-    
     init(
         id: String,
         title: String,
@@ -249,7 +226,7 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.result = .provided(value: result)
+        self.result = .manual(result)
     }
 
     init(
@@ -269,7 +246,7 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.result = .managed(key: .text(id: id))
+        self.result = .automatic(key: .text(id: id))
     }
     
 }

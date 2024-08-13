@@ -514,27 +514,10 @@ public class RKAdapter {
                                     }
                                 }()
 
-                                let initialPrimaryValue: Int = {
-                                    // To set the picker at a nice middle of the road height
-                                    // we will set it to 5 feet initially
-                                    if measurementSystem == .USC {
-                                        return 5
-                                    }
-
-                                    // Similar to above, this equate to 5'4" which
-                                    // is a good starting point for the picker.
-                                    if measurementSystem == .metric {
-                                        return 162
-                                    }
-
-                                    return Locale.current.measurementSystem == .us ? 5 : 162
-                                }()
-                                
                                 HeightQuestionView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
-                                    measurementSystem: measurementSystem,
-                                    selection: (initialPrimaryValue, 4)
+                                    measurementSystem: measurementSystem
                                 )
                             case let weightAnswerFormat as ORKWeightAnswerFormat:
                                 let measurementSystem: MeasurementSystem = {
@@ -601,8 +584,7 @@ public class RKAdapter {
                                     precision: precision,
                                     defaultValue: defaultValue,
                                     minimumValue: minimumValue,
-                                    maximumValue: maximumValue,
-                                    selection: (defaultValue, 0)
+                                    maximumValue: maximumValue
                                 )
                             case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
                                 let choices = imageChoiceAnswerFormat.imageChoices.map { choice in

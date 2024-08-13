@@ -69,16 +69,16 @@ public struct ImageChoiceView: View {
     let choices: [ImageChoice]
     let style: ImageChoiceQuestion.ChoiceSelectionType
     let vertical: Bool
-    private let result: QuestionStepResult<[Int]>
+    private let result: StateManagementType<[Int]>
 
     private var resolvedResult: Binding<[Int]> {
         switch result {
-        case .managed(let key):
+        case .automatic(let key):
             return Binding(
                 get: { managedTaskResult.resultForStep(key: key) ?? [] },
                 set: { managedTaskResult.setResultForStep($0, format: .image, key: key) }
             )
-        case .provided(let value):
+        case .manual(let value):
             return value
         }
     }
@@ -98,7 +98,7 @@ public struct ImageChoiceView: View {
         self.choices = choices
         self.style = style
         self.vertical = vertical
-        self.result = .provided(value: result)
+        self.result = .manual(result)
     }
 
     public init(
@@ -115,7 +115,7 @@ public struct ImageChoiceView: View {
         self.choices = choices
         self.style = style
         self.vertical = vertical
-        self.result = .managed(key: .imageChoice(id: id))
+        self.result = .automatic(key: .imageChoice(id: id))
     }
 
     public var body: some View {

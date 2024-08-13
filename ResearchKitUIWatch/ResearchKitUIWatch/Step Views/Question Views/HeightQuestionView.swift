@@ -85,30 +85,9 @@ public struct HeightQuestion: Identifiable {
 }
 
 public struct HeightQuestionView: View {
-    
-    private let stateManagementType: StateManagementType<(Int, Int)>
-    
-    @State
-    private var managedResult: (Int, Int)?
-    
-    private var resolvedManagedResult: Binding<(Int, Int)> {
-        Binding(
-            get: { managedResult ?? (0, 0) },
-            set: { managedResult = $0 }
-        )
-    }
-    
-    private var selection: Binding<(Int, Int)> {
-        let selection: Binding<(Int, Int)>
-        switch stateManagementType {
-        case .automatic:
-            selection = resolvedManagedResult
-        case .manual(let binding):
-            selection = binding
-        }
-        return selection
-    }
-    
+    @Environment(ResearchTaskResult.self)
+    private var managedTaskResult
+
     @State var isInputActive = false
     @State var hasChanges: Bool
 
@@ -116,13 +95,41 @@ public struct HeightQuestionView: View {
     let title: String
     let detail: String?
     let measurementSystem: MeasurementSystem
-    
+    let result: StateManagementType<(Int, Int)>
+
+    var initialPrimaryValue: Int  {
+        // To set the picker at a nice middle of the road height
+        // we will set it to 5 feet initially
+        if measurementSystem == .USC {
+            return 5
+        }
+
+        // Similar to above, this equate to 5'4" which
+        // is a good starting point for the picker.
+        if measurementSystem == .metric {
+            return 162
+        }
+
+        return Locale.current.measurementSystem == .us ? 5 : 162
+    }
+
+    private var resolvedResult: Binding<(Int, Int)> {
+        switch result {
+        case let .automatic(key: key):
+            return Binding(
+                get: { managedTaskResult.resultForStep(key: key) ?? (initialPrimaryValue, 4) },
+                set: { managedTaskResult.setResultForStep($0, format: .height, key: key) }
+            )
+        case let .manual(value):
+            return value
+        }
+    }
+
     public init(
         id: String,
         title: String,
         detail: String? = nil,
-        measurementSystem: MeasurementSystem,
-        selection: (Int, Int)
+        measurementSystem: MeasurementSystem
     ) {
         self.id = id
         self.hasChanges = false
@@ -144,8 +151,7 @@ public struct HeightQuestionView: View {
             }
         }()
         self.measurementSystem = system
-        self.managedResult = selection
-        self.stateManagementType = .automatic
+        self.result = .automatic(key: .height(id: id))
     }
     
     public init(
@@ -175,14 +181,14 @@ public struct HeightQuestionView: View {
             }
         }()
         self.measurementSystem = system
-        self.stateManagementType = .manual(selection)
+        self.result = .manual(selection)
     }
 
     var selectionString: String {
         if measurementSystem == .USC {
-            return "\(Int(selection.wrappedValue.0))' \(Int(selection.wrappedValue.1))\""
+            return "\(Int(resolvedResult.wrappedValue.0))' \(Int(resolvedResult.wrappedValue.1))\""
         } else {
-            return "\(selection.0) cm"
+            return "\(resolvedResult.0) cm"
         }
     }
 
@@ -207,7 +213,7 @@ public struct HeightQuestionView: View {
                 ) {
                     HeightPickerView(
                         measurementSystem: measurementSystem,
-                        selection: selection,
+                        selection: resolvedResult,
                         hasChanges: $hasChanges
                     )
                     .frame(width: 300)

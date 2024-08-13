@@ -31,7 +31,6 @@
 import SwiftUI
 
 enum StateManagementType<T> {
-    
-    case automatic, manual(Binding<T>)
-    
+    case automatic(key: StepResultKey<T>)
+    case manual(Binding<T>)
 }

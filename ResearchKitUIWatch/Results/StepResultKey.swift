@@ -28,6 +28,8 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Foundation
+
 // TODO: If you'd like, skip this and just use Strings as keys. But this route eliminates the need for type casting.
 // TODO: Explore using macros to type results automatically instead of relying on this
 public struct StepResultKey<Result> {
@@ -40,6 +42,26 @@ public struct StepResultKey<Result> {
 
     public static func imageChoice(id: String) -> StepResultKey<[Int]> {
         return StepResultKey<[Int]>(id: id)
+    }
+
+    public static func multipleChoice(id: String) -> StepResultKey<[MultipleChoiceOption]> {
+        return StepResultKey<[MultipleChoiceOption]>(id: id)
+    }
+
+    public static func numeric(id: String) -> StepResultKey<Decimal?> {
+        return StepResultKey<Decimal?>(id: id)
+    }
+
+    public static func height(id: String) -> StepResultKey<(Int, Int)> {
+        return StepResultKey<(Int, Int)>(id: id)
+    }
+
+    public static func weight(id: String) -> StepResultKey<(Double, Double)> {
+        return StepResultKey<(Double, Double)>(id: id)
+    }
+
+    public static func date(id: String) -> StepResultKey<Date> {
+        return StepResultKey<Date>(id: id)
     }
 }
 

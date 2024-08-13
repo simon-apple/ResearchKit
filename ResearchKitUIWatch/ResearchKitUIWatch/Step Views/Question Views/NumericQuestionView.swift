@@ -56,48 +56,41 @@ public struct NumericQuestion: Identifiable {
 }
 
 public struct NumericQuestionView<Header: View>: View {
-    
+
+    @Environment(ResearchTaskResult.self)
+    private var managedTaskResult
+
     enum FocusTarget {
         
         case numericQuestion
         
     }
-    
-    private let stateManagementType: StateManagementType<Decimal?>
-    
-    @State
-    private var managedResult: Decimal?
-    
-    private var resolvedManagedResult: Binding<Decimal?> {
-        Binding(
-            get: { managedResult },
-            set: { managedResult = $0 }
-        )
-    }
-    
-    private var selection: Binding<Decimal?> {
-        let selection: Binding<Decimal?>
-        switch stateManagementType {
-        case .automatic:
-            selection = resolvedManagedResult
-        case .manual(let binding):
-            selection = binding
-        }
-        return selection
-    }
-    
+
     private let id: String
     private let header: Header
     private let prompt: String?
     @FocusState private var focusTarget: FocusTarget?
-    
+    private let result: StateManagementType<Decimal?>
+
+    private var resolvedResult: Binding<Decimal?> {
+        switch result {
+        case let .automatic(key: key):
+            return Binding(
+                get: { managedTaskResult.resultForStep(key: key) ?? 0.0 },
+                set: { managedTaskResult.setResultForStep($0, format: .numeric, key: key) }
+            )
+        case let .manual(value):
+            return value
+        }
+    }
+
     public var body: some View {
         FormItemCardView(
             header: {
                 header
             },
             content: {
-                TextField("", value: selection, format: .number, prompt: placeholder)
+                TextField("", value: resolvedResult, format: .number, prompt: placeholder)
                     .keyboardType(.decimalPad)
                     .focused($focusTarget, equals: .numericQuestion)
                     .doneKeyboardToolbar(
@@ -135,7 +128,7 @@ public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
         self.id = id
         header = _SimpleFormItemViewHeader(title: title, detail: detail)
         self.prompt = prompt
-        self.stateManagementType = .manual(text)
+        self.result = .manual(text)
     }
     
     init(
@@ -148,8 +141,7 @@ public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
         self.id = id
         header = _SimpleFormItemViewHeader(title: title, detail: detail)
         self.prompt = prompt
-        self.managedResult = text
-        self.stateManagementType = .automatic
+        self.result = .automatic(key: .numeric(id: id))
     }
     
 }

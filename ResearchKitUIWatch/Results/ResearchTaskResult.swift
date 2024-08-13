@@ -33,11 +33,11 @@ import SwiftUI
 enum AnswerFormat: String, CaseIterable {
     case text
     case numeric
-    case boolean
     case date
-    case time
-    case dateTime
+    case height
+    case weight
     case image
+    case multipleChoice
 }
 
 struct StepResult {
