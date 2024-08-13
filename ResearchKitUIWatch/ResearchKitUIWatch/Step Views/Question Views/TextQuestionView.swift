@@ -66,9 +66,9 @@ public struct TextQuestion: Identifiable {
 }
 
 public struct TextQuestionView<Header: View>: View {
-    @Environment(ResearchTaskResult.self)
-    private var managedTaskResult
-    
+    @EnvironmentObject
+    private var managedTaskResult: ResearchTaskResult
+
     enum FocusTarget {
         
         case textQuestion

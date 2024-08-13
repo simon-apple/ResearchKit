@@ -63,7 +63,7 @@ public struct ResearchTaskStepContentView<Content: View>: View {
                         }
                     }
                 }
-                .environment(managedTaskResult)
+                .environmentObject(managedTaskResult)
         } footerContent: {
             Button {
                 if isLastStep {

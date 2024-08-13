@@ -33,8 +33,8 @@ import SwiftUI
 // TODO(rdar://129033515): Update name of this module to reflect just the choice options without the header.
 public struct MultipleChoiceQuestionView: View {
 
-    @Environment(ResearchTaskResult.self)
-    private var managedTaskResult
+    @EnvironmentObject
+    private var managedTaskResult: ResearchTaskResult
 
     private var resolvedResult: Binding<[MultipleChoiceOption]> {
         switch result {

@@ -31,8 +31,8 @@
 import SwiftUI
 
 public struct WeightQuestionView: View {
-    @Environment(ResearchTaskResult.self)
-    private var managedTaskResult
+    @EnvironmentObject
+    private var managedTaskResult: ResearchTaskResult
     @State var isInputActive = false
     @State var hasChanges: Bool
 

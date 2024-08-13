@@ -56,8 +56,8 @@ public struct DateQuestion: Identifiable {
 }
 
 public struct DateTimeView<Header: View>: View {
-    @Environment(ResearchTaskResult.self)
-    private var managedTaskResult
+    @EnvironmentObject
+    private var managedTaskResult: ResearchTaskResult
 
     let id: String
     let header: Header

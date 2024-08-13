@@ -60,8 +60,8 @@ public struct ImageChoiceQuestion: Identifiable {
 }
 
 public struct ImageChoiceView: View {
-    @Environment(ResearchTaskResult.self)
-    private var managedTaskResult
+    @EnvironmentObject
+    private var managedTaskResult: ResearchTaskResult
 
     let id: String
     let title: String
@@ -119,7 +119,10 @@ public struct ImageChoiceView: View {
     }
 
     public var body: some View {
-        FormItemCardView(title: title, detail: detail) {
+        print("RECREATING BODY OF IMAGE CHOICE VIEW")
+        print("MANAGED RESULT: \(managedTaskResult.stepResults)")
+
+        return FormItemCardView(title: title, detail: detail) {
             VStack {
                 if style == .multiple {
                     Text("SELECT ALL THAT APPLY")

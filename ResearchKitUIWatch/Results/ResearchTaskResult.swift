@@ -30,7 +30,7 @@
 
 import SwiftUI
 
-enum AnswerFormat: String, CaseIterable {
+enum AnswerFormat {
     case text
     case numeric
     case date
@@ -46,7 +46,7 @@ struct StepResult {
     let answer: Any
 }
 
-public final class ResearchTaskResult: Observable {
+public final class ResearchTaskResult: ObservableObject {
 
     // You don't want this init to be public, b/c you son't want developers injecting it into your env
     public init() {}
@@ -56,7 +56,7 @@ public final class ResearchTaskResult: Observable {
     var stepResults: [String: StepResult] = [:]
 
     func resultForStep<Result>(key: StepResultKey<Result>) -> Result? {
-        if let value = stepResults[key.id] as? Result {
+        if let value = stepResults[key.id]?.answer as? Result {
             return value
         } else {
             return nil
