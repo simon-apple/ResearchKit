@@ -383,7 +383,7 @@ public class RKAdapter {
                         if let answerFormat = formItem.answerFormat {
                             switch answerFormat {
                             case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
-                                InputManagedMultipleChoiceQuestion(
+                                MultipleChoiceQuestionView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     choices: textChoiceAnswerFormat.textChoices.map { textChoice in
@@ -392,7 +392,6 @@ public class RKAdapter {
                                             choiceText: textChoice.text
                                         )
                                     },
-                                    selectedChoices: [],
                                     selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
                                 )
                             case let scaleAnswerFormat as ORKScaleAnswerFormat:
@@ -439,7 +438,7 @@ public class RKAdapter {
                                     )
                                 }
                             case let textAnswerFormat as ORKTextAnswerFormat:
-                                InputManagedTextQuestion(
+                                TextQuestionView(
                                     id: formItem.identifier,
                                     text: textAnswerFormat.defaultTextAnswer ?? "",
                                     title: formItem.text ?? "",
@@ -487,20 +486,19 @@ public class RKAdapter {
                                     }
                                 }()
                                 
-                                InputManagedDateTimeQuestion(
+                                DateTimeView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     pickerPrompt: prompt,
                                     displayedComponents: components,
-                                    range: startDate...endDate,
-                                    date: Date()
+                                    range: startDate...endDate
                                 )
                             case let numericAnswerFormat as ORKNumericAnswerFormat:
-                                InputManagedNumericQuestion(
+                                NumericQuestionView(
                                     id: formItem.identifier,
+                                    text: numericAnswerFormat.defaultNumericAnswer?.decimalValue,
                                     title: formItem.text ?? "",
-                                    prompt: numericAnswerFormat.placeholder ?? "Tap to answer",
-                                    text: numericAnswerFormat.defaultNumericAnswer?.decimalValue
+                                    prompt: numericAnswerFormat.placeholder ?? "Tap to answer"
                                 )
                             case let heightAnswerFormat as ORKHeightAnswerFormat:
                                 let measurementSystem: MeasurementSystem = {
@@ -532,7 +530,7 @@ public class RKAdapter {
                                     return Locale.current.measurementSystem == .us ? 5 : 162
                                 }()
                                 
-                                InputManagedHeightQuestion(
+                                HeightQuestionView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     measurementSystem: measurementSystem,
@@ -596,7 +594,7 @@ public class RKAdapter {
                                     return weightAnswerFormat.maximumValue
                                 }()
                                 
-                                InputManagedWeightQuestion(
+                                WeightQuestionView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     measurementSystem: measurementSystem,
@@ -627,13 +625,12 @@ public class RKAdapter {
                                     }
                                 }()
                                 
-                                InputManagedImageChoice(
+                                ImageChoiceView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     choices: choices,
                                     style: style,
-                                    vertical: imageChoiceAnswerFormat.isVertical,
-                                    selection: []
+                                    vertical: imageChoiceAnswerFormat.isVertical
                                 )
                             default:
                                 EmptyView()
