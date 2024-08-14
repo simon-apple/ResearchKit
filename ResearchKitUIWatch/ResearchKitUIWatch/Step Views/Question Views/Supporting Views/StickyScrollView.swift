@@ -30,7 +30,7 @@ public struct StickyScrollView<BodyContent: View, FooterContent: View>: View {
     /// than the scrollView frame.
     /// - Parameters:
     ///   - allowsExtendedLayout: Allow the footer to stick to bottom of content if the content is longer
-    /// than the container height.
+    /// than the container height. On watchOS, the footer will never stick to the bottom.
     ///   - bodyContent: The body content for the ScrollView
     ///   - footerContent: The footer content.
     public init(
@@ -40,7 +40,11 @@ public struct StickyScrollView<BodyContent: View, FooterContent: View>: View {
         bodyContent: @escaping (CGSize) -> BodyContent,
         footerContent: @escaping () -> FooterContent
     ) {
-        self.allowsExtendedLayout = allowsExtendedLayout
+        #if os(watchOS)
+            self.allowsExtendedLayout = true
+        #else
+            self.allowsExtendedLayout = allowsExtendedLayout
+        #endif
         self.bodyContent = bodyContent
         self.footerContent = footerContent
         self.paddingAboveKeyboard = paddingAboveKeyboard
