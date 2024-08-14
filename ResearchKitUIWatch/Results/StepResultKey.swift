@@ -48,12 +48,12 @@ public struct StepResultKey<Result> {
         return StepResultKey<[MultipleChoiceOption]>(id: id)
     }
 
-    public static func numeric(id: String) -> StepResultKey<Decimal?> {
-        return StepResultKey<Decimal?>(id: id)
+    public static func numeric(id: String) -> StepResultKey<Double?> {
+        return StepResultKey<Double?>(id: id)
     }
 
-    public static func height(id: String) -> StepResultKey<(Int, Int)> {
-        return StepResultKey<(Int, Int)>(id: id)
+    public static func height(id: String) -> StepResultKey<(Double)> {
+        return StepResultKey<(Double)>(id: id)
     }
 
     public static func weight(id: String) -> StepResultKey<(Double, Double)> {

@@ -70,14 +70,14 @@ public struct NumericQuestionView<Header: View>: View {
     private let header: Header
     private let prompt: String?
     @FocusState private var focusTarget: FocusTarget?
-    private let result: StateManagementType<Decimal?>
+    private let result: StateManagementType<Double?>
 
-    private var resolvedResult: Binding<Decimal?> {
+    private var resolvedResult: Binding<Double?> {
         switch result {
         case let .automatic(key: key):
             return Binding(
-                get: { managedTaskResult.resultForStep(key: key) ?? 0.0 },
-                set: { managedTaskResult.setResultForStep(.numeric($0 ?? 0.0), key: key) }
+                get: { managedTaskResult.resultForStep(key: key) ?? nil },
+                set: { managedTaskResult.setResultForStep(.numeric($0), key: key) }
             )
         case let .manual(value):
             return value
@@ -120,7 +120,7 @@ public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
     
     init(
         id: String,
-        text: Binding<Decimal?>,
+        text: Binding<Double?>,
         title: String,
         detail: String? = nil,
         prompt: String?

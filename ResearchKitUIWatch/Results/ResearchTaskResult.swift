@@ -32,10 +32,10 @@ import SwiftUI
 
 enum AnswerFormat {
     case text(String)
-    case numeric(Decimal)
+    case numeric(Double?)
     case date(Date)
-    case height((Int, Int))
     case weight((Double, Double))
+    case height(Double)
     case image([Int])
     case multipleChoice([MultipleChoiceOption])
 }

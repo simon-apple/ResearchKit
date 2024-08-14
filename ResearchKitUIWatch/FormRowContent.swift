@@ -198,13 +198,13 @@ public struct FormRowContent: View {
                 id: numericQuestion.id,
                 text: .init(
                     get: {
-                        let decimal: Decimal?
+                        let decimal: Double?
                         if let doubleValue = numericQuestion.number?.doubleValue {
-                            decimal = Decimal(doubleValue)
+                            decimal = doubleValue
                         } else {
                             decimal = nil
                         }
-                        return decimal
+                        return decimal ?? 0.0
                     },
                     set: { newValue in
                         formRow = .numericRow(
@@ -230,9 +230,7 @@ public struct FormRowContent: View {
                 measurementSystem: heightQuestion.measurementSystem,
                 selection: .init(
                     get: {
-                        let firstValue = heightQuestion.selection.0 ?? 0
-                        let secondValue = heightQuestion.selection.1 ?? 0
-                        return (firstValue, secondValue)
+                        return heightQuestion.selection
                     },
                     set: { newValue in
                         formRow = .heightRow(

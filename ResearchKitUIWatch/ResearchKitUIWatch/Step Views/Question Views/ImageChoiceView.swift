@@ -119,10 +119,7 @@ public struct ImageChoiceView: View {
     }
 
     public var body: some View {
-        print("RECREATING BODY OF IMAGE CHOICE VIEW")
-        print("MANAGED RESULT: \(managedTaskResult.stepResults)")
-
-        return FormItemCardView(title: title, detail: detail) {
+        FormItemCardView(title: title, detail: detail) {
             VStack {
                 if style == .multiple {
                     Text("SELECT ALL THAT APPLY")

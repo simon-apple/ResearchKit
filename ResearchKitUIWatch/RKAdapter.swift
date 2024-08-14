@@ -240,7 +240,7 @@ public class RKAdapter {
                     title: title,
                     detail: detail,
                     measurementSystem: measurementSystem,
-                    selection: (initialPrimaryValue, 4) // Denotes 4 inches which is paired with a 5 foot selection (162 cm)
+                    selection: 162 // Denotes 5 feet 4 inches (162 cm)
                 )
             )
         case let weightAnswerFormat as ORKWeightAnswerFormat:
@@ -757,18 +757,41 @@ public class RKAdapter {
         resultsDictionary.forEach { entry in
             let value = entry.value
             switch value {
-            case .text:
+            case .text(let text):
                 let result = ORKTextQuestionResult(identifier: entry.key)
-                switch value {
-                case .text(let text):
-                    result.textAnswer = text
-                default:
-                    result.textAnswer = nil
-                }
-
+                result.questionType = .text
+                result.textAnswer = text
                 resultsArray.append(result)
-            default:
-                resultsArray.append(ORKResult(identifier: entry.key))
+            case .numeric(let decimal):
+                let result = ORKNumericQuestionResult(identifier: entry.key)
+                result.questionType = .decimal
+                result.numericAnswer = NSNumber(floatLiteral: decimal ?? 0.0)
+                resultsArray.append(result)
+            case .date(let date):
+                let result = ORKDateQuestionResult(identifier: entry.key)
+                result.questionType = .date
+                result.dateAnswer = date
+                resultsArray.append(result)
+            case .height(let height):
+                let result = ORKNumericQuestionResult(identifier: entry.key)
+                result.questionType = .height
+                result.numericAnswer = NSNumber(floatLiteral: height)
+                resultsArray.append(result)
+            case .weight(let weight):
+                let result = ORKNumericQuestionResult(identifier: entry.key)
+                result.questionType = .weight
+                resultsArray.append(result)
+            case .image(let image):
+                let result = ORKChoiceQuestionResult(identifier: entry.key)
+                result.questionType = .multipleChoice
+                result.answer = [image] as any NSCopying & NSSecureCoding & NSObjectProtocol
+                resultsArray.append(result)
+
+            case .multipleChoice(let multipleChoice):
+                let result = ORKChoiceQuestionResult(identifier: entry.key)
+                result.questionType = .multipleChoice
+                result.answer = [multipleChoice] as any NSCopying & NSSecureCoding & NSObjectProtocol
+                resultsArray.append(result)
             }
         }
 
