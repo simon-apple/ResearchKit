@@ -112,6 +112,25 @@ struct HeaderView: View {
     }
     
     var body: some View {
+#if os(watchOS)
+        VStack(alignment: .leading) {
+            HStack(alignment: .center) {
+                image?
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 20, height: 20)
+                    .foregroundStyle(.stepIconForegroundStyle)
+                
+                title?
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            
+            subtitle
+                .font(.body)
+        }
+#else
         VStack(alignment: .leading, spacing: 16) {
             image?
                 .resizable()
@@ -125,6 +144,14 @@ struct HeaderView: View {
             
             subtitle
         }
+#endif
     }
-    
+}
+
+#Preview {
+    HeaderView(
+        image: Image(systemName: "hand.wave"),
+        title: Text("Welcome"),
+        subtitle: Text("Hello")
+    )
 }
