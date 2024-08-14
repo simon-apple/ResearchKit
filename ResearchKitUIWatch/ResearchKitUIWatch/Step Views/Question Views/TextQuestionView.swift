@@ -237,7 +237,8 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
         textFieldType: TextFieldType,
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
-        hideClearButton: Bool = false
+        hideClearButton: Bool = false,
+        defaultTextAnswer: String? = nil
     ) {
         self.id = id
         self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
@@ -247,6 +248,10 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
         self.result = .automatic(key: .text(id: id))
+
+        if let defaultTextAnswer {
+            self.resolvedResult.wrappedValue = defaultTextAnswer
+        }
     }
     
 }

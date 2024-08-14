@@ -30,8 +30,6 @@
 
 import Foundation
 
-// TODO: If you'd like, skip this and just use Strings as keys. But this route eliminates the need for type casting.
-// TODO: Explore using macros to type results automatically instead of relying on this
 public struct StepResultKey<Result> {
 
     let id: String

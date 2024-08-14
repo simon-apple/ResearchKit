@@ -42,8 +42,8 @@ enum AnswerFormat {
 
 public final class ResearchTaskResult: ObservableObject {
 
-    // You don't want this init to be public, b/c you son't want developers injecting it into your env
-    public init() {}
+    // This initializer is to remain internal so that 3rd party developers can't insert into the environment.
+    init() {}
 
     @Published
     var stepResults: [String: AnswerFormat] = [:]

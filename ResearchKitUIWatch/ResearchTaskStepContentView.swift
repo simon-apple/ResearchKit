@@ -91,6 +91,3 @@ public struct ResearchTaskStepContentView<Content: View>: View {
 #endif
     }
 }
-
-
-

@@ -88,7 +88,7 @@ public struct HeightQuestionView: View {
     let measurementSystem: MeasurementSystem
     let result: StateManagementType<(Double)>
 
-    var initialPrimaryValue: Double = 162
+    var initialPrimaryValue: Double = 162 // Denotes height in cm, which is ~5'4", a good average height.
 
     private var resolvedResult: Binding<Double> {
         switch result {

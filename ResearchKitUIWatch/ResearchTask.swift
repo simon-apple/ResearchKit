@@ -31,7 +31,7 @@
 import SwiftUI
 
 public struct ResearchTask: View {
-    private let taskKey: StepResultKey = .text(id: "the-task")
+    private let taskKey: StepResultKey<String>
     @Environment(\.dismiss) var dismiss
     private let steps: [ResearchTaskStep]
     @State private var stepIdentifiers: [String] = []
@@ -39,9 +39,11 @@ public struct ResearchTask: View {
     var onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)?
 
     public init(
+        taskIdentifier: String,
         @ResearchTaskBuilder steps: () -> [ResearchTaskStep],
         onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)? = nil
     ) {
+        self.taskKey = .text(id: taskIdentifier)
         self.steps = steps()
         self.onResearchTaskCompletion = onResearchTaskCompletion
     }

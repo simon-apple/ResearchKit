@@ -218,22 +218,6 @@ public class RKAdapter {
                 }
             }()
 
-            let initialPrimaryValue: Int = {
-                // To set the picker at a nice middle of the road height
-                // we will set it to 5 feet initially
-                if measurementSystem == .USC {
-                    return 5
-                }
-
-                // Similar to above, this equate to 5'4" which
-                // is a good starting point for the picker.
-                if measurementSystem == .metric {
-                    return 162
-                }
-
-                return Locale.current.measurementSystem == .us ? 5 : 162
-            }()
-
             return FormRow.heightRow(
                 HeightQuestion(
                     id: identifier,
@@ -446,7 +430,8 @@ public class RKAdapter {
                                     textFieldType: textAnswerFormat.multipleLines ? .multiline : .singleLine,
                                     characterLimit: textAnswerFormat.maximumLength,
                                     hideCharacterCountLabel: textAnswerFormat.hideCharacterCountLabel,
-                                    hideClearButton: textAnswerFormat.hideClearButton
+                                    hideClearButton: textAnswerFormat.hideClearButton,
+                                    defaultTextAnswer: textAnswerFormat.defaultTextAnswer
                                 )
                             case let dateTimeAnswerFormat as ORKDateAnswerFormat:
                                 let prompt: String = {
@@ -798,9 +783,5 @@ public class RKAdapter {
         }
 
         return resultsArray
-    }
-
-    public static func restoreData(_ data: Data, to steps: [ResearchTaskStep]) {
-
     }
 }
