@@ -777,6 +777,8 @@ public class RKAdapter {
                 result.questionType = .height
                 result.numericAnswer = NSNumber(floatLiteral: height)
                 resultsArray.append(result)
+
+            // TODO: rdar://133877315 (Update weight question to store single value instead of tuple)
             case .weight(let weight):
                 let result = ORKNumericQuestionResult(identifier: entry.key)
                 result.questionType = .weight
