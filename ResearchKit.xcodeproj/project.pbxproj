@@ -6583,7 +6583,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000ED12620F27100E5442A /* Project-Debug.xcconfig */;
 			buildSettings = {
-				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_MODULE_VERIFIER = NO;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 			};
