@@ -70,10 +70,10 @@ extension ShapeStyle where Self == CardColor {
 struct CardColor: ShapeStyle {
     
     func resolve(in environment: EnvironmentValues) -> some ShapeStyle {
-#if os(iOS)
-        environment.colorScheme == .dark ? Color(uiColor: .systemGray4) : .white
-#elseif os(visionOS)
+#if os(visionOS)
         .regularMaterial
+#else
+        environment.colorScheme == .dark ? Color.choice(for: .systemGray4) : .white
 #endif
     }
     
@@ -107,7 +107,7 @@ public struct _SimpleFormItemViewHeader: View {
             }
 
             Text(title)
-                .foregroundStyle(Color(.label))
+                .foregroundStyle(Color.choice(for: .label))
                 .font(.body)
                 .fontWeight(.bold)
                 .padding()
@@ -125,7 +125,7 @@ struct FormItemCardView_Previews: PreviewProvider {
             Spacer()
         }
         .background {
-            Color(.secondarySystemBackground)
+            Color.choice(for: .secondaryBackground)
         }
         .ignoresSafeArea()
     }

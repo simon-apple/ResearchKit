@@ -33,12 +33,7 @@
  */
 
 #import <UIKit/UIKit.h>
-
-#if TARGET_OS_WATCH
-#import <ResearchKitCore/ORKTypes.h>
-#else
 #import <ResearchKit/ORKTypes.h>
-#endif
 
 @class ORKScaleAnswerFormat;
 @class ORKContinuousScaleAnswerFormat;
@@ -528,7 +523,7 @@ ORK_CLASS_AVAILABLE
                                                       minimumValue:(double)minimumValue
                                                       maximumValue:(double)maximumValue
                                                       defaultValue:(double)defaultValue;
-#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS
 + (ORKLocationAnswerFormat *)locationAnswerFormat;
 #endif
 
@@ -1794,6 +1789,7 @@ This By default, the value of this property is `NO`.
   */
 @property (copy, nullable) NSString *placeholder;
 
+#if !TARGET_OS_WATCH
 /**
  The autocapitalization type that applies to the user's input.
  
@@ -1836,6 +1832,7 @@ This By default, the value of this property is `NO`.
  If specified, overrides the default password generation rules for fields with secureTextEntry.
  */
 @property (nonatomic, copy, nullable) UITextInputPasswordRules *passwordRules API_AVAILABLE(ios(12));
+#endif
 
 @end
 

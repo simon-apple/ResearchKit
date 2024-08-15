@@ -33,18 +33,13 @@
 
 #import "ORKAnswerFormat.h"
 #import "ORKCompletionStep.h"
+#import "ORKFormStep.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKInstructionStep.h"
+#import "ORKQuestionStep.h"
 #import "ORKSkin.h"
 #import "ORKStep_Private.h"
 
-#if TARGET_OS_WATCH
-#import "ResearchKitCore/ORKFormStep.h"
-#import "ResearchKitCore/ORKQuestionStep.h"
-#else
-#import <ResearchKit/ORKFormStep.h>
-#import <ResearchKit/ORKQuestionStep.h>
-#endif
 
 #if TARGET_OS_IOS
 #import "ORKFormItem_Internal.h"

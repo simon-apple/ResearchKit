@@ -79,15 +79,15 @@ public struct ResearchTaskStepContentView<Content: View>: View {
             }
             .buttonStyle(.borderedProminent)
         }
-        .background(Color(uiColor: .secondarySystemBackground))
+        .background(Color.choice(for: .secondaryBackground))
         .navigationBarTitleDisplayMode(.inline)
     }
 
     private var maxWidthForDoneButton: CGFloat {
-#if os(iOS)
-        .infinity
-#elseif os(visionOS)
+#if os(visionOS)
         300
+#else
+    .infinity
 #endif
     }
 }

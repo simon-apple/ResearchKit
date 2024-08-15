@@ -186,13 +186,13 @@ public struct ScaleSliderQuestionView: View {
             } minimumValueLabel: {
                 Text("\(minimumValueDescription(for: selectionConfiguration))")
                     .fixedSize()
-                    .foregroundStyle(Color(.label))
+                    .foregroundStyle(Color.choice(for: .label))
                     .font(.subheadline)
                     .fontWeight(.bold)
             } maximumValueLabel: {
                 Text("\(maximumValueDescription(for: selectionConfiguration))")
                     .fixedSize()
-                    .foregroundStyle(Color(.label))
+                    .foregroundStyle(Color.choice(for: .label))
                     .font(.subheadline)
                     .fontWeight(.bold)
             }
@@ -267,7 +267,7 @@ struct ScaleSliderQuestionView_Previews: PreviewProvider {
 
     static var previews: some View {
         ZStack {
-            Color(uiColor: .secondarySystemBackground)
+            (Color.choice(for: .secondaryBackground))
                 .ignoresSafeArea()
 
             ScaleSliderQuestionView(

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -24,14 +24,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		003BC2BF24FD585B00BC7CDF /* ORKCollectionResult.h in Headers */ = {isa = PBXBuildFile; fileRef = FF919A511E81BEB5005C2A1E /* ORKCollectionResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		00B1F7852241503900D022FE /* Speech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B1F7842241503900D022FE /* Speech.framework */; platformFilter = ios; };
 		00C2668E23022CD400337E0B /* ORKCustomStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 00C2668C23022CD400337E0B /* ORKCustomStep.h */; platformFilter = ios; settings = {ATTRIBUTES = (Public, ); }; };
 		00C2668F23022CD400337E0B /* ORKCustomStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 00C2668D23022CD400337E0B /* ORKCustomStep.m */; platformFilter = ios; };
-		00F189CB24F5B45300371E9C /* ORKStep_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BBB1A8D7C5C00081FAC /* ORKStep_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		00F189CC24F5B46100371E9C /* ORKAnswerFormat_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 244EFAD11BCEFD83001850D9 /* ORKAnswerFormat_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		00F189CD24F5B46800371E9C /* ORKFormStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B821A8D7C5C00081FAC /* ORKFormStep.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		00F189CE24F5B46F00371E9C /* ORKQuestionResult_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FF919A5B1E81C63B005C2A1E /* ORKQuestionResult_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		03057F492518ECDC00C4EC5B /* ORKAudioStepViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 03057F482518ECDC00C4EC5B /* ORKAudioStepViewControllerTests.m */; };
 		031A0FC124CF4ECD000E4455 /* ORKSensorPermissionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 031A0FBF24CF4ECD000E4455 /* ORKSensorPermissionType.h */; platformFilter = ios; settings = {ATTRIBUTES = (Public, ); }; };
 		031A0FC224CF4ECD000E4455 /* ORKSensorPermissionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 031A0FC024CF4ECD000E4455 /* ORKSensorPermissionType.m */; platformFilter = ios; };
@@ -46,14 +41,8 @@
 		0B0852762BD872D800149963 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0B0852752BD872D800149963 /* PrivacyInfo.xcprivacy */; };
 		0B0852782BD872EA00149963 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0B0852772BD872EA00149963 /* PrivacyInfo.xcprivacy */; };
 		0B3BF59D2C0117BF001C4A7D /* ResearchKitCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B3BF59C2C0117BF001C4A7D /* ResearchKitCoreTests.swift */; };
-		0B3BF59E2C0117BF001C4A7D /* ResearchKitCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DABE54824D8BF2400570C57 /* ResearchKitCore.framework */; };
 		0B53DA642BD0595100227126 /* ResearchKitUI.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0B53DA622BD0595100227126 /* ResearchKitUI.strings */; };
 		0B59A6BF28C1738D005035B4 /* ORKPickerTestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B59A6BE28C1738D005035B4 /* ORKPickerTestDelegate.m */; };
-		0B7E977B2B76B60200E2C6F8 /* ORKQuestionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BA11A8D7C5C00081FAC /* ORKQuestionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0B7E977C2B76B60700E2C6F8 /* ORKQuestionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BA21A8D7C5C00081FAC /* ORKQuestionStep.m */; };
-		0B7E977D2B76B62D00E2C6F8 /* ORKQuestionStep_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BA31A8D7C5C00081FAC /* ORKQuestionStep_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		0B7E977E2B76B63500E2C6F8 /* ORKQuestionStep_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04884B25EF4CC30006C68B /* ORKQuestionStep_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		0B7E97802B76BFFF00E2C6F8 /* ORKAnswerFormat_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B661A8D7C5B00081FAC /* ORKAnswerFormat_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		0B9A990F2A8AC47500D64C40 /* NSObject+TestingSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9A990E2A8AC47500D64C40 /* NSObject+TestingSupport.m */; };
 		0BCC4B9A28663895001E316F /* PIIScrubber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCC4B9928663895001E316F /* PIIScrubber.swift */; };
 		0BD9B60D2B75991B00A64EF9 /* Sentence1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7118AC6620BF6A3A00D7A6BB /* Sentence1.wav */; };
@@ -110,8 +99,8 @@
 		511987C4246330CA004FC2C7 /* ORKRequestPermissionsStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 511987C2246330CA004FC2C7 /* ORKRequestPermissionsStep.m */; platformFilter = ios; };
 		511BB024298DCCC200936EC0 /* ORKSpeechRecognitionStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 511BB022298DCCC200936EC0 /* ORKSpeechRecognitionStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		511E8D622995C20E00A384A5 /* ORKEnvironmentSPLMeterStepViewController_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 511E8D602995C20E00A384A5 /* ORKEnvironmentSPLMeterStepViewController_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		512741272B1557220045A449 /* ResearchKit.docc in Sources */ = {isa = PBXBuildFile; fileRef = 512741262B1557220045A449 /* ResearchKit.docc */; platformFilter = ios; };
-		5139A559266EDA3300537192 /* ORKFeatureFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = 5139A553266ED9BB00537192 /* ORKFeatureFlags.h */; platformFilter = ios; settings = {ATTRIBUTES = (Public, ); }; };
+		512741272B1557220045A449 /* ResearchKit.docc in Sources */ = {isa = PBXBuildFile; fileRef = 512741262B1557220045A449 /* ResearchKit.docc */; };
+		5139A559266EDA3300537192 /* ORKFeatureFlags.h in Headers */ = {isa = PBXBuildFile; fileRef = 5139A553266ED9BB00537192 /* ORKFeatureFlags.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5156C9C52B7E426900983535 /* ORKTouchAbilityArrowView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5156C9C12B7E426900983535 /* ORKTouchAbilityArrowView.h */; };
 		5156C9C62B7E426900983535 /* ORKTouchAbilityContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5156C9C22B7E426900983535 /* ORKTouchAbilityContentView.m */; };
 		5156C9C72B7E426900983535 /* ORKTouchAbilityContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5156C9C32B7E426900983535 /* ORKTouchAbilityContentView.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -221,7 +210,7 @@
 		5192BF9A2AE1D8A4006E43FB /* ORKChoiceViewCell+ORKTextChoice.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8444642A79C25000292DEA /* ORKChoiceViewCell+ORKTextChoice.m */; };
 		5192BF9D2AE1DE62006E43FB /* ORKColorChoiceCellGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF9B2AE1DE62006E43FB /* ORKColorChoiceCellGroup.m */; };
 		5192BF9E2AE1DE62006E43FB /* ORKColorChoiceCellGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF9C2AE1DE62006E43FB /* ORKColorChoiceCellGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5192BFA12AEAD7B5006E43FB /* Artwork.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 861610BF1A8D8EDD00245F7A /* Artwork.xcassets */; platformFilter = ios; };
+		5192BFA12AEAD7B5006E43FB /* Artwork.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 861610BF1A8D8EDD00245F7A /* Artwork.xcassets */; platformFilters = (ios, xros, ); };
 		51A11F172BD08D5E0060C07E /* HKSample+ORKJSONDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 51A11F132BD08D5D0060C07E /* HKSample+ORKJSONDictionary.h */; platformFilter = ios; settings = {ATTRIBUTES = (Public, ); }; };
 		51A11F182BD08D5E0060C07E /* CMMotionActivity+ORKJSONDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A11F142BD08D5D0060C07E /* CMMotionActivity+ORKJSONDictionary.m */; platformFilter = ios; };
 		51A11F192BD08D5E0060C07E /* HKSample+ORKJSONDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A11F152BD08D5D0060C07E /* HKSample+ORKJSONDictionary.m */; platformFilter = ios; };
@@ -289,50 +278,15 @@
 		5D04884C25EF4CC30006C68B /* ORKQuestionStep_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04884B25EF4CC30006C68B /* ORKQuestionStep_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D04885725F19A7A0006C68B /* ORKDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04885525F19A7A0006C68B /* ORKDevice.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D04885825F19A7A0006C68B /* ORKDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D04885625F19A7A0006C68B /* ORKDevice.m */; };
-		5D04885925F19AD50006C68B /* ORKDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04885525F19A7A0006C68B /* ORKDevice.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5D04885A25F19B940006C68B /* ORKDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D04885625F19A7A0006C68B /* ORKDevice.m */; };
 		5D04885C25F1B3AB0006C68B /* ORKDevice_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04885B25F1B3AB0006C68B /* ORKDevice_Private.h */; platformFilter = ios; settings = {ATTRIBUTES = (Private, ); }; };
-		5D04885D25F1B3AB0006C68B /* ORKDevice_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D04885B25F1B3AB0006C68B /* ORKDevice_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5D04885E25F1B8C00006C68B /* ORKCollectionResult_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FF919A551E81BEDD005C2A1E /* ORKCollectionResult_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D43C5D424255675006F4084 /* ORKBodyItem_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D43C5D324255675006F4084 /* ORKBodyItem_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5DABE54C24D8BF2400570C57 /* ResearchKitCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DABE54A24D8BF2400570C57 /* ResearchKitCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DABE55C24D8C33800570C57 /* ORKStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BB91A8D7C5C00081FAC /* ORKStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DABE55D24D8C34B00570C57 /* ORKTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = BCB8133B1C98367A00346561 /* ORKTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DABE55E24D8C35A00570C57 /* ORKDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B7B1A8D7C5C00081FAC /* ORKDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DABE55F24D8C92000570C57 /* ORKInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B921A8D7C5C00081FAC /* ORKInstructionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DABE56024D8C94500570C57 /* ORKCompletionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B521A8D7C5B00081FAC /* ORKCompletionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DABE59624D9E49200570C57 /* ORKTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BD51A8D7C5C00081FAC /* ORKTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DABE59824D9E92400570C57 /* ORKStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BBA1A8D7C5C00081FAC /* ORKStep.m */; };
-		5DABE59924D9E98F00570C57 /* ORKOrderedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B9D1A8D7C5C00081FAC /* ORKOrderedTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DABE59A24D9E9B700570C57 /* ORKOrderedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B9E1A8D7C5C00081FAC /* ORKOrderedTask.m */; };
-		5DABE59B24D9E9CD00570C57 /* ORKInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B931A8D7C5C00081FAC /* ORKInstructionStep.m */; };
-		5DABE59D24D9E9F200570C57 /* ORKCompletionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B531A8D7C5B00081FAC /* ORKCompletionStep.m */; };
-		5DABE59E24D9EA0C00570C57 /* ORKAnswerFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B641A8D7C5B00081FAC /* ORKAnswerFormat.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DABE59F24D9EA3200570C57 /* ORKAnswerFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B651A8D7C5B00081FAC /* ORKAnswerFormat.m */; };
-		5DABE5A024D9EAFE00570C57 /* ORKSkin.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BB71A8D7C5C00081FAC /* ORKSkin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DABE5A124D9EB1C00570C57 /* ORKSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BB81A8D7C5C00081FAC /* ORKSkin.m */; };
-		5DABE5A224D9EC4200570C57 /* ORKQuestionResult.h in Headers */ = {isa = PBXBuildFile; fileRef = FF919A571E81C628005C2A1E /* ORKQuestionResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DABE5A324D9EC4800570C57 /* ORKQuestionResult.m in Sources */ = {isa = PBXBuildFile; fileRef = FF919A581E81C628005C2A1E /* ORKQuestionResult.m */; };
-		5DABE5A424D9ECAF00570C57 /* ORKResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BA71A8D7C5C00081FAC /* ORKResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DABE5A524D9ECB500570C57 /* ORKResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40BA81A8D7C5C00081FAC /* ORKResult.m */; };
-		5DABE5A624D9EEAB00570C57 /* ORKResult_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BA91A8D7C5C00081FAC /* ORKResult_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5DABE5A724D9EEF800570C57 /* ORKHelpers_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B8C1A8D7C5C00081FAC /* ORKHelpers_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5DABE5A824D9EF4A00570C57 /* ORKHelpers_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B7C1A8D7C5C00081FAC /* ORKHelpers_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5DABE5A924D9EF8800570C57 /* ORKErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B7D1A8D7C5C00081FAC /* ORKErrors.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5DABE5AA24D9EFB000570C57 /* ORKErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B7E1A8D7C5C00081FAC /* ORKErrors.m */; };
-		5DABE5AB24D9EFE400570C57 /* ORKHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B8D1A8D7C5C00081FAC /* ORKHelpers.m */; };
-		5DABE5AC24D9F10B00570C57 /* ORKTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = BC2908BB1FBD628F0030AB89 /* ORKTypes.m */; };
-		5DABE5AE24DA173F00570C57 /* ResearchKit_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 5DABE5AD24DA16E600570C57 /* ResearchKit_Prefix.pch */; platformFilter = ios; };
-		5DABE5AF24DA174200570C57 /* ResearchKit_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 5DABE5AD24DA16E600570C57 /* ResearchKit_Prefix.pch */; };
-		5DABE5B024DA1A4900570C57 /* ORKChoiceAnswerFormatHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 861D11AB1AA7951F003C98A7 /* ORKChoiceAnswerFormatHelper.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		5DABE5B124DA1A4F00570C57 /* ORKChoiceAnswerFormatHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 861D11AC1AA7951F003C98A7 /* ORKChoiceAnswerFormatHelper.m */; };
-		5DFD11D124F73A6F00744C69 /* ORKCollectionResult.m in Sources */ = {isa = PBXBuildFile; fileRef = FF919A521E81BEB5005C2A1E /* ORKCollectionResult.m */; };
+		5DABE5AE24DA173F00570C57 /* ResearchKit_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 5DABE5AD24DA16E600570C57 /* ResearchKit_Prefix.pch */; };
 		5E6AB7DF2BC86900009ED0D5 /* ORKTaskViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6AB7DE2BC86900009ED0D5 /* ORKTaskViewControllerTests.swift */; };
 		5EB91CC62BCE2ED500BBF23E /* ORKActiveStepQuantityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40AFB1A8D7C5B00081FAC /* ORKActiveStepQuantityView.m */; };
 		5EB91CC72BCE2EE600BBF23E /* ORKActiveStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AD910F1AB7B8A600361FEB /* ORKActiveStepView.m */; };
 		5EB91CC82BCE2EFD00BBF23E /* splMeter_sensitivity_offset.plist in Resources */ = {isa = PBXBuildFile; fileRef = 71F3B27F21001DEC00FB1C41 /* splMeter_sensitivity_offset.plist */; };
 		5EB91CC92BCE2F1D00BBF23E /* SentencesList.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA22F76C20C4F884006E6E11 /* SentencesList.txt */; };
-		714080DB235FD14700281E04 /* ResearchKit.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 714080D9235FD14700281E04 /* ResearchKit.stringsdict */; platformFilter = ios; };
+		714080DB235FD14700281E04 /* ResearchKit.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 714080D9235FD14700281E04 /* ResearchKit.stringsdict */; platformFilters = (ios, xros, ); };
 		714151D0225C4A23002CA33B /* ORKPasscodeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A92C6922444F93007547F2 /* ORKPasscodeViewControllerTests.swift */; };
 		7141EA2222EFBC0C00650145 /* ORKLoggingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7141EA2122EFBC0C00650145 /* ORKLoggingTests.m */; };
 		7167D028231B1EAA00AAB4DD /* ORKFormStep_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7167D027231B1EAA00AAB4DD /* ORKFormStep_Internal.h */; platformFilter = ios; };
@@ -404,7 +358,7 @@
 		B11C549B1A9EEF8800265E61 /* ORKConsentSharingStep.m in Sources */ = {isa = PBXBuildFile; fileRef = B11C54971A9EEF8800265E61 /* ORKConsentSharingStep.m */; platformFilter = ios; };
 		B183A4A21A8535D100C76870 /* ResearchKit_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = B1B894391A00345200C5CF2D /* ResearchKit_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B183A4DD1A8535D100C76870 /* ResearchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = B1C1DE4F196F541F00F75544 /* ResearchKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B1C0F4E41A9BA65F0022C153 /* ResearchKit.strings in Resources */ = {isa = PBXBuildFile; fileRef = B1C0F4E11A9BA65F0022C153 /* ResearchKit.strings */; platformFilter = ios; };
+		B1C0F4E41A9BA65F0022C153 /* ResearchKit.strings in Resources */ = {isa = PBXBuildFile; fileRef = B1C0F4E11A9BA65F0022C153 /* ResearchKit.strings */; platformFilters = (ios, xros, ); };
 		B1C7955E1A9FBF04007279BA /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C7955D1A9FBF04007279BA /* HealthKit.framework */; platformFilter = ios; settings = {ATTRIBUTES = (Required, ); }; };
 		BA473FE8224DB38900A362E3 /* ORKBodyItem.h in Headers */ = {isa = PBXBuildFile; fileRef = BA473FE6224DB38900A362E3 /* ORKBodyItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BA473FE9224DB38900A362E3 /* ORKBodyItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BA473FE7224DB38900A362E3 /* ORKBodyItem.m */; };
@@ -423,7 +377,6 @@
 		BC2908BC1FBD628F0030AB89 /* ORKTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = BC2908BB1FBD628F0030AB89 /* ORKTypes.m */; };
 		BC40696121104DDF00A4100C /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B183A5951A8535D100C76870 /* ResearchKit.framework */; };
 		BC4D521F27B326EA0099DC18 /* ORKSecureCodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4D521E27B326EA0099DC18 /* ORKSecureCodingTests.swift */; };
-		BC6450D62B75B23C0084F1D9 /* ORKSkin_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = CA23A31C2899941700EC6E91 /* ORKSkin_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		BC94EF311E962F7400143081 /* ORKDeprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = BC94EF2F1E962F7400143081 /* ORKDeprecated.h */; platformFilter = ios; settings = {ATTRIBUTES = (Public, ); }; };
 		BC94EF361E96394C00143081 /* ORKRegistrationStep_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = BC94EF351E96394C00143081 /* ORKRegistrationStep_Internal.h */; platformFilter = ios; };
 		BCA5C0351AEC05F20092AC8D /* ORKStepNavigationRule.h in Headers */ = {isa = PBXBuildFile; fileRef = BCA5C0331AEC05F20092AC8D /* ORKStepNavigationRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1020,14 +973,6 @@
 		CAFAA6C528A19E260010BBDE /* ResearchKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA1C7A5A288B0C68004DAB3A /* ResearchKitUI.framework */; };
 		D44239791AF17F5100559D96 /* ORKImageCaptureStep.h in Headers */ = {isa = PBXBuildFile; fileRef = D44239771AF17F5100559D96 /* ORKImageCaptureStep.h */; platformFilter = ios; settings = {ATTRIBUTES = (Public, ); }; };
 		D442397A1AF17F5100559D96 /* ORKImageCaptureStep.m in Sources */ = {isa = PBXBuildFile; fileRef = D44239781AF17F5100559D96 /* ORKImageCaptureStep.m */; platformFilter = ios; };
-		E483E3282BB3C8EF001CBC91 /* ORKFormStep_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7167D027231B1EAA00AAB4DD /* ORKFormStep_Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		E483E3292BB3C8FD001CBC91 /* ORKFormStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B831A8D7C5C00081FAC /* ORKFormStep.m */; };
-		E483E32A2BB3C962001CBC91 /* ORKFormItemVisibilityRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF582AE09794006E43FB /* ORKFormItemVisibilityRule.m */; settings = {ATTRIBUTES = (Private, ); }; };
-		E483E32B2BB3C971001CBC91 /* ORKPredicateFormItemVisibilityRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF4D2AE09672006E43FB /* ORKPredicateFormItemVisibilityRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E483E32C2BB3C99C001CBC91 /* ORKLearnMoreItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BA8C5020226FFB04001896D0 /* ORKLearnMoreItem.m */; };
-		E483E32D2BB3C9A4001CBC91 /* ORKLearnMoreItem.h in Headers */ = {isa = PBXBuildFile; fileRef = BA8C501F226FFB04001896D0 /* ORKLearnMoreItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E483E32F2BB3CAA0001CBC91 /* ORKLearnMoreInstructionStep.h in Headers */ = {isa = PBXBuildFile; fileRef = BAD9E9102255E9750014FA29 /* ORKLearnMoreInstructionStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E483E3302BB3CAB1001CBC91 /* ORKLearnMoreInstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD9E9112255E9750014FA29 /* ORKLearnMoreInstructionStep.m */; };
 		FA7A9D2B1B082688005A2BEA /* ORKConsentDocumentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7A9D2A1B082688005A2BEA /* ORKConsentDocumentTests.m */; };
 		FA7A9D2F1B083DD3005A2BEA /* ORKConsentSectionFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = FA7A9D2D1B083DD3005A2BEA /* ORKConsentSectionFormatter.h */; platformFilter = ios; };
 		FA7A9D301B083DD3005A2BEA /* ORKConsentSectionFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7A9D2E1B083DD3005A2BEA /* ORKConsentSectionFormatter.m */; platformFilter = ios; };
@@ -1064,13 +1009,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0B3BF59F2C0117BF001C4A7D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3FFF18351829DB1D00167070 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5DABE54724D8BF2400570C57;
-			remoteInfo = "ResearchKitCore (watchOS)";
-		};
 		0BC672DF2BD9C541005798AC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3FFF18351829DB1D00167070 /* Project object */;
@@ -1575,7 +1513,6 @@
 		5D58800A24007140005B3D91 /* ORKPlaybackButton_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKPlaybackButton_Internal.h; sourceTree = "<group>"; };
 		5D5880372410394E005B3D91 /* ORKSpeechInNoiseResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSpeechInNoiseResult.h; sourceTree = "<group>"; };
 		5D5880382410394E005B3D91 /* ORKSpeechInNoiseResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSpeechInNoiseResult.m; sourceTree = "<group>"; };
-		5DABE54824D8BF2400570C57 /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DABE54A24D8BF2400570C57 /* ResearchKitCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResearchKitCore.h; sourceTree = "<group>"; };
 		5DABE55424D8C02F00570C57 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5DABE5AD24DA16E600570C57 /* ResearchKit_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResearchKit_Prefix.pch; sourceTree = "<group>"; };
@@ -2244,14 +2181,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B3BF59E2C0117BF001C4A7D /* ResearchKitCore.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5DABE54524D8BF2400570C57 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2468,7 +2397,6 @@
 			children = (
 				B183A5951A8535D100C76870 /* ResearchKit.framework */,
 				86CC8E9A1AC09332001CCD89 /* ResearchKitTests.xctest */,
-				5DABE54824D8BF2400570C57 /* ResearchKitCore.framework */,
 				CA1C7A5A288B0C68004DAB3A /* ResearchKitUI.framework */,
 				CAD08967289DD747007B2A98 /* ResearchKitActiveTask.framework */,
 				0B3BF59A2C0117BF001C4A7D /* ResearchKitCoreTests.xctest */,
@@ -4734,48 +4662,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		5DABE54324D8BF2400570C57 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				00F189CC24F5B46100371E9C /* ORKAnswerFormat_Private.h in Headers */,
-				E483E32F2BB3CAA0001CBC91 /* ORKLearnMoreInstructionStep.h in Headers */,
-				003BC2BF24FD585B00BC7CDF /* ORKCollectionResult.h in Headers */,
-				5D04885D25F1B3AB0006C68B /* ORKDevice_Private.h in Headers */,
-				5DABE55E24D8C35A00570C57 /* ORKDefines.h in Headers */,
-				5DABE54C24D8BF2400570C57 /* ResearchKitCore.h in Headers */,
-				5D04885925F19AD50006C68B /* ORKDevice.h in Headers */,
-				5DABE5A624D9EEAB00570C57 /* ORKResult_Private.h in Headers */,
-				5DABE5AF24DA174200570C57 /* ResearchKit_Prefix.pch in Headers */,
-				5DABE5A824D9EF4A00570C57 /* ORKHelpers_Private.h in Headers */,
-				BC6450D62B75B23C0084F1D9 /* ORKSkin_Private.h in Headers */,
-				E483E32B2BB3C971001CBC91 /* ORKPredicateFormItemVisibilityRule.h in Headers */,
-				5DABE55F24D8C92000570C57 /* ORKInstructionStep.h in Headers */,
-				E483E32D2BB3C9A4001CBC91 /* ORKLearnMoreItem.h in Headers */,
-				5DABE5A024D9EAFE00570C57 /* ORKSkin.h in Headers */,
-				0B7E977E2B76B63500E2C6F8 /* ORKQuestionStep_Private.h in Headers */,
-				5DABE5A224D9EC4200570C57 /* ORKQuestionResult.h in Headers */,
-				5DABE56024D8C94500570C57 /* ORKCompletionStep.h in Headers */,
-				5DABE55C24D8C33800570C57 /* ORKStep.h in Headers */,
-				5DABE55D24D8C34B00570C57 /* ORKTypes.h in Headers */,
-				00F189CE24F5B46F00371E9C /* ORKQuestionResult_Private.h in Headers */,
-				5DABE59624D9E49200570C57 /* ORKTask.h in Headers */,
-				5DABE59924D9E98F00570C57 /* ORKOrderedTask.h in Headers */,
-				0B7E977D2B76B62D00E2C6F8 /* ORKQuestionStep_Internal.h in Headers */,
-				0B7E97802B76BFFF00E2C6F8 /* ORKAnswerFormat_Internal.h in Headers */,
-				5DABE59E24D9EA0C00570C57 /* ORKAnswerFormat.h in Headers */,
-				00F189CD24F5B46800371E9C /* ORKFormStep.h in Headers */,
-				E483E3282BB3C8EF001CBC91 /* ORKFormStep_Internal.h in Headers */,
-				5DABE5A724D9EEF800570C57 /* ORKHelpers_Internal.h in Headers */,
-				5DABE5B024DA1A4900570C57 /* ORKChoiceAnswerFormatHelper.h in Headers */,
-				5DABE5A924D9EF8800570C57 /* ORKErrors.h in Headers */,
-				5D04885E25F1B8C00006C68B /* ORKCollectionResult_Private.h in Headers */,
-				00F189CB24F5B45300371E9C /* ORKStep_Private.h in Headers */,
-				5DABE5A424D9ECAF00570C57 /* ORKResult.h in Headers */,
-				0B7E977B2B76B60200E2C6F8 /* ORKQuestionStep.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B183A4741A8535D100C76870 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -5289,30 +5175,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				0B3BF5A02C0117BF001C4A7D /* PBXTargetDependency */,
 			);
 			name = ResearchKitCoreTests;
 			productName = ResearchKitCoreTests;
 			productReference = 0B3BF59A2C0117BF001C4A7D /* ResearchKitCoreTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		5DABE54724D8BF2400570C57 /* ResearchKitCore (watchOS) */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5DABE55324D8BF2400570C57 /* Build configuration list for PBXNativeTarget "ResearchKitCore (watchOS)" */;
-			buildPhases = (
-				5DABE54324D8BF2400570C57 /* Headers */,
-				5DABE54424D8BF2400570C57 /* Sources */,
-				5DABE54524D8BF2400570C57 /* Frameworks */,
-				5DABE54624D8BF2400570C57 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "ResearchKitCore (watchOS)";
-			productName = "ResearchKitCore (watchOS)";
-			productReference = 5DABE54824D8BF2400570C57 /* ResearchKitCore.framework */;
-			productType = "com.apple.product-type.framework";
 		};
 		86CC8E991AC09332001CCD89 /* ResearchKitTests */ = {
 			isa = PBXNativeTarget;
@@ -5402,15 +5269,12 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = ORK;
-				LastSwiftUpdateCheck = 1530;
+				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = researchkit.org;
 				TargetAttributes = {
 					0B3BF5992C0117BF001C4A7D = {
 						CreatedOnToolsVersion = 15.3;
-					};
-					5DABE54724D8BF2400570C57 = {
-						ProvisioningStyle = Manual;
 					};
 					86CC8E991AC09332001CCD89 = {
 						CreatedOnToolsVersion = 6.2;
@@ -5483,7 +5347,6 @@
 			targets = (
 				B183A4731A8535D100C76870 /* ResearchKit */,
 				86CC8E991AC09332001CCD89 /* ResearchKitTests */,
-				5DABE54724D8BF2400570C57 /* ResearchKitCore (watchOS) */,
 				CA1C7A40288B0C68004DAB3A /* ResearchKitUI */,
 				CAD08966289DD747007B2A98 /* ResearchKitActiveTask */,
 				0BC672D82BD9C52D005798AC /* ResearchKitAllTargets */,
@@ -5494,13 +5357,6 @@
 
 /* Begin PBXResourcesBuildPhase section */
 		0B3BF5982C0117BF001C4A7D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5DABE54624D8BF2400570C57 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -5637,32 +5493,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0B3BF59D2C0117BF001C4A7D /* ResearchKitCoreTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5DABE54424D8BF2400570C57 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E483E3302BB3CAB1001CBC91 /* ORKLearnMoreInstructionStep.m in Sources */,
-				E483E32C2BB3C99C001CBC91 /* ORKLearnMoreItem.m in Sources */,
-				E483E3292BB3C8FD001CBC91 /* ORKFormStep.m in Sources */,
-				5DABE5A524D9ECB500570C57 /* ORKResult.m in Sources */,
-				E483E32A2BB3C962001CBC91 /* ORKFormItemVisibilityRule.m in Sources */,
-				5DFD11D124F73A6F00744C69 /* ORKCollectionResult.m in Sources */,
-				5DABE5AA24D9EFB000570C57 /* ORKErrors.m in Sources */,
-				5DABE5B124DA1A4F00570C57 /* ORKChoiceAnswerFormatHelper.m in Sources */,
-				5DABE5A124D9EB1C00570C57 /* ORKSkin.m in Sources */,
-				5DABE5A324D9EC4800570C57 /* ORKQuestionResult.m in Sources */,
-				5DABE59F24D9EA3200570C57 /* ORKAnswerFormat.m in Sources */,
-				5D04885A25F19B940006C68B /* ORKDevice.m in Sources */,
-				5DABE5AC24D9F10B00570C57 /* ORKTypes.m in Sources */,
-				0B7E977C2B76B60700E2C6F8 /* ORKQuestionStep.m in Sources */,
-				5DABE59D24D9E9F200570C57 /* ORKCompletionStep.m in Sources */,
-				5DABE59824D9E92400570C57 /* ORKStep.m in Sources */,
-				5DABE59B24D9E9CD00570C57 /* ORKInstructionStep.m in Sources */,
-				5DABE59A24D9E9B700570C57 /* ORKOrderedTask.m in Sources */,
-				5DABE5AB24D9EFE400570C57 /* ORKHelpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6151,11 +5981,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0B3BF5A02C0117BF001C4A7D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5DABE54724D8BF2400570C57 /* ResearchKitCore (watchOS) */;
-			targetProxy = 0B3BF59F2C0117BF001C4A7D /* PBXContainerItemProxy */;
-		};
 		0BC672E02BD9C541005798AC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B183A4731A8535D100C76870 /* ResearchKit */;
@@ -6289,9 +6114,11 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION = 0;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2,4,7";
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
 			name = "Skywagon Stable";
@@ -6320,9 +6147,11 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION = 0;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2,4,7";
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
 			name = "Skywagon Internal Release";
@@ -6351,9 +6180,11 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION = 0;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2,4,7";
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
 			name = "Skywagon Public Release";
@@ -6752,7 +6583,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000ED12620F27100E5442A /* Project-Debug.xcconfig */;
 			buildSettings = {
-				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_MODULE_VERIFIER = NO;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 			};
@@ -6767,76 +6598,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 			};
 			name = Release;
-		};
-		5DABE54D24D8BF2400570C57 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000EDC2620F27100E5442A /* ResearchKitCore-(watchOS)-Shared.xcconfig */;
-			buildSettings = {
-				ENABLE_MODULE_VERIFIER = NO;
-				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
-				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
-				SDKROOT = xros;
-				SUPPORTED_PLATFORMS = "macosx xros xrsimulator";
-				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "4,7";
-			};
-			name = Debug;
-		};
-		5DABE54E24D8BF2400570C57 /* Skywagon Stable */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000EDC2620F27100E5442A /* ResearchKitCore-(watchOS)-Shared.xcconfig */;
-			buildSettings = {
-				ENABLE_MODULE_VERIFIER = NO;
-				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
-				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
-				SDKROOT = xros;
-				SUPPORTED_PLATFORMS = "macosx xros xrsimulator";
-				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "4,7";
-			};
-			name = "Skywagon Stable";
-		};
-		5DABE55024D8BF2400570C57 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000EDC2620F27100E5442A /* ResearchKitCore-(watchOS)-Shared.xcconfig */;
-			buildSettings = {
-				ENABLE_MODULE_VERIFIER = NO;
-				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
-				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
-				SDKROOT = xros;
-				SUPPORTED_PLATFORMS = "macosx xros xrsimulator";
-				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "4,7";
-			};
-			name = Release;
-		};
-		5DABE55124D8BF2400570C57 /* Skywagon Internal Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000EDC2620F27100E5442A /* ResearchKitCore-(watchOS)-Shared.xcconfig */;
-			buildSettings = {
-				ENABLE_MODULE_VERIFIER = NO;
-				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
-				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
-				SDKROOT = xros;
-				SUPPORTED_PLATFORMS = "macosx xros xrsimulator";
-				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "4,7";
-			};
-			name = "Skywagon Internal Release";
-		};
-		5DABE55224D8BF2400570C57 /* Skywagon Public Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D000EDC2620F27100E5442A /* ResearchKitCore-(watchOS)-Shared.xcconfig */;
-			buildSettings = {
-				ENABLE_MODULE_VERIFIER = NO;
-				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
-				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
-				SDKROOT = xros;
-				SUPPORTED_PLATFORMS = "macosx xros xrsimulator";
-				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "4,7";
-			};
-			name = "Skywagon Public Release";
 		};
 		86CC8EA41AC09332001CCD89 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -6875,10 +6636,12 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
+				ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION = 0;
 				"OTHER_SWIFT_FLAGS[arch=*]" = "$(inherited) -runtime-compatibility-version none";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2,4,7";
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
 			name = Debug;
@@ -6889,9 +6652,11 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION = 0;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2,4,7";
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
 			name = Release;
@@ -7366,18 +7131,6 @@
 				3FFF186A1829DB1E00167070 /* Release */,
 				050968EA236B720B006F734C /* Skywagon Internal Release */,
 				050968EE236B7217006F734C /* Skywagon Public Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5DABE55324D8BF2400570C57 /* Build configuration list for PBXNativeTarget "ResearchKitCore (watchOS)" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5DABE54D24D8BF2400570C57 /* Debug */,
-				5DABE54E24D8BF2400570C57 /* Skywagon Stable */,
-				5DABE55024D8BF2400570C57 /* Release */,
-				5DABE55124D8BF2400570C57 /* Skywagon Internal Release */,
-				5DABE55224D8BF2400570C57 /* Skywagon Public Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

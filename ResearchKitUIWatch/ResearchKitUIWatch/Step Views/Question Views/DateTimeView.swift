@@ -120,7 +120,11 @@ public struct DateTimeView<Header: View>: View {
                 in: range,
                 displayedComponents: displayedComponents
             )
+#if os(watchOS)
+            .datePickerStyle(.automatic)
+#else
             .datePickerStyle(.compact)
+#endif
             .foregroundStyle(.primary)
             .padding()
         }
@@ -168,7 +172,7 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
 struct DateTimeView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            Color(uiColor: .secondarySystemBackground)
+            Color.choice(for: .secondaryBackground)
                 .ignoresSafeArea()
             DateTimeView(
                 id: UUID().uuidString,

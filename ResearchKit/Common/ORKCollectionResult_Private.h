@@ -29,11 +29,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if TARGET_OS_WATCH
-#import <ResearchKitCore/ORKCollectionResult.h>
-#else
 #import <ResearchKit/ORKCollectionResult.h>
-#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

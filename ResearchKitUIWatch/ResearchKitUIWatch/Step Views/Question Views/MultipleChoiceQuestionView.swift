@@ -108,8 +108,10 @@ public struct MultipleChoiceQuestionView: View {
                         choiceSelected(option)
                     }
                     .padding(.horizontal, 8)
+#if !os(watchOS)
                     .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 12))
                     .hoverEffect()
+#endif
                     .padding(.horizontal, -8)
                 }
             }
@@ -134,7 +136,7 @@ struct MultipleChoiceQuestionView_Previews: PreviewProvider {
 
     static var previews: some View {
         ZStack {
-            Color(uiColor: .secondarySystemBackground)
+            Color.choice(for: .secondaryBackground)
                 .ignoresSafeArea()
 
             MultipleChoiceQuestionView(

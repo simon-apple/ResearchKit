@@ -165,9 +165,11 @@ public struct TextQuestionView<Header: View>: View {
                     .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
                     .contentShape(Rectangle())
                     .onAppear(perform: {
+#if !os(watchOS)
                         if textFieldType == .singleLine {
                             UITextField.appearance().clearButtonMode = .whileEditing
                         }
+#endif
                     })
 
                 if textFieldType == .multiline {

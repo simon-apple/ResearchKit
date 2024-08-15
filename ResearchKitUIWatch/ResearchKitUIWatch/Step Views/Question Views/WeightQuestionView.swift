@@ -167,6 +167,22 @@ public struct WeightQuestionView: View {
                 }
                 .buttonStyle(.bordered)
                 .buttonBorderShape(.roundedRectangle)
+#if os(watchOS)
+                .sheet(isPresented: $isInputActive)
+                {
+                    WeightPickerView(
+                        measurementSystem: measurementSystem,
+                        precision: precision,
+                        defaultValue: defaultValue,
+                        minimumValue: minimumValue,
+                        maximumValue: maximumValue,
+                        selection: resolvedResult,
+                        hasChanges: $hasChanges
+                    )
+                    .frame(width: 300)
+                    .presentationCompactAdaptation((.popover))
+                }
+#else
                 .popover(
                     isPresented: $isInputActive,
                     attachmentAnchor: .point(.bottom),
@@ -184,6 +200,7 @@ public struct WeightQuestionView: View {
                     .frame(width: 300)
                     .presentationCompactAdaptation((.popover))
                 }
+#endif
             }
             .padding()
         }

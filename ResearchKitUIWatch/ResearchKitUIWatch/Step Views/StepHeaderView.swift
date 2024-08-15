@@ -69,38 +69,33 @@ struct StepHeaderView: View {
         .textCase(.none)
     }
     
-    private var alignment: HorizontalAlignment {
-#if os(iOS)
-        .leading
-#elseif os(visionOS)
-        .center
+    @ViewBuilder
+    private func text(for stepDescription: String) -> some View {
+        Text(stepDescription)
+            .foregroundStyle(Color.choice(for: .label))
+            .font(.body)
+#if os(visionOS)
+            .fontWeight(.semibold)
 #endif
     }
     
     @ViewBuilder
     private func topSpacingForStepDescription() -> some View {
-#if os(iOS)
+#if os(visionOS)
+        EmptyView()
+#else
         Spacer()
             .frame(height: stepDescriptionTopSpacing)
-#elseif os(visionOS)
-        EmptyView()
 #endif
     }
     
-    @ViewBuilder
-    private func text(for stepDescription: String) -> some View {
-#if os(iOS)
-        Text(stepDescription)
-            .foregroundStyle(Color(uiColor: .label))
-            .font(.body)
-#elseif os(visionOS)
-        Text(stepDescription)
-            .foregroundStyle(Color(uiColor: .label))
-            .font(.body)
-            .fontWeight(.semibold)
+    private var alignment: HorizontalAlignment {
+#if os(visionOS)
+        .center
+#else
+        .leading
 #endif
     }
-    
 }
 
 // StepHeaderView and HeaderView can potentially be merged in the future.

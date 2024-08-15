@@ -30,12 +30,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
-#if TARGET_OS_WATCH
-#import <ResearchKitCore/ORKTypes.h>
-#else
 #import <ResearchKit/ORKTypes.h>
-#endif
 
 @class HKObjectType;
 @class ORKResult;

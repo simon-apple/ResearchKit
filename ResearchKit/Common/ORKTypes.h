@@ -30,12 +30,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
-#if TARGET_OS_WATCH
-#import <ResearchKitCore/ORKDefines.h>
-#else
 #import <ResearchKit/ORKDefines.h>
-#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

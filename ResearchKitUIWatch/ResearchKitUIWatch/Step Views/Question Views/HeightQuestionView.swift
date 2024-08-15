@@ -184,6 +184,7 @@ public struct HeightQuestionView: View {
                 }
                 .buttonStyle(.bordered)
                 .buttonBorderShape(.roundedRectangle)
+                #if !os(watchOS)
                 .popover(
                     isPresented: $isInputActive,
                     attachmentAnchor: .point(.bottom),
@@ -197,6 +198,17 @@ public struct HeightQuestionView: View {
                     .frame(width: 300)
                     .presentationCompactAdaptation((.popover))
                 }
+                #else
+                .sheet(
+                    isPresented: $isInputActive
+                ) {
+                    HeightPickerView(
+                        measurementSystem: measurementSystem,
+                        selection: resolvedResult,
+                        hasChanges: $hasChanges
+                    )
+                }
+                #endif
             }
             .padding()
         }

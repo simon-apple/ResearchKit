@@ -30,12 +30,7 @@
 
 
 #import <Foundation/Foundation.h>
-
-#if TARGET_OS_WATCH
-#import <ResearchKitCore/ORKStep.h>
-#else
 #import <ResearchKit/ORKStep.h>
-#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

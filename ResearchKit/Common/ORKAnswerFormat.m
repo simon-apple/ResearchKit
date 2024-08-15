@@ -291,8 +291,6 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
 
 @implementation ORKAnswerFormat
 
-#if TARGET_OS_IOS || TARGET_OS_VISION
-
 + (ORKTextAnswerFormat *)textAnswerFormatWithMaximumLength:(NSInteger)maximumLength {
     return [[ORKTextAnswerFormat alloc] initWithMaximumLength:maximumLength];
 }
@@ -402,11 +400,7 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return [[ORKValuePickerAnswerFormat alloc] initWithTextChoices:textChoices];
 }
 
-#endif
-
 #if TARGET_OS_IOS
-
-
 
 + (ORKMultipleValuePickerAnswerFormat *)multipleValuePickerAnswerFormatWithValuePickers:(NSArray<ORKValuePickerAnswerFormat *> *)valuePickers {
     return [[ORKMultipleValuePickerAnswerFormat alloc] initWithValuePickers:valuePickers];
@@ -460,7 +454,7 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return [[ORKTimeIntervalAnswerFormat alloc] initWithDefaultInterval:defaultInterval step:step];
 }
 
-#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS // TODO: rdar://133020747 (Remove deprecated APIs from ORKLocation for iOS 18)
 + (ORKLocationAnswerFormat *)locationAnswerFormat {
     return [ORKLocationAnswerFormat new];
 }
@@ -4069,8 +4063,8 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
 }
 @end
 
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS // TODO: rdar://133020747 (Remove deprecated APIs from ORKLocation for iOS 18)
 
-#if TARGET_OS_IOS && ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
 #pragma mark - ORKLocationAnswerFormat
 @implementation ORKLocationAnswerFormat
 

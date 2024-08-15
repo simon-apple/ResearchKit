@@ -79,15 +79,14 @@ struct FormStepView: View {
             .buttonStyle(.borderedProminent)
             .padding(.top, 16)
         }
-        .background(Color(uiColor: .secondarySystemBackground))
+        .background(Color.choice(for: .secondaryBackground))
     }
     
     private var maxWidthForDoneButton: CGFloat {
-#if os(iOS)
-        .infinity
-#elseif os(visionOS)
+#if os(visionOS)
         300
+#else
+        .infinity
 #endif
     }
-    
 }

@@ -28,14 +28,9 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if TARGET_OS_WATCH
-#import <ResearchKitCore/ORKQuestionResult.h>
-#else
 #import <ResearchKit/ORKQuestionResult.h>
-#endif
 
 #import <MapKit/MapKit.h>
-
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -49,7 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && !TARGET_OS_VISION
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+#if !TARGET_OS_VISION && !TARGET_OS_WATCH
 @interface ORKLocation ()
 
 
@@ -61,6 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithPlacemark:(CLPlacemark *)placemark userInput:(NSString *)userInput;
 
 @end
-#endif
+#endif // ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+#endif // !TARGET_OS_VISION && !TARGET_OS_WATCH
 
 NS_ASSUME_NONNULL_END

@@ -631,6 +631,7 @@ public class RKAdapter {
                 title: instructionStep.title,
                 subtitle: instructionStep.text
             ) {
+#if !os(watchOS)
                 if let bodyItems = instructionStep.bodyItems {
                     ForEach(Array(bodyItems.enumerated()), id: \.offset) { _, bodyItem in
                         HStack {
@@ -645,6 +646,7 @@ public class RKAdapter {
                         }
                     }
                 }
+#endif
             }
         }
     }
