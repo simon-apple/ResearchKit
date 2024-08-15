@@ -111,7 +111,7 @@ class FormStepViewModel: ObservableObject {
                 resultArray.append(result)
             case .heightRow(let heightQuestionRow):
                 let result = ORKNumericQuestionResult(identifier: heightQuestionRow.id)
-                result.numericAnswer = heightQuestionRow.number
+                result.numericAnswer =  NSNumber(floatLiteral: heightQuestionRow.selection)
                 resultArray.append(result)
             case .weightRow(let weightQuestionRow):
                 let result = ORKNumericQuestionResult(identifier: weightQuestionRow.id)
