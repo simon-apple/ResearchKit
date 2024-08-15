@@ -95,38 +95,78 @@ public struct _SimpleFormItemViewHeader: View {
 
     let title: String
     let detail: String?
+    
+    private var showDetailText: Bool {
+        detail?.isEmpty == false
+    }
 
     public var body: some View {
         VStack(alignment: .leading) {
-            if let detail, !detail.isEmpty {
-                Text(detail)
-                    .foregroundColor(.secondary)
-                    .font(.footnote)
-                    .fontWeight(.bold)
-                    .padding([.horizontal, .top])
+            if let detail, showDetailText {
+                detailText(detail)
             }
 
-            Text(title)
-                .foregroundStyle(Color.choice(for: .label))
-                .font(.body)
-                .fontWeight(.bold)
-                .padding()
+            titleText(title)
         }
+    }
+    
+    @ViewBuilder
+    private func detailText(_ text: String) -> some View {
+        Text(text)
+            .foregroundColor(.secondary)
+            .font(.footnote)
+        #if os(watchOS)
+            .padding([.horizontal])
+            .padding(.top, 4)
+        #else
+            .fontWeight(.bold)
+            .padding([.horizontal, .top])
+        #endif
+    }
+    
+    @ViewBuilder
+    private func titleText(_ text: String) -> some View {
+        Text(title)
+            .foregroundStyle(Color.choice(for: .label))
+            .fontWeight(.bold)
+        #if os(watchOS)
+            .font(.footnote)
+            .padding(.horizontal)
+            .padding(.bottom, 4)
+            .padding(.top, showDetailText ? 0 : 4)
+        #else
+            .font(.body)
+            .padding()
+        #endif
     }
 }
 
-struct FormItemCardView_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            Spacer()
-            FormItemCardView(title: "What is your name?", detail: "Question 1 of 3") {
-                Text("Specific component content will show up here")
-            }
-            Spacer()
+#Preview("Detail and Title") {
+    VStack {
+        Spacer()
+        FormItemCardView(title: "What is your name?", detail: "Question 1 of 3") {
+            Text("Specific component content will show up here")
         }
-        .background {
-            Color.choice(for: .secondaryBackground)
-        }
-        .ignoresSafeArea()
+        Spacer()
     }
+    .padding()
+    .background {
+        Color.choice(for: .secondaryBackground)
+    }
+    .ignoresSafeArea()
+}
+
+#Preview("Just title") {
+    VStack {
+        Spacer()
+        FormItemCardView(title: "What is your name?", detail: nil) {
+            Text("Specific component content will show up here")
+        }
+        Spacer()
+    }
+    .padding()
+    .background {
+        Color.choice(for: .secondaryBackground)
+    }
+    .ignoresSafeArea()
 }

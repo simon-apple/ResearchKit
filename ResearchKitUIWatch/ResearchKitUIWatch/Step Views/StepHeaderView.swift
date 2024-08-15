@@ -62,8 +62,7 @@ struct StepHeaderView: View {
                 
                 text(for: stepDescription)
                 
-                Spacer()
-                    .frame(height: bottomSpacing)
+                bottomSpacingForStepDescription()
             }
         }
         .textCase(.none)
@@ -81,11 +80,21 @@ struct StepHeaderView: View {
     
     @ViewBuilder
     private func topSpacingForStepDescription() -> some View {
-#if os(visionOS)
+#if os(visionOS) || os(watchOS)
         EmptyView()
 #else
         Spacer()
             .frame(height: stepDescriptionTopSpacing)
+#endif
+    }
+    
+    @ViewBuilder
+    private func bottomSpacingForStepDescription() -> some View {
+#if os(watchOS)
+        EmptyView()
+#else
+        Spacer()
+            .frame(height: bottomSpacing)
 #endif
     }
     
