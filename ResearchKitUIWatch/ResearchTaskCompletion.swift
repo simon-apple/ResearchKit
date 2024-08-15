@@ -29,9 +29,9 @@
  */
 
 public enum ResearchTaskCompletion {
-    case saved
+    case saved(ResearchTaskResult)
     case discarded
-    case completed
+    case completed(ResearchTaskResult)
     case failed
     case terminated
 }

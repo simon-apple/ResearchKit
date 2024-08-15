@@ -40,7 +40,7 @@ public struct HeightQuestion: Identifiable {
     public let title: String
     public let detail: String?
     public let measurementSystem: MeasurementSystem
-    public let selection: (Int?, Int?)
+    public let selection: Double
 
     let footToCentimetersMultiplier: Double = 30.48
     let inchToCentimetersMultiplier: Double = 2.54
@@ -50,7 +50,7 @@ public struct HeightQuestion: Identifiable {
         title: String,
         detail: String?,
         measurementSystem: MeasurementSystem,
-        selection: (Int?, Int?)
+        selection: Double
     ) {
         self.id = id
         self.title = title
@@ -73,42 +73,12 @@ public struct HeightQuestion: Identifiable {
             return true
         }
     }
-
-    public var number: NSNumber {
-        if usesMetricSystem == false {
-            let centimeters = (Double(selection.0 ?? 0) * footToCentimetersMultiplier) + (Double(selection.1 ?? 0) * inchToCentimetersMultiplier)
-            return NSNumber(floatLiteral: centimeters)
-        } else {
-            return NSNumber(floatLiteral: Double(selection.0 ?? 0))
-        }
-    }
 }
 
 public struct HeightQuestionView: View {
-    
-    private let stateManagementType: StateManagementType<(Int, Int)>
-    
-    @State
-    private var managedResult: (Int, Int)?
-    
-    private var resolvedManagedResult: Binding<(Int, Int)> {
-        Binding(
-            get: { managedResult ?? (0, 0) },
-            set: { managedResult = $0 }
-        )
-    }
-    
-    private var selection: Binding<(Int, Int)> {
-        let selection: Binding<(Int, Int)>
-        switch stateManagementType {
-        case .automatic:
-            selection = resolvedManagedResult
-        case .manual(let binding):
-            selection = binding
-        }
-        return selection
-    }
-    
+    @EnvironmentObject
+    private var managedTaskResult: ResearchTaskResult
+
     @State var isInputActive = false
     @State var hasChanges: Bool
 
@@ -116,13 +86,27 @@ public struct HeightQuestionView: View {
     let title: String
     let detail: String?
     let measurementSystem: MeasurementSystem
-    
+    let result: StateManagementType<(Double)>
+
+    var initialPrimaryValue: Double = 162 // Denotes height in cm, which is ~5'4", a good average height.
+
+    private var resolvedResult: Binding<Double> {
+        switch result {
+        case let .automatic(key: key):
+            return Binding(
+                get: { managedTaskResult.resultForStep(key: key) ?? initialPrimaryValue },
+                set: { managedTaskResult.setResultForStep(.height($0), key: key) }
+            )
+        case let .manual(value):
+            return value
+        }
+    }
+
     public init(
         id: String,
         title: String,
         detail: String? = nil,
-        measurementSystem: MeasurementSystem,
-        selection: (Int, Int)
+        measurementSystem: MeasurementSystem
     ) {
         self.id = id
         self.hasChanges = false
@@ -144,8 +128,7 @@ public struct HeightQuestionView: View {
             }
         }()
         self.measurementSystem = system
-        self.managedResult = selection
-        self.stateManagementType = .automatic
+        self.result = .automatic(key: .height(id: id))
     }
     
     public init(
@@ -153,7 +136,7 @@ public struct HeightQuestionView: View {
         title: String,
         detail: String? = nil,
         measurementSystem: MeasurementSystem,
-        selection: Binding<(Int, Int)>
+        selection: Binding<Double>
     ) {
         self.id = id
         self.hasChanges = false
@@ -175,14 +158,15 @@ public struct HeightQuestionView: View {
             }
         }()
         self.measurementSystem = system
-        self.stateManagementType = .manual(selection)
+        self.result = .manual(selection)
     }
 
     var selectionString: String {
         if measurementSystem == .USC {
-            return "\(Int(selection.wrappedValue.0))' \(Int(selection.wrappedValue.1))\""
+            let (feet, inches) = convertCentimetersToFeetAndInches(resolvedResult.wrappedValue)
+            return "\(feet)' \(inches)\""
         } else {
-            return "\(selection.0) cm"
+            return "\(Int(resolvedResult.wrappedValue)) cm"
         }
     }
 
@@ -208,7 +192,7 @@ public struct HeightQuestionView: View {
                 ) {
                     HeightPickerView(
                         measurementSystem: measurementSystem,
-                        selection: selection,
+                        selection: resolvedResult,
                         hasChanges: $hasChanges
                     )
                     .frame(width: 300)
@@ -233,11 +217,34 @@ public struct HeightQuestionView: View {
 
 struct HeightPickerView: View {
     @Environment(\.dismiss) var dismiss
+    @State var firstSelection: Int
+    @State var secondSelection: Int
+    let footToCentimetersMultiplier: Double = 30.48
+    let inchToCentimetersMultiplier: Double = 2.54
 
     let measurementSystem: MeasurementSystem
 
-    @Binding var selection: (Int, Int)
+    @Binding var selection: Double
     @Binding var hasChanges: Bool
+
+    init(
+        measurementSystem: MeasurementSystem,
+        selection: Binding<Double>,
+        hasChanges: Binding<Bool>
+    ) {
+        self.measurementSystem = measurementSystem
+        self._selection = selection
+        self._hasChanges = hasChanges
+
+        if Self.usesMetricSystem(measurementSystem: measurementSystem) == false {
+            let (feet, inches) = convertCentimetersToFeetAndInches(selection.wrappedValue)
+            firstSelection = feet
+            secondSelection = inches
+        } else {
+            firstSelection = Int(selection.wrappedValue)
+            secondSelection = 0
+        }
+    }
 
     var upperValue: Int {
         if measurementSystem == .USC {
@@ -266,7 +273,7 @@ struct HeightPickerView: View {
 
     var body: some View {
         HStack(spacing: .zero) {
-            Picker(selection: $selection.0) {
+            Picker(selection: $firstSelection) {
                 ForEach(0..<upperValue, id: \.self) { i in
                     Text("\(i) \(primaryUnit)")
                         .tag(i)
@@ -275,12 +282,13 @@ struct HeightPickerView: View {
                 Text("Tap Here")
             }
             .pickerStyle(.wheel)
-            .onChange(of: selection.0) { _, _ in
+            .onChange(of: firstSelection) { _, _ in
                 hasChanges = true
+                selection = standardizedHeight((firstSelection, secondSelection))
             }
 
             if measurementSystem == .USC {
-                Picker(selection: $selection.1) {
+                Picker(selection: $secondSelection) {
                     ForEach(0..<secondaryUpperValue, id: \.self) { i in
                         Text("\(i) \(secondaryUnit)")
                             .tag(i)
@@ -289,10 +297,35 @@ struct HeightPickerView: View {
                     Text("Tap Here")
                 }
                 .pickerStyle(.wheel)
-                .onChange(of: selection.1) { _, _ in
+                .onChange(of: secondSelection) { _, _ in
                     hasChanges = true
+                    selection = standardizedHeight((firstSelection, secondSelection))
                 }
             }
+        }
+    }
+
+    private func standardizedHeight(_ height: (Int, Int)) -> Double {
+        if Self.usesMetricSystem(measurementSystem: measurementSystem) == false {
+            let centimeters = (Double(height.0) * footToCentimetersMultiplier) + (Double(height.1) * inchToCentimetersMultiplier)
+            return centimeters
+        } else {
+            return Double(height.0)
+        }
+    }
+
+    private static func usesMetricSystem(measurementSystem: MeasurementSystem) -> Bool {
+        switch measurementSystem {
+        case .USC:
+            return false
+        case .local:
+            if Locale.current.measurementSystem == .us {
+                return false
+            } else {
+                return true
+            }
+        case .metric:
+            return true
         }
     }
 }
@@ -300,7 +333,7 @@ struct HeightPickerView: View {
 
 @available(iOS 18.0, *)
 #Preview {
-    @Previewable @State var selection: (Int, Int) = (22, 2)
+    @Previewable @State var selection: Double = 162
     HeightQuestionView(
         id: UUID().uuidString,
         title: "Height question here",

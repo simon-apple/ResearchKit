@@ -32,12 +32,15 @@
 import SwiftUI
 
 public struct ResearchTaskStepContentView<Content: View>: View {
+    @State
+    private var managedTaskResult: ResearchTaskResult = ResearchTaskResult()
+
     private let content: Content
 
     let isLastStep: Bool
     var onStepCompletion: ((ResearchTaskCompletion) -> Void)?
 
-    init(
+    public init(
         isLastStep: Bool,
         onStepCompletion: ((ResearchTaskCompletion) -> Void)? = nil,
         @ViewBuilder content: () -> Content
@@ -60,12 +63,13 @@ public struct ResearchTaskStepContentView<Content: View>: View {
                         }
                     }
                 }
+                .environmentObject(managedTaskResult)
         } footerContent: {
             Button {
                 if isLastStep {
-                    onStepCompletion?(.completed)
+                    onStepCompletion?(.completed(managedTaskResult))
                 } else {
-                    onStepCompletion?(.saved)
+                    onStepCompletion?(.saved(managedTaskResult))
                 }
             } label: {
                 Text(isLastStep ? "Done" : "Next")

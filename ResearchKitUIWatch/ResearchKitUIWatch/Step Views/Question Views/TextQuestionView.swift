@@ -66,34 +66,13 @@ public struct TextQuestion: Identifiable {
 }
 
 public struct TextQuestionView<Header: View>: View {
-    
+    @EnvironmentObject
+    private var managedTaskResult: ResearchTaskResult
+
     enum FocusTarget {
         
         case textQuestion
         
-    }
-    
-    private let stateManagementType: StateManagementType<String>
-    
-    @State
-    private var managedResult: String?
-    
-    private var resolvedManagedResult: Binding<String> {
-        Binding(
-            get: { managedResult ?? "" },
-            set: { managedResult = $0 }
-        )
-    }
-    
-    private var selection: Binding<String> {
-        let selection: Binding<String>
-        switch stateManagementType {
-        case .automatic:
-            selection = resolvedManagedResult
-        case .manual(let binding):
-            selection = binding
-        }
-        return selection
     }
     
     let id: String
@@ -105,32 +84,43 @@ public struct TextQuestionView<Header: View>: View {
     let characterLimit: Int
     let hideCharacterCountLabel: Bool
     let hideClearButton: Bool
+    let result: StateManagementType<String>
 
-    init(
-        id: String,
-        @ViewBuilder header: () -> Header,
-        text: String? = nil,
-        prompt: String?,
-        textFieldType: TextFieldType,
-        characterLimit: Int,
-        hideCharacterCountLabel: Bool = false,
-        hideClearButton: Bool = false
-    ) {
-        self.id = id
-        self.header = header()
-        self.prompt = prompt
-        self.textFieldType = textFieldType
-        self.characterLimit = characterLimit > 0 ? characterLimit : .max
-        self.hideCharacterCountLabel = hideCharacterCountLabel
-        self.hideClearButton = hideClearButton
-        self.managedResult = text
-        self.stateManagementType = .automatic
+    private var resolvedResult: Binding<String> {
+        switch result {
+        case let .automatic(key: key):
+            return Binding(
+                get: { managedTaskResult.resultForStep(key: key) ?? ""},
+                set: { managedTaskResult.setResultForStep(.text($0), key: key) }
+            )
+        case let .manual(value):
+            return value
+        }
     }
-    
-    init(
+
+    public init(
         id: String,
         @ViewBuilder header: () -> Header,
-        text: Binding<String>,
+        prompt: String?,
+        textFieldType: TextFieldType,
+        characterLimit: Int,
+        hideCharacterCountLabel: Bool = false,
+        hideClearButton: Bool = false,
+        result: Binding<String>
+    ) {
+        self.id = id
+        self.header = header()
+        self.prompt = prompt
+        self.textFieldType = textFieldType
+        self.characterLimit = characterLimit
+        self.hideCharacterCountLabel = hideCharacterCountLabel
+        self.hideClearButton = hideClearButton
+        self.result = .manual(result)
+    }
+
+    public init(
+        id: String,
+        @ViewBuilder header: () -> Header,
         prompt: String?,
         textFieldType: TextFieldType,
         characterLimit: Int,
@@ -144,7 +134,7 @@ public struct TextQuestionView<Header: View>: View {
         self.characterLimit = characterLimit > 0 ? characterLimit : .max
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.stateManagementType = .manual(text)
+        self.result = .automatic(key: .text(id: id))
     }
 
     private var axis: Axis {
@@ -169,7 +159,7 @@ public struct TextQuestionView<Header: View>: View {
             header
         } content: {
             VStack {
-                TextField("", text: selection, prompt: placeholder, axis: axis)
+                TextField("", text: resolvedResult, prompt: placeholder, axis: axis)
                     .textFieldStyle(.plain) // Text binding's `didSet` called twice if this is not set.
                     .focused($focusTarget, equals: .textQuestion)
                     .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
@@ -185,13 +175,13 @@ public struct TextQuestionView<Header: View>: View {
                 if textFieldType == .multiline {
                     HStack {
                         if hideCharacterCountLabel == false {
-                            Text("\(selection.wrappedValue.count)/\(characterLimit)")
+                            Text("\(resolvedResult.wrappedValue.count)/\(characterLimit)")
                         }
                         Spacer()
 
                         if !hideClearButton {
                             Button {
-                                selection.wrappedValue = ""
+                                resolvedResult.wrappedValue = ""
                             } label: {
                                 Text("Clear")
                             }
@@ -207,9 +197,9 @@ public struct TextQuestionView<Header: View>: View {
                         }
                     )
 #endif
-                    .onChange(of: selection.wrappedValue) { oldValue, newValue in
-                        if selection.wrappedValue.count > characterLimit {
-                            selection.wrappedValue = oldValue
+                    .onChange(of: resolvedResult.wrappedValue) { oldValue, newValue in
+                        if resolvedResult.wrappedValue.count > characterLimit {
+                            resolvedResult.wrappedValue = oldValue
                         }
                     }
                 }
@@ -220,17 +210,16 @@ public struct TextQuestionView<Header: View>: View {
 }
 
 public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
-    
     init(
         id: String,
-        text: String? = nil,
         title: String,
-        detail: String? = nil,
+        detail: String?,
         prompt: String?,
         textFieldType: TextFieldType,
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
-        hideClearButton: Bool = false
+        hideClearButton: Bool = false,
+        result: Binding<String>
     ) {
         self.id = id
         self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
@@ -239,20 +228,19 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.managedResult = text
-        self.stateManagementType = .automatic
+        self.result = .manual(result)
     }
-    
+
     init(
         id: String,
-        text: Binding<String>,
         title: String,
         detail: String? = nil,
         prompt: String?,
         textFieldType: TextFieldType,
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
-        hideClearButton: Bool = false
+        hideClearButton: Bool = false,
+        defaultTextAnswer: String? = nil
     ) {
         self.id = id
         self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
@@ -261,7 +249,11 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.stateManagementType = .manual(text)
+        self.result = .automatic(key: .text(id: id))
+
+        if let defaultTextAnswer {
+            self.resolvedResult.wrappedValue = defaultTextAnswer
+        }
     }
     
 }
@@ -270,13 +262,13 @@ struct TextQuestionView_Previews: PreviewProvider {
     static var previews: some View {
         TextQuestionView(
             id: UUID().uuidString,
-            text: .constant("Hello world!"),
             title: "What is your name?",
             detail: nil,
             prompt: "Tap to write",
             textFieldType: .multiline,
             characterLimit: 10,
-            hideCharacterCountLabel: true
+            hideCharacterCountLabel: true,
+            result: .constant("Tom Riddle")
         )
     }
 }
