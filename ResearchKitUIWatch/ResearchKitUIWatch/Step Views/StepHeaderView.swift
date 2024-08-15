@@ -113,13 +113,17 @@ struct HeaderView: View {
     
     var body: some View {
 #if os(watchOS)
+        compactBody()
+#else
+        defaultBody()
+#endif
+    }
+    
+    @ViewBuilder
+    private func compactBody() -> some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
-                image?
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 20, height: 20)
-                    .foregroundStyle(.stepIconForegroundStyle)
+                icon(size: 20)
                 
                 title?
                     .font(.title3)
@@ -130,13 +134,12 @@ struct HeaderView: View {
             subtitle
                 .font(.body)
         }
-#else
+    }
+    
+    @ViewBuilder
+    private func defaultBody() -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            image?
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 80, height: 80)
-                .foregroundStyle(.stepIconForegroundStyle)
+            icon(size: 80)
             
             title?
                 .font(.title)
@@ -144,7 +147,15 @@ struct HeaderView: View {
             
             subtitle
         }
-#endif
+    }
+    
+    @ViewBuilder
+    private func icon(size: CGFloat) -> some View {
+        image?
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: size, height: size)
+            .foregroundStyle(.stepIconForegroundStyle)
     }
 }
 
