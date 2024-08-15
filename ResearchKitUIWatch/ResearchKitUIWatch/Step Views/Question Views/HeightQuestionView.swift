@@ -201,16 +201,6 @@ public struct HeightQuestionView: View {
             .padding()
         }
     }
-
-    private func convertCentimetersToFeetAndInches(_ centimeters: Double) -> (feet: Int, inches: Int) {
-        var feet = 0
-        var inches = 0
-        let centimetersToInches = centimeters * 0.393701
-        inches = Int(centimetersToInches)
-        feet = inches / 12
-        inches = inches % 12
-        return (feet, inches)
-    }
 }
 
 struct HeightPickerView: View {
@@ -235,7 +225,7 @@ struct HeightPickerView: View {
         self._hasChanges = hasChanges
 
         if Self.usesMetricSystem(measurementSystem: measurementSystem) == false {
-            let (feet, inches) = Self.convertCentimetersToFeetAndInches(selection.wrappedValue)
+            let (feet, inches) = convertCentimetersToFeetAndInches(selection.wrappedValue)
             firstSelection = feet
             secondSelection = inches
         } else {
@@ -310,16 +300,6 @@ struct HeightPickerView: View {
         } else {
             return Double(height.0)
         }
-    }
-
-    private static func convertCentimetersToFeetAndInches(_ centimeters: Double) -> (feet: Int, inches: Int) {
-        var feet = 0
-        var inches = 0
-        let centimetersToInches = centimeters * 0.393701
-        inches = Int(centimetersToInches)
-        feet = inches / 12
-        inches = inches % 12
-        return (feet, inches)
     }
 
     private static func usesMetricSystem(measurementSystem: MeasurementSystem) -> Bool {
