@@ -176,7 +176,7 @@ public struct WeightQuestionView: View {
                         defaultValue: defaultValue,
                         minimumValue: minimumValue,
                         maximumValue: maximumValue,
-                        selection: selection,
+                        selection: resolvedResult,
                         hasChanges: $hasChanges
                     )
                     .frame(width: 300)
