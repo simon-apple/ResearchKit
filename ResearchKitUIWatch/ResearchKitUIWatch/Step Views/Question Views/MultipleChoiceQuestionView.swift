@@ -32,28 +32,24 @@ import SwiftUI
 
 // TODO(rdar://129033515): Update name of this module to reflect just the choice options without the header.
 public struct MultipleChoiceQuestionView: View {
-    
-    private let stateManagementType: StateManagementType<[MultipleChoiceOption]>
-    
-    @State
-    private var managedResult: [MultipleChoiceOption]?
-    
-    private var resolvedManagedResult: Binding<[MultipleChoiceOption]> {
-        Binding(
-            get: { managedResult ?? [] },
-            set: { managedResult = $0 }
-        )
-    }
-    
-    private var selection: Binding<[MultipleChoiceOption]> {
-        let selection: Binding<[MultipleChoiceOption]>
-        switch stateManagementType {
-        case .automatic:
-            selection = resolvedManagedResult
-        case .manual(let binding):
-            selection = binding
+
+    @EnvironmentObject
+    private var managedTaskResult: ResearchTaskResult
+
+    private var resolvedResult: Binding<[MultipleChoiceOption]> {
+        switch result {
+        case let .automatic(key: key):
+            return Binding(
+                get: {
+                    managedTaskResult.resultForStep(key: key) ?? []
+                },
+                set: {
+                    managedTaskResult.setResultForStep(.multipleChoice($0), key: key)
+                }
+            )
+        case let .manual(value):
+            return value
         }
-        return selection
     }
 
     let id: String
@@ -61,25 +57,8 @@ public struct MultipleChoiceQuestionView: View {
     let detail: String?
     let choices: [MultipleChoiceOption]
     let selectionType: MultipleChoiceQuestion.ChoiceSelectionType
-    
-    public init(
-        id: String,
-        title: String,
-        detail: String? = nil,
-        choices: [MultipleChoiceOption],
-        selectionType: MultipleChoiceQuestion.ChoiceSelectionType,
-        result: [MultipleChoiceOption] = []
-    ) {
-        self.id = id
-        self.title = title
-        self.detail = detail
-        self.choices = choices
-        self.selectionType = selectionType
-        self.managedResult = result
-        self.stateManagementType = .automatic
-    }
+    let result: StateManagementType<[MultipleChoiceOption]>
 
-    // TODO(rdar://129033515): Remove title parameter from initializer since the body reflects just the options.
     public init(
         id: String,
         title: String,
@@ -93,7 +72,23 @@ public struct MultipleChoiceQuestionView: View {
         self.detail = detail
         self.choices = choices
         self.selectionType = selectionType
-        self.stateManagementType = .manual(result)
+        self.result = .manual(result)
+    }
+
+    // TODO(rdar://129033515): Remove title parameter from initializer since the body reflects just the options.
+    public init(
+        id: String,
+        title: String,
+        detail: String? = nil,
+        choices: [MultipleChoiceOption],
+        selectionType: MultipleChoiceQuestion.ChoiceSelectionType
+    ) {
+        self.id = id
+        self.title = title
+        self.detail = detail
+        self.choices = choices
+        self.selectionType = selectionType
+        self.result = .automatic(key: .multipleChoice(id: id))
     }
 
     public var body: some View {
@@ -106,7 +101,7 @@ public struct MultipleChoiceQuestionView: View {
 
                     TextChoiceCell(
                         title: Text(option.choiceText),
-                        isSelected: selection.wrappedValue.contains(where: { choice in
+                        isSelected: resolvedResult.wrappedValue.contains(where: { choice in
                             choice.id == option.id
                         })
                     ) {
@@ -124,16 +119,14 @@ public struct MultipleChoiceQuestionView: View {
     }
 
     private func choiceSelected(_ option: MultipleChoiceOption) {
-        if selection.wrappedValue.contains(where: { $0.id == option.id }) {
-            selection.wrappedValue.removeAll { choice in
-                choice.id == option.id
-            }
+        if let index = resolvedResult.wrappedValue.firstIndex(where: { $0.id == option.id }) {
+            resolvedResult.wrappedValue.remove(at: index)
         } else {
             switch selectionType {
             case .single:
-                selection.wrappedValue = [option]
+                resolvedResult.wrappedValue = [option]
             case .multiple:
-                selection.wrappedValue.append(option)
+                resolvedResult.wrappedValue.append(option)
             }
         }
     }

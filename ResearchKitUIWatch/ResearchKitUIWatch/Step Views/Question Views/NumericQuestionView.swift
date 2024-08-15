@@ -58,48 +58,41 @@ public struct NumericQuestion: Identifiable {
 
 @available(watchOS, unavailable)
 public struct NumericQuestionView<Header: View>: View {
-    
+
+    @EnvironmentObject
+    private var managedTaskResult: ResearchTaskResult
+
     enum FocusTarget {
         
         case numericQuestion
         
     }
-    
-    private let stateManagementType: StateManagementType<Decimal?>
-    
-    @State
-    private var managedResult: Decimal?
-    
-    private var resolvedManagedResult: Binding<Decimal?> {
-        Binding(
-            get: { managedResult },
-            set: { managedResult = $0 }
-        )
-    }
-    
-    private var selection: Binding<Decimal?> {
-        let selection: Binding<Decimal?>
-        switch stateManagementType {
-        case .automatic:
-            selection = resolvedManagedResult
-        case .manual(let binding):
-            selection = binding
-        }
-        return selection
-    }
-    
+
     private let id: String
     private let header: Header
     private let prompt: String?
     @FocusState private var focusTarget: FocusTarget?
-    
+    private let result: StateManagementType<Double?>
+
+    private var resolvedResult: Binding<Double?> {
+        switch result {
+        case let .automatic(key: key):
+            return Binding(
+                get: { managedTaskResult.resultForStep(key: key) ?? nil },
+                set: { managedTaskResult.setResultForStep(.numeric($0), key: key) }
+            )
+        case let .manual(value):
+            return value
+        }
+    }
+
     public var body: some View {
         FormItemCardView(
             header: {
                 header
             },
             content: {
-                TextField("", value: selection, format: .number, prompt: placeholder)
+                TextField("", value: resolvedResult, format: .number, prompt: placeholder)
 #if !os(watchOS) && !os(macOS)
                     .keyboardType(.decimalPad)
                     .focused($focusTarget, equals: .numericQuestion)
@@ -132,7 +125,7 @@ public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
     
     init(
         id: String,
-        text: Binding<Decimal?>,
+        text: Binding<Double?>,
         title: String,
         detail: String? = nil,
         prompt: String?
@@ -140,7 +133,7 @@ public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
         self.id = id
         header = _SimpleFormItemViewHeader(title: title, detail: detail)
         self.prompt = prompt
-        self.stateManagementType = .manual(text)
+        self.result = .manual(text)
     }
     
     init(
@@ -153,8 +146,7 @@ public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
         self.id = id
         header = _SimpleFormItemViewHeader(title: title, detail: detail)
         self.prompt = prompt
-        self.managedResult = text
-        self.stateManagementType = .automatic
+        self.result = .automatic(key: .numeric(id: id))
     }
     
 }
