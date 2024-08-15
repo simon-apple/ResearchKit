@@ -31,6 +31,7 @@
 import Foundation
 import SwiftUI
 
+@available(watchOS, unavailable)
 public struct NumericQuestion: Identifiable {
     
     public let id: String
@@ -55,6 +56,7 @@ public struct NumericQuestion: Identifiable {
     
 }
 
+@available(watchOS, unavailable)
 public struct NumericQuestionView<Header: View>: View {
     
     enum FocusTarget {
@@ -97,11 +99,11 @@ public struct NumericQuestionView<Header: View>: View {
                 header
             },
             content: {
-
-#if !os(watchOS)    // TODO: rdar://133013973 (Remove numerical answer format from RKSwiftUI Watch)
                 TextField("", value: selection, format: .number, prompt: placeholder)
+#if !os(watchOS) && !os(macOS)
                     .keyboardType(.decimalPad)
                     .focused($focusTarget, equals: .numericQuestion)
+#endif
                     .doneKeyboardToolbar(
                         condition: {
                             focusTarget == .numericQuestion
@@ -111,7 +113,6 @@ public struct NumericQuestionView<Header: View>: View {
                         }
                     )
                     .padding()
-#endif
             }
         )
     }
@@ -126,6 +127,7 @@ public struct NumericQuestionView<Header: View>: View {
     
 }
 
+@available(watchOS, unavailable)
 public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
     
     init(
@@ -157,20 +159,23 @@ public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
     
 }
 
+@available(watchOS, unavailable)
 struct NumericQuestionView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.choice(for: .secondaryBackground)
                 .ignoresSafeArea()
 
-            NumericQuestionView(
-                id: UUID().uuidString,
-                text: .constant(22.0),
-                title: "How old are you?",
-                detail: nil,
-                prompt: "Tap to enter age"
-            )
-            .padding(.horizontal)
+            ScrollView {
+                NumericQuestionView(
+                    id: UUID().uuidString,
+                    text: .constant(22.0),
+                    title: "How old are you?",
+                    detail: nil,
+                    prompt: "Tap to enter age"
+                )
+                .padding(.horizontal)
+            }
         }
 
     }
