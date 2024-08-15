@@ -218,29 +218,13 @@ public class RKAdapter {
                 }
             }()
 
-            let initialPrimaryValue: Int = {
-                // To set the picker at a nice middle of the road height
-                // we will set it to 5 feet initially
-                if measurementSystem == .USC {
-                    return 5
-                }
-
-                // Similar to above, this equate to 5'4" which
-                // is a good starting point for the picker.
-                if measurementSystem == .metric {
-                    return 162
-                }
-
-                return Locale.current.measurementSystem == .us ? 5 : 162
-            }()
-
             return FormRow.heightRow(
                 HeightQuestion(
                     id: identifier,
                     title: title,
                     detail: detail,
                     measurementSystem: measurementSystem,
-                    selection: (initialPrimaryValue, 4) // Denotes 4 inches which is paired with a 5 foot selection (162 cm)
+                    selection: 162 // Denotes 5 feet 4 inches (162 cm)
                 )
             )
         case let weightAnswerFormat as ORKWeightAnswerFormat:
@@ -440,13 +424,14 @@ public class RKAdapter {
                             case let textAnswerFormat as ORKTextAnswerFormat:
                                 TextQuestionView(
                                     id: formItem.identifier,
-                                    text: textAnswerFormat.defaultTextAnswer ?? "",
                                     title: formItem.text ?? "",
+                                    detail: "",
                                     prompt: formItem.placeholder,
                                     textFieldType: textAnswerFormat.multipleLines ? .multiline : .singleLine,
                                     characterLimit: textAnswerFormat.maximumLength,
                                     hideCharacterCountLabel: textAnswerFormat.hideCharacterCountLabel,
-                                    hideClearButton: textAnswerFormat.hideClearButton
+                                    hideClearButton: textAnswerFormat.hideClearButton,
+                                    defaultTextAnswer: textAnswerFormat.defaultTextAnswer
                                 )
                             case let dateTimeAnswerFormat as ORKDateAnswerFormat:
                                 let prompt: String = {
@@ -514,27 +499,10 @@ public class RKAdapter {
                                     }
                                 }()
 
-                                let initialPrimaryValue: Int = {
-                                    // To set the picker at a nice middle of the road height
-                                    // we will set it to 5 feet initially
-                                    if measurementSystem == .USC {
-                                        return 5
-                                    }
-
-                                    // Similar to above, this equate to 5'4" which
-                                    // is a good starting point for the picker.
-                                    if measurementSystem == .metric {
-                                        return 162
-                                    }
-
-                                    return Locale.current.measurementSystem == .us ? 5 : 162
-                                }()
-                                
                                 HeightQuestionView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
-                                    measurementSystem: measurementSystem,
-                                    selection: (initialPrimaryValue, 4)
+                                    measurementSystem: measurementSystem
                                 )
                             case let weightAnswerFormat as ORKWeightAnswerFormat:
                                 let measurementSystem: MeasurementSystem = {
@@ -601,8 +569,7 @@ public class RKAdapter {
                                     precision: precision,
                                     defaultValue: defaultValue,
                                     minimumValue: minimumValue,
-                                    maximumValue: maximumValue,
-                                    selection: (defaultValue, 0)
+                                    maximumValue: maximumValue
                                 )
                             case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
                                 let choices = imageChoiceAnswerFormat.imageChoices.map { choice in
@@ -624,10 +591,11 @@ public class RKAdapter {
                                     default: return .single
                                     }
                                 }()
-                                
+
                                 ImageChoiceView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
+                                    detail: formItem.detailText,
                                     choices: choices,
                                     style: style,
                                     vertical: imageChoiceAnswerFormat.isVertical
@@ -765,5 +733,55 @@ public class RKAdapter {
               let secondUUID = Self.extractUUID(secondIdentifier) else { return false }
 
         return firstUUID == secondUUID
+    }
+
+    public static func createORKResults(from taskResult: ResearchTaskResult) -> [ORKResult] {
+        let resultsDictionary = taskResult.stepResults
+
+        var resultsArray: [ORKResult] = []
+        resultsDictionary.forEach { entry in
+            let value = entry.value
+            switch value {
+            case .text(let text):
+                let result = ORKTextQuestionResult(identifier: entry.key)
+                result.questionType = .text
+                result.textAnswer = text
+                resultsArray.append(result)
+            case .numeric(let decimal):
+                let result = ORKNumericQuestionResult(identifier: entry.key)
+                result.questionType = .decimal
+                result.numericAnswer = NSNumber(floatLiteral: decimal ?? 0.0)
+                resultsArray.append(result)
+            case .date(let date):
+                let result = ORKDateQuestionResult(identifier: entry.key)
+                result.questionType = .date
+                result.dateAnswer = date
+                resultsArray.append(result)
+            case .height(let height):
+                let result = ORKNumericQuestionResult(identifier: entry.key)
+                result.questionType = .height
+                result.numericAnswer = NSNumber(floatLiteral: height)
+                resultsArray.append(result)
+
+            // TODO: rdar://133877315 (Update weight question to store single value instead of tuple)
+            case .weight(let weight):
+                let result = ORKNumericQuestionResult(identifier: entry.key)
+                result.questionType = .weight
+                resultsArray.append(result)
+            case .image(let image):
+                let result = ORKChoiceQuestionResult(identifier: entry.key)
+                result.questionType = .multipleChoice
+                result.answer = [image] as any NSCopying & NSSecureCoding & NSObjectProtocol
+                resultsArray.append(result)
+
+            case .multipleChoice(let multipleChoice):
+                let result = ORKChoiceQuestionResult(identifier: entry.key)
+                result.questionType = .multipleChoice
+                result.answer = [multipleChoice] as any NSCopying & NSSecureCoding & NSObjectProtocol
+                resultsArray.append(result)
+            }
+        }
+
+        return resultsArray
     }
 }

@@ -56,36 +56,28 @@ public struct DateQuestion: Identifiable {
 }
 
 public struct DateTimeView<Header: View>: View {
-    
-    private let stateManagementType: StateManagementType<Date>
-    
-    @State
-    private var managedResult: Date?
-    
-    private var resolvedManagedResult: Binding<Date> {
-        Binding(
-            get: { managedResult ?? Date() },
-            set: { managedResult = $0 }
-        )
-    }
-    
-    private var selection: Binding<Date> {
-        let selection: Binding<Date>
-        switch stateManagementType {
-        case .automatic:
-            selection = resolvedManagedResult
-        case .manual(let binding):
-            selection = binding
-        }
-        return selection
-    }
-    
+    @EnvironmentObject
+    private var managedTaskResult: ResearchTaskResult
+
     let id: String
     let header: Header
     let pickerPrompt: String
     let displayedComponents: DatePicker.Components
     let range: ClosedRange<Date>
-    
+    let result: StateManagementType<Date>
+
+    private var resolvedResult: Binding<Date> {
+        switch result {
+        case let .automatic(key: key):
+            return Binding(
+                get: { managedTaskResult.resultForStep(key: key) ?? Date() },
+                set: { managedTaskResult.setResultForStep(.date($0), key: key) }
+            )
+        case let .manual(value):
+            return value
+        }
+    }
+
     public init(
         id: String,
         @ViewBuilder header: () -> Header,
@@ -99,8 +91,7 @@ public struct DateTimeView<Header: View>: View {
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range
-        self.managedResult = selection
-        self.stateManagementType = .automatic
+        self.result = .automatic(key: .date(id: id))
     }
 
     public init(
@@ -116,7 +107,7 @@ public struct DateTimeView<Header: View>: View {
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range
-        self.stateManagementType = .manual(selection)
+        self.result = .manual(selection)
     }
 
     public var body: some View {
@@ -125,7 +116,7 @@ public struct DateTimeView<Header: View>: View {
         } content: {
             DatePicker(
                 pickerPrompt,
-                selection: selection,
+                selection: resolvedResult,
                 in: range,
                 displayedComponents: displayedComponents
             )
@@ -152,8 +143,7 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range
-        self.managedResult = selection
-        self.stateManagementType = .automatic
+        self.result = .automatic(key: .date(id: id))
     }
     
     init(
@@ -170,7 +160,7 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range
-        self.stateManagementType = .manual(selection)
+        self.result = .manual(selection)
     }
     
 }

@@ -31,30 +31,8 @@
 import SwiftUI
 
 public struct WeightQuestionView: View {
-    
-    private let stateManagementType: StateManagementType<(Double, Double)>
-    
-    @State
-    private var managedResult: (Double, Double)?
-    
-    private var resolvedManagedResult: Binding<(Double, Double)> {
-        Binding(
-            get: { managedResult ?? (0, 0) },
-            set: { managedResult = $0 }
-        )
-    }
-    
-    private var selection: Binding<(Double, Double)> {
-        let selection: Binding<(Double, Double)>
-        switch stateManagementType {
-        case .automatic:
-            selection = resolvedManagedResult
-        case .manual(let binding):
-            selection = binding
-        }
-        return selection
-    }
-    
+    @EnvironmentObject
+    private var managedTaskResult: ResearchTaskResult
     @State var isInputActive = false
     @State var hasChanges: Bool
 
@@ -66,6 +44,19 @@ public struct WeightQuestionView: View {
     let defaultValue: Double?
     let minimumValue: Double?
     let maximumValue: Double?
+    let result: StateManagementType<(Double, Double)>
+
+    private var resolvedResult: Binding<(Double, Double)> {
+        switch result {
+        case let .automatic(key: key):
+            return Binding(
+                get: { managedTaskResult.resultForStep(key: key) ?? (defaultValue ?? 0, 0) },
+                set: { managedTaskResult.setResultForStep(.weight($0), key: key) }
+            )
+        case let .manual(value):
+            return value
+        }
+    }
 
     public init(
         id: String,
@@ -75,8 +66,7 @@ public struct WeightQuestionView: View {
         precision: NumericPrecision = .default,
         defaultValue: Double?,
         minimumValue: Double?,
-        maximumValue: Double?,
-        selection: (Double, Double)
+        maximumValue: Double?
     ) {
         self.id = id
         self.hasChanges = false
@@ -103,8 +93,7 @@ public struct WeightQuestionView: View {
         self.defaultValue = defaultValue
         self.minimumValue = minimumValue
         self.maximumValue = maximumValue
-        self.managedResult = selection
-        self.stateManagementType = .automatic
+        self.result = .automatic(key: .weight(id: id))
     }
     
     public init(
@@ -143,23 +132,23 @@ public struct WeightQuestionView: View {
         self.defaultValue = defaultValue
         self.minimumValue = minimumValue
         self.maximumValue = maximumValue
-        self.stateManagementType = .manual(selection)
+        self.result = .manual(selection)
     }
 
     var selectionString: String {
         if measurementSystem == .USC {
             switch precision {
             case .default, .low:
-                return "\(Int(selection.wrappedValue.0)) lb"
+                return "\(Int(resolvedResult.wrappedValue.0)) lb"
             case .high:
-                return "\(Int(selection.wrappedValue.0)) lb \(Int(selection.wrappedValue.1)) oz"
+                return "\(Int(resolvedResult.wrappedValue.0)) lb \(Int(resolvedResult.wrappedValue.1)) oz"
             }
         } else {
             switch precision {
             case .default, .low:
-                return "\(selection.wrappedValue.0) kg"
+                return "\(resolvedResult.wrappedValue.0) kg"
             case .high:
-                return "\(selection.wrappedValue.0 + selection.wrappedValue.1) kg"
+                return "\(resolvedResult.wrappedValue.0 + resolvedResult.wrappedValue.1) kg"
             }
         }
     }
@@ -189,7 +178,7 @@ public struct WeightQuestionView: View {
                         defaultValue: defaultValue,
                         minimumValue: minimumValue,
                         maximumValue: maximumValue,
-                        selection: selection,
+                        selection: resolvedResult,
                         hasChanges: $hasChanges
                     )
                     .frame(width: 300)
