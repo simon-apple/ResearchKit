@@ -36,7 +36,7 @@ enum AnswerFormat {
     case date(Date)
     case weight((Double, Double))
     case height(Double)
-    case image([Int])
+    case image([ImageChoice])
     case multipleChoice([MultipleChoiceOption])
 }
 

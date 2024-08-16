@@ -28,13 +28,21 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Foundation
+
 public struct MultipleChoiceOption: Identifiable {
     public var id: String
     var choiceText: String
+    var value: NSCopying & NSSecureCoding & NSObjectProtocol
 
-    public init(id: String, choiceText: String) {
+    public init(
+        id: String,
+        choiceText: String,
+        value: NSCopying & NSSecureCoding & NSObjectProtocol
+    ) {
         self.id = id
         self.choiceText = choiceText
+        self.value = value
     }
 }
 

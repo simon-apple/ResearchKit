@@ -70,7 +70,8 @@ public class RKAdapter {
                 answerOptions.append(
                     MultipleChoiceOption(
                         id: UUID().uuidString,
-                        choiceText: textChoice.text
+                        choiceText: textChoice.text,
+                        value: textChoice.value
                     )
                 )
             }
@@ -115,7 +116,8 @@ public class RKAdapter {
             let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
                 MultipleChoiceOption(
                     id: UUID().uuidString,
-                    choiceText: textChoice.text
+                    choiceText: textChoice.text,
+                    value: textChoice.value
                 )
             }
             guard var defaultOption = answerOptions.first else {
@@ -300,12 +302,12 @@ public class RKAdapter {
             )
         case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
             let choices = imageChoiceAnswerFormat.imageChoices.map { choice in
-                let value = (choice.value as? NSNumber) as! Int
                 return ImageChoice(
                     id: UUID(),
                     normalImage: choice.normalStateImage,
                     selectedImage: choice.selectedStateImage,
-                    text: choice.text!, value: value
+                    text: choice.text!,
+                    value: choice.value
                 )
             }
 
@@ -373,7 +375,8 @@ public class RKAdapter {
                                     choices: textChoiceAnswerFormat.textChoices.map { textChoice in
                                         MultipleChoiceOption(
                                             id: UUID().uuidString,
-                                            choiceText: textChoice.text
+                                            choiceText: textChoice.text,
+                                            value: textChoice.value
                                         )
                                     },
                                     selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
@@ -409,7 +412,8 @@ public class RKAdapter {
                                 let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
                                     MultipleChoiceOption(
                                         id: UUID().uuidString,
-                                        choiceText: textChoice.text
+                                        choiceText: textChoice.text,
+                                        value: textChoice.value
                                     )
                                 }
                                 
@@ -573,12 +577,12 @@ public class RKAdapter {
                                 )
                             case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
                                 let choices = imageChoiceAnswerFormat.imageChoices.map { choice in
-                                    let value = (choice.value as? NSNumber) as! Int
                                     return ImageChoice(
                                         id: UUID(),
                                         normalImage: choice.normalStateImage,
                                         selectedImage: choice.selectedStateImage,
-                                        text: choice.text!, value: value
+                                        text: choice.text!,
+                                        value: choice.value
                                     )
                                 }
 
@@ -773,13 +777,15 @@ public class RKAdapter {
             case .image(let image):
                 let result = ORKChoiceQuestionResult(identifier: entry.key)
                 result.questionType = .multipleChoice
-                result.answer = [image] as any NSCopying & NSSecureCoding & NSObjectProtocol
+                let values = image.compactMap { $0.value }
+                result.answer = values as any NSCopying & NSSecureCoding & NSObjectProtocol
                 resultsArray.append(result)
 
             case .multipleChoice(let multipleChoice):
                 let result = ORKChoiceQuestionResult(identifier: entry.key)
                 result.questionType = .multipleChoice
-                result.answer = [multipleChoice] as any NSCopying & NSSecureCoding & NSObjectProtocol
+                let values = multipleChoice.compactMap { $0.value }
+                result.answer = values as any NSCopying & NSSecureCoding & NSObjectProtocol
                 resultsArray.append(result)
             }
         }
