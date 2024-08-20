@@ -227,6 +227,9 @@ struct WeightPickerView: View {
     @State var selectionOne: Double
     @State var selectionTwo: Double
 
+    private static let defaultValueInKilograms: Double = 68.0
+    private static let defaultValueInPounds: Double = 150.0
+
     var lowerValue: Double {
         guard let minimumValue else { return 0 }
         return minimumValue
@@ -321,9 +324,9 @@ struct WeightPickerView: View {
                 }
             } else {
                 if measurementSystem == .USC {
-                    return 150
+                    return Self.defaultValueInPounds
                 } else {
-                    return 68
+                    return Self.defaultValueInKilograms
                 }
             }
         }()
