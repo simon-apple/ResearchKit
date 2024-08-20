@@ -108,7 +108,7 @@ struct StepHeaderView: View {
 }
 
 // StepHeaderView and HeaderView can potentially be merged in the future.
-struct HeaderView: View {
+public struct HeaderView: View {
     
     private let image: Image?
     private let title: Text?
@@ -120,7 +120,7 @@ struct HeaderView: View {
         self.subtitle = subtitle
     }
     
-    var body: some View {
+    public var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             image?
                 .resizable()
