@@ -1,23 +1,22 @@
-# Conditional tasks and forms
+# Conditional Logic in ResearchKit
 
-Use conditional logic for ResearchKit steps and forms.
+How to use conditional logic for ResearchKit steps and forms.
 
-## Overview
+## Understanding Conditional Logic
 
-When presenting a survey or task, conditionally show specific content based on the participants responses. ResearchKit provides two solutions for conditional logic.
+When presenting a survey or task, conditionally show specific content based on the participant's responses. ResearchKit provides two solutions for conditional logic.
 
 - **Step Navigation rules**: Conditionally navigate to a specific step based on the participant's response.
 - **Form Item Visibility rules** - Conditionally hide or show specific form questions based on results from the same form, or a form within another step.
 
 
 
-### Step Navigation rules
-
-To conditionally navigate to, or skip specific steps during, an `ORKTask`, review the following classes.
+### Navigating Steps Conditionally
+To conditionally navigate to, or skip specific steps during an `ORKTask`, review the following classes.
 
 - `ORKResultSelector` - A class that identifies a result within a set of task results.
-- `ORKResultPredicate` - Creates a predicate by accepting a `ORKResultSelector` and the expected result.
-- `ORKPredicateStepNavigationRule` - A object that determines what step to navigate to if a given `ORKResultPredicate` is true.
+- `ORKResultPredicate` - Creates a predicate by accepting an `ORKResultSelector` and the expected result.
+- `ORKPredicateStepNavigationRule` - A class that determines what step to navigate to if a given `ORKResultPredicate` is true.
 - `ORKNavigableOrderedTask` - A subclass of the `ORKOrderedTask` that can accept one or more `ORKPredicateStepNavigationRule` objects and applies the expected conditional navigation.
 
 
@@ -25,9 +24,9 @@ The task for this example includes the steps seen below.
 
 TODO: ADD IMAGES
 
-The conditional logic is based on answering Yes or No for the first question (Do you like Apples?):
+The conditional logic is based on answering `Yes` or `No` for the first question (Do you like Apples?):
 
-- **Answering yes**: navigate to the second screen to select your favorite apple.
+- **Answering yes**: navigates to the second screen to select your favorite apple.
 - **Answering no**: skips the second screen and navigates directly to the completion step.
 
 ```swift
@@ -59,21 +58,21 @@ navigableTask.setNavigationRule(navigationRule, forTriggerStepIdentifier: formSt
 
 Selecting yes:
 
-@Video(source: "conditional-tasks-and-forms-step-yes")
+@Video(source: "conditional-logic-in-researchKit-step-yes")
 
 Selecting no:
 
-@Video(source: "conditional-tasks-and-forms-step-no")
+@Video(source: "conditional-logic-in-researchKit-step-no")
 
-### Form Item Visibility rules
+### Managing Form Item Visibility
 
 To conditionally hide or show a question based on results from questions within the same form, familiarize yourself with the following classes.
 
 - `ORKResultSelector` - Same as the section above.
 - `ORKResultPredicate` - Same as the section above.
-- `ORKPredicateFormItemVisibilityRule` - A object that determines if the formItem it's attached to is hidden or visible if a given `ORKResultPredicate` is true.
+- `ORKPredicateFormItemVisibilityRule` - A class that determines if the formItem it's attached to is hidden or visible if a given `ORKResultPredicate` is true.
 
-Following the previous example, use the same questions a before, but now with both residing on the same page.
+Following the previous example, use the same questions as before, but now with both residing on the same page.
 
 
 - **Answering yes**: makes the apple choice question visible.
@@ -111,4 +110,4 @@ appleChoiceFormItem.visibilityRule = visibilityRule
 
 Selecting yes & no:
 
-@Video(source: "conditional-tasks-and-forms-formItem-yes-no")
+@Video(source: "conditional-logic-in-researchKit-formItem-yes-no")

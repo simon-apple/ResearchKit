@@ -55,8 +55,8 @@
 		8C7C54282B4F67E200A2E513 /* Springboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54272B4F67E200A2E513 /* Springboard.swift */; };
 		8C7C542A2B4F680B00A2E513 /* RequestPermissionsStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */; };
 		8C89CD592BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */; };
-		8CC4876B2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */; };
 		8CBA19C72BE14AF3000E7205 /* LocaleDependentBaseUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBA19C62BE14AF3000E7205 /* LocaleDependentBaseUITest.swift */; };
+		8CC4876B2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */; };
 		8CCB03732B86AA8A00096C86 /* UITestLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCB03722B86AA8A00096C86 /* UITestLogger.swift */; };
 		8CECC5EB2B978265002266B9 /* OnboardingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */; };
 		8CECC5ED2B978683002266B9 /* InstructionStepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EC2B978683002266B9 /* InstructionStepUITests.swift */; };
@@ -270,8 +270,8 @@
 		8C7C54272B4F67E200A2E513 /* Springboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Springboard.swift; sourceTree = "<group>"; };
 		8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPermissionsStepScreen.swift; sourceTree = "<group>"; };
 		8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsResultsUITests.swift; sourceTree = "<group>"; };
-		8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsHealthKitIntegrationUITests.swift; sourceTree = "<group>"; };
 		8CBA19C62BE14AF3000E7205 /* LocaleDependentBaseUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocaleDependentBaseUITest.swift; sourceTree = "<group>"; };
+		8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsHealthKitIntegrationUITests.swift; sourceTree = "<group>"; };
 		8CCB03722B86AA8A00096C86 /* UITestLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestLogger.swift; sourceTree = "<group>"; };
 		8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingUITests.swift; sourceTree = "<group>"; };
 		8CECC5EC2B978683002266B9 /* InstructionStepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionStepUITests.swift; sourceTree = "<group>"; };
@@ -1956,7 +1956,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ORKCatalog/Supporting Files/ORKCatalog.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
