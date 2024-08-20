@@ -168,8 +168,7 @@ public struct WeightQuestionView: View {
                 .buttonStyle(.bordered)
                 .buttonBorderShape(.roundedRectangle)
 #if os(watchOS)
-                .sheet(isPresented: $isInputActive)
-                {
+                .navigationDestination(isPresented: $isInputActive) {
                     WeightPickerView(
                         measurementSystem: measurementSystem,
                         precision: precision,
@@ -179,8 +178,6 @@ public struct WeightQuestionView: View {
                         selection: resolvedResult,
                         hasChanges: $hasChanges
                     )
-                    .frame(width: 300)
-                    .presentationCompactAdaptation((.popover))
                 }
 #else
                 .popover(
@@ -309,7 +306,7 @@ struct WeightPickerView: View {
                         .tag(i)
                 }
             } label: {
-                Text("Tap Here")
+                Text(primaryUnit)
             }
             .pickerStyle(.wheel)
             .onChange(of: selection.0) { _, _ in
@@ -323,7 +320,7 @@ struct WeightPickerView: View {
                             .tag(i)
                     }
                 } label: {
-                    Text("Tap Here")
+                    Text(secondaryUnit)
                 }
                 .pickerStyle(.wheel)
                 .onChange(of: selection.1) { _, _ in
@@ -407,15 +404,17 @@ struct WeightPickerView: View {
 @available(iOS 18.0, *)
 #Preview {
     @Previewable @State var selection: (Double, Double) = (133, 0)
-    WeightQuestionView(
-        id: UUID().uuidString,
-        title: "Weight question here",
-        detail: nil,
-        measurementSystem: .USC,
-        precision: .high,
-        defaultValue: 150,
-        minimumValue: 0,
-        maximumValue: 1430,
-        selection: $selection
-    )
+    NavigationStack {
+        WeightQuestionView(
+            id: UUID().uuidString,
+            title: "Weight question here",
+            detail: nil,
+            measurementSystem: .USC,
+            precision: .high,
+            defaultValue: 150,
+            minimumValue: 0,
+            maximumValue: 1430,
+            selection: $selection
+        )
+    }
 }
