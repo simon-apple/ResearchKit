@@ -174,27 +174,24 @@ struct NavigationalLayout: View {
     var body: some View {
         NavigationStack(path: $stepIdentifiers) {
             if let firstStep = steps.first {
-                ResearchTaskStepContentView(isLastStep: steps.firstIndex(where: { $0.id == firstStep.id }) == steps.count - 1) { completion in
+                ResearchTaskStepContentView(isLastStep: isLastStep(for: firstStep)) { completion in
                     switch completion {
                     case .failed, .discarded, .terminated:
                         dismiss()
                     case .completed(let result):
                         onResearchTaskCompletion?(completion)
                     case .saved(let result):
-                        if let currentStepIndex = steps.firstIndex(where: { $0.id == firstStep.id }) {
-                            let nextStepIndex = currentStepIndex + 1
-                            if nextStepIndex < steps.count {
-                                stepIdentifiers.append(steps[nextStepIndex].id)
-                            }
+                        if let currentStepIndex = index(for: firstStep) {
+                            moveToNextStep(relativeToCurrentIndex: currentStepIndex)
                         }
                     }
                 } content: {
                     firstStep
                 }
                 .navigationTitle("1 of \(steps.count)")
-                .navigationDestination(for: Subview.ID.self) { path in
+                .navigationDestination(for: Subview.ID.self) { subviewID in
                     ResearchTaskStepContentView(
-                        isLastStep: steps.firstIndex(where: { $0.id == path }) == steps.count - 1) { completion in
+                        isLastStep: isLastStep(for: subviewID)) { completion in
                             switch completion {
                             case .failed, .discarded, .terminated:
                                 dismiss()
@@ -202,33 +199,49 @@ struct NavigationalLayout: View {
                                 onResearchTaskCompletion?(completion)
                                 dismiss()
                             case .saved(let result):
-                                if let currentStepIndex = steps.firstIndex(where: { $0.id == path }) {
-                                    let nextStepIndex = currentStepIndex + 1
-                                    if nextStepIndex < steps.count {
-                                        stepIdentifiers.append(steps[nextStepIndex].id)
-                                    }
+                                if let currentStepIndex = index(for: subviewID) {
+                                    moveToNextStep(relativeToCurrentIndex: currentStepIndex)
                                 }
                             }
                         } content: {
-                            if let currentStepIndex = steps.firstIndex(where: { $0.id == path }) {
+                            if let currentStepIndex = index(for: subviewID) {
                                 steps[currentStepIndex]
                             }
                         }
-                        .navigationTitle(navigationTitle(atPath: path))
+                        .navigationTitle(navigationTitle(for: subviewID))
                 }
             }
         }
     }
     
-    private func index(forPath path: Subview.ID) -> Int? {
-        steps.firstIndex { step in
-            step.id == path
+    private func moveToNextStep(relativeToCurrentIndex currentIndex: Int) {
+        let nextStepIndex = currentIndex + 1
+        if nextStepIndex < steps.count {
+            stepIdentifiers.append(steps[nextStepIndex].id)
         }
     }
     
-    private func navigationTitle(atPath path: Subview.ID) -> String {
+    private func isLastStep(for subview: Subview) -> Bool {
+        isLastStep(for: subview.id)
+    }
+    
+    private func isLastStep(for id: Subview.ID) -> Bool {
+        steps.firstIndex(where: { $0.id == id }) == steps.count - 1
+    }
+    
+    private func index(for subview: Subview) -> Int? {
+        index(for: subview.id)
+    }
+    
+    private func index(for id: Subview.ID) -> Int? {
+        steps.firstIndex { step in
+            step.id == id
+        }
+    }
+    
+    private func navigationTitle(for id: Subview.ID) -> String {
         let navigationTitle: String
-        if let index = index(forPath: path) {
+        if let index = index(for: id) {
             navigationTitle = "\(index + 1) of \(steps.count)"
         } else {
             navigationTitle = ""
