@@ -110,7 +110,8 @@ public class RKAdapter {
                     value: continuousScaleAnswerFormat.defaultValue
                 )
             )
-
+            
+#if !os(watchOS)
         case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
             let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
                 MultipleChoiceOption(
@@ -124,7 +125,7 @@ public class RKAdapter {
             if answerOptions.indices.contains(textChoiceScaleAnswerFormat.defaultIndex) {
                 defaultOption = answerOptions[textChoiceScaleAnswerFormat.defaultIndex]
             }
-
+            
             return FormRow.textSliderStep(
                 ScaleSliderQuestion(
                     id: identifier,
@@ -133,6 +134,7 @@ public class RKAdapter {
                     selectedMultipleChoiceOption: defaultOption
                 )
             )
+#endif
         case let textAnswerFormat as ORKTextAnswerFormat:
             return FormRow.textRow(
                 TextQuestion(
