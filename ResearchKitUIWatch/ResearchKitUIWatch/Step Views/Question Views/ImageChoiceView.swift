@@ -30,22 +30,33 @@
 
 import SwiftUI
 
-public struct ImageChoice: Identifiable {
+public typealias ResultValue = NSCopying & NSSecureCoding & NSObjectProtocol
+
+public struct ImageChoice: Identifiable, Equatable {
     public let id: UUID
     public let normalImage: UIImage
     public let selectedImage: UIImage?
     public let text: String
-    public let value: Int
-    
-    public init(id: UUID, normalImage: UIImage, selectedImage: UIImage?, text: String, value: Int) {
+    public let value: ResultValue
+
+    public init(
+        id: UUID,
+        normalImage: UIImage,
+        selectedImage: UIImage?,
+        text: String,
+        value: ResultValue
+    ) {
         self.id = id
         self.normalImage = normalImage
         self.selectedImage = selectedImage
         self.text = text
         self.value = value
     }
-}
 
+    public static func == (lhs: ImageChoice, rhs: ImageChoice) -> Bool {
+        return lhs.id == rhs.id && lhs.text == rhs.text
+    }
+}
 public struct ImageChoiceQuestion: Identifiable {
     public enum ChoiceSelectionType {
         case single, multiple
@@ -56,7 +67,7 @@ public struct ImageChoiceQuestion: Identifiable {
     public let choices: [ImageChoice]
     public let style: ChoiceSelectionType
     public let vertical: Bool
-    public let selections: [Int]
+    public let selections: [ImageChoice]
 }
 
 public struct ImageChoiceView: View {
@@ -69,9 +80,9 @@ public struct ImageChoiceView: View {
     let choices: [ImageChoice]
     let style: ImageChoiceQuestion.ChoiceSelectionType
     let vertical: Bool
-    private let result: StateManagementType<[Int]>
+    private let result: StateManagementType<[ImageChoice]>
 
-    private var resolvedResult: Binding<[Int]> {
+    private var resolvedResult: Binding<[ImageChoice]> {
         switch result {
         case .automatic(let key):
             return Binding(
@@ -90,7 +101,7 @@ public struct ImageChoiceView: View {
         choices: [ImageChoice],
         style: ImageChoiceQuestion.ChoiceSelectionType,
         vertical: Bool,
-        result: Binding<[Int]>
+        result: Binding<[ImageChoice]>
     ) {
         self.id = id
         self.title = title
@@ -157,8 +168,8 @@ public struct ImageChoiceView: View {
         } else {
             let strings: [String] = {
                 var strings: [String] = []
-                for i in resolvedResult.wrappedValue.sorted() {
-                    if let choice = choices.first(where: { $0.value == i }) {
+                for i in resolvedResult.wrappedValue {
+                    if let choice = choices.first(where: { $0.id == i.id }) {
                         strings.append(choice.text)
                     }
                 }
@@ -174,13 +185,13 @@ public struct ImageChoiceView: View {
     func imageChoices() -> some View {
         ForEach(choices, id: \.id) { choice in
             Button {
-                if let index = resolvedResult.wrappedValue.firstIndex(where: { $0 == choice.value }) {
+                if let index = resolvedResult.wrappedValue.firstIndex(where: { $0.id == choice.id }) {
                     resolvedResult.wrappedValue.remove(at: index)
                 } else {
-                    resolvedResult.wrappedValue.append(choice.value)
+                    resolvedResult.wrappedValue.append(choice)
                 }
             } label: {
-                if resolvedResult.wrappedValue.contains(choice.value) {
+                if resolvedResult.wrappedValue.contains(choice) {
                     Image(uiImage: choice.selectedImage ?? choice.normalImage)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -198,7 +209,7 @@ public struct ImageChoiceView: View {
 }
 
 #Preview {
-    @Previewable @State var selection: [Int] = []
+    @Previewable @State var selection: [ImageChoice] = []
     ImageChoiceView(
         id: UUID().uuidString,
         title: "Which do you prefer?",
@@ -209,14 +220,14 @@ public struct ImageChoiceView: View {
                 normalImage: UIImage(named: "carrot")!,
                 selectedImage: nil,
                 text: "carrot",
-                value: 0
+                value: 0 as NSNumber
             ),
             ImageChoice(
                 id: UUID(),
                 normalImage: UIImage(systemName: "cake")!,
                 selectedImage: nil,
                 text: "cake",
-                value: 1
+                value: 1 as NSNumber
             ),
         ],
         style: .single,

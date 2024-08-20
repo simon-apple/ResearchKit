@@ -44,7 +44,7 @@ public struct WeightQuestion: Identifiable {
     public let defaultValue: Double?
     public let minimumValue: Double?
     public let maximumValue: Double?
-    public let selection: (Double?, Double?)
+    public let selection: Double?
 
     public init(
         id: String,
@@ -55,7 +55,7 @@ public struct WeightQuestion: Identifiable {
         defaultValue: Double? = nil,
         minimumValue: Double? = nil,
         maximumValue: Double? = nil,
-        selection: (Double?, Double?)
+        selection: Double?
     ) {
         self.id = id
         self.title = title
@@ -80,28 +80,6 @@ public struct WeightQuestion: Identifiable {
             }
         case .metric:
             return true
-        }
-    }
-
-    public var number: NSNumber {
-        let poundToKgMultiplier = 0.45
-        let ozToKgMultiplier = 0.028
-        switch precision {
-        case .default, .low:
-            if usesMetricSystem {
-                return NSNumber(floatLiteral: selection.0 ?? 0)
-            } else {
-                let kilograms = (selection.0 ?? 0) * poundToKgMultiplier
-                return NSNumber(floatLiteral: kilograms)
-            }
-        case .high:
-            if usesMetricSystem == false {
-                let kilograms = (Double(selection.0 ?? 0) * poundToKgMultiplier) + (Double(selection.1 ?? 0) * ozToKgMultiplier)
-                return NSNumber(floatLiteral: kilograms)
-            } else {
-                let combinedKilograms = (selection.0 ?? 0) + Double(selection.1 ?? 0)
-                return NSNumber(floatLiteral: combinedKilograms)
-            }
         }
     }
 }

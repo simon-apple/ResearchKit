@@ -28,6 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import math_h
 
 func convertCentimetersToFeetAndInches(_ centimeters: Double) -> (feet: Int, inches: Int) {
     var feet = 0
@@ -37,4 +38,28 @@ func convertCentimetersToFeetAndInches(_ centimeters: Double) -> (feet: Int, inc
     feet = inches / 12
     inches = inches % 12
     return (feet, inches)
+}
+
+func convertKilogramsToPoundsAndOunces(_ kilograms: Double) -> (pounds: Double, ounces: Double) {
+    let poundPerKilogram = 2.20462262
+    let fractionalPounds = kilograms * poundPerKilogram
+    var pounds = floor(fractionalPounds)
+    var ounces = round((fractionalPounds - pounds) * 16)
+    if ounces == 16 {
+        pounds += 1
+        ounces = 0
+    }
+    return (pounds, ounces)
+}
+
+func convertPoundsAndOuncesToKilograms(pounds: Double, ounces: Double) -> Double {
+    let kilogramsPerPound = 0.45359237
+    let kg = (pounds + (ounces / 16)) * kilogramsPerPound
+    return round(kg * 100) / 100
+}
+
+func convertKilogramsToWholeAndFraction(_ kilograms: Double) -> (whole: Double, fraction: Double) {
+    let whole = floor(kilograms)
+    let fraction = round((kilograms - floor(kilograms)) * 100)
+    return (whole, fraction)
 }
