@@ -60,7 +60,6 @@ public struct ResearchTask<Content: View>: View {
 
 public struct ResearchTaskStep<Header: View, Content: View>: View {
     
-    private let id = UUID()
     private let header: Header
     private let content: Content
     
@@ -80,10 +79,6 @@ public struct ResearchTaskStep<Header: View, Content: View>: View {
 #if os(iOS)
         .frame(maxWidth: .infinity, alignment: .leading)
 #endif
-    }
-    
-    var identifier: String {
-        id.uuidString
     }
     
 }
