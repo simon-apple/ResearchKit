@@ -37,7 +37,7 @@ public struct DateQuestion: Identifiable {
     public var pickerPrompt: String
     public var displayedComponents: DatePicker.Components
     public var range: ClosedRange<Date>
-
+    
     public init(
         id: String,
         title: String,
@@ -59,6 +59,11 @@ public struct DateTimeView<Header: View>: View {
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
 
+    @State
+    private var showDatePickerModal = false
+    
+    @State
+    private var showTimePickerModal = false
     let id: String
     let header: Header
     let pickerPrompt: String
@@ -114,19 +119,64 @@ public struct DateTimeView<Header: View>: View {
         FormItemCardView {
             header
         } content: {
+#if os(watchOS)
+            VStack {
+                if displayedComponents.contains(.date) {
+                    Button {
+                        showDatePickerModal.toggle()
+                    } label: {
+                        Text(resolvedResult.wrappedValue, format: .dateTime.day().month().year())
+                    }
+                }
+                
+                if displayedComponents.contains(.hourMinuteAndSecond) {
+                    Button {
+                        showTimePickerModal.toggle()
+                    } label: {
+                        Text(resolvedResult.wrappedValue, format: .dateTime.hour().minute().second())
+                    }
+                } else if displayedComponents.contains(.hourAndMinute){
+                    Button {
+                        showTimePickerModal.toggle()
+                    } label: {
+                        Text(resolvedResult.wrappedValue, format: .dateTime.hour().minute())
+                    }
+                }
+            }
+            .buttonBorderShape(.roundedRectangle)
+            .buttonStyle(.bordered)
+            .padding()
+            .navigationDestination(isPresented: $showDatePickerModal) {
+                watchDatePicker(displayedComponents: .date)
+            }
+            .navigationDestination(isPresented: $showTimePickerModal) {
+                watchDatePicker(displayedComponents: displayedComponents.contains(.hourMinuteAndSecond) ? .hourMinuteAndSecond : .hourAndMinute)
+            }
+#else
             DatePicker(
                 pickerPrompt,
                 selection: resolvedResult,
                 in: range,
                 displayedComponents: displayedComponents
             )
-#if os(watchOS)
-            .datePickerStyle(.automatic)
-#else
             .datePickerStyle(.compact)
-#endif
             .foregroundStyle(.primary)
             .padding()
+#endif
+        }
+    }
+    
+    @ViewBuilder
+    private func watchDatePicker(displayedComponents: DatePicker.Components) -> some View {
+        VStack(alignment: .leading) {
+            header
+            DatePicker(
+                pickerPrompt,
+                selection: resolvedResult,
+                in: range,
+                displayedComponents: displayedComponents
+            )
+            .padding(.horizontal)
         }
     }
 }
@@ -169,17 +219,52 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
     
 }
 
-struct DateTimeView_Previews: PreviewProvider {
-    static var previews: some View {
-        ZStack {
-            Color.choice(for: .secondaryBackground)
-                .ignoresSafeArea()
+#Preview("Date Only") {
+    @Previewable @State var date: Date = Date()
+    NavigationStack {
+        ScrollView {
             DateTimeView(
                 id: UUID().uuidString,
-                title: "What is your age",
-                detail: nil,
-                selection: .constant(Date()),
-                pickerPrompt: "Select Date and Time",
+                title: "What is your birthday?",
+                detail: "Question 1 of 4",
+                selection: $date,
+                pickerPrompt: "Select Date",
+                displayedComponents: [.date],
+                range: Date.distantPast...Date.distantFuture
+            )
+            .padding(.horizontal)
+        }
+    }
+}
+
+#Preview("Time Only") {
+    @Previewable @State var date: Date = Date()
+    NavigationStack {
+        ScrollView {
+            DateTimeView(
+                id: UUID().uuidString,
+                title: "What time is it?",
+                detail: "Question 2 of 4",
+                selection: $date,
+                pickerPrompt: "Select Time",
+                displayedComponents: [.hourAndMinute],
+                range: Date.distantPast...Date.distantFuture
+            )
+            .padding(.horizontal)
+        }
+    }
+}
+
+#Preview("Time and Date") {
+    @Previewable @State var date: Date = Date()
+    NavigationStack {
+        ScrollView {
+            DateTimeView(
+                id: UUID().uuidString,
+                title: "What is the time and date?",
+                detail: "Question 2 of 4",
+                selection: $date,
+                pickerPrompt: "Select Time and Date",
                 displayedComponents: [.date, .hourAndMinute],
                 range: Date.distantPast...Date.distantFuture
             )
@@ -187,3 +272,4 @@ struct DateTimeView_Previews: PreviewProvider {
         }
     }
 }
+
