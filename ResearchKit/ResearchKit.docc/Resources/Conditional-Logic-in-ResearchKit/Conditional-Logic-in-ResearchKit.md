@@ -22,7 +22,9 @@ To conditionally navigate to, or skip specific steps during an `ORKTask`, review
 
 The task for this example includes the steps seen below.
 
-TODO: ADD IMAGES
+![Step 1](conditional-logic-in-researchKit-step1)
+![Step 2](conditional-logic-in-researchKit-step2)
+![Step 3](conditional-logic-in-researchKit-step3)
 
 The conditional logic is based on answering `Yes` or `No` for the first question (Do you like Apples?):
 
