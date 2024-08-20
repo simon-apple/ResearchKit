@@ -54,8 +54,8 @@ public struct StepResultKey<Result> {
         return StepResultKey<(Double)>(id: id)
     }
 
-    public static func weight(id: String) -> StepResultKey<(Double, Double)> {
-        return StepResultKey<(Double, Double)>(id: id)
+    public static func weight(id: String) -> StepResultKey<Double> {
+        return StepResultKey<Double>(id: id)
     }
 
     public static func date(id: String) -> StepResultKey<Date> {

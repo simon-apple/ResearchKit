@@ -257,9 +257,7 @@ public struct FormRowContent: View {
                 maximumValue: weightQuestion.maximumValue,
                 selection: .init(
                     get: {
-                        let firstValue = weightQuestion.selection.0 ?? 0
-                        let secondValue = weightQuestion.selection.1 ?? 0
-                        return (firstValue, secondValue)
+                        return weightQuestion.selection ?? 0
                     },
                     set: { newValue in
                         formRow = .weightRow(

@@ -33,12 +33,12 @@ import Foundation
 public struct MultipleChoiceOption: Identifiable {
     public var id: String
     var choiceText: String
-    var value: NSCopying & NSSecureCoding & NSObjectProtocol
+    var value: ResultValue
 
     public init(
         id: String,
         choiceText: String,
-        value: NSCopying & NSSecureCoding & NSObjectProtocol
+        value: ResultValue
     ) {
         self.id = id
         self.choiceText = choiceText

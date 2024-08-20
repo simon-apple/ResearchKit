@@ -297,7 +297,7 @@ public class RKAdapter {
                     defaultValue: defaultValue,
                     minimumValue: minimumValue,
                     maximumValue: maximumValue,
-                    selection: (defaultValue, 0)
+                    selection: defaultValue
                 )
             )
         case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
@@ -768,24 +768,22 @@ public class RKAdapter {
                 result.questionType = .height
                 result.numericAnswer = NSNumber(floatLiteral: height)
                 resultsArray.append(result)
-
-            // TODO: rdar://133877315 (Update weight question to store single value instead of tuple)
             case .weight(let weight):
                 let result = ORKNumericQuestionResult(identifier: entry.key)
                 result.questionType = .weight
+                result.numericAnswer = NSNumber(floatLiteral: weight)
                 resultsArray.append(result)
             case .image(let image):
                 let result = ORKChoiceQuestionResult(identifier: entry.key)
                 result.questionType = .multipleChoice
                 let values = image.compactMap { $0.value }
-                result.answer = values as any NSCopying & NSSecureCoding & NSObjectProtocol
+                result.answer = values as any ResultValue
                 resultsArray.append(result)
-
             case .multipleChoice(let multipleChoice):
                 let result = ORKChoiceQuestionResult(identifier: entry.key)
                 result.questionType = .multipleChoice
                 let values = multipleChoice.compactMap { $0.value }
-                result.answer = values as any NSCopying & NSSecureCoding & NSObjectProtocol
+                result.answer = values as any ResultValue
                 resultsArray.append(result)
             }
         }

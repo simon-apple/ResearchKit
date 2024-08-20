@@ -34,7 +34,7 @@ enum AnswerFormat {
     case text(String)
     case numeric(Double?)
     case date(Date)
-    case weight((Double, Double))
+    case weight(Double)
     case height(Double)
     case image([ImageChoice])
     case multipleChoice([MultipleChoiceOption])

@@ -115,7 +115,7 @@ class FormStepViewModel: ObservableObject {
                 resultArray.append(result)
             case .weightRow(let weightQuestionRow):
                 let result = ORKNumericQuestionResult(identifier: weightQuestionRow.id)
-                result.numericAnswer = weightQuestionRow.number
+                result.numericAnswer = weightQuestionRow.selection as NSNumber? ?? 0
                 resultArray.append(result)
             case .imageRow(let imageQuestionRow):
                 let result = ORKTextQuestionResult(identifier: imageQuestionRow.id)

@@ -36,6 +36,8 @@ public struct WeightQuestionView: View {
     @State var isInputActive = false
     @State var hasChanges: Bool
 
+    private let defaultWeightInKilograms = 68.039
+
     let id: String
     let title: String
     let detail: String?
@@ -44,13 +46,13 @@ public struct WeightQuestionView: View {
     let defaultValue: Double?
     let minimumValue: Double?
     let maximumValue: Double?
-    let result: StateManagementType<(Double, Double)>
+    let result: StateManagementType<Double>
 
-    private var resolvedResult: Binding<(Double, Double)> {
+    private var resolvedResult: Binding<Double> {
         switch result {
         case let .automatic(key: key):
             return Binding(
-                get: { managedTaskResult.resultForStep(key: key) ?? (defaultValue ?? 0, 0) },
+                get: { managedTaskResult.resultForStep(key: key) ?? (defaultValue ?? defaultWeightInKilograms) },
                 set: { managedTaskResult.setResultForStep(.weight($0), key: key) }
             )
         case let .manual(value):
@@ -105,7 +107,7 @@ public struct WeightQuestionView: View {
         defaultValue: Double?,
         minimumValue: Double?,
         maximumValue: Double?,
-        selection: Binding<(Double, Double)>
+        selection: Binding<Double>
     ) {
         self.id = id
         self.hasChanges = false
@@ -136,20 +138,22 @@ public struct WeightQuestionView: View {
     }
 
     var selectionString: String {
+        let (pounds, ounces) = convertKilogramsToPoundsAndOunces(resolvedResult.wrappedValue)
         if measurementSystem == .USC {
             switch precision {
             case .default, .low:
-                return "\(Int(resolvedResult.wrappedValue.0)) lb"
+                return "\(Int(pounds)) lb"
             case .high:
-                return "\(Int(resolvedResult.wrappedValue.0)) lb \(Int(resolvedResult.wrappedValue.1)) oz"
+                return "\(Int(pounds)) lb \(Int(ounces)) oz"
             }
         } else {
-            switch precision {
-            case .default, .low:
-                return "\(resolvedResult.wrappedValue.0) kg"
-            case .high:
-                return "\(resolvedResult.wrappedValue.0 + resolvedResult.wrappedValue.1) kg"
+            if resolvedResult.wrappedValue == defaultWeightInKilograms {
+                // 68.039 isn't exactly the prettiest value, but it maps
+                // nice to 150 pounds, so if the user sticks with the default
+                // we'll round to the nearest result which in our case would be 60kg.
+                return "\(resolvedResult.wrappedValue.rounded()) kg"
             }
+            return "\(resolvedResult.wrappedValue) kg"
         }
     }
 
@@ -216,10 +220,12 @@ struct WeightPickerView: View {
     let minimumValue: Double?
     let maximumValue: Double?
 
-    @Binding var selection: (Double, Double)
+    @Binding var selection: Double
     @Binding var hasChanges: Bool
 
     @State var highPrecisionSelection: Int = 0
+    @State var selectionOne: Double
+    @State var selectionTwo: Double
 
     var lowerValue: Double {
         guard let minimumValue else { return 0 }
@@ -240,14 +246,6 @@ struct WeightPickerView: View {
                 }
             }
             return maximumValue
-        }
-    }
-
-    var secondaryUpperValue: Double {
-        if measurementSystem == .USC {
-            return 15
-        } else {
-            return 0.99
         }
     }
 
@@ -280,10 +278,6 @@ struct WeightPickerView: View {
         }
     }
 
-    var secondaryUnit: String {
-        return "oz"
-    }
-
     var primaryRange: [Double] {
         var range:[Double] = []
         for i in stride(from: lowerValue, through: upperValue, by: primaryStep) {
@@ -293,17 +287,54 @@ struct WeightPickerView: View {
     }
 
     var secondaryRange: [Double] {
+        let upperValue = measurementSystem == .USC ? 15 : 0.99
         var range: [Double] = []
-        for i in stride(from: lowerValue, through: secondaryUpperValue, by: secondaryStep) {
+        for i in stride(from: lowerValue, through: upperValue, by: secondaryStep) {
             range.append(i)
         }
         return range
     }
 
+    init(
+        measurementSystem: MeasurementSystem = .metric,
+        precision: NumericPrecision = .default,
+        defaultValue: Double? = nil,
+        minimumValue: Double? = nil,
+        maximumValue: Double? = nil,
+        selection: Binding<Double>,
+        hasChanges: Binding<Bool>
+    ) {
+        self.measurementSystem = measurementSystem
+        self.precision = precision
+        self.defaultValue = defaultValue
+        self.minimumValue = minimumValue
+        self.maximumValue = maximumValue
+        self._selection = selection
+        self._hasChanges = hasChanges
+
+        let selectionOneValue: Double = {
+            if let defaultValue {
+                if measurementSystem == .USC {
+                    return convertKilogramsToPoundsAndOunces(defaultValue).pounds
+                } else {
+                    return defaultValue
+                }
+            } else {
+                if measurementSystem == .USC {
+                    return 150
+                } else {
+                    return 68
+                }
+            }
+        }()
+        self.selectionOne = selectionOneValue
+        self.selectionTwo = 0
+    }
+
     var body: some View {
         HStack(spacing: .zero) {
 
-            Picker(selection: $selection.0) {
+            Picker(selection: $selectionOne) {
                 ForEach(primaryRange, id: \.self) { i in
                     Text(primaryPickerString(for: i))
                         .tag(i)
@@ -312,12 +343,13 @@ struct WeightPickerView: View {
                 Text("Tap Here")
             }
             .pickerStyle(.wheel)
-            .onChange(of: selection.0) { _, _ in
+            .onChange(of: selectionOne) { _, _ in
+                selection = standardizedWeight((selectionOne, selectionTwo))
                 hasChanges = true
             }
 
             if precision == .high {
-                Picker(selection: $selection.1) {
+                Picker(selection: $selectionTwo) {
                     ForEach(secondaryRange, id: \.self) { i in
                         Text(secondaryPickerString(for: i))
                             .tag(i)
@@ -326,7 +358,8 @@ struct WeightPickerView: View {
                     Text("Tap Here")
                 }
                 .pickerStyle(.wheel)
-                .onChange(of: selection.1) { _, _ in
+                .onChange(of: selectionTwo) { _, _ in
+                    selection = standardizedWeight((selectionOne, selectionTwo))
                     hasChanges = true
                 }
             }
@@ -398,15 +431,28 @@ struct WeightPickerView: View {
             return false
         }()
 
-        let finalString = includeUnit ? "\(string) \(secondaryUnit)" : string
+        let finalString = includeUnit ? "\(string) oz" : string
         return finalString
+    }
+
+    private func standardizedWeight(_ weight: (Double, Double)) -> Double {
+        if measurementSystem == .USC {
+            return convertPoundsAndOuncesToKilograms(pounds: weight.0, ounces: weight.1)
+        } else {
+            switch precision {
+            case .low, .default:
+                return weight.0
+            case .high:
+                return weight.0 + weight.1
+            }
+        }
     }
 }
 
 
 @available(iOS 18.0, *)
 #Preview {
-    @Previewable @State var selection: (Double, Double) = (133, 0)
+    @Previewable @State var selection: Double = 133
     WeightQuestionView(
         id: UUID().uuidString,
         title: "Weight question here",
