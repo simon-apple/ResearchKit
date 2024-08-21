@@ -193,6 +193,7 @@ public struct FormRowContent: View {
                 displayedComponents: dateQuestion.displayedComponents,
                 range: dateQuestion.range
             )
+#if !os(watchOS)
         case .numericRow(let numericQuestion):
             NumericQuestionView(
                 id: numericQuestion.id,
@@ -222,6 +223,7 @@ public struct FormRowContent: View {
                 detail: detail,
                 prompt: numericQuestion.prompt
             )
+#endif
         case .heightRow(let heightQuestion):
             HeightQuestionView(
                 id: heightQuestion.id,

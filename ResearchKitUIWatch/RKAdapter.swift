@@ -196,6 +196,8 @@ public class RKAdapter {
                     range: startDate...endDate
                 )
             )
+            
+#if !os(watchOS)
         case let numericAnswerFormat as ORKNumericAnswerFormat:
             return FormRow.numericRow(
                 NumericQuestion(
@@ -206,6 +208,7 @@ public class RKAdapter {
                     number: numericAnswerFormat.defaultNumericAnswer
                 )
             )
+#endif
         case let heightAnswerFormat as ORKHeightAnswerFormat:
             let measurementSystem: MeasurementSystem = {
                 switch heightAnswerFormat.measurementSystem {
@@ -482,6 +485,7 @@ public class RKAdapter {
                                     displayedComponents: components,
                                     range: startDate...endDate
                                 )
+#if !os(watchOS)
                             case let numericAnswerFormat as ORKNumericAnswerFormat:
                                 NumericQuestionView(
                                     id: formItem.identifier,
@@ -489,6 +493,7 @@ public class RKAdapter {
                                     title: formItem.text ?? "",
                                     prompt: numericAnswerFormat.placeholder ?? "Tap to answer"
                                 )
+#endif
                             case let heightAnswerFormat as ORKHeightAnswerFormat:
                                 let measurementSystem: MeasurementSystem = {
                                     switch heightAnswerFormat.measurementSystem {
