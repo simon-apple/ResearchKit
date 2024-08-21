@@ -28,50 +28,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import SwiftUI
+import Testing
 
-enum AnswerFormat {
-    case text(String)
-    case numeric(Double?)
-    case date(Date)
-    case weight(Double)
-    case height(Double)
-    case image([ImageChoice])
-    case multipleChoice([MultipleChoiceOption])
-}
+struct ResearchKitSwiftUITests {
 
-public final class ResearchTaskResult: ObservableObject {
-
-    // This initializer is to remain internal so that 3rd party developers can't insert into the environment.
-    init() {}
-
-    @Published
-    var stepResults: [String: AnswerFormat] = [:]
-
-    func resultForStep<Result>(key: StepResultKey<Result>) -> Result? {
-        let answerFormat = stepResults[key.id]
-        switch answerFormat {
-        case .text(let string):
-            return string as? Result
-        case .numeric(let decimal):
-            return decimal as? Result
-        case .date(let date):
-            return date as? Result
-        case .height(let height):
-            return height as? Result
-        case .weight(let weight):
-            return weight as? Result
-        case .image(let image):
-            return image as? Result
-        case .multipleChoice(let multipleChoice):
-            return multipleChoice as? Result
-        default:
-            return nil
-        }
+    @Test func example() async throws {
+        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
     }
 
-    func setResultForStep<Result>(_ format: AnswerFormat, key: StepResultKey<Result>) {
-        stepResults[key.id] = format
-    }
 }
-

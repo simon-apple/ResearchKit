@@ -143,12 +143,12 @@ struct MultipleChoiceQuestionView_Previews: PreviewProvider {
                 id: UUID().uuidString,
                 title: "Which do you prefer?",
                 choices: [
-                    MultipleChoiceOption(id: "a", choiceText: "Option A"),
-                    MultipleChoiceOption(id: "b", choiceText: "Option B"),
-                    MultipleChoiceOption(id: "c", choiceText: "Option C")
+                    MultipleChoiceOption(id: "a", choiceText: "Option A", value: 0 as NSNumber),
+                    MultipleChoiceOption(id: "b", choiceText: "Option B", value: 1 as NSNumber),
+                    MultipleChoiceOption(id: "c", choiceText: "Option C", value: 2 as NSNumber)
             ],
                 selectionType: .multiple,
-                result: .constant([MultipleChoiceOption(id: "a", choiceText: "Option A")])
+                result: .constant([MultipleChoiceOption(id: "a", choiceText: "Option A", value: 0 as NSNumber)])
             )
             .padding(.horizontal)
         }

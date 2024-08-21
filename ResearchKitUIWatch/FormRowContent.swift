@@ -193,6 +193,7 @@ public struct FormRowContent: View {
                 displayedComponents: dateQuestion.displayedComponents,
                 range: dateQuestion.range
             )
+#if !os(watchOS)
         case .numericRow(let numericQuestion):
             NumericQuestionView(
                 id: numericQuestion.id,
@@ -222,6 +223,7 @@ public struct FormRowContent: View {
                 detail: detail,
                 prompt: numericQuestion.prompt
             )
+#endif
         case .heightRow(let heightQuestion):
             HeightQuestionView(
                 id: heightQuestion.id,
@@ -257,9 +259,7 @@ public struct FormRowContent: View {
                 maximumValue: weightQuestion.maximumValue,
                 selection: .init(
                     get: {
-                        let firstValue = weightQuestion.selection.0 ?? 0
-                        let secondValue = weightQuestion.selection.1 ?? 0
-                        return (firstValue, secondValue)
+                        return weightQuestion.selection ?? 0
                     },
                     set: { newValue in
                         formRow = .weightRow(
