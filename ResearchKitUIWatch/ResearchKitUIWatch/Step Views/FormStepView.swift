@@ -49,7 +49,41 @@ struct FormStepView: View {
         StickyScrollView(allowsExtendedLayout: true) {
             VStack(alignment: .leading) {
                 ListHeaderView {
-                    StepHeaderView(viewModel: viewModel)
+                    let image: Image? = {
+                        let image: Image?
+                        if let uiImage = viewModel.step.image {
+                            image = Image(uiImage: uiImage)
+                        } else {
+                            image = nil
+                        }
+                        return image
+                    }()
+                    
+                    let title: Text? = {
+                        let title: Text?
+                        if let stepTitle = viewModel.step.title {
+                            title = Text(stepTitle)
+                        } else {
+                            title = nil
+                        }
+                        return title
+                    }()
+                    
+                    let subtitle: Text? = {
+                        let subtitle: Text?
+                        if let subtitleTitle = viewModel.step.text {
+                            subtitle = Text(subtitleTitle)
+                        } else {
+                            subtitle = nil
+                        }
+                        return subtitle
+                    }()
+                    
+                    StepHeaderView(
+                        image: image,
+                        title: title,
+                        subtitle: subtitle
+                    )
                 }
                 ForEach(Array($viewModel.formRows.enumerated()), id: \.offset) { index, $formRow in
                     FormRowContent(
@@ -59,11 +93,6 @@ struct FormStepView: View {
                 }
             }
             .padding()
-    #if os(visionOS)
-            .navigationTitle(
-                Text(viewModel.step.title ?? "")
-            )
-    #endif
         } footerContent: {
             Button {
                 completion(true)

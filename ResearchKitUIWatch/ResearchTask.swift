@@ -96,7 +96,7 @@ public extension ResearchTaskStep where Header == EmptyView {
     
 }
 
-public extension ResearchTaskStep where Header == HeaderView, Content == EmptyView {
+public extension ResearchTaskStep where Header == StepHeaderView, Content == EmptyView {
     
     init(
         image: Image? = nil,
@@ -115,7 +115,7 @@ public extension ResearchTaskStep where Header == HeaderView, Content == EmptyVi
     
 }
 
-public extension ResearchTaskStep where Header == HeaderView {
+public extension ResearchTaskStep where Header == StepHeaderView {
     
     init(
         image: Image? = nil,
@@ -139,7 +139,7 @@ public extension ResearchTaskStep where Header == HeaderView {
         
         self.init(
             header: {
-                HeaderView(
+                StepHeaderView(
                     image: image,
                     title: titleText,
                     subtitle: subtitleText
