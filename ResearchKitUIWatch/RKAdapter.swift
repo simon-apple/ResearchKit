@@ -791,3 +791,19 @@ public class RKAdapter {
         return resultsArray
     }
 }
+
+#if DEBUG
+extension RKAdapter {
+    public static func test_extractUUID(_ string: String) -> String? {
+        Self.extractUUID(string)
+    }
+
+    public static func test_hasMatchingIdentifiers(firstIdentifier: String, secondIdentifier: String) -> Bool {
+        Self.hasMatchingIdentifiers(firstIdentifier: firstIdentifier, secondIdentifier: secondIdentifier)
+    }
+
+    public static func test_groupItems(_ items: [ORKFormItem]) -> [ORKFormItem] {
+        Self.groupItems(items)
+    }
+}
+#endif
