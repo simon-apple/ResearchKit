@@ -30,7 +30,7 @@
 
 import SwiftUI
 
-public struct ResearchTask<Content: View>: View {
+public struct ResearchForm<Content: View>: View {
     
     private let taskKey: StepResultKey<String>
     private let steps: Content
