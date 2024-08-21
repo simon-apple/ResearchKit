@@ -86,6 +86,9 @@ struct FormStepView: View {
                         subtitle: subtitle
                     )
                 }
+                .padding(.top, 15)
+                .padding(.bottom, 35)
+                
                 ForEach(Array($viewModel.formRows.enumerated()), id: \.offset) { index, $formRow in
                     FormRowContent(
                         detail: "Step \(index + 1) of \(viewModel.formRows.count)",
