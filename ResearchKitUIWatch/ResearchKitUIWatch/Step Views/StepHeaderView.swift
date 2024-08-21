@@ -108,7 +108,7 @@ struct StepHeaderView: View {
 }
 
 // StepHeaderView and HeaderView can potentially be merged in the future.
-struct HeaderView: View {
+public struct HeaderView: View {
     
     private let image: Image?
     private let title: Text?
@@ -120,13 +120,35 @@ struct HeaderView: View {
         self.subtitle = subtitle
     }
     
-    var body: some View {
+    public var body: some View {
+#if os(watchOS)
+        compactBody()
+#else
+        defaultBody()
+#endif
+    }
+    
+    @ViewBuilder
+    private func compactBody() -> some View {
+        VStack(alignment: .leading) {
+            HStack(alignment: .center) {
+                icon(size: 20)
+                
+                title?
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            
+            subtitle
+                .font(.body)
+        }
+    }
+    
+    @ViewBuilder
+    private func defaultBody() -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            image?
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 80, height: 80)
-                .foregroundStyle(.stepIconForegroundStyle)
+            icon(size: 80)
             
             title?
                 .font(.title)
@@ -136,4 +158,20 @@ struct HeaderView: View {
         }
     }
     
+    @ViewBuilder
+    private func icon(size: CGFloat) -> some View {
+        image?
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: size, height: size)
+            .foregroundStyle(.stepIconForegroundStyle)
+    }
+}
+
+#Preview {
+    HeaderView(
+        image: Image(systemName: "hand.wave"),
+        title: Text("Welcome"),
+        subtitle: Text("Hello")
+    )
 }

@@ -39,11 +39,13 @@ public enum FormRow: Identifiable {
     case textSliderStep(ScaleSliderQuestion<MultipleChoiceOption>)
     case textRow(TextQuestion)
     case dateRow(DateQuestion)
-    case numericRow(NumericQuestion)
     case heightRow(HeightQuestion)
     case weightRow(WeightQuestion)
     case imageRow(ImageChoiceQuestion)
 
+    @available(watchOS, unavailable)
+    case numericRow(NumericQuestion)
+    
     public var id: String {
         switch self {
         case .multipleChoiceRow(let multipleChoiceValue):

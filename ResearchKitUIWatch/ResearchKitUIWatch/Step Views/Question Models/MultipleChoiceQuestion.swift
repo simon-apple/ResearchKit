@@ -28,13 +28,21 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Foundation
+
 public struct MultipleChoiceOption: Identifiable {
     public var id: String
     var choiceText: String
+    var value: ResultValue
 
-    public init(id: String, choiceText: String) {
+    public init(
+        id: String,
+        choiceText: String,
+        value: ResultValue
+    ) {
         self.id = id
         self.choiceText = choiceText
+        self.value = value
     }
 }
 

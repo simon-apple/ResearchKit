@@ -30,174 +30,45 @@
 
 import SwiftUI
 
-public struct ResearchTask: View {
+public struct ResearchTask<Content: View>: View {
+    
     private let taskKey: StepResultKey<String>
-    @Environment(\.dismiss) var dismiss
-    private let steps: [ResearchTaskStep]
+    private let steps: Content
     @State private var stepIdentifiers: [String] = []
     
     var onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)?
-
+    
     public init(
         taskIdentifier: String,
-        @ResearchTaskBuilder steps: () -> [ResearchTaskStep],
+        @ViewBuilder steps: () -> Content,
         onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)? = nil
     ) {
         self.taskKey = .text(id: taskIdentifier)
         self.steps = steps()
         self.onResearchTaskCompletion = onResearchTaskCompletion
     }
-
+    
     public var body: some View {
-        NavigationStack(path: $stepIdentifiers) {
-            if let firstStep = steps.first {
-                ResearchTaskStepContentView(isLastStep: isLastStep(for: firstStep)) { completion in
-                    switch completion {
-                    case .failed, .discarded, .terminated:
-                        dismiss()
-                    case .completed(let result):
-                        onResearchTaskCompletion?(completion)
-                    case .saved(let result):
-                        moveToStep(after: firstStep)
-                    }
-                } content: {
-                    firstStep
-                }
-                .navigationTitle("1 of \(steps.count)")
-                .navigationDestination(for: String.self) { path in
-                    ResearchTaskStepContentView(
-                        isLastStep: isLastStep(atPath: path)) { completion in
-                            switch completion {
-                            case .failed, .discarded, .terminated:
-                                dismiss()
-                            case .completed(let result):
-                                onResearchTaskCompletion?(completion)
-                                dismiss()
-                            case .saved(let result):
-                                moveToStep(afterPath: path)
-                            }
-                        } content: {
-                            step(atPath: path)
-                        }
-                        .navigationTitle(navigationTitle(atPath: path))
-                }
-            }
+        Group(subviews: steps) { steps in
+            NavigationalLayout(steps, onResearchTaskCompletion: onResearchTaskCompletion)
         }
-    }
-    
-    private func isLastStep(for step: ResearchTaskStep) -> Bool {
-        guard let stepIndex = index(for: step) else {
-            return false
-        }
-        return isLastStep(forIndex: stepIndex)
-    }
-    
-    private func isLastStep(forIndex index: Int) -> Bool {
-        steps.count - 1 == index
-    }
-    
-    private func isLastStep(atPath path: String) -> Bool {
-        guard let index = index(forPath: path) else {
-            return false
-        }
-        return isLastStep(forIndex: index)
-    }
-    
-    private func index(forPath path: String) -> Int? {
-        steps.firstIndex { step in
-            step.identifier == path
-        }
-    }
-    
-    private func moveToStep(after step: ResearchTaskStep) {
-        guard let nextStep = self.step(after: step) else {
-            return
-        }
-        stepIdentifiers.append(nextStep.identifier)
-    }
-    
-    private func step(after step: ResearchTaskStep) -> ResearchTaskStep? {
-        guard let stepIndex = index(for: step) else {
-            return nil
-        }
-        
-        let nextStepIndex = stepIndex + 1
-        
-        guard nextStepIndex < steps.count else {
-            return nil
-        }
-        
-        return steps[nextStepIndex]
-    }
-    
-    private func moveToStep(atIndex index: Int) {
-        if index < steps.count {
-            stepIdentifiers.append(steps[index].identifier)
-        }
-    }
-    
-    private func moveToStep(afterPath path: String) {
-        if let nextIdentifier = identifier(afterPath: path) {
-            stepIdentifiers.append(nextIdentifier)
-        }
-    }
-    
-    private func identifier(afterPath path: String) -> String? {
-        func step(afterPath path: String) -> ResearchTaskStep? {
-            guard let index = index(forPath: path) else {
-                return nil
-            }
-            
-            let nextIndex = index + 1
-            
-            let instructionStep: ResearchTaskStep?
-            if nextIndex == steps.count {
-                instructionStep = nil
-            } else {
-                instructionStep = steps[nextIndex]
-            }
-            return instructionStep
-        }
-        
-        return step(afterPath: path)?.identifier
-    }
-    
-    private func indexForStep(atPath path: String) -> Int? {
-        steps.firstIndex(where: { $0.identifier == path })
-    }
-    
-    private func index(for step: ResearchTaskStep) -> Int? {
-        steps.firstIndex(where: { $0.identifier == step.identifier })
-    }
-    
-    private func step(atPath path: String) -> ResearchTaskStep? {
-        steps.first(where: { $0.identifier == path })
-    }
-    
-    private func navigationTitle(atPath path: String) -> String {
-        let navigationTitle: String
-        if let index = index(forPath: path) {
-            navigationTitle = "\(index + 1) of \(steps.count)"
-        } else {
-            navigationTitle = ""
-        }
-        return navigationTitle
     }
     
 }
 
-public struct ResearchTaskStep: View {
+
+
+public struct ResearchTaskStep<Header: View, Content: View>: View {
     
-    private let id = UUID()
-    private let header: AnyView
-    private let content: AnyView
+    private let header: Header
+    private let content: Content
     
     public init(
-        @ViewBuilder header: () -> some View,
-        @ViewBuilder content: () -> some View
+        @ViewBuilder header: () -> Header,
+        @ViewBuilder content: () -> Content
     ) {
-        self.header = AnyView(header())
-        self.content = AnyView(content())
+        self.header = header()
+        self.content = content()
     }
     
     public var body: some View {
@@ -210,15 +81,11 @@ public struct ResearchTaskStep: View {
 #endif
     }
     
-    var identifier: String {
-        id.uuidString
-    }
-    
 }
 
-public extension ResearchTaskStep {
+public extension ResearchTaskStep where Header == EmptyView {
     
-    init(@ViewBuilder content: () -> some View) {
+    init(@ViewBuilder content: () -> Content) {
         self.init(
             header: {
                 EmptyView()
@@ -229,7 +96,7 @@ public extension ResearchTaskStep {
     
 }
 
-public extension ResearchTaskStep {
+public extension ResearchTaskStep where Header == HeaderView, Content == EmptyView {
     
     init(
         image: Image? = nil,
@@ -245,12 +112,16 @@ public extension ResearchTaskStep {
             }
         )
     }
+    
+}
 
+public extension ResearchTaskStep where Header == HeaderView {
+    
     init(
         image: Image? = nil,
         title: String? = nil,
         subtitle: String? = nil,
-        @ViewBuilder content: () -> some View
+        @ViewBuilder content: () -> Content
     ) {
         let titleText: Text?
         if let title, !title.isEmpty {
@@ -276,35 +147,6 @@ public extension ResearchTaskStep {
             },
             content: content
         )
-    }
-    
-}
-
-@resultBuilder
-public struct ResearchTaskBuilder {
-    
-    public static func buildBlock(_ components: ResearchTaskStep...) -> [ResearchTaskStep] {
-        components
-    }
-    
-    public static func buildBlock(_ components: [ResearchTaskStep]...) -> [ResearchTaskStep] {
-        components.flatMap { $0 }
-    }
-    
-    public static func buildEither(first component: [ResearchTaskStep]) -> [ResearchTaskStep] {
-        component
-    }
-    
-    public static func buildEither(second component: [ResearchTaskStep]) -> [ResearchTaskStep] {
-        component
-    }
-    
-    public static func buildArray(_ components: [[ResearchTaskStep]]) -> [ResearchTaskStep] {
-        components.flatMap { $0 }
-    }
-    
-    public static func buildOptional(_ component: [ResearchTaskStep]?) -> [ResearchTaskStep] {
-        component ?? []
     }
     
 }

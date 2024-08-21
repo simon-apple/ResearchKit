@@ -41,6 +41,16 @@ public struct InstructionBodyItem: View {
     }
     
     public var body: some View {
+#if os(watchOS)
+        VStack(alignment: .leading) {
+            image
+                .frame(width: 20, height: 20)
+                .foregroundStyle(.bodyItemIconForegroundStyle)
+            
+            text
+                .font(.subheadline)
+        }
+#else
         HStack {
             image
                 .frame(width: 40, height: 40)
@@ -49,6 +59,35 @@ public struct InstructionBodyItem: View {
             text
                 .font(.subheadline)
         }
+#endif
     }
-    
+}
+
+#Preview {
+    ScrollView {
+        ResearchTaskStep(
+            image: Image(systemName: "doc.text.magnifyingglass"),
+            title: "Before You Join join"
+        ) {
+            InstructionBodyItem(
+                image: Image(systemName: "heart.fill"),
+                text: Text("The study will ask you to share some of your Health data.")
+            )
+            
+            InstructionBodyItem(
+                image: Image(systemName: "checkmark.circle.fill"),
+                text: Text("You will be asked to complete various tasks over the duration of the study.")
+            )
+            
+            InstructionBodyItem(
+                image: Image(systemName: "signature"),
+                text: Text("Before joining, we will ask you to sign an informed consent document.")
+            )
+            
+            InstructionBodyItem(
+                image: Image(systemName: "lock.fill"),
+                text: Text("Your data is kept private and secure.")
+            )
+        }
+    }
 }
