@@ -353,15 +353,15 @@ public class RKAdapter {
         return formRows
     }
     
-    @ResearchTaskBuilder
-    static public func createSteps(for task: ORKOrderedTask) -> [ResearchTaskStep] {
-        for step in task.steps {
+    @ViewBuilder
+    static public func createSteps(for task: ORKOrderedTask) -> some View {
+        ForEach(task.steps, id: \.identifier) { step in
             researchTaskStep(for: step)
         }
     }
     
-    @ResearchTaskBuilder
-    static private func researchTaskStep(for step: ORKStep) -> [ResearchTaskStep] {
+    @ViewBuilder
+    static private func researchTaskStep(for step: ORKStep) -> some View {
         if let formStep = step as? ORKFormStep {
             ResearchTaskStep(title: formStep.title, subtitle: formStep.detailText) {
                 if let formItems = formStep.formItems {
