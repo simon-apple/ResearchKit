@@ -69,6 +69,11 @@ public struct StepHeaderView: View {
     
     @ViewBuilder
     private func defaultBody() -> some View {
+#if os(iOS)
+        Spacer()
+            .frame(height: 15)
+#endif
+        
         VStack(alignment: .leading, spacing: 16) {
             icon(size: 80)
             
@@ -78,6 +83,9 @@ public struct StepHeaderView: View {
             
             subtitle
         }
+        
+        Spacer()
+            .frame(height: 35)
     }
     
     @ViewBuilder
