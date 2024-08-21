@@ -266,6 +266,7 @@ enum Identifier {
     case speechRecognitionTask
     case speechInNoiseTask
     case stroopTask
+
     case timedWalkWithTurnAroundTask
     case toneAudiometryTask
     case dBHLToneAudiometryTask
@@ -320,6 +321,8 @@ enum Identifier {
     case settingStatusStepTask
     case studyPromoTask
     case studySignPostStep
+    case tableStep
+    case tableTask
     case familyHistoryReviewController
     case familyHistoryStep
     case familyHistoryTask

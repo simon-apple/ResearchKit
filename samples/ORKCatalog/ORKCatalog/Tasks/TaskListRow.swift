@@ -161,6 +161,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case booleanConditionalFormTask
     case readOnlyFormStepTask
     case readOnlyFamilyHistoryTask
+    case tableTask
     case textQuestionPIIScrubbing
     case textChoiceImageQuestionStepTask
     #endif
@@ -283,6 +284,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .settingStatusStepTask,
                     .studyPromoTask,
                     .studySignPostStep,
+                    .tableTask,
                     .textChoiceImageQuestionStepTask,
                     .textQuestionPIIScrubbing
                 ])]
@@ -576,6 +578,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .readOnlyFamilyHistoryTask:
             return NSLocalizedString("Read Only Family History Step Task", comment: "")
+            
+        case .tableTask:
+            return NSLocalizedString("Table Task", comment: "")
         
         case .textQuestionPIIScrubbing:
             return NSLocalizedString("Text Question PII Scrubbing", comment: "")
@@ -857,6 +862,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .readOnlyFamilyHistoryTask:
             return readonlyFamilyHistoryTask
+        
+        case .tableTask:
+            return tableTask
             
         case .textQuestionPIIScrubbing:
             return textQuestionPIIScrubbingTask
@@ -1576,6 +1584,23 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.pdfViewerTask), steps: [PDFViewerStep])
     }
     
+    /// This task presents the ORKTableStep
+    private var tableTask: ORKTask {
+
+        let tableStep = ORKTableStep(identifier: String(describing: Identifier.tableStep))
+        tableStep.title = NSLocalizedString("Table Step", comment: "")
+        tableStep.bulletType = .circle
+        tableStep.detailText = NSLocalizedString("Table Step Details", comment: "")
+        tableStep.text = NSLocalizedString("Table Step Text", comment: "")
+        tableStep.bottomPadding = 8
+        tableStep.items = [
+            NSString(string: "Option A"),
+            NSString(string: "Option B"),
+            NSString(string: "Option C")
+        ]
+        return ORKOrderedTask(identifier: String(describing: Identifier.tableTask), steps: [tableStep])
+    }
+    
     private var requestPermissionsTask: ORKTask {
 
         let notificationsPermissionType = ORKNotificationPermissionType(authorizationOptions: [.alert, .badge, .sound])
@@ -1615,6 +1640,8 @@ enum TaskListRow: Int, CustomStringConvertible {
             permissionTypes: permissionTypes)
 
         requestPermissionsStep.title = "Health Data Request"
+        requestPermissionsStep.detailText = "Some details here"
+        requestPermissionsStep.useExtendedPadding = false 
         requestPermissionsStep.text = "Please review the health data types below and enable sharing to contribute to the study."
 
         return ORKOrderedTask(identifier: String(describing: Identifier.requestPermissionsStep), steps: [requestPermissionsStep])
