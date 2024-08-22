@@ -23,7 +23,7 @@
 		380E14B22C3350D900085D2B /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380E14B12C3350D600085D2B /* Step.swift */; };
 		3815C0142C2081CE00A29CD3 /* DateTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3815C0132C2081CE00A29CD3 /* DateTimeView.swift */; };
 		381CAC082C34C62100FCE89A /* FormRowContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC072C34C61D00FCE89A /* FormRowContent.swift */; };
-		381CAC0A2C35E06500FCE89A /* ResearchTaskStepContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC092C35E05A00FCE89A /* ResearchTaskStepContentView.swift */; };
+		381CAC0A2C35E06500FCE89A /* ResearchFormStepContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC092C35E05A00FCE89A /* ResearchFormStepContentView.swift */; };
 		381CAC0C2C35F4CE00FCE89A /* ResearchTaskCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC0B2C35F4C300FCE89A /* ResearchTaskCompletion.swift */; };
 		381CAC102C3C759200FCE89A /* HeightQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC0F2C3C759200FCE89A /* HeightQuestionView.swift */; };
 		381E23F12C4097070095EBBB /* WeightQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381E23F02C4097040095EBBB /* WeightQuestion.swift */; };
@@ -122,7 +122,7 @@
 		380E14B12C3350D600085D2B /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		3815C0132C2081CE00A29CD3 /* DateTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeView.swift; sourceTree = "<group>"; };
 		381CAC072C34C61D00FCE89A /* FormRowContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormRowContent.swift; sourceTree = "<group>"; };
-		381CAC092C35E05A00FCE89A /* ResearchTaskStepContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchTaskStepContentView.swift; sourceTree = "<group>"; };
+		381CAC092C35E05A00FCE89A /* ResearchFormStepContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchFormStepContentView.swift; sourceTree = "<group>"; };
 		381CAC0B2C35F4C300FCE89A /* ResearchTaskCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchTaskCompletion.swift; sourceTree = "<group>"; };
 		381CAC0F2C3C759200FCE89A /* HeightQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightQuestionView.swift; sourceTree = "<group>"; };
 		381E23F02C4097040095EBBB /* WeightQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightQuestion.swift; sourceTree = "<group>"; };
@@ -254,7 +254,7 @@
 				381CAC0B2C35F4C300FCE89A /* ResearchTaskCompletion.swift */,
 				380E14AF2C3350A900085D2B /* ResearchTask.swift */,
 				5EAFC71B2C7549B9008560D7 /* NavigationalLayout.swift */,
-				381CAC092C35E05A00FCE89A /* ResearchTaskStepContentView.swift */,
+				381CAC092C35E05A00FCE89A /* ResearchFormStepContentView.swift */,
 				381CAC072C34C61D00FCE89A /* FormRowContent.swift */,
 				38CD26382C1B90F3000FDBB0 /* RKAdapter.swift */,
 				0B53DA5F2BD054EE00227126 /* Localized */,
@@ -525,7 +525,7 @@
 				381CAC102C3C759200FCE89A /* HeightQuestionView.swift in Sources */,
 				5EE5FD122C63DCDD004BBABF /* QuestionView.swift in Sources */,
 				0B72132D2B4F368600463E69 /* DefaultStepView.swift in Sources */,
-				381CAC0A2C35E06500FCE89A /* ResearchTaskStepContentView.swift in Sources */,
+				381CAC0A2C35E06500FCE89A /* ResearchFormStepContentView.swift in Sources */,
 				0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */,
 				5EE5FD312C6A8486004BBABF /* StateManagementType.swift in Sources */,
 				389694182C6E7622007BA17D /* Utilities.swift in Sources */,
