@@ -385,7 +385,7 @@ public class RKAdapter {
                                     selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
                                 )
                             case let scaleAnswerFormat as ORKScaleAnswerFormat:
-                                InputManagedScaleSliderQuestion(
+                                ScaleSliderQuestionView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     range: scaleAnswerFormat.minimum...scaleAnswerFormat.maximum,
@@ -404,7 +404,7 @@ public class RKAdapter {
                                     return stepSize
                                 }()
                                 
-                                InputManagedScaleSliderQuestion(
+                                ScaleSliderQuestionView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     range: continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum,
@@ -421,7 +421,7 @@ public class RKAdapter {
                                 }
                                 
                                 if answerOptions.indices.contains(textChoiceScaleAnswerFormat.defaultIndex) {
-                                    InputManagedScaleSliderQuestion(
+                                    ScaleSliderQuestionView(
                                         id: formItem.identifier,
                                         title: formItem.text ?? "",
                                         multipleChoiceOptions: answerOptions,
