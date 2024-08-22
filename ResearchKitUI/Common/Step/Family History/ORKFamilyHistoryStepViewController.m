@@ -951,6 +951,8 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
     }
     
     [self resultUpdated];
+    
+    [_tableContainer setNeedsLayout];
 }
 
 - (NSInteger)numberOfRowsForRelativeGroupInSection:(NSInteger)section {
