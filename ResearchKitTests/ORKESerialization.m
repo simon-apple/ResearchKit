@@ -1311,6 +1311,7 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                      PROPERTY(allowsSelection, NSNumber, NSObject, YES, nil, nil),
                      PROPERTY(bulletType, NSNumber, NSObject, YES, nil, nil),
                      PROPERTY(pinNavigationContainer, NSNumber, NSObject, YES, nil, nil),
+                     PROPERTY(bottomPadding, NSNumber, NSObject, YES, nil, nil)
                      }))),
            ENTRY(ORKTimedWalkStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {

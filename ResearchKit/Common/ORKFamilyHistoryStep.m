@@ -30,16 +30,12 @@
 
 #import "ORKFamilyHistoryStep.h"
 
+#import "ORKAnswerFormat_Internal.h"
+#import "ORKCollectionResult.h"
 #import "ORKConditionStepConfiguration.h"
-
-#import "ORKFamilyHistoryStepViewController.h"
+#import "ORKFormStep.h"
+#import "ORKHelpers_Internal.h"
 #import "ORKRelativeGroup.h"
-
-#import <ResearchKit/ORKAnswerFormat_Internal.h>
-#import <ResearchKit/ORKCollectionResult.h>
-
-#import <ResearchKit/ORKFormStep.h>
-#import <ResearchKit/ORKHelpers_Internal.h>
 
 
 @implementation ORKFamilyHistoryStep

@@ -30,13 +30,13 @@
 
 #import "ORKReadOnlyReviewViewController.h"
 
-#import "ORKFamilyHistoryStep.h"
 #import "ORKReviewCardSection.h"
 #import "ORKReviewCardTableHeaderView.h"
 #import "ORKReviewCardTableViewCell.h"
 #import "ORKReviewResultModel.h"
 
 #import <ResearchKit/ORKCollectionResult.h>
+#import <ResearchKit/ORKFamilyHistoryStep.h>
 #import <ResearchKit/ORKFormStep.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ORKOrderedTask.h>

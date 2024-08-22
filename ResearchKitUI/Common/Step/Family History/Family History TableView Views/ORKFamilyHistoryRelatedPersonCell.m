@@ -29,12 +29,10 @@
  */
 
 #import "ORKFamilyHistoryRelatedPersonCell.h"
-#import "ORKIUtils.h"
+
+#import "ORKAccessibilityFunctions.h"
 
 #import <ResearchKit/ORKHelpers_Internal.h>
-
-#import <ResearchKitUI/ORKAccessibilityFunctions.h>
-
 
 static const CGFloat BackgroundViewBottomPadding = 18.0;
 static const CGFloat CellLeftRightPadding = 12.0;
@@ -80,7 +78,7 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     ORKWeakTypeOf(self) weakSelf = self;
     // Edit Button
     UIImage *editImage = [UIImage systemImageNamed:@"pencil"];
-    UIAction *editMenuItem = [UIAction actionWithTitle:ORKILocalizedString(@"FAMILY_HISTORY_EDIT_ENTRY", @"")
+    UIAction *editMenuItem = [UIAction actionWithTitle:ORKLocalizedString(@"FAMILY_HISTORY_EDIT_ENTRY", @"")
                                                  image:editImage
                                             identifier:nil
                                                handler:^(__kindof UIAction * _Nonnull action) {
@@ -92,7 +90,7 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     
     // Delete Button
     UIImage *deleteImage = [UIImage systemImageNamed:@"trash.fill"];
-    UIAction *deleteMenuItem = [UIAction actionWithTitle:ORKILocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY", @"")
+    UIAction *deleteMenuItem = [UIAction actionWithTitle:ORKLocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY", @"")
                                                  image:deleteImage
                                             identifier:nil
                                                handler:^(__kindof UIAction * _Nonnull action) {
@@ -116,7 +114,7 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
                                                                    message:nil
                                                             preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *editAction = [UIAlertAction actionWithTitle:ORKILocalizedString(@"FAMILY_HISTORY_EDIT_ENTRY", @"")
+    UIAlertAction *editAction = [UIAlertAction actionWithTitle:ORKLocalizedString(@"FAMILY_HISTORY_EDIT_ENTRY", @"")
                                                          style:UIAlertActionStyleDefault
                                                        handler:^(UIAlertAction * _Nonnull action) {
         ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
@@ -125,7 +123,7 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
         }
     }];
     
-    UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:ORKILocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY", @"")
+    UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:ORKLocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY", @"")
                                                          style:UIAlertActionStyleDestructive
                                                        handler:^(UIAlertAction * _Nonnull action) {
         ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
@@ -134,7 +132,7 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
         }
     }];
     
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:ORKILocalizedString(@"BUTTON_CANCEL", @"")
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:ORKLocalizedString(@"BUTTON_CANCEL", @"")
                                                            style:UIAlertActionStyleCancel
                                                          handler:^(UIAlertAction * _Nonnull action) {
     }];
@@ -171,8 +169,8 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     _optionsButton.translatesAutoresizingMaskIntoConstraints = NO;
     _optionsButton.backgroundColor = [UIColor clearColor];
     _optionsButton.tintColor = [UIColor systemGrayColor];
-    _optionsButton.accessibilityLabel = ORKILocalizedString(@"AX_FAMILY_HISTORY_EDIT_BUTTON", nil);
-    _optionsButton.accessibilityHint = ORKILocalizedString(@"AX_FAMILY_HISTORY_EDIT_BUTTON", nil);
+    _optionsButton.accessibilityLabel = ORKLocalizedString(@"AX_FAMILY_HISTORY_EDIT_BUTTON", nil);
+    _optionsButton.accessibilityHint = ORKLocalizedString(@"AX_FAMILY_HISTORY_EDIT_BUTTON", nil);
     _optionsButton.accessibilityTraits = UIAccessibilityTraitButton;
     if (@available(iOS 14.0, *)) {
         _optionsButton.menu = [self optionsMenu];
@@ -193,7 +191,7 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     [_backgroundView addSubview:_dividerView];
     
     _conditionsLabel = [self _primaryLabel];
-    _conditionsLabel.text = ORKILocalizedString(@"FAMILY_HISTORY_CONDITIONS", @"");
+    _conditionsLabel.text = ORKLocalizedString(@"FAMILY_HISTORY_CONDITIONS", @"");
     [_backgroundView addSubview:_conditionsLabel];
     
     [self updateViewColors];

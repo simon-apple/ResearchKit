@@ -192,9 +192,6 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
             // Assign a directory to store `taskViewController` output.
             taskViewController.outputDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         }
-        
-        taskViewController.skipSaveResultsConfirmation = false
-        
         /*
          We present the task directly, but it is also possible to use segues.
          The task property of the task view controller can be set any time before
@@ -244,7 +241,7 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
          Passing `nil` for the `taskRunUUID` lets the task view controller
          generate an identifier for this run of the task.
          */
-        let taskViewController = ORKITaskViewController(task: task, taskRun: nil)
+        var taskViewController = ORKITaskViewController(task: task, taskRun: nil)
         
         // Make sure we receive events from `taskViewController`.
         taskViewController.delegate = self
@@ -252,6 +249,16 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         
         // Assign a directory to store `taskViewController` output.
         taskViewController.outputDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        
+        if let restorationData = restorationDataByTaskID[task.identifier] {
+            // we have data we can use to recreate the state of a previous taskViewController
+            taskViewController = ORKITaskViewController(task: task, restorationData: restorationData, delegate: self, error: nil)
+        } else {
+            // making a brand new taskViewController
+            taskViewController = ORKITaskViewController(task: task, ongoingResult: nil, defaultResultSource: nil, delegate: self)
+            // Assign a directory to store `taskViewController` output.
+            taskViewController.outputDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        }
         /*
          We present the task directly, but it is also possible to use segues.
          The task property of the task view controller can be set any time before

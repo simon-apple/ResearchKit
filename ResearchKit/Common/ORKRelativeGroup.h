@@ -28,55 +28,40 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKFamilyHistoryResult.h"
+#import <Foundation/Foundation.h>
 
-#import "ORKRelatedPerson.h"
-
-#import <ResearchKit/ORKResult_Private.h>
-#import <ResearchKit/ORKHelpers_Internal.h>
+#import <ResearchKit/ORKTypes.h>
 
 
-@implementation ORKFamilyHistoryResult
+@class ORKTaskResult;
+@class ORKFormStep;
 
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_OBJ(aCoder, relatedPersons);
-    ORK_ENCODE_OBJ(aCoder, displayedConditions);
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_OBJ_ARRAY(aDecoder, relatedPersons, ORKRelatedPerson);
-        ORK_DECODE_OBJ_ARRAY(aDecoder, displayedConditions, NSString);
-    }
-    return self;
-}
+ORK_CLASS_AVAILABLE
+@interface ORKRelativeGroup : NSObject
 
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    
-    __typeof(self) castObject = object;
-    return (isParentSame &&
-            ORKEqualObjects(self.relatedPersons, castObject.relatedPersons) &&
-            ORKEqualObjects(self.displayedConditions, castObject.displayedConditions));
-}
+- (instancetype)initWithIdentifier:(NSString *)identifier
+                              name:(NSString *)name
+                      sectionTitle:(NSString *)title
+                 sectionDetailText:(NSString *)detailText
+            identifierForCellTitle:(NSString *)identifierForCellTitle
+                        maxAllowed:(NSUInteger)maxAllowed
+                         formSteps:(NSArray<ORKFormStep *> *)formSteps
+             detailTextIdentifiers:(NSArray<NSString *> *)detailTextIdentifiers NS_DESIGNATED_INITIALIZER;
 
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKFamilyHistoryResult *result = [super copyWithZone:zone];
-
-    result->_relatedPersons = ORKArrayCopyObjects(_relatedPersons);
-    result->_displayedConditions = [_displayedConditions copy];
-
-    return result;
-}
-
-- (NSUInteger)hash {
-    return super.hash ^ self.relatedPersons.hash ^ self.displayedConditions.hash;
-}
+@property (nonatomic, readonly, copy) NSString *identifier;
+@property (nonatomic, readonly, copy) NSString *name;
+@property (nonatomic, readonly, copy) NSString *sectionTitle;
+@property (nonatomic, readonly, copy) NSString *sectionDetailText;
+@property (nonatomic, readonly, copy) NSString *identifierForCellTitle;
+@property (nonatomic, readonly) NSUInteger maxAllowed;
+@property (nonatomic, readonly, copy) NSArray<ORKFormStep *> *formSteps;
+@property (nonatomic, readonly, copy) NSArray<NSString *> *detailTextIdentifiers;
 
 @end
+
+NS_ASSUME_NONNULL_END

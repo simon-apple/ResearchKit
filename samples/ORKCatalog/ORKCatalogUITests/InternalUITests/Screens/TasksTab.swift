@@ -132,6 +132,7 @@ enum Task {
     case predefinedSelectableHeadphoneTask
     case ble
     case textQuestionPIIScrubbing
+    case textChoiceImageQuestionStepTask
     case methodOfAdjustmentdBHLToneAudiometryTask
     case newdBHLToneAudiometryTask
     case customStepTask
@@ -373,6 +374,9 @@ enum Task {
             
         case .textQuestionPIIScrubbing:
             return NSLocalizedString("Text Question PII Scrubbing", comment: "")
+            
+        case .textChoiceImageQuestionStepTask:
+            return NSLocalizedString("Text Choice & Image (QuestionStep)", comment: "")
             
         case .methodOfAdjustmentdBHLToneAudiometryTask:
             return NSLocalizedString("Method Of Adjustment Tone Audiometry", comment: "")

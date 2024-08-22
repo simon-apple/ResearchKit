@@ -28,38 +28,31 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 #import <ResearchKit/ORKTypes.h>
 
 @class ORKTaskResult;
-@class ORKFormStep;
+@class ORKHealthCondition;
+@class ORKFormItem;
 
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
-@interface ORKRelativeGroup : NSObject
+@interface ORKConditionStepConfiguration : NSObject <NSSecureCoding, NSCopying>
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithIdentifier:(NSString *)identifier
-                              name:(NSString *)name
-                      sectionTitle:(NSString *)title
-                 sectionDetailText:(NSString *)detailText
-            identifierForCellTitle:(NSString *)identifierForCellTitle
-                        maxAllowed:(NSUInteger)maxAllowed
-                         formSteps:(NSArray<ORKFormStep *> *)formSteps
-             detailTextIdentifiers:(NSArray<NSString *> *)detailTextIdentifiers NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithStepIdentifier:(NSString *)stepIdentifier
+          conditionsFormItemIdentifier:(NSString *)conditionsFormItemIdentifier
+                            conditions:(NSArray<ORKHealthCondition *> *)conditions
+                             formItems:(NSArray<ORKFormItem *> *)formItems NS_DESIGNATED_INITIALIZER;
 
-@property (nonatomic, readonly, copy) NSString *identifier;
-@property (nonatomic, readonly, copy) NSString *name;
-@property (nonatomic, readonly, copy) NSString *sectionTitle;
-@property (nonatomic, readonly, copy) NSString *sectionDetailText;
-@property (nonatomic, readonly, copy) NSString *identifierForCellTitle;
-@property (nonatomic, readonly) NSUInteger maxAllowed;
-@property (nonatomic, readonly, copy) NSArray<ORKFormStep *> *formSteps;
-@property (nonatomic, readonly, copy) NSArray<NSString *> *detailTextIdentifiers;
+@property (nonatomic, readonly, copy) NSString *stepIdentifier;
+@property (nonatomic, readonly, copy) NSString *conditionsFormItemIdentifier;
+@property (nonatomic, readonly, copy) NSArray<ORKHealthCondition *> *conditions;
+@property (nonatomic, copy) NSArray<ORKFormItem *> *formItems;
 
 @end
 
