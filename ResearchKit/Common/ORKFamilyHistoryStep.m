@@ -33,7 +33,6 @@
 #import "ORKAnswerFormat_Internal.h"
 #import "ORKCollectionResult.h"
 #import "ORKConditionStepConfiguration.h"
-#import "ORKFamilyHistoryStepViewController.h"
 #import "ORKFormStep.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKRelativeGroup.h"
