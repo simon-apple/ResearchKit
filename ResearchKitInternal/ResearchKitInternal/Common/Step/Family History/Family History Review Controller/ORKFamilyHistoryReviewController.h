@@ -28,24 +28,38 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import UIKit;
+#import <ResearchKitUI/ORKFamilyHistoryStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKRelativeGroup;
-@class ORKFamilyHistoryTableFooterView;
+@class ORKFamilyHistoryReviewController;
+@class ORKOrderedTask;
+@class ORKNavigableOrderedTask;
 
-@protocol ORKFamilyHistoryTableFooterViewDelegate <NSObject>
-
-- (void)ORKFamilyHistoryTableFooterView:(ORKFamilyHistoryTableFooterView *)footerView didSelectFooterForRelativeGroup:(NSString *)relativeGroup;
-
+@protocol ORKFamilyHistoryReviewControllerDelegate <NSObject>
+@required
+- (void)familyHistoryReviewController:(ORKFamilyHistoryReviewController *)familyHistoryReviewController didUpdateResult:(ORKTaskResult *)updatedResult source:(ORKTaskResult *)resultSource;
+- (void)familyHistoryReviewControllerDidSelectIncompleteCell:(ORKFamilyHistoryReviewController *)familyHistoryReviewController;
 @end
 
-@interface ORKFamilyHistoryTableFooterView: UIView
+ORK_CLASS_AVAILABLE
+@interface ORKFamilyHistoryReviewController : ORKFamilyHistoryStepViewController
 
-- (instancetype)initWithTitle:(NSString *)title relativeGroupIdentifier:(NSString *)relativeGroupIdentifier delegate:(id<ORKFamilyHistoryTableFooterViewDelegate>)delegate;
+- (instancetype)initWithTask:(ORKOrderedTask *)task
+                      result:(ORKTaskResult *)result
+                    delegate:(id<ORKFamilyHistoryReviewControllerDelegate>)delegate;
 
-- (void)setExpanded:(BOOL)isExpanded;
+- (instancetype)initWithTask:(ORKNavigableOrderedTask *)task
+                    delegate:(id<ORKFamilyHistoryReviewControllerDelegate>)delegate
+                 isCompleted:(BOOL)isCompleted
+              incompleteText:(NSString *)incompleteText;
+
+- (void)updateResultSource:(ORKTaskResult *)taskResult;
+- (void)setText:(NSString *)text;
+
+@property (nonatomic, weak) id<ORKFamilyHistoryReviewControllerDelegate> reviewDelegate;
+
+@property (nonatomic, nullable) NSString *reviewTitle;
 
 @end
 

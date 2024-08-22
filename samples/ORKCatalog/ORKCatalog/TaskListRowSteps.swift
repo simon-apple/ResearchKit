@@ -822,9 +822,8 @@ enum TaskListRowSteps {
         return completionStep
     }
     
-#if RK_APPLE_INTERNAL
-    // MARK: - Internal
-
+    // MARK: - ORKFamilyHistoryStep
+    
     static var familyHistoryStepExample: ORKFamilyHistoryStep {
         // create ORKHealthConditions
         
@@ -1002,6 +1001,9 @@ enum TaskListRowSteps {
         
         return familyHistoryStep
     }
+    
+#if RK_APPLE_INTERNAL
+    // MARK: - Internal
     
     static var readOnlyFormStepExample: ORKFormStep {
         let formStep = ORKFormStep(identifier: String(describing: Identifier.formStep))

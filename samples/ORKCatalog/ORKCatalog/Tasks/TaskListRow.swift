@@ -141,6 +141,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     case usdzModel
     case ageQuestion
     case colorChoiceQuestion
+    case familyHistory
     
     #if RK_APPLE_INTERNAL
     case platterUIQuestion
@@ -157,7 +158,6 @@ enum TaskListRow: Int, CustomStringConvertible {
     case studySignPostStep
     case familyHistoryReviewTask
     case longHeaderTask
-    case familyHistory
     case booleanConditionalFormTask
     case readOnlyFormStepTask
     case readOnlyFamilyHistoryTask
@@ -198,6 +198,7 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .dateTimeQuestion,
                     .dateQuestion,
                     .date3DayLimitQuestionTask,
+                    .familyHistory,
                     .heightQuestion,
                     .imageChoiceQuestion,
                     .numericQuestion,
@@ -269,7 +270,6 @@ enum TaskListRow: Int, CustomStringConvertible {
                     .ble,
                     .booleanConditionalFormTask,
                     .customStepTask,
-                    .familyHistory,
                     .familyHistoryReviewTask,
                     .longHeaderTask,
                     .methodOfAdjustmentdBHLToneAudiometryTask,
@@ -522,6 +522,9 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .colorChoiceQuestion:
             return NSLocalizedString("Color Choice Question", comment: "")
+        
+        case .familyHistory:
+            return NSLocalizedString("Family History Step", comment: "")
             
         #if RK_APPLE_INTERNAL
             
@@ -560,9 +563,6 @@ enum TaskListRow: Int, CustomStringConvertible {
             
         case .studySignPostStep:
             return NSLocalizedString("Study Sign Post Step", comment: "")
-            
-        case .familyHistory:
-            return NSLocalizedString("Family History Step", comment: "")
             
         case .familyHistoryReviewTask:
             return NSLocalizedString("Family History Review Controller", comment: "")
@@ -805,7 +805,10 @@ enum TaskListRow: Int, CustomStringConvertible {
             return ageQuestionTask
             
         case .colorChoiceQuestion:
-            return ColorChoiceQuestionTask
+            return colorChoiceQuestionTask
+            
+        case .familyHistory:
+            return familyHistoryTask
             
         #if RK_APPLE_INTERNAL
             
@@ -850,9 +853,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         case .longHeaderTask:
             return longHeaderTask
-            
-        case .familyHistory:
-            return familyHistoryTask
         
         case .booleanConditionalFormTask:
             return booleanConditionalFormTask
@@ -2116,7 +2116,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.ageQuestionTask), steps: [step, step2, step3, step4, completionStep])
     }
     
-    private var ColorChoiceQuestionTask: ORKTask {
+    private var colorChoiceQuestionTask: ORKTask {
         let colorChoiceOneText = NSLocalizedString("Choice 1", comment: "")
         let colorChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
         let colorChoiceThreeText = NSLocalizedString("Choice 3", comment: "")
@@ -2166,6 +2166,30 @@ enum TaskListRow: Int, CustomStringConvertible {
         formStepSwatchOnly.formItems = [formItemSwatchOnly]
         
         return ORKOrderedTask(identifier: String(describing: Identifier.colorChoiceQuestionTask), steps: [formStep, formStepSwatchOnly])
+    }
+    
+    private var familyHistoryTask: ORKTask {
+#if RK_APPLE_INTERNAL
+        if let path = Bundle.main.path(forResource: "family_history_task", ofType: "json", inDirectory: "TaskExamples") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+                let task = try ORKESerializer.object(fromJSONData: data) as? ORKNavigableOrderedTask
+                
+                if let task = task {
+                    return task
+                }
+            } catch {
+                print("error while decoding task")
+            }
+        }
+#endif
+        
+        let familyHistoryStep = TaskListRowSteps.familyHistoryStepExample
+        
+        let completionStep = ORKCompletionStep(identifier: "FamilyHistoryCompletionStep")
+        completionStep.title = "All Done"
+        
+        return ORKOrderedTask(identifier: String(describing: Identifier.familyHistoryStep), steps: [familyHistoryStep, completionStep])
     }
     
     #if RK_APPLE_INTERNAL
@@ -2470,28 +2494,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         
         
         return ORKOrderedTask(identifier: String(describing: Identifier.textQuestionPIIScrubbingTask), steps: [emailPIIScrubberFormStep, SSNPIIScrubberFormStep])
-    }
-     
-    private var familyHistoryTask: ORKTask {
-        if let path = Bundle.main.path(forResource: "family_history_task", ofType: "json", inDirectory: "TaskExamples") {
-            do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: path))
-                let task = try ORKESerializer.object(fromJSONData: data) as? ORKNavigableOrderedTask
-                
-                if let task = task {
-                    return task
-                }
-            } catch {
-                print("error while decoding task")
-            }
-        }
-        
-        let familyHistoryStep = TaskListRowSteps.familyHistoryStepExample
-        
-        let completionStep = ORKCompletionStep(identifier: "FamilyHistoryCompletionStep")
-        completionStep.title = "All Done"
-        
-        return ORKOrderedTask(identifier: String(describing: Identifier.familyHistoryStep), steps: [familyHistoryStep, completionStep])
     }
 
     //TODO: rdar://113873048 (Update internal FxH task to match ResearchApp bundle)

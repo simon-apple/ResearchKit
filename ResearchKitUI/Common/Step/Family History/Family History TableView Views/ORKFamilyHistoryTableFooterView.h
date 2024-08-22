@@ -28,38 +28,24 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitInternal/ORKFamilyHistoryStepViewController.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKFamilyHistoryReviewController;
-@class ORKOrderedTask;
-@class ORKNavigableOrderedTask;
+@class ORKRelativeGroup;
+@class ORKFamilyHistoryTableFooterView;
 
-@protocol ORKFamilyHistoryReviewControllerDelegate <NSObject>
-@required
-- (void)familyHistoryReviewController:(ORKFamilyHistoryReviewController *)familyHistoryReviewController didUpdateResult:(ORKTaskResult *)updatedResult source:(ORKTaskResult *)resultSource;
-- (void)familyHistoryReviewControllerDidSelectIncompleteCell:(ORKFamilyHistoryReviewController *)familyHistoryReviewController;
+@protocol ORKFamilyHistoryTableFooterViewDelegate <NSObject>
+
+- (void)ORKFamilyHistoryTableFooterView:(ORKFamilyHistoryTableFooterView *)footerView didSelectFooterForRelativeGroup:(NSString *)relativeGroup;
+
 @end
 
-ORK_CLASS_AVAILABLE
-@interface ORKFamilyHistoryReviewController : ORKFamilyHistoryStepViewController
+@interface ORKFamilyHistoryTableFooterView: UIView
 
-- (instancetype)initWithTask:(ORKOrderedTask *)task
-                      result:(ORKTaskResult *)result
-                    delegate:(id<ORKFamilyHistoryReviewControllerDelegate>)delegate;
+- (instancetype)initWithTitle:(NSString *)title relativeGroupIdentifier:(NSString *)relativeGroupIdentifier delegate:(id<ORKFamilyHistoryTableFooterViewDelegate>)delegate;
 
-- (instancetype)initWithTask:(ORKNavigableOrderedTask *)task
-                    delegate:(id<ORKFamilyHistoryReviewControllerDelegate>)delegate
-                 isCompleted:(BOOL)isCompleted
-              incompleteText:(NSString *)incompleteText;
-
-- (void)updateResultSource:(ORKTaskResult *)taskResult;
-- (void)setText:(NSString *)text;
-
-@property (nonatomic, weak) id<ORKFamilyHistoryReviewControllerDelegate> reviewDelegate;
-
-@property (nonatomic, nullable) NSString *reviewTitle;
+- (void)setExpanded:(BOOL)isExpanded;
 
 @end
 

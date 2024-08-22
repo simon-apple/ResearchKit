@@ -32,7 +32,6 @@
 #import <ResearchKitInternal/ORKAVJournalingStep.h>
 #import <ResearchKitInternal/ORKBLEScanPeripheralsStep.h>
 #import <ResearchKitInternal/ORKFaceDetectionStep.h>
-#import <ResearchKitInternal/ORKFamilyHistoryStepViewController_Private.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectStep.h>
 #import <ResearchKitInternal/ORKIHelpers_Internal.h>
 #import <ResearchKitInternal/ORKISpeechRecognitionStepViewController.h>

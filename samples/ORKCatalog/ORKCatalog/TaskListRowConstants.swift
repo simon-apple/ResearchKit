@@ -288,10 +288,9 @@ enum Identifier {
     case webViewTask
     case webViewStep
     
-    // 3DModelStep tasks
+    // 3DModelStep tasks.
     case usdzModelStep
     case usdzModelTask
-    
     
     // ORKColorChoice tasks.
     case colorChoiceQuestionTask
@@ -305,6 +304,10 @@ enum Identifier {
     case textQuestionPIIScrubbingTask
     case textQuestionPIIScrubbingEmailFormItem
     case textQuestionPIIScrubbingSSNFormItem
+    
+    // Family History tasks.
+    case familyHistoryStep
+    case familyHistoryTask
     
     #if RK_APPLE_INTERNAL
     case catalogAppVersionHistory
@@ -324,8 +327,6 @@ enum Identifier {
     case tableStep
     case tableTask
     case familyHistoryReviewController
-    case familyHistoryStep
-    case familyHistoryTask
     case readOnlyFormStepTask
     #endif
 }

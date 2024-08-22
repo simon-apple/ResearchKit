@@ -149,13 +149,6 @@
 
 @end
 
-@implementation ORKFamilyHistoryStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKFamilyHistoryStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
 
 @implementation ORKSettingStatusStep (ViewControllerProviding)
 

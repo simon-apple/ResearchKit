@@ -30,10 +30,10 @@
 
 #import "ORKRelativeGroup.h"
 
-#import <ResearchKit/ORKFormStep.h>
-#import <ResearchKit/ORKHelpers_Internal.h>
-#import <ResearchKit/ORKCollectionResult.h>
-#import <ResearchKit/ORKAnswerFormat_Private.h>
+#import "ORKAnswerFormat_Private.h"
+#import "ORKCollectionResult.h"
+#import "ORKFormStep.h"
+#import "ORKHelpers_Internal.h"
 
 
 @implementation ORKRelativeGroup
