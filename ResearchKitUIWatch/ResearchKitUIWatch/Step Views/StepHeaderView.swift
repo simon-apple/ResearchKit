@@ -30,85 +30,7 @@
 
 import SwiftUI
 
-struct StepHeaderView: View {
-    
-    private let stepTitleTopSpacing: CGFloat = 15
-    private let stepDescriptionTopSpacing: CGFloat = 15
-    private let bottomSpacing: CGFloat = 35
-    
-    @ObservedObject
-    private var viewModel: FormStepViewModel
-    
-    init(viewModel: FormStepViewModel) {
-        self.viewModel = viewModel
-    }
-    
-    var body: some View {
-        VStack(alignment: alignment) {
-#if os(iOS)
-            if let stepTitle = viewModel.step.title {
-                Spacer()
-                    .frame(height: stepTitleTopSpacing)
-                
-                Text(stepTitle)
-                    .foregroundStyle(Color(uiColor: .label))
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-            }
-#endif
-            
-            if let stepDescription = viewModel.step.text {
-                topSpacingForStepDescription()
-                
-                text(for: stepDescription)
-                
-                bottomSpacingForStepDescription()
-            }
-        }
-        .textCase(.none)
-    }
-    
-    @ViewBuilder
-    private func text(for stepDescription: String) -> some View {
-        Text(stepDescription)
-            .foregroundStyle(Color.choice(for: .label))
-            .font(.body)
-#if os(visionOS)
-            .fontWeight(.semibold)
-#endif
-    }
-    
-    @ViewBuilder
-    private func topSpacingForStepDescription() -> some View {
-#if os(visionOS) || os(watchOS)
-        EmptyView()
-#else
-        Spacer()
-            .frame(height: stepDescriptionTopSpacing)
-#endif
-    }
-    
-    @ViewBuilder
-    private func bottomSpacingForStepDescription() -> some View {
-#if os(watchOS)
-        EmptyView()
-#else
-        Spacer()
-            .frame(height: bottomSpacing)
-#endif
-    }
-    
-    private var alignment: HorizontalAlignment {
-#if os(visionOS)
-        .center
-#else
-        .leading
-#endif
-    }
-}
-
-// StepHeaderView and HeaderView can potentially be merged in the future.
-public struct HeaderView: View {
+public struct StepHeaderView: View {
     
     private let image: Image?
     private let title: Text?
@@ -169,7 +91,7 @@ public struct HeaderView: View {
 }
 
 #Preview {
-    HeaderView(
+    StepHeaderView(
         image: Image(systemName: "hand.wave"),
         title: Text("Welcome"),
         subtitle: Text("Hello")
