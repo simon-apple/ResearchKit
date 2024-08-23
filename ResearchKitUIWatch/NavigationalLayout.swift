@@ -48,7 +48,7 @@ struct NavigationalLayout: View {
     var body: some View {
         NavigationStack(path: $stepIdentifiers) {
             if let firstStep = steps.first {
-                ResearchTaskStepContentView(isLastStep: isLastStep(for: firstStep)) { completion in
+                ResearchFormStepContentView(isLastStep: isLastStep(for: firstStep)) { completion in
                     switch completion {
                     case .failed, .discarded, .terminated:
                         dismiss()
@@ -64,7 +64,7 @@ struct NavigationalLayout: View {
                 }
                 .navigationTitle("1 of \(steps.count)")
                 .navigationDestination(for: Subview.ID.self) { subviewID in
-                    ResearchTaskStepContentView(
+                    ResearchFormStepContentView(
                         isLastStep: isLastStep(for: subviewID)) { completion in
                             switch completion {
                             case .failed, .discarded, .terminated:

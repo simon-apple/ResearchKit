@@ -31,7 +31,7 @@
 
 import SwiftUI
 
-public struct ResearchTaskStepContentView<Content: View>: View {
+public struct ResearchFormStepContentView<Content: View>: View {
     @State
     private var managedTaskResult: ResearchTaskResult = ResearchTaskResult()
 
