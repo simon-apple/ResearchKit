@@ -34,7 +34,6 @@ public struct ResearchTask<Content: View>: View {
     
     private let taskKey: StepResultKey<String>
     private let steps: Content
-    @State private var stepIdentifiers: [String] = []
     
     var onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)?
     
