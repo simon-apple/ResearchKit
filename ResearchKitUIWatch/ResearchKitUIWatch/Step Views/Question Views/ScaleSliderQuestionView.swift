@@ -306,38 +306,36 @@ public struct ScaleSliderQuestionView: View {
 
     public var body: some View {
         FormItemCardView(title: title, detail: detail) {
-            VStack {
-                scaleView(selectionConfiguration: scaleSelectionConfiguration)
-                    .onChange(of: sliderUIValue) { oldValue, newValue in
-                        switch resolvedBinding.wrappedValue {
-                        case .double(let doubleBinding):
-                            doubleBinding.wrappedValue = newValue
-                        case .int(let intBinding):
-                            intBinding.wrappedValue = Int(newValue)
-                        case .textChoice(let textChoiceBinding):
+            scaleView(selectionConfiguration: scaleSelectionConfiguration)
+                .onChange(of: sliderUIValue) { oldValue, newValue in
+                    switch resolvedBinding.wrappedValue {
+                    case .double(let doubleBinding):
+                        doubleBinding.wrappedValue = newValue
+                    case .int(let intBinding):
+                        intBinding.wrappedValue = Int(newValue)
+                    case .textChoice(let textChoiceBinding):
+                        guard case let .textChoice(array) = scaleSelectionConfiguration else {
+                            return
+                        }
+                        let index = Int(newValue)
+                        textChoiceBinding.wrappedValue = array[index]
+                    }
+                }
+                .onChange(of: selection) { oldValue, newValue in
+                    switch newValue {
+                        case .textChoice(let binding):
                             guard case let .textChoice(array) = scaleSelectionConfiguration else {
                                 return
                             }
-                            let index = Int(newValue)
-                            textChoiceBinding.wrappedValue = array[index]
-                        }
+                            let selectedIndex = array.firstIndex(where: { $0.id == binding.wrappedValue.id }) ?? 0
+                            sliderUIValue = Double(selectedIndex)
+                        case .int(let binding):
+                            sliderUIValue = Double(binding.wrappedValue)
+                        case .double(let binding):
+                            sliderUIValue = binding.wrappedValue
                     }
-                    .onChange(of: selection) { oldValue, newValue in
-                        switch newValue {
-                            case .textChoice(let binding):
-                                guard case let .textChoice(array) = scaleSelectionConfiguration else {
-                                    return
-                                }
-                                let selectedIndex = array.firstIndex(where: { $0.id == binding.wrappedValue.id }) ?? 0
-                                sliderUIValue = Double(selectedIndex)
-                            case .int(let binding):
-                                sliderUIValue = Double(binding.wrappedValue)
-                            case .double(let binding):
-                                sliderUIValue = binding.wrappedValue
-                        }
-                    }
-                    .padding()
-            }
+                }
+                .padding()
         }
     }
 
