@@ -50,6 +50,7 @@
 #import <ResearchKitInternal/ORKdBHLToneAudiometryMethodOfAdjustmentStep.h>
 #import <ResearchKitInternal/ORKdBHLToneAudiometryMethodOfAdjustmentStepViewController.h>
 #import <ResearchKitInternal/ORKFaceDetectionStepViewController.h>
+#import <ResearchKitInternal/ORKFamilyHistoryReviewController.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectResult.h>
 #import <ResearchKitInternal/ORKHeadphoneDetectStep.h>
 #import <ResearchKitInternal/ORKHeadphoneDetector.h>
@@ -79,14 +80,3 @@
 #import <ResearchKitInternal/ORKTypingStepViewController.h>
 #import <ResearchKitInternal/ORKVolumeCalibrationStepViewController.h>
 #import <ResearchKitInternal/UIColor+Custom.h>
-
-// Family History
-#import <ResearchKitInternal/ORKRelativeGroup.h>
-#import <ResearchKitInternal/ORKHealthCondition.h>
-#import <ResearchKitInternal/ORKRelatedPerson.h>
-#import <ResearchKitInternal/ORKFamilyHistoryResult.h>
-#import <ResearchKitInternal/ORKConditionStepConfiguration.h>
-#import <ResearchKitInternal/ORKFamilyHistoryStep.h>
-#import <ResearchKitInternal/ORKFamilyHistoryStepViewController.h>
-#import <ResearchKitInternal/ORKFamilyHistoryReviewController.h>
-#import <ResearchKitInternal/ORKRelativeGroup.h>

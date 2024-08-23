@@ -225,11 +225,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     (void)[self taskRunUUID];
     self.restorationClass = [ORKTaskViewController class];
 
-#if RK_APPLE_INTERNAL
-    _updatingPreviousResults = NO;
-    _skipSaveResultsConfirmation = YES;
-#endif
-
     return self;
 }
 

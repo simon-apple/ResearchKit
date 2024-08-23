@@ -53,7 +53,7 @@ static const CGFloat ViewLeftRightPadding = 16.0;
     NSMutableArray<NSLayoutConstraint *> *_viewConstraints;
     NSLayoutConstraint *topConstraint;
     NSLayoutConstraint *bottomConstraint;
-    id<ORKFamilyHistoryTableFooterViewDelegate> _delegate;
+    __weak id<ORKFamilyHistoryTableFooterViewDelegate> _delegate;
 }
 
 - (instancetype)initWithTitle:(NSString *)title relativeGroupIdentifier:(NSString *)relativeGroupIdentifier delegate:(id<ORKFamilyHistoryTableFooterViewDelegate>)delegate {

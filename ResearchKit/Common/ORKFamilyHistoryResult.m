@@ -28,25 +28,27 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKHealthCondition.h"
+#import "ORKFamilyHistoryResult.h"
 
-#import <ResearchKit/ORKHelpers_Internal.h>
-#import <ResearchKit/ORKCollectionResult.h>
-#import <ResearchKit/ORKAnswerFormat_Internal.h>
+#import "ORKHelpers_Internal.h"
+#import "ORKRelatedPerson.h"
+#import "ORKResult_Private.h"
 
-@implementation ORKHealthCondition
 
-- (instancetype)initWithIdentifier:(NSString *)identifier
-                       displayName:(NSString *)name
-                             value:(NSObject<NSCopying,NSSecureCoding> *)value {
-    self = [super init];
-    
+@implementation ORKFamilyHistoryResult
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    ORK_ENCODE_OBJ(aCoder, relatedPersons);
+    ORK_ENCODE_OBJ(aCoder, displayedConditions);
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
     if (self) {
-        _identifier = [identifier copy];
-        _displayName = [name copy];
-        _value = [value copy];
+        ORK_DECODE_OBJ_ARRAY(aDecoder, relatedPersons, ORKRelatedPerson);
+        ORK_DECODE_OBJ_ARRAY(aDecoder, displayedConditions, NSString);
     }
-    
     return self;
 }
 
@@ -54,44 +56,26 @@
     return YES;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    ORK_ENCODE_OBJ(aCoder, identifier);
-    ORK_ENCODE_OBJ(aCoder, displayName);
-    ORK_ENCODE_OBJ(aCoder, value);
-}
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super init];
-    if (self) {
-        ORK_DECODE_OBJ_CLASS(aDecoder, identifier, NSString);
-        ORK_DECODE_OBJ_CLASS(aDecoder, displayName, NSString);
-        ORK_DECODE_OBJ_CLASSES(aDecoder, value, ORKAllowableValueClasses());
-    }
-    return self;
-}
-
-- (nonnull id)copyWithZone:(nullable NSZone *)zone {
-    ORKHealthCondition *healthCondition = [[[self class] allocWithZone:zone] initWithIdentifier:[_identifier copy]
-                                                                                    displayName:[_displayName copy]
-                                                                                          value:[_value copy]];
-    return healthCondition;
-}
-
 - (BOOL)isEqual:(id)object {
-    if ([self class] != [object class]) {
-        return NO;
-    }
+    BOOL isParentSame = [super isEqual:object];
     
     __typeof(self) castObject = object;
-    return (ORKEqualObjects(self.identifier, castObject.identifier)
-            && ORKEqualObjects(self.displayName, castObject.displayName)
-            && ORKEqualObjects(self.value, castObject.value));
+    return (isParentSame &&
+            ORKEqualObjects(self.relatedPersons, castObject.relatedPersons) &&
+            ORKEqualObjects(self.displayedConditions, castObject.displayedConditions));
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    ORKFamilyHistoryResult *result = [super copyWithZone:zone];
+
+    result->_relatedPersons = ORKArrayCopyObjects(_relatedPersons);
+    result->_displayedConditions = [_displayedConditions copy];
+
+    return result;
 }
 
 - (NSUInteger)hash {
-    return super.hash ^ self.identifier.hash ^ self.displayName.hash ^ self.value.hash;
+    return super.hash ^ self.relatedPersons.hash ^ self.displayedConditions.hash;
 }
 
 @end

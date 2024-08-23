@@ -1,3 +1,4 @@
+//
 /*
  Copyright (c) 2023, Apple Inc. All rights reserved.
  
@@ -28,27 +29,16 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-
-#import <ResearchKit/ORKTypes.h>
-
-@class ORKTaskResult;
+#import <ResearchKitUI/ORKFamilyHistoryStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
+@interface ORKFamilyHistoryStepViewController (ORKFamilyHistoryReviewSupport) <UITableViewDelegate, UITableViewDataSource>
 
-ORK_CLASS_AVAILABLE
-@interface ORKHealthCondition : NSObject <NSSecureCoding, NSCopying>
-
-+ (instancetype)new NS_UNAVAILABLE;
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithIdentifier:(NSString *)identifier
-                       displayName:(NSString *)name
-                             value:(NSObject<NSCopying, NSSecureCoding> *)value NS_DESIGNATED_INITIALIZER;
-
-@property (nonatomic, readonly, copy) NSString *identifier;
-@property (nonatomic, readonly, copy) NSString *displayName;
-@property (nonatomic, readonly, copy) NSObject<NSCopying, NSSecureCoding> *value;
+- (void)setupFooterViewIfNeeded;
+- (void)handleRelatedPersonTaskResult:(ORKTaskResult *)taskResult taskIdentifier:(NSString *)identifier;
+- (void)updateDisplayedConditionsFromTaskResult:(ORKTaskResult *)taskResult;
+- (NSInteger)numberOfRowsForRelativeGroupInSection:(NSInteger)section;
+- (void)updateViewColors;
 
 @end
 

@@ -248,8 +248,15 @@ final class OpenAndCancelInternalTasksUITests: OpenAndCancelBaseUITest {
         openThenCancel(task: Task.longHeaderTask.description)
     }
     
-    func testLaunchPlatterQuestionTask() {
-        openThenCancel(task: Task.platterUIQuestion.description)
+    func testLaunchInternalSurveyQuestions() {
+        let tasks: [Task] = [
+            .platterUIQuestion,
+            .textChoiceImageQuestionStepTask,
+            .textQuestionPIIScrubbing
+        ]
+        for task in tasks {
+            openThenCancel(task: task.description)
+        }
     }
     
     func testLaunchMethodOfAdjustmentToneAudiometryTask() {
@@ -318,11 +325,11 @@ final class OpenAndCancelSurveysUITests: OpenAndCancelBaseUITest {
 
 final class OpenAndCancelSurveyQuestionUITests: OpenAndCancelBaseUITest {
     
-    func testLaunchSurveysQuestions() {
+    func testLaunchSurveyQuestions() {
         let surveyQuestionsTask: [Task] = [
-            // .ageQuestion,
+            .ageQuestion,
             .booleanQuestion,
-            // .colorChoiceQuestion,
+            .colorChoiceQuestion,
             .customBooleanQuestion,
             .dateQuestion,
             .dateTimeQuestion,
@@ -333,7 +340,7 @@ final class OpenAndCancelSurveyQuestionUITests: OpenAndCancelBaseUITest {
             .textChoiceQuestion,
             .textChoiceQuestionWithImageTask,
             .textQuestion,
-            //.textQuestionPIIScrubbing,
+          //  .textQuestionPIIScrubbing, 
             .timeIntervalQuestion,
             .timeOfDayQuestion,
             .validatedTextQuestion,

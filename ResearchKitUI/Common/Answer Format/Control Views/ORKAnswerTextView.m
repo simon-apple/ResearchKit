@@ -190,6 +190,11 @@
     }
 }
 
+- (NSArray *)automationElements {
+    // Placeholder TextView is excluded as an accessibility element but should still be available to automation.
+    return [[super automationElements] arrayByAddingObject:_placeholderTextView];
+}
+
 - (NSArray<UIAccessibilityCustomAction *> *)accessibilityCustomActions
 {
     NSArray<UIAccessibilityCustomAction *> *actions = nil;
