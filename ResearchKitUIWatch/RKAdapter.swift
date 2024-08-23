@@ -359,14 +359,14 @@ public class RKAdapter {
     @ViewBuilder
     static public func createSteps(for task: ORKOrderedTask) -> some View {
         ForEach(task.steps, id: \.identifier) { step in
-            researchTaskStep(for: step)
+            researchFormStep(for: step)
         }
     }
     
     @ViewBuilder
-    static private func researchTaskStep(for step: ORKStep) -> some View {
+    static private func researchFormStep(for step: ORKStep) -> some View {
         if let formStep = step as? ORKFormStep {
-            ResearchTaskStep(title: formStep.title, subtitle: formStep.detailText) {
+            ResearchFormStep(title: formStep.title, subtitle: formStep.detailText) {
                 if let formItems = formStep.formItems {
                     ForEach(groupItems(formItems), id: \.identifier) { formItem in
                         if let answerFormat = formItem.answerFormat {
@@ -617,7 +617,7 @@ public class RKAdapter {
                 }
             }
         } else if let questionStep = step as? ORKQuestionStep {
-            ResearchTaskStep(title: questionStep.title, subtitle: questionStep.detailText) {
+            ResearchFormStep(title: questionStep.title, subtitle: questionStep.detailText) {
                 InputManagedQuestionView(
                     id: questionStep.identifier,
                     question: questionStep.question ?? "",
@@ -635,7 +635,7 @@ public class RKAdapter {
                 return image
             }()
             
-            ResearchTaskStep(
+            ResearchFormStep(
                 image: image,
                 title: instructionStep.title,
                 subtitle: instructionStep.text
