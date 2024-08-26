@@ -30,11 +30,10 @@
 
 import SwiftUI
 
-public struct ResearchTask<Content: View>: View {
+public struct ResearchForm<Content: View>: View {
     
     private let taskKey: StepResultKey<String>
     private let steps: Content
-    @State private var stepIdentifiers: [String] = []
     
     var onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)?
     
@@ -58,7 +57,7 @@ public struct ResearchTask<Content: View>: View {
 
 
 
-public struct ResearchTaskStep<Header: View, Content: View>: View {
+public struct ResearchFormStep<Header: View, Content: View>: View {
     
     private let header: Header
     private let content: Content
@@ -83,7 +82,7 @@ public struct ResearchTaskStep<Header: View, Content: View>: View {
     
 }
 
-public extension ResearchTaskStep where Header == EmptyView {
+public extension ResearchFormStep where Header == EmptyView {
     
     init(@ViewBuilder content: () -> Content) {
         self.init(
@@ -96,7 +95,7 @@ public extension ResearchTaskStep where Header == EmptyView {
     
 }
 
-public extension ResearchTaskStep where Header == HeaderView, Content == EmptyView {
+public extension ResearchFormStep where Header == StepHeaderView, Content == EmptyView {
     
     init(
         image: Image? = nil,
@@ -115,7 +114,7 @@ public extension ResearchTaskStep where Header == HeaderView, Content == EmptyVi
     
 }
 
-public extension ResearchTaskStep where Header == HeaderView {
+public extension ResearchFormStep where Header == StepHeaderView {
     
     init(
         image: Image? = nil,
@@ -139,7 +138,7 @@ public extension ResearchTaskStep where Header == HeaderView {
         
         self.init(
             header: {
-                HeaderView(
+                StepHeaderView(
                     image: image,
                     title: titleText,
                     subtitle: subtitleText
