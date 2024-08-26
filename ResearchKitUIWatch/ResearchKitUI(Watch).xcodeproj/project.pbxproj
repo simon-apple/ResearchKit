@@ -21,6 +21,12 @@
 		0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */ = {isa = PBXBuildFile; fileRef = 0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */; };
 		380E14B02C3350A900085D2B /* ResearchForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380E14AF2C3350A900085D2B /* ResearchForm.swift */; };
 		380E14B22C3350D900085D2B /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380E14B12C3350D600085D2B /* Step.swift */; };
+		3810A3D52C7D126700535B38 /* ORKSerializationEntryProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3810A3C62C7D126700535B38 /* ORKSerializationEntryProvider.m */; };
+		3810A3D62C7D126700535B38 /* ORKIESerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3810A3CD2C7D126700535B38 /* ORKIESerializer.m */; };
+		3810A3D72C7D126700535B38 /* ORKESerializer+SwiftUIEntryProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3810A3D12C7D126700535B38 /* ORKESerializer+SwiftUIEntryProvider.m */; };
+		3810A3D82C7D126700535B38 /* ORKESerialization+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 3810A3CF2C7D126700535B38 /* ORKESerialization+Helpers.m */; };
+		3810A3D92C7D126700535B38 /* ORKSwiftUISerializationEntryProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3810A3CA2C7D126700535B38 /* ORKSwiftUISerializationEntryProvider.m */; };
+		3810A3DA2C7D126700535B38 /* ORKCoreSerializationEntryProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3810A3C82C7D126700535B38 /* ORKCoreSerializationEntryProvider.m */; };
 		3815C0142C2081CE00A29CD3 /* DateTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3815C0132C2081CE00A29CD3 /* DateTimeView.swift */; };
 		381CAC082C34C62100FCE89A /* FormRowContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC072C34C61D00FCE89A /* FormRowContent.swift */; };
 		381CAC0A2C35E06500FCE89A /* ResearchFormStepContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC092C35E05A00FCE89A /* ResearchFormStepContentView.swift */; };
@@ -120,6 +126,19 @@
 		0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ResearchKitUIWatch.docc; sourceTree = "<group>"; };
 		380E14AF2C3350A900085D2B /* ResearchForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchForm.swift; sourceTree = "<group>"; };
 		380E14B12C3350D600085D2B /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
+		3810A3C52C7D126700535B38 /* ORKSerializationEntryProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSerializationEntryProvider.h; sourceTree = "<group>"; };
+		3810A3C62C7D126700535B38 /* ORKSerializationEntryProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSerializationEntryProvider.m; sourceTree = "<group>"; };
+		3810A3C72C7D126700535B38 /* ORKCoreSerializationEntryProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKCoreSerializationEntryProvider.h; sourceTree = "<group>"; };
+		3810A3C82C7D126700535B38 /* ORKCoreSerializationEntryProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKCoreSerializationEntryProvider.m; sourceTree = "<group>"; };
+		3810A3C92C7D126700535B38 /* ORKSwiftUISerializationEntryProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSwiftUISerializationEntryProvider.h; sourceTree = "<group>"; };
+		3810A3CA2C7D126700535B38 /* ORKSwiftUISerializationEntryProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSwiftUISerializationEntryProvider.m; sourceTree = "<group>"; };
+		3810A3CC2C7D126700535B38 /* ORKIESerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIESerializer.h; sourceTree = "<group>"; };
+		3810A3CD2C7D126700535B38 /* ORKIESerializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIESerializer.m; sourceTree = "<group>"; };
+		3810A3CE2C7D126700535B38 /* ORKESerialization+Helpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKESerialization+Helpers.h"; sourceTree = "<group>"; };
+		3810A3CF2C7D126700535B38 /* ORKESerialization+Helpers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ORKESerialization+Helpers.m"; sourceTree = "<group>"; };
+		3810A3D02C7D126700535B38 /* ORKESerializer+SwiftUIEntryProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKESerializer+SwiftUIEntryProvider.h"; sourceTree = "<group>"; };
+		3810A3D12C7D126700535B38 /* ORKESerializer+SwiftUIEntryProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ORKESerializer+SwiftUIEntryProvider.m"; sourceTree = "<group>"; };
+		3810A3D32C7D126700535B38 /* ORKCatalog-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKCatalog-Bridging-Header.h"; sourceTree = "<group>"; };
 		3815C0132C2081CE00A29CD3 /* DateTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeView.swift; sourceTree = "<group>"; };
 		381CAC072C34C61D00FCE89A /* FormRowContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormRowContent.swift; sourceTree = "<group>"; };
 		381CAC092C35E05A00FCE89A /* ResearchFormStepContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchFormStepContentView.swift; sourceTree = "<group>"; };
@@ -249,6 +268,7 @@
 		0BF86B132B4F360000E3790E = {
 			isa = PBXGroup;
 			children = (
+				3810A3D42C7D126700535B38 /* Serializer */,
 				3820BE1E2C65742D0012CB2C /* Results */,
 				5ED16E262C5AF7DF0072016D /* InstructionBodyItem.swift */,
 				381CAC0B2C35F4C300FCE89A /* ResearchTaskCompletion.swift */,
@@ -293,6 +313,42 @@
 				E4E0AFC92C5B12B40082ADF8 /* Color+ResearchFormColors.swift */,
 			);
 			path = ResearchKitUIWatch;
+			sourceTree = "<group>";
+		};
+		3810A3CB2C7D126700535B38 /* Serialization Entry Providers */ = {
+			isa = PBXGroup;
+			children = (
+				3810A3C52C7D126700535B38 /* ORKSerializationEntryProvider.h */,
+				3810A3C62C7D126700535B38 /* ORKSerializationEntryProvider.m */,
+				3810A3C72C7D126700535B38 /* ORKCoreSerializationEntryProvider.h */,
+				3810A3C82C7D126700535B38 /* ORKCoreSerializationEntryProvider.m */,
+				3810A3C92C7D126700535B38 /* ORKSwiftUISerializationEntryProvider.h */,
+				3810A3CA2C7D126700535B38 /* ORKSwiftUISerializationEntryProvider.m */,
+			);
+			path = "Serialization Entry Providers";
+			sourceTree = "<group>";
+		};
+		3810A3D22C7D126700535B38 /* RefactoredSerializer */ = {
+			isa = PBXGroup;
+			children = (
+				3810A3CC2C7D126700535B38 /* ORKIESerializer.h */,
+				3810A3CD2C7D126700535B38 /* ORKIESerializer.m */,
+				3810A3CE2C7D126700535B38 /* ORKESerialization+Helpers.h */,
+				3810A3CF2C7D126700535B38 /* ORKESerialization+Helpers.m */,
+				3810A3D02C7D126700535B38 /* ORKESerializer+SwiftUIEntryProvider.h */,
+				3810A3D12C7D126700535B38 /* ORKESerializer+SwiftUIEntryProvider.m */,
+			);
+			path = RefactoredSerializer;
+			sourceTree = "<group>";
+		};
+		3810A3D42C7D126700535B38 /* Serializer */ = {
+			isa = PBXGroup;
+			children = (
+				3810A3CB2C7D126700535B38 /* Serialization Entry Providers */,
+				3810A3D22C7D126700535B38 /* RefactoredSerializer */,
+				3810A3D32C7D126700535B38 /* ORKCatalog-Bridging-Header.h */,
+			);
+			path = Serializer;
 			sourceTree = "<group>";
 		};
 		3820BE1E2C65742D0012CB2C /* Results */ = {
@@ -488,6 +544,12 @@
 				3820BE222C6574C50012CB2C /* StepResultKey.swift in Sources */,
 				E4DBF1BF2BA24AA40085D6A1 /* StickyScrollView.swift in Sources */,
 				E4FBFEDD2C6C0D0500F50946 /* ScaleSliderQuestionView.swift in Sources */,
+				3810A3D52C7D126700535B38 /* ORKSerializationEntryProvider.m in Sources */,
+				3810A3D62C7D126700535B38 /* ORKIESerializer.m in Sources */,
+				3810A3D72C7D126700535B38 /* ORKESerializer+SwiftUIEntryProvider.m in Sources */,
+				3810A3D82C7D126700535B38 /* ORKESerialization+Helpers.m in Sources */,
+				3810A3D92C7D126700535B38 /* ORKSwiftUISerializationEntryProvider.m in Sources */,
+				3810A3DA2C7D126700535B38 /* ORKCoreSerializationEntryProvider.m in Sources */,
 				E4FC4FAB2BC88F3F00E0AEBF /* FormStepViewModel.swift in Sources */,
 				0B7213462B4F398500463E69 /* FormStepView.swift in Sources */,
 				0B7213532B4F39CC00463E69 /* View+OnChange.swift in Sources */,
@@ -728,6 +790,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/Serializer/ORKCatalog-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,4,7";
 				WATCHOS_DEPLOYMENT_TARGET = 11.0;
@@ -770,6 +833,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/Serializer/ORKCatalog-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,4,7";
 				WATCHOS_DEPLOYMENT_TARGET = 11.0;
