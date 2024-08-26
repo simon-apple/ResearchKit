@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,11 +19,11 @@
 		0B7213522B4F39CC00463E69 /* ORKScrollViewReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72134C2B4F39CC00463E69 /* ORKScrollViewReader.swift */; };
 		0B7213532B4F39CC00463E69 /* View+OnChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72134D2B4F39CC00463E69 /* View+OnChange.swift */; };
 		0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */ = {isa = PBXBuildFile; fileRef = 0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */; };
-		380E14B02C3350A900085D2B /* ResearchTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380E14AF2C3350A900085D2B /* ResearchTask.swift */; };
+		380E14B02C3350A900085D2B /* ResearchForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380E14AF2C3350A900085D2B /* ResearchForm.swift */; };
 		380E14B22C3350D900085D2B /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380E14B12C3350D600085D2B /* Step.swift */; };
 		3815C0142C2081CE00A29CD3 /* DateTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3815C0132C2081CE00A29CD3 /* DateTimeView.swift */; };
 		381CAC082C34C62100FCE89A /* FormRowContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC072C34C61D00FCE89A /* FormRowContent.swift */; };
-		381CAC0A2C35E06500FCE89A /* ResearchTaskStepContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC092C35E05A00FCE89A /* ResearchTaskStepContentView.swift */; };
+		381CAC0A2C35E06500FCE89A /* ResearchFormStepContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC092C35E05A00FCE89A /* ResearchFormStepContentView.swift */; };
 		381CAC0C2C35F4CE00FCE89A /* ResearchTaskCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC0B2C35F4C300FCE89A /* ResearchTaskCompletion.swift */; };
 		381CAC102C3C759200FCE89A /* HeightQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC0F2C3C759200FCE89A /* HeightQuestionView.swift */; };
 		381E23F12C4097070095EBBB /* WeightQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381E23F02C4097040095EBBB /* WeightQuestion.swift */; };
@@ -37,10 +37,12 @@
 		38CD26102C1909CC000FDBB0 /* FormItemCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CD260F2C1909CC000FDBB0 /* FormItemCardView.swift */; };
 		38CD26392C1B90F3000FDBB0 /* RKAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CD26382C1B90F3000FDBB0 /* RKAdapter.swift */; };
 		38CD263B2C1BA6EA000FDBB0 /* TextQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CD263A2C1BA6EA000FDBB0 /* TextQuestionView.swift */; };
+		38DB82E32C753A8B0074B95D /* ResearchKitUI_Watch_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF86B1D2B4F360000E3790E /* ResearchKitUI_Watch_.framework */; platformFilters = (ios, xros, ); };
 		38F4F6C62C4AD35C004E7A8D /* ImageChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F4F6C52C4AD35C004E7A8D /* ImageChoiceView.swift */; };
 		5E05B53D2C2E135D00A0A83B /* DoneKeyboardToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E05B53C2C2E135D00A0A83B /* DoneKeyboardToolbar.swift */; };
 		5E44D4482C24A6FF0045007E /* NumericQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E44D4472C24A6FF0045007E /* NumericQuestionView.swift */; };
 		5E507F812C1141F2002958E2 /* SliderValueForegroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E507F802C1141F2002958E2 /* SliderValueForegroundStyle.swift */; };
+		5EAFC71C2C7549BD008560D7 /* NavigationalLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EAFC71B2C7549B9008560D7 /* NavigationalLayout.swift */; };
 		5EB97C772C459BF900B15709 /* FormStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB97C762C459BF900B15709 /* FormStep.swift */; };
 		5EBAA2892C3E064900F193C6 /* InstructionStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBAA2882C3E064900F193C6 /* InstructionStep.swift */; };
 		5EBAA28D2C40634800F193C6 /* BodyItemIconForegroundStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBAA28C2C40634800F193C6 /* BodyItemIconForegroundStyle.swift */; };
@@ -64,6 +66,16 @@
 		E4FBFEDD2C6C0D0500F50946 /* ScaleSliderQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA32DE9E2BCF34440041A937 /* ScaleSliderQuestionView.swift */; };
 		E4FC4FAB2BC88F3F00E0AEBF /* FormStepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FC4FAA2BC88F3F00E0AEBF /* FormStepViewModel.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		38DB82E42C753A8B0074B95D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BF86B142B4F360000E3790E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0BF86B1C2B4F360000E3790E;
+			remoteInfo = "ResearchKitUI(Watch)";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		E4B0878E2C668EBB00EFCE35 /* Embed Frameworks */ = {
@@ -106,11 +118,11 @@
 		0B72136A2B4F3D1D00463E69 /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF86B1D2B4F360000E3790E /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ResearchKitUIWatch.docc; sourceTree = "<group>"; };
-		380E14AF2C3350A900085D2B /* ResearchTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchTask.swift; sourceTree = "<group>"; };
+		380E14AF2C3350A900085D2B /* ResearchForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchForm.swift; sourceTree = "<group>"; };
 		380E14B12C3350D600085D2B /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		3815C0132C2081CE00A29CD3 /* DateTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeView.swift; sourceTree = "<group>"; };
 		381CAC072C34C61D00FCE89A /* FormRowContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormRowContent.swift; sourceTree = "<group>"; };
-		381CAC092C35E05A00FCE89A /* ResearchTaskStepContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchTaskStepContentView.swift; sourceTree = "<group>"; };
+		381CAC092C35E05A00FCE89A /* ResearchFormStepContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchFormStepContentView.swift; sourceTree = "<group>"; };
 		381CAC0B2C35F4C300FCE89A /* ResearchTaskCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchTaskCompletion.swift; sourceTree = "<group>"; };
 		381CAC0F2C3C759200FCE89A /* HeightQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightQuestionView.swift; sourceTree = "<group>"; };
 		381E23F02C4097040095EBBB /* WeightQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightQuestion.swift; sourceTree = "<group>"; };
@@ -124,11 +136,13 @@
 		38CD260F2C1909CC000FDBB0 /* FormItemCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormItemCardView.swift; sourceTree = "<group>"; };
 		38CD26382C1B90F3000FDBB0 /* RKAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKAdapter.swift; sourceTree = "<group>"; };
 		38CD263A2C1BA6EA000FDBB0 /* TextQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextQuestionView.swift; sourceTree = "<group>"; };
+		38DB82DF2C753A8B0074B95D /* ResearchKitSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ResearchKitSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		38F4F6C52C4AD35C004E7A8D /* ImageChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageChoiceView.swift; sourceTree = "<group>"; };
 		5E05B53C2C2E135D00A0A83B /* DoneKeyboardToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneKeyboardToolbar.swift; sourceTree = "<group>"; };
 		5E44D4472C24A6FF0045007E /* NumericQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericQuestionView.swift; sourceTree = "<group>"; };
 		5E507F802C1141F2002958E2 /* SliderValueForegroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderValueForegroundStyle.swift; sourceTree = "<group>"; };
 		5E7596BC2BE049B90088F7B7 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EAFC71B2C7549B9008560D7 /* NavigationalLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationalLayout.swift; sourceTree = "<group>"; };
 		5EB97C762C459BF900B15709 /* FormStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormStep.swift; sourceTree = "<group>"; };
 		5EBAA2882C3E064900F193C6 /* InstructionStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionStep.swift; sourceTree = "<group>"; };
 		5EBAA28C2C40634800F193C6 /* BodyItemIconForegroundStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyItemIconForegroundStyle.swift; sourceTree = "<group>"; };
@@ -156,12 +170,24 @@
 		E4FC4FAA2BC88F3F00E0AEBF /* FormStepViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormStepViewModel.swift; path = "Step Views/FormStepViewModel.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		38DB82E02C753A8B0074B95D /* ResearchKitSwiftUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ResearchKitSwiftUITests; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		0BF86B1A2B4F360000E3790E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				E49B08DA2C73EDD000669012 /* ResearchKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38DB82DC2C753A8B0074B95D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				38DB82E32C753A8B0074B95D /* ResearchKitUI_Watch_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,12 +252,14 @@
 				3820BE1E2C65742D0012CB2C /* Results */,
 				5ED16E262C5AF7DF0072016D /* InstructionBodyItem.swift */,
 				381CAC0B2C35F4C300FCE89A /* ResearchTaskCompletion.swift */,
-				380E14AF2C3350A900085D2B /* ResearchTask.swift */,
-				381CAC092C35E05A00FCE89A /* ResearchTaskStepContentView.swift */,
+				380E14AF2C3350A900085D2B /* ResearchForm.swift */,
+				5EAFC71B2C7549B9008560D7 /* NavigationalLayout.swift */,
+				381CAC092C35E05A00FCE89A /* ResearchFormStepContentView.swift */,
 				381CAC072C34C61D00FCE89A /* FormRowContent.swift */,
 				38CD26382C1B90F3000FDBB0 /* RKAdapter.swift */,
 				0B53DA5F2BD054EE00227126 /* Localized */,
 				0BF86B1F2B4F360000E3790E /* ResearchKitUIWatch */,
+				38DB82E02C753A8B0074B95D /* ResearchKitSwiftUITests */,
 				0BF86B1E2B4F360000E3790E /* Products */,
 				0B72132E2B4F36B900463E69 /* Frameworks */,
 			);
@@ -241,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				0BF86B1D2B4F360000E3790E /* ResearchKitUI_Watch_.framework */,
+				38DB82DF2C753A8B0074B95D /* ResearchKitSwiftUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -366,6 +395,29 @@
 			productReference = 0BF86B1D2B4F360000E3790E /* ResearchKitUI_Watch_.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		38DB82DE2C753A8B0074B95D /* ResearchKitSwiftUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 38DB82E82C753A8B0074B95D /* Build configuration list for PBXNativeTarget "ResearchKitSwiftUITests" */;
+			buildPhases = (
+				38DB82DB2C753A8B0074B95D /* Sources */,
+				38DB82DC2C753A8B0074B95D /* Frameworks */,
+				38DB82DD2C753A8B0074B95D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				38DB82E52C753A8B0074B95D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				38DB82E02C753A8B0074B95D /* ResearchKitSwiftUITests */,
+			);
+			name = ResearchKitSwiftUITests;
+			packageProductDependencies = (
+			);
+			productName = ResearchKitSwiftUITests;
+			productReference = 38DB82DF2C753A8B0074B95D /* ResearchKitSwiftUITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -373,10 +425,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1510;
 				TargetAttributes = {
 					0BF86B1C2B4F360000E3790E = {
 						CreatedOnToolsVersion = 15.1;
+					};
+					38DB82DE2C753A8B0074B95D = {
+						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
@@ -394,6 +450,7 @@
 			projectRoot = "";
 			targets = (
 				0BF86B1C2B4F360000E3790E /* ResearchKitUI(Watch) */,
+				38DB82DE2C753A8B0074B95D /* ResearchKitSwiftUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -404,6 +461,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0B53DA602BD054EE00227126 /* ResearchKitUI(Watch).strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38DB82DD2C753A8B0074B95D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,13 +494,14 @@
 				382A57412C5AB02C00EE7DB3 /* QuestionStep.swift in Sources */,
 				5EBAA28F2C4063C100F193C6 /* StepIconForegroundStyle.swift in Sources */,
 				5EB97C772C459BF900B15709 /* FormStep.swift in Sources */,
+				5EAFC71C2C7549BD008560D7 /* NavigationalLayout.swift in Sources */,
 				5EBAA28D2C40634800F193C6 /* BodyItemIconForegroundStyle.swift in Sources */,
 				5EDFA9D72BFFFA2B0044C156 /* StepHeaderView.swift in Sources */,
 				5E507F812C1141F2002958E2 /* SliderValueForegroundStyle.swift in Sources */,
 				381CAC082C34C62100FCE89A /* FormRowContent.swift in Sources */,
 				E4E0AFCA2C5B12B40082ADF8 /* Color+ResearchFormColors.swift in Sources */,
 				38CD26102C1909CC000FDBB0 /* FormItemCardView.swift in Sources */,
-				380E14B02C3350A900085D2B /* ResearchTask.swift in Sources */,
+				380E14B02C3350A900085D2B /* ResearchForm.swift in Sources */,
 				E4DBF1B92B97C3060085D6A1 /* TextChoiceCell.swift in Sources */,
 				5E05B53D2C2E135D00A0A83B /* DoneKeyboardToolbar.swift in Sources */,
 				3815C0142C2081CE00A29CD3 /* DateTimeView.swift in Sources */,
@@ -460,7 +525,7 @@
 				381CAC102C3C759200FCE89A /* HeightQuestionView.swift in Sources */,
 				5EE5FD122C63DCDD004BBABF /* QuestionView.swift in Sources */,
 				0B72132D2B4F368600463E69 /* DefaultStepView.swift in Sources */,
-				381CAC0A2C35E06500FCE89A /* ResearchTaskStepContentView.swift in Sources */,
+				381CAC0A2C35E06500FCE89A /* ResearchFormStepContentView.swift in Sources */,
 				0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */,
 				5EE5FD312C6A8486004BBABF /* StateManagementType.swift in Sources */,
 				389694182C6E7622007BA17D /* Utilities.swift in Sources */,
@@ -470,7 +535,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		38DB82DB2C753A8B0074B95D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		38DB82E52C753A8B0074B95D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			platformFilters = (
+				ios,
+				xros,
+			);
+			target = 0BF86B1C2B4F360000E3790E /* ResearchKitUI(Watch) */;
+			targetProxy = 38DB82E42C753A8B0074B95D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		0B53DA5E2BD054EE00227126 /* ResearchKitUI(Watch).strings */ = {
@@ -626,7 +710,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -646,8 +730,8 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,4,7";
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
-				XROS_DEPLOYMENT_TARGET = 1.2;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -668,7 +752,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -688,8 +772,52 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,4,7";
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
-				XROS_DEPLOYMENT_TARGET = 1.2;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		38DB82E62C753A8B0074B95D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = come.appleinternal.ResearchKitSwiftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		38DB82E72C753A8B0074B95D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = come.appleinternal.ResearchKitSwiftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -710,6 +838,15 @@
 			buildConfigurations = (
 				0BF86B272B4F360000E3790E /* Debug */,
 				0BF86B282B4F360000E3790E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		38DB82E82C753A8B0074B95D /* Build configuration list for PBXNativeTarget "ResearchKitSwiftUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				38DB82E62C753A8B0074B95D /* Debug */,
+				38DB82E72C753A8B0074B95D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

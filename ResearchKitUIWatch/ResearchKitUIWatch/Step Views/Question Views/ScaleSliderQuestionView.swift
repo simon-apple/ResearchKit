@@ -178,26 +178,45 @@ public struct ScaleSliderQuestionView: View {
                 .fontWeight(.bold)
                 .foregroundStyle(.sliderValueForegroundStyle)
             
-            Slider(
-                value: $sliderUIValue,
-                in: sliderBounds(for: selectionConfiguration),
-                step: sliderStep(for: selectionConfiguration)
-            ) {
-                Text("Slider for \(selectionConfiguration)")
-            } minimumValueLabel: {
-                Text("\(minimumValueDescription(for: selectionConfiguration))")
-                    .fixedSize()
-                    .foregroundStyle(Color.choice(for: .label))
-                    .font(.subheadline)
-                    .fontWeight(.bold)
-            } maximumValueLabel: {
-                Text("\(maximumValueDescription(for: selectionConfiguration))")
-                    .fixedSize()
-                    .foregroundStyle(Color.choice(for: .label))
-                    .font(.subheadline)
-                    .fontWeight(.bold)
-            }
+            slider(selectionConfiguration: selectionConfiguration)
         }
+    }
+    
+    @ViewBuilder
+    private func sliderLabel(_ value: String) -> some View {
+        Text(value)
+            .fixedSize()
+            .foregroundStyle(Color.choice(for: .label))
+            .font(.subheadline)
+            .fontWeight(.bold)
+    }
+    
+    @ViewBuilder
+    private func slider(selectionConfiguration: ScaleSelectionConfiguration) -> some View {
+#if os(watchOS)
+        Slider(
+            value: $sliderUIValue,
+            in: sliderBounds(for: selectionConfiguration)
+        ) {
+            Text("Slider for \(selectionConfiguration)")
+        } minimumValueLabel: {
+            sliderLabel("\(minimumValueDescription(for: selectionConfiguration))")
+        } maximumValueLabel: {
+            sliderLabel("\(maximumValueDescription(for: selectionConfiguration))")
+        }
+#else
+        Slider(
+            value: $sliderUIValue,
+            in: sliderBounds(for: selectionConfiguration),
+            step: sliderStep(for: selectionConfiguration)
+        ) {
+            Text("Slider for \(selectionConfiguration)")
+        } minimumValueLabel: {
+            sliderLabel("\(minimumValueDescription(for: selectionConfiguration))")
+        } maximumValueLabel: {
+            sliderLabel("\(maximumValueDescription(for: selectionConfiguration))")
+        }
+#endif
     }
     
     private func value(for selectionConfiguration: ScaleSelectionConfiguration) -> any CustomStringConvertible {

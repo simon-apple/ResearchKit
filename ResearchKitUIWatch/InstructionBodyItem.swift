@@ -65,7 +65,7 @@ public struct InstructionBodyItem: View {
 
 #Preview {
     ScrollView {
-        ResearchTaskStep(
+        ResearchFormStep(
             image: Image(systemName: "doc.text.magnifyingglass"),
             title: "Before You Join join"
         ) {
