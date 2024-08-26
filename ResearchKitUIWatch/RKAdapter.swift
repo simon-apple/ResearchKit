@@ -369,8 +369,8 @@ public class RKAdapter {
             ResearchTaskStep(title: formStep.title, subtitle: formStep.detailText) {
                 if let formItems = formStep.formItems {
                     ForEach(groupItems(formItems), id: \.identifier) { formItem in
-                        if let answerFormat = formItem.answerFormat {
-                            switch answerFormat {
+                        Group {
+                            switch formItem.answerFormat {
                             case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
                                 MultipleChoiceQuestionView(
                                     id: formItem.identifier,
@@ -445,28 +445,28 @@ public class RKAdapter {
                                     if let placeholder = formItem.placeholder {
                                         return placeholder
                                     }
-
+                                    
                                     if dateTimeAnswerFormat.style == .dateAndTime {
                                         return "Select Date and Time"
                                     } else {
                                         return "Select Date"
                                     }
                                 }()
-
+                                
                                 let startDate: Date = {
                                     if let date = dateTimeAnswerFormat.minimumDate {
                                         return date
                                     }
                                     return Date.distantPast
                                 }()
-
+                                
                                 let endDate: Date = {
                                     if let date = dateTimeAnswerFormat.maximumDate {
                                         return date
                                     }
                                     return Date.distantFuture
                                 }()
-
+                                
                                 let components: DatePicker.Components = {
                                     switch dateTimeAnswerFormat.style {
                                     case .date:
@@ -507,7 +507,7 @@ public class RKAdapter {
                                         return .metric
                                     }
                                 }()
-
+                                
                                 HeightQuestionView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
@@ -526,7 +526,7 @@ public class RKAdapter {
                                         return .metric
                                     }
                                 }()
-
+                                
                                 let precision: NumericPrecision = {
                                     switch weightAnswerFormat.numericPrecision {
                                     case .default:
@@ -551,23 +551,23 @@ public class RKAdapter {
                                             return 60
                                         }
                                     }
-
+                                    
                                     return weightAnswerFormat.defaultValue
                                 }()
-
+                                
                                 let minimumValue: Double? = {
                                     if weightAnswerFormat.minimumValue == Double.greatestFiniteMagnitude {
                                         return nil
                                     }
-
+                                    
                                     return weightAnswerFormat.minimumValue
                                 }()
-
+                                
                                 let maximumValue: Double? = {
                                     if weightAnswerFormat.maximumValue == Double.greatestFiniteMagnitude {
                                         return nil
                                     }
-
+                                    
                                     return weightAnswerFormat.maximumValue
                                 }()
                                 
@@ -590,17 +590,17 @@ public class RKAdapter {
                                         value: choice.value
                                     )
                                 }
-
+                                
                                 let style: ImageChoiceQuestion.ChoiceSelectionType = {
                                     switch imageChoiceAnswerFormat.style {
-                                        case .singleChoice:
+                                    case .singleChoice:
                                         return .single
                                     case .multipleChoice:
                                         return .multiple
                                     default: return .single
                                     }
                                 }()
-
+                                
                                 ImageChoiceView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
@@ -613,6 +613,7 @@ public class RKAdapter {
                                 EmptyView()
                             }
                         }
+                        .researchQuestionOptional(formItem.isOptional)
                     }
                 }
             }

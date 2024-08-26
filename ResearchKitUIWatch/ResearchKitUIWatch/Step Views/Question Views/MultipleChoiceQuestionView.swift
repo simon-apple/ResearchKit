@@ -32,7 +32,9 @@ import SwiftUI
 
 // TODO(rdar://129033515): Update name of this module to reflect just the choice options without the header.
 public struct MultipleChoiceQuestionView: View {
-
+    @Environment(\.researchQuestionIsOptional)
+    private var isOptional
+    
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
 
@@ -93,26 +95,29 @@ public struct MultipleChoiceQuestionView: View {
 
     public var body: some View {
         FormItemCardView(title: title, detail: detail) {
-            ForEach(Array(choices.enumerated()), id: \.offset) { index, option in
-                VStack(spacing: .zero) {
-                    if index != 0 {
-                        Divider()
-                    }
-
-                    TextChoiceCell(
-                        title: Text(option.choiceText),
-                        isSelected: resolvedResult.wrappedValue.contains(where: { choice in
-                            choice.id == option.id
-                        })
-                    ) {
-                        choiceSelected(option)
-                    }
-                    .padding(.horizontal, 8)
+            VStack {
+                Text("Is Optional: \(isOptional)")
+                ForEach(Array(choices.enumerated()), id: \.offset) { index, option in
+                    VStack(spacing: .zero) {
+                        if index != 0 {
+                            Divider()
+                        }
+                        
+                        TextChoiceCell(
+                            title: Text(option.choiceText),
+                            isSelected: resolvedResult.wrappedValue.contains(where: { choice in
+                                choice.id == option.id
+                            })
+                        ) {
+                            choiceSelected(option)
+                        }
+                        .padding(.horizontal, 8)
 #if !os(watchOS)
-                    .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 12))
-                    .hoverEffect()
+                        .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 12))
+                        .hoverEffect()
 #endif
-                    .padding(.horizontal, -8)
+                        .padding(.horizontal, -8)
+                    }
                 }
             }
         }

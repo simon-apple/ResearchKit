@@ -92,7 +92,9 @@ public extension FormItemCardView where Header == _SimpleFormItemViewHeader {
 
 /// The default header used by a `FormItemCardView`
 public struct _SimpleFormItemViewHeader: View {
-
+    @Environment(\.researchQuestionIsOptional)
+    private var isOptional
+    
     let title: String
     let detail: String?
     
@@ -102,6 +104,10 @@ public struct _SimpleFormItemViewHeader: View {
 
     public var body: some View {
         VStack(alignment: .leading) {
+            if !isOptional {
+                Text("Required")
+            }
+            
             if let detail, showDetailText {
                 detailText(detail)
             }
