@@ -31,7 +31,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import "ORKESerialization+Helpers.h"
+#import <ResearchKitUI_Watch_/ORKESerialization+Helpers.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -1,0 +1,16 @@
+//
+//  ReserachKitUI_Watch.modulemap
+//  ResearchKitUI(Watch)
+//
+//  Created by Johnny Hicks on 8/26/24.
+//
+
+framework module ResearchKitUI_Watch_ {
+    umbrella header "ResearchKitUI_Watch_.h"
+
+    export *
+
+    module * {
+        export *
+    }
+}

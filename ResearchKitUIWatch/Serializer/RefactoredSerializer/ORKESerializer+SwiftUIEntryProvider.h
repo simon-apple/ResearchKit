@@ -28,7 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKIESerializer.h"
+#import <ResearchKitUI_Watch_/ORKIESerializer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

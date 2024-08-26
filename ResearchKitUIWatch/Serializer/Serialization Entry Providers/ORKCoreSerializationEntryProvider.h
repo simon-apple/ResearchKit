@@ -28,7 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKSerializationEntryProvider.h"
+#import <ResearchKitUI_Watch_/ORKSerializationEntryProvider.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
