@@ -246,7 +246,9 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
         } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen3]) {
             headphoneTypeIdentifier = ORKHeadphoneTypeIdentifierAirPodsGen3;
             volumeCurveFilename = ORKVolumeCurvePulsedFilenameAirPodsGen3;
-        } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
+        } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax] ||
+                   [headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMaxUSBC]) {
+            // USBC model uses the same tables as non USBC models
             headphoneTypeIdentifier = ORKHeadphoneTypeIdentifierAirPodsMax;
             volumeCurveFilename = ORKVolumeCurvePulsedFilenameAirPodsMax;
         } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierEarPods]) {

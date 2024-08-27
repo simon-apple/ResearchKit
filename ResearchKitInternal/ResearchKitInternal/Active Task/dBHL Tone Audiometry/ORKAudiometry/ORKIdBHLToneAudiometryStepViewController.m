@@ -214,7 +214,8 @@
 
 - (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
     if ([[[self idBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
-        [[[self idBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
+        [[[self idBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax] ||
+        [[[self idBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMaxUSBC]) {
             
         BOOL newModeIsNoiseCancellingMode = (bluetoothMode == ORKBluetoothModeNoiseCancellation);
         if (!newModeIsNoiseCancellingMode) {
