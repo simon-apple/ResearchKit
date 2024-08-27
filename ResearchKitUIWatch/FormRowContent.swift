@@ -117,6 +117,7 @@ public struct FormRowContent: View {
                 )
             )
             
+#if !os(watchOS)
         case .textSliderStep(let textSliderQuestion):
             ScaleSliderQuestionView(
                 id: textSliderQuestion.id,
@@ -138,6 +139,7 @@ public struct FormRowContent: View {
                     }
                 )
             )
+#endif
             
         case .textRow(let textQuestion):
             TextQuestionView(
