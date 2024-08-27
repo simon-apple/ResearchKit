@@ -152,7 +152,11 @@ public struct FormRowContent: View {
                 hideClearButton: textQuestion.hideClearButton,
                 result: .init(
                     get: {
-                        textQuestion.text
+                        guard case let .textRow(textQuestion) = formRow else {
+                            return textQuestion.text
+                        }
+                        
+                        return textQuestion.text
                     },
                     set: { newValue in
                         formRow = .textRow(
