@@ -198,12 +198,12 @@ static NSString *_ClassKey = @"_class";
 
 @implementation ORKESerializableTableEntry
 
-- (instancetype)initWithClass:(Class)class
+- (instancetype)initWithClass:(Class)theClass
                     initBlock:(ORKESerializationInitBlock)initBlock
                    properties:(NSDictionary *)properties {
     self = [super init];
     if (self) {
-        _class = class;
+        _theClass = theClass;
         _initBlock = initBlock;
         _properties = [properties mutableCopy];
     }

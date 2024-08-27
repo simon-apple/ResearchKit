@@ -810,6 +810,7 @@
 				MODULEMAP_FILE = ResearchKitUI_Watch_.modulemap;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				MODULE_VERIFIER_VERBOSE = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitUIWatch;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
@@ -854,6 +855,7 @@
 				MODULEMAP_FILE = ResearchKitUI_Watch_.modulemap;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				MODULE_VERIFIER_VERBOSE = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitUIWatch;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;

@@ -224,7 +224,7 @@ public struct ImageChoiceView: View {
             ),
             ImageChoice(
                 id: UUID(),
-                normalImage: UIImage(systemName: "cake")!,
+                normalImage: UIImage(named: "cake")!,
                 selectedImage: nil,
                 text: "cake",
                 value: 1 as NSNumber

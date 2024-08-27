@@ -158,11 +158,11 @@ typedef _Nullable id (^ORKESerializationJSONToObjectBlock)(id jsonObject, ORKESe
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithClass:(Class)class
+- (instancetype)initWithClass:(Class)theClass
                     initBlock:(nullable ORKESerializationInitBlock)initBlock
                    properties:(NSDictionary<NSString *, ORKESerializableProperty *> *)properties NS_DESIGNATED_INITIALIZER;
 
-@property (nonatomic) Class class;
+@property (nonatomic) Class theClass;
 @property (nonatomic, copy) ORKESerializationInitBlock initBlock;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, ORKESerializableProperty *> *properties;
 
