@@ -41,6 +41,20 @@ struct FormStepView: View {
     @Environment(\.completion) var completion
     @Environment(\.dismiss) var dismiss
     
+    @State
+    private var questionOptionals = [Int: Bool]()
+    
+    @State
+    private var questionAnswers = [Int: AnyAnswer]()
+    
+    private var doneButtonDisabled: Bool {
+        questionOptionals
+            .filter { !$0.value }
+            .contains {
+                questionAnswers[$0.key]?.isAnswered == false
+            }
+    }
+    
     public init(viewModel: FormStepViewModel) {
         self.viewModel = viewModel
     }
@@ -51,7 +65,7 @@ struct FormStepView: View {
                 ListHeaderView {
                     let image: Image? = {
                         let image: Image?
-                        
+
                         if let uiImage = viewModel.step.iconImage {
                             image = Image(uiImage: uiImage)
                         } else {
@@ -94,6 +108,12 @@ struct FormStepView: View {
                         detail: "Step \(index + 1) of \(viewModel.formRows.count)",
                         formRow: $formRow
                     )
+                    .onPreferenceChange(ResearchQuestionOptionalPreferenceKey.self) {
+                        questionOptionals[index] = $0
+                    }
+                    .onPreferenceChange(ResearchQuestionAnswerPreferenceKey.self) {
+                        questionAnswers[index] = $0
+                    }
                 }
             }
             .padding()
@@ -111,6 +131,7 @@ struct FormStepView: View {
             }
             .buttonStyle(.borderedProminent)
             .padding(.top, 16)
+            .disabled(doneButtonDisabled)
         }
         .background(Color.choice(for: .secondaryBackground))
     }

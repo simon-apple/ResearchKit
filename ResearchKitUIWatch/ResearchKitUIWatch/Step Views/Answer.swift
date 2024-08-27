@@ -34,7 +34,7 @@ public enum Answer<T: Equatable>: Equatable {
     case none(default: T? = nil)
     case some(T)
     
-    var value: T? {
+    public var value: T? {
         switch self {
         case let .none(value):
             value
@@ -44,7 +44,7 @@ public enum Answer<T: Equatable>: Equatable {
         }
     }
     
-    var isAnswered: Bool {
+    public var isAnswered: Bool {
         self != .none()
     }
 }
@@ -53,7 +53,7 @@ struct AnyAnswer: Equatable {
     let isAnswered: Bool
     
     init() {
-        isAnswered = false
+        isAnswered = true
     }
     
     init(answer: Answer<some Equatable>) {
@@ -62,7 +62,7 @@ struct AnyAnswer: Equatable {
 }
 
 struct ResearchQuestionAnswerPreferenceKey: PreferenceKey {
-    static var defaultValue: AnyAnswer = AnyAnswer()
+    static var defaultValue = AnyAnswer()
 
     static func reduce(value: inout AnyAnswer, nextValue: () -> AnyAnswer) {
         value = nextValue()
