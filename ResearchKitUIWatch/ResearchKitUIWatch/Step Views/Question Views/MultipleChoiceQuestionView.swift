@@ -32,9 +32,6 @@ import SwiftUI
 
 // TODO(rdar://129033515): Update name of this module to reflect just the choice options without the header.
 public struct MultipleChoiceQuestionView: View {
-    @Environment(\.researchQuestionIsOptional)
-    private var isOptional
-    
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
 
@@ -118,7 +115,6 @@ public struct MultipleChoiceQuestionView: View {
                 }
             }
         }
-        .preference(key: ResearchQuestionOptionalPreferenceKey.self, value: isOptional)
     }
 
     private func choiceSelected(_ option: MultipleChoiceOption) {
