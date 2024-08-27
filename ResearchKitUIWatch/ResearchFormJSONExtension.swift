@@ -340,22 +340,31 @@ public struct ResearchFormAdapter: View {
                 title: instructionStep.title,
                 subtitle: instructionStep.text
             ) {
-#if !os(watchOS)
                 if let bodyItems = instructionStep.bodyItems {
                     ForEach(Array(bodyItems.enumerated()), id: \.offset) { _, bodyItem in
-                        HStack {
-                            if let image = bodyItem.image {
-                                Image(uiImage: image)
-                                    .frame(width: 40, height: 40)
-                                    .foregroundStyle(.bodyItemIconForegroundStyle)
+                        let image: Image? = {
+                            let image: Image?
+                            if let bodyItemImage = bodyItem.image {
+                                image = Image(uiImage: bodyItemImage)
+                            } else {
+                                image = nil
                             }
-                            
-                            Text(bodyItem.text ?? "")
-                                .font(.subheadline)
-                        }
+                            return image
+                        }()
+                        
+                        let text: Text? = {
+                            let text: Text?
+                            if let bodyItemText = bodyItem.text, !bodyItemText.isEmpty {
+                                text = Text(bodyItemText)
+                            } else {
+                                text = nil
+                            }
+                            return text
+                        }()
+                        
+                        InstructionBodyItem(image: image, text: text)
                     }
                 }
-#endif
             }
         }
     }
