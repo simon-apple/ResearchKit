@@ -123,20 +123,22 @@ public struct FormRowContent: View {
                 title: textSliderQuestion.title,
                 detail: detail,
                 multipleChoiceOptions: textSliderQuestion.multipleChoiceOptions,
-                selection: .init(get: {
-                    return textSliderQuestion.result
-                }, set: { newValue in
-                    formRow = .textSliderStep(
-                        ScaleSliderQuestion(
-                            id: textSliderQuestion.id,
-                            title: textSliderQuestion.title,
-                            options: textSliderQuestion.multipleChoiceOptions,
-                            selectedMultipleChoiceOption: newValue
+                selection: .init(
+                    get: {
+                        return textSliderQuestion.result
+                    }, set: { newValue in
+                        formRow = .textSliderStep(
+                            ScaleSliderQuestion(
+                                id: textSliderQuestion.id,
+                                title: textSliderQuestion.title,
+                                options: textSliderQuestion.multipleChoiceOptions,
+                                selectedMultipleChoiceOption: newValue
+                            )
                         )
-                    )
-                }
-                                )
+                    }
+                )
             )
+            
         case .textRow(let textQuestion):
             TextQuestionView(
                 id: textQuestion.id,
@@ -149,14 +151,20 @@ public struct FormRowContent: View {
                 hideClearButton: textQuestion.hideClearButton,
                 result: .init(
                     get: {
-                        textQuestion.text
+                        // FIXME: The textQuestion reference persists even after formRow is overwritten, causing the view to incorrectly recognize the previous answer as new.
+                        // This results in the setter being triggered with the old value, leading to the loss of the intended value.
+                        // This is a quick fix to ensure the value is retrieved from the most recent formRow.
+                        guard case let .textRow(referencedTextQuestion) = formRow else {
+                            fatalError()
+                        }
+                        return referencedTextQuestion.answer
                     },
                     set: { newValue in
                         formRow = .textRow(
                             TextQuestion(
                                 title: textQuestion.title,
                                 id: textQuestion.id,
-                                text: newValue,
+                                answer: newValue,
                                 prompt: textQuestion.prompt,
                                 textFieldType: textQuestion.textFieldType,
                                 characterLimit: textQuestion.characterLimit,
@@ -167,6 +175,7 @@ public struct FormRowContent: View {
                     }
                 )
             )
+            
         case .dateRow(let dateQuestion):
             DateTimeView(
                 id: dateQuestion.id,

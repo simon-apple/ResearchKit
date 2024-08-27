@@ -35,6 +35,12 @@ public struct ResearchFormStepContentView<Content: View>: View {
     @State
     private var managedTaskResult: ResearchTaskResult = ResearchTaskResult()
 
+    @State
+    private var isOptional: Bool = true
+    
+    @State 
+    private var answered: Bool = false
+    
     private let content: Content
 
     let isLastStep: Bool
@@ -53,6 +59,12 @@ public struct ResearchFormStepContentView<Content: View>: View {
     public var body: some View {
         StickyScrollView {
             content
+                .onPreferenceChange(ResearchQuestionOptionalPreferenceKey.self) {
+                    isOptional = $0
+                }
+                .onPreferenceChange(ResearchQuestionAnswerPreferenceKey.self) {
+                    answered = $0.isAnswered
+                }
                 .padding()
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
@@ -78,6 +90,7 @@ public struct ResearchFormStepContentView<Content: View>: View {
                     .padding(.vertical, 8)
             }
             .buttonStyle(.borderedProminent)
+            .disabled(!isOptional && !answered)
         }
         .background(Color.choice(for: .secondaryBackground))
         .navigationBarTitleDisplayMode(.inline)

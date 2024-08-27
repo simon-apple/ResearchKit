@@ -104,10 +104,6 @@ public struct _SimpleFormItemViewHeader: View {
 
     public var body: some View {
         VStack(alignment: .leading) {
-            if !isOptional {
-                Text("Required")
-            }
-            
             if let detail, showDetailText {
                 detailText(detail)
             }

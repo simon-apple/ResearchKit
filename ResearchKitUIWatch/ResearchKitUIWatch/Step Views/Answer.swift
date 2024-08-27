@@ -28,25 +28,43 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// apple-internal
-
 import SwiftUI
 
-internal extension EnvironmentValues {
-    @Entry var researchQuestionIsOptional: Bool = true
-}
-
-public extension View {
-    func researchQuestionOptional(_ value: Bool = true) -> some View {
-        self
-            .environment(\.researchQuestionIsOptional, value)
+public enum Answer<T: Equatable>: Equatable {
+    case none(default: T? = nil)
+    case some(T)
+    
+    var value: T? {
+        switch self {
+        case let .none(value):
+            value
+            
+        case let .some(value):
+            value
+        }
+    }
+    
+    var isAnswered: Bool {
+        self != .none()
     }
 }
 
-struct ResearchQuestionOptionalPreferenceKey: PreferenceKey {
-    static var defaultValue: Bool = true
+struct AnyAnswer: Equatable {
+    let isAnswered: Bool
+    
+    init() {
+        isAnswered = false
+    }
+    
+    init(answer: Answer<some Equatable>) {
+        isAnswered = answer.isAnswered
+    }
+}
 
-    static func reduce(value: inout Bool, nextValue: () -> Bool) {
+struct ResearchQuestionAnswerPreferenceKey: PreferenceKey {
+    static var defaultValue: AnyAnswer = AnyAnswer()
+
+    static func reduce(value: inout AnyAnswer, nextValue: () -> AnyAnswer) {
         value = nextValue()
     }
 }

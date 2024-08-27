@@ -34,8 +34,8 @@ public struct StepResultKey<Result> {
 
     let id: String
 
-    public static func text(id: String) -> StepResultKey<String> {
-        return StepResultKey<String>(id: id)
+    public static func text(id: String) -> StepResultKey<Answer<String>> {
+        return StepResultKey<Answer<String>>(id: id)
     }
 
     public static func imageChoice(id: String) -> StepResultKey<[ImageChoice]> {

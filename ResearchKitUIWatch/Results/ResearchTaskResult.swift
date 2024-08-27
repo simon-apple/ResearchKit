@@ -31,7 +31,7 @@
 import SwiftUI
 
 enum AnswerFormat {
-    case text(String)
+    case text(Answer<String>)
     case numeric(Double?)
     case date(Date)
     case weight(Double)
@@ -51,8 +51,8 @@ public final class ResearchTaskResult: ObservableObject {
     func resultForStep<Result>(key: StepResultKey<Result>) -> Result? {
         let answerFormat = stepResults[key.id]
         switch answerFormat {
-        case .text(let string):
-            return string as? Result
+        case let .text(answer):
+            return answer as? Result
         case .numeric(let decimal):
             return decimal as? Result
         case .date(let date):

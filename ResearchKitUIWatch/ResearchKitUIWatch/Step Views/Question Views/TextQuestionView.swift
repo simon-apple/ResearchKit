@@ -37,7 +37,7 @@ public enum TextFieldType {
 public struct TextQuestion: Identifiable {
     public var title: String
     public var id: String
-    public var text: String
+    public var answer: Answer<String>
     public var prompt: String
     public var textFieldType: TextFieldType
     public var characterLimit: Int
@@ -47,7 +47,7 @@ public struct TextQuestion: Identifiable {
     public init(
         title: String,
         id: String,
-        text: String,
+        answer: Answer<String>,
         prompt: String,
         textFieldType: TextFieldType,
         characterLimit: Int,
@@ -56,7 +56,7 @@ public struct TextQuestion: Identifiable {
     ) {
         self.title = title
         self.id = id
-        self.text = text
+        self.answer = answer
         self.prompt = prompt
         self.textFieldType = textFieldType
         self.characterLimit = characterLimit
@@ -65,14 +65,16 @@ public struct TextQuestion: Identifiable {
     }
 }
 
+
 public struct TextQuestionView<Header: View>: View {
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
 
+    @Environment(\.researchQuestionIsOptional)
+    private var isOptional: Bool
+        
     enum FocusTarget {
-        
         case textQuestion
-        
     }
     
     let id: String
@@ -84,14 +86,19 @@ public struct TextQuestionView<Header: View>: View {
     let characterLimit: Int
     let hideCharacterCountLabel: Bool
     let hideClearButton: Bool
-    let result: StateManagementType<String>
-
-    private var resolvedResult: Binding<String> {
+    let result: StateManagementType<Answer<String>>
+    let defaultTextAnswer: String?
+    
+    private var resolvedResult: Binding<Answer<String>> {
         switch result {
         case let .automatic(key: key):
             return Binding(
-                get: { managedTaskResult.resultForStep(key: key) ?? ""},
-                set: { managedTaskResult.setResultForStep(.text($0), key: key) }
+                get: {
+                    managedTaskResult.resultForStep(key: key) ?? .none(default: defaultTextAnswer)
+                },
+                set: {
+                    managedTaskResult.setResultForStep(.text($0), key: key)
+                }
             )
         case let .manual(value):
             return value
@@ -106,7 +113,7 @@ public struct TextQuestionView<Header: View>: View {
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false,
-        result: Binding<String>
+        result: Binding<Answer<String>>
     ) {
         self.id = id
         self.header = header()
@@ -116,6 +123,7 @@ public struct TextQuestionView<Header: View>: View {
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
         self.result = .manual(result)
+        self.defaultTextAnswer = nil
     }
 
     public init(
@@ -135,6 +143,7 @@ public struct TextQuestionView<Header: View>: View {
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
         self.result = .automatic(key: .text(id: id))
+        self.defaultTextAnswer = nil
     }
 
     private var axis: Axis {
@@ -153,35 +162,46 @@ public struct TextQuestionView<Header: View>: View {
 
         return nil
     }
-
+    
     public var body: some View {
         FormItemCardView {
             header
         } content: {
             VStack {
-                TextField("", text: resolvedResult, prompt: placeholder, axis: axis)
-                    .textFieldStyle(.plain) // Text binding's `didSet` called twice if this is not set.
-                    .focused($focusTarget, equals: .textQuestion)
-                    .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
-                    .contentShape(Rectangle())
-                    .onAppear(perform: {
+                TextField(
+                    "",
+                    text: .init(get: {
+                        resolvedResult.wrappedValue.value ?? ""
+                    }, set: { newValue in
+                        resolvedResult.wrappedValue = newValue.isEmpty
+                        ? .none(default: nil)
+                        : .some(String(newValue.prefix(characterLimit)))
+                    }),
+                    prompt: placeholder,
+                    axis: axis
+                )
+                .textFieldStyle(.plain) // Text binding's `didSet` called twice if this is not set.
+                .focused($focusTarget, equals: .textQuestion)
+                .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
+                .contentShape(Rectangle())
+                .onAppear(perform: {
 #if !os(watchOS)
-                        if textFieldType == .singleLine {
-                            UITextField.appearance().clearButtonMode = .whileEditing
-                        }
+                    if textFieldType == .singleLine {
+                        UITextField.appearance().clearButtonMode = .whileEditing
+                    }
 #endif
                     })
 
                 if textFieldType == .multiline {
                     HStack {
                         if hideCharacterCountLabel == false {
-                            Text("\(resolvedResult.wrappedValue.count)/\(characterLimit)")
+                            Text("\(resolvedResult.wrappedValue.value?.count ?? 0)/\(characterLimit)")
                         }
                         Spacer()
 
                         if !hideClearButton {
                             Button {
-                                resolvedResult.wrappedValue = ""
+                                resolvedResult.wrappedValue = .none(default: nil)
                             } label: {
                                 Text("Clear")
                             }
@@ -197,15 +217,12 @@ public struct TextQuestionView<Header: View>: View {
                         }
                     )
 #endif
-                    .onChange(of: resolvedResult.wrappedValue) { oldValue, newValue in
-                        if resolvedResult.wrappedValue.count > characterLimit {
-                            resolvedResult.wrappedValue = oldValue
-                        }
-                    }
                 }
             }
             .padding()
         }
+        .preference(key: ResearchQuestionOptionalPreferenceKey.self, value: isOptional)
+        .preference(key: ResearchQuestionAnswerPreferenceKey.self, value: AnyAnswer(answer: resolvedResult.wrappedValue))
     }
 }
 
@@ -219,7 +236,7 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false,
-        result: Binding<String>
+        result: Binding<Answer<String>>
     ) {
         self.id = id
         self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
@@ -229,6 +246,7 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
         self.result = .manual(result)
+        self.defaultTextAnswer = nil
     }
 
     init(
@@ -250,25 +268,23 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
         self.result = .automatic(key: .text(id: id))
-
-        if let defaultTextAnswer {
-            self.resolvedResult.wrappedValue = defaultTextAnswer
-        }
+        self.defaultTextAnswer = defaultTextAnswer
     }
     
 }
 
-struct TextQuestionView_Previews: PreviewProvider {
-    static var previews: some View {
+#Preview {
+    @Previewable @State var value: Answer<String> = .none(default: "Tom Riddle")
+    ScrollView {
         TextQuestionView(
             id: UUID().uuidString,
             title: "What is your name?",
             detail: nil,
             prompt: "Tap to write",
-            textFieldType: .multiline,
+            textFieldType: .singleLine,
             characterLimit: 10,
             hideCharacterCountLabel: true,
-            result: .constant("Tom Riddle")
+            result: $value
         )
     }
 }

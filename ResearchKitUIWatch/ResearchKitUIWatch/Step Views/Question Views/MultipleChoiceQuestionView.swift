@@ -95,32 +95,30 @@ public struct MultipleChoiceQuestionView: View {
 
     public var body: some View {
         FormItemCardView(title: title, detail: detail) {
-            VStack {
-                Text("Is Optional: \(isOptional)")
-                ForEach(Array(choices.enumerated()), id: \.offset) { index, option in
-                    VStack(spacing: .zero) {
-                        if index != 0 {
-                            Divider()
-                        }
-                        
-                        TextChoiceCell(
-                            title: Text(option.choiceText),
-                            isSelected: resolvedResult.wrappedValue.contains(where: { choice in
-                                choice.id == option.id
-                            })
-                        ) {
-                            choiceSelected(option)
-                        }
-                        .padding(.horizontal, 8)
-#if !os(watchOS)
-                        .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 12))
-                        .hoverEffect()
-#endif
-                        .padding(.horizontal, -8)
+            ForEach(Array(choices.enumerated()), id: \.offset) { index, option in
+                VStack(spacing: .zero) {
+                    if index != 0 {
+                        Divider()
                     }
+                    
+                    TextChoiceCell(
+                        title: Text(option.choiceText),
+                        isSelected: resolvedResult.wrappedValue.contains(where: { choice in
+                            choice.id == option.id
+                        })
+                    ) {
+                        choiceSelected(option)
+                    }
+                    .padding(.horizontal, 8)
+#if !os(watchOS)
+                    .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 12))
+                    .hoverEffect()
+#endif
+                    .padding(.horizontal, -8)
                 }
             }
         }
+        .preference(key: ResearchQuestionOptionalPreferenceKey.self, value: isOptional)
     }
 
     private func choiceSelected(_ option: MultipleChoiceOption) {

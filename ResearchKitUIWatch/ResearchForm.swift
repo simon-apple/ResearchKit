@@ -32,7 +32,7 @@ import SwiftUI
 
 public struct ResearchForm<Content: View>: View {
     
-    private let taskKey: StepResultKey<String>
+    private let taskKey: StepResultKey<Answer<String>>
     private let steps: Content
     
     var onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)?
