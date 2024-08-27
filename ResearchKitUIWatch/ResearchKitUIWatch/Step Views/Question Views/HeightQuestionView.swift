@@ -199,7 +199,7 @@ public struct HeightQuestionView: View {
                     .presentationCompactAdaptation((.popover))
                 }
                 #else
-                .sheet(
+                .navigationDestination(
                     isPresented: $isInputActive
                 ) {
                     HeightPickerView(
@@ -279,7 +279,7 @@ struct HeightPickerView: View {
                         .tag(i)
                 }
             } label: {
-                Text("Tap Here")
+                Text(primaryUnit)
             }
             .pickerStyle(.wheel)
             .onChange(of: firstSelection) { _, _ in
@@ -294,7 +294,7 @@ struct HeightPickerView: View {
                             .tag(i)
                     }
                 } label: {
-                    Text("Tap Here")
+                    Text(secondaryUnit)
                 }
                 .pickerStyle(.wheel)
                 .onChange(of: secondSelection) { _, _ in
@@ -334,11 +334,13 @@ struct HeightPickerView: View {
 @available(iOS 18.0, *)
 #Preview {
     @Previewable @State var selection: Double = 162
-    HeightQuestionView(
-        id: UUID().uuidString,
-        title: "Height question here",
-        detail: nil,
-        measurementSystem: .USC,
-        selection: $selection
-    )
+    NavigationStack {
+        HeightQuestionView(
+            id: UUID().uuidString,
+            title: "Height question here",
+            detail: nil,
+            measurementSystem: .USC,
+            selection: $selection
+        )
+    }
 }

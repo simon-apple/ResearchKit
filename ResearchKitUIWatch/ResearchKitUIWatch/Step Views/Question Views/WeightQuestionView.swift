@@ -172,8 +172,7 @@ public struct WeightQuestionView: View {
                 .buttonStyle(.bordered)
                 .buttonBorderShape(.roundedRectangle)
 #if os(watchOS)
-                .sheet(isPresented: $isInputActive)
-                {
+                .navigationDestination(isPresented: $isInputActive) {
                     WeightPickerView(
                         measurementSystem: measurementSystem,
                         precision: precision,
@@ -183,8 +182,6 @@ public struct WeightQuestionView: View {
                         selection: resolvedResult,
                         hasChanges: $hasChanges
                     )
-                    .frame(width: 300)
-                    .presentationCompactAdaptation((.popover))
                 }
 #else
                 .popover(
@@ -343,7 +340,7 @@ struct WeightPickerView: View {
                         .tag(i)
                 }
             } label: {
-                Text("Tap Here")
+                Text(primaryUnit)
             }
             .pickerStyle(.wheel)
             .onChange(of: selectionOne) { _, _ in
@@ -358,7 +355,9 @@ struct WeightPickerView: View {
                             .tag(i)
                     }
                 } label: {
-                    Text("Tap Here")
+                    if measurementSystem == .USC {
+                        Text("oz")
+                    }
                 }
                 .pickerStyle(.wheel)
                 .onChange(of: selectionTwo) { _, _ in
@@ -456,15 +455,17 @@ struct WeightPickerView: View {
 @available(iOS 18.0, *)
 #Preview {
     @Previewable @State var selection: Double = 133
-    WeightQuestionView(
-        id: UUID().uuidString,
-        title: "Weight question here",
-        detail: nil,
-        measurementSystem: .USC,
-        precision: .high,
-        defaultValue: 150,
-        minimumValue: 0,
-        maximumValue: 1430,
-        selection: $selection
-    )
+    NavigationStack {
+        WeightQuestionView(
+            id: UUID().uuidString,
+            title: "Weight question here",
+            detail: nil,
+            measurementSystem: .USC,
+            precision: .high,
+            defaultValue: 150,
+            minimumValue: 0,
+            maximumValue: 1430,
+            selection: $selection
+        )
+    }
 }
