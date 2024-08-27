@@ -31,7 +31,7 @@
 import ResearchKit
 import SwiftUI
 
-public extension ResearchForm where Content == TaskAdaptation {
+public extension ResearchForm where Content == ResearchFormAdapter {
     
     init(
         taskIdentifier: String,
@@ -41,7 +41,7 @@ public extension ResearchForm where Content == TaskAdaptation {
         self.init(
             taskIdentifier: taskIdentifier,
             steps: {
-                TaskAdaptation(task: task)
+                ResearchFormAdapter(task: task)
             },
             onResearchTaskCompletion: onResearchTaskCompletion
         )
@@ -49,7 +49,7 @@ public extension ResearchForm where Content == TaskAdaptation {
     
 }
 
-public struct TaskAdaptation: View {
+public struct ResearchFormAdapter: View {
     
     private let task: ORKOrderedTask
     
