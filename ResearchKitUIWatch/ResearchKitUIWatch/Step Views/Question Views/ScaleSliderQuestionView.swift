@@ -462,14 +462,14 @@ public struct InputManagedScaleSliderQuestion: View {
             id: UUID().uuidString,
             title: "On a scale of Pun - Poem, how would you rate today?",
             multipleChoiceOptions: [
-                .init(id: "1", choiceText: "Pun"),
-                .init(id: "2", choiceText: "Dad Joke"),
-                .init(id: "3", choiceText: "Knock-Knock Joke"),
-                .init(id: "4", choiceText: "One-Liner"),
-                .init(id: "5", choiceText: "Parody"),
-                .init(id: "5", choiceText: "Poem"),
+                .init(id: "1", choiceText: "Pun", value: 1 as NSNumber),
+                .init(id: "2", choiceText: "Dad Joke", value: 2 as NSNumber),
+                .init(id: "3", choiceText: "Knock-Knock Joke", value: 3 as NSNumber),
+                .init(id: "4", choiceText: "One-Liner", value: 4 as NSNumber),
+                .init(id: "5", choiceText: "Parody", value: 5 as NSNumber),
+                .init(id: "5", choiceText: "Poem", value: 6 as NSNumber),
             ],
-            selection: .constant(.init(id: "2", choiceText: "Dad Joke"))
+            selection: .constant(.init(id: "2", choiceText: "Dad Joke", value: 2 as NSNumber))
         )
     }
 }
