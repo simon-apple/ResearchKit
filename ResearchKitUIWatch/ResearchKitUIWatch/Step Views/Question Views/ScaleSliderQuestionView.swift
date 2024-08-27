@@ -56,7 +56,6 @@ public struct ScaleSliderQuestionView: View {
             lhs: ScaleSliderQuestionView.ScaleSelectionValue,
             rhs: ScaleSliderQuestionView.ScaleSelectionValue
         ) -> Bool {
-
             switch lhs {
                 case .textChoice(let binding):
                     guard case .textChoice(let rhsBinding) = rhs else {
@@ -74,12 +73,13 @@ public struct ScaleSliderQuestionView: View {
                     }
                     return rhsBinding.wrappedValue == binding.wrappedValue
             }
-
         }
 
-        case textChoice(Binding<MultipleChoiceOption>)
         case int(Binding<Int>)
         case double(Binding<Double>)
+        
+        @available(watchOS, unavailable)
+        case textChoice(Binding<MultipleChoiceOption>)
     }
 
     public init(
@@ -117,6 +117,7 @@ public struct ScaleSliderQuestionView: View {
         self._sliderUIValue = State(wrappedValue: Double(selection.wrappedValue))
     }
 
+    @available(watchOS, unavailable)
     // The multi choice version
     public init(
         id: String,
@@ -282,39 +283,6 @@ public struct ScaleSliderQuestionView: View {
     }
 }
 
-struct ScaleSliderQuestionView_Previews: PreviewProvider {
-
-    static var previews: some View {
-        ZStack {
-            (Color.choice(for: .secondaryBackground))
-                .ignoresSafeArea()
-
-            ScaleSliderQuestionView(
-                id: UUID().uuidString,
-                title: "On a scale of 1-10, how would you rate today?",
-                range: 1...10,
-                selection: .constant(7)
-            )
-            .padding(.horizontal)
-        }
-
-    }
-}
-
-#Preview("Double") {
-    @Previewable @State var selection: Double = 0.0
-    
-    ScrollView {
-        ScaleSliderQuestionView(
-            id: UUID().uuidString,
-            title: "Double Slider Question Example",
-            range: 0.0 ... 10.0,
-            step: 0.1,
-            selection: $selection
-        )
-    }
-}
-
 public struct InputManagedScaleSliderQuestion: View {
     
     private let id: String
@@ -410,6 +378,7 @@ public struct InputManagedScaleSliderQuestion: View {
     
     public var body: some View {
         switch (scaleSelectionConfiguration, selection) {
+#if !os(watchOS)
         case let (.textChoice(multipleChoiceOptions), .textChoice(textSelection)):
             ScaleSliderQuestionView(
                 id: id,
@@ -425,6 +394,7 @@ public struct InputManagedScaleSliderQuestion: View {
                     }
                 )
             )
+#endif
         case let (.integerRange(closedRange), .int(integerSelection)):
             ScaleSliderQuestionView(
                 id: id,
@@ -461,3 +431,46 @@ public struct InputManagedScaleSliderQuestion: View {
     }
     
 }
+
+#Preview("Int") {
+    ScrollView {
+        ScaleSliderQuestionView(
+            id: UUID().uuidString,
+            title: "On a scale of 1-10, how would you rate today?",
+            range: 1...10,
+            selection: .constant(7)
+        )
+    }
+}
+
+#Preview("Double") {
+    ScrollView {
+        ScaleSliderQuestionView(
+            id: UUID().uuidString,
+            title: "On a scale of 1.0 - 10.0, how would you rate today?",
+            range: 1.0 ... 10.0,
+            step: 0.1,
+            selection: .constant(7.0)
+        )
+    }
+}
+
+#if !os(watchOS)
+#Preview("Text") {
+    ScrollView {
+        ScaleSliderQuestionView(
+            id: UUID().uuidString,
+            title: "On a scale of Pun - Poem, how would you rate today?",
+            multipleChoiceOptions: [
+                .init(id: "1", choiceText: "Pun", value: 1 as NSNumber),
+                .init(id: "2", choiceText: "Dad Joke", value: 2 as NSNumber),
+                .init(id: "3", choiceText: "Knock-Knock Joke", value: 3 as NSNumber),
+                .init(id: "4", choiceText: "One-Liner", value: 4 as NSNumber),
+                .init(id: "5", choiceText: "Parody", value: 5 as NSNumber),
+                .init(id: "5", choiceText: "Poem", value: 6 as NSNumber),
+            ],
+            selection: .constant(.init(id: "2", choiceText: "Dad Joke", value: 2 as NSNumber))
+        )
+    }
+}
+#endif
