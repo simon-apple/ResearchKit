@@ -340,6 +340,7 @@ public struct ResearchFormAdapter: View {
                 title: instructionStep.title,
                 subtitle: instructionStep.text
             ) {
+#if !os(watchOS)
                 if let bodyItems = instructionStep.bodyItems {
                     ForEach(Array(bodyItems.enumerated()), id: \.offset) { _, bodyItem in
                         let image: Image? = {
@@ -365,6 +366,7 @@ public struct ResearchFormAdapter: View {
                         InstructionBodyItem(image: image, text: text)
                     }
                 }
+#endif
             }
         }
     }
