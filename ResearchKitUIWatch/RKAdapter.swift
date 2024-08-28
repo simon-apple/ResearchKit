@@ -413,6 +413,7 @@ public class RKAdapter {
                                     step: stepSize,
                                     selection: continuousScaleAnswerFormat.defaultValue
                                 )
+#if !os(watchOS)
                             case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
                                 let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
                                     MultipleChoiceOption(
@@ -430,6 +431,7 @@ public class RKAdapter {
                                         selection: answerOptions[textChoiceScaleAnswerFormat.defaultIndex]
                                     )
                                 }
+#endif
                             case let textAnswerFormat as ORKTextAnswerFormat:
                                 TextQuestionView(
                                     id: formItem.identifier,

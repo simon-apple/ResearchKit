@@ -146,6 +146,7 @@ public struct ScaleSliderQuestionView: View {
         .init(
             get: {
                 switch primitiveSelection {
+#if !os(watchOS)
                 case .textChoice(let multipleChoiceOption):
                         .textChoice(
                             .init(
@@ -155,6 +156,7 @@ public struct ScaleSliderQuestionView: View {
                                 set: { primitiveSelection = .textChoice($0) }
                             )
                         )
+#endif
                 case .int(let int):
                         .int(
                             .init(
@@ -181,8 +183,10 @@ public struct ScaleSliderQuestionView: View {
             },
             set: { newValue in
                 switch newValue {
+#if !os(watchOS)
                 case .textChoice(let binding):
                     primitiveSelection = .textChoice(binding.wrappedValue)
+#endif
                 case .int(let binding):
                     primitiveSelection = .int(binding.wrappedValue)
                 case .double(let binding):
