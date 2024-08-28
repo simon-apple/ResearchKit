@@ -40,7 +40,6 @@ public struct ScaleSliderQuestionView: View {
             lhs: ScaleSliderQuestionView.ScaleSelectionBindingValue,
             rhs: ScaleSliderQuestionView.ScaleSelectionBindingValue
         ) -> Bool {
-
             switch lhs {
                 case .textChoice(let binding):
                     guard case .textChoice(let rhsBinding) = rhs else {
@@ -58,12 +57,13 @@ public struct ScaleSliderQuestionView: View {
                     }
                     return rhsBinding.wrappedValue == binding.wrappedValue
             }
-
         }
 
-        case textChoice(Binding<MultipleChoiceOption>)
         case int(Binding<Int>)
         case double(Binding<Double>)
+        
+        @available(watchOS, unavailable)
+        case textChoice(Binding<MultipleChoiceOption>)
         
     }
     
@@ -92,9 +92,11 @@ public struct ScaleSliderQuestionView: View {
             }
         }
 
-        case textChoice(MultipleChoiceOption)
         case int(Int)
         case double(Double)
+        
+        @available(watchOS, unavailable)
+        case textChoice(MultipleChoiceOption)
         
     }
     
@@ -268,6 +270,7 @@ public struct ScaleSliderQuestionView: View {
         self._sliderUIValue = State(wrappedValue: Double(selection.wrappedValue))
     }
     
+    @available(watchOS, unavailable)
     public init(
         id: String,
         title: String,
@@ -286,6 +289,7 @@ public struct ScaleSliderQuestionView: View {
         self._sliderUIValue = State(wrappedValue: Double(multipleChoiceOptions.firstIndex(where: { selection.id == $0.id }) ?? Array<MultipleChoiceOption>.Index(0.0)))
     }
 
+    @available(watchOS, unavailable)
     public init(
         id: String,
         title: String,
@@ -471,6 +475,17 @@ struct ScaleSliderQuestionView_Previews: PreviewProvider {
     }
 }
 
+#Preview("Int") {
+    ScrollView {
+        ScaleSliderQuestionView(
+            id: UUID().uuidString,
+            title: "On a scale of 1-10, how would you rate today?",
+            range: 1...10,
+            selection: .constant(7)
+        )
+    }
+}
+
 #Preview("Double") {
     @Previewable @State var selection: Double = 0.0
     
@@ -484,3 +499,23 @@ struct ScaleSliderQuestionView_Previews: PreviewProvider {
         )
     }
 }
+
+#if !os(watchOS)
+#Preview("Text") {
+    ScrollView {
+        ScaleSliderQuestionView(
+            id: UUID().uuidString,
+            title: "On a scale of Pun - Poem, how would you rate today?",
+            multipleChoiceOptions: [
+                .init(id: "1", choiceText: "Pun", value: 1 as NSNumber),
+                .init(id: "2", choiceText: "Dad Joke", value: 2 as NSNumber),
+                .init(id: "3", choiceText: "Knock-Knock Joke", value: 3 as NSNumber),
+                .init(id: "4", choiceText: "One-Liner", value: 4 as NSNumber),
+                .init(id: "5", choiceText: "Parody", value: 5 as NSNumber),
+                .init(id: "5", choiceText: "Poem", value: 6 as NSNumber),
+            ],
+            selection: .constant(.init(id: "2", choiceText: "Dad Joke", value: 2 as NSNumber))
+        )
+    }
+}
+#endif
