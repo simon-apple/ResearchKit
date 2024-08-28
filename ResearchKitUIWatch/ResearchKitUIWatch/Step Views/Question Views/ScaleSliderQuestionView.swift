@@ -286,7 +286,10 @@ public struct ScaleSliderQuestionView: View {
         self.primitiveSelection = .textChoice(selection)
         self.selection = .textChoice(.init(get: { selection }, set: { _ in }))
         self.stateManagementType = .automatic
-        self._sliderUIValue = State(wrappedValue: Double(multipleChoiceOptions.firstIndex(where: { selection.id == $0.id }) ?? Array<MultipleChoiceOption>.Index(0.0)))
+        
+        let index = multipleChoiceOptions.firstIndex(where: { selection.id == $0.id })
+        let sliderValue = index ?? Array<MultipleChoiceOption>.Index(0.0)
+        self._sliderUIValue = State(wrappedValue: Double(sliderValue))
     }
 
     @available(watchOS, unavailable)
@@ -305,7 +308,10 @@ public struct ScaleSliderQuestionView: View {
         self.primitiveSelection = .textChoice(selection.wrappedValue)
         self.selection = .textChoice(selection)
         self.stateManagementType = .manual
-        self._sliderUIValue = State(wrappedValue: Double(multipleChoiceOptions.firstIndex(where: { selection.id == $0.id }) ?? Array<MultipleChoiceOption>.Index(0.0)))
+        
+        let index = multipleChoiceOptions.firstIndex(where: { selection.id == $0.id })
+        let sliderValue = index ?? Array<MultipleChoiceOption>.Index(0.0)
+        self._sliderUIValue = State(wrappedValue: Double(sliderValue))
     }
 
     public var body: some View {
