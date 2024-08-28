@@ -32,10 +32,10 @@ import SwiftUI
 
 public struct InstructionBodyItem: View {
     
-    private let image: Image
-    private let text: Text
+    private let image: Image?
+    private let text: Text?
     
-    public init(image: Image, text: Text) {
+    public init(image: Image? = nil, text: Text? = nil) {
         self.image = image
         self.text = text
     }
@@ -43,20 +43,20 @@ public struct InstructionBodyItem: View {
     public var body: some View {
 #if os(watchOS)
         VStack(alignment: .leading) {
-            image
+            image?
                 .frame(width: 20, height: 20)
                 .foregroundStyle(.bodyItemIconForegroundStyle)
             
-            text
+            text?
                 .font(.subheadline)
         }
 #else
         HStack {
-            image
+            image?
                 .frame(width: 40, height: 40)
                 .foregroundStyle(.bodyItemIconForegroundStyle)
             
-            text
+            text?
                 .font(.subheadline)
         }
 #endif
