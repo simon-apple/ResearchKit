@@ -85,7 +85,7 @@ public struct ResearchFormAdapter: View {
                                     selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
                                 )
                             case let scaleAnswerFormat as ORKScaleAnswerFormat:
-                                InputManagedScaleSliderQuestion(
+                                ScaleSliderQuestionView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     range: scaleAnswerFormat.minimum...scaleAnswerFormat.maximum,
@@ -104,13 +104,14 @@ public struct ResearchFormAdapter: View {
                                     return stepSize
                                 }()
                                 
-                                InputManagedScaleSliderQuestion(
+                                ScaleSliderQuestionView(
                                     id: formItem.identifier,
                                     title: formItem.text ?? "",
                                     range: continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum,
                                     step: stepSize,
                                     selection: continuousScaleAnswerFormat.defaultValue
                                 )
+#if !os(watchOS)
                             case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
                                 let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
                                     MultipleChoiceOption(
@@ -121,13 +122,14 @@ public struct ResearchFormAdapter: View {
                                 }
                                 
                                 if answerOptions.indices.contains(textChoiceScaleAnswerFormat.defaultIndex) {
-                                    InputManagedScaleSliderQuestion(
+                                    ScaleSliderQuestionView(
                                         id: formItem.identifier,
                                         title: formItem.text ?? "",
                                         multipleChoiceOptions: answerOptions,
                                         selection: answerOptions[textChoiceScaleAnswerFormat.defaultIndex]
                                     )
                                 }
+#endif
                             case let textAnswerFormat as ORKTextAnswerFormat:
                                 TextQuestionView(
                                     id: formItem.identifier,
