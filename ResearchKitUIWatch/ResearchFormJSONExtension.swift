@@ -298,7 +298,6 @@ public struct ResearchFormAdapter: View {
                         case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
                             let choices = imageChoiceAnswerFormat.imageChoices.map { choice in
                                 return ImageChoice(
-                                    id: UUID(),
                                     normalImage: choice.normalStateImage,
                                     selectedImage: choice.selectedStateImage,
                                     text: choice.text!,
