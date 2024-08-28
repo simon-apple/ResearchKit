@@ -279,7 +279,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
             for (ORKResult *stepResult in ongoingResult.results) {
                 NSString *stepResultIdentifier = stepResult.identifier;
                 if ([task stepWithIdentifier:stepResultIdentifier] == nil) {
-                    @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"ongoingResults has results for identifiers not found within the task steps" userInfo:nil];
+                    ORK_Log_Error("ongoingResults has results for identifiers not found within the task steps, skipping adding result for step %@", stepResultIdentifier);
+                    continue;
                 }
                 [_managedStepIdentifiers addObject:stepResultIdentifier];
                 _managedResults[stepResultIdentifier] = stepResult;

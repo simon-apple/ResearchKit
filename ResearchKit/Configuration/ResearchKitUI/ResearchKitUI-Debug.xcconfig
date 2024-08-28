@@ -7,3 +7,4 @@
 #include "ResearchKitUI-Shared.xcconfig"
 
 SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG
+DEBUG_INFORMATION_FORMAT = dwarf
