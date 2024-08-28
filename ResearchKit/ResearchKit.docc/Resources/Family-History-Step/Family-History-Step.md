@@ -10,4 +10,13 @@ and present a family health history survey tailored to their specific needs.
 With the ``ORKFamilyHistoryStep`` you can specify:
 
 - **Relative Types** - Determine the exact type of family members the survey asks about. 
-- **Survey questions** - Use the same questions for each relative group or create a different survey for each.
+- **Survey Questions** - Use the same questions for each relative group or create a different survey for each.
+- **Health Conditions** - Include a list of health conditions that can be the same or different for each relative group.
+- **Displayed Results** - Determine what results are displayed back to the user after they complete the survey for each relative.
+
+## Constructing a Family History Step
+
+Before initializing a ``ORKFamilyHistoryStep`` you should familiarize yourself with the classes required. 
+
+- **ORKHealthCondition** - Represents a single health condition presented in your survey.
+- **ORKConditionStepConfiguration** - Use the same questions for each relative group or create a different survey for each.
