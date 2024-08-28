@@ -40,13 +40,12 @@ public struct ImageChoice: Identifiable, Equatable {
     public let value: ResultValue
 
     public init(
-        id: String,
         normalImage: UIImage,
         selectedImage: UIImage?,
         text: String,
         value: ResultValue
     ) {
-        self.id = id
+        self.id = String(describing: value)
         self.normalImage = normalImage
         self.selectedImage = selectedImage
         self.text = text
@@ -269,14 +268,12 @@ fileprivate extension View {
             detail: nil,
             choices: [
                 ImageChoice(
-                    id: "carrot",
                     normalImage: UIImage(systemName: "carrot")!,
                     selectedImage: nil,
                     text: "carrot",
                     value: 0 as NSNumber
                 ),
                 ImageChoice(
-                    id: "cake",
                     normalImage: UIImage(systemName: "birthday.cake")!,
                     selectedImage: nil,
                     text: "cake",

@@ -308,7 +308,6 @@ public class RKAdapter {
         case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
             let choices = imageChoiceAnswerFormat.imageChoices.map { choice in
                 return ImageChoice(
-                    id: choice.text!,
                     normalImage: choice.normalStateImage,
                     selectedImage: choice.selectedStateImage,
                     text: choice.text!,
@@ -585,7 +584,6 @@ public class RKAdapter {
                             case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
                                 let choices = imageChoiceAnswerFormat.imageChoices.map { choice in
                                     return ImageChoice(
-                                        id: choice.text!,
                                         normalImage: choice.normalStateImage,
                                         selectedImage: choice.selectedStateImage,
                                         text: choice.text!,
