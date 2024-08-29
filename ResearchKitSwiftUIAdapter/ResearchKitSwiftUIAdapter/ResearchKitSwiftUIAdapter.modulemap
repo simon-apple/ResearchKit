@@ -28,16 +28,14 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitSwiftUIAdapter/ORKIESerializer.h>
+framework module ResearchKitSwiftUIAdapter {
+    
+    umbrella header "ResearchKitSwiftUIAdapter.h"
 
-NS_ASSUME_NONNULL_BEGIN
+    export *
 
-@interface ORKIESerializer (SerializationEntryProvider)
-
-+ (id)swiftUI_objectFromJSONData:(NSData *)data error:(NSError **)error;
-
-+ (nullable NSData *)swiftUI_JSONDataForObject:(id)object error:(NSError **)error;
-
-@end
-
-NS_ASSUME_NONNULL_END
+    module * {
+        export *
+    }
+    
+}

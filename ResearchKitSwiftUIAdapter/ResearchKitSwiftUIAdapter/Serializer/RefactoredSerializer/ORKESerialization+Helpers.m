@@ -203,7 +203,7 @@ static NSString *_ClassKey = @"_class";
                    properties:(NSDictionary *)properties {
     self = [super init];
     if (self) {
-        _class = class;
+        _theClass = class;
         _initBlock = initBlock;
         _properties = [properties mutableCopy];
     }
