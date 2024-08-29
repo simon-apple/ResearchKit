@@ -32,29 +32,13 @@ import Foundation
 import ResearchKit
 import SwiftUI
 
-// TODO(rdar://129033515): Update name of this module to reflect just the slider without the header.
 public struct ScaleSliderQuestionView: View {
-
-    let id: String
     
-    var title: String
-
-    var detail: String?
-
-    var scaleSelectionConfiguration: ScaleSelectionConfiguration
-
-    let step: Double
-
-    // Actual underlying value of the slider
-    @State
-    private var sliderUIValue: Double
-
-    private var selection: ScaleSelectionValue
-
-    private enum ScaleSelectionValue: Equatable {
+    private enum ScaleSelectionBindingValue: Equatable {
+        
         static func == (
-            lhs: ScaleSliderQuestionView.ScaleSelectionValue,
-            rhs: ScaleSliderQuestionView.ScaleSelectionValue
+            lhs: ScaleSliderQuestionView.ScaleSelectionBindingValue,
+            rhs: ScaleSliderQuestionView.ScaleSelectionBindingValue
         ) -> Bool {
             switch lhs {
                 case .textChoice(let binding):
@@ -80,6 +64,157 @@ public struct ScaleSliderQuestionView: View {
         
         @available(watchOS, unavailable)
         case textChoice(Binding<MultipleChoiceOption>)
+        
+    }
+    
+    private enum ScaleSelectionPrimitiveValue: Equatable {
+        
+        static func == (
+            lhs: ScaleSliderQuestionView.ScaleSelectionPrimitiveValue,
+            rhs: ScaleSliderQuestionView.ScaleSelectionPrimitiveValue
+        ) -> Bool {
+            switch lhs {
+                case .textChoice(let lhsValue):
+                    guard case .textChoice(let rhsValue) = rhs else {
+                        return false
+                    }
+                    return lhsValue.id == rhsValue.id
+                case .int(let lhsValue):
+                    guard case .int(let rhsValue) = rhs else {
+                        return false
+                    }
+                    return lhsValue == rhsValue
+                case .double(let lhsValue):
+                    guard case .double(let rhsValue) = rhs else {
+                        return false
+                    }
+                    return lhsValue == rhsValue
+            }
+        }
+
+        case int(Int)
+        case double(Double)
+        
+        @available(watchOS, unavailable)
+        case textChoice(MultipleChoiceOption)
+        
+    }
+    
+    private enum StateManagementType {
+        
+        case automatic, manual
+        
+    }
+    
+    private let stateManagementType: StateManagementType
+    
+    private var resolvedBinding: Binding<ScaleSelectionBindingValue> {
+        let resolvedBinding: Binding<ScaleSelectionBindingValue>
+        switch stateManagementType {
+        case .automatic:
+            resolvedBinding = resolvedManagedResult
+        case .manual:
+            resolvedBinding = .init(
+                get: {
+                    selection
+                },
+                // This binding isn't invoked with respect to `set` because another binding is returned in `get`.
+                set: { _ in }
+            )
+        }
+        return resolvedBinding
+    }
+
+    let id: String
+    
+    var title: String
+
+    var detail: String?
+
+    var scaleSelectionConfiguration: ScaleSelectionConfiguration
+
+    let step: Double
+
+    // Actual underlying value of the slider
+    @State
+    private var sliderUIValue: Double
+
+    @State
+    private var primitiveSelection: ScaleSelectionPrimitiveValue
+    
+    private var resolvedManagedResult: Binding<ScaleSelectionBindingValue> {
+        .init(
+            get: {
+                switch primitiveSelection {
+#if !os(watchOS)
+                case .textChoice(let multipleChoiceOption):
+                        .textChoice(
+                            .init(
+                                get: {
+                                    multipleChoiceOption
+                                },
+                                set: { primitiveSelection = .textChoice($0) }
+                            )
+                        )
+#endif
+                case .int(let int):
+                        .int(
+                            .init(
+                                get: {
+                                    int
+                                },
+                                set: { primitiveSelection = .int($0) }
+                            )
+                        )
+                case .double(let double):
+                        .double(
+                            .init(
+                                get: {
+                                    print("Double: \(double)")
+                                    return double
+                                },
+                                set: {
+                                    print("New double: \($0)")
+                                    primitiveSelection = .double($0)
+                                }
+                            )
+                        )
+                }
+            },
+            set: { newValue in
+                switch newValue {
+#if !os(watchOS)
+                case .textChoice(let binding):
+                    primitiveSelection = .textChoice(binding.wrappedValue)
+#endif
+                case .int(let binding):
+                    primitiveSelection = .int(binding.wrappedValue)
+                case .double(let binding):
+                    primitiveSelection = .double(binding.wrappedValue)
+                }
+            }
+        )
+    }
+    
+    private var selection: ScaleSelectionBindingValue
+    
+    public init(
+        id: String,
+        title: String,
+        detail: String? = nil,
+        range: ClosedRange<Double>,
+        step: Double = 1.0,
+        selection: Double
+    ) {
+        self.id = id
+        self.title = title
+        self.detail = detail
+        self.scaleSelectionConfiguration = .doubleRange(range)
+        self.step = step
+        self.primitiveSelection = .double(selection)
+        self.selection = .double(.init(get: { selection }, set: { _ in }))
+        self.stateManagementType = .automatic
+        self._sliderUIValue = State(wrappedValue: selection)
     }
 
     public init(
@@ -95,11 +230,31 @@ public struct ScaleSliderQuestionView: View {
         self.detail = detail
         self.scaleSelectionConfiguration = .doubleRange(range)
         self.step = step
+        self.primitiveSelection = .double(selection.wrappedValue)
         self.selection = .double(selection)
+        self.stateManagementType = .manual
         self._sliderUIValue = State(wrappedValue: selection.wrappedValue)
     }
+    
+    public init(
+        id: String,
+        title: String,
+        detail: String? = nil,
+        range: ClosedRange<Int>,
+        step: Double = 1.0,
+        selection: Int
+    ) {
+        self.id = id
+        self.title = title
+        self.detail = detail
+        self.scaleSelectionConfiguration = .integerRange(range)
+        self.step = step
+        self.primitiveSelection = .int(selection)
+        self.selection = .int(.init(get: { selection }, set: { _ in }))
+        self.stateManagementType = .automatic
+        self._sliderUIValue = State(wrappedValue: Double(selection))
+    }
 
-    // The int version
     public init(
         id: String,
         title: String,
@@ -114,11 +269,34 @@ public struct ScaleSliderQuestionView: View {
         self.scaleSelectionConfiguration = .integerRange(range)
         self.step = step
         self.selection = .int(selection)
+        self.primitiveSelection = .int(selection.wrappedValue)
+        self.stateManagementType = .manual
         self._sliderUIValue = State(wrappedValue: Double(selection.wrappedValue))
+    }
+    
+    @available(watchOS, unavailable)
+    public init(
+        id: String,
+        title: String,
+        detail: String? = nil,
+        multipleChoiceOptions: [MultipleChoiceOption],
+        selection: MultipleChoiceOption
+    ) {
+        self.id = id
+        self.title = title
+        self.detail = detail
+        self.scaleSelectionConfiguration = .textChoice(multipleChoiceOptions)
+        self.step = 1.0
+        self.primitiveSelection = .textChoice(selection)
+        self.selection = .textChoice(.init(get: { selection }, set: { _ in }))
+        self.stateManagementType = .automatic
+        
+        let index = multipleChoiceOptions.firstIndex(where: { selection.id == $0.id })
+        let sliderValue = index ?? Array<MultipleChoiceOption>.Index(0.0)
+        self._sliderUIValue = State(wrappedValue: Double(sliderValue))
     }
 
     @available(watchOS, unavailable)
-    // The multi choice version
     public init(
         id: String,
         title: String,
@@ -131,25 +309,30 @@ public struct ScaleSliderQuestionView: View {
         self.detail = detail
         self.scaleSelectionConfiguration = .textChoice(multipleChoiceOptions)
         self.step = 1.0
+        self.primitiveSelection = .textChoice(selection.wrappedValue)
         self.selection = .textChoice(selection)
-        self._sliderUIValue = State(wrappedValue: Double(multipleChoiceOptions.firstIndex(where: { selection.id == $0.id }) ?? Array<MultipleChoiceOption>.Index(0.0)))
+        self.stateManagementType = .manual
+        
+        let index = multipleChoiceOptions.firstIndex(where: { selection.id == $0.id })
+        let sliderValue = index ?? Array<MultipleChoiceOption>.Index(0.0)
+        self._sliderUIValue = State(wrappedValue: Double(sliderValue))
     }
 
     public var body: some View {
         FormItemCardView(title: title, detail: detail) {
             scaleView(selectionConfiguration: scaleSelectionConfiguration)
                 .onChange(of: sliderUIValue) { oldValue, newValue in
-                    switch selection {
-                        case .double(let doubleBinding):
-                            doubleBinding.wrappedValue = newValue
-                        case .int(let intBinding):
-                            intBinding.wrappedValue = Int(newValue)
-                        case .textChoice(let textChoiceBinding):
-                            guard case let .textChoice(array) = scaleSelectionConfiguration else {
-                                return
-                            }
-                            let index = Int(newValue)
-                            textChoiceBinding.wrappedValue = array[index]
+                    switch resolvedBinding.wrappedValue {
+                    case .double(let doubleBinding):
+                        doubleBinding.wrappedValue = newValue
+                    case .int(let intBinding):
+                        intBinding.wrappedValue = Int(newValue)
+                    case .textChoice(let textChoiceBinding):
+                        guard case let .textChoice(array) = scaleSelectionConfiguration else {
+                            return
+                        }
+                        let index = Int(newValue)
+                        textChoiceBinding.wrappedValue = array[index]
                     }
                 }
                 .onChange(of: selection) { oldValue, newValue in
@@ -283,153 +466,23 @@ public struct ScaleSliderQuestionView: View {
     }
 }
 
-public struct InputManagedScaleSliderQuestion: View {
-    
-    private let id: String
-    
-    private let title: String
+struct ScaleSliderQuestionView_Previews: PreviewProvider {
 
-    private let detail: String?
+    static var previews: some View {
+        ZStack {
+            (Color.choice(for: .secondaryBackground))
+                .ignoresSafeArea()
 
-    private let scaleSelectionConfiguration: ScaleSelectionConfiguration
-
-    private let step: Double
-    
-    @State private var selection: ScaleSelectionValue
-    
-    private enum ScaleSelectionValue: Equatable {
-        static func == (
-            lhs: ScaleSelectionValue,
-            rhs: ScaleSelectionValue
-        ) -> Bool {
-            switch lhs {
-            case .textChoice(let lhsMultipleChoiceOption):
-                guard case .textChoice(let rhsMultipleChoiceOption) = rhs else {
-                    return false
-                }
-                return rhsMultipleChoiceOption.id == lhsMultipleChoiceOption.id
-            case .int(let lhsInteger):
-                guard case .int(let rhsInteger) = rhs else {
-                    return false
-                }
-                return lhsInteger == rhsInteger
-            case .double(let lhsDouble):
-                guard case .double(let rhsDouble) = rhs else {
-                    return false
-                }
-                return rhsDouble == lhsDouble
-            }
-            
+            ScaleSliderQuestionView(
+                id: UUID().uuidString,
+                title: "On a scale of 1-10, how would you rate today?",
+                range: 1...10,
+                selection: .constant(7)
+            )
+            .padding(.horizontal)
         }
 
-        case textChoice(MultipleChoiceOption)
-        case int(Int)
-        case double(Double)
     }
-    
-    public init(
-        id: String,
-        title: String,
-        detail: String? = nil,
-        range: ClosedRange<Double>,
-        step: Double = 1.0,
-        selection: Double = 5
-    ) {
-        self.id = id
-        self.title = title
-        self.detail = detail
-        self.scaleSelectionConfiguration = .doubleRange(range)
-        self.step = step
-        self.selection = .double(selection)
-    }
-
-    // The int version
-    public init(
-        id: String,
-        title: String,
-        detail: String? = nil,
-        range: ClosedRange<Int>,
-        step: Double = 1.0,
-        selection: Int
-    ) {
-        self.id = id
-        self.title = title
-        self.detail = detail
-        self.scaleSelectionConfiguration = .integerRange(range)
-        self.step = step
-        self.selection = .int(selection)
-    }
-
-    // The multi choice version
-    public init(
-        id: String,
-        title: String,
-        detail: String? = nil,
-        multipleChoiceOptions: [MultipleChoiceOption],
-        selection: MultipleChoiceOption
-    ) {
-        self.id = id
-        self.title = title
-        self.detail = detail
-        self.scaleSelectionConfiguration = .textChoice(multipleChoiceOptions)
-        self.step = 1.0
-        self.selection = .textChoice(selection)
-    }
-    
-    public var body: some View {
-        switch (scaleSelectionConfiguration, selection) {
-#if !os(watchOS)
-        case let (.textChoice(multipleChoiceOptions), .textChoice(textSelection)):
-            ScaleSliderQuestionView(
-                id: id,
-                title: title,
-                detail: detail,
-                multipleChoiceOptions: multipleChoiceOptions,
-                selection: .init(
-                    get: {
-                        textSelection
-                    },
-                    set: { newValue in
-                        selection = .textChoice(newValue)
-                    }
-                )
-            )
-#endif
-        case let (.integerRange(closedRange), .int(integerSelection)):
-            ScaleSliderQuestionView(
-                id: id,
-                title: title,
-                detail: detail,
-                range: closedRange,
-                selection: .init(
-                    get: {
-                        integerSelection
-                    },
-                    set: { newValue in
-                        selection = .int(newValue)
-                    }
-                )
-            )
-        case let (.doubleRange(closedRange), .double(doubleSelection)):
-            ScaleSliderQuestionView(
-                id: id,
-                title: title,
-                detail: detail,
-                range: closedRange,
-                selection: .init(
-                    get: {
-                        doubleSelection
-                    },
-                    set: { newValue in
-                        selection = .double(newValue)
-                    }
-                )
-            )
-        default:
-            EmptyView()
-        }
-    }
-    
 }
 
 #Preview("Int") {
@@ -444,13 +497,15 @@ public struct InputManagedScaleSliderQuestion: View {
 }
 
 #Preview("Double") {
+    @Previewable @State var selection: Double = 0.0
+    
     ScrollView {
         ScaleSliderQuestionView(
             id: UUID().uuidString,
-            title: "On a scale of 1.0 - 10.0, how would you rate today?",
-            range: 1.0 ... 10.0,
+            title: "Double Slider Question Example",
+            range: 0.0 ... 10.0,
             step: 0.1,
-            selection: .constant(7.0)
+            selection: $selection
         )
     }
 }
