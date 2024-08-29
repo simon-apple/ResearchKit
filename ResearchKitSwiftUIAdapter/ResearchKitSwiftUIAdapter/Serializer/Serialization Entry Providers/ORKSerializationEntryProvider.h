@@ -28,13 +28,16 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Testing
-@testable import ResearchKitSwiftUIAdapter
+#import <Foundation/Foundation.h>
 
-struct ResearchKitSwiftUIAdapterTests {
+NS_ASSUME_NONNULL_BEGIN
 
-    @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-    }
+@class ORKESerializableTableEntry;
 
-}
+@interface ORKSerializationEntryProvider : NSObject
+
+- (NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *)serializationEncodingTable;
+
+@end
+
+NS_ASSUME_NONNULL_END

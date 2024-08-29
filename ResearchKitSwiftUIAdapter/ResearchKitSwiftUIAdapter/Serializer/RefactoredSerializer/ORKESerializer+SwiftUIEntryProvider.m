@@ -28,13 +28,26 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Testing
-@testable import ResearchKitSwiftUIAdapter
+#import "ORKESerializer+SwiftUIEntryProvider.h"
 
-struct ResearchKitSwiftUIAdapterTests {
+#import "ORKSwiftUISerializationEntryProvider.h"
 
-    @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-    }
+@implementation ORKIESerializer (SerializationEntryProvider)
 
++ (id)swiftUI_objectFromJSONData:(NSData *)data error:(NSError *__autoreleasing  _Nullable *)error {
+    ORKIESerializer *serializer = [self _getInitializedSerializer];
+    return [serializer objectFromJSONData:data error:error];
 }
+
++ (NSData *)swiftUI_JSONDataForObject:(id)object error:(NSError *__autoreleasing  _Nullable *)error {
+    ORKIESerializer *serializer = [self _getInitializedSerializer];
+    return [serializer JSONDataForObject:object error:error];
+}
+
++ (ORKIESerializer *)_getInitializedSerializer {
+    ORKSwiftUISerializationEntryProvider *swiftUIEntryProvider = [ORKSwiftUISerializationEntryProvider new];
+    ORKIESerializer *serializer = [[ORKIESerializer alloc] initWithEntryProviders:@[swiftUIEntryProvider]];
+    return serializer;
+}
+
+@end

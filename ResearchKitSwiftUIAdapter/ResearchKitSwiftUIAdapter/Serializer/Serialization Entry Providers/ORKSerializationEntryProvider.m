@@ -28,13 +28,17 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Testing
-@testable import ResearchKitSwiftUIAdapter
+#import "ORKSerializationEntryProvider.h"
 
-struct ResearchKitSwiftUIAdapterTests {
+#import "ORKESerialization+Helpers.h"
 
-    @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-    }
+#import <ResearchKit/ResearchKit.h>
 
+
+@implementation ORKSerializationEntryProvider
+
+- (nonnull NSMutableDictionary<NSString *,ORKESerializableTableEntry *> *)serializationEncodingTable {
+    return [NSMutableDictionary new];
 }
+
+@end

@@ -28,13 +28,16 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Testing
-@testable import ResearchKitSwiftUIAdapter
+#import "ORKIESerializer.h"
 
-struct ResearchKitSwiftUIAdapterTests {
+NS_ASSUME_NONNULL_BEGIN
 
-    @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-    }
+@interface ORKIESerializer (SerializationEntryProvider)
 
-}
++ (id)swiftUI_objectFromJSONData:(NSData *)data error:(NSError **)error;
+
++ (nullable NSData *)swiftUI_JSONDataForObject:(id)object error:(NSError **)error;
+
+@end
+
+NS_ASSUME_NONNULL_END
