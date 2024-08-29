@@ -33,20 +33,19 @@ import SwiftUI
 public typealias ResultValue = NSCopying & NSSecureCoding & NSObjectProtocol
 
 public struct ImageChoice: Identifiable, Equatable {
-    public let id: UUID
+    public let id: String
     public let normalImage: UIImage
     public let selectedImage: UIImage?
     public let text: String
     public let value: ResultValue
 
     public init(
-        id: UUID,
         normalImage: UIImage,
         selectedImage: UIImage?,
         text: String,
         value: ResultValue
     ) {
-        self.id = id
+        self.id = String(describing: value)
         self.normalImage = normalImage
         self.selectedImage = selectedImage
         self.text = text
@@ -133,13 +132,7 @@ public struct ImageChoiceView: View {
         FormItemCardView(title: title, detail: detail) {
             VStack {
                 if style == .multiple {
-                    Text("SELECT ALL THAT APPLY")
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding([.horizontal, .top])
-                    Divider()
+                    multipleSelectionHeader()
                 }
 
                 if vertical {
@@ -193,45 +186,103 @@ public struct ImageChoiceView: View {
             } label: {
                 if resolvedResult.wrappedValue.contains(choice) {
                     Image(uiImage: choice.selectedImage ?? choice.normalImage)
-                        .frame(maxWidth: .infinity)
+                        .resizable()
+                        .imageSizeConstraints()
+                        .scaledToFit()
                         .padding()
+                        .frame(maxWidth: .infinity)
                         .background(choice.selectedImage == nil ? Color.choice(for: .systemGray5) : Color.clear)
                         .cornerRadius(24)
-#if !os(watchOS)
-                       .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 24))
-                       .hoverEffect()
-#endif
+                        .imageChoiceHoverEffect()
+                } else {
+                    Image(uiImage: choice.normalImage)
+                        .resizable()
+                        .imageSizeConstraints()
+                        .scaledToFit()
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .cornerRadius(24)
+                        .imageChoiceHoverEffect()
+                        .contentShape(Capsule())
                 }
+                
             }
             .buttonStyle(.plain)
         }
+    }
+    
+    @ViewBuilder
+    private func multipleSelectionHeader() -> some View {
+#if !os(watchOS)
+        Text("SELECT ALL THAT APPLY")
+            .font(.caption)
+            .fontWeight(.semibold)
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding([.horizontal, .top])
+        Divider()
+#else
+        Text("SELECT ALL THAT APPLY")
+            .lineLimit(1)
+            .minimumScaleFactor(0.5)
+            .font(.caption2)
+            .fontWeight(.semibold)
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal)
+#endif
+    }
+}
+
+fileprivate extension View {
+    func imageChoiceHoverEffect() -> some View {
+        self
+#if !os(watchOS)
+            .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 24))
+            .hoverEffect()
+#endif
+    }
+    
+    func imageSizeConstraints() -> some View {
+        self
+#if !os(watchOS)
+            .frame(
+                minWidth: 10, maxWidth: 50,
+                minHeight: 10, maxHeight: 50
+            )
+#else
+            .frame(
+                minWidth: 10, maxWidth: 30,
+                minHeight: 10, maxHeight: 30
+            )
+#endif
     }
 }
 
 #Preview {
     @Previewable @State var selection: [ImageChoice] = []
-    ImageChoiceView(
-        id: UUID().uuidString,
-        title: "Which do you prefer?",
-        detail: nil,
-        choices: [
-            ImageChoice(
-                id: UUID(),
-                normalImage: UIImage(named: "carrot")!,
-                selectedImage: nil,
-                text: "carrot",
-                value: 0 as NSNumber
-            ),
-            ImageChoice(
-                id: UUID(),
-                normalImage: UIImage(named: "cake")!,
-                selectedImage: nil,
-                text: "cake",
-                value: 1 as NSNumber
-            ),
-        ],
-        style: .single,
-        vertical: true,
-        result: $selection
-    )
+    ScrollView {
+        ImageChoiceView(
+            id: UUID().uuidString,
+            title: "Which do you prefer?",
+            detail: nil,
+            choices: [
+                ImageChoice(
+                    normalImage: UIImage(systemName: "carrot")!,
+                    selectedImage: nil,
+                    text: "carrot",
+                    value: 0 as NSNumber
+                ),
+                ImageChoice(
+                    normalImage: UIImage(systemName: "birthday.cake")!,
+                    selectedImage: nil,
+                    text: "cake",
+                    value: 1 as NSNumber
+                ),
+            ],
+            style: .multiple,
+            vertical: false,
+            result: $selection
+        )
+    }
 }

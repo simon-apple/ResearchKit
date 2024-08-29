@@ -117,26 +117,29 @@ public struct FormRowContent: View {
                 )
             )
             
+#if !os(watchOS)
         case .textSliderStep(let textSliderQuestion):
             ScaleSliderQuestionView(
                 id: textSliderQuestion.id,
                 title: textSliderQuestion.title,
                 detail: detail,
                 multipleChoiceOptions: textSliderQuestion.multipleChoiceOptions,
-                selection: .init(get: {
-                    return textSliderQuestion.result
-                }, set: { newValue in
-                    formRow = .textSliderStep(
-                        ScaleSliderQuestion(
-                            id: textSliderQuestion.id,
-                            title: textSliderQuestion.title,
-                            options: textSliderQuestion.multipleChoiceOptions,
-                            selectedMultipleChoiceOption: newValue
+                selection: .init(
+                    get: {
+                        return textSliderQuestion.result
+                    }, set: { newValue in
+                        formRow = .textSliderStep(
+                            ScaleSliderQuestion(
+                                id: textSliderQuestion.id,
+                                title: textSliderQuestion.title,
+                                options: textSliderQuestion.multipleChoiceOptions,
+                                selectedMultipleChoiceOption: newValue
+                            )
                         )
-                    )
-                }
-                                )
+                    }
+                )
             )
+#endif
         case .textRow(let textQuestion):
             TextQuestionView(
                 id: textQuestion.id,
