@@ -31,7 +31,9 @@
 import SwiftUI
 
 public struct ResearchForm<Content: View>: View {
-    
+    @State
+    private var managedTaskResult: ResearchTaskResult = ResearchTaskResult()
+
     private let taskKey: StepResultKey<String>
     private let steps: Content
     
@@ -51,6 +53,7 @@ public struct ResearchForm<Content: View>: View {
         Group(subviews: steps) { steps in
             NavigationalLayout(steps, onResearchTaskCompletion: onResearchTaskCompletion)
         }
+        .environmentObject(managedTaskResult)
     }
     
 }
