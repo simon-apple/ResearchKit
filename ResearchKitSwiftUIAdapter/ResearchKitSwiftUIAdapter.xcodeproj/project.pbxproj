@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5E04F1562C7FE76800247389 /* ResearchKitSwiftUIAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E04F14B2C7FE76800247389 /* ResearchKitSwiftUIAdapter.framework */; };
 		5E04F1AA2C7FF20300247389 /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E04F1A92C7FF20300247389 /* ResearchKit.framework */; };
+		5E04F1B22C7FF39600247389 /* ResearchKitUI_Watch_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E04F1B12C7FF39600247389 /* ResearchKitUI_Watch_.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +27,7 @@
 		5E04F1552C7FE76800247389 /* ResearchKitSwiftUIAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ResearchKitSwiftUIAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E04F1A72C7FF1ED00247389 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E04F1A92C7FF20300247389 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E04F1B12C7FF39600247389 /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -59,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E04F1B22C7FF39600247389 /* ResearchKitUI_Watch_.framework in Frameworks */,
 				5E04F1AA2C7FF20300247389 /* ResearchKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -96,6 +99,7 @@
 		5E04F1A62C7FF1ED00247389 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5E04F1B12C7FF39600247389 /* ResearchKitUI_Watch_.framework */,
 				5E04F1A92C7FF20300247389 /* ResearchKit.framework */,
 				5E04F1A72C7FF1ED00247389 /* ResearchKit.framework */,
 			);
@@ -173,6 +177,7 @@
 				TargetAttributes = {
 					5E04F14A2C7FE76800247389 = {
 						CreatedOnToolsVersion = 16.0;
+						LastSwiftMigration = 1600;
 					};
 					5E04F1542C7FE76800247389 = {
 						CreatedOnToolsVersion = 16.0;
@@ -247,6 +252,7 @@
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -278,6 +284,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,4,7";
 				WATCHOS_DEPLOYMENT_TARGET = 11.0;
@@ -290,6 +297,7 @@
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;

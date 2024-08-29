@@ -30,9 +30,8 @@
 
 import SwiftUI
 
-
 /// This view represents a legacy question component that appears in JSON data representation of surveys.
-struct InputManagedQuestionView: View {
+public struct QuestionView: View {
     
     private let id: String
     private let question: String
@@ -40,7 +39,7 @@ struct InputManagedQuestionView: View {
     
     // TODO(rdar://133485185): Move away from FormRow.
     
-    init(
+    public init(
         id: String,
         question: String,
         answer: FormRow
@@ -50,7 +49,7 @@ struct InputManagedQuestionView: View {
         self.answer = answer
     }
     
-    var body: some View {
+    public var body: some View {
         FormRowContent(
             detail: nil,
             formRow: $answer
@@ -60,7 +59,7 @@ struct InputManagedQuestionView: View {
 }
 
 #Preview {
-    InputManagedQuestionView(
+    QuestionView(
         id: UUID().uuidString,
         question: "Your question here.",
         answer: .intSliderRow(

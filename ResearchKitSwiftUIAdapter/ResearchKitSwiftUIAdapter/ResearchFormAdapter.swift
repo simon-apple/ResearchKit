@@ -29,6 +29,7 @@
  */
 
 import ResearchKit
+import ResearchKitUI_Watch_
 import SwiftUI
 
 public extension ResearchForm where Content == ResearchFormAdapter {
@@ -335,7 +336,7 @@ public struct ResearchFormAdapter: View {
     @ViewBuilder
     private func build(_ questionStep: ORKQuestionStep) -> some View {
         ResearchFormStep(title: questionStep.title, subtitle: questionStep.detailText) {
-            InputManagedQuestionView(
+            QuestionView(
                 id: questionStep.identifier,
                 question: questionStep.question ?? "",
                 answer: RKAdapter.createFormRow(from: questionStep, for: questionStep.answerFormat!)!
