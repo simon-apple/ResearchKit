@@ -35,12 +35,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			publicHeaders = (
 				ResearchKitSwiftUIAdapter.h,
-				"Serializer/RefactoredSerializer/ORKESerialization+Helpers.h",
-				"Serializer/RefactoredSerializer/ORKESerializer+SwiftUIEntryProvider.h",
-				Serializer/RefactoredSerializer/ORKIESerializer.h,
-				"Serializer/Serialization Entry Providers/ORKCoreSerializationEntryProvider.h",
-				"Serializer/Serialization Entry Providers/ORKSerializationEntryProvider.h",
-				"Serializer/Serialization Entry Providers/ORKSwiftUISerializationEntryProvider.h",
 			);
 			target = 5E04F14A2C7FE76800247389 /* ResearchKitSwiftUIAdapter */;
 		};
