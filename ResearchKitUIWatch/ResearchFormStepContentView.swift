@@ -32,8 +32,8 @@
 import SwiftUI
 
 public struct ResearchFormStepContentView<Content: View>: View {
-    @State
-    private var managedTaskResult: ResearchTaskResult = ResearchTaskResult()
+    @EnvironmentObject
+    private var managedTaskResult: ResearchTaskResult
 
     private let content: Content
 
@@ -63,7 +63,6 @@ public struct ResearchFormStepContentView<Content: View>: View {
                         }
                     }
                 }
-                .environmentObject(managedTaskResult)
         } footerContent: {
             Button {
                 if isLastStep {
