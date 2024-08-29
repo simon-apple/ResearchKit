@@ -66,7 +66,7 @@ public struct ResearchFormDataAdapter: View {
     
 }
 
-public struct ResearchFormAdapter: View {
+struct ResearchFormAdapter: View {
     
     private let task: ORKOrderedTask
     
@@ -74,7 +74,7 @@ public struct ResearchFormAdapter: View {
         self.task = task
     }
     
-    public var body: some View {
+    var body: some View {
         ForEach(task.steps, id: \.identifier) { step in
             researchFormStep(for: step)
         }
