@@ -51,14 +51,14 @@ public struct MultipleChoiceQuestion: Identifiable {
     public var title: String?
     public var id: String
     public var choices: [MultipleChoiceOption]
-    public var result: [MultipleChoiceOption]
+    public var result: [ResultValue]
     public var selectionType: ChoiceSelectionType
 
     public init(
         id: ID,
         title: String?,
         choices: [MultipleChoiceOption],
-        result: [MultipleChoiceOption] = [],
+        result: [ResultValue] = [],
         selectionType: ChoiceSelectionType
     ) {
         self.title = title

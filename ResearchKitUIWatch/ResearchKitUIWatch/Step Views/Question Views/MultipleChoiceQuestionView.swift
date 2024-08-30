@@ -36,7 +36,7 @@ public struct MultipleChoiceQuestionView: View {
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
 
-    private var resolvedResult: Binding<[MultipleChoiceOption]> {
+    private var resolvedResult: Binding<[ResultValue]> {
         switch result {
         case let .automatic(key: key):
             return Binding(
@@ -57,7 +57,7 @@ public struct MultipleChoiceQuestionView: View {
     let detail: String?
     let choices: [MultipleChoiceOption]
     let selectionType: MultipleChoiceQuestion.ChoiceSelectionType
-    let result: StateManagementType<[MultipleChoiceOption]>
+    let result: StateManagementType<[ResultValue]>
 
     public init(
         id: String,
@@ -65,7 +65,7 @@ public struct MultipleChoiceQuestionView: View {
         detail: String? = nil,
         choices: [MultipleChoiceOption],
         selectionType: MultipleChoiceQuestion.ChoiceSelectionType,
-        result: Binding<[MultipleChoiceOption]>
+        result: Binding<[ResultValue]>
     ) {
         self.id = id
         self.title = title
@@ -102,7 +102,7 @@ public struct MultipleChoiceQuestionView: View {
                     TextChoiceCell(
                         title: Text(option.choiceText),
                         isSelected: resolvedResult.wrappedValue.contains(where: { choice in
-                            choice.id == option.id
+                            choice.hash == option.value.hash
                         })
                     ) {
                         choiceSelected(option)
@@ -119,14 +119,14 @@ public struct MultipleChoiceQuestionView: View {
     }
 
     private func choiceSelected(_ option: MultipleChoiceOption) {
-        if let index = resolvedResult.wrappedValue.firstIndex(where: { $0.id == option.id }) {
+        if let index = resolvedResult.wrappedValue.firstIndex(where: { $0.hash == option.value.hash }) {
             resolvedResult.wrappedValue.remove(at: index)
         } else {
             switch selectionType {
             case .single:
-                resolvedResult.wrappedValue = [option]
+                resolvedResult.wrappedValue = [option.value]
             case .multiple:
-                resolvedResult.wrappedValue.append(option)
+                resolvedResult.wrappedValue.append(option.value)
             }
         }
     }
@@ -148,7 +148,7 @@ struct MultipleChoiceQuestionView_Previews: PreviewProvider {
                     MultipleChoiceOption(id: "c", choiceText: "Option C", value: 2 as NSNumber)
             ],
                 selectionType: .multiple,
-                result: .constant([MultipleChoiceOption(id: "a", choiceText: "Option A", value: 0 as NSNumber)])
+                result: .constant([0 as NSNumber])
             )
             .padding(.horizontal)
         }
