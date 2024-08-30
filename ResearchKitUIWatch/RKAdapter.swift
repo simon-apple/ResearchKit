@@ -510,11 +510,6 @@ public class RKAdapter {
                                 }
                             }
                         }
-                        // multiple choice
-
-                        /* else if let result = result as? ORKChoiceQuestionResult {
-                            researchTaskResult.stepResults[identifier] = .multipleChoice(result.choiceAnswers!)
-                        } */
                     }
                 }
             }
