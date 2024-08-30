@@ -36,10 +36,12 @@ public extension ResearchForm where Content == ResearchFormAdapter {
     init(
         taskIdentifier: String,
         task: ORKOrderedTask,
+        restorationResult: ResearchTaskResult? = nil,
         onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)? = nil
     ) {
         self.init(
             taskIdentifier: taskIdentifier,
+            restorationResult: restorationResult,
             steps: {
                 ResearchFormAdapter(task: task)
             },
