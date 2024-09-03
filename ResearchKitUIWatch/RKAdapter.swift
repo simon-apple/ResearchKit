@@ -479,7 +479,7 @@ public class RKAdapter {
             let researchTaskResult = ResearchTaskResult()
             if let stepResults = taskResult.results as? [ORKStepResult] {
                 for stepResult in stepResults {
-                    let results = stepResult.results!
+                    guard let results = stepResult.results else { continue }
 
                     for result in results {
                         let identifier = result.identifier

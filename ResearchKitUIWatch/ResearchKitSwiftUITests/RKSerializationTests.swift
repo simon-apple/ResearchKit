@@ -97,7 +97,85 @@ struct RKSerializationTests {
     @Test func deserializeResultsIntoManagedResult() async throws {
 
         let data = """
-        {"_class":"ORKTaskResult","endDate":"2024-08-30T11:07:56-0700","identifier":"serializedTask","results":[{"_class":"ORKStepResult","endDate":"2024-08-30T11:07:56-0700","identifier":"serializedStep","results":[{"_class":"ORKTextQuestionResult","endDate":"2024-08-30T11:07:56-0700","identifier":"eed4f63a-e7da-488f-9118-f1a3d2a62132","questionType":8,"startDate":"2024-08-30T11:07:56-0700","textAnswer":"12345"},{"_class":"ORKChoiceQuestionResult","choiceAnswers":["Man"],"endDate":"2024-08-30T11:07:56-0700","identifier":"0feb345f-f93a-464f-98fc-381f61e7cea5","questionType":3,"startDate":"2024-08-30T11:07:56-0700","userInfo":{"multipleChoiceAnswerFormatKey":0}},{"_class":"ORKNumericQuestionResult","endDate":"2024-08-30T11:07:56-0700","identifier":"50f9dbfb-f78b-4615-a7d4-bfededec531b","numericAnswer":177.80000000000001,"questionType":13,"startDate":"2024-08-30T11:07:56-0700"},{"_class":"ORKChoiceQuestionResult","choiceAnswers":["Male"],"endDate":"2024-08-30T11:07:56-0700","identifier":"e98aa4d0-65c5-42fb-9133-9f00611bc221","questionType":3,"startDate":"2024-08-30T11:07:56-0700","userInfo":{"multipleChoiceAnswerFormatKey":0}},{"_class":"ORKNumericQuestionResult","endDate":"2024-08-30T11:07:56-0700","identifier":"2b905361-53b4-437c-b1af-a2212da8ac47","numericAnswer":165.56,"questionType":14,"startDate":"2024-08-30T11:07:56-0700"},{"_class":"ORKChoiceQuestionResult","choiceAnswers":["no"],"endDate":"2024-08-30T11:07:56-0700","identifier":"231f34b7-bc39-4a0f-88ed-ad9d283352b6","questionType":3,"startDate":"2024-08-30T11:07:56-0700","userInfo":{"multipleChoiceAnswerFormatKey":0}}],"startDate":"2024-08-30T11:07:56-0700"}],"startDate":"2024-08-30T11:07:56-0700"}
+        {
+          "_class": "ORKTaskResult",
+          "endDate": "2024-08-30T11:07:56-0700",
+          "identifier": "serializedTask",
+          "results": [
+            {
+              "_class": "ORKStepResult",
+              "endDate": "2024-08-30T11:07:56-0700",
+              "identifier": "serializedStep",
+              "results": [
+                {
+                  "_class": "ORKTextQuestionResult",
+                  "endDate": "2024-08-30T11:07:56-0700",
+                  "identifier": "eed4f63a-e7da-488f-9118-f1a3d2a62132",
+                  "questionType": 8,
+                  "startDate": "2024-08-30T11:07:56-0700",
+                  "textAnswer": "12345"
+                },
+                {
+                  "_class": "ORKChoiceQuestionResult",
+                  "choiceAnswers": [
+                    "Man"
+                  ],
+                  "endDate": "2024-08-30T11:07:56-0700",
+                  "identifier": "0feb345f-f93a-464f-98fc-381f61e7cea5",
+                  "questionType": 3,
+                  "startDate": "2024-08-30T11:07:56-0700",
+                  "userInfo": {
+                    "multipleChoiceAnswerFormatKey": 0
+                  }
+                },
+                {
+                  "_class": "ORKNumericQuestionResult",
+                  "endDate": "2024-08-30T11:07:56-0700",
+                  "identifier": "50f9dbfb-f78b-4615-a7d4-bfededec531b",
+                  "numericAnswer": 177.8,
+                  "questionType": 13,
+                  "startDate": "2024-08-30T11:07:56-0700"
+                },
+                {
+                  "_class": "ORKChoiceQuestionResult",
+                  "choiceAnswers": [
+                    "Male"
+                  ],
+                  "endDate": "2024-08-30T11:07:56-0700",
+                  "identifier": "e98aa4d0-65c5-42fb-9133-9f00611bc221",
+                  "questionType": 3,
+                  "startDate": "2024-08-30T11:07:56-0700",
+                  "userInfo": {
+                    "multipleChoiceAnswerFormatKey": 0
+                  }
+                },
+                {
+                  "_class": "ORKNumericQuestionResult",
+                  "endDate": "2024-08-30T11:07:56-0700",
+                  "identifier": "2b905361-53b4-437c-b1af-a2212da8ac47",
+                  "numericAnswer": 165.56,
+                  "questionType": 14,
+                  "startDate": "2024-08-30T11:07:56-0700"
+                },
+                {
+                  "_class": "ORKChoiceQuestionResult",
+                  "choiceAnswers": [
+                    "no"
+                  ],
+                  "endDate": "2024-08-30T11:07:56-0700",
+                  "identifier": "231f34b7-bc39-4a0f-88ed-ad9d283352b6",
+                  "questionType": 3,
+                  "startDate": "2024-08-30T11:07:56-0700",
+                  "userInfo": {
+                    "multipleChoiceAnswerFormatKey": 0
+                  }
+                }
+              ],
+              "startDate": "2024-08-30T11:07:56-0700"
+            }
+          ],
+          "startDate": "2024-08-30T11:07:56-0700"
+        }
         """.data(using: .utf8)!
 
         let researchTaskResult = RKAdapter.createTaskResults(from: data)
