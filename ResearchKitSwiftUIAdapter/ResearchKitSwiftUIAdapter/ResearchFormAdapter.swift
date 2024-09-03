@@ -32,17 +32,17 @@ import ResearchKit
 import ResearchKitUI_Watch_
 import SwiftUI
 
-public extension ResearchForm where Content == ResearchFormAdapter {
+public extension ResearchForm where Content == ResearchFormDataAdapter {
     
     init(
         taskIdentifier: String,
-        task: ORKOrderedTask,
+        surveyData: Data,
         onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)? = nil
     ) {
         self.init(
             taskIdentifier: taskIdentifier,
             steps: {
-                ResearchFormAdapter(task: task)
+                ResearchFormDataAdapter(surveyData: surveyData)
             },
             onResearchTaskCompletion: onResearchTaskCompletion
         )
@@ -50,7 +50,23 @@ public extension ResearchForm where Content == ResearchFormAdapter {
     
 }
 
-public struct ResearchFormAdapter: View {
+public struct ResearchFormDataAdapter: View {
+    
+    private let surveyData: Data
+    
+    init(surveyData: Data) {
+        self.surveyData = surveyData
+    }
+    
+    public var body: some View {
+        if let task = ORKIESerializer.swiftUI_object(fromJSONData: surveyData, error: nil) as? ORKOrderedTask {
+            ResearchFormAdapter(task: task)
+        }
+    }
+    
+}
+
+struct ResearchFormAdapter: View {
     
     private let task: ORKOrderedTask
     
@@ -58,7 +74,7 @@ public struct ResearchFormAdapter: View {
         self.task = task
     }
     
-    public var body: some View {
+    var body: some View {
         ForEach(task.steps, id: \.identifier) { step in
             researchFormStep(for: step)
         }

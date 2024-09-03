@@ -37,5 +37,3 @@ FOUNDATION_EXPORT double ResearchKitSwiftUIAdapterVersionNumber;
 FOUNDATION_EXPORT const unsigned char ResearchKitSwiftUIAdapterVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <ResearchKitSwiftUIAdapter/PublicHeader.h>
-
-
