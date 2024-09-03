@@ -66,7 +66,7 @@ public struct ImageChoiceQuestion: Identifiable {
     public let choices: [ImageChoice]
     public let style: ChoiceSelectionType
     public let vertical: Bool
-    public let selections: [ImageChoice]
+    public let selections: [ResultValue]
 }
 
 public struct ImageChoiceView: View {
@@ -79,9 +79,9 @@ public struct ImageChoiceView: View {
     let choices: [ImageChoice]
     let style: ImageChoiceQuestion.ChoiceSelectionType
     let vertical: Bool
-    private let result: StateManagementType<[ImageChoice]>
+    private let result: StateManagementType<[ResultValue]>
 
-    private var resolvedResult: Binding<[ImageChoice]> {
+    private var resolvedResult: Binding<[ResultValue]> {
         switch result {
         case .automatic(let key):
             return Binding(
@@ -100,7 +100,7 @@ public struct ImageChoiceView: View {
         choices: [ImageChoice],
         style: ImageChoiceQuestion.ChoiceSelectionType,
         vertical: Bool,
-        result: Binding<[ImageChoice]>
+        result: Binding<[ResultValue]>
     ) {
         self.id = id
         self.title = title
@@ -162,7 +162,7 @@ public struct ImageChoiceView: View {
             let strings: [String] = {
                 var strings: [String] = []
                 for i in resolvedResult.wrappedValue {
-                    if let choice = choices.first(where: { $0.id == i.id }) {
+                    if let choice = choices.first(where: { $0.value.hash == i.hash }) {
                         strings.append(choice.text)
                     }
                 }
@@ -178,13 +178,13 @@ public struct ImageChoiceView: View {
     func imageChoices() -> some View {
         ForEach(choices, id: \.id) { choice in
             Button {
-                if let index = resolvedResult.wrappedValue.firstIndex(where: { $0.id == choice.id }) {
+                if let index = resolvedResult.wrappedValue.firstIndex(where: { $0.hash == choice.value.hash }) {
                     resolvedResult.wrappedValue.remove(at: index)
                 } else {
-                    resolvedResult.wrappedValue.append(choice)
+                    resolvedResult.wrappedValue.append(choice.value)
                 }
             } label: {
-                if resolvedResult.wrappedValue.contains(choice) {
+                if resolvedResult.wrappedValue.contains(where: { $0.hash == choice.value.hash }) {
                     Image(uiImage: choice.selectedImage ?? choice.normalImage)
                         .resizable()
                         .imageSizeConstraints()
@@ -260,7 +260,7 @@ fileprivate extension View {
 }
 
 #Preview {
-    @Previewable @State var selection: [ImageChoice] = []
+    @Previewable @State var selection: [ResultValue] = []
     ScrollView {
         ImageChoiceView(
             id: UUID().uuidString,
