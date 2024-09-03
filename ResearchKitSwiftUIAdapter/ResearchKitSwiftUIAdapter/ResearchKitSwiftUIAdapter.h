@@ -28,47 +28,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import SwiftUI
+#import <Foundation/Foundation.h>
 
-/// This view represents a legacy question component that appears in JSON data representation of surveys.
-public struct QuestionView: View {
-    
-    private let id: String
-    private let question: String
-    @State private var answer: FormRow
-    
-    // TODO(rdar://133485185): Move away from FormRow.
-    
-    public init(
-        id: String,
-        question: String,
-        answer: FormRow
-    ) {
-        self.id = id
-        self.question = question
-        self.answer = answer
-    }
-    
-    public var body: some View {
-        FormRowContent(
-            detail: nil,
-            formRow: $answer
-        )
-    }
-    
-}
+//! Project version number for ResearchKitSwiftUIAdapter.
+FOUNDATION_EXPORT double ResearchKitSwiftUIAdapterVersionNumber;
 
-#Preview {
-    QuestionView(
-        id: UUID().uuidString,
-        question: "Your question here.",
-        answer: .intSliderRow(
-            ScaleSliderQuestion(
-                id: UUID().uuidString,
-                title: "Your title here",
-                range: 0...10,
-                value: 5
-            )
-        )
-    )
-}
+//! Project version string for ResearchKitSwiftUIAdapter.
+FOUNDATION_EXPORT const unsigned char ResearchKitSwiftUIAdapterVersionString[];
+
+// In this header, you should import all the public headers of your framework using statements like #import <ResearchKitSwiftUIAdapter/PublicHeader.h>
