@@ -28,38 +28,16 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Foundation
+#import <Foundation/Foundation.h>
 
-public struct StepResultKey<Result> {
+NS_ASSUME_NONNULL_BEGIN
 
-    let id: String
+@class ORKESerializableTableEntry;
 
-    public static func text(id: String) -> StepResultKey<String?> {
-        return StepResultKey<String?>(id: id)
-    }
+@interface ORKSerializationEntryProvider : NSObject
 
-    public static func imageChoice(id: String) -> StepResultKey<[ImageChoice]> {
-        return StepResultKey<[ImageChoice]>(id: id)
-    }
+- (NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *)serializationEncodingTable;
 
-    public static func multipleChoice(id: String) -> StepResultKey<[MultipleChoiceOption]> {
-        return StepResultKey<[MultipleChoiceOption]>(id: id)
-    }
+@end
 
-    public static func numeric(id: String) -> StepResultKey<Double?> {
-        return StepResultKey<Double?>(id: id)
-    }
-
-    public static func height(id: String) -> StepResultKey<(Double)> {
-        return StepResultKey<(Double)>(id: id)
-    }
-
-    public static func weight(id: String) -> StepResultKey<Double> {
-        return StepResultKey<Double>(id: id)
-    }
-
-    public static func date(id: String) -> StepResultKey<Date> {
-        return StepResultKey<Date>(id: id)
-    }
-}
-
+NS_ASSUME_NONNULL_END

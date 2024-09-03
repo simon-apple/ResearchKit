@@ -159,14 +159,14 @@ public struct FormRowContent: View {
                         guard case let .textRow(referencedTextQuestion) = formRow else {
                             fatalError()
                         }
-                        return referencedTextQuestion.answer
+                        return referencedTextQuestion.text
                     },
                     set: { newValue in
                         formRow = .textRow(
                             TextQuestion(
                                 title: textQuestion.title,
                                 id: textQuestion.id,
-                                answer: newValue,
+                                text: newValue,
                                 prompt: textQuestion.prompt,
                                 textFieldType: textQuestion.textFieldType,
                                 characterLimit: textQuestion.characterLimit,

@@ -45,13 +45,13 @@ struct FormStepView: View {
     private var questionOptionals = [Int: Bool]()
     
     @State
-    private var questionAnswers = [Int: AnyAnswer]()
+    private var questionAnswers = [Int: Bool]()
     
     private var doneButtonDisabled: Bool {
         questionOptionals
             .filter { !$0.value }
             .contains {
-                questionAnswers[$0.key]?.isAnswered == false
+                questionAnswers[$0.key] == false
             }
     }
     
@@ -111,7 +111,7 @@ struct FormStepView: View {
                     .onPreferenceChange(ResearchQuestionOptionalPreferenceKey.self) {
                         questionOptionals[index] = $0
                     }
-                    .onPreferenceChange(ResearchQuestionAnswerPreferenceKey.self) {
+                    .onPreferenceChange(ResearchFormAnswerPreferenceKey.self) {
                         questionAnswers[index] = $0
                     }
                 }

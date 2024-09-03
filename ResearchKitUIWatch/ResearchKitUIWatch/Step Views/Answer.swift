@@ -29,42 +29,50 @@
  */
 
 import SwiftUI
+//
+//public enum Answer<T: Equatable>: Equatable {
+//    case none(default: T? = nil)
+//    case some(T)
+//    
+//    public var value: T? {
+//        switch self {
+//        case let .none(value):
+//            value
+//            
+//        case let .some(value):
+//            value
+//        }
+//    }
+//    
+//    public var isAnswered: Bool {
+//        self != .none()
+//    }
+//}
+//
+//struct AnyAnswer: Equatable {
+//    let isAnswered: Bool
+//    
+//    init() {
+//        isAnswered = true
+//    }
+//    
+//    init(answer: Answer<some Equatable>) {
+//        isAnswered = answer.isAnswered
+//    }
+//}
+//
+//struct ResearchQuestionAnswerPreferenceKey: PreferenceKey {
+//    static var defaultValue = AnyAnswer()
+//
+//    static func reduce(value: inout AnyAnswer, nextValue: () -> AnyAnswer) {
+//        value = nextValue()
+//    }
+//}
 
-public enum Answer<T: Equatable>: Equatable {
-    case none(default: T? = nil)
-    case some(T)
-    
-    public var value: T? {
-        switch self {
-        case let .none(value):
-            value
-            
-        case let .some(value):
-            value
-        }
-    }
-    
-    public var isAnswered: Bool {
-        self != .none()
-    }
-}
+struct ResearchFormAnswerPreferenceKey: PreferenceKey {
+    static var defaultValue = true
 
-struct AnyAnswer: Equatable {
-    let isAnswered: Bool
-    
-    init() {
-        isAnswered = true
-    }
-    
-    init(answer: Answer<some Equatable>) {
-        isAnswered = answer.isAnswered
-    }
-}
-
-struct ResearchQuestionAnswerPreferenceKey: PreferenceKey {
-    static var defaultValue = AnyAnswer()
-
-    static func reduce(value: inout AnyAnswer, nextValue: () -> AnyAnswer) {
+    static func reduce(value: inout Bool, nextValue: () -> Bool) {
         value = nextValue()
     }
 }

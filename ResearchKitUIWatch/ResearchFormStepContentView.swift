@@ -32,8 +32,8 @@
 import SwiftUI
 
 public struct ResearchFormStepContentView<Content: View>: View {
-    @State
-    private var managedTaskResult: ResearchTaskResult = ResearchTaskResult()
+    @EnvironmentObject
+    private var managedTaskResult: ResearchTaskResult
 
     @State
     private var isOptional: Bool = true
@@ -62,8 +62,8 @@ public struct ResearchFormStepContentView<Content: View>: View {
                 .onPreferenceChange(ResearchQuestionOptionalPreferenceKey.self) {
                     isOptional = $0
                 }
-                .onPreferenceChange(ResearchQuestionAnswerPreferenceKey.self) {
-                    answered = $0.isAnswered
+                .onPreferenceChange(ResearchFormAnswerPreferenceKey.self) {
+                    answered = $0
                 }
                 .padding()
                 .toolbar {
@@ -75,7 +75,6 @@ public struct ResearchFormStepContentView<Content: View>: View {
                         }
                     }
                 }
-                .environmentObject(managedTaskResult)
         } footerContent: {
             Button {
                 if isLastStep {

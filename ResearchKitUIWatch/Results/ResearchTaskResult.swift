@@ -31,7 +31,7 @@
 import SwiftUI
 
 enum AnswerFormat {
-    case text(Answer<String>)
+    case text(String?)
     case numeric(Double?)
     case date(Date)
     case weight(Double)

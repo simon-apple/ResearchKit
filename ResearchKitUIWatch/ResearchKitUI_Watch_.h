@@ -28,38 +28,10 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Foundation
 
-public struct StepResultKey<Result> {
-
-    let id: String
-
-    public static func text(id: String) -> StepResultKey<String?> {
-        return StepResultKey<String?>(id: id)
-    }
-
-    public static func imageChoice(id: String) -> StepResultKey<[ImageChoice]> {
-        return StepResultKey<[ImageChoice]>(id: id)
-    }
-
-    public static func multipleChoice(id: String) -> StepResultKey<[MultipleChoiceOption]> {
-        return StepResultKey<[MultipleChoiceOption]>(id: id)
-    }
-
-    public static func numeric(id: String) -> StepResultKey<Double?> {
-        return StepResultKey<Double?>(id: id)
-    }
-
-    public static func height(id: String) -> StepResultKey<(Double)> {
-        return StepResultKey<(Double)>(id: id)
-    }
-
-    public static func weight(id: String) -> StepResultKey<Double> {
-        return StepResultKey<Double>(id: id)
-    }
-
-    public static func date(id: String) -> StepResultKey<Date> {
-        return StepResultKey<Date>(id: id)
-    }
-}
-
+#import <ResearchKitUI_Watch_/ORKSerializationEntryProvider.h>
+#import <ResearchKitUI_Watch_/ORKIESerializer.h>
+#import <ResearchKitUI_Watch_/ORKESerializer+SwiftUIEntryProvider.h>
+#import <ResearchKitUI_Watch_/ORKESerialization+Helpers.h>
+#import <ResearchKitUI_Watch_/ORKCoreSerializationEntryProvider.h>
+#import <ResearchKitUI_Watch_/ORKSwiftUISerializationEntryProvider.h>

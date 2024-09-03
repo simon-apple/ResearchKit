@@ -28,38 +28,13 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Foundation
+#import <ResearchKitUI_Watch_/ORKSerializationEntryProvider.h>
 
-public struct StepResultKey<Result> {
 
-    let id: String
+NS_ASSUME_NONNULL_BEGIN
 
-    public static func text(id: String) -> StepResultKey<String?> {
-        return StepResultKey<String?>(id: id)
-    }
+@interface ORKCoreSerializationEntryProvider : ORKSerializationEntryProvider
 
-    public static func imageChoice(id: String) -> StepResultKey<[ImageChoice]> {
-        return StepResultKey<[ImageChoice]>(id: id)
-    }
+@end
 
-    public static func multipleChoice(id: String) -> StepResultKey<[MultipleChoiceOption]> {
-        return StepResultKey<[MultipleChoiceOption]>(id: id)
-    }
-
-    public static func numeric(id: String) -> StepResultKey<Double?> {
-        return StepResultKey<Double?>(id: id)
-    }
-
-    public static func height(id: String) -> StepResultKey<(Double)> {
-        return StepResultKey<(Double)>(id: id)
-    }
-
-    public static func weight(id: String) -> StepResultKey<Double> {
-        return StepResultKey<Double>(id: id)
-    }
-
-    public static func date(id: String) -> StepResultKey<Date> {
-        return StepResultKey<Date>(id: id)
-    }
-}
-
+NS_ASSUME_NONNULL_END

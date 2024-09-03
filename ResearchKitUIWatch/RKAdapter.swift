@@ -142,7 +142,6 @@ public class RKAdapter {
                 TextQuestion(
                     title: title,
                     id: identifier,
-                    answer: .none(default: textAnswerFormat.defaultTextAnswer),
                     prompt: placeholder ?? "",
                     textFieldType: textAnswerFormat.multipleLines ? .multiline : .singleLine,
                     characterLimit: textAnswerFormat.maximumLength,
@@ -418,7 +417,7 @@ public class RKAdapter {
             case let .text(answer):
                 let result = ORKTextQuestionResult(identifier: entry.key)
                 result.questionType = .text
-                result.textAnswer = answer.value
+                result.textAnswer = answer
                 resultsArray.append(result)
             case .numeric(let decimal):
                 let result = ORKNumericQuestionResult(identifier: entry.key)

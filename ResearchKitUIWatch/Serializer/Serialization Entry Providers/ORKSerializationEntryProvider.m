@@ -28,38 +28,17 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Foundation
+#import "ORKSerializationEntryProvider.h"
 
-public struct StepResultKey<Result> {
+#import "ORKESerialization+Helpers.h"
 
-    let id: String
+#import <ResearchKit/ResearchKit.h>
 
-    public static func text(id: String) -> StepResultKey<String?> {
-        return StepResultKey<String?>(id: id)
-    }
 
-    public static func imageChoice(id: String) -> StepResultKey<[ImageChoice]> {
-        return StepResultKey<[ImageChoice]>(id: id)
-    }
+@implementation ORKSerializationEntryProvider
 
-    public static func multipleChoice(id: String) -> StepResultKey<[MultipleChoiceOption]> {
-        return StepResultKey<[MultipleChoiceOption]>(id: id)
-    }
-
-    public static func numeric(id: String) -> StepResultKey<Double?> {
-        return StepResultKey<Double?>(id: id)
-    }
-
-    public static func height(id: String) -> StepResultKey<(Double)> {
-        return StepResultKey<(Double)>(id: id)
-    }
-
-    public static func weight(id: String) -> StepResultKey<Double> {
-        return StepResultKey<Double>(id: id)
-    }
-
-    public static func date(id: String) -> StepResultKey<Date> {
-        return StepResultKey<Date>(id: id)
-    }
+- (nonnull NSMutableDictionary<NSString *,ORKESerializableTableEntry *> *)serializationEncodingTable {
+    return [NSMutableDictionary new];
 }
 
+@end
