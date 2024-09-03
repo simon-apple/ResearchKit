@@ -126,7 +126,7 @@ public struct MultipleChoiceQuestionView: View {
             case .single:
                 resolvedResult.wrappedValue = [option.value]
             case .multiple:
-                resolvedResult.wrappedValue.append(option.value)
+                resolvedResult.wrappedValue = resolvedResult.wrappedValue + [option.value]
             }
         }
     }
