@@ -162,7 +162,7 @@ public struct ImageChoiceView: View {
             let strings: [String] = {
                 var strings: [String] = []
                 for i in resolvedResult.wrappedValue {
-                        if let choice = choices.first(where: { $0.value.hash == i.hash }) {
+                    if let choice = choices.first(where: { $0.value.hash == i.hash }) {
                         strings.append(choice.text)
                     }
                 }

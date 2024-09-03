@@ -32,16 +32,15 @@ import Foundation
 import ResearchKit
 import SwiftUI
 
-extension String {
-    static var multipleChoiceAnswerFormatKey = "multipleChoiceAnswerFormatKey"
-}
-
 enum MultipleChoiceAnswerFormat: Int {
     case multiple = 0
     case image
 }
 
 public class RKAdapter {
+
+    static var multipleChoiceAnswerFormatKey = "multipleChoiceAnswerFormatKey"
+
     public static func createFormRow(from item: ORKFormItem) -> FormRow? {
         guard let answerFormat = item.answerFormat else {
             return nil
@@ -452,7 +451,7 @@ public class RKAdapter {
             case .image(let images):
                 let result = ORKChoiceQuestionResult(identifier: entry.key)
                 let info = [
-                    String.multipleChoiceAnswerFormatKey :
+                    multipleChoiceAnswerFormatKey :
                         MultipleChoiceAnswerFormat.image.rawValue
                 ]
                 result.userInfo = info
@@ -462,7 +461,7 @@ public class RKAdapter {
             case .multipleChoice(let multipleChoice):
                 let result = ORKChoiceQuestionResult(identifier: entry.key)
                 let info = [
-                    String.multipleChoiceAnswerFormatKey :
+                    multipleChoiceAnswerFormatKey :
                         MultipleChoiceAnswerFormat.multiple.rawValue
                 ]
                 result.userInfo = info
@@ -498,7 +497,7 @@ public class RKAdapter {
                             researchTaskResult.stepResults[identifier] = .date(result.dateAnswer ?? Date())
                         } else if let result = result as? ORKChoiceQuestionResult {
                             if let userInfo = result.userInfo,
-                               let formatValue = userInfo[String.multipleChoiceAnswerFormatKey] as? Int,
+                               let formatValue = userInfo[multipleChoiceAnswerFormatKey] as? Int,
                                let format = MultipleChoiceAnswerFormat(rawValue: formatValue) {
                                 if let selections = result.choiceAnswers {
                                     switch format {
