@@ -36,8 +36,8 @@ enum AnswerFormat {
     case date(Date)
     case weight(Double)
     case height(Double)
-    case image([ImageChoice])
-    case multipleChoice([MultipleChoiceOption])
+    case multipleChoice([ResultValue])
+    case image([ResultValue])
 }
 
 public final class ResearchTaskResult: ObservableObject {

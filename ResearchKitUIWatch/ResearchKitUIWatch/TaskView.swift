@@ -39,6 +39,9 @@ public struct TaskView<Content>: View where Content: View {
     @ObservedObject
     private var taskManager: TaskManager
 
+    @State
+    private var managedTaskResult: ResearchTaskResult = ResearchTaskResult()
+
     private let content: (ORKStep, ORKStepResult) -> Content
 
     #warning("Update to TaskManagerDelegate. Changes stashed")
@@ -54,6 +57,7 @@ public struct TaskView<Content>: View where Content: View {
         NavigationStack {
             TaskContentView(index: 0, content)
                 .environmentObject(self.taskManager)
+                .environmentObject(managedTaskResult)
         }
     }
 }

@@ -79,7 +79,7 @@ class FormStepViewModel: ObservableObject {
             switch row {
             case .multipleChoiceRow(let multipleChoiceRow):
                 let result = ORKChoiceQuestionResult(identifier: multipleChoiceRow.id)
-                result.choiceAnswers = multipleChoiceRow.result.map { $0.choiceText as NSString }
+                result.choiceAnswers = multipleChoiceRow.result
                 resultArray.append(result)
                 
             case .doubleSliderRow(let doubleScaleRow):
