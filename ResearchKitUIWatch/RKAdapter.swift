@@ -32,7 +32,15 @@ import Foundation
 import ResearchKit
 import SwiftUI
 
+enum MultipleChoiceAnswerFormat: Int {
+    case multiple = 0
+    case image
+}
+
 public class RKAdapter {
+
+    static var multipleChoiceAnswerFormatKey = "multipleChoiceAnswerFormatKey"
+
     public static func createFormRow(from item: ORKFormItem) -> FormRow? {
         guard let answerFormat = item.answerFormat else {
             return nil
@@ -440,22 +448,74 @@ public class RKAdapter {
                 result.questionType = .weight
                 result.numericAnswer = NSNumber(floatLiteral: weight)
                 resultsArray.append(result)
-            case .image(let image):
+            case .image(let images):
                 let result = ORKChoiceQuestionResult(identifier: entry.key)
+                let info = [
+                    multipleChoiceAnswerFormatKey :
+                        MultipleChoiceAnswerFormat.image.rawValue
+                ]
+                result.userInfo = info
                 result.questionType = .multipleChoice
-                let values = image.compactMap { $0.value }
-                result.answer = values as any ResultValue
+                result.answer = images as any ResultValue
                 resultsArray.append(result)
             case .multipleChoice(let multipleChoice):
                 let result = ORKChoiceQuestionResult(identifier: entry.key)
+                let info = [
+                    multipleChoiceAnswerFormatKey :
+                        MultipleChoiceAnswerFormat.multiple.rawValue
+                ]
+                result.userInfo = info
                 result.questionType = .multipleChoice
-                let values = multipleChoice.compactMap { $0.value }
-                result.answer = values as any ResultValue
+                result.answer = multipleChoice as any ResultValue
                 resultsArray.append(result)
             }
         }
 
         return resultsArray
+    }
+
+    public static func createTaskResults(from data: Data) -> ResearchTaskResult? {
+        if let taskResult = ORKIESerializer.swiftUI_object(fromJSONData: data, error: nil) as? ORKTaskResult {
+            let researchTaskResult = ResearchTaskResult()
+            if let stepResults = taskResult.results as? [ORKStepResult] {
+                for stepResult in stepResults {
+                    guard let results = stepResult.results else { continue }
+
+                    for result in results {
+                        let identifier = result.identifier
+                        if let result = result as? ORKTextQuestionResult {
+                            researchTaskResult.stepResults[identifier] = .text(result.textAnswer ?? "Unknown")
+                        } else if let result = result as? ORKNumericQuestionResult {
+                            if result.questionType == .decimal {
+                                researchTaskResult.stepResults[identifier] = .numeric(result.numericAnswer?.doubleValue ?? 0)
+                            } else if result.questionType == .weight {
+                                researchTaskResult.stepResults[identifier] = .weight(result.numericAnswer?.doubleValue ?? 0)
+                            } else if result.questionType == .height {
+                                researchTaskResult.stepResults[identifier] = .height(result.numericAnswer?.doubleValue ?? 0)
+                            }
+                        } else if let result = result as? ORKDateQuestionResult {
+                            researchTaskResult.stepResults[identifier] = .date(result.dateAnswer ?? Date())
+                        } else if let result = result as? ORKChoiceQuestionResult {
+                            if let userInfo = result.userInfo,
+                               let formatValue = userInfo[multipleChoiceAnswerFormatKey] as? Int,
+                               let format = MultipleChoiceAnswerFormat(rawValue: formatValue) {
+                                if let selections = result.choiceAnswers {
+                                    switch format {
+                                    case .multiple:
+                                        researchTaskResult.stepResults[identifier] = .multipleChoice(selections)
+                                    case .image:
+                                        researchTaskResult.stepResults[identifier] = .image(selections)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return researchTaskResult
+        }
+        return nil
     }
 }
 

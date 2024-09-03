@@ -32,7 +32,7 @@ import SwiftUI
 
 public struct ResearchForm<Content: View>: View {
     @State
-    private var managedTaskResult: ResearchTaskResult = ResearchTaskResult()
+    private var managedTaskResult: ResearchTaskResult
 
     private let taskKey: StepResultKey<String>
     private let steps: Content
@@ -41,12 +41,14 @@ public struct ResearchForm<Content: View>: View {
     
     public init(
         taskIdentifier: String,
+        restorationResult: ResearchTaskResult? = nil,
         @ViewBuilder steps: () -> Content,
         onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)? = nil
     ) {
         self.taskKey = .text(id: taskIdentifier)
         self.steps = steps()
         self.onResearchTaskCompletion = onResearchTaskCompletion
+        self.managedTaskResult = restorationResult ?? ResearchTaskResult()
     }
     
     public var body: some View {

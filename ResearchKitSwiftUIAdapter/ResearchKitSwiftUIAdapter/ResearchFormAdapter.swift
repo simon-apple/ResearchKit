@@ -37,10 +37,12 @@ public extension ResearchForm where Content == ResearchFormDataAdapter {
     init(
         taskIdentifier: String,
         surveyData: Data,
+        restorationResult: ResearchTaskResult? = nil,
         onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)? = nil
     ) {
         self.init(
             taskIdentifier: taskIdentifier,
+            restorationResult: restorationResult,
             steps: {
                 ResearchFormDataAdapter(surveyData: surveyData)
             },

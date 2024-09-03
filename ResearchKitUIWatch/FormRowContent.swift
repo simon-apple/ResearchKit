@@ -51,23 +51,7 @@ public struct FormRowContent: View {
                 title: multipleChoiceValue.title ?? "",
                 detail: detail,
                 choices: multipleChoiceValue.choices,
-                selectionType: multipleChoiceValue.selectionType,
-                result: .init(
-                    get: {
-                        multipleChoiceValue.result
-                    },
-                    set: { newValue in
-                        formRow = .multipleChoiceRow(
-                            MultipleChoiceQuestion(
-                                id: multipleChoiceValue.id,
-                                title: multipleChoiceValue.title,
-                                choices: multipleChoiceValue.choices,
-                                result: newValue,
-                                selectionType: multipleChoiceValue.selectionType
-                            )
-                        )
-                    }
-                )
+                selectionType: multipleChoiceValue.selectionType
             )
         case .doubleSliderRow(let doubleSliderQuestion):
             ScaleSliderQuestionView(
@@ -76,47 +60,16 @@ public struct FormRowContent: View {
                 detail: detail,
                 range: doubleSliderQuestion.range,
                 step: doubleSliderQuestion.step,
-                selection: .init(
-                    get: {
-                        doubleSliderQuestion.result
-                    },
-                    set: { newValue in
-                        formRow = .doubleSliderRow(
-                            ScaleSliderQuestion(
-                                id: doubleSliderQuestion.id,
-                                title: doubleSliderQuestion.title,
-                                step: doubleSliderQuestion.step,
-                                range: doubleSliderQuestion.range,
-                                value: newValue
-                            )
-                        )
-                    }
-                )
+                selection: doubleSliderQuestion.result
             )
-            
         case .intSliderRow(let intSliderQuestion):
             ScaleSliderQuestionView(
                 id: intSliderQuestion.id,
                 title: intSliderQuestion.title,
                 detail: detail,
                 range: intSliderQuestion.range,
-                selection: .init(
-                    get: {
-                        intSliderQuestion.intResult
-                    },
-                    set: { newValue in
-                        formRow = .intSliderRow(
-                            ScaleSliderQuestion(
-                                id: intSliderQuestion.id,
-                                title: intSliderQuestion.title,
-                                range: intSliderQuestion.range,
-                                value: newValue
-                            )
-                        )
-                    }
-                )
+                selection: intSliderQuestion.intResult
             )
-            
 #if !os(watchOS)
         case .textSliderStep(let textSliderQuestion):
             ScaleSliderQuestionView(
@@ -124,20 +77,7 @@ public struct FormRowContent: View {
                 title: textSliderQuestion.title,
                 detail: detail,
                 multipleChoiceOptions: textSliderQuestion.multipleChoiceOptions,
-                selection: .init(
-                    get: {
-                        return textSliderQuestion.result
-                    }, set: { newValue in
-                        formRow = .textSliderStep(
-                            ScaleSliderQuestion(
-                                id: textSliderQuestion.id,
-                                title: textSliderQuestion.title,
-                                options: textSliderQuestion.multipleChoiceOptions,
-                                selectedMultipleChoiceOption: newValue
-                            )
-                        )
-                    }
-                )
+                selection: textSliderQuestion.result
             )
 #endif
         case .textRow(let textQuestion):
@@ -149,49 +89,13 @@ public struct FormRowContent: View {
                 textFieldType: textQuestion.textFieldType,
                 characterLimit: textQuestion.characterLimit,
                 hideCharacterCountLabel: textQuestion.hideCharacterCountLabel,
-                hideClearButton: textQuestion.hideClearButton,
-                result: .init(
-                    get: {
-                        textQuestion.text
-                    },
-                    set: { newValue in
-                        formRow = .textRow(
-                            TextQuestion(
-                                title: textQuestion.title,
-                                id: textQuestion.id,
-                                text: newValue,
-                                prompt: textQuestion.prompt,
-                                textFieldType: textQuestion.textFieldType,
-                                characterLimit: textQuestion.characterLimit,
-                                hideCharacterCountLabel: textQuestion.hideCharacterCountLabel,
-                                hideClearButton: textQuestion.hideClearButton
-                            )
-                        )
-                    }
-                )
+                hideClearButton: textQuestion.hideClearButton
             )
         case .dateRow(let dateQuestion):
             DateTimeView(
                 id: dateQuestion.id,
                 title: dateQuestion.title,
                 detail: detail,
-                selection: .init(
-                    get: {
-                        dateQuestion.selection
-                    },
-                    set: { newValue in
-                        formRow = .dateRow(
-                            DateQuestion(
-                                id: dateQuestion.id,
-                                title: dateQuestion.title,
-                                selection: newValue,
-                                pickerPrompt: dateQuestion.pickerPrompt,
-                                displayedComponents: dateQuestion.displayedComponents,
-                                range: dateQuestion.range
-                            )
-                        )
-                    }
-                ),
                 pickerPrompt: dateQuestion.pickerPrompt,
                 displayedComponents: dateQuestion.displayedComponents,
                 range: dateQuestion.range
@@ -200,28 +104,6 @@ public struct FormRowContent: View {
         case .numericRow(let numericQuestion):
             NumericQuestionView(
                 id: numericQuestion.id,
-                text: .init(
-                    get: {
-                        let decimal: Double?
-                        if let doubleValue = numericQuestion.number?.doubleValue {
-                            decimal = doubleValue
-                        } else {
-                            decimal = nil
-                        }
-                        return decimal ?? 0.0
-                    },
-                    set: { newValue in
-                        formRow = .numericRow(
-                            NumericQuestion(
-                                id: numericQuestion.id,
-                                title: numericQuestion.title,
-                                detail: numericQuestion.detail,
-                                prompt: numericQuestion.prompt,
-                                number: newValue as? NSDecimalNumber
-                            )
-                        )
-                    }
-                ),
                 title: numericQuestion.title,
                 detail: detail,
                 prompt: numericQuestion.prompt
@@ -232,23 +114,7 @@ public struct FormRowContent: View {
                 id: heightQuestion.id,
                 title: heightQuestion.title,
                 detail: detail,
-                measurementSystem: heightQuestion.measurementSystem,
-                selection: .init(
-                    get: {
-                        return heightQuestion.selection
-                    },
-                    set: { newValue in
-                        formRow = .heightRow(
-                            HeightQuestion(
-                                id: heightQuestion.id,
-                                title: heightQuestion.title,
-                                detail: heightQuestion.detail,
-                                measurementSystem: heightQuestion.measurementSystem,
-                                selection: newValue
-                            )
-                        )
-                    }
-                )
+                measurementSystem: heightQuestion.measurementSystem
             )
         case .weightRow(let weightQuestion):
             WeightQuestionView(
@@ -259,27 +125,7 @@ public struct FormRowContent: View {
                 precision: weightQuestion.precision,
                 defaultValue: weightQuestion.defaultValue,
                 minimumValue: weightQuestion.minimumValue,
-                maximumValue: weightQuestion.maximumValue,
-                selection: .init(
-                    get: {
-                        return weightQuestion.selection ?? 0
-                    },
-                    set: { newValue in
-                        formRow = .weightRow(
-                            WeightQuestion(
-                                id: weightQuestion.id,
-                                title: weightQuestion.title,
-                                detail: detail,
-                                measurementSystem: weightQuestion.measurementSystem,
-                                precision: weightQuestion.precision,
-                                defaultValue: weightQuestion.defaultValue,
-                                minimumValue: weightQuestion.minimumValue,
-                                maximumValue: weightQuestion.maximumValue,
-                                selection: newValue
-                            )
-                        )
-                    }
-                )
+                maximumValue: weightQuestion.maximumValue
             )
         case .imageRow(let imageQuestion):
             ImageChoiceView(
@@ -288,22 +134,7 @@ public struct FormRowContent: View {
                 detail: detail,
                 choices: imageQuestion.choices,
                 style: imageQuestion.style,
-                vertical: imageQuestion.vertical,
-                result: .init(get: {
-                    return imageQuestion.selections
-                }, set: { newValue in
-                    $formRow.wrappedValue = .imageRow(
-                        ImageChoiceQuestion(
-                            title: imageQuestion.title,
-                            detail: detail,
-                            id: imageQuestion.id,
-                            choices: imageQuestion.choices,
-                            style: imageQuestion.style,
-                            vertical: imageQuestion.vertical,
-                            selections: newValue
-                        )
-                    )
-                })
+                vertical: imageQuestion.vertical
             )
         }
     }
