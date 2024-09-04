@@ -67,7 +67,6 @@
 		5EE5FD312C6A8486004BBABF /* StateManagementType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE5FD302C6A8482004BBABF /* StateManagementType.swift */; };
 		E46F44CF2C66BF25009E5762 /* MultipleChoiceQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B52B97C2AC0085D6A1 /* MultipleChoiceQuestionView.swift */; };
 		E49B08DA2C73EDD000669012 /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E49B08D92C73EDD000669012 /* ResearchKit.framework */; };
-		E49B08DB2C73EDD000669012 /* ResearchKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E49B08D92C73EDD000669012 /* ResearchKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E4DBF1B42B97C2980085D6A1 /* BooleanQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B32B97C2980085D6A1 /* BooleanQuestionView.swift */; };
 		E4DBF1B92B97C3060085D6A1 /* TextChoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B82B97C3030085D6A1 /* TextChoiceCell.swift */; };
 		E4DBF1BF2BA24AA40085D6A1 /* StickyScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1BE2BA24AA10085D6A1 /* StickyScrollView.swift */; };
@@ -89,20 +88,6 @@
 			remoteInfo = "ResearchKitUI(Watch)";
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		E4B0878E2C668EBB00EFCE35 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				E49B08DB2C73EDD000669012 /* ResearchKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0B53DA5D2BD054EE00227126 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "en.lproj/ResearchKitUI(Watch).strings"; sourceTree = "<group>"; };
@@ -467,7 +452,6 @@
 				0BF86B192B4F360000E3790E /* Sources */,
 				0BF86B1A2B4F360000E3790E /* Frameworks */,
 				0BF86B1B2B4F360000E3790E /* Resources */,
-				E4B0878E2C668EBB00EFCE35 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
