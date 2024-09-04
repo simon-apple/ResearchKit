@@ -100,7 +100,7 @@ After presenting the task, parse the ``ORKTaskResult`` to access the ``ORKFamily
 
 
 ```swift
- guard let stepResult = (taskViewController.result.results?[1] as? ORKStepResult) else { return }
+guard let stepResult = (taskViewController.result.results?[1] as? ORKStepResult) else { return }
         
 if let familyHistoryResult = stepResult.results?.first as? ORKFamilyHistoryResult {
 	let relatedPersons = familyHistoryResult.relatedPersons
