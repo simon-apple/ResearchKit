@@ -1727,6 +1727,7 @@ ORKESerializationPropertyInjector *ORKSerializationTestPropertyInjector(void) {
         @"ORKTinnitusPureToneStepViewController":@"ORKTinnitusPureToneStep",
         @"ORKTinnitusMaskingSoundStepViewController":@"ORKTinnitusMaskingSoundStep",
         @"ORKdBHLToneAudiometryMethodOfAdjustmentStepViewController": @"ORKdBHLToneAudiometryMethodOfAdjustmentStep",
+        @"ORKIdBHLNewToneAudiometryStepViewController" : @"ORKdBHLToneAudiometryStep",
         @"ORKHeadphoneDetectStepViewController" : @"ORKHeadphoneDetectStep",
         @"ORKHeadphonesRequiredCompletionStepViewController" : @"ORKHeadphonesRequiredCompletionStep",
         @"ORKSettingStatusStepViewController" : @"ORKSettingStatusStep"

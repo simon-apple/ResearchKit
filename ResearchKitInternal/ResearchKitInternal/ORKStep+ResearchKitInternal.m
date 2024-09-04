@@ -36,6 +36,9 @@
 @implementation ORKIdBHLToneAudiometryStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
+    if (self.algorithm == 1) {
+        return [[ORKIdBHLNewToneAudiometryStepViewController alloc] initWithStep:self result:result];
+    }
     return [[ORKIdBHLToneAudiometryStepViewController alloc] initWithStep:self result:result];
 }
 

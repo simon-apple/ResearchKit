@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2023, Apple Inc. All rights reserved.
+ Copyright (c) 2022, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,26 +28,14 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKITypes.h"
+#import <Foundation/Foundation.h>
+#import <ResearchKitActiveTask/ORKdBHLToneAudiometryStepViewController.h>
+#import <ResearchKitInternal/ORKHeadphoneDetector.h>
 
-ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierAirPods = @"aa2d";
+NS_ASSUME_NONNULL_BEGIN
 
-ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierLightningEarPods = @"b225";
+@interface ORKIdBHLNewToneAudiometryStepViewController: ORKActiveStepViewController<ORKHeadphoneDetectorDelegate>
 
-ORKHeadphoneChipsetIdentifier const ORKHeadphoneChipsetIdentifierAudioJackEarPods = @"b60";
+@end
 
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen1 = @"76,8194";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen2 = @"76,8207";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen3 = @"76,8211";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro = @"76,8206";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2 = @"76,8212";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2USBC = @"76,8228";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsMax = @"76,8202";
-
-ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsMaxUSBC = @"76,8223";
+NS_ASSUME_NONNULL_END
