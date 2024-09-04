@@ -82,3 +82,27 @@ let parentRelativeGroup = ORKRelativeGroup(identifier: "ParentGroupIdentifier",
                                            detailTextIdentifiers: ["ParentSexAtBirthIdentifier", "ParentVitalStatusIdentifier", "ParentAgeFormItemIdentifier"])
 ```
 
+### Create Family History Step
+
+For the last step, we will construct the ``ORKFamilyHistoryStep`` and pass in the initialized objects from above.
+        
+```swift
+let familyHistoryStep = ORKFamilyHistoryStep(identifier: "FamilyHistoryStepIdentifier)
+familyHistoryStep.title = "Family Health History"
+familyHistoryStep.detailText = "The overview of your biological family members can inform health risks and lifestyle."
+familyHistoryStep.conditionStepConfiguration = conditionStepConfiguration
+familyHistoryStep.relativeGroups = relativeGroups
+```
+
+### Parsing Family History Step Result
+
+After presenting the task, parse the ``ORKTaskResult`` to access the ``ORKFamilyHistoryResult``.
+
+
+```swift
+ guard let stepResult = (taskViewController.result.results?[1] as? ORKStepResult) else { return }
+        
+if let familyHistoryResult = stepResult.results?.first as? ORKFamilyHistoryResult {
+	let relatedPersons = familyHistoryResult.relatedPersons
+}
+```
