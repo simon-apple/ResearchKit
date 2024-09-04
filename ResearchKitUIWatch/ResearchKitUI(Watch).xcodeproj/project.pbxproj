@@ -61,7 +61,6 @@
 		5ED16E272C5AF7E50072016D /* InstructionBodyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED16E262C5AF7DF0072016D /* InstructionBodyItem.swift */; };
 		5EDFA9D72BFFFA2B0044C156 /* StepHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDFA9D62BFFFA2B0044C156 /* StepHeaderView.swift */; };
 		5EDFA9D92BFFFF0F0044C156 /* ListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDFA9D82BFFFF0F0044C156 /* ListHeaderView.swift */; };
-		5EE5FD122C63DCDD004BBABF /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE5FD112C63DCDD004BBABF /* QuestionView.swift */; };
 		5EE5FD312C6A8486004BBABF /* StateManagementType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE5FD302C6A8482004BBABF /* StateManagementType.swift */; };
 		E46F44CF2C66BF25009E5762 /* MultipleChoiceQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B52B97C2AC0085D6A1 /* MultipleChoiceQuestionView.swift */; };
 		E49B08DA2C73EDD000669012 /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E49B08D92C73EDD000669012 /* ResearchKit.framework */; };
@@ -158,7 +157,6 @@
 		5ED16E262C5AF7DF0072016D /* InstructionBodyItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionBodyItem.swift; sourceTree = "<group>"; };
 		5EDFA9D62BFFFA2B0044C156 /* StepHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepHeaderView.swift; sourceTree = "<group>"; };
 		5EDFA9D82BFFFF0F0044C156 /* ListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHeaderView.swift; sourceTree = "<group>"; };
-		5EE5FD112C63DCDD004BBABF /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		5EE5FD302C6A8482004BBABF /* StateManagementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManagementType.swift; sourceTree = "<group>"; };
 		BA32DE9E2BCF34440041A937 /* ScaleSliderQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleSliderQuestionView.swift; sourceTree = "<group>"; };
 		E49B08D92C73EDD000669012 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -401,7 +399,6 @@
 				3815C0132C2081CE00A29CD3 /* DateTimeView.swift */,
 				5E44D4472C24A6FF0045007E /* NumericQuestionView.swift */,
 				38F4F6C52C4AD35C004E7A8D /* ImageChoiceView.swift */,
-				5EE5FD112C63DCDD004BBABF /* QuestionView.swift */,
 			);
 			path = "Question Views";
 			sourceTree = "<group>";
@@ -589,7 +586,6 @@
 				0B7213402B4F395C00463E69 /* TaskManager.swift in Sources */,
 				5EDFA9D92BFFFF0F0044C156 /* ListHeaderView.swift in Sources */,
 				381CAC102C3C759200FCE89A /* HeightQuestionView.swift in Sources */,
-				5EE5FD122C63DCDD004BBABF /* QuestionView.swift in Sources */,
 				0B72132D2B4F368600463E69 /* DefaultStepView.swift in Sources */,
 				381CAC0A2C35E06500FCE89A /* ResearchFormStepContentView.swift in Sources */,
 				0BF86B222B4F360000E3790E /* ResearchKitUIWatch.docc in Sources */,
