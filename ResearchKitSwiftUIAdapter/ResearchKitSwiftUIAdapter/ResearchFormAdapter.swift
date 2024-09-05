@@ -119,7 +119,13 @@ struct ResearchFormAdapter: View {
     }
     
     @ViewBuilder
-    private func build(_ answerFormat: ORKAnswerFormat, id: String, title: String?, placeholder: String? = nil, detail: String? = nil) -> some View {
+    private func build(
+        _ answerFormat: ORKAnswerFormat,
+        id: String,
+        title: String?,
+        placeholder: String? = nil,
+        detail: String? = nil
+    ) -> some View {
         switch answerFormat {
         case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
             MultipleChoiceQuestionView(
