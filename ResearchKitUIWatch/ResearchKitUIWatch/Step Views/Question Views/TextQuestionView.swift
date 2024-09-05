@@ -92,8 +92,8 @@ public struct TextQuestionView<Header: View>: View {
         switch result {
         case let .automatic(key: key):
             return Binding(
-                get: { managedTaskResult.resultForStep(key: key) ?? ""},
-                set: { managedTaskResult.setResultForStep(.text( .some($0 ?? "")), key: key) }
+                get: { managedTaskResult.resultForStep(key: key) ?? nil },
+                set: { managedTaskResult.setResultForStep(.text($0), key: key) }
             )
         case let .manual(value):
             return value
@@ -162,7 +162,7 @@ public struct TextQuestionView<Header: View>: View {
             header
         } content: {
             VStack {
-                TextField("", text: resolvedResult.toUnwrapped(defaultValue: ""), prompt: placeholder, axis: axis)
+                TextField(id, text: resolvedResult.toUnwrapped(defaultValue: ""), prompt: placeholder, axis: axis)
                     .textFieldStyle(.plain) // Text binding's `didSet` called twice if this is not set.
                     .focused($focusTarget, equals: .textQuestion)
                     .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
@@ -210,7 +210,14 @@ public struct TextQuestionView<Header: View>: View {
             .padding()
         }
         .preference(key: ResearchQuestionOptionalPreferenceKey.self, value: isOptional)
-        .preference(key: ResearchFormAnswerPreferenceKey.self, value: resolvedResult.wrappedValue != nil)
+        .preference(key: ResearchFormAnswerPreferenceKey.self, value: isAnswered)
+    }
+    
+    private var isAnswered: Bool {
+        if let result = resolvedResult.wrappedValue {
+            return !result.isEmpty
+        }
+        return false
     }
 }
 

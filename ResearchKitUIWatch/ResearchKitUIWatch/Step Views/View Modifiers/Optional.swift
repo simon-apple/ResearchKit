@@ -50,3 +50,11 @@ struct ResearchQuestionOptionalPreferenceKey: PreferenceKey {
         value = nextValue()
     }
 }
+
+struct ResearchFormAnswerPreferenceKey: PreferenceKey {
+    static var defaultValue = false
+
+    static func reduce(value: inout Bool, nextValue: () -> Bool) {
+        value = nextValue()
+    }
+}
