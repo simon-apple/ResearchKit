@@ -38,12 +38,12 @@ public struct StepResultKey<Result> {
         return StepResultKey<String?>(id: id)
     }
 
-    public static func imageChoice(id: String) -> StepResultKey<[ImageChoice]> {
-        return StepResultKey<[ImageChoice]>(id: id)
+    public static func imageChoice(id: String) -> StepResultKey<[ResultValue]> {
+        return StepResultKey<[ResultValue]>(id: id)
     }
 
-    public static func multipleChoice(id: String) -> StepResultKey<[MultipleChoiceOption]> {
-        return StepResultKey<[MultipleChoiceOption]>(id: id)
+    public static func multipleChoice(id: String) -> StepResultKey<[ResultValue]> {
+        return StepResultKey<[ResultValue]>(id: id)
     }
 
     public static func numeric(id: String) -> StepResultKey<Double?> {

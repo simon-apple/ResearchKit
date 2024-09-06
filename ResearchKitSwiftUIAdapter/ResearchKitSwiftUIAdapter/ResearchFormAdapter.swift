@@ -29,19 +29,22 @@
  */
 
 import ResearchKit
+import ResearchKitUI_Watch_
 import SwiftUI
 
-public extension ResearchForm where Content == ResearchFormAdapter {
+public extension ResearchForm where Content == ResearchFormDataAdapter {
     
     init(
         taskIdentifier: String,
-        task: ORKOrderedTask,
+        surveyData: Data,
+        restorationResult: ResearchTaskResult? = nil,
         onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)? = nil
     ) {
         self.init(
             taskIdentifier: taskIdentifier,
+            restorationResult: restorationResult,
             steps: {
-                ResearchFormAdapter(task: task)
+                ResearchFormDataAdapter(surveyData: surveyData)
             },
             onResearchTaskCompletion: onResearchTaskCompletion
         )
@@ -49,7 +52,23 @@ public extension ResearchForm where Content == ResearchFormAdapter {
     
 }
 
-public struct ResearchFormAdapter: View {
+public struct ResearchFormDataAdapter: View {
+    
+    private let surveyData: Data
+    
+    init(surveyData: Data) {
+        self.surveyData = surveyData
+    }
+    
+    public var body: some View {
+        if let task = ORKIESerializer.swiftUI_object(fromJSONData: surveyData, error: nil) as? ORKOrderedTask {
+            ResearchFormAdapter(task: task)
+        }
+    }
+    
+}
+
+struct ResearchFormAdapter: View {
     
     private let task: ORKOrderedTask
     
@@ -57,7 +76,7 @@ public struct ResearchFormAdapter: View {
         self.task = task
     }
     
-    public var body: some View {
+    var body: some View {
         ForEach(task.steps, id: \.identifier) { step in
             researchFormStep(for: step)
         }
@@ -338,7 +357,7 @@ public struct ResearchFormAdapter: View {
     @ViewBuilder
     private func build(_ questionStep: ORKQuestionStep) -> some View {
         ResearchFormStep(title: questionStep.title, subtitle: questionStep.detailText) {
-            InputManagedQuestionView(
+            QuestionView(
                 id: questionStep.identifier,
                 question: questionStep.question ?? "",
                 answer: RKAdapter.createFormRow(from: questionStep, for: questionStep.answerFormat!)!
