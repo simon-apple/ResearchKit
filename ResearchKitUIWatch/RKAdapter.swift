@@ -49,26 +49,6 @@ public class RKAdapter {
         return Self.createFormRow(from: item.identifier, with: item.text ?? "", detail: item.detailText, placeholder: item.placeholder, answer: answerFormat)
     }
 
-    public static func createFormRow(from step: ORKStep, for answer: ORKAnswerFormat) -> FormRow? {
-        let itemText: String? = {
-            if let questionStep = step as? ORKQuestionStep {
-                return questionStep.question ?? step.text
-            } else {
-                return step.text
-            }
-        }()
-
-        let placeholder: String? = {
-            if let formStep = step as? ORKFormStep,
-               let placeholder = formStep.formItems?.first?.placeholder {
-                return placeholder
-            }
-            return nil
-        }()
-
-        return Self.createFormRow(from: step.identifier, with: itemText ?? "", detail: step.detailText, placeholder: placeholder, answer: answer)
-    }
-
     public static func createFormRow(from identifier: String, with title: String, detail: String?, placeholder: String? = nil, answer: ORKAnswerFormat) -> FormRow? {
 
         switch answer {
