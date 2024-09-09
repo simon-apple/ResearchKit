@@ -24,8 +24,8 @@ final class Springboard {
         if Self.appIcon.waitForExistence(timeout: 5) {
             /// This is workaround for the issue where ORKCatalog app icon is not visible on the current springboard screen, requiring swiping in different directions to locate it
             let maxAttempts = 5
-            if !swipeUntilAppIconIsHittable(direction: .left, maxAttempts: maxAttempts) {
-                swipeUntilAppIconIsHittable(direction: .right, maxAttempts: maxAttempts)
+            if !isAppIconHittableAfterSwipe(direction: .left, maxAttempts: maxAttempts) {
+                isAppIconHittableAfterSwipe(direction: .right, maxAttempts: maxAttempts)
             }
             
             Self.appIcon.press(forDuration: 1.5)
@@ -58,7 +58,7 @@ final class Springboard {
     }
     
     @discardableResult
-    fileprivate func swipeUntilAppIconIsHittable(direction: SwipeDirection, maxAttempts: Int) -> Bool {
+    fileprivate func isAppIconHittableAfterSwipe(direction: SwipeDirection, maxAttempts: Int) -> Bool {
         var attempts = 0
         while !Self.appIcon.isHittable && attempts < maxAttempts {
             switch direction {
