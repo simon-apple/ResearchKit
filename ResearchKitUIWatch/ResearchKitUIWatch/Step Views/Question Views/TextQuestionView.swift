@@ -65,7 +65,6 @@ public struct TextQuestion: Identifiable {
     }
 }
 
-
 public struct TextQuestionView<Header: View>: View {
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
@@ -118,7 +117,6 @@ public struct TextQuestionView<Header: View>: View {
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
         self.result = .manual(result)
-//        self.defaultTextAnswer = nil
     }
 
     public init(
@@ -156,7 +154,7 @@ public struct TextQuestionView<Header: View>: View {
 
         return nil
     }
-    
+
     public var body: some View {
         FormItemCardView {
             header
@@ -241,7 +239,6 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
         self.result = .manual(result)
-//        self.defaultTextAnswer = nil
     }
 
     init(

@@ -92,6 +92,7 @@ public extension FormItemCardView where Header == _SimpleFormItemViewHeader {
 
 /// The default header used by a `FormItemCardView`
 public struct _SimpleFormItemViewHeader: View {
+
     let title: String
     let detail: String?
     

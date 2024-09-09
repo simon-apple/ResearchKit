@@ -80,7 +80,6 @@ public struct FormRowContent: View {
                 selection: textSliderQuestion.result
             )
 #endif
-            
         case .textRow(let textQuestion):
             TextQuestionView(
                 id: textQuestion.id,
@@ -92,7 +91,6 @@ public struct FormRowContent: View {
                 hideCharacterCountLabel: textQuestion.hideCharacterCountLabel,
                 hideClearButton: textQuestion.hideClearButton
             )
-            
         case .dateRow(let dateQuestion):
             DateTimeView(
                 id: dateQuestion.id,

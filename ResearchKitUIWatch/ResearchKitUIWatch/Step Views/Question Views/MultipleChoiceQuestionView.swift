@@ -32,6 +32,7 @@ import SwiftUI
 
 // TODO(rdar://129033515): Update name of this module to reflect just the choice options without the header.
 public struct MultipleChoiceQuestionView: View {
+
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
 
@@ -97,7 +98,6 @@ public struct MultipleChoiceQuestionView: View {
                     if index != 0 {
                         Divider()
                     }
-                    
                     TextChoiceCell(
                         title: Text(option.choiceText),
                         isSelected: resolvedResult.wrappedValue.contains(where: { choice in
