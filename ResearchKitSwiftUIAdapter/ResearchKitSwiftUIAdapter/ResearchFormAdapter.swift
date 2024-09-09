@@ -102,252 +102,7 @@ struct ResearchFormAdapter: View {
             if let formItems = formStep.formItems {
                 ForEach(groupItems(formItems), id: \.identifier) { formItem in
                     if let answerFormat = formItem.answerFormat {
-                        switch answerFormat {
-                        case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
-                            MultipleChoiceQuestionView(
-                                id: formItem.identifier,
-                                title: formItem.text ?? "",
-                                choices: textChoiceAnswerFormat.textChoices.map { textChoice in
-                                    let value: ResultValue? = ResultValue.value(from: textChoice.value)
-                                    return MultipleChoiceOption(
-                                        id: UUID().uuidString,
-                                        choiceText: textChoice.text,
-                                        value: value ?? .string("Unknown")
-                                    )
-                                },
-                                selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
-                            )
-                        case let scaleAnswerFormat as ORKScaleAnswerFormat:
-                            ScaleSliderQuestionView(
-                                id: formItem.identifier,
-                                title: formItem.text ?? "",
-                                range: scaleAnswerFormat.minimum...scaleAnswerFormat.maximum,
-                                step: Double(scaleAnswerFormat.step),
-                                selection: scaleAnswerFormat.defaultValue
-                            )
-                        case let continuousScaleAnswerFormat as ORKContinuousScaleAnswerFormat:
-                            let stepSize: Double = {
-                                // Current ORKContinuousScaleAnswerFormat does not allow user to specify step size so we can create an approximation,
-                                // falling back on 0.01 as our step size if required.
-                                var stepSize = 0.01
-                                let numberOfValues = continuousScaleAnswerFormat.maximum - continuousScaleAnswerFormat.minimum
-                                if numberOfValues > 0 {
-                                    stepSize = 1.0 / numberOfValues
-                                }
-                                return stepSize
-                            }()
-                            
-                            ScaleSliderQuestionView(
-                                id: formItem.identifier,
-                                title: formItem.text ?? "",
-                                range: continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum,
-                                step: stepSize,
-                                selection: continuousScaleAnswerFormat.defaultValue
-                            )
-#if !os(watchOS)
-                        case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
-                            let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
-                                let value: ResultValue? = ResultValue.value(from: textChoice.value)
-                                return MultipleChoiceOption(
-                                    id: UUID().uuidString,
-                                    choiceText: textChoice.text,
-                                    value: value ?? .string("Unknown")
-                                )
-                            }
-                            
-                            if answerOptions.indices.contains(textChoiceScaleAnswerFormat.defaultIndex) {
-                                ScaleSliderQuestionView(
-                                    id: formItem.identifier,
-                                    title: formItem.text ?? "",
-                                    multipleChoiceOptions: answerOptions,
-                                    selection: answerOptions[textChoiceScaleAnswerFormat.defaultIndex]
-                                )
-                            }
-#endif
-                        case let textAnswerFormat as ORKTextAnswerFormat:
-                            TextQuestionView(
-                                id: formItem.identifier,
-                                title: formItem.text ?? "",
-                                detail: "",
-                                prompt: formItem.placeholder,
-                                textFieldType: textAnswerFormat.multipleLines ? .multiline : .singleLine,
-                                characterLimit: textAnswerFormat.maximumLength,
-                                hideCharacterCountLabel: textAnswerFormat.hideCharacterCountLabel,
-                                hideClearButton: textAnswerFormat.hideClearButton,
-                                defaultTextAnswer: textAnswerFormat.defaultTextAnswer
-                            )
-                        case let dateTimeAnswerFormat as ORKDateAnswerFormat:
-                            let prompt: String = {
-                                if let placeholder = formItem.placeholder {
-                                    return placeholder
-                                }
-                                
-                                if dateTimeAnswerFormat.style == .dateAndTime {
-                                    return "Select Date and Time"
-                                } else {
-                                    return "Select Date"
-                                }
-                            }()
-                            
-                            let startDate: Date = {
-                                if let date = dateTimeAnswerFormat.minimumDate {
-                                    return date
-                                }
-                                return Date.distantPast
-                            }()
-                            
-                            let endDate: Date = {
-                                if let date = dateTimeAnswerFormat.maximumDate {
-                                    return date
-                                }
-                                return Date.distantFuture
-                            }()
-                            
-                            let components: DatePicker.Components = {
-                                switch dateTimeAnswerFormat.style {
-                                case .date:
-                                    return [.date]
-                                case .dateAndTime:
-                                    return [.date, .hourAndMinute]
-                                default:
-                                    return [.date]
-                                }
-                            }()
-                            
-                            DateTimeView(
-                                id: formItem.identifier,
-                                title: formItem.text ?? "",
-                                pickerPrompt: prompt,
-                                displayedComponents: components,
-                                range: startDate...endDate
-                            )
-#if !os(watchOS)
-                        case let numericAnswerFormat as ORKNumericAnswerFormat:
-                            NumericQuestionView(
-                                id: formItem.identifier,
-                                text: numericAnswerFormat.defaultNumericAnswer?.decimalValue,
-                                title: formItem.text ?? "",
-                                prompt: numericAnswerFormat.placeholder ?? "Tap to answer"
-                            )
-#endif
-                        case let heightAnswerFormat as ORKHeightAnswerFormat:
-                            let measurementSystem: MeasurementSystem = {
-                                switch heightAnswerFormat.measurementSystem {
-                                case .USC:
-                                    return .USC
-                                case .local:
-                                    return .local
-                                case .metric:
-                                    return .metric
-                                @unknown default:
-                                    return .metric
-                                }
-                            }()
-                            
-                            HeightQuestionView(
-                                id: formItem.identifier,
-                                title: formItem.text ?? "",
-                                measurementSystem: measurementSystem
-                            )
-                        case let weightAnswerFormat as ORKWeightAnswerFormat:
-                            let measurementSystem: MeasurementSystem = {
-                                switch weightAnswerFormat.measurementSystem {
-                                case .USC:
-                                    return .USC
-                                case .local:
-                                    return .local
-                                case .metric:
-                                    return .metric
-                                @unknown default:
-                                    return .metric
-                                }
-                            }()
-                            
-                            let precision: NumericPrecision = {
-                                switch weightAnswerFormat.numericPrecision {
-                                case .default:
-                                    return .default
-                                case .high:
-                                    return .high
-                                case .low:
-                                    return .low
-                                @unknown default:
-                                    return .default
-                                }
-                            }()
-                            
-                            // At the moment the RK API for weight answer format defaults these values
-                            // to the `greatestFiniteMagnitude` if you don't explicitly pass them in.
-                            // We want to check for that here and pass in a valid value.
-                            let defaultValue: Double = {
-                                if weightAnswerFormat.defaultValue == Double.greatestFiniteMagnitude {
-                                    if measurementSystem == .USC {
-                                        return 133
-                                    } else {
-                                        return 60
-                                    }
-                                }
-                                
-                                return weightAnswerFormat.defaultValue
-                            }()
-                            
-                            let minimumValue: Double? = {
-                                if weightAnswerFormat.minimumValue == Double.greatestFiniteMagnitude {
-                                    return nil
-                                }
-                                
-                                return weightAnswerFormat.minimumValue
-                            }()
-                            
-                            let maximumValue: Double? = {
-                                if weightAnswerFormat.maximumValue == Double.greatestFiniteMagnitude {
-                                    return nil
-                                }
-                                
-                                return weightAnswerFormat.maximumValue
-                            }()
-                            
-                            WeightQuestionView(
-                                id: formItem.identifier,
-                                title: formItem.text ?? "",
-                                measurementSystem: measurementSystem,
-                                precision: precision,
-                                defaultValue: defaultValue,
-                                minimumValue: minimumValue,
-                                maximumValue: maximumValue
-                            )
-                        case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
-                            let choices = imageChoiceAnswerFormat.imageChoices.map { choice in
-                                let value: ResultValue? = ResultValue.value(from: choice.value)
-                                return ImageChoice(
-                                    normalImage: choice.normalStateImage,
-                                    selectedImage: choice.selectedStateImage,
-                                    text: choice.text!,
-                                    value: value ?? .string("Unknown")
-                                )
-                            }
-                            
-                            let style: ImageChoiceQuestion.ChoiceSelectionType = {
-                                switch imageChoiceAnswerFormat.style {
-                                case .singleChoice:
-                                    return .single
-                                case .multipleChoice:
-                                    return .multiple
-                                default: return .single
-                                }
-                            }()
-                            
-                            ImageChoiceView(
-                                id: formItem.identifier,
-                                title: formItem.text ?? "",
-                                detail: formItem.detailText,
-                                choices: choices,
-                                style: style,
-                                vertical: imageChoiceAnswerFormat.isVertical
-                            )
-                        default:
-                            EmptyView()
-                        }
+                        build(answerFormat, id: formItem.identifier, title: formItem.text, placeholder: formItem.placeholder, detail: formItem.detailText)
                     }
                 }
             }
@@ -357,11 +112,266 @@ struct ResearchFormAdapter: View {
     @ViewBuilder
     private func build(_ questionStep: ORKQuestionStep) -> some View {
         ResearchFormStep(title: questionStep.title, subtitle: questionStep.detailText) {
-            QuestionView(
-                id: questionStep.identifier,
-                question: questionStep.question ?? "",
-                answer: RKAdapter.createFormRow(from: questionStep, for: questionStep.answerFormat!)!
+            if let answerFormat = questionStep.answerFormat {
+                build(answerFormat, id: questionStep.identifier, title: questionStep.question, detail: questionStep.detailText)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func build(
+        _ answerFormat: ORKAnswerFormat,
+        id: String,
+        title: String?,
+        placeholder: String? = nil,
+        detail: String? = nil
+    ) -> some View {
+        switch answerFormat {
+        case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
+            MultipleChoiceQuestionView(
+                id: id,
+                title: title ?? "",
+                choices: textChoiceAnswerFormat.textChoices.map { textChoice in
+                    let value: ResultValue? = ResultValue.value(from: textChoice.value)
+                    return MultipleChoiceOption(
+                        id: UUID().uuidString,
+                        choiceText: textChoice.text,
+                        value: value ?? .string("Unknown")
+                    )
+                },
+                selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
             )
+        case let scaleAnswerFormat as ORKScaleAnswerFormat:
+            ScaleSliderQuestionView(
+                id: id,
+                title: title ?? "",
+                range: scaleAnswerFormat.minimum...scaleAnswerFormat.maximum,
+                step: Double(scaleAnswerFormat.step),
+                selection: scaleAnswerFormat.defaultValue
+            )
+        case let continuousScaleAnswerFormat as ORKContinuousScaleAnswerFormat:
+            let stepSize: Double = {
+                // Current ORKContinuousScaleAnswerFormat does not allow user to specify step size so we can create an approximation,
+                // falling back on 0.01 as our step size if required.
+                var stepSize = 0.01
+                let numberOfValues = continuousScaleAnswerFormat.maximum - continuousScaleAnswerFormat.minimum
+                if numberOfValues > 0 {
+                    stepSize = 1.0 / numberOfValues
+                }
+                return stepSize
+            }()
+            
+            ScaleSliderQuestionView(
+                id: id,
+                title: title ?? "",
+                range: continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum,
+                step: stepSize,
+                selection: continuousScaleAnswerFormat.defaultValue
+            )
+#if !os(watchOS)
+        case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
+            let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
+                let value: ResultValue? = ResultValue.value(from: textChoice.value)
+                return MultipleChoiceOption(
+                    id: UUID().uuidString,
+                    choiceText: textChoice.text,
+                    value: value ?? .string("Unknown")
+                )
+            }
+            
+            if answerOptions.indices.contains(textChoiceScaleAnswerFormat.defaultIndex) {
+                ScaleSliderQuestionView(
+                    id: id,
+                    title: title ?? "",
+                    multipleChoiceOptions: answerOptions,
+                    selection: answerOptions[textChoiceScaleAnswerFormat.defaultIndex]
+                )
+            }
+#endif
+        case let textAnswerFormat as ORKTextAnswerFormat:
+            TextQuestionView(
+                id: id,
+                title: title ?? "",
+                detail: "",
+                prompt: placeholder,
+                textFieldType: textAnswerFormat.multipleLines ? .multiline : .singleLine,
+                characterLimit: textAnswerFormat.maximumLength,
+                hideCharacterCountLabel: textAnswerFormat.hideCharacterCountLabel,
+                hideClearButton: textAnswerFormat.hideClearButton,
+                defaultTextAnswer: textAnswerFormat.defaultTextAnswer
+            )
+        case let dateTimeAnswerFormat as ORKDateAnswerFormat:
+            let prompt: String = {
+                
+                if let placeholder {
+                    return placeholder
+                }
+                
+                if dateTimeAnswerFormat.style == .dateAndTime {
+                    return "Select Date and Time"
+                } else {
+                    return "Select Date"
+                }
+            }()
+            
+            let startDate: Date = {
+                if let date = dateTimeAnswerFormat.minimumDate {
+                    return date
+                }
+                return Date.distantPast
+            }()
+            
+            let endDate: Date = {
+                if let date = dateTimeAnswerFormat.maximumDate {
+                    return date
+                }
+                return Date.distantFuture
+            }()
+            
+            let components: DatePicker.Components = {
+                switch dateTimeAnswerFormat.style {
+                case .date:
+                    return [.date]
+                case .dateAndTime:
+                    return [.date, .hourAndMinute]
+                default:
+                    return [.date]
+                }
+            }()
+            
+            DateTimeView(
+                id: id,
+                title: title ?? "",
+                pickerPrompt: prompt,
+                displayedComponents: components,
+                range: startDate...endDate
+            )
+#if !os(watchOS)
+        case let numericAnswerFormat as ORKNumericAnswerFormat:
+            NumericQuestionView(
+                id: id,
+                text: numericAnswerFormat.defaultNumericAnswer?.decimalValue,
+                title: title ?? "",
+                prompt: numericAnswerFormat.placeholder ?? "Tap to answer"
+            )
+#endif
+        case let heightAnswerFormat as ORKHeightAnswerFormat:
+            let measurementSystem: MeasurementSystem = {
+                switch heightAnswerFormat.measurementSystem {
+                case .USC:
+                    return .USC
+                case .local:
+                    return .local
+                case .metric:
+                    return .metric
+                @unknown default:
+                    return .metric
+                }
+            }()
+            
+            HeightQuestionView(
+                id: id,
+                title: title ?? "",
+                measurementSystem: measurementSystem
+            )
+        case let weightAnswerFormat as ORKWeightAnswerFormat:
+            let measurementSystem: MeasurementSystem = {
+                switch weightAnswerFormat.measurementSystem {
+                case .USC:
+                    return .USC
+                case .local:
+                    return .local
+                case .metric:
+                    return .metric
+                @unknown default:
+                    return .metric
+                }
+            }()
+            
+            let precision: NumericPrecision = {
+                switch weightAnswerFormat.numericPrecision {
+                case .default:
+                    return .default
+                case .high:
+                    return .high
+                case .low:
+                    return .low
+                @unknown default:
+                    return .default
+                }
+            }()
+            
+            // At the moment the RK API for weight answer format defaults these values
+            // to the `greatestFiniteMagnitude` if you don't explicitly pass them in.
+            // We want to check for that here and pass in a valid value.
+            let defaultValue: Double = {
+                if weightAnswerFormat.defaultValue == Double.greatestFiniteMagnitude {
+                    if measurementSystem == .USC {
+                        return 133
+                    } else {
+                        return 60
+                    }
+                }
+                
+                return weightAnswerFormat.defaultValue
+            }()
+            
+            let minimumValue: Double? = {
+                if weightAnswerFormat.minimumValue == Double.greatestFiniteMagnitude {
+                    return nil
+                }
+                
+                return weightAnswerFormat.minimumValue
+            }()
+            
+            let maximumValue: Double? = {
+                if weightAnswerFormat.maximumValue == Double.greatestFiniteMagnitude {
+                    return nil
+                }
+                
+                return weightAnswerFormat.maximumValue
+            }()
+            
+            WeightQuestionView(
+                id: id,
+                title: title ?? "",
+                measurementSystem: measurementSystem,
+                precision: precision,
+                defaultValue: defaultValue,
+                minimumValue: minimumValue,
+                maximumValue: maximumValue
+            )
+        case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
+            let choices = imageChoiceAnswerFormat.imageChoices.map { choice in
+                let value: ResultValue? = ResultValue.value(from: choice.value)
+                return ImageChoice(
+                    normalImage: choice.normalStateImage,
+                    selectedImage: choice.selectedStateImage,
+                    text: choice.text!,
+                    value: value ?? .string("Unknown")
+                )
+            }
+            
+            let style: ImageChoiceQuestion.ChoiceSelectionType = {
+                switch imageChoiceAnswerFormat.style {
+                case .singleChoice:
+                    return .single
+                case .multipleChoice:
+                    return .multiple
+                default: return .single
+                }
+            }()
+            
+            ImageChoiceView(
+                id: id,
+                title: title ?? "",
+                detail: detail,
+                choices: choices,
+                style: style,
+                vertical: imageChoiceAnswerFormat.isVertical
+            )
+        default:
+            EmptyView()
         }
     }
     
