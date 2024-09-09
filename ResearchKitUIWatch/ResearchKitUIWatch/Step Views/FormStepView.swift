@@ -65,7 +65,6 @@ struct FormStepView: View {
                 ListHeaderView {
                     let image: Image? = {
                         let image: Image?
-
                         if let uiImage = viewModel.step.iconImage {
                             image = Image(uiImage: uiImage)
                         } else {

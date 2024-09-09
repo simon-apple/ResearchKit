@@ -98,6 +98,7 @@ public struct MultipleChoiceQuestionView: View {
                     if index != 0 {
                         Divider()
                     }
+
                     TextChoiceCell(
                         title: Text(option.choiceText),
                         isSelected: resolvedResult.wrappedValue.contains(where: { choice in
