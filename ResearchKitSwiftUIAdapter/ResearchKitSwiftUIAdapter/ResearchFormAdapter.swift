@@ -108,10 +108,11 @@ struct ResearchFormAdapter: View {
                                 id: formItem.identifier,
                                 title: formItem.text ?? "",
                                 choices: textChoiceAnswerFormat.textChoices.map { textChoice in
-                                    MultipleChoiceOption(
+                                    let value: ResultValue? = ResultValue.value(from: textChoice.value)
+                                    return MultipleChoiceOption(
                                         id: UUID().uuidString,
                                         choiceText: textChoice.text,
-                                        value: textChoice.value
+                                        value: value ?? .string("Unknown")
                                     )
                                 },
                                 selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
@@ -146,10 +147,11 @@ struct ResearchFormAdapter: View {
 #if !os(watchOS)
                         case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
                             let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
-                                MultipleChoiceOption(
+                                let value: ResultValue? = ResultValue.value(from: textChoice.value)
+                                return MultipleChoiceOption(
                                     id: UUID().uuidString,
                                     choiceText: textChoice.text,
-                                    value: textChoice.value
+                                    value: value ?? .string("Unknown")
                                 )
                             }
                             
@@ -316,11 +318,12 @@ struct ResearchFormAdapter: View {
                             )
                         case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
                             let choices = imageChoiceAnswerFormat.imageChoices.map { choice in
+                                let value: ResultValue? = ResultValue.value(from: choice.value)
                                 return ImageChoice(
                                     normalImage: choice.normalStateImage,
                                     selectedImage: choice.selectedStateImage,
                                     text: choice.text!,
-                                    value: choice.value
+                                    value: value ?? .string("Unknown")
                                 )
                             }
                             

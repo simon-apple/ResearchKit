@@ -75,11 +75,12 @@ public class RKAdapter {
         case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
             var answerOptions : [MultipleChoiceOption] = []
             textChoiceAnswerFormat.textChoices.forEach { textChoice in
+                let value: ResultValue? = ResultValue.value(from: textChoice.value)
                 answerOptions.append(
                     MultipleChoiceOption(
                         id: UUID().uuidString,
                         choiceText: textChoice.text,
-                        value: textChoice.value
+                        value: value ?? .string("Unknown")
                     )
                 )
             }
@@ -122,11 +123,14 @@ public class RKAdapter {
             
 #if !os(watchOS)
         case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
+
+
             let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
-                MultipleChoiceOption(
+                let value: ResultValue? = ResultValue.value(from: textChoice.value)
+                return MultipleChoiceOption(
                     id: UUID().uuidString,
                     choiceText: textChoice.text,
-                    value: textChoice.value
+                    value: value ?? .string("Unknown")
                 )
             }
             guard var defaultOption = answerOptions.first else {
@@ -315,11 +319,12 @@ public class RKAdapter {
             )
         case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
             let choices = imageChoiceAnswerFormat.imageChoices.map { choice in
+                let value: ResultValue? = ResultValue.value(from: choice.value)
                 return ImageChoice(
                     normalImage: choice.normalStateImage,
                     selectedImage: choice.selectedStateImage,
                     text: choice.text!,
-                    value: choice.value
+                    value: value ?? .string("Unknown")
                 )
             }
 
@@ -456,7 +461,9 @@ public class RKAdapter {
                 ]
                 result.userInfo = info
                 result.questionType = .multipleChoice
-                result.answer = images as any ResultValue
+
+                let newResults: [NSCopying & NSSecureCoding & NSObjectProtocol] = images.map { $0.rkValue() }
+                result.choiceAnswers = newResults
                 resultsArray.append(result)
             case .multipleChoice(let multipleChoice):
                 let result = ORKChoiceQuestionResult(identifier: entry.key)
@@ -464,9 +471,11 @@ public class RKAdapter {
                     multipleChoiceAnswerFormatKey :
                         MultipleChoiceAnswerFormat.multiple.rawValue
                 ]
+
+                let newResults: [NSCopying & NSSecureCoding & NSObjectProtocol] = multipleChoice.map { $0.rkValue() }
                 result.userInfo = info
                 result.questionType = .multipleChoice
-                result.answer = multipleChoice as any ResultValue
+                result.choiceAnswers = newResults
                 resultsArray.append(result)
             }
         }
@@ -500,11 +509,12 @@ public class RKAdapter {
                                let formatValue = userInfo[multipleChoiceAnswerFormatKey] as? Int,
                                let format = MultipleChoiceAnswerFormat(rawValue: formatValue) {
                                 if let selections = result.choiceAnswers {
+                                    let newSelections: [ResultValue] = selections.compactMap { ResultValue.value(from: $0) }
                                     switch format {
                                     case .multiple:
-                                        researchTaskResult.stepResults[identifier] = .multipleChoice(selections)
+                                        researchTaskResult.stepResults[identifier] = .multipleChoice(newSelections)
                                     case .image:
-                                        researchTaskResult.stepResults[identifier] = .image(selections)
+                                        researchTaskResult.stepResults[identifier] = .image(newSelections)
                                     }
                                 }
                             }

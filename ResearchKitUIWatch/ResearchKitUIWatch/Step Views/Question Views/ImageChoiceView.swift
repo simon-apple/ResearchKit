@@ -30,7 +30,47 @@
 
 import SwiftUI
 
-public typealias ResultValue = NSCopying & NSSecureCoding & NSObjectProtocol
+public enum ResultValue {
+    case int(Int)
+    case string(String)
+    case date(Date)
+
+    static func == (lhs: ResultValue, rhs: ResultValue) -> Bool {
+        switch (lhs, rhs) {
+        case (.int(let a), .int(let b)):
+            return a == b
+        case (.string(let a), .string(let b)):
+            return a == b
+        case (.date(let a), .date(let b)):
+            return a == b
+        default:
+            return false
+        }
+    }
+
+    public func rkValue() -> NSCopying & NSSecureCoding & NSObjectProtocol {
+        switch self {
+        case .int(let int):
+            return NSNumber(integerLiteral: int)
+        case .string(let string):
+            return NSString(string: string)
+        case .date(let date):
+            return date as NSDate
+        }
+    }
+
+    public static func value(from rkValue: NSCopying & NSSecureCoding & NSObjectProtocol) -> Self? {
+        if let number = rkValue as? NSNumber {
+            return .int(number.intValue)
+        } else if let string = rkValue as? NSString {
+            return .string(String(string))
+        } else if let date = rkValue as? Date {
+            return .date(date)
+        }
+        assertionFailure("Unexpected RKValue type passed in, this is a developer error")
+        return nil
+    }
+}
 
 public struct ImageChoice: Identifiable, Equatable {
     public let id: String
@@ -162,7 +202,7 @@ public struct ImageChoiceView: View {
             let strings: [String] = {
                 var strings: [String] = []
                 for i in resolvedResult.wrappedValue {
-                    if let choice = choices.first(where: { $0.value.hash == i.hash }) {
+                    if let choice = choices.first(where: { $0.value == i }) {
                         strings.append(choice.text)
                     }
                 }
@@ -178,13 +218,13 @@ public struct ImageChoiceView: View {
     func imageChoices() -> some View {
         ForEach(choices, id: \.id) { choice in
             Button {
-                if let index = resolvedResult.wrappedValue.firstIndex(where: { $0.hash == choice.value.hash }) {
+                if let index = resolvedResult.wrappedValue.firstIndex(where: { $0 == choice.value }) {
                     resolvedResult.wrappedValue.remove(at: index)
                 } else {
                     resolvedResult.wrappedValue.append(choice.value)
                 }
             } label: {
-                if resolvedResult.wrappedValue.contains(where: { $0.hash == choice.value.hash }) {
+                if resolvedResult.wrappedValue.contains(where: { $0 == choice.value }) {
                     Image(uiImage: choice.selectedImage ?? choice.normalImage)
                         .resizable()
                         .imageSizeConstraints()
@@ -271,13 +311,13 @@ fileprivate extension View {
                     normalImage: UIImage(systemName: "carrot")!,
                     selectedImage: nil,
                     text: "carrot",
-                    value: 0 as NSNumber
+                    value: .int(0)
                 ),
                 ImageChoice(
                     normalImage: UIImage(systemName: "birthday.cake")!,
                     selectedImage: nil,
                     text: "cake",
-                    value: 1 as NSNumber
+                    value: .int(1)
                 ),
             ],
             style: .multiple,
