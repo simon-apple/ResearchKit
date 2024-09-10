@@ -28,7 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-public enum ResultValue {
+public enum ResultValue: Codable {
     case int(Int)
     case string(String)
     case date(Date)
