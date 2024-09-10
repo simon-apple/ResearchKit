@@ -30,48 +30,6 @@
 
 import SwiftUI
 
-public enum ResultValue {
-    case int(Int)
-    case string(String)
-    case date(Date)
-
-    static func == (lhs: ResultValue, rhs: ResultValue) -> Bool {
-        switch (lhs, rhs) {
-        case (.int(let a), .int(let b)):
-            return a == b
-        case (.string(let a), .string(let b)):
-            return a == b
-        case (.date(let a), .date(let b)):
-            return a == b
-        default:
-            return false
-        }
-    }
-
-    public func rkValue() -> NSCopying & NSSecureCoding & NSObjectProtocol {
-        switch self {
-        case .int(let int):
-            return NSNumber(integerLiteral: int)
-        case .string(let string):
-            return NSString(string: string)
-        case .date(let date):
-            return date as NSDate
-        }
-    }
-
-    public static func value(from rkValue: NSCopying & NSSecureCoding & NSObjectProtocol) -> Self? {
-        if let number = rkValue as? NSNumber {
-            return .int(number.intValue)
-        } else if let string = rkValue as? NSString {
-            return .string(String(string))
-        } else if let date = rkValue as? Date {
-            return .date(date)
-        }
-        assertionFailure("Unexpected RKValue type passed in, this is a developer error")
-        return nil
-    }
-}
-
 public struct ImageChoice: Identifiable, Equatable {
     public let id: String
     public let normalImage: UIImage

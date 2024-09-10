@@ -55,7 +55,7 @@ public class RKAdapter {
         case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
             var answerOptions : [MultipleChoiceOption] = []
             textChoiceAnswerFormat.textChoices.forEach { textChoice in
-                let value: ResultValue? = ResultValue.value(from: textChoice.value)
+                let value: ResultValue? = RKAdapter.value(from: textChoice.value)
                 answerOptions.append(
                     MultipleChoiceOption(
                         id: UUID().uuidString,
@@ -106,7 +106,7 @@ public class RKAdapter {
 
 
             let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
-                let value: ResultValue? = ResultValue.value(from: textChoice.value)
+                let value: ResultValue? = RKAdapter.value(from: textChoice.value)
                 return MultipleChoiceOption(
                     id: UUID().uuidString,
                     choiceText: textChoice.text,
@@ -299,7 +299,7 @@ public class RKAdapter {
             )
         case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
             let choices = imageChoiceAnswerFormat.imageChoices.map { choice in
-                let value: ResultValue? = ResultValue.value(from: choice.value)
+                let value: ResultValue? = RKAdapter.value(from: choice.value)
                 return ImageChoice(
                     normalImage: choice.normalStateImage,
                     selectedImage: choice.selectedStateImage,
@@ -442,7 +442,7 @@ public class RKAdapter {
                 result.userInfo = info
                 result.questionType = .multipleChoice
 
-                let newResults: [NSCopying & NSSecureCoding & NSObjectProtocol] = images.map { $0.rkValue() }
+                let newResults: [NSCopying & NSSecureCoding & NSObjectProtocol] = images.map { RKAdapter.rkValue(from: $0) }
                 result.choiceAnswers = newResults
                 resultsArray.append(result)
             case .multipleChoice(let multipleChoice):
@@ -452,7 +452,7 @@ public class RKAdapter {
                         MultipleChoiceAnswerFormat.multiple.rawValue
                 ]
 
-                let newResults: [NSCopying & NSSecureCoding & NSObjectProtocol] = multipleChoice.map { $0.rkValue() }
+                let newResults: [NSCopying & NSSecureCoding & NSObjectProtocol] = multipleChoice.map { RKAdapter.rkValue(from: $0) }
                 result.userInfo = info
                 result.questionType = .multipleChoice
                 result.choiceAnswers = newResults
@@ -489,7 +489,7 @@ public class RKAdapter {
                                let formatValue = userInfo[multipleChoiceAnswerFormatKey] as? Int,
                                let format = MultipleChoiceAnswerFormat(rawValue: formatValue) {
                                 if let selections = result.choiceAnswers {
-                                    let newSelections: [ResultValue] = selections.compactMap { ResultValue.value(from: $0) }
+                                    let newSelections: [ResultValue] = selections.compactMap { RKAdapter.value(from: $0) }
                                     switch format {
                                     case .multiple:
                                         researchTaskResult.stepResults[identifier] = .multipleChoice(newSelections)
@@ -507,7 +507,29 @@ public class RKAdapter {
         }
         return nil
     }
-}
+
+    public static func rkValue(from result: ResultValue) -> NSCopying & NSSecureCoding & NSObjectProtocol {
+        switch result {
+        case .int(let int):
+            return NSNumber(integerLiteral: int)
+        case .string(let string):
+            return NSString(string: string)
+        case .date(let date):
+            return date as NSDate
+        }
+    }
+
+    public static func value(from rkValue: NSCopying & NSSecureCoding & NSObjectProtocol) -> ResultValue? {
+        if let number = rkValue as? NSNumber {
+            return .int(number.intValue)
+        } else if let string = rkValue as? NSString {
+            return .string(String(string))
+        } else if let date = rkValue as? Date {
+            return .date(date)
+        }
+        assertionFailure("Unexpected RKValue type passed in, this is a developer error")
+        return nil
+    }}
 
 #if DEBUG
 extension RKAdapter {

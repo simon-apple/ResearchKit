@@ -79,7 +79,7 @@ class FormStepViewModel: ObservableObject {
             switch row {
             case .multipleChoiceRow(let multipleChoiceRow):
                 let result = ORKChoiceQuestionResult(identifier: multipleChoiceRow.id)
-                let newResults: [NSCopying & NSSecureCoding & NSObjectProtocol] = multipleChoiceRow.result.map { $0.rkValue() }
+                let newResults: [NSCopying & NSSecureCoding & NSObjectProtocol] = multipleChoiceRow.result.map { RKAdapter.rkValue(from: $0) }
                 result.choiceAnswers = newResults
                 resultArray.append(result)
                 
