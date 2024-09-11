@@ -162,7 +162,7 @@ public struct ScaleSliderQuestionView: View {
                         .init(
                             get: {
                                 guard let sliderValue = managedTaskResult.resultForStep(key: key) else {
-                                    return MultipleChoiceOption(id: "", choiceText: "", value: 0 as NSNumber)
+                                    return MultipleChoiceOption(id: "", choiceText: "", value: .int(0))
                                 }
                                 return multipleChoiceOptions[Int(sliderValue)]
                             },
