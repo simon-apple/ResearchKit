@@ -448,6 +448,11 @@ public class RKAdapter {
                 result.questionType = .multipleChoice
                 result.answer = multipleChoice as any ResultValue
                 resultsArray.append(result)
+            case .scale(let value):
+                let result = ORKScaleQuestionResult(identifier: entry.key)
+                result.scaleAnswer = NSNumber(floatLiteral: value)
+                result.questionType = .scale
+                resultsArray.append(result)
             }
         }
 
@@ -488,6 +493,8 @@ public class RKAdapter {
                                     }
                                 }
                             }
+                        } else if let result = result as? ORKScaleQuestionResult {
+                            researchTaskResult.stepResults[identifier] = .scale(result.scaleAnswer?.doubleValue ?? 0)
                         }
                     }
                 }

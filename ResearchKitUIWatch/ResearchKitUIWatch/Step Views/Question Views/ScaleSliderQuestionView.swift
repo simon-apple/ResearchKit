@@ -100,13 +100,10 @@ public struct ScaleSliderQuestionView: View {
         
     }
     
-    private enum StateManagementType {
-        
-        case automatic, manual
-        
-    }
+    @EnvironmentObject
+    private var managedTaskResult: ResearchTaskResult
     
-    private let stateManagementType: StateManagementType
+    private let stateManagementType: StateManagementType<Double>
     
     private var resolvedBinding: Binding<ScaleSelectionBindingValue> {
         let resolvedBinding: Binding<ScaleSelectionBindingValue>
@@ -116,7 +113,7 @@ public struct ScaleSliderQuestionView: View {
         case .manual:
             resolvedBinding = .init(
                 get: {
-                    selection
+                    clientManagedSelection
                 },
                 // This binding isn't invoked with respect to `set` because another binding is returned in `get`.
                 set: { _ in }
@@ -138,65 +135,111 @@ public struct ScaleSliderQuestionView: View {
     // Actual underlying value of the slider
     @State
     private var sliderUIValue: Double
-
-    @State
-    private var primitiveSelection: ScaleSelectionPrimitiveValue
     
     private var resolvedManagedResult: Binding<ScaleSelectionBindingValue> {
         .init(
             get: {
-                switch primitiveSelection {
-#if !os(watchOS)
-                case .textChoice(let multipleChoiceOption):
-                        .textChoice(
-                            .init(
-                                get: {
-                                    multipleChoiceOption
-                                },
-                                set: { primitiveSelection = .textChoice($0) }
-                            )
+                // `resolvedManagedResult` is only applicable in the `automatic` case,
+                // as implemented in `resolvedBinding`.
+                guard case .automatic(let key) = stateManagementType else {
+                    // Return dummy binding since this should never be invoked.
+                    return .int(
+                        .init(
+                            get: {
+                                0
+                            },
+                            set: { _ in }
                         )
-#endif
-                case .int(let int):
-                        .int(
-                            .init(
-                                get: {
-                                    int
-                                },
-                                set: { primitiveSelection = .int($0) }
-                            )
-                        )
-                case .double(let double):
-                        .double(
-                            .init(
-                                get: {
-                                    print("Double: \(double)")
-                                    return double
-                                },
-                                set: {
-                                    print("New double: \($0)")
-                                    primitiveSelection = .double($0)
-                                }
-                            )
-                        )
+                    )
                 }
+                
+                let scaleSelectionBinding: ScaleSelectionBindingValue
+
+                switch scaleSelectionConfiguration {
+#if !os(watchOS)
+                case .textChoice(let multipleChoiceOptions):
+                    scaleSelectionBinding = .textChoice(
+                        .init(
+                            get: {
+                                guard let sliderValue = managedTaskResult.resultForStep(key: key) else {
+                                    return MultipleChoiceOption(id: "", choiceText: "", value: 0 as NSNumber)
+                                }
+                                return multipleChoiceOptions[Int(sliderValue)]
+                            },
+                            set: { multipleChoiceOption in
+                                guard let index = multipleChoiceOptions.firstIndex(where: { $0.id == multipleChoiceOption.id }) else {
+                                    return
+                                }
+                                managedTaskResult.setResultForStep(.scale(Double(index)), key: key)
+                            }
+                        )
+                    )
+#endif
+                case .integerRange:
+                    scaleSelectionBinding = .int(
+                        .init(
+                            get: {
+                                guard let sliderValue = managedTaskResult.resultForStep(key: key) else {
+                                    return 0
+                                }
+                                return Int(sliderValue)
+                            },
+                            set: {
+                                managedTaskResult.setResultForStep(.scale(Double($0)), key: key)
+                            }
+                        )
+                    )
+                case .doubleRange:
+                    scaleSelectionBinding = .double(
+                        .init(
+                            get: {
+                                guard let sliderValue = managedTaskResult.resultForStep(key: key) else {
+                                    return 0
+                                }
+                                return sliderValue
+                            },
+                            set: {
+                                managedTaskResult.setResultForStep(.scale($0), key: key)
+                            }
+                        )
+                    )
+                }
+                
+                return scaleSelectionBinding
             },
             set: { newValue in
-                switch newValue {
+                // `resolvedManagedResult` is only applicable in the `automatic` case,
+                // as implemented in `resolvedBinding`.
+                guard case .automatic(let key) = stateManagementType else {
+                    return
+                }
+
+                switch (newValue, scaleSelectionConfiguration) {
 #if !os(watchOS)
-                case .textChoice(let binding):
-                    primitiveSelection = .textChoice(binding.wrappedValue)
+                case let (.textChoice(binding), .textChoice(multipleChoiceOptions)):
+                    let index = multipleChoiceOptions.firstIndex(
+                        where: { binding.wrappedValue.id == $0.id }
+                    ) ?? 0
+                    managedTaskResult.setResultForStep(.scale(Double(index)), key: key)
 #endif
-                case .int(let binding):
-                    primitiveSelection = .int(binding.wrappedValue)
-                case .double(let binding):
-                    primitiveSelection = .double(binding.wrappedValue)
+                case let (.int(binding), .integerRange):
+                    managedTaskResult.setResultForStep(
+                        .scale(Double(binding.wrappedValue)),
+                        key: key
+                    )
+                case let (.double(binding), .doubleRange):
+                    managedTaskResult.setResultForStep(
+                        .scale(binding.wrappedValue),
+                        key: key
+                    )
+                default:
+                    break
                 }
             }
         )
     }
     
-    private var selection: ScaleSelectionBindingValue
+    private var clientManagedSelection: ScaleSelectionBindingValue
     
     public init(
         id: String,
@@ -211,9 +254,8 @@ public struct ScaleSliderQuestionView: View {
         self.detail = detail
         self.scaleSelectionConfiguration = .doubleRange(range)
         self.step = step
-        self.primitiveSelection = .double(selection)
-        self.selection = .double(.init(get: { selection }, set: { _ in }))
-        self.stateManagementType = .automatic
+        self.clientManagedSelection = .double(.init(get: { selection }, set: { _ in }))
+        self.stateManagementType = .automatic(key: StepResultKey(id: id))
         self._sliderUIValue = State(wrappedValue: selection)
     }
 
@@ -230,9 +272,8 @@ public struct ScaleSliderQuestionView: View {
         self.detail = detail
         self.scaleSelectionConfiguration = .doubleRange(range)
         self.step = step
-        self.primitiveSelection = .double(selection.wrappedValue)
-        self.selection = .double(selection)
-        self.stateManagementType = .manual
+        self.clientManagedSelection = .double(selection)
+        self.stateManagementType = .manual(selection)
         self._sliderUIValue = State(wrappedValue: selection.wrappedValue)
     }
     
@@ -249,9 +290,8 @@ public struct ScaleSliderQuestionView: View {
         self.detail = detail
         self.scaleSelectionConfiguration = .integerRange(range)
         self.step = step
-        self.primitiveSelection = .int(selection)
-        self.selection = .int(.init(get: { selection }, set: { _ in }))
-        self.stateManagementType = .automatic
+        self.clientManagedSelection = .int(.init(get: { selection }, set: { _ in }))
+        self.stateManagementType = .automatic(key: StepResultKey(id: id))
         self._sliderUIValue = State(wrappedValue: Double(selection))
     }
 
@@ -268,9 +308,17 @@ public struct ScaleSliderQuestionView: View {
         self.detail = detail
         self.scaleSelectionConfiguration = .integerRange(range)
         self.step = step
-        self.selection = .int(selection)
-        self.primitiveSelection = .int(selection.wrappedValue)
-        self.stateManagementType = .manual
+        self.clientManagedSelection = .int(selection)
+        self.stateManagementType = .manual(
+            .init(
+                get: {
+                    Double(selection.wrappedValue)
+                },
+                set: { newValue in
+                    selection.wrappedValue = Int(newValue)
+                }
+            )
+        )
         self._sliderUIValue = State(wrappedValue: Double(selection.wrappedValue))
     }
     
@@ -287,9 +335,8 @@ public struct ScaleSliderQuestionView: View {
         self.detail = detail
         self.scaleSelectionConfiguration = .textChoice(multipleChoiceOptions)
         self.step = 1.0
-        self.primitiveSelection = .textChoice(selection)
-        self.selection = .textChoice(.init(get: { selection }, set: { _ in }))
-        self.stateManagementType = .automatic
+        self.clientManagedSelection = .textChoice(.init(get: { selection }, set: { _ in }))
+        self.stateManagementType = .automatic(key: StepResultKey(id: id))
         
         let index = multipleChoiceOptions.firstIndex(where: { selection.id == $0.id })
         let sliderValue = index ?? Array<MultipleChoiceOption>.Index(0.0)
@@ -309,9 +356,27 @@ public struct ScaleSliderQuestionView: View {
         self.detail = detail
         self.scaleSelectionConfiguration = .textChoice(multipleChoiceOptions)
         self.step = 1.0
-        self.primitiveSelection = .textChoice(selection.wrappedValue)
-        self.selection = .textChoice(selection)
-        self.stateManagementType = .manual
+        self.clientManagedSelection = .textChoice(selection)
+        self.stateManagementType = .manual(
+            .init(
+                get: {
+                    guard let index = multipleChoiceOptions.firstIndex(
+                        where: { selection.wrappedValue.id == $0.id }
+                    ) else {
+                        return 0
+                    }
+                    return Double(index)
+                },
+                set: { newValue in
+                    let index = Int(newValue)
+                    guard index >= 0, index < multipleChoiceOptions.count else {
+                        return
+                    }
+                    let newSelection = multipleChoiceOptions[index]
+                    selection.wrappedValue = newSelection
+                }
+            )
+        )
         
         let index = multipleChoiceOptions.firstIndex(where: { selection.id == $0.id })
         let sliderValue = index ?? Array<MultipleChoiceOption>.Index(0.0)
@@ -335,7 +400,7 @@ public struct ScaleSliderQuestionView: View {
                         textChoiceBinding.wrappedValue = array[index]
                     }
                 }
-                .onChange(of: selection) { oldValue, newValue in
+                .onChange(of: clientManagedSelection) { oldValue, newValue in
                     switch newValue {
                         case .textChoice(let binding):
                             guard case let .textChoice(array) = scaleSelectionConfiguration else {
@@ -350,6 +415,13 @@ public struct ScaleSliderQuestionView: View {
                     }
                 }
                 .padding()
+                .onAppear {
+                    guard case .automatic(let key) = stateManagementType, let sliderValue = managedTaskResult.resultForStep(key: key) else {
+                        return
+                    }
+                    
+                    sliderUIValue = sliderValue
+                }
         }
     }
 
