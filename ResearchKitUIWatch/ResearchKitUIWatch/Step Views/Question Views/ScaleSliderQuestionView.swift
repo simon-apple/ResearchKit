@@ -587,17 +587,16 @@ struct ScaleSliderQuestionView_Previews: PreviewProvider {
     ScrollView {
         ScaleSliderQuestionView(
             id: UUID().uuidString,
-            title: "On a scale of Pun - Poem, how would you rate today?",
+            title: "On a scale of Pun - Poem, how would rate today?",
             multipleChoiceOptions: [
-                .init(id: "1", choiceText: "Pun", value: 1 as NSNumber),
-                .init(id: "2", choiceText: "Dad Joke", value: 2 as NSNumber),
-                .init(id: "3", choiceText: "Knock-Knock Joke", value: 3 as NSNumber),
-                .init(id: "4", choiceText: "One-Liner", value: 4 as NSNumber),
-                .init(id: "5", choiceText: "Parody", value: 5 as NSNumber),
-                .init(id: "5", choiceText: "Poem", value: 6 as NSNumber),
+                .init(id: "1", choiceText: "Pun", value: .int(1)),
+                .init(id: "2", choiceText: "Dad Joke", value: .int(2)),
+                .init(id: "3", choiceText: "Knock-Knock Joke", value: .int(3)),
+                .init(id: "4", choiceText: "One-Liner", value: .int(4)),
+                .init(id: "5", choiceText: "Parody", value: .int(5)),
+                .init(id: "5", choiceText: "Poem", value: .int(6)),
             ],
-            selection: .constant(.init(id: "2", choiceText: "Dad Joke", value: 2 as NSNumber))
-        )
+            selection: .constant(.init(id: "2", choiceText: "Dad Joke", value: .int(2))))
     }
 }
 #endif
