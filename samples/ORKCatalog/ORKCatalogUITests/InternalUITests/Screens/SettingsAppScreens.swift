@@ -115,14 +115,14 @@ final class SettingsAppScreens {
             wait(for: requiredModeButton, toBeSelected: true)
         }
     }
-    
+
     func turnOnAirPodsModeFromSettingsScreen(mode: AirPodsMode) {
         navigateToBluetoothFromSettingsScreen()
         tapConnectedDeviceInfoButton()
         enableAirPodsMode(mode: mode)
         navigateToBluetoothFromConnectedDevice()
     }
-    
+
     /// Makes sure "Automatic Ear Detection" is disabled
     /// "Automatic Ear Detection"  should be off because it's required to run test without having to wear headphones
     func disableAutomaticEarDetectionIfEnabled(headphoneType: HeadphoneDetectStepScreen.HeadphoneType) {
@@ -146,7 +146,7 @@ final class SettingsAppScreens {
         switchValue = automaticEarDetectionSwitch.value as? String
         XCTAssertEqual(switchValue ?? "", "0", "The switch should be off")
     }
-    
+
     func navigateToBluetoothFromSettingsScreen() {
         terminateAndLaunchApp()
         wait(for: Self.bluetoothCell)
@@ -158,16 +158,9 @@ final class SettingsAppScreens {
         Self.bluetoothNavigationButton.tap() /// Tap "Bluetooth" navigation button to go back to list of connected devices
         wait(for: Self.bluetoothCell)
     }
-    
-    /// Enable Location Services in "Privacy & Security"
-    /// We need to enable Location Services when running UI Test in Xcode Cloud Environment on device compute devices
-    /// Note: XCTestInternal has an API to adjust location services for an app:
-    /// https://docs.apple.com/access/general/documentation/xctestinternal/xctiapplication/setlocationservices(tostate:)
-    /// XCTIDevice.current.setLocationServices(toState:, forBundleIdentifier:) or
-    /// XCTIDevice.current.doCommand(withLaunchPath: "/usr/local/bin/loctool", command: ["authorize", "bundleID", "1"])
+
     @discardableResult
-    func enableLocationServices() -> Self {
-        // Tap "Privacy & Security" cell in Settings
+    private func navigateToPrivacyandSecurityInSettings() -> Self {
         let privacyAndSecurityCellIdentifier = "Privacy"
         let privacyAndSecurityCell = Self.app.cells[privacyAndSecurityCellIdentifier].firstMatch
         if privacyAndSecurityCell.waitForExistence(timeout: 20) {
@@ -178,15 +171,21 @@ final class SettingsAppScreens {
                 privacyAndSecurityCell.tap()
             }
         }
-        
-        // Tap "Location Services" cell in "Privacy & Security"
+        return self
+    }
+
+    @discardableResult
+    private func navigateToLocationServicesInPrivacyandSecurity() -> Self {
         let locationServicesLabelIdentifier = "LOCATION"
         let locationServicesLabel = Self.app.staticTexts[locationServicesLabelIdentifier].firstMatch
         if locationServicesLabel.waitForExistence(timeout: 20) {
             locationServicesLabel.tap()
         }
-        
-        // Enable "Location Services" switch
+        return self
+    }
+
+    @discardableResult
+    private func enableLocationServicesInPrivacyandSecurity() -> Self {
         let locationServicesSwitch = Self.app.cells["Location Services"].switches.firstMatch
         XCTAssert(locationServicesSwitch.waitForExistence(timeout: 20))
         guard let locationSwitchCurrentValue = locationServicesSwitch.value as? String else {
@@ -202,6 +201,25 @@ final class SettingsAppScreens {
             }
             XCTAssertEqual(locationSwitchToggledValue, "1", "Location Services switch should be on")
         }
+        return self
+    }
+
+    /// Enable Location Services in "Privacy & Security"
+    /// We need to enable Location Services when running UI Test in Xcode Cloud Environment on device compute devices
+    /// Note: XCTestInternal has an API to adjust location services for an app:
+    /// https://docs.apple.com/access/general/documentation/xctestinternal/xctiapplication/setlocationservices(tostate:)
+    /// XCTIDevice.current.setLocationServices(toState:, forBundleIdentifier:) or
+    /// XCTIDevice.current.doCommand(withLaunchPath: "/usr/local/bin/loctool", command: ["authorize", "bundleID", "1"])
+    @discardableResult
+    func enableLocationServices() -> Self {
+        // Tap "Privacy & Security" cell in Settings
+        self.navigateToPrivacyandSecurityInSettings()
+
+        // Tap "Location Services" cell in "Privacy & Security"
+        self.navigateToLocationServicesInPrivacyandSecurity()
+
+        // Enable "Location Services" switch
+        self.enableLocationServicesInPrivacyandSecurity()
         return self
     }
 }

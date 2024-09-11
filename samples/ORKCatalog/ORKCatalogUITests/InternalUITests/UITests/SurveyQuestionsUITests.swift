@@ -726,7 +726,7 @@ final class SurveyQuestionsUITests: BaseUITest {
     
     /// rdar://tsc/21847953 ([Survey Questions] Location Question) - Negative Path
     func testLocationQuestionInvalidAddress() throws {
-        if isRunningInXcodeCloud && !isRunningOnSimulator  {
+        if isPhysicalDeviceInXcodeCloud()  {
             test("Enable location services in the Setting app") {
                 let settingsApp = SettingsAppScreens()
                 settingsApp
