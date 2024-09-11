@@ -102,7 +102,7 @@ public struct MultipleChoiceQuestionView: View {
                     TextChoiceCell(
                         title: Text(option.choiceText),
                         isSelected: resolvedResult.wrappedValue.contains(where: { choice in
-                            choice.hash == option.value.hash
+                            choice == option.value
                         })
                     ) {
                         choiceSelected(option)
@@ -119,7 +119,7 @@ public struct MultipleChoiceQuestionView: View {
     }
 
     private func choiceSelected(_ option: MultipleChoiceOption) {
-        if let index = resolvedResult.wrappedValue.firstIndex(where: { $0.hash == option.value.hash }) {
+        if let index = resolvedResult.wrappedValue.firstIndex(where: { $0 == option.value }) {
             resolvedResult.wrappedValue.remove(at: index)
         } else {
             switch selectionType {
@@ -143,12 +143,12 @@ struct MultipleChoiceQuestionView_Previews: PreviewProvider {
                 id: UUID().uuidString,
                 title: "Which do you prefer?",
                 choices: [
-                    MultipleChoiceOption(id: "a", choiceText: "Option A", value: 0 as NSNumber),
-                    MultipleChoiceOption(id: "b", choiceText: "Option B", value: 1 as NSNumber),
-                    MultipleChoiceOption(id: "c", choiceText: "Option C", value: 2 as NSNumber)
+                    MultipleChoiceOption(id: "a", choiceText: "Option A", value: .int(0)),
+                    MultipleChoiceOption(id: "b", choiceText: "Option B", value: .int(1)),
+                    MultipleChoiceOption(id: "c", choiceText: "Option C", value: .int(2))
             ],
                 selectionType: .multiple,
-                result: .constant([0 as NSNumber])
+                result: .constant([.int(0)])
             )
             .padding(.horizontal)
         }
