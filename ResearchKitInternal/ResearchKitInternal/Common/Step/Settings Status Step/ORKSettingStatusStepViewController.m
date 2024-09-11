@@ -42,8 +42,10 @@
 #import <ResearchKitUI/ORKStepContainerView_Private.h>
 
 #define ORKSettingStatusReduceLoudSoundsSensitiveURLString "prefs:root=Sounds&path=HEADPHONE_LEVEL_LIMIT_SETTING"
-#define ORKSettingStatusApplicationString "com.apple.Preferences"
+#define ORKSettingStatusReduceLoudSoundsApplicationString "com.apple.Preferences"
 
+#define ORKSettingStatusEnvironmentalNoiseSensitiveURLString "bridge:root=com.apple.Noise.settings"
+#define ORKSettingStatusEnvironmentalNoiseApplicationString "com.apple.bridge"
 
 @implementation ORKSettingStatusStepViewController {
     ORKSettingStatusCollector *_settingStatusCollector;
@@ -169,6 +171,9 @@
         case ORKSettingTypeReduceLoudSounds:
             _settingStatusCollector = [ORKAudioSettingStatusCollector new];
             break;
+        case ORKSettingTypeEnvironmentalNoise:
+            _settingStatusCollector = [ORKEnvironmentNoiseStatusCollector new];
+            break;
             
         default:
             break;
@@ -178,7 +183,7 @@
 - (void)_checkSettingStatus {
     if (_settingStatusCollector) {
         ORKSettingStatusStep *settingStatusStep = [self _orkSettingStatusStep];
-        ORKSettingStatusSnapshot *settingStatusSnapshot = [_settingStatusCollector getSettingStatusForSettingType:settingStatusStep.settingType];
+        ORKSettingStatusSnapshot *settingStatusSnapshot = [_settingStatusCollector settingStatusForSettingType:settingStatusStep.settingType];
         [_stepContainerView setIsSettingEnabled:settingStatusSnapshot.isEnabled];
         
         if (!_initialEnabledStatusCollected) {
@@ -215,10 +220,11 @@
     if ([taskVC.internalDelegate respondsToSelector:sensitiveURLSelector]) {
         ORKSettingStatusStep *settingStatusStep = [self _orkSettingStatusStep];
         NSString *sensitiveURLString = [self _getSensitiveURLForSettingType:settingStatusStep.settingType];
+        NSString *sensitiveApplicationString = [self _getSensitiveApplicationStringForSettingType:settingStatusStep.settingType];
         
         [taskVC.internalDelegate taskViewController:taskVC goToSettingsButtonPressedWithSettingStatusStep:settingStatusStep
                                  sensitiveURLString:sensitiveURLString
-                                  applicationString:@ORKSettingStatusApplicationString];
+                                  applicationString:sensitiveApplicationString];
     }
 }
 
@@ -227,9 +233,27 @@
         case ORKSettingTypeReduceLoudSounds:
             return @ORKSettingStatusReduceLoudSoundsSensitiveURLString;
             break;
+        case ORKSettingTypeEnvironmentalNoise:
+            return @ORKSettingStatusEnvironmentalNoiseSensitiveURLString;
+            break;
             
         default:
             @throw [NSException exceptionWithName:NSGenericException reason:@"There is no sensitive URL for the provided ORKSettingType." userInfo:nil];
+            break;
+    }
+}
+
+- (NSString *)_getSensitiveApplicationStringForSettingType:(ORKSettingType)settingType {
+    switch (settingType) {
+        case ORKSettingTypeReduceLoudSounds:
+            return @ORKSettingStatusReduceLoudSoundsApplicationString;
+            break;
+        case ORKSettingTypeEnvironmentalNoise:
+            return @ORKSettingStatusEnvironmentalNoiseApplicationString;
+            break;
+            
+        default:
+            @throw [NSException exceptionWithName:NSGenericException reason:@"There is no application string for the provided ORKSettingType." userInfo:nil];
             break;
     }
 }
