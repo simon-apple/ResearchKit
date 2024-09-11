@@ -36,12 +36,10 @@ final class SettingsAppScreens {
     static let app = XCUIApplication(bundleIdentifier: "com.apple.Preferences")
     
     /// Activate and terminate Settings app to start from the known state
-    @discardableResult
-    func terminateAndLaunchApp() -> Self {
+    func terminateAndLaunchApp() {
         Self.app.activate()
         Self.app.terminate()
         Self.app.activate()
-        return self
     }
     
     static var bluetoothCell: XCUIElement {
