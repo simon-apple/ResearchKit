@@ -38,11 +38,11 @@ struct NavigationalLayout: View {
     private var stepIdentifiers: [Subview.ID] = []
     
     private let steps: SubviewsCollection
-    private let onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)?
+    private let onResearchFormCompletion: ((ResearchTaskCompletion) -> Void)?
     
-    init(_ steps: SubviewsCollection, onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)?) {
+    init(_ steps: SubviewsCollection, onResearchFormCompletion: ((ResearchTaskCompletion) -> Void)?) {
         self.steps = steps
-        self.onResearchTaskCompletion = onResearchTaskCompletion
+        self.onResearchFormCompletion = onResearchFormCompletion
     }
     
     var body: some View {
@@ -53,7 +53,7 @@ struct NavigationalLayout: View {
                     case .failed, .discarded, .terminated:
                         dismiss()
                     case .completed(let result):
-                        onResearchTaskCompletion?(completion)
+                        onResearchFormCompletion?(completion)
                     case .saved(let result):
                         if let currentStepIndex = index(for: firstStep) {
                             moveToNextStep(relativeToCurrentIndex: currentStepIndex)
@@ -70,7 +70,7 @@ struct NavigationalLayout: View {
                             case .failed, .discarded, .terminated:
                                 dismiss()
                             case .completed(let result):
-                                onResearchTaskCompletion?(completion)
+                                onResearchFormCompletion?(completion)
                                 dismiss()
                             case .saved(let result):
                                 if let currentStepIndex = index(for: subviewID) {

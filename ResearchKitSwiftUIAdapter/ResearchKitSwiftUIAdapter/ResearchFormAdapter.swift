@@ -46,7 +46,7 @@ public extension ResearchForm where Content == ResearchFormDataAdapter {
             steps: {
                 ResearchFormDataAdapter(surveyData: surveyData)
             },
-            onResearchTaskCompletion: onResearchTaskCompletion
+            onResearchFormCompletion: onResearchTaskCompletion
         )
     }
     
