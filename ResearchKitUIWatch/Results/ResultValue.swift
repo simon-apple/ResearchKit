@@ -28,53 +28,21 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import SwiftUI
-
-enum AnswerFormat {
-    case text(String?)
-    case numeric(Double?)
+public enum ResultValue: Codable {
+    case int(Int)
+    case string(String)
     case date(Date)
-    case weight(Double)
-    case height(Double)
-    case multipleChoice([ResultValue]?)
-    case image([ResultValue])
-    case scale(Double)
-}
 
-public final class ResearchTaskResult: ObservableObject {
-
-    // This initializer is to remain internal so that 3rd party developers can't insert into the environment.
-    init() {}
-
-    @Published
-    var stepResults: [String: AnswerFormat] = [:]
-
-    func resultForStep<Result>(key: StepResultKey<Result>) -> Result? {
-        let answerFormat = stepResults[key.id]
-        switch answerFormat {
-        case let .text(answer):
-            return answer as? Result
-        case .numeric(let decimal):
-            return decimal as? Result
-        case .date(let date):
-            return date as? Result
-        case .height(let height):
-            return height as? Result
-        case .weight(let weight):
-            return weight as? Result
-        case .image(let image):
-            return image as? Result
-        case .multipleChoice(let multipleChoice):
-            return multipleChoice as? Result
-        case .scale(let double):
-            return double as? Result
+    static func == (lhs: ResultValue, rhs: ResultValue) -> Bool {
+        switch (lhs, rhs) {
+        case (.int(let a), .int(let b)):
+            return a == b
+        case (.string(let a), .string(let b)):
+            return a == b
+        case (.date(let a), .date(let b)):
+            return a == b
         default:
-            return nil
+            return false
         }
     }
-
-    func setResultForStep<Result>(_ format: AnswerFormat, key: StepResultKey<Result>) {
-        stepResults[key.id] = format
-    }
 }
-

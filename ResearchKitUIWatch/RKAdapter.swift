@@ -55,11 +55,12 @@ public class RKAdapter {
         case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
             var answerOptions : [MultipleChoiceOption] = []
             textChoiceAnswerFormat.textChoices.forEach { textChoice in
+                let value: ResultValue? = RKAdapter.value(from: textChoice.value)
                 answerOptions.append(
                     MultipleChoiceOption(
                         id: UUID().uuidString,
                         choiceText: textChoice.text,
-                        value: textChoice.value
+                        value: value ?? .string("Unknown")
                     )
                 )
             }
@@ -102,11 +103,14 @@ public class RKAdapter {
             
 #if !os(watchOS)
         case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
+
+
             let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
-                MultipleChoiceOption(
+                let value: ResultValue? = RKAdapter.value(from: textChoice.value)
+                return MultipleChoiceOption(
                     id: UUID().uuidString,
                     choiceText: textChoice.text,
-                    value: textChoice.value
+                    value: value ?? .string("Unknown")
                 )
             }
             guard var defaultOption = answerOptions.first else {
@@ -294,11 +298,12 @@ public class RKAdapter {
             )
         case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
             let choices = imageChoiceAnswerFormat.imageChoices.map { choice in
+                let value: ResultValue? = RKAdapter.value(from: choice.value)
                 return ImageChoice(
                     normalImage: choice.normalStateImage,
                     selectedImage: choice.selectedStateImage,
                     text: choice.text!,
-                    value: choice.value
+                    value: value ?? .string("Unknown")
                 )
             }
 
@@ -435,7 +440,9 @@ public class RKAdapter {
                 ]
                 result.userInfo = info
                 result.questionType = .multipleChoice
-                result.answer = images as any ResultValue
+
+                let newResults: [NSCopying & NSSecureCoding & NSObjectProtocol] = images.map { RKAdapter.rkValue(from: $0) }
+                result.choiceAnswers = newResults
                 resultsArray.append(result)
             case .multipleChoice(let multipleChoice):
                 let result = ORKChoiceQuestionResult(identifier: entry.key)
@@ -443,9 +450,17 @@ public class RKAdapter {
                     multipleChoiceAnswerFormatKey :
                         MultipleChoiceAnswerFormat.multiple.rawValue
                 ]
+                if let answers = multipleChoice {
+                    let newResults: [NSCopying & NSSecureCoding & NSObjectProtocol] = answers.map { RKAdapter.rkValue(from: $0) }
+                    result.choiceAnswers = newResults
+                }
                 result.userInfo = info
                 result.questionType = .multipleChoice
-                result.answer = multipleChoice as? any ResultValue
+                resultsArray.append(result)
+            case .scale(let value):
+                let result = ORKScaleQuestionResult(identifier: entry.key)
+                result.scaleAnswer = NSNumber(floatLiteral: value)
+                result.questionType = .scale
                 resultsArray.append(result)
             }
         }
@@ -479,14 +494,17 @@ public class RKAdapter {
                                let formatValue = userInfo[multipleChoiceAnswerFormatKey] as? Int,
                                let format = MultipleChoiceAnswerFormat(rawValue: formatValue) {
                                 if let selections = result.choiceAnswers {
+                                    let newSelections: [ResultValue] = selections.compactMap { RKAdapter.value(from: $0) }
                                     switch format {
                                     case .multiple:
-                                        researchTaskResult.stepResults[identifier] = .multipleChoice(selections)
+                                        researchTaskResult.stepResults[identifier] = .multipleChoice(newSelections)
                                     case .image:
-                                        researchTaskResult.stepResults[identifier] = .image(selections)
+                                        researchTaskResult.stepResults[identifier] = .image(newSelections)
                                     }
                                 }
                             }
+                        } else if let result = result as? ORKScaleQuestionResult {
+                            researchTaskResult.stepResults[identifier] = .scale(result.scaleAnswer?.doubleValue ?? 0)
                         }
                     }
                 }
@@ -496,7 +514,29 @@ public class RKAdapter {
         }
         return nil
     }
-}
+
+    public static func rkValue(from result: ResultValue) -> NSCopying & NSSecureCoding & NSObjectProtocol {
+        switch result {
+        case .int(let int):
+            return NSNumber(integerLiteral: int)
+        case .string(let string):
+            return NSString(string: string)
+        case .date(let date):
+            return date as NSDate
+        }
+    }
+
+    public static func value(from rkValue: NSCopying & NSSecureCoding & NSObjectProtocol) -> ResultValue? {
+        if let number = rkValue as? NSNumber {
+            return .int(number.intValue)
+        } else if let string = rkValue as? NSString {
+            return .string(String(string))
+        } else if let date = rkValue as? Date {
+            return .date(date)
+        }
+        assertionFailure("Unexpected RKValue type passed in, this is a developer error")
+        return nil
+    }}
 
 #if DEBUG
 extension RKAdapter {

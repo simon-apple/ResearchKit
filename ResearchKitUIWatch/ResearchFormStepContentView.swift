@@ -36,7 +36,7 @@ public struct ResearchFormStepContentView<Content: View>: View {
     private var managedTaskResult: ResearchTaskResult
 
     @State
-    private var isOptional: Bool = true
+    private var isRequired: Bool = false
     
     @State 
     private var answered: Bool = false
@@ -73,10 +73,10 @@ public struct ResearchFormStepContentView<Content: View>: View {
     public var body: some View {
         StickyScrollView {
             content
-                .onPreferenceChange(ResearchQuestionOptionalPreferenceKey.self) {
-                    isOptional = $0
+                .onPreferenceChange(QuestionRequiredPreferenceKey.self) {
+                    isRequired = $0
                 }
-                .onPreferenceChange(ResearchFormAnswerPreferenceKey.self) {
+                .onPreferenceChange(QuestionAnsweredPreferenceKey.self) {
                     answered = $0
                 }
                 .padding()
@@ -103,7 +103,7 @@ public struct ResearchFormStepContentView<Content: View>: View {
                     .padding(.vertical, 8)
             }
             .buttonStyle(.borderedProminent)
-            .disabled(!isOptional && !answered)
+            .disabled(isRequired && !answered)
         }
         .background(Color.choice(for: .secondaryBackground))
         .navigationBarTitleDisplayMode(.inline)

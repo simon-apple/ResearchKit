@@ -69,8 +69,8 @@ public struct TextQuestionView<Header: View>: View {
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
 
-    @Environment(\.researchQuestionIsOptional)
-    private var isOptional: Bool
+    @Environment(\.questionRequired)
+    private var isRequired: Bool
         
     enum FocusTarget {
         case textQuestion
@@ -207,8 +207,8 @@ public struct TextQuestionView<Header: View>: View {
             }
             .padding()
         }
-        .preference(key: ResearchQuestionOptionalPreferenceKey.self, value: isOptional)
-        .preference(key: ResearchFormAnswerPreferenceKey.self, value: isAnswered)
+        .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
+        .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
     }
     
     private var isAnswered: Bool {

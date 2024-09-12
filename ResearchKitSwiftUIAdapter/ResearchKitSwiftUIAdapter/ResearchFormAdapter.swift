@@ -46,7 +46,7 @@ public extension ResearchForm where Content == ResearchFormDataAdapter {
             steps: {
                 ResearchFormDataAdapter(surveyData: surveyData)
             },
-            onResearchTaskCompletion: onResearchTaskCompletion
+            onResearchFormCompletion: onResearchTaskCompletion
         )
     }
     
@@ -103,7 +103,7 @@ struct ResearchFormAdapter: View {
                 ForEach(groupItems(formItems), id: \.identifier) { formItem in
                     if let answerFormat = formItem.answerFormat {
                         build(answerFormat, id: formItem.identifier, title: formItem.text, placeholder: formItem.placeholder, detail: formItem.detailText)
-                            .researchQuestionOptional(formItem.isOptional)
+                            .questionRequired(!formItem.isOptional)
                     }
                 }
             }
@@ -115,7 +115,7 @@ struct ResearchFormAdapter: View {
         ResearchFormStep(title: questionStep.title, subtitle: questionStep.detailText) {
             if let answerFormat = questionStep.answerFormat {
                 build(answerFormat, id: questionStep.identifier, title: questionStep.question, detail: questionStep.detailText)
-                    .researchQuestionOptional(questionStep.isOptional)
+                    .questionRequired(!questionStep.isOptional)
             }
         }
     }
@@ -134,10 +134,11 @@ struct ResearchFormAdapter: View {
                 id: id,
                 title: title ?? "",
                 choices: textChoiceAnswerFormat.textChoices.map { textChoice in
-                    MultipleChoiceOption(
+                    let value: ResultValue? = RKAdapter.value(from: textChoice.value)
+                    return MultipleChoiceOption(
                         id: UUID().uuidString,
                         choiceText: textChoice.text,
-                        value: textChoice.value
+                        value: value ?? .string("Unknown")
                     )
                 },
                 selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
@@ -172,10 +173,11 @@ struct ResearchFormAdapter: View {
 #if !os(watchOS)
         case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
             let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
-                MultipleChoiceOption(
+                let value: ResultValue? = RKAdapter.value(from: textChoice.value)
+                return MultipleChoiceOption(
                     id: UUID().uuidString,
                     choiceText: textChoice.text,
-                    value: textChoice.value
+                    value: value ?? .string("Unknown")
                 )
             }
             
@@ -343,11 +345,12 @@ struct ResearchFormAdapter: View {
             )
         case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
             let choices = imageChoiceAnswerFormat.imageChoices.map { choice in
+                let value: ResultValue? = RKAdapter.value(from: choice.value)
                 return ImageChoice(
                     normalImage: choice.normalStateImage,
                     selectedImage: choice.selectedStateImage,
                     text: choice.text!,
-                    value: choice.value
+                    value: value ?? .string("Unknown")
                 )
             }
             
