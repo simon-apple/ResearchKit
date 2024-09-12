@@ -135,7 +135,7 @@ public struct TextQuestionView<Header: View>: View {
         self.characterLimit = characterLimit > 0 ? characterLimit : .max
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.result = .automatic(key: StepResultKey(id: id))
+        self.result = .automatic(key: .text(id: id))
     }
 
     private var axis: Axis {

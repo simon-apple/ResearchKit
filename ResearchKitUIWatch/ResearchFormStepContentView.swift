@@ -41,6 +41,20 @@ public struct ResearchFormStepContentView<Content: View>: View {
     @State 
     private var answered: Bool = false
     
+    @State
+    private var questionOptionals = [Int: Bool]()
+    
+    @State
+    private var questionAnswers = [Int: Bool]()
+    
+    private var doneButtonDisabled: Bool {
+        questionOptionals
+            .filter { !$0.value }
+            .contains {
+                questionAnswers[$0.key] == false
+            }
+    }
+    
     private let content: Content
 
     let isLastStep: Bool

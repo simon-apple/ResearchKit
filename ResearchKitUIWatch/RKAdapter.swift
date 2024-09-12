@@ -445,7 +445,7 @@ public class RKAdapter {
                 ]
                 result.userInfo = info
                 result.questionType = .multipleChoice
-                result.answer = multipleChoice as any ResultValue
+                result.answer = multipleChoice as? any ResultValue
                 resultsArray.append(result)
             }
         }
