@@ -38,6 +38,7 @@ enum AnswerFormat {
     case height(Double)
     case multipleChoice([ResultValue])
     case image([ResultValue])
+    case scale(Double)
 }
 
 public final class ResearchTaskResult: ObservableObject {
@@ -65,6 +66,8 @@ public final class ResearchTaskResult: ObservableObject {
             return image as? Result
         case .multipleChoice(let multipleChoice):
             return multipleChoice as? Result
+        case .scale(let double):
+            return double as? Result
         default:
             return nil
         }

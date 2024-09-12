@@ -132,7 +132,7 @@ struct ResearchFormAdapter: View {
                 id: id,
                 title: title ?? "",
                 choices: textChoiceAnswerFormat.textChoices.map { textChoice in
-                    let value: ResultValue? = ResultValue.value(from: textChoice.value)
+                    let value: ResultValue? = RKAdapter.value(from: textChoice.value)
                     return MultipleChoiceOption(
                         id: UUID().uuidString,
                         choiceText: textChoice.text,
@@ -171,7 +171,7 @@ struct ResearchFormAdapter: View {
 #if !os(watchOS)
         case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
             let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
-                let value: ResultValue? = ResultValue.value(from: textChoice.value)
+                let value: ResultValue? = RKAdapter.value(from: textChoice.value)
                 return MultipleChoiceOption(
                     id: UUID().uuidString,
                     choiceText: textChoice.text,
@@ -343,7 +343,7 @@ struct ResearchFormAdapter: View {
             )
         case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
             let choices = imageChoiceAnswerFormat.imageChoices.map { choice in
-                let value: ResultValue? = ResultValue.value(from: choice.value)
+                let value: ResultValue? = RKAdapter.value(from: choice.value)
                 return ImageChoice(
                     normalImage: choice.normalStateImage,
                     selectedImage: choice.selectedStateImage,

@@ -29,7 +29,10 @@
  */
 
 public enum ScaleSelectionConfiguration {
+    
+    @available(watchOS, unavailable)
     case textChoice([MultipleChoiceOption])
+    
     case integerRange(ClosedRange<Int>)
     case doubleRange(ClosedRange<Double>)
 }
@@ -119,6 +122,7 @@ extension ScaleSliderQuestion where ResultType == MultipleChoiceOption {
         }
     }
 
+    @available(watchOS, unavailable)
     public init(
         id: String,
         title: String,
