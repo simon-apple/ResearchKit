@@ -1,21 +1,21 @@
 /*
  Copyright (c) 2024, Apple Inc. All rights reserved.
-
+ 
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
-
+ 
  1.  Redistributions of source code must retain the above copyright notice, this
  list of conditions and the following disclaimer.
-
+ 
  2.  Redistributions in binary form must reproduce the above copyright notice,
  this list of conditions and the following disclaimer in the documentation and/or
  other materials provided with the distribution.
-
+ 
  3.  Neither the name of the copyright holder(s) nor the names of any contributors
  may be used to endorse or promote products derived from this software without
  specific prior written permission. No license is granted to the trademarks of
  the copyright holders even if such marks are included in this software.
-
+ 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,53 +28,33 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// apple-internal
+
 import SwiftUI
 
-enum AnswerFormat {
-    case text(String?)
-    case numeric(Double?)
-    case date(Date)
-    case weight(Double)
-    case height(Double)
-    case multipleChoice([ResultValue])
-    case image([ResultValue])
-    case scale(Double)
+internal extension EnvironmentValues {
+    @Entry var questionRequired: Bool = false
 }
 
-public final class ResearchTaskResult: ObservableObject {
-
-    // This initializer is to remain internal so that 3rd party developers can't insert into the environment.
-    init() {}
-
-    @Published
-    var stepResults: [String: AnswerFormat] = [:]
-
-    func resultForStep<Result>(key: StepResultKey<Result>) -> Result? {
-        let answerFormat = stepResults[key.id]
-        switch answerFormat {
-        case let .text(answer):
-            return answer as? Result
-        case .numeric(let decimal):
-            return decimal as? Result
-        case .date(let date):
-            return date as? Result
-        case .height(let height):
-            return height as? Result
-        case .weight(let weight):
-            return weight as? Result
-        case .image(let image):
-            return image as? Result
-        case .multipleChoice(let multipleChoice):
-            return multipleChoice as? Result
-        case .scale(let double):
-            return double as? Result
-        default:
-            return nil
-        }
-    }
-
-    func setResultForStep<Result>(_ format: AnswerFormat, key: StepResultKey<Result>) {
-        stepResults[key.id] = format
+public extension View {
+    func questionRequired(_ value: Bool = false) -> some View {
+        self
+            .environment(\.questionRequired, value)
     }
 }
 
+struct QuestionRequiredPreferenceKey: PreferenceKey {
+    static var defaultValue: Bool = false
+
+    static func reduce(value: inout Bool, nextValue: () -> Bool) {
+        value = nextValue()
+    }
+}
+
+struct QuestionAnsweredPreferenceKey: PreferenceKey {
+    static var defaultValue = false
+
+    static func reduce(value: inout Bool, nextValue: () -> Bool) {
+        value = nextValue()
+    }
+}

@@ -37,7 +37,7 @@ public enum TextFieldType {
 public struct TextQuestion: Identifiable {
     public var title: String
     public var id: String
-    public var text: String
+    public var text: String?
     public var prompt: String
     public var textFieldType: TextFieldType
     public var characterLimit: Int
@@ -47,7 +47,7 @@ public struct TextQuestion: Identifiable {
     public init(
         title: String,
         id: String,
-        text: String,
+        text: String? = nil,
         prompt: String,
         textFieldType: TextFieldType,
         characterLimit: Int,
@@ -69,10 +69,11 @@ public struct TextQuestionView<Header: View>: View {
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
 
+    @Environment(\.questionRequired)
+    private var isRequired: Bool
+        
     enum FocusTarget {
-        
         case textQuestion
-        
     }
     
     let id: String
@@ -84,13 +85,13 @@ public struct TextQuestionView<Header: View>: View {
     let characterLimit: Int
     let hideCharacterCountLabel: Bool
     let hideClearButton: Bool
-    let result: StateManagementType<String>
+    let result: StateManagementType<String?>
 
-    private var resolvedResult: Binding<String> {
+    private var resolvedResult: Binding<String?> {
         switch result {
         case let .automatic(key: key):
             return Binding(
-                get: { managedTaskResult.resultForStep(key: key) ?? ""},
+                get: { managedTaskResult.resultForStep(key: key) ?? nil },
                 set: { managedTaskResult.setResultForStep(.text($0), key: key) }
             )
         case let .manual(value):
@@ -106,7 +107,7 @@ public struct TextQuestionView<Header: View>: View {
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false,
-        result: Binding<String>
+        result: Binding<String?>
     ) {
         self.id = id
         self.header = header()
@@ -134,7 +135,7 @@ public struct TextQuestionView<Header: View>: View {
         self.characterLimit = characterLimit > 0 ? characterLimit : .max
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.result = .automatic(key: .text(id: id))
+        self.result = .automatic(key: StepResultKey(id: id))
     }
 
     private var axis: Axis {
@@ -159,29 +160,29 @@ public struct TextQuestionView<Header: View>: View {
             header
         } content: {
             VStack {
-                TextField("", text: resolvedResult, prompt: placeholder, axis: axis)
+                TextField(id, text: resolvedResult.toUnwrapped(defaultValue: ""), prompt: placeholder, axis: axis)
                     .textFieldStyle(.plain) // Text binding's `didSet` called twice if this is not set.
                     .focused($focusTarget, equals: .textQuestion)
                     .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
                     .contentShape(Rectangle())
                     .onAppear(perform: {
 #if !os(watchOS)
-                        if textFieldType == .singleLine {
-                            UITextField.appearance().clearButtonMode = .whileEditing
-                        }
+                    if textFieldType == .singleLine {
+                        UITextField.appearance().clearButtonMode = .whileEditing
+                    }
 #endif
                     })
 
                 if textFieldType == .multiline {
                     HStack {
                         if hideCharacterCountLabel == false {
-                            Text("\(resolvedResult.wrappedValue.count)/\(characterLimit)")
+                            Text("\(resolvedResult.wrappedValue?.count ?? 0)/\(characterLimit)")
                         }
                         Spacer()
 
                         if !hideClearButton {
                             Button {
-                                resolvedResult.wrappedValue = ""
+                                resolvedResult.wrappedValue = .none
                             } label: {
                                 Text("Clear")
                             }
@@ -198,7 +199,7 @@ public struct TextQuestionView<Header: View>: View {
                     )
 #endif
                     .onChange(of: resolvedResult.wrappedValue) { oldValue, newValue in
-                        if resolvedResult.wrappedValue.count > characterLimit {
+                        if resolvedResult.wrappedValue?.count ?? 0 > characterLimit {
                             resolvedResult.wrappedValue = oldValue
                         }
                     }
@@ -206,6 +207,15 @@ public struct TextQuestionView<Header: View>: View {
             }
             .padding()
         }
+        .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
+        .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
+    }
+    
+    private var isAnswered: Bool {
+        if let result = resolvedResult.wrappedValue {
+            return !result.isEmpty
+        }
+        return false
     }
 }
 
@@ -219,7 +229,7 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false,
-        result: Binding<String>
+        result: Binding<String?>
     ) {
         self.id = id
         self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
@@ -249,26 +259,32 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.result = .automatic(key: .text(id: id))
+        self.result = .automatic(key: StepResultKey(id: id))
 
         if let defaultTextAnswer {
             self.resolvedResult.wrappedValue = defaultTextAnswer
         }
     }
-    
 }
 
-struct TextQuestionView_Previews: PreviewProvider {
-    static var previews: some View {
+#Preview {
+    @Previewable @State var value: String? = "Tom Riddle"
+    ScrollView {
         TextQuestionView(
             id: UUID().uuidString,
             title: "What is your name?",
             detail: nil,
             prompt: "Tap to write",
-            textFieldType: .multiline,
+            textFieldType: .singleLine,
             characterLimit: 10,
             hideCharacterCountLabel: true,
-            result: .constant("Tom Riddle")
+            result: $value
         )
+    }
+}
+
+extension Binding {
+     func toUnwrapped<T>(defaultValue: T) -> Binding<T> where Value == Optional<T>  {
+        Binding<T>(get: { self.wrappedValue ?? defaultValue }, set: { self.wrappedValue = $0 })
     }
 }

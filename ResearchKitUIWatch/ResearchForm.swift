@@ -34,7 +34,7 @@ public struct ResearchForm<Content: View>: View {
     @State
     private var managedTaskResult: ResearchTaskResult
 
-    private let taskKey: StepResultKey<String>
+    private let taskKey: StepResultKey<String?>
     private let steps: Content
     
     var onResearchFormCompletion: ((ResearchTaskCompletion) -> Void)?
