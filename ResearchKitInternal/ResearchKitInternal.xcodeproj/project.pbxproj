@@ -99,6 +99,10 @@
 		51F716F42981DE1B00D8ACF7 /* ORKISpeechInNoiseStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F716F22981DE1B00D8ACF7 /* ORKISpeechInNoiseStepViewController.m */; };
 		629251A62BD6814D007D6562 /* ORKSelectableHeadphoneDetectorPredefinedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 629251A42BD6814C007D6562 /* ORKSelectableHeadphoneDetectorPredefinedTask.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		629251A72BD6814D007D6562 /* ORKSelectableHeadphoneDetectorPredefinedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 629251A52BD6814C007D6562 /* ORKSelectableHeadphoneDetectorPredefinedTask.m */; };
+		62C71A232C777D430093C717 /* HearingUtilities_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 62C71A1E2C777D430093C717 /* HearingUtilities_Private.h */; };
+		62C71A242C777D430093C717 /* HearingUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 62C71A1F2C777D430093C717 /* HearingUtilities.h */; };
+		62C71A252C777D430093C717 /* HUComfortSoundsSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 62C71A202C777D430093C717 /* HUComfortSoundsSettings.h */; };
+		62C71A262C777D430093C717 /* HUNoiseSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 62C71A212C777D430093C717 /* HUNoiseSettings.h */; };
 		62C821322BA7119C00BAAD59 /* ORKdBHLToneAudiometryMethodOfAdjustmentStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62C821292BA7119C00BAAD59 /* ORKdBHLToneAudiometryMethodOfAdjustmentStepViewController.m */; };
 		62C821332BA7119C00BAAD59 /* ORKdBHLToneAudiometryMethodOfAdjustmentStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 62C8212A2BA7119C00BAAD59 /* ORKdBHLToneAudiometryMethodOfAdjustmentStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62C821342BA7119C00BAAD59 /* ORKdBHLToneAudiometryMethodOfAdjustmentContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 62C8212B2BA7119C00BAAD59 /* ORKdBHLToneAudiometryMethodOfAdjustmentContentView.m */; };
@@ -110,6 +114,8 @@
 		62C8213A2BA7119C00BAAD59 /* ORKdBHLToneAudiometryPulsedAudioGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 62C821312BA7119C00BAAD59 /* ORKdBHLToneAudiometryPulsedAudioGenerator.m */; };
 		62C8213D2BA711BE00BAAD59 /* ORKdBHLToneAudiometryMethodOfAdjustmentSwiftUIFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C8213B2BA711BE00BAAD59 /* ORKdBHLToneAudiometryMethodOfAdjustmentSwiftUIFactory.swift */; };
 		62C8213E2BA711BE00BAAD59 /* ORKdBHLToneAudiometryMethodOfAdjustmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C8213C2BA711BE00BAAD59 /* ORKdBHLToneAudiometryMethodOfAdjustmentView.swift */; };
+		62D3CA022C7E5A710000E8B5 /* ORKIdBHLNewToneAudiometryStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D3CA002C7E5A710000E8B5 /* ORKIdBHLNewToneAudiometryStepViewController.m */; };
+		62D3CA032C7E5A710000E8B5 /* ORKIdBHLNewToneAudiometryStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 62D3CA012C7E5A710000E8B5 /* ORKIdBHLNewToneAudiometryStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA0748B428B7F18B001D8599 /* ORKIdBHLToneAudiometryAudioGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = CA0748B228B7F18B001D8599 /* ORKIdBHLToneAudiometryAudioGenerator.h */; };
 		CA0748B528B7F18B001D8599 /* ORKIdBHLToneAudiometryAudioGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0748B328B7F18B001D8599 /* ORKIdBHLToneAudiometryAudioGenerator.m */; };
 		CA0748B828B7F997001D8599 /* ORKIdBHLToneAudiometryStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = CA0748B628B7F997001D8599 /* ORKIdBHLToneAudiometryStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -385,6 +391,10 @@
 		51F716F22981DE1B00D8ACF7 /* ORKISpeechInNoiseStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKISpeechInNoiseStepViewController.m; sourceTree = "<group>"; };
 		629251A42BD6814C007D6562 /* ORKSelectableHeadphoneDetectorPredefinedTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKSelectableHeadphoneDetectorPredefinedTask.h; sourceTree = "<group>"; };
 		629251A52BD6814C007D6562 /* ORKSelectableHeadphoneDetectorPredefinedTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKSelectableHeadphoneDetectorPredefinedTask.m; sourceTree = "<group>"; };
+		62C71A1E2C777D430093C717 /* HearingUtilities_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HearingUtilities_Private.h; sourceTree = "<group>"; };
+		62C71A1F2C777D430093C717 /* HearingUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HearingUtilities.h; sourceTree = "<group>"; };
+		62C71A202C777D430093C717 /* HUComfortSoundsSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUComfortSoundsSettings.h; sourceTree = "<group>"; };
+		62C71A212C777D430093C717 /* HUNoiseSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUNoiseSettings.h; sourceTree = "<group>"; };
 		62C821292BA7119C00BAAD59 /* ORKdBHLToneAudiometryMethodOfAdjustmentStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryMethodOfAdjustmentStepViewController.m; sourceTree = "<group>"; };
 		62C8212A2BA7119C00BAAD59 /* ORKdBHLToneAudiometryMethodOfAdjustmentStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKdBHLToneAudiometryMethodOfAdjustmentStepViewController.h; sourceTree = "<group>"; };
 		62C8212B2BA7119C00BAAD59 /* ORKdBHLToneAudiometryMethodOfAdjustmentContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryMethodOfAdjustmentContentView.m; sourceTree = "<group>"; };
@@ -396,6 +406,8 @@
 		62C821312BA7119C00BAAD59 /* ORKdBHLToneAudiometryPulsedAudioGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKdBHLToneAudiometryPulsedAudioGenerator.m; sourceTree = "<group>"; };
 		62C8213B2BA711BE00BAAD59 /* ORKdBHLToneAudiometryMethodOfAdjustmentSwiftUIFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ORKdBHLToneAudiometryMethodOfAdjustmentSwiftUIFactory.swift; sourceTree = "<group>"; };
 		62C8213C2BA711BE00BAAD59 /* ORKdBHLToneAudiometryMethodOfAdjustmentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ORKdBHLToneAudiometryMethodOfAdjustmentView.swift; sourceTree = "<group>"; };
+		62D3CA002C7E5A710000E8B5 /* ORKIdBHLNewToneAudiometryStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKIdBHLNewToneAudiometryStepViewController.m; sourceTree = "<group>"; };
+		62D3CA012C7E5A710000E8B5 /* ORKIdBHLNewToneAudiometryStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKIdBHLNewToneAudiometryStepViewController.h; sourceTree = "<group>"; };
 		CA0748B228B7F18B001D8599 /* ORKIdBHLToneAudiometryAudioGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIdBHLToneAudiometryAudioGenerator.h; sourceTree = "<group>"; };
 		CA0748B328B7F18B001D8599 /* ORKIdBHLToneAudiometryAudioGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKIdBHLToneAudiometryAudioGenerator.m; sourceTree = "<group>"; };
 		CA0748B628B7F997001D8599 /* ORKIdBHLToneAudiometryStepViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIdBHLToneAudiometryStepViewController.h; sourceTree = "<group>"; };
@@ -838,6 +850,25 @@
 			path = "Completion Step";
 			sourceTree = "<group>";
 		};
+		62C71A1D2C777D2E0093C717 /* HearingUtilities */ = {
+			isa = PBXGroup;
+			children = (
+				62C71A222C777D430093C717 /* Headers */,
+				62C71A1E2C777D430093C717 /* HearingUtilities_Private.h */,
+			);
+			path = HearingUtilities;
+			sourceTree = "<group>";
+		};
+		62C71A222C777D430093C717 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				62C71A1F2C777D430093C717 /* HearingUtilities.h */,
+				62C71A202C777D430093C717 /* HUComfortSoundsSettings.h */,
+				62C71A212C777D430093C717 /* HUNoiseSettings.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
 		62C821112BA7111700BAAD59 /* MethodOfAdjustment */ = {
 			isa = PBXGroup;
 			children = (
@@ -1009,6 +1040,8 @@
 				CA58F8AF28B534A800761769 /* ORKNewAudiometry.swift */,
 				CA0748B228B7F18B001D8599 /* ORKIdBHLToneAudiometryAudioGenerator.h */,
 				CA0748B328B7F18B001D8599 /* ORKIdBHLToneAudiometryAudioGenerator.m */,
+				62D3CA012C7E5A710000E8B5 /* ORKIdBHLNewToneAudiometryStepViewController.h */,
+				62D3CA002C7E5A710000E8B5 /* ORKIdBHLNewToneAudiometryStepViewController.m */,
 				CA0748B628B7F997001D8599 /* ORKIdBHLToneAudiometryStepViewController.h */,
 				CA0748B728B7F997001D8599 /* ORKIdBHLToneAudiometryStepViewController.m */,
 				CA0748BA28B8032E001D8599 /* ORKIdBHLToneAudiometryStep.h */,
@@ -1262,6 +1295,7 @@
 		CA77D24628AFF99000400292 /* PrivateHeaders */ = {
 			isa = PBXGroup;
 			children = (
+				62C71A1D2C777D2E0093C717 /* HearingUtilities */,
 				51274A2B2BFD1D5D0033E905 /* AudioDataAnalysis */,
 				51BD8FF529D88FD30001D54E /* AVFoundation */,
 				51BD8FFD29D88FD30001D54E /* Celestial */,
@@ -1385,6 +1419,7 @@
 				62C821362BA7119C00BAAD59 /* ORKdBHLToneAudiometryMethodOfAdjustmentContentView.h in Headers */,
 				CA77D2A828AFFB4700400292 /* ORKAudioLevelSmoother.h in Headers */,
 				51274A742C093FBA0033E905 /* ORKSettingStatusStepContainerView.h in Headers */,
+				62C71A242C777D430093C717 /* HearingUtilities.h in Headers */,
 				CA3FF9DD28B56A8300A33B6B /* ORKAVJournalingStepContentView.h in Headers */,
 				51AEAABE2B7454A200F4D107 /* ORKIQuestionStepViewController.h in Headers */,
 				CA77D2A328AFFB4700400292 /* ORKIndexCacheEntry.h in Headers */,
@@ -1399,6 +1434,7 @@
 				512749FB2BF52FC60033E905 /* ORKSettingStatusStepContentView.h in Headers */,
 				51274A682BFD27A70033E905 /* ORKSettingStatusCollector.h in Headers */,
 				51BD901329DB92280001D54E /* ORKIdBHLToneAudiometryResult.h in Headers */,
+				62C71A262C777D430093C717 /* HUNoiseSettings.h in Headers */,
 				CA5B6D6028BD1F38002C3BA4 /* ORKTinnitusMaskingSoundResult.h in Headers */,
 				CA5B6D6D28BD1F38002C3BA4 /* ORKTinnitusPureToneStepViewController_Private.h in Headers */,
 				629251A62BD6814D007D6562 /* ORKSelectableHeadphoneDetectorPredefinedTask.h in Headers */,
@@ -1410,6 +1446,7 @@
 				51A11FB22BE6817A0060C07E /* ORKSettingStatusStep.h in Headers */,
 				511BB020298DC94400936EC0 /* ORKISpeechRecognitionStepViewController.h in Headers */,
 				51A11FB62BE688410060C07E /* ORKSettingStatusStepViewController.h in Headers */,
+				62C71A252C777D430093C717 /* HUComfortSoundsSettings.h in Headers */,
 				CA3FF9D228B56A8300A33B6B /* ORKAVJournalingResult.h in Headers */,
 				CA0748C028B80935001D8599 /* ORKOrderedTask+ResearchKitInternal.h in Headers */,
 				51BD906529F738780001D54E /* UIColor+Custom.h in Headers */,
@@ -1418,6 +1455,7 @@
 				CA5B6D6328BD1F38002C3BA4 /* ORKTinnitusHeadphoneTable.h in Headers */,
 				5192BF4C2AE04C0F006E43FB /* ResearchKitInternal.h in Headers */,
 				51BD900229D88FD30001D54E /* AVOutputDeviceDiscoverySession.h in Headers */,
+				62D3CA032C7E5A710000E8B5 /* ORKIdBHLNewToneAudiometryStepViewController.h in Headers */,
 				CA3FF9D028B56A8300A33B6B /* ORKAVJournalingPredefinedTask.h in Headers */,
 				511E8D682996FEC200A384A5 /* ORKITaskViewController.h in Headers */,
 				CA5B6D7828BD1F38002C3BA4 /* ORKTinnitusTypeStepViewController.h in Headers */,
@@ -1428,6 +1466,7 @@
 				51F716F32981DE1B00D8ACF7 /* ORKISpeechInNoiseStepViewController.h in Headers */,
 				CA0AC57728BFFAB700E80040 /* ORKIUtils.h in Headers */,
 				51BD900629D88FD30001D54E /* AVFoundation_Private.h in Headers */,
+				62C71A232C777D430093C717 /* HearingUtilities_Private.h in Headers */,
 				CA0748B828B7F997001D8599 /* ORKIdBHLToneAudiometryStepViewController.h in Headers */,
 				CA3FF9EC28B5705300A33B6B /* ORKFaceDetectionStepViewController.h in Headers */,
 				CA3FF9EE28B5705300A33B6B /* ORKFaceDetectionStepContentView.h in Headers */,
@@ -1691,6 +1730,7 @@
 				CA77D29C28AFFB4700400292 /* ORKIndexCacheEntry.m in Sources */,
 				CA5B6DAA28BD27FC002C3BA4 /* ORKHeadphoneDetectStep.m in Sources */,
 				CA58F8AD28B5330E00761769 /* Interpolators.swift in Sources */,
+				62D3CA022C7E5A710000E8B5 /* ORKIdBHLNewToneAudiometryStepViewController.m in Sources */,
 				CA5B6D8D28BD1F38002C3BA4 /* ORKTinnitusPredefinedTask.m in Sources */,
 				CA77D2A028AFFB4700400292 /* ORKAudioLevelSmoother.m in Sources */,
 				CA3FF9D328B56A8300A33B6B /* ORKAVJournalingTaskViewController.m in Sources */,
