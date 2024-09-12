@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2024, Apple Inc. All rights reserved.
+ Copyright (c) 2022, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,41 +29,13 @@
  */
 
 #import <Foundation/Foundation.h>
-
-#import "ORKSettingStatusStep.h"
-
-#import <ResearchKit/ORKTypes.h>
+#import <ResearchKitActiveTask/ORKdBHLToneAudiometryStepViewController.h>
+#import <ResearchKitInternal/ORKHeadphoneDetector.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKSettingStatusSnapshot;
+@interface ORKIdBHLNewToneAudiometryStepViewController: ORKActiveStepViewController<ORKHeadphoneDetectorDelegate>
 
-/**
- An abstract class used to collect the status of a
- particular IOS setting.
- 
- This class should not be used directly.
- */
-
-ORK_CLASS_AVAILABLE
-@interface ORKSettingStatusCollector : NSObject
-
-- (ORKSettingStatusSnapshot *)settingStatusForSettingType:(ORKSettingType)settingType;
-
-@end
-
-/**
- A setting collector object specific for audio related settings.
- */
-ORK_CLASS_AVAILABLE
-@interface ORKAudioSettingStatusCollector : ORKSettingStatusCollector
-@end
-
-/**
- A setting collector object specific for environment noise related settings.
- */
-ORK_CLASS_AVAILABLE
-@interface ORKEnvironmentNoiseStatusCollector : ORKSettingStatusCollector
 @end
 
 NS_ASSUME_NONNULL_END

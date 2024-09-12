@@ -355,6 +355,7 @@
 		5EB91CC72BCE2EE600BBF23E /* ORKActiveStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86AD910F1AB7B8A600361FEB /* ORKActiveStepView.m */; };
 		5EB91CC82BCE2EFD00BBF23E /* splMeter_sensitivity_offset.plist in Resources */ = {isa = PBXBuildFile; fileRef = 71F3B27F21001DEC00FB1C41 /* splMeter_sensitivity_offset.plist */; };
 		5EB91CC92BCE2F1D00BBF23E /* SentencesList.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA22F76C20C4F884006E6E11 /* SentencesList.txt */; };
+		622774402C5CF7DC00F2E741 /* retspl_dBFS_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6227743F2C5CF7DC00F2E741 /* retspl_dBFS_AIRPODSPROV2.plist */; };
 		714080DB235FD14700281E04 /* ResearchKit.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 714080D9235FD14700281E04 /* ResearchKit.stringsdict */; };
 		714151D0225C4A23002CA33B /* ORKPasscodeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A92C6922444F93007547F2 /* ORKPasscodeViewControllerTests.swift */; };
 		7141EA2222EFBC0C00650145 /* ORKLoggingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7141EA2122EFBC0C00650145 /* ORKLoggingTests.m */; };
@@ -497,7 +498,7 @@
 		CA2B8F9528A16E860025B773 /* ORKdBHLToneAudiometryOnboardingStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71769E302088260B00A19914 /* ORKdBHLToneAudiometryOnboardingStepViewController.m */; };
 		CA2B8F9628A16E8F0025B773 /* ORKdBHLToneAudiometryOnboardingStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 71769E2F2088260B00A19914 /* ORKdBHLToneAudiometryOnboardingStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA2B8F9728A16E930025B773 /* ORKdBHLToneAudiometryAudioGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 716B126620A7A40400590264 /* ORKdBHLToneAudiometryAudioGenerator.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		CA2B8F9828A16E960025B773 /* ORKdBHLToneAudiometryContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 71769E332088291B00A19914 /* ORKdBHLToneAudiometryContentView.h */; };
+		CA2B8F9828A16E960025B773 /* ORKdBHLToneAudiometryContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 71769E332088291B00A19914 /* ORKdBHLToneAudiometryContentView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CA2B8F9928A16E9C0025B773 /* ORKdBHLToneAudiometryStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 71769E3B20884DB800A19914 /* ORKdBHLToneAudiometryStepViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA2B8F9A28A16EF90025B773 /* ORKAmslerGridContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA95AA9D20ACD0E700E7FF8E /* ORKAmslerGridContentView.m */; };
 		CA2B8F9B28A16EF90025B773 /* ORKAmslerGridStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA95AA9920ACD0BD00E7FF8E /* ORKAmslerGridStepViewController.m */; };
@@ -1624,6 +1625,7 @@
 		618DA04A1A93D0D600E63AA8 /* ORKAccessibilityFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKAccessibilityFunctions.m; sourceTree = "<group>"; };
 		618DA04B1A93D0D600E63AA8 /* UIView+ORKAccessibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "UIView+ORKAccessibility.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		618DA04C1A93D0D600E63AA8 /* UIView+ORKAccessibility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "UIView+ORKAccessibility.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		6227743F2C5CF7DC00F2E741 /* retspl_dBFS_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = retspl_dBFS_AIRPODSPROV2.plist; sourceTree = "<group>"; };
 		7118AC6020BF6A3900D7A6BB /* Sentence7.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Sentence7.wav; sourceTree = "<group>"; };
 		7118AC6120BF6A3A00D7A6BB /* Sentence4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Sentence4.wav; sourceTree = "<group>"; };
 		7118AC6220BF6A3A00D7A6BB /* Sentence6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Sentence6.wav; sourceTree = "<group>"; };
@@ -4245,6 +4247,7 @@
 			children = (
 				5192BF7E2AE1A9BA006E43FB /* volume_curve_AIRPODSPROV2.plist */,
 				5192BF7C2AE1A87D006E43FB /* retspl_AIRPODSPROV2.plist */,
+				6227743F2C5CF7DC00F2E741 /* retspl_dBFS_AIRPODSPROV2.plist */,
 				5192BF5C2AE19036006E43FB /* frequency_dBSPL_AIRPODSPROV2.plist */,
 				71769E2F2088260B00A19914 /* ORKdBHLToneAudiometryOnboardingStepViewController.h */,
 				71769E302088260B00A19914 /* ORKdBHLToneAudiometryOnboardingStepViewController.m */,
@@ -5663,6 +5666,7 @@
 				51BD8FD429D60FB60001D54E /* volume_curve_WIRED.plist in Resources */,
 				0BD9B6132B75992F00A64EF9 /* Sentence7.wav in Resources */,
 				51BD8FD229D60FB60001D54E /* frequency_dBSPL_AIRPODSV3.plist in Resources */,
+				622774402C5CF7DC00F2E741 /* retspl_dBFS_AIRPODSPROV2.plist in Resources */,
 				0BD9B6102B75992500A64EF9 /* Sentence4.wav in Resources */,
 				51BD8FC929D60FB60001D54E /* frequency_dBSPL_AIRPODSMAX.plist in Resources */,
 				0BD9B60E2B75991F00A64EF9 /* Sentence2.wav in Resources */,

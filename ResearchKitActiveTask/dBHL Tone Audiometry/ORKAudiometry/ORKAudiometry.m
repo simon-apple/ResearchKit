@@ -137,7 +137,7 @@
     _preStimulusResponse = NO;
 }
 
-- (void)registerResponse:(BOOL)response {
+- (void)registerResponse:(BOOL)response forUnit:(ORKdBHLToneAudiometryUnit *_Nullable)unit {
     if (response) {
         [self stimulusAcknowledged];
     } else {
