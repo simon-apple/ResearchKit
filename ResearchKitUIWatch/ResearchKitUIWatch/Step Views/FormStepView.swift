@@ -42,16 +42,16 @@ struct FormStepView: View {
     @Environment(\.dismiss) var dismiss
     
     @State
-    private var questionOptionals = [Int: Bool]()
+    private var requiredQuestions = [Int: Bool]()
     
     @State
-    private var questionAnswers = [Int: Bool]()
+    private var answeredQuestions = [Int: Bool]()
     
     private var doneButtonDisabled: Bool {
-        questionOptionals
-            .filter { !$0.value }
+        requiredQuestions
+            .filter { $0.value }
             .contains {
-                questionAnswers[$0.key] == false
+                answeredQuestions[$0.key] == false
             }
     }
     
@@ -107,11 +107,11 @@ struct FormStepView: View {
                         detail: "Step \(index + 1) of \(viewModel.formRows.count)",
                         formRow: $formRow
                     )
-                    .onPreferenceChange(ResearchQuestionOptionalPreferenceKey.self) {
-                        questionOptionals[index] = $0
+                    .onPreferenceChange(QuestionRequiredPreferenceKey.self) {
+                        requiredQuestions[index] = $0
                     }
-                    .onPreferenceChange(ResearchFormAnswerPreferenceKey.self) {
-                        questionAnswers[index] = $0
+                    .onPreferenceChange(QuestionAnsweredPreferenceKey.self) {
+                        answeredQuestions[index] = $0
                     }
                 }
             }

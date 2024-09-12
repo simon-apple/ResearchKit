@@ -33,25 +33,25 @@
 import SwiftUI
 
 internal extension EnvironmentValues {
-    @Entry var researchQuestionIsOptional: Bool = true
+    @Entry var questionRequired: Bool = false
 }
 
 public extension View {
-    func researchQuestionOptional(_ value: Bool = true) -> some View {
+    func questionRequired(_ value: Bool = false) -> some View {
         self
-            .environment(\.researchQuestionIsOptional, value)
+            .environment(\.questionRequired, value)
     }
 }
 
-struct ResearchQuestionOptionalPreferenceKey: PreferenceKey {
-    static var defaultValue: Bool = true
+struct QuestionRequiredPreferenceKey: PreferenceKey {
+    static var defaultValue: Bool = false
 
     static func reduce(value: inout Bool, nextValue: () -> Bool) {
         value = nextValue()
     }
 }
 
-struct ResearchFormAnswerPreferenceKey: PreferenceKey {
+struct QuestionAnsweredPreferenceKey: PreferenceKey {
     static var defaultValue = false
 
     static func reduce(value: inout Bool, nextValue: () -> Bool) {
