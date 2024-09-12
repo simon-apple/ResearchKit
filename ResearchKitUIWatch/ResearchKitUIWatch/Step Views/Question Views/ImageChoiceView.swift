@@ -30,8 +30,6 @@
 
 import SwiftUI
 
-public typealias ResultValue = NSCopying & NSSecureCoding & NSObjectProtocol
-
 public struct ImageChoice: Identifiable, Equatable {
     public let id: String
     public let normalImage: UIImage
@@ -162,7 +160,7 @@ public struct ImageChoiceView: View {
             let strings: [String] = {
                 var strings: [String] = []
                 for i in resolvedResult.wrappedValue {
-                    if let choice = choices.first(where: { $0.value.hash == i.hash }) {
+                    if let choice = choices.first(where: { $0.value == i }) {
                         strings.append(choice.text)
                     }
                 }
@@ -178,13 +176,13 @@ public struct ImageChoiceView: View {
     func imageChoices() -> some View {
         ForEach(choices, id: \.id) { choice in
             Button {
-                if let index = resolvedResult.wrappedValue.firstIndex(where: { $0.hash == choice.value.hash }) {
+                if let index = resolvedResult.wrappedValue.firstIndex(where: { $0 == choice.value }) {
                     resolvedResult.wrappedValue.remove(at: index)
                 } else {
                     resolvedResult.wrappedValue.append(choice.value)
                 }
             } label: {
-                if resolvedResult.wrappedValue.contains(where: { $0.hash == choice.value.hash }) {
+                if resolvedResult.wrappedValue.contains(where: { $0 == choice.value }) {
                     Image(uiImage: choice.selectedImage ?? choice.normalImage)
                         .resizable()
                         .imageSizeConstraints()
@@ -271,13 +269,13 @@ fileprivate extension View {
                     normalImage: UIImage(systemName: "carrot")!,
                     selectedImage: nil,
                     text: "carrot",
-                    value: 0 as NSNumber
+                    value: .int(0)
                 ),
                 ImageChoice(
                     normalImage: UIImage(systemName: "birthday.cake")!,
                     selectedImage: nil,
                     text: "cake",
-                    value: 1 as NSNumber
+                    value: .int(1)
                 ),
             ],
             style: .multiple,
