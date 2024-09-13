@@ -32,6 +32,9 @@ import SwiftUI
 
 // TODO(rdar://129033515): Update name of this module to reflect just the choice options without the header.
 public struct MultipleChoiceQuestionView: View {
+    
+    @Environment(\.questionProgress) private var questionProgress
+    @Environment(\.whatTheHay) private var whatTheHay
 
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
@@ -92,7 +95,7 @@ public struct MultipleChoiceQuestionView: View {
     }
 
     public var body: some View {
-        FormItemCardView(title: title, detail: detail) {
+        FormItemCardView(title: title, detail: detail ?? whatTheHay /*"Question \(questionProgress.0) of \(questionProgress.1)"*/) {
             ForEach(Array(choices.enumerated()), id: \.offset) { index, option in
                 VStack(spacing: .zero) {
                     if index != 0 {

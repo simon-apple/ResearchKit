@@ -56,6 +56,7 @@ public struct ResearchForm<Content: View>: View {
             NavigationalLayout(steps, onResearchFormCompletion: onResearchFormCompletion)
         }
         .environmentObject(managedTaskResult)
+        .environment(\.whatTheHay, "What the heck!")
     }
     
 }
@@ -78,12 +79,33 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             header
-            content
+            
+            Group(subviews: content) { questions in
+                Text("Number of questions: \(questions.count)")
+                
+                ForEach(questions) { question in
+                    if let questionIndex = questions.firstIndex(where: { $0.id == question.id }) {
+                        question
+                            .environment(\.questionProgress, (questionIndex + 1, questions.count))
+//                            .environment(\.whatTheHay, "What the heck!")
+                    } else {
+                        question
+                    }
+                }
+                .environment(\.whatTheHay, "What the heck!")
+            }
         }
 #if os(iOS)
         .frame(maxWidth: .infinity, alignment: .leading)
 #endif
     }
+    
+}
+
+extension EnvironmentValues {
+    
+    @Entry var questionProgress: (Int, Int) = (0, 0)
+    @Entry var whatTheHay: String = "What the hay!"
     
 }
 
