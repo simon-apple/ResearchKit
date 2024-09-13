@@ -34,6 +34,12 @@ import SwiftUI
 
 public struct ScaleSliderQuestionView: View {
     
+    let id: String
+    var title: String
+    var detail: String?
+    var scaleSelectionConfiguration: ScaleSelectionConfiguration
+    let step: Double
+    
     private enum ScaleSelectionBindingValue: Equatable {
         
         static func == (
@@ -59,7 +65,7 @@ public struct ScaleSliderQuestionView: View {
             }
         }
 
-        case int(Binding<Int>)
+        case int(Binding<Int?>)
         case double(Binding<Double>)
         
         @available(watchOS, unavailable)
@@ -103,6 +109,12 @@ public struct ScaleSliderQuestionView: View {
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
     
+    @Environment(\.questionRequired)
+    private var isRequired: Bool
+    
+    @State
+    private var isWaitingForUserFeedback: Bool = true
+    
     private let stateManagementType: StateManagementType<Double>
     
     private var resolvedBinding: Binding<ScaleSelectionBindingValue> {
@@ -121,16 +133,6 @@ public struct ScaleSliderQuestionView: View {
         }
         return resolvedBinding
     }
-
-    let id: String
-    
-    var title: String
-
-    var detail: String?
-
-    var scaleSelectionConfiguration: ScaleSelectionConfiguration
-
-    let step: Double
 
     // Actual underlying value of the slider
     @State
@@ -152,9 +154,7 @@ public struct ScaleSliderQuestionView: View {
                         )
                     )
                 }
-                
                 let scaleSelectionBinding: ScaleSelectionBindingValue
-
                 switch scaleSelectionConfiguration {
 #if !os(watchOS)
                 case .textChoice(let multipleChoiceOptions):
@@ -185,7 +185,8 @@ public struct ScaleSliderQuestionView: View {
                                 return Int(sliderValue)
                             },
                             set: {
-                                managedTaskResult.setResultForStep(.scale(Double($0)), key: key)
+                                guard let result = $0 else { return }
+                                managedTaskResult.setResultForStep(.scale(Double(result)), key: key)
                             }
                         )
                     )
@@ -222,9 +223,9 @@ public struct ScaleSliderQuestionView: View {
                     ) ?? 0
                     managedTaskResult.setResultForStep(.scale(Double(index)), key: key)
 #endif
-                case let (.int(binding), .integerRange):
+                case let (.int(binding), .integerRange(range)):
                     managedTaskResult.setResultForStep(
-                        .scale(Double(binding.wrappedValue)),
+                        .scale(Double(binding.wrappedValue ?? range.lowerBound)),
                         key: key
                     )
                 case let (.double(binding), .doubleRange):
@@ -238,7 +239,7 @@ public struct ScaleSliderQuestionView: View {
             }
         )
     }
-    
+
     private var clientManagedSelection: ScaleSelectionBindingValue
     
     public init(
@@ -283,7 +284,7 @@ public struct ScaleSliderQuestionView: View {
         detail: String? = nil,
         range: ClosedRange<Int>,
         step: Double = 1.0,
-        selection: Int
+        selection: Int?
     ) {
         self.id = id
         self.title = title
@@ -292,7 +293,7 @@ public struct ScaleSliderQuestionView: View {
         self.step = step
         self.clientManagedSelection = .int(.init(get: { selection }, set: { _ in }))
         self.stateManagementType = .automatic(key: StepResultKey(id: id))
-        self._sliderUIValue = State(wrappedValue: Double(selection))
+        self._sliderUIValue = State(wrappedValue: Double(selection ?? range.lowerBound))
     }
 
     public init(
@@ -301,7 +302,7 @@ public struct ScaleSliderQuestionView: View {
         detail: String? = nil,
         range: ClosedRange<Int>,
         step: Double = 1.0,
-        selection: Binding<Int>
+        selection: Binding<Int?>
     ) {
         self.id = id
         self.title = title
@@ -312,14 +313,14 @@ public struct ScaleSliderQuestionView: View {
         self.stateManagementType = .manual(
             .init(
                 get: {
-                    Double(selection.wrappedValue)
+                    Double(selection.wrappedValue ?? range.lowerBound)
                 },
                 set: { newValue in
                     selection.wrappedValue = Int(newValue)
                 }
             )
         )
-        self._sliderUIValue = State(wrappedValue: Double(selection.wrappedValue))
+        self._sliderUIValue = State(wrappedValue: Double(selection.wrappedValue ?? range.lowerBound))
     }
     
     @available(watchOS, unavailable)
@@ -387,6 +388,7 @@ public struct ScaleSliderQuestionView: View {
         FormItemCardView(title: title, detail: detail) {
             scaleView(selectionConfiguration: scaleSelectionConfiguration)
                 .onChange(of: sliderUIValue) { oldValue, newValue in
+                    isWaitingForUserFeedback = false
                     switch resolvedBinding.wrappedValue {
                     case .double(let doubleBinding):
                         doubleBinding.wrappedValue = newValue
@@ -409,7 +411,9 @@ public struct ScaleSliderQuestionView: View {
                             let selectedIndex = array.firstIndex(where: { $0.id == binding.wrappedValue.id }) ?? 0
                             sliderUIValue = Double(selectedIndex)
                         case .int(let binding):
-                            sliderUIValue = Double(binding.wrappedValue)
+                        if let value = binding.wrappedValue {
+                            sliderUIValue = Double(value)
+                        }
                         case .double(let binding):
                             sliderUIValue = binding.wrappedValue
                     }
@@ -419,10 +423,11 @@ public struct ScaleSliderQuestionView: View {
                     guard case .automatic(let key) = stateManagementType, let sliderValue = managedTaskResult.resultForStep(key: key) else {
                         return
                     }
-                    
                     sliderUIValue = sliderValue
                 }
         }
+        .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
+        .preference(key: QuestionAnsweredPreferenceKey.self, value: !isWaitingForUserFeedback)
     }
 
     @ViewBuilder
