@@ -41,13 +41,20 @@ enum AnswerFormat {
     case scale(Double)
 }
 
-public final class ResearchTaskResult: ObservableObject {
+extension AnswerFormat: Codable {}
 
-    // This initializer is to remain internal so that 3rd party developers can't insert into the environment.
-    init() {}
+public final class ResearchTaskResult: ObservableObject {
 
     @Published
     var stepResults: [String: AnswerFormat] = [:]
+    
+    // This initializer is to remain internal so that 3rd party developers can't insert into the environment.
+    init() {}
+    
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        stepResults = try container.decode([String: AnswerFormat].self, forKey: .stepResults)
+    }
 
     func resultForStep<Result>(key: StepResultKey<Result>) -> Result? {
         let answerFormat = stepResults[key.id]
@@ -78,3 +85,17 @@ public final class ResearchTaskResult: ObservableObject {
     }
 }
 
+extension ResearchTaskResult: Codable {
+    
+    enum CodingKeys: CodingKey {
+        
+        case stepResults
+        
+    }
+    
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(stepResults, forKey: .stepResults)
+    }
+    
+}
