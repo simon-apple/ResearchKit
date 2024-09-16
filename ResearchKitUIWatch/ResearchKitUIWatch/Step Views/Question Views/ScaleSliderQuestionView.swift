@@ -66,7 +66,7 @@ public struct ScaleSliderQuestionView: View {
         }
 
         case int(Binding<Int?>)
-        case double(Binding<Double>)
+        case double(Binding<Double?>)
         
         @available(watchOS, unavailable)
         case textChoice(Binding<MultipleChoiceOption>)
@@ -161,7 +161,8 @@ public struct ScaleSliderQuestionView: View {
                     scaleSelectionBinding = .textChoice(
                         .init(
                             get: {
-                                guard let sliderValue = managedTaskResult.resultForStep(key: key) else {
+                                guard let sliderValue = managedTaskResult.resultForStep(key: key)
+                                else {
                                     return MultipleChoiceOption(id: "", choiceText: "", value: .int(0))
                                 }
                                 return multipleChoiceOptions[Int(sliderValue)]
@@ -200,7 +201,8 @@ public struct ScaleSliderQuestionView: View {
                                 return sliderValue
                             },
                             set: {
-                                managedTaskResult.setResultForStep(.scale($0), key: key)
+                                guard let result = $0 else { return }
+                                managedTaskResult.setResultForStep(.scale(result), key: key)
                             }
                         )
                     )
@@ -223,16 +225,14 @@ public struct ScaleSliderQuestionView: View {
                     ) ?? 0
                     managedTaskResult.setResultForStep(.scale(Double(index)), key: key)
 #endif
-                case let (.int(binding), .integerRange(range)):
-                    managedTaskResult.setResultForStep(
-                        .scale(Double(binding.wrappedValue ?? range.lowerBound)),
-                        key: key
-                    )
+                case let (.int(binding), .integerRange):
+                    guard let result = binding.wrappedValue else { return }
+                    managedTaskResult.setResultForStep(.scale(Double(result)), key: key)
+
                 case let (.double(binding), .doubleRange):
-                    managedTaskResult.setResultForStep(
-                        .scale(binding.wrappedValue),
-                        key: key
-                    )
+                    guard let result = binding.wrappedValue else { return }
+                    managedTaskResult.setResultForStep(.scale(result), key: key)
+                    
                 default:
                     break
                 }
@@ -266,7 +266,7 @@ public struct ScaleSliderQuestionView: View {
         detail: String? = nil,
         range: ClosedRange<Double>,
         step: Double = 1.0,
-        selection: Binding<Double>
+        selection: Binding<Double?>
     ) {
         self.id = id
         self.title = title
@@ -274,8 +274,17 @@ public struct ScaleSliderQuestionView: View {
         self.scaleSelectionConfiguration = .doubleRange(range)
         self.step = step
         self.clientManagedSelection = .double(selection)
-        self.stateManagementType = .manual(selection)
-        self._sliderUIValue = State(wrappedValue: selection.wrappedValue)
+        self.stateManagementType = .manual(
+            .init(
+                get: {
+                    Double(selection.wrappedValue ?? range.lowerBound)
+                },
+                set: { newValue in
+                    selection.wrappedValue = newValue
+                }
+            )
+        )
+        self._sliderUIValue = State(wrappedValue: selection.wrappedValue ?? range.lowerBound)
     }
     
     public init(
@@ -415,7 +424,9 @@ public struct ScaleSliderQuestionView: View {
                             sliderUIValue = Double(value)
                         }
                         case .double(let binding):
-                            sliderUIValue = binding.wrappedValue
+                        if let value = binding.wrappedValue {
+                            sliderUIValue = value
+                        }
                     }
                 }
                 .padding()
@@ -574,7 +585,7 @@ struct ScaleSliderQuestionView_Previews: PreviewProvider {
 }
 
 #Preview("Double") {
-    @Previewable @State var selection: Double = 0.0
+    @Previewable @State var selection: Double? = 0.0
     
     ScrollView {
         ScaleSliderQuestionView(

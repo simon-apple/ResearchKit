@@ -459,7 +459,9 @@ public class RKAdapter {
                 resultsArray.append(result)
             case .scale(let value):
                 let result = ORKScaleQuestionResult(identifier: entry.key)
-                result.scaleAnswer = NSNumber(floatLiteral: value)
+                if let value = value {
+                    result.scaleAnswer = NSNumber(floatLiteral: value)
+                }
                 result.questionType = .scale
                 resultsArray.append(result)
             }
