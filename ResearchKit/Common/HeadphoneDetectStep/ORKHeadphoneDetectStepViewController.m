@@ -93,6 +93,9 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     /** Airpods Max */
     ORKHeadphoneDetectedAirpodsMax,
     
+    /** Airpods Max USBC */
+    ORKHeadphoneDetectedAirpodsMaxUSBC,
+    
     /** Earpods */
     ORKHeadphoneDetectedEarpods
 
@@ -234,6 +237,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         case ORKHeadphoneDetectedAirpodsProGen2:
             return ORKLocalizedString(@"AIRPODSPRO", nil);
         case ORKHeadphoneDetectedAirpodsMax:
+        case ORKHeadphoneDetectedAirpodsMaxUSBC:
             return ORKLocalizedString(@"AIRPODSMAX", nil);
         case ORKHeadphoneDetectedEarpods:
             return ORKLocalizedString(@"EARPODS", nil);
@@ -258,6 +262,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             }
             return _selected ? ORKLocalizedString(@"AIRPODSPRO_CONNECTED", nil) :  ORKLocalizedString(@"AIRPODSPRO_NOT_CONNECTED", nil);
         case ORKHeadphoneDetectedAirpodsMax:
+        case ORKHeadphoneDetectedAirpodsMaxUSBC:
             if (_headphoneCellType == ORKHeadphoneDetectedUnknown) {
                 return _selected ? ORKLocalizedString(@"HEADPHONE_CONNECTED_AIRPODSMAX", nil) : ORKLocalizedString(@"HEADPHONES_NONE", nil);
             }
@@ -292,6 +297,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             break;
 
         case ORKHeadphoneDetectedAirpodsMax:
+        case ORKHeadphoneDetectedAirpodsMaxUSBC:
             result = [[UIDevice currentDevice] supportsFaceID]
             ? ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODSMAX", nil)
             : ORKLocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_BELOW_AIRPODSMAX", nil);
@@ -491,6 +497,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             glyphName = ORKHeadphoneGlyphNameAirpodsPro;
             break;
         case ORKHeadphoneDetectedAirpodsMax:
+        case ORKHeadphoneDetectedAirpodsMaxUSBC:
             glyphName = ORKHeadphoneGlyphNameAirpodsMax;
             break;
         case ORKHeadphoneDetectedEarpods:
@@ -784,6 +791,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
                     [self setAirpodMaxCellExpanded: NO];
                     break;
                 case ORKHeadphoneDetectedAirpodsMax:
+                case ORKHeadphoneDetectedAirpodsMaxUSBC:
                     _airpodMaxSupportView.selected = YES;
                     [_airpodMaxSupportView setHeadphoneDetected:_headphoneDetected];
                     [self setAirpodProCellExpanded: NO];
@@ -988,7 +996,10 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedEarpods;
         } else if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax] ) {
             _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpodsMax;
-        }  else {
+        } else if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMaxUSBC] ) {
+            _lastDetectedBluetoothMode = ORKBluetoothModeNone;
+            _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpodsMaxUSBC;
+        } else {
             _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedUnknown;
         }
         
@@ -1007,7 +1018,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     if (_lastDetectedBluetoothMode != bluetoothMode &&
         ([_lastDetectedHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
          [_lastDetectedHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2] ||
-         [_lastDetectedHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax])) {
+         [_lastDetectedHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax] ||
+         [_lastDetectedHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMaxUSBC])) {
         _lastDetectedBluetoothMode = bluetoothMode;
         // FIXME:- temporary workaround for <rdar://problem/62519889>
         BOOL isNoiseCancellingEnabled = (bluetoothMode == ORKBluetoothModeNoiseCancellation) || ([self detectStep].headphoneTypes == ORKHeadphoneTypesAny);

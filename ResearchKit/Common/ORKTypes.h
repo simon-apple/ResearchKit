@@ -403,6 +403,9 @@ ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsPro
 /// AirPods Max
 ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsMax;
 
+/// AirPods Max USBC
+ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsMaxUSBC;
+
 /// Lightning and Audio Jack Earpods
 ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierEarPods;
 
@@ -430,6 +433,7 @@ ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndP
 ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2;
 ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2USBC;
 ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsMax;
+ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsMaxUSBC;
 
 /**
  An enumeration of the types of available blutooth modes
