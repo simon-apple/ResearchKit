@@ -400,6 +400,18 @@ ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsPro
 /// AirPods Pro generation 2
 ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsProGen2;
 
+/// AirPods generation 4
+ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen4E;
+
+/// AirPods generation 4 (CH)
+ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen4CHE;
+
+/// AirPods generation 4 ANC
+ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen4M;
+
+/// AirPods generation 4 ANC (CH)
+ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen4CHM;
+
 /// AirPods Max
 ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsMax;
 
@@ -429,6 +441,10 @@ typedef NSString * ORKHeadphoneVendorAndProductIdIdentifier NS_STRING_ENUM;
 ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen1;
 ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen2;
 ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen3;
+ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen4E; // B768E
+ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen4M; // B768M
+ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen4CHE; // B768CHE
+ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen4CHM; // B768CHM
 ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro;
 ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2;
 ORK_EXTERN ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2USBC;

@@ -66,6 +66,18 @@ static const CGFloat TopIndexOutOfBounds = 0.0;
         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODSV3";
         loudnessEQFilename = @"LoudnessEQ_AIRPODSV3";
         volumeCurveFilename = @"volume_curve_AIRPODSV3";
+    } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen4E] ||
+               [headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen4CHE]) {
+        dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODSV4E";
+        dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODSV4E";
+        loudnessEQFilename = @"LoudnessEQ_AIRPODSV4E";
+        volumeCurveFilename = @"volume_curve_AIRPODSV4E";
+    } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen4M] ||
+                [headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen4CHM]) {
+         dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODSV4M";
+         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODSV4M";
+         loudnessEQFilename = @"LoudnessEQ_AIRPODSV4M";
+         volumeCurveFilename = @"volume_curve_AIRPODSV4M";
     } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
         dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODSPRO";
         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODSPRO";

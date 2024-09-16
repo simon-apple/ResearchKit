@@ -180,6 +180,12 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
         [_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen2] ||
         [_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen3]) {
         return ORKLocalizedString(@"TINNITUS_ALERT_TEXT_AIRPODS", nil);
+    } else if ([_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen4E] ||
+               [_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen4CHE]) {
+        return ORKLocalizedString(@"TINNITUS_ALERT_TEXT_AIRPODS_E", nil);
+    } else if ([_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen4M] ||
+               [_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen4CHM]) {
+        return ORKLocalizedString(@"TINNITUS_ALERT_TEXT_AIRPODS_M", nil);
     } else if ([_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
                [_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2]) {
         return ORKLocalizedString(@"TINNITUS_ALERT_TEXT_AIRPODSPRO", nil);
@@ -221,7 +227,9 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 }
 
 - (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
-    if ([[_headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
+    if ([[_headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen4M] ||
+        [[_headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen4CHM] ||
+        [[_headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
         [[_headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2] ||
         [[_headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax] ||
         [[_headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMaxUSBC]) {
@@ -231,7 +239,7 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
         } else {
             BOOL previousModeWasNoiseCancellingMode = (_bluetoothMode == ORKBluetoothModeNoiseCancellation);
             BOOL newModeIsNoiseCancellingMode = (bluetoothMode == ORKBluetoothModeNoiseCancellation);
-
+            
             if (!newModeIsNoiseCancellingMode && previousModeWasNoiseCancellingMode) {
                 [self showAlert];
                 [[NSNotificationCenter defaultCenter]

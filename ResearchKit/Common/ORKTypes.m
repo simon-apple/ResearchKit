@@ -41,6 +41,14 @@ ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen2 = @"AIRPO
 
 ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen3 = @"AIRPODSV3";
 
+ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen4E = @"AIRPODSV4E";
+
+ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen4CHE = @"AIRPODSV4CHE";
+
+ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen4M = @"AIRPODSV4M";
+
+ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen4CHM = @"AIRPODSV4CHM";
+
 ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsPro = @"AIRPODSPRO";
 
 ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsProGen2 = @"AIRPODSPROV2";
@@ -64,6 +72,14 @@ ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIde
 ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen2 = @"76,8207";
 
 ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen3 = @"76,8211";
+
+ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen4E = @"76,8217";
+
+ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen4M = @"76,8219";
+
+ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen4CHE = @"76,8222";
+
+ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen4CHM = @"76,8224";
 
 ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro = @"76,8206";
 
