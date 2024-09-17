@@ -7,17 +7,17 @@ How to use conditional logic for ResearchKit steps and forms.
 When presenting a survey or task, conditionally show specific content based on the participant's responses. ResearchKit provides two solutions for conditional logic.
 
 - **Step Navigation rules**: Conditionally navigate to a specific step based on the participant's response.
-- **Form Item Visibility rules** - Conditionally hide or show specific form questions based on results from the same form, or a form within another step.
+- **Form Item Visibility rules** - Conditionally hide or show specific form questions based on results from the same form or a form within another step.
 
 
 
 ### Navigating Steps Conditionally
-To conditionally navigate to, or skip specific steps during an `ORKTask`, review the following classes.
+Review the following classes to conditionally navigate to or skip specific steps during an `ORKTask`.
 
 - `ORKResultSelector` - A class that identifies a result within a set of task results.
 - `ORKResultPredicate` - Creates a predicate by accepting an `ORKResultSelector` and the expected result.
 - `ORKPredicateStepNavigationRule` - A class that determines what step to navigate to if a given `ORKResultPredicate` is true.
-- `ORKNavigableOrderedTask` - A subclass of the `ORKOrderedTask` that can accept one or more `ORKPredicateStepNavigationRule` objects and applies the expected conditional navigation.
+- `ORKNavigableOrderedTask` - A subclass of the `ORKOrderedTask` that can accept one or more `ORKPredicateStepNavigationRule` objects and apply the expected conditional navigation.
 
 
 The task for this example includes the steps seen below.
@@ -68,13 +68,13 @@ Selecting no:
 
 ### Managing Form Item Visibility
 
-To conditionally hide or show a question based on results from questions within the same form, familiarize yourself with the following classes.
+Familiarize yourself with the following classes to conditionally hide or show a question based on results from questions within the same form.
 
 - `ORKResultSelector` - Same as the section above.
 - `ORKResultPredicate` - Same as the section above.
 - `ORKPredicateFormItemVisibilityRule` - A class that determines if the formItem it's attached to is hidden or visible if a given `ORKResultPredicate` is true.
 
-Following the previous example, use the same questions as before, but now with both residing on the same page.
+Following the previous example, use the same questions, but now with both on the same page.
 
 
 - **Answering yes**: makes the apple choice question visible.
