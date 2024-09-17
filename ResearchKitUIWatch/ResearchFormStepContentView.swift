@@ -72,7 +72,6 @@ public struct ResearchFormStepContentView<Content: View>: View {
         } footerContent: {
             Button {
                 if isLastStep {
-                    // jessi - starting point
                     onStepCompletion?(.completed(managedTaskResult))
                 } else {
                     onStepCompletion?(.saved(managedTaskResult))
