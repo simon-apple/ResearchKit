@@ -58,6 +58,9 @@ public struct DateQuestion: Identifiable {
 public struct DateTimeView<Header: View>: View {
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
+    
+    @Environment(\.questionRequired)
+    private var isRequired: Bool
 
     @State
     private var showDatePickerModal = false
@@ -69,14 +72,14 @@ public struct DateTimeView<Header: View>: View {
     let pickerPrompt: String
     let displayedComponents: DatePicker.Components
     let range: ClosedRange<Date>
-    let result: StateManagementType<Date>
+    let result: StateManagementType<Date?>
 
-    private var resolvedResult: Binding<Date> {
+    private var resolvedResult: Binding<Date?> {
         switch result {
         case let .automatic(key: key):
             return Binding(
                 get: { managedTaskResult.resultForStep(key: key) ?? Date() },
-                set: { managedTaskResult.setResultForStep(.date($0), key: key) }
+                set: { managedTaskResult.setResultForStep(.date($0 ?? nil), key: key) }
             )
         case let .manual(value):
             return value
@@ -102,7 +105,7 @@ public struct DateTimeView<Header: View>: View {
     public init(
         id: String,
         @ViewBuilder header: () -> Header,
-        selection: Binding<Date>,
+        selection: Binding<Date?>,
         pickerPrompt: String,
         displayedComponents: DatePicker.Components,
         range: ClosedRange<Date>
@@ -155,7 +158,7 @@ public struct DateTimeView<Header: View>: View {
 #else
             DatePicker(
                 pickerPrompt,
-                selection: resolvedResult,
+                selection: resolvedResult.unwrapped(defaultValue: Date()),
                 in: range,
                 displayedComponents: displayedComponents
             )
@@ -164,6 +167,8 @@ public struct DateTimeView<Header: View>: View {
             .padding()
 #endif
         }
+        .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
+        .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
     }
     
     @ViewBuilder
@@ -172,12 +177,16 @@ public struct DateTimeView<Header: View>: View {
             header
             DatePicker(
                 pickerPrompt,
-                selection: resolvedResult,
+                selection: resolvedResult.unwrapped(defaultValue: Date()),
                 in: range,
                 displayedComponents: displayedComponents
             )
             .padding(.horizontal)
         }
+    }
+    
+    private var isAnswered: Bool {
+        return resolvedResult.wrappedValue != nil
     }
 }
 
@@ -204,7 +213,7 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
         id: String,
         title: String,
         detail: String? = nil,
-        selection: Binding<Date>,
+        selection: Binding<Date?>,
         pickerPrompt: String,
         displayedComponents: DatePicker.Components,
         range: ClosedRange<Date>
@@ -220,7 +229,7 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
 }
 
 #Preview("Date Only") {
-    @Previewable @State var date: Date = Date()
+    @Previewable @State var date: Date? = Date()
     NavigationStack {
         ScrollView {
             DateTimeView(
@@ -238,7 +247,7 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
 }
 
 #Preview("Time Only") {
-    @Previewable @State var date: Date = Date()
+    @Previewable @State var date: Date? = Date()
     NavigationStack {
         ScrollView {
             DateTimeView(
@@ -256,7 +265,7 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
 }
 
 #Preview("Time and Date") {
-    @Previewable @State var date: Date = Date()
+    @Previewable @State var date: Date? = Date()
     NavigationStack {
         ScrollView {
             DateTimeView(

@@ -35,30 +35,13 @@ public struct ResearchFormStepContentView<Content: View>: View {
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
 
-    @State
-    private var isRequired: Bool = false
-    
-    @State 
-    private var answered: Bool = false
-    
-    @State
-    private var questionOptionals = [Int: Bool]()
-    
-    @State
-    private var questionAnswers = [Int: Bool]()
-    
-    private var doneButtonDisabled: Bool {
-        questionOptionals
-            .filter { !$0.value }
-            .contains {
-                questionAnswers[$0.key] == false
-            }
-    }
-    
     private let content: Content
 
     let isLastStep: Bool
     var onStepCompletion: ((ResearchTaskCompletion) -> Void)?
+    
+    @State
+    private var doneButtonEnabled: Bool = true
 
     public init(
         isLastStep: Bool,
@@ -73,11 +56,8 @@ public struct ResearchFormStepContentView<Content: View>: View {
     public var body: some View {
         StickyScrollView {
             content
-                .onPreferenceChange(QuestionRequiredPreferenceKey.self) {
-                    isRequired = $0
-                }
-                .onPreferenceChange(QuestionAnsweredPreferenceKey.self) {
-                    answered = $0
+                .onPreferenceChange(StepCompletedPreferenceKey.self) {
+                    doneButtonEnabled = $0
                 }
                 .padding()
                 .toolbar {
@@ -92,6 +72,7 @@ public struct ResearchFormStepContentView<Content: View>: View {
         } footerContent: {
             Button {
                 if isLastStep {
+                    // jessi - starting point
                     onStepCompletion?(.completed(managedTaskResult))
                 } else {
                     onStepCompletion?(.saved(managedTaskResult))
@@ -103,7 +84,7 @@ public struct ResearchFormStepContentView<Content: View>: View {
                     .padding(.vertical, 8)
             }
             .buttonStyle(.borderedProminent)
-            .disabled(isRequired && !answered)
+            .disabled(!doneButtonEnabled)
         }
         .background(Color.choice(for: .secondaryBackground))
         .navigationBarTitleDisplayMode(.inline)

@@ -29,6 +29,7 @@
  */
 
 import math_h
+import SwiftUI
 
 func convertCentimetersToFeetAndInches(_ centimeters: Double) -> (feet: Int, inches: Int) {
     var feet = 0
@@ -62,4 +63,10 @@ func convertKilogramsToWholeAndFraction(_ kilograms: Double) -> (whole: Double, 
     let whole = floor(kilograms)
     let fraction = round((kilograms - floor(kilograms)) * 100)
     return (whole, fraction)
+}
+
+extension Binding {
+     func unwrapped<T>(defaultValue: T) -> Binding<T> where Value == Optional<T>  {
+        Binding<T>(get: { self.wrappedValue ?? defaultValue }, set: { self.wrappedValue = $0 })
+    }
 }

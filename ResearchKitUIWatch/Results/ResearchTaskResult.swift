@@ -33,7 +33,7 @@ import SwiftUI
 enum AnswerFormat {
     case text(String?)
     case numeric(Double?)
-    case date(Date)
+    case date(Date?)
     case weight(Double)
     case height(Double)
     case multipleChoice([ResultValue]?)

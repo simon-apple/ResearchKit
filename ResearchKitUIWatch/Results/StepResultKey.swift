@@ -58,8 +58,8 @@ public struct StepResultKey<Result> {
         return StepResultKey<Double>(id: id)
     }
 
-    public static func date(id: String) -> StepResultKey<Date> {
-        return StepResultKey<Date>(id: id)
+    public static func date(id: String) -> StepResultKey<Date?> {
+        return StepResultKey<Date?>(id: id)
     }
 }
 
