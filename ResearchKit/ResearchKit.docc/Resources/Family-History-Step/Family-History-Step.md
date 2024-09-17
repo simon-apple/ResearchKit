@@ -28,7 +28,9 @@ In the next section, we will construct an ``ORKFamilyHistoryStep`` using the c
 
 Following the example below, we will recreate the same Family History Step only for the parent group.
 
-// TODO: ADD EXAMPLE IMAGES
+![Instruction Step](family-history-step-instruction-step)
+![Family History Step With No Relatives](family-history-step-no-relatives)
+![Family History Step With Parent Added](family-history-step-parent-added)
 
 ### Creating Health Condition Objects
 
