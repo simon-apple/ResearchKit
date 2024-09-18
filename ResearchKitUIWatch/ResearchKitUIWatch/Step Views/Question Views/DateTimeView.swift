@@ -56,6 +56,10 @@ public struct DateQuestion: Identifiable {
 }
 
 public struct DateTimeView<Header: View>: View {
+    
+    @Environment(\.questionProgress)
+    private var questionProgress
+    
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
 
@@ -164,6 +168,7 @@ public struct DateTimeView<Header: View>: View {
             .padding()
 #endif
         }
+        .preference(key: IDPreferenceKey.self, value: id)
     }
     
     @ViewBuilder

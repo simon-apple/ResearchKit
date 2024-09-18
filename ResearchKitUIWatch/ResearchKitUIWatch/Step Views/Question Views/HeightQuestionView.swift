@@ -76,6 +76,10 @@ public struct HeightQuestion: Identifiable {
 }
 
 public struct HeightQuestionView: View {
+    
+    @Environment(\.questionProgress)
+    private var questionProgress
+    
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
 
@@ -171,7 +175,7 @@ public struct HeightQuestionView: View {
     }
 
     public var body: some View {
-        FormItemCardView(title: title, detail: detail) {
+        FormItemCardView(title: title, detail: detail ?? "Question \(questionProgress.questionNumberMapping[id] ?? 0) of \(questionProgress.numberOfQuestions)") {
             HStack {
                 Text("Select Height")
                     .foregroundStyle(Color.primary)
@@ -212,6 +216,7 @@ public struct HeightQuestionView: View {
             }
             .padding()
         }
+        .preference(key: IDPreferenceKey.self, value: id)
     }
 }
 

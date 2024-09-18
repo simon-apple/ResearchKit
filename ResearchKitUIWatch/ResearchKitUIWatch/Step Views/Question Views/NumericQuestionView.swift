@@ -58,6 +58,9 @@ public struct NumericQuestion: Identifiable {
 
 @available(watchOS, unavailable)
 public struct NumericQuestionView<Header: View>: View {
+    
+    @Environment(\.questionProgress)
+    private var questionProgress
 
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
@@ -108,6 +111,7 @@ public struct NumericQuestionView<Header: View>: View {
                     .padding()
             }
         )
+        .preference(key: IDPreferenceKey.self, value: id)
     }
     
     private var placeholder: Text? {

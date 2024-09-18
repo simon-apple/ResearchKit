@@ -66,6 +66,10 @@ public struct TextQuestion: Identifiable {
 }
 
 public struct TextQuestionView<Header: View>: View {
+    
+    @Environment(\.questionProgress)
+    private var questionProgress
+    
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
 
@@ -209,6 +213,7 @@ public struct TextQuestionView<Header: View>: View {
         }
         .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
         .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
+        .preference(key: IDPreferenceKey.self, value: id)
     }
     
     private var isAnswered: Bool {

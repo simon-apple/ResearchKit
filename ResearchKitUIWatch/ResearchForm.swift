@@ -65,6 +65,10 @@ public struct ResearchForm<Content: View>: View {
 
 public struct ResearchFormStep<Header: View, Content: View>: View {
     
+    @State private var numberOfQuestions = 0
+    @State private var questionIDToQuestionNumberMapping: [String: Int] = [:]
+    @State private var runningDelta = 0
+    
     private let header: Header
     private let content: Content
     
@@ -81,19 +85,24 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
             header
             
             Group(subviews: content) { questions in
-                Text("Number of questions: \(questions.count)")
-                
-                ForEach(questions) { question in
-                    if let questionIndex = questions.firstIndex(where: { $0.id == question.id }) {
-                        question
-                            .environment(\.questionProgress, (questionIndex + 1, questions.count))
-//                            .environment(\.whatTheHay, "What the heck!")
-                    } else {
-                        question
+                questions
+                    .preference(key: QuestionCountKey.self, value: questions.count)
+                    .onPreferenceChange(IDPreferenceKey.self) { id in
+                        questionIDToQuestionNumberMapping[id] = questions.count - runningDelta
+                        runningDelta += 1
+                        numberOfQuestions = questions.count
                     }
-                }
-                .environment(\.whatTheHay, "What the heck!")
             }
+            .onPreferenceChange(QuestionCountKey.self, perform: { questionCount in
+                numberOfQuestions = questionCount
+            })
+            .environment(
+                \.questionProgress,
+                 QuestionList(
+                    numberOfQuestions: numberOfQuestions,
+                    questionNumberMapping: questionIDToQuestionNumberMapping
+                 )
+            )
         }
 #if os(iOS)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -102,10 +111,41 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
     
 }
 
+struct QuestionCountKey: PreferenceKey {
+    
+    static var defaultValue = 0
+    
+    static func reduce(value: inout Int, nextValue: () -> Int) {
+        value = nextValue()
+    }
+    
+}
+
+struct ResearchFormStepContent<Content: View>: View {
+    
+    private let content: Content
+    
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+    
+    var body: some View {
+        content
+    }
+    
+}
+
 extension EnvironmentValues {
     
-    @Entry var questionProgress: (Int, Int) = (0, 0)
+    @Entry var questionProgress: QuestionList = QuestionList(numberOfQuestions: 0, questionNumberMapping: [:])
     @Entry var whatTheHay: String = "What the hay!"
+    
+}
+
+struct QuestionList {
+    
+    let numberOfQuestions: Int
+    let questionNumberMapping: [String: Int]
     
 }
 

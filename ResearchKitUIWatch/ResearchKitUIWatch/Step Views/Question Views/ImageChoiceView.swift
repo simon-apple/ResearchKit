@@ -68,6 +68,10 @@ public struct ImageChoiceQuestion: Identifiable {
 }
 
 public struct ImageChoiceView: View {
+    
+    @Environment(\.questionProgress)
+    private var questionProgress
+    
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
 
@@ -127,7 +131,7 @@ public struct ImageChoiceView: View {
     }
 
     public var body: some View {
-        FormItemCardView(title: title, detail: detail) {
+        FormItemCardView(title: title, detail: detail ?? "Question \(questionProgress.questionNumberMapping[id] ?? 0) of \(questionProgress.numberOfQuestions)") {
             VStack {
                 if style == .multiple {
                     multipleSelectionHeader()
@@ -149,6 +153,7 @@ public struct ImageChoiceView: View {
                     .padding()
             }
         }
+        .preference(key: IDPreferenceKey.self, value: id)
     }
 
     @ViewBuilder

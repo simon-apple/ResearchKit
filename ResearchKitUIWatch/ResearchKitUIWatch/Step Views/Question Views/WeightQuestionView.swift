@@ -31,8 +31,13 @@
 import SwiftUI
 
 public struct WeightQuestionView: View {
+    
+    @Environment(\.questionProgress)
+    private var questionProgress
+    
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
+    
     @State var isInputActive = false
     @State var hasChanges: Bool
 
@@ -158,7 +163,7 @@ public struct WeightQuestionView: View {
     }
 
     public var body: some View {
-        FormItemCardView(title: title, detail: detail) {
+        FormItemCardView(title: title, detail: detail ?? "Question \(questionProgress.questionNumberMapping[id] ?? 0) of \(questionProgress.numberOfQuestions)") {
             HStack {
                 Text("Select Weight")
                     .foregroundStyle(Color.primary)
@@ -205,6 +210,7 @@ public struct WeightQuestionView: View {
             }
             .padding()
         }
+        .preference(key: IDPreferenceKey.self, value: id)
     }
 }
 
