@@ -1038,6 +1038,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpodsGen4E;
         } else if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen4M] ||
                    [headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsGen4CHM]) {
+            _lastDetectedBluetoothMode = ORKBluetoothModeNone;
             _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpodsGen4M;
         } else if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro]) {
             _lastDetectedBluetoothMode = ORKBluetoothModeNone;
