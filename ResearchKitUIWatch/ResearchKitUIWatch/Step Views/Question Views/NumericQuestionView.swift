@@ -135,7 +135,7 @@ public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
         prompt: String?
     ) {
         self.id = id
-        header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        header = _SimpleFormItemViewHeader(title: title)
         self.prompt = prompt
         self.result = .manual(text)
     }
@@ -148,7 +148,7 @@ public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
         prompt: String?
     ) {
         self.id = id
-        header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        header = _SimpleFormItemViewHeader(title: title)
         self.prompt = prompt
         self.result = .automatic(key: .numeric(id: id))
     }

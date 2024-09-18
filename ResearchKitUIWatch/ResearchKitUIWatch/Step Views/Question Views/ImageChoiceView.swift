@@ -131,7 +131,7 @@ public struct ImageChoiceView: View {
     }
 
     public var body: some View {
-        FormItemCardView(title: title, detail: detail ?? "Question \(questionProgress.questionNumberMapping[id] ?? 0) of \(questionProgress.numberOfQuestions)") {
+        FormItemCardView(title: title) {
             VStack {
                 if style == .multiple {
                     multipleSelectionHeader()

@@ -198,7 +198,7 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
         range: ClosedRange<Date>
     ) {
         self.id = id
-        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        self.header = _SimpleFormItemViewHeader(title: title)
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range
@@ -215,7 +215,7 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
         range: ClosedRange<Date>
     ) {
         self.id = id
-        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        self.header = _SimpleFormItemViewHeader(title: title)
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range

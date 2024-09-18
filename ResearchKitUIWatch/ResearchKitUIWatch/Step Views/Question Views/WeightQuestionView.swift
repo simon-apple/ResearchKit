@@ -163,7 +163,7 @@ public struct WeightQuestionView: View {
     }
 
     public var body: some View {
-        FormItemCardView(title: title, detail: detail ?? "Question \(questionProgress.questionNumberMapping[id] ?? 0) of \(questionProgress.numberOfQuestions)") {
+        FormItemCardView(title: title) {
             HStack {
                 Text("Select Weight")
                     .foregroundStyle(Color.primary)

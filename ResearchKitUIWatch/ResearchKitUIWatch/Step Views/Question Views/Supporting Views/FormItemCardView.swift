@@ -82,10 +82,9 @@ struct CardColor: ShapeStyle {
 public extension FormItemCardView where Header == _SimpleFormItemViewHeader {
     init(
         title: String,
-        detail: String?,
         content: () -> Content
     ) {
-        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        self.header = _SimpleFormItemViewHeader(title: title)
         self.content = content()
     }
 }
@@ -94,34 +93,9 @@ public extension FormItemCardView where Header == _SimpleFormItemViewHeader {
 public struct _SimpleFormItemViewHeader: View {
 
     let title: String
-    let detail: String?
-    
-    private var showDetailText: Bool {
-        detail?.isEmpty == false
-    }
 
     public var body: some View {
-        VStack(alignment: .leading) {
-            if let detail, showDetailText {
-                detailText(detail)
-            }
-
-            titleText(title)
-        }
-    }
-    
-    @ViewBuilder
-    private func detailText(_ text: String) -> some View {
-        Text(text)
-            .foregroundColor(.secondary)
-            .font(.footnote)
-        #if os(watchOS)
-            .padding([.horizontal])
-            .padding(.top, 4)
-        #else
-            .fontWeight(.bold)
-            .padding([.horizontal, .top])
-        #endif
+        titleText(title)
     }
     
     @ViewBuilder
@@ -144,7 +118,7 @@ public struct _SimpleFormItemViewHeader: View {
 #Preview("Detail and Title") {
     VStack {
         Spacer()
-        FormItemCardView(title: "What is your name?", detail: "Question 1 of 3") {
+        FormItemCardView(title: "What is your name?") {
             Text("Specific component content will show up here")
         }
         Spacer()
@@ -159,7 +133,7 @@ public struct _SimpleFormItemViewHeader: View {
 #Preview("Just title") {
     VStack {
         Spacer()
-        FormItemCardView(title: "What is your name?", detail: nil) {
+        FormItemCardView(title: "What is your name?") {
             Text("Specific component content will show up here")
         }
         Spacer()
