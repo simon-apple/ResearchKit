@@ -444,9 +444,9 @@ public class RKAdapter {
                 ]
                 result.userInfo = info
                 result.questionType = .multipleChoice
-
-                let newResults: [NSCopying & NSSecureCoding & NSObjectProtocol] = images.map { RKAdapter.rkValue(from: $0) }
-                result.choiceAnswers = newResults
+                if let results = images {
+                    result.choiceAnswers = results.map { RKAdapter.rkValue(from: $0) }
+                }
                 resultsArray.append(result)
             case .multipleChoice(let multipleChoice):
                 let result = ORKChoiceQuestionResult(identifier: entry.key)

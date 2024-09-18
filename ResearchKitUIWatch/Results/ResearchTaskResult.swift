@@ -38,7 +38,7 @@ enum AnswerFormat {
     case weight(Double?)
     case height(Double?)
     case multipleChoice([ResultValue]?)
-    case image([ResultValue])
+    case image([ResultValue]?)
     case scale(Double?)
 }
 
