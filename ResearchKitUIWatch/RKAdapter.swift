@@ -425,7 +425,9 @@ public class RKAdapter {
             case .height(let height):
                 let result = ORKNumericQuestionResult(identifier: entry.key)
                 result.questionType = .height
-                result.numericAnswer = NSNumber(floatLiteral: height)
+                if let answer = height {
+                    result.numericAnswer = NSNumber(floatLiteral: answer)
+                }
                 resultsArray.append(result)
             case .weight(let weight):
                 let result = ORKNumericQuestionResult(identifier: entry.key)
