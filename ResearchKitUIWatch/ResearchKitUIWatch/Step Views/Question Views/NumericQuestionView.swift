@@ -90,7 +90,7 @@ public struct NumericQuestionView<Header: View>: View {
     }
 
     public var body: some View {
-        FormItemCardView(
+        QuestionView(
             header: {
                 header
             },

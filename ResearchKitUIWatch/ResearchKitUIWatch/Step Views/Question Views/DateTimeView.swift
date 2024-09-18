@@ -120,7 +120,7 @@ public struct DateTimeView<Header: View>: View {
     }
 
     public var body: some View {
-        FormItemCardView {
+        QuestionView {
             header
         } content: {
 #if os(watchOS)

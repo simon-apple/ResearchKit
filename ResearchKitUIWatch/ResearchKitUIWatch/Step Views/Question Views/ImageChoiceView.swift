@@ -131,7 +131,7 @@ public struct ImageChoiceView: View {
     }
 
     public var body: some View {
-        FormItemCardView(title: title) {
+        QuestionView(title: title) {
             VStack {
                 if style == .multiple {
                     multipleSelectionHeader()

@@ -160,7 +160,7 @@ public struct TextQuestionView<Header: View>: View {
     }
 
     public var body: some View {
-        FormItemCardView {
+        QuestionView {
             header
         } content: {
             VStack {

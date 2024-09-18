@@ -32,7 +32,7 @@ import SwiftUI
 
 /// A card that displays a header view, a divider line, and an answer view.
 
-public struct FormItemCardView<Header: View, Content: View>: View {
+public struct QuestionView<Header: View, Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
     let header: Header
     let content: Content
@@ -79,7 +79,7 @@ struct CardColor: ShapeStyle {
     
 }
 
-public extension FormItemCardView where Header == _SimpleFormItemViewHeader {
+public extension QuestionView where Header == _SimpleFormItemViewHeader {
     init(
         title: String,
         content: () -> Content
@@ -118,7 +118,7 @@ public struct _SimpleFormItemViewHeader: View {
 #Preview("Detail and Title") {
     VStack {
         Spacer()
-        FormItemCardView(title: "What is your name?") {
+        QuestionView(title: "What is your name?") {
             Text("Specific component content will show up here")
         }
         Spacer()
@@ -133,7 +133,7 @@ public struct _SimpleFormItemViewHeader: View {
 #Preview("Just title") {
     VStack {
         Spacer()
-        FormItemCardView(title: "What is your name?") {
+        QuestionView(title: "What is your name?") {
             Text("Specific component content will show up here")
         }
         Spacer()
