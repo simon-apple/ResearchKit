@@ -430,7 +430,9 @@ public class RKAdapter {
             case .weight(let weight):
                 let result = ORKNumericQuestionResult(identifier: entry.key)
                 result.questionType = .weight
-                result.numericAnswer = NSNumber(floatLiteral: weight)
+                if let answer = weight {
+                    result.numericAnswer = NSNumber(floatLiteral: answer)
+                }
                 resultsArray.append(result)
             case .image(let images):
                 let result = ORKChoiceQuestionResult(identifier: entry.key)
