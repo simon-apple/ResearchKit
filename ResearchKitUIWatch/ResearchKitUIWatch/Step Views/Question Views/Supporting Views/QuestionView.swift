@@ -54,8 +54,6 @@ public struct QuestionView<Header: View, Content: View>: View {
 
             content
         }
-        .background(.cardColor)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
