@@ -85,7 +85,7 @@ public struct _SimpleFormItemViewHeader: View {
             .font(.footnote)
             .padding(.horizontal)
             .padding(.bottom, 4)
-            .padding(.top, showDetailText ? 0 : 4)
+            .padding(.top, 4)
         #else
             .font(.body)
             .padding()
