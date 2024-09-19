@@ -1584,23 +1584,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.pdfViewerTask), steps: [PDFViewerStep])
     }
     
-    /// This task presents the ORKTableStep
-    private var tableTask: ORKTask {
-
-        let tableStep = ORKTableStep(identifier: String(describing: Identifier.tableStep))
-        tableStep.title = NSLocalizedString("Table Step", comment: "")
-        tableStep.bulletType = .circle
-        tableStep.detailText = NSLocalizedString("Table Step Details", comment: "")
-        tableStep.text = NSLocalizedString("Table Step Text", comment: "")
-        tableStep.bottomPadding = 8
-        tableStep.items = [
-            NSString(string: "Option A"),
-            NSString(string: "Option B"),
-            NSString(string: "Option C")
-        ]
-        return ORKOrderedTask(identifier: String(describing: Identifier.tableTask), steps: [tableStep])
-    }
-    
     private var requestPermissionsTask: ORKTask {
 
         let notificationsPermissionType = ORKNotificationPermissionType(authorizationOptions: [.alert, .badge, .sound])
@@ -2193,6 +2176,23 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
     
     #if RK_APPLE_INTERNAL
+    
+    /// This task presents the ORKTableStep
+    private var tableTask: ORKTask {
+
+        let tableStep = ORKTableStep(identifier: String(describing: Identifier.tableStep))
+        tableStep.title = NSLocalizedString("Table Step", comment: "")
+        tableStep.bulletType = .circle
+        tableStep.detailText = NSLocalizedString("Table Step Details", comment: "")
+        tableStep.text = NSLocalizedString("Table Step Text", comment: "")
+        tableStep.bottomPadding = 8
+        tableStep.items = [
+            NSString(string: "Option A"),
+            NSString(string: "Option B"),
+            NSString(string: "Option C")
+        ]
+        return ORKOrderedTask(identifier: String(describing: Identifier.tableTask), steps: [tableStep])
+    }
     
     private var platterQuestionTask: ORKTask {
         
