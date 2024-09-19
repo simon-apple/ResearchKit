@@ -387,24 +387,25 @@ public struct ScaleSliderQuestionView: View {
     }
 
     public var body: some View {
-        QuestionView(title: title) {
-            scaleView(selectionConfiguration: scaleSelectionConfiguration)
-                .onChange(of: sliderUIValue) { oldValue, newValue in
-                    switch resolvedBinding.wrappedValue {
-                    case .double(let doubleBinding):
-                        doubleBinding.wrappedValue = newValue
-                    case .int(let intBinding):
-                        intBinding.wrappedValue = Int(newValue)
-                    case .textChoice(let textChoiceBinding):
-                        guard case let .textChoice(array) = scaleSelectionConfiguration else {
-                            return
+        QuestionCardView {
+            QuestionView(title: title) {
+                scaleView(selectionConfiguration: scaleSelectionConfiguration)
+                    .onChange(of: sliderUIValue) { oldValue, newValue in
+                        switch resolvedBinding.wrappedValue {
+                        case .double(let doubleBinding):
+                            doubleBinding.wrappedValue = newValue
+                        case .int(let intBinding):
+                            intBinding.wrappedValue = Int(newValue)
+                        case .textChoice(let textChoiceBinding):
+                            guard case let .textChoice(array) = scaleSelectionConfiguration else {
+                                return
+                            }
+                            let index = Int(newValue)
+                            textChoiceBinding.wrappedValue = array[index]
                         }
-                        let index = Int(newValue)
-                        textChoiceBinding.wrappedValue = array[index]
                     }
-                }
-                .onChange(of: clientManagedSelection) { oldValue, newValue in
-                    switch newValue {
+                    .onChange(of: clientManagedSelection) { oldValue, newValue in
+                        switch newValue {
                         case .textChoice(let binding):
                             guard case let .textChoice(array) = scaleSelectionConfiguration else {
                                 return
@@ -415,16 +416,17 @@ public struct ScaleSliderQuestionView: View {
                             sliderUIValue = Double(binding.wrappedValue)
                         case .double(let binding):
                             sliderUIValue = binding.wrappedValue
+                        }
                     }
-                }
-                .padding()
-                .onAppear {
-                    guard case .automatic(let key) = stateManagementType, let sliderValue = managedTaskResult.resultForStep(key: key) else {
-                        return
+                    .padding()
+                    .onAppear {
+                        guard case .automatic(let key) = stateManagementType, let sliderValue = managedTaskResult.resultForStep(key: key) else {
+                            return
+                        }
+                        
+                        sliderUIValue = sliderValue
                     }
-                    
-                    sliderUIValue = sliderValue
-                }
+            }
         }
         .preference(key: IDPreferenceKey.self, value: id)
     }

@@ -163,52 +163,54 @@ public struct WeightQuestionView: View {
     }
 
     public var body: some View {
-        QuestionView(title: title) {
-            HStack {
-                Text("Select Weight")
-                    .foregroundStyle(Color.primary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Button {
-                    isInputActive = true
-                } label: {
-                    Text(selectionString)
+        QuestionCardView {
+            QuestionView(title: title) {
+                HStack {
+                    Text("Select Weight")
                         .foregroundStyle(Color.primary)
-                }
-                .buttonStyle(.bordered)
-                .buttonBorderShape(.roundedRectangle)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Button {
+                        isInputActive = true
+                    } label: {
+                        Text(selectionString)
+                            .foregroundStyle(Color.primary)
+                    }
+                    .buttonStyle(.bordered)
+                    .buttonBorderShape(.roundedRectangle)
 #if os(watchOS)
-                .navigationDestination(isPresented: $isInputActive) {
-                    WeightPickerView(
-                        measurementSystem: measurementSystem,
-                        precision: precision,
-                        defaultValue: defaultValue,
-                        minimumValue: minimumValue,
-                        maximumValue: maximumValue,
-                        selection: resolvedResult,
-                        hasChanges: $hasChanges
-                    )
-                }
+                    .navigationDestination(isPresented: $isInputActive) {
+                        WeightPickerView(
+                            measurementSystem: measurementSystem,
+                            precision: precision,
+                            defaultValue: defaultValue,
+                            minimumValue: minimumValue,
+                            maximumValue: maximumValue,
+                            selection: resolvedResult,
+                            hasChanges: $hasChanges
+                        )
+                    }
 #else
-                .popover(
-                    isPresented: $isInputActive,
-                    attachmentAnchor: .point(.bottom),
-                    arrowEdge: .top
-                ) {
-                    WeightPickerView(
-                        measurementSystem: measurementSystem,
-                        precision: precision,
-                        defaultValue: defaultValue,
-                        minimumValue: minimumValue,
-                        maximumValue: maximumValue,
-                        selection: resolvedResult,
-                        hasChanges: $hasChanges
-                    )
-                    .frame(width: 300)
-                    .presentationCompactAdaptation((.popover))
-                }
+                    .popover(
+                        isPresented: $isInputActive,
+                        attachmentAnchor: .point(.bottom),
+                        arrowEdge: .top
+                    ) {
+                        WeightPickerView(
+                            measurementSystem: measurementSystem,
+                            precision: precision,
+                            defaultValue: defaultValue,
+                            minimumValue: minimumValue,
+                            maximumValue: maximumValue,
+                            selection: resolvedResult,
+                            hasChanges: $hasChanges
+                        )
+                        .frame(width: 300)
+                        .presentationCompactAdaptation((.popover))
+                    }
 #endif
+                }
+                .padding()
             }
-            .padding()
         }
         .preference(key: IDPreferenceKey.self, value: id)
     }

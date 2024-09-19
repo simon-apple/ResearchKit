@@ -120,53 +120,55 @@ public struct DateTimeView<Header: View>: View {
     }
 
     public var body: some View {
-        QuestionView {
-            header
-        } content: {
+        QuestionCardView {
+            QuestionView {
+                header
+            } content: {
 #if os(watchOS)
-            VStack {
-                if displayedComponents.contains(.date) {
-                    Button {
-                        showDatePickerModal.toggle()
-                    } label: {
-                        Text(resolvedResult.wrappedValue, format: .dateTime.day().month().year())
+                VStack {
+                    if displayedComponents.contains(.date) {
+                        Button {
+                            showDatePickerModal.toggle()
+                        } label: {
+                            Text(resolvedResult.wrappedValue, format: .dateTime.day().month().year())
+                        }
+                    }
+                    
+                    if displayedComponents.contains(.hourMinuteAndSecond) {
+                        Button {
+                            showTimePickerModal.toggle()
+                        } label: {
+                            Text(resolvedResult.wrappedValue, format: .dateTime.hour().minute().second())
+                        }
+                    } else if displayedComponents.contains(.hourAndMinute){
+                        Button {
+                            showTimePickerModal.toggle()
+                        } label: {
+                            Text(resolvedResult.wrappedValue, format: .dateTime.hour().minute())
+                        }
                     }
                 }
-                
-                if displayedComponents.contains(.hourMinuteAndSecond) {
-                    Button {
-                        showTimePickerModal.toggle()
-                    } label: {
-                        Text(resolvedResult.wrappedValue, format: .dateTime.hour().minute().second())
-                    }
-                } else if displayedComponents.contains(.hourAndMinute){
-                    Button {
-                        showTimePickerModal.toggle()
-                    } label: {
-                        Text(resolvedResult.wrappedValue, format: .dateTime.hour().minute())
-                    }
+                .buttonBorderShape(.roundedRectangle)
+                .buttonStyle(.bordered)
+                .padding()
+                .navigationDestination(isPresented: $showDatePickerModal) {
+                    watchDatePicker(displayedComponents: .date)
                 }
-            }
-            .buttonBorderShape(.roundedRectangle)
-            .buttonStyle(.bordered)
-            .padding()
-            .navigationDestination(isPresented: $showDatePickerModal) {
-                watchDatePicker(displayedComponents: .date)
-            }
-            .navigationDestination(isPresented: $showTimePickerModal) {
-                watchDatePicker(displayedComponents: displayedComponents.contains(.hourMinuteAndSecond) ? .hourMinuteAndSecond : .hourAndMinute)
-            }
+                .navigationDestination(isPresented: $showTimePickerModal) {
+                    watchDatePicker(displayedComponents: displayedComponents.contains(.hourMinuteAndSecond) ? .hourMinuteAndSecond : .hourAndMinute)
+                }
 #else
-            DatePicker(
-                pickerPrompt,
-                selection: resolvedResult,
-                in: range,
-                displayedComponents: displayedComponents
-            )
-            .datePickerStyle(.compact)
-            .foregroundStyle(.primary)
-            .padding()
+                DatePicker(
+                    pickerPrompt,
+                    selection: resolvedResult,
+                    in: range,
+                    displayedComponents: displayedComponents
+                )
+                .datePickerStyle(.compact)
+                .foregroundStyle(.primary)
+                .padding()
 #endif
+            }
         }
         .preference(key: IDPreferenceKey.self, value: id)
     }

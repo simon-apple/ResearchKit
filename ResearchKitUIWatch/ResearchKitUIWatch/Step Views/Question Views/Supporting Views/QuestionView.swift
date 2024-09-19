@@ -57,26 +57,6 @@ public struct QuestionView<Header: View, Content: View>: View {
     }
 }
 
-extension ShapeStyle where Self == CardColor {
-    
-    static var cardColor: CardColor {
-        CardColor()
-    }
-    
-}
-
-struct CardColor: ShapeStyle {
-    
-    func resolve(in environment: EnvironmentValues) -> some ShapeStyle {
-#if os(visionOS)
-        .regularMaterial
-#else
-        environment.colorScheme == .dark ? Color.choice(for: .systemGray4) : .white
-#endif
-    }
-    
-}
-
 public extension QuestionView where Header == _SimpleFormItemViewHeader {
     init(
         title: String,

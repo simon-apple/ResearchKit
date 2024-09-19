@@ -175,46 +175,48 @@ public struct HeightQuestionView: View {
     }
 
     public var body: some View {
-        QuestionView(title: title) {
-            HStack {
-                Text("Select Height")
-                    .foregroundStyle(Color.primary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Button {
-                    isInputActive = true
-                } label: {
-                    Text(selectionString)
+        QuestionCardView {
+            QuestionView(title: title) {
+                HStack {
+                    Text("Select Height")
                         .foregroundStyle(Color.primary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Button {
+                        isInputActive = true
+                    } label: {
+                        Text(selectionString)
+                            .foregroundStyle(Color.primary)
+                    }
+                    .buttonStyle(.bordered)
+                    .buttonBorderShape(.roundedRectangle)
+#if !os(watchOS)
+                    .popover(
+                        isPresented: $isInputActive,
+                        attachmentAnchor: .point(.bottom),
+                        arrowEdge: .top
+                    ) {
+                        HeightPickerView(
+                            measurementSystem: measurementSystem,
+                            selection: resolvedResult,
+                            hasChanges: $hasChanges
+                        )
+                        .frame(width: 300)
+                        .presentationCompactAdaptation((.popover))
+                    }
+#else
+                    .navigationDestination(
+                        isPresented: $isInputActive
+                    ) {
+                        HeightPickerView(
+                            measurementSystem: measurementSystem,
+                            selection: resolvedResult,
+                            hasChanges: $hasChanges
+                        )
+                    }
+#endif
                 }
-                .buttonStyle(.bordered)
-                .buttonBorderShape(.roundedRectangle)
-                #if !os(watchOS)
-                .popover(
-                    isPresented: $isInputActive,
-                    attachmentAnchor: .point(.bottom),
-                    arrowEdge: .top
-                ) {
-                    HeightPickerView(
-                        measurementSystem: measurementSystem,
-                        selection: resolvedResult,
-                        hasChanges: $hasChanges
-                    )
-                    .frame(width: 300)
-                    .presentationCompactAdaptation((.popover))
-                }
-                #else
-                .navigationDestination(
-                    isPresented: $isInputActive
-                ) {
-                    HeightPickerView(
-                        measurementSystem: measurementSystem,
-                        selection: resolvedResult,
-                        hasChanges: $hasChanges
-                    )
-                }
-                #endif
+                .padding()
             }
-            .padding()
         }
         .preference(key: IDPreferenceKey.self, value: id)
     }

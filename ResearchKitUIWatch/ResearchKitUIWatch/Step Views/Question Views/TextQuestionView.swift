@@ -160,56 +160,58 @@ public struct TextQuestionView<Header: View>: View {
     }
 
     public var body: some View {
-        QuestionView {
-            header
-        } content: {
-            VStack {
-                TextField(id, text: resolvedResult.toUnwrapped(defaultValue: ""), prompt: placeholder, axis: axis)
-                    .textFieldStyle(.plain) // Text binding's `didSet` called twice if this is not set.
-                    .focused($focusTarget, equals: .textQuestion)
-                    .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
-                    .contentShape(Rectangle())
-                    .onAppear(perform: {
+        QuestionCardView {
+            QuestionView {
+                header
+            } content: {
+                VStack {
+                    TextField(id, text: resolvedResult.toUnwrapped(defaultValue: ""), prompt: placeholder, axis: axis)
+                        .textFieldStyle(.plain) // Text binding's `didSet` called twice if this is not set.
+                        .focused($focusTarget, equals: .textQuestion)
+                        .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
+                        .contentShape(Rectangle())
+                        .onAppear(perform: {
 #if !os(watchOS)
-                    if textFieldType == .singleLine {
-                        UITextField.appearance().clearButtonMode = .whileEditing
-                    }
+                            if textFieldType == .singleLine {
+                                UITextField.appearance().clearButtonMode = .whileEditing
+                            }
 #endif
-                    })
-
-                if textFieldType == .multiline {
-                    HStack {
-                        if hideCharacterCountLabel == false {
-                            Text("\(resolvedResult.wrappedValue?.count ?? 0)/\(characterLimit)")
+                        })
+                    
+                    if textFieldType == .multiline {
+                        HStack {
+                            if hideCharacterCountLabel == false {
+                                Text("\(resolvedResult.wrappedValue?.count ?? 0)/\(characterLimit)")
+                            }
+                            Spacer()
+                            
+                            if !hideClearButton {
+                                Button {
+                                    resolvedResult.wrappedValue = .none
+                                } label: {
+                                    Text("Clear")
+                                }
+                            }
                         }
-                        Spacer()
-
-                        if !hideClearButton {
-                            Button {
-                                resolvedResult.wrappedValue = .none
-                            } label: {
-                                Text("Clear")
+#if os(iOS)
+                        .doneKeyboardToolbar(
+                            condition: {
+                                focusTarget == .textQuestion
+                            },
+                            action: {
+                                focusTarget = nil
+                            }
+                        )
+#endif
+                        .onChange(of: resolvedResult.wrappedValue) { oldValue, newValue in
+                            if resolvedResult.wrappedValue?.count ?? 0 > characterLimit {
+                                resolvedResult.wrappedValue = oldValue
                             }
                         }
                     }
-#if os(iOS)
-                    .doneKeyboardToolbar(
-                        condition: {
-                            focusTarget == .textQuestion
-                        },
-                        action: {
-                            focusTarget = nil
-                        }
-                    )
-#endif
-                    .onChange(of: resolvedResult.wrappedValue) { oldValue, newValue in
-                        if resolvedResult.wrappedValue?.count ?? 0 > characterLimit {
-                            resolvedResult.wrappedValue = oldValue
-                        }
-                    }
                 }
+                .padding()
             }
-            .padding()
         }
         .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
         .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)

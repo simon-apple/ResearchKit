@@ -90,27 +90,29 @@ public struct NumericQuestionView<Header: View>: View {
     }
 
     public var body: some View {
-        QuestionView(
-            header: {
-                header
-            },
-            content: {
-                TextField("", value: resolvedResult, format: .number, prompt: placeholder)
+        QuestionCardView {
+            QuestionView(
+                header: {
+                    header
+                },
+                content: {
+                    TextField("", value: resolvedResult, format: .number, prompt: placeholder)
 #if !os(watchOS) && !os(macOS)
-                    .keyboardType(.decimalPad)
-                    .focused($focusTarget, equals: .numericQuestion)
+                        .keyboardType(.decimalPad)
+                        .focused($focusTarget, equals: .numericQuestion)
 #endif
-                    .doneKeyboardToolbar(
-                        condition: {
-                            focusTarget == .numericQuestion
-                        },
-                        action: {
-                            focusTarget = nil
-                        }
-                    )
-                    .padding()
-            }
-        )
+                        .doneKeyboardToolbar(
+                            condition: {
+                                focusTarget == .numericQuestion
+                            },
+                            action: {
+                                focusTarget = nil
+                            }
+                        )
+                        .padding()
+                }
+            )
+        }
         .preference(key: IDPreferenceKey.self, value: id)
     }
     

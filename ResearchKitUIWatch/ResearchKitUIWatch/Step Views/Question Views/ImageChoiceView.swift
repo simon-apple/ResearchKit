@@ -131,26 +131,28 @@ public struct ImageChoiceView: View {
     }
 
     public var body: some View {
-        QuestionView(title: title) {
-            VStack {
-                if style == .multiple {
-                    multipleSelectionHeader()
-                }
-
-                if vertical {
-                    VStack {
-                        imageChoices()
+        QuestionCardView {
+            QuestionView(title: title) {
+                VStack {
+                    if style == .multiple {
+                        multipleSelectionHeader()
                     }
-                    .padding()
-                } else {
-                    HStack {
-                        imageChoices()
+                    
+                    if vertical {
+                        VStack {
+                            imageChoices()
+                        }
+                        .padding()
+                    } else {
+                        HStack {
+                            imageChoices()
+                        }
+                        .padding()
                     }
-                    .padding()
+                    selectionText()
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding()
                 }
-                selectionText()
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding()
             }
         }
         .preference(key: IDPreferenceKey.self, value: id)
