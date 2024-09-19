@@ -82,7 +82,29 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
             header
             
             Group(subviews: content) { questions in
-                questions
+                ForEach(subviews: questions) { question in
+                    if let questionIndex = questions.firstIndex(where: { $0.id == question.id }) {
+                        let questionNumber = questionIndex + 1
+                        QuestionCardView {
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text("Question \(questionNumber) of \(questions.count)")
+                                    .foregroundColor(.secondary)
+                                    .font(.footnote)
+#if os(watchOS)
+                                    .padding([.horizontal])
+                                    .padding(.top, 4)
+#else
+                                    .fontWeight(.bold)
+                                    .padding([.horizontal, .top])
+#endif
+                                
+                                question
+                            }
+                        }
+                    } else {
+                        question
+                    }
+                }
             }
         }
 #if os(iOS)
