@@ -96,7 +96,9 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
     
     @ViewBuilder
     private func questionCardWrappedContent() -> some View {
-        Group(subviews: content) { questions in
+        Group(
+            subviews: content.environment(\.isQuestionCardEnabled, false)
+        ) { questions in
             ForEach(subviews: questions) { question in
                 if let questionIndex = questions.firstIndex(where: { $0.id == question.id }) {
                     let questionNumber = questionIndex + 1

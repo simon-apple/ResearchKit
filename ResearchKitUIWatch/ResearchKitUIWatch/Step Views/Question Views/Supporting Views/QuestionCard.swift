@@ -55,7 +55,7 @@ struct QuestionCard<Content: View>: View {
     
 }
 
-private extension EnvironmentValues {
+extension EnvironmentValues {
     
     @Entry var isQuestionCardEnabled = true
     
@@ -102,7 +102,29 @@ extension View {
 }
 
 #Preview {
-    QuestionCard {
-        Text("Content")
+    ScrollView {
+        VStack(spacing: 20) {
+            QuestionCard {
+                VStack(alignment: .leading) {
+                    Text("Title")
+                    Text("Detail")
+                }
+            }
+
+            QuestionCard {
+                VStack(alignment: .leading, spacing: 0) {
+                    QuestionCard {
+                        VStack(alignment: .leading) {
+                            Text("Title")
+                            Text("Detail")
+                        }
+                    }
+                    Rectangle()
+                        .fill(Color(white: 0.975))
+                        .frame(height: 44)
+                }
+            }
+        }
+        .padding()
     }
 }
