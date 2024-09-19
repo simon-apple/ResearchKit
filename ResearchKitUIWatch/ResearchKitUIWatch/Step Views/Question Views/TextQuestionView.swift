@@ -157,7 +157,7 @@ public struct TextQuestionView<Header: View>: View {
     }
 
     public var body: some View {
-        QuestionCardView {
+        QuestionCard {
             QuestionView {
                 header
             } content: {

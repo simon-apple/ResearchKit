@@ -30,7 +30,7 @@
 
 import SwiftUI
 
-struct QuestionCardView<Content: View>: View {
+struct QuestionCard<Content: View>: View {
     
     @Environment(\.isQuestionCardEnabled)
     private var isQuestionCardEnabled
@@ -102,7 +102,7 @@ extension View {
 }
 
 #Preview {
-    QuestionCardView {
+    QuestionCard {
         Text("Content")
     }
 }

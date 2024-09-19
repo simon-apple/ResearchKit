@@ -172,7 +172,7 @@ public struct HeightQuestionView: View {
     }
 
     public var body: some View {
-        QuestionCardView {
+        QuestionCard {
             QuestionView(title: title) {
                 HStack {
                     Text("Select Height")

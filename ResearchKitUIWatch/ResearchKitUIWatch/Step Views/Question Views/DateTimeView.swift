@@ -117,7 +117,7 @@ public struct DateTimeView<Header: View>: View {
     }
 
     public var body: some View {
-        QuestionCardView {
+        QuestionCard {
             QuestionView {
                 header
             } content: {

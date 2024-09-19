@@ -87,7 +87,7 @@ public struct NumericQuestionView<Header: View>: View {
     }
 
     public var body: some View {
-        QuestionCardView {
+        QuestionCard {
             QuestionView(
                 header: {
                     header

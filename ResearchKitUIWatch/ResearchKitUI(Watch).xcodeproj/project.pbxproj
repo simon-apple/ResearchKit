@@ -63,7 +63,7 @@
 		5EDFA9D72BFFFA2B0044C156 /* StepHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDFA9D62BFFFA2B0044C156 /* StepHeaderView.swift */; };
 		5EDFA9D92BFFFF0F0044C156 /* ListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDFA9D82BFFFF0F0044C156 /* ListHeaderView.swift */; };
 		5EE5FD312C6A8486004BBABF /* StateManagementType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE5FD302C6A8482004BBABF /* StateManagementType.swift */; };
-		5EFC55352C9B9C4D002C9587 /* QuestionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFC55342C9B9C4D002C9587 /* QuestionCardView.swift */; };
+		5EFC55352C9B9C4D002C9587 /* QuestionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFC55342C9B9C4D002C9587 /* QuestionCard.swift */; };
 		69EE51532C77F1B8008B2AD6 /* QuestionRequired.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EE51522C77F1B8008B2AD6 /* QuestionRequired.swift */; };
 		E46F44CF2C66BF25009E5762 /* MultipleChoiceQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DBF1B52B97C2AC0085D6A1 /* MultipleChoiceQuestionView.swift */; };
 		E49B08DA2C73EDD000669012 /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E49B08D92C73EDD000669012 /* ResearchKit.framework */; };
@@ -162,7 +162,7 @@
 		5EDFA9D62BFFFA2B0044C156 /* StepHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepHeaderView.swift; sourceTree = "<group>"; };
 		5EDFA9D82BFFFF0F0044C156 /* ListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHeaderView.swift; sourceTree = "<group>"; };
 		5EE5FD302C6A8482004BBABF /* StateManagementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManagementType.swift; sourceTree = "<group>"; };
-		5EFC55342C9B9C4D002C9587 /* QuestionCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCardView.swift; sourceTree = "<group>"; };
+		5EFC55342C9B9C4D002C9587 /* QuestionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCard.swift; sourceTree = "<group>"; };
 		69EE51522C77F1B8008B2AD6 /* QuestionRequired.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionRequired.swift; sourceTree = "<group>"; };
 		BA32DE9E2BCF34440041A937 /* ScaleSliderQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleSliderQuestionView.swift; sourceTree = "<group>"; };
 		E49B08D92C73EDD000669012 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -427,7 +427,7 @@
 				E4DBF1BE2BA24AA10085D6A1 /* StickyScrollView.swift */,
 				E4DBF1B82B97C3030085D6A1 /* TextChoiceCell.swift */,
 				38CD260F2C1909CC000FDBB0 /* QuestionView.swift */,
-				5EFC55342C9B9C4D002C9587 /* QuestionCardView.swift */,
+				5EFC55342C9B9C4D002C9587 /* QuestionCard.swift */,
 			);
 			path = "Supporting Views";
 			sourceTree = "<group>";
@@ -567,7 +567,7 @@
 				3810A3D52C7D126700535B38 /* ORKSerializationEntryProvider.m in Sources */,
 				3810A3D62C7D126700535B38 /* ORKIESerializer.m in Sources */,
 				3810A3D72C7D126700535B38 /* ORKESerializer+SwiftUIEntryProvider.m in Sources */,
-				5EFC55352C9B9C4D002C9587 /* QuestionCardView.swift in Sources */,
+				5EFC55352C9B9C4D002C9587 /* QuestionCard.swift in Sources */,
 				3810A3D82C7D126700535B38 /* ORKESerialization+Helpers.m in Sources */,
 				3810A3D92C7D126700535B38 /* ORKSwiftUISerializationEntryProvider.m in Sources */,
 				3810A3DA2C7D126700535B38 /* ORKCoreSerializationEntryProvider.m in Sources */,

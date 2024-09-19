@@ -81,7 +81,7 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
                 ForEach(subviews: questions) { question in
                     if let questionIndex = questions.firstIndex(where: { $0.id == question.id }) {
                         let questionNumber = questionIndex + 1
-                        QuestionCardView {
+                        QuestionCard {
                             VStack(alignment: .leading, spacing: 0) {
                                 Text("Question \(questionNumber) of \(questions.count)")
                                     .foregroundColor(.secondary)

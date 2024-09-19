@@ -92,7 +92,7 @@ public struct MultipleChoiceQuestionView: View {
     }
 
     public var body: some View {
-        QuestionCardView {
+        QuestionCard {
             QuestionView(title: title) {
                 ForEach(Array(choices.enumerated()), id: \.offset) { index, option in
                     VStack(spacing: .zero) {
