@@ -128,7 +128,10 @@ public struct DateTimeView<Header: View>: View {
                     Button {
                         showDatePickerModal.toggle()
                     } label: {
-                        Text(resolvedResult.wrappedValue, format: .dateTime.day().month().year())
+                        Text(
+                            resolvedResult.wrappedValue ?? Date(),
+                            format: .dateTime.day().month().year()
+                        )
                     }
                 }
                 
@@ -136,13 +139,19 @@ public struct DateTimeView<Header: View>: View {
                     Button {
                         showTimePickerModal.toggle()
                     } label: {
-                        Text(resolvedResult.wrappedValue, format: .dateTime.hour().minute().second())
+                        Text(
+                            resolvedResult.wrappedValue ?? Date(),
+                            format: .dateTime.hour().minute().second()
+                        )
                     }
                 } else if displayedComponents.contains(.hourAndMinute){
                     Button {
                         showTimePickerModal.toggle()
                     } label: {
-                        Text(resolvedResult.wrappedValue, format: .dateTime.hour().minute())
+                        Text(
+                            resolvedResult.wrappedValue ?? Date(),
+                            format: .dateTime.hour().minute()
+                        )
                     }
                 }
             }
