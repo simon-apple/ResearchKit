@@ -62,6 +62,9 @@ public struct ResearchForm<Content: View>: View {
 
 public struct ResearchFormStep<Header: View, Content: View>: View {
     
+    @State
+    private var shouldWrapInQuestionCard = true
+    
     private let header: Header
     private let content: Content
     
@@ -77,35 +80,47 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
         VStack(alignment: .leading, spacing: 16) {
             header
             
-            Group(subviews: content) { questions in
-                ForEach(subviews: questions) { question in
-                    if let questionIndex = questions.firstIndex(where: { $0.id == question.id }) {
-                        let questionNumber = questionIndex + 1
-                        QuestionCard {
-                            VStack(alignment: .leading, spacing: 0) {
-                                Text("Question \(questionNumber) of \(questions.count)")
-                                    .foregroundColor(.secondary)
-                                    .font(.footnote)
-#if os(watchOS)
-                                    .padding([.horizontal])
-                                    .padding(.top, 4)
-#else
-                                    .fontWeight(.bold)
-                                    .padding([.horizontal, .top])
-#endif
-                                
-                                question
-                            }
-                        }
-                    } else {
-                        question
-                    }
-                }
+            if shouldWrapInQuestionCard {
+                questionCardWrappedContent()
+            } else {
+                content
             }
         }
 #if os(iOS)
         .frame(maxWidth: .infinity, alignment: .leading)
 #endif
+        .onPreferenceChange(QuestionCardPreferenceKey.self) { shouldWrapInQuestionCard in
+            self.shouldWrapInQuestionCard = shouldWrapInQuestionCard
+        }
+    }
+    
+    @ViewBuilder
+    private func questionCardWrappedContent() -> some View {
+        Group(subviews: content) { questions in
+            ForEach(subviews: questions) { question in
+                if let questionIndex = questions.firstIndex(where: { $0.id == question.id }) {
+                    let questionNumber = questionIndex + 1
+                    QuestionCard {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text("Question \(questionNumber) of \(questions.count)")
+                                .foregroundColor(.secondary)
+                                .font(.footnote)
+#if os(watchOS)
+                                .padding([.horizontal])
+                                .padding(.top, 4)
+#else
+                                .fontWeight(.bold)
+                                .padding([.horizontal, .top])
+#endif
+                            
+                            question
+                        }
+                    }
+                } else {
+                    question
+                }
+            }
+        }
     }
     
 }
