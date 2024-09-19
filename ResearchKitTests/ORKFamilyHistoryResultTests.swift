@@ -30,7 +30,6 @@
 
 import XCTest
 @testable import ResearchKit
-@testable import ResearchKitInternal_Private
 
 class ORKFamilyHistoryResultTests: XCTestCase {
         
