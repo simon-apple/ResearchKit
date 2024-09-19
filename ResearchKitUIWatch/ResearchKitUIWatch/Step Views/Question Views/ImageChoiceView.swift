@@ -69,9 +69,6 @@ public struct ImageChoiceQuestion: Identifiable {
 
 public struct ImageChoiceView: View {
     
-    @Environment(\.questionProgress)
-    private var questionProgress
-    
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
 
@@ -155,7 +152,6 @@ public struct ImageChoiceView: View {
                 }
             }
         }
-        .preference(key: IDPreferenceKey.self, value: id)
     }
 
     @ViewBuilder

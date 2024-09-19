@@ -100,9 +100,6 @@ public struct ScaleSliderQuestionView: View {
         
     }
     
-    @Environment(\.questionProgress)
-    private var questionProgress
-    
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
     
@@ -428,7 +425,6 @@ public struct ScaleSliderQuestionView: View {
                     }
             }
         }
-        .preference(key: IDPreferenceKey.self, value: id)
     }
 
     @ViewBuilder

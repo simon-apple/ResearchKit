@@ -56,12 +56,9 @@ public struct ResearchForm<Content: View>: View {
             NavigationalLayout(steps, onResearchFormCompletion: onResearchFormCompletion)
         }
         .environmentObject(managedTaskResult)
-        .environment(\.whatTheHay, "What the heck!")
     }
     
 }
-
-
 
 public struct ResearchFormStep<Header: View, Content: View>: View {
     
@@ -86,66 +83,12 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
             
             Group(subviews: content) { questions in
                 questions
-                    .preference(key: QuestionCountKey.self, value: questions.count)
-                    .onPreferenceChange(IDPreferenceKey.self) { id in
-                        questionIDToQuestionNumberMapping[id] = questions.count - runningDelta
-                        runningDelta += 1
-                        numberOfQuestions = questions.count
-                    }
             }
-            .onPreferenceChange(QuestionCountKey.self, perform: { questionCount in
-                numberOfQuestions = questionCount
-            })
-            .environment(
-                \.questionProgress,
-                 QuestionList(
-                    numberOfQuestions: numberOfQuestions,
-                    questionNumberMapping: questionIDToQuestionNumberMapping
-                 )
-            )
         }
 #if os(iOS)
         .frame(maxWidth: .infinity, alignment: .leading)
 #endif
     }
-    
-}
-
-struct QuestionCountKey: PreferenceKey {
-    
-    static var defaultValue = 0
-    
-    static func reduce(value: inout Int, nextValue: () -> Int) {
-        value = nextValue()
-    }
-    
-}
-
-struct ResearchFormStepContent<Content: View>: View {
-    
-    private let content: Content
-    
-    init(@ViewBuilder content: () -> Content) {
-        self.content = content()
-    }
-    
-    var body: some View {
-        content
-    }
-    
-}
-
-extension EnvironmentValues {
-    
-    @Entry var questionProgress: QuestionList = QuestionList(numberOfQuestions: 0, questionNumberMapping: [:])
-    @Entry var whatTheHay: String = "What the hay!"
-    
-}
-
-struct QuestionList {
-    
-    let numberOfQuestions: Int
-    let questionNumberMapping: [String: Int]
     
 }
 
@@ -213,6 +156,20 @@ public extension ResearchFormStep where Header == StepHeaderView {
             },
             content: content
         )
+    }
+    
+}
+
+struct ResearchFormStepContent<Content: View>: View {
+    
+    private let content: Content
+    
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+    
+    var body: some View {
+        content
     }
     
 }

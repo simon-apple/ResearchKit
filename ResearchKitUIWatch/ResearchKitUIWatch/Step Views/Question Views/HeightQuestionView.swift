@@ -77,9 +77,6 @@ public struct HeightQuestion: Identifiable {
 
 public struct HeightQuestionView: View {
     
-    @Environment(\.questionProgress)
-    private var questionProgress
-    
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
 
@@ -218,7 +215,6 @@ public struct HeightQuestionView: View {
                 .padding()
             }
         }
-        .preference(key: IDPreferenceKey.self, value: id)
     }
 }
 

@@ -32,9 +32,6 @@ import SwiftUI
 
 public struct WeightQuestionView: View {
     
-    @Environment(\.questionProgress)
-    private var questionProgress
-    
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
     
@@ -212,7 +209,6 @@ public struct WeightQuestionView: View {
                 .padding()
             }
         }
-        .preference(key: IDPreferenceKey.self, value: id)
     }
 }
 
