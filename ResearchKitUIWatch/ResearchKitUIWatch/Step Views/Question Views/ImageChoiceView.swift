@@ -129,7 +129,7 @@ public struct ImageChoiceView: View {
 
     public var body: some View {
         QuestionCard {
-            QuestionView(title: title) {
+            Question(title: title) {
                 VStack {
                     if style == .multiple {
                         multipleSelectionHeader()

@@ -385,7 +385,7 @@ public struct ScaleSliderQuestionView: View {
 
     public var body: some View {
         QuestionCard {
-            QuestionView(title: title) {
+            Question(title: title) {
                 scaleView(selectionConfiguration: scaleSelectionConfiguration)
                     .onChange(of: sliderUIValue) { oldValue, newValue in
                         switch resolvedBinding.wrappedValue {
