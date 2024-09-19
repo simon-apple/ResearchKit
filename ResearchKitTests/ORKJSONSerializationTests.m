@@ -701,9 +701,9 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKTextAnswerFormat.textContentType",
                                           @"ORKColorChoice.value",
                                           @"ORKColorChoice.value",
+                                          @"ORKHealthCondition.value",
 #if RK_APPLE_INTERNAL
                                           @"ORKTextAnswerFormat.scrubbers",
-                                          @"ORKHealthCondition.value",
 #endif
                                           @"ORKTextChoice.detailTextAttributedString",
                                           @"ORKTextChoice.primaryTextAttributedString",
