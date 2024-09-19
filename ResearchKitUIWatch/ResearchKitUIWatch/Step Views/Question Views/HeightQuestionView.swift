@@ -178,6 +178,7 @@ public struct HeightQuestionView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Button {
                     isInputActive = true
+                    UIApplication.shared.endEditing()
                 } label: {
                     Text(selectionString)
                         .foregroundStyle(Color.primary)
@@ -213,6 +214,14 @@ public struct HeightQuestionView: View {
             .padding()
         }
     }
+}
+
+extension UIApplication {
+    
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+    
 }
 
 struct HeightPickerView: View {
