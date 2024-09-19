@@ -62,10 +62,6 @@ public struct ResearchForm<Content: View>: View {
 
 public struct ResearchFormStep<Header: View, Content: View>: View {
     
-    @State private var numberOfQuestions = 0
-    @State private var questionIDToQuestionNumberMapping: [String: Int] = [:]
-    @State private var runningDelta = 0
-    
     private let header: Header
     private let content: Content
     
