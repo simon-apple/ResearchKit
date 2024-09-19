@@ -456,10 +456,18 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
             .verifyResultsCellValue(resultType: .longitude, expectedValue: expectedValue.longitude)
             .verifyResultsCellValue(resultType: .address, expectedValue: expectedValue.locationString)
     }
-    
+
     func testLocationQuestionResult() throws {
-        if isRunningInXcodeCloud {
-            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment")
+        if isPhysicalDeviceInXcodeCloud()  {
+            test("Enable location services in the Setting app") {
+                let settingsApp = SettingsAppScreens()
+                settingsApp
+                    .terminateAndLaunchApp()
+                    .enableLocationServices()
+            }
+            app.activate() // Bring ORKCatalog to foreground
+            app.terminate()
+            app.activate()
         }
         
         let simulatedLocation = (locationString: "Geary St San Francisco CA 94102 United States", latitude: 37.787354, longitude: -122.408243)
@@ -476,8 +484,14 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
     func testLocationQuestionSkipResult() throws {
         try XCTSkipIf(true, "Skipping this test for now due to crash after skipping question (126589758)") /// rdar://126589758 ([ORKCatalog] App crash when viewing location question result in Results tab after skipping question)
         
-        if isRunningInXcodeCloud {
-            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment")
+        if isPhysicalDeviceInXcodeCloud()  {
+            test("Enable location services in the Setting app") {
+                let settingsApp = SettingsAppScreens()
+                settingsApp
+                    .terminateAndLaunchApp()
+                    .enableLocationServices()
+            }
+            app.activate() // Bring ORKCatalog to foreground
         }
         
         answerAndVerifyLocationQuestionTask(locationAnswer: nil, expectedValue: (locationString: "nil", latitude: "nil", longitude: "nil"))
@@ -812,10 +826,6 @@ final class SurveyQuestionsResultsUITests: BaseUITest {
     func testTimeIntervalQuestionSkipResult() {
         answerAndVerifyTimeIntervalQuestion(answer: nil, expectedResult: "nil")
     }
-    
-    private func convertToSeconds(hours: Int, minutes: Int) -> Int {
-        return (hours * 3600) + (minutes * 60)
-    }
 }
 
 final class SurveyQuestionsLocaleDependentResultsUITests: LocaleDependentBaseUITests {
@@ -953,7 +963,6 @@ final class SurveyQuestionsLocaleDependentResultsUITests: LocaleDependentBaseUIT
     }
     
     // MARK: Helper methods
-    
     private func convertTimeTo12HourFormatHourOnly(time: String) -> (String, String)? {
         guard let (hourString, periodString) = DateFormatterManager.shared.hourMinutesString(from: time) else {
             return nil
@@ -979,4 +988,5 @@ final class SurveyQuestionsLocaleDependentResultsUITests: LocaleDependentBaseUIT
         
         return gmtDate
     }
+
 }
