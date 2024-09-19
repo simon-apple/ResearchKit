@@ -2615,12 +2615,6 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
                 PROPERTY(conditionStepConfiguration, ORKConditionStepConfiguration, NSObject, YES, nil, nil),
                 PROPERTY(relativeGroups, ORKRelativeGroup, NSArray, YES, nil, nil),
            })),
-           ENTRY(ORKTinnitusTypeStep,
-                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
-               return [[ORKTinnitusTypeStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
-           },
-                 (@{
-                  })),
 #if RK_APPLE_INTERNAL && ORK_FEATURE_AV_JOURNALING
            ENTRY(ORKAVJournalingPredefinedTask,
             ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
@@ -2669,7 +2663,12 @@ static NSMutableDictionary<NSString *, ORKESerializableTableEntry *> *ORKESerial
             (@{})),
 #endif
 #if RK_APPLE_INTERNAL
-          
+           ENTRY(ORKTinnitusTypeStep,
+                 ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
+               return [[ORKTinnitusTypeStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
+           },
+                 (@{
+                  })),
            ENTRY(ORKTinnitusPureToneStep,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                return [[ORKTinnitusPureToneStep alloc] initWithIdentifier:GETPROP(dict, identifier)];
