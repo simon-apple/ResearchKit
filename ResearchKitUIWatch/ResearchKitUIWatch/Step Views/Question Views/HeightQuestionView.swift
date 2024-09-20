@@ -216,14 +216,6 @@ public struct HeightQuestionView: View {
     }
 }
 
-extension UIApplication {
-    
-    func endEditing() {
-        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-    
-}
-
 struct HeightPickerView: View {
     @Environment(\.dismiss) var dismiss
     @State var firstSelection: Int
