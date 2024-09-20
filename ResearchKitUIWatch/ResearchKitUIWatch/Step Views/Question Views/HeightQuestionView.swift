@@ -178,7 +178,9 @@ public struct HeightQuestionView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Button {
                     isInputActive = true
+#if !os(watchOS)
                     UIApplication.shared.endEditing()
+#endif
                 } label: {
                     Text(selectionString)
                         .foregroundStyle(Color.primary)

@@ -30,6 +30,7 @@
 
 import UIKit
 
+#if !os(watchOS)
 extension UIApplication {
     
     func endEditing() {
@@ -37,3 +38,4 @@ extension UIApplication {
     }
     
 }
+#endif
