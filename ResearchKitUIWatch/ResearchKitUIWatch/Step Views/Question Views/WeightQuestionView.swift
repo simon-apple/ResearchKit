@@ -165,6 +165,7 @@ public struct WeightQuestionView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Button {
                     isInputActive = true
+                    UIApplication.shared.endEditing()
                 } label: {
                     Text(selectionString)
                         .foregroundStyle(Color.primary)
