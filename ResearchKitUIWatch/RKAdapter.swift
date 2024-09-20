@@ -455,7 +455,7 @@ public class RKAdapter {
                         MultipleChoiceAnswerFormat.multiple.rawValue
                 ]
                 if let answers = multipleChoice {
-                    let newResults: [NSCopying & NSSecureCoding & NSObjectProtocol] = answers.map { RKAdapter.rkValue(from: $0) }
+                    let newResults = answers.map { RKAdapter.rkValue(from: $0) }
                     result.choiceAnswers = newResults
                 }
                 result.userInfo = info

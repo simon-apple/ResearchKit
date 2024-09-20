@@ -76,19 +76,20 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
     }
     
     @State
-    private var requiredQuestions = [Subview.ID: Bool]()
+    private var visibleQuestions = Set<Subview.ID>()
     
     @State
-    private var answeredQuestions = [Subview.ID: Bool]()
+    private var requiredQuestions = Set<Subview.ID>()
+    
+    @State
+    private var answeredQuestions = Set<Subview.ID>()
     
     private var canMoveToNextStep: Bool {
         requiredQuestions
-            .filter { $0.value }
-            .allSatisfy {
-                answeredQuestions[$0.key] == true
-            }
+            .filter { visibleQuestions.contains($0) }
+            .subtracting(answeredQuestions).isEmpty
     }
-    
+
     public var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             header
@@ -96,10 +97,22 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
                 ForEach(subviews: subviews, content: { subview in
                     subview
                         .onPreferenceChange(QuestionRequiredPreferenceKey.self) {
-                            requiredQuestions[subview.id] = $0
+                            if $0 == true {
+                                requiredQuestions.insert(subview.id)
+                            }
                         }
                         .onPreferenceChange(QuestionAnsweredPreferenceKey.self) {
-                            answeredQuestions[subview.id] = $0
+                            if $0 == true {
+                                answeredQuestions.insert(subview.id)
+                            } else {
+                                answeredQuestions.remove(subview.id)
+                            }
+                        }
+                        .onAppear {
+                            visibleQuestions.insert(subview.id)
+                        }
+                        .onDisappear {
+                            visibleQuestions.remove(subview.id)
                         }
                 })
             }

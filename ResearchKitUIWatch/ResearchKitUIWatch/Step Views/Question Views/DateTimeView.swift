@@ -79,7 +79,7 @@ public struct DateTimeView<Header: View>: View {
         case let .automatic(key: key):
             return Binding(
                 get: { managedTaskResult.resultForStep(key: key) ?? Date() },
-                set: { managedTaskResult.setResultForStep(.date($0 ?? nil), key: key) }
+                set: { managedTaskResult.setResultForStep(.date($0), key: key) }
             )
         case let .manual(value):
             return value

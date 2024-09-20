@@ -37,7 +37,7 @@ internal extension EnvironmentValues {
 }
 
 public extension View {
-    func questionRequired(_ value: Bool = false) -> some View {
+    func questionRequired(_ value: Bool) -> some View {
         self
             .environment(\.questionRequired, value)
     }
