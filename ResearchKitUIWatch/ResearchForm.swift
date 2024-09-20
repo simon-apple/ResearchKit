@@ -75,11 +75,50 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
         self.content = content()
     }
     
+    @State
+    private var visibleQuestions = Set<Subview.ID>()
+    
+    @State
+    private var requiredQuestions = Set<Subview.ID>()
+    
+    @State
+    private var answeredQuestions = Set<Subview.ID>()
+    
+    private var canMoveToNextStep: Bool {
+        requiredQuestions
+            .filter { visibleQuestions.contains($0) }
+            .subtracting(answeredQuestions).isEmpty
+    }
+
     public var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             header
-            content
+            Group(subviews: content) { subviews in
+                ForEach(subviews: subviews, content: { subview in
+                    subview
+                        .onPreferenceChange(QuestionRequiredPreferenceKey.self) {
+                            if $0 == true {
+                                requiredQuestions.insert(subview.id)
+                            }
+                        }
+                        .onPreferenceChange(QuestionAnsweredPreferenceKey.self) {
+                            if $0 == true {
+                                answeredQuestions.insert(subview.id)
+                            } else {
+                                answeredQuestions.remove(subview.id)
+                            }
+                        }
+                        .onAppear {
+                            visibleQuestions.insert(subview.id)
+                        }
+                        .onDisappear {
+                            visibleQuestions.remove(subview.id)
+                        }
+                })
+            }
         }
+        .preference(key: StepCompletedPreferenceKey.self, value: canMoveToNextStep)
+
 #if os(iOS)
         .frame(maxWidth: .infinity, alignment: .leading)
 #endif

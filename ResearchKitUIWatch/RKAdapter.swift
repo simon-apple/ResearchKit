@@ -425,12 +425,16 @@ public class RKAdapter {
             case .height(let height):
                 let result = ORKNumericQuestionResult(identifier: entry.key)
                 result.questionType = .height
-                result.numericAnswer = NSNumber(floatLiteral: height)
+                if let answer = height {
+                    result.numericAnswer = NSNumber(floatLiteral: answer)
+                }
                 resultsArray.append(result)
             case .weight(let weight):
                 let result = ORKNumericQuestionResult(identifier: entry.key)
                 result.questionType = .weight
-                result.numericAnswer = NSNumber(floatLiteral: weight)
+                if let answer = weight {
+                    result.numericAnswer = NSNumber(floatLiteral: answer)
+                }
                 resultsArray.append(result)
             case .image(let images):
                 let result = ORKChoiceQuestionResult(identifier: entry.key)
@@ -440,9 +444,9 @@ public class RKAdapter {
                 ]
                 result.userInfo = info
                 result.questionType = .multipleChoice
-
-                let newResults: [NSCopying & NSSecureCoding & NSObjectProtocol] = images.map { RKAdapter.rkValue(from: $0) }
-                result.choiceAnswers = newResults
+                if let results = images {
+                    result.choiceAnswers = results.map { RKAdapter.rkValue(from: $0) }
+                }
                 resultsArray.append(result)
             case .multipleChoice(let multipleChoice):
                 let result = ORKChoiceQuestionResult(identifier: entry.key)
@@ -450,15 +454,18 @@ public class RKAdapter {
                     multipleChoiceAnswerFormatKey :
                         MultipleChoiceAnswerFormat.multiple.rawValue
                 ]
-
-                let newResults: [NSCopying & NSSecureCoding & NSObjectProtocol] = multipleChoice.map { RKAdapter.rkValue(from: $0) }
+                if let answers = multipleChoice {
+                    let newResults = answers.map { RKAdapter.rkValue(from: $0) }
+                    result.choiceAnswers = newResults
+                }
                 result.userInfo = info
                 result.questionType = .multipleChoice
-                result.choiceAnswers = newResults
                 resultsArray.append(result)
             case .scale(let value):
                 let result = ORKScaleQuestionResult(identifier: entry.key)
-                result.scaleAnswer = NSNumber(floatLiteral: value)
+                if let value = value {
+                    result.scaleAnswer = NSNumber(floatLiteral: value)
+                }
                 result.questionType = .scale
                 resultsArray.append(result)
             }

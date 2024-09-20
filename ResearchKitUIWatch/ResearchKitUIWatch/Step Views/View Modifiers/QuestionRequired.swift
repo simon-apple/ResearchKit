@@ -37,7 +37,7 @@ internal extension EnvironmentValues {
 }
 
 public extension View {
-    func questionRequired(_ value: Bool = false) -> some View {
+    func questionRequired(_ value: Bool) -> some View {
         self
             .environment(\.questionRequired, value)
     }
@@ -58,3 +58,12 @@ struct QuestionAnsweredPreferenceKey: PreferenceKey {
         value = nextValue()
     }
 }
+
+struct StepCompletedPreferenceKey: PreferenceKey {
+    static var defaultValue: Bool = false
+
+    static func reduce(value: inout Bool, nextValue: () -> Bool) {
+        value = nextValue()
+    }
+}
+

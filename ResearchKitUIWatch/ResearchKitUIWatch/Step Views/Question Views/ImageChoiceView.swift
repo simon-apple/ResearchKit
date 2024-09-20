@@ -70,6 +70,9 @@ public struct ImageChoiceQuestion: Identifiable {
 public struct ImageChoiceView: View {
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
+    
+    @Environment(\.questionRequired)
+    private var isRequired: Bool
 
     let id: String
     let title: String
@@ -77,9 +80,9 @@ public struct ImageChoiceView: View {
     let choices: [ImageChoice]
     let style: ImageChoiceQuestion.ChoiceSelectionType
     let vertical: Bool
-    private let result: StateManagementType<[ResultValue]>
+    private let result: StateManagementType<[ResultValue]?>
 
-    private var resolvedResult: Binding<[ResultValue]> {
+    private var resolvedResult: Binding<[ResultValue]?> {
         switch result {
         case .automatic(let key):
             return Binding(
@@ -98,7 +101,7 @@ public struct ImageChoiceView: View {
         choices: [ImageChoice],
         style: ImageChoiceQuestion.ChoiceSelectionType,
         vertical: Bool,
-        result: Binding<[ResultValue]>
+        result: Binding<[ResultValue]?>
     ) {
         self.id = id
         self.title = title
@@ -149,17 +152,26 @@ public struct ImageChoiceView: View {
                     .padding()
             }
         }
+        .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
+        .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
+    }
+    
+    private var isAnswered: Bool {
+        if let resultArray = resolvedResult.wrappedValue, !resultArray.isEmpty {
+            return true
+        }
+        return false
     }
 
     @ViewBuilder
     func selectionText() -> some View {
-        if resolvedResult.wrappedValue.isEmpty {
-            Text("Tap to select")
-                    .foregroundStyle(.secondary)
-        } else {
+        
+        if let result = resolvedResult.wrappedValue,
+           result.isEmpty == false
+        {
             let strings: [String] = {
                 var strings: [String] = []
-                for i in resolvedResult.wrappedValue {
+                for i in result {
                     if let choice = choices.first(where: { $0.value == i }) {
                         strings.append(choice.text)
                     }
@@ -169,6 +181,9 @@ public struct ImageChoiceView: View {
 
             Text(strings.joined(separator: ", "))
                     .foregroundStyle(.primary)
+        } else {
+            Text("Tap to select")
+                    .foregroundStyle(.secondary)
         }
     }
 
@@ -176,13 +191,14 @@ public struct ImageChoiceView: View {
     func imageChoices() -> some View {
         ForEach(choices, id: \.id) { choice in
             Button {
-                if let index = resolvedResult.wrappedValue.firstIndex(where: { $0 == choice.value }) {
-                    resolvedResult.wrappedValue.remove(at: index)
+                if let index = resolvedResult.wrappedValue?.firstIndex(where: { $0 == choice.value }) {
+                    resolvedResult.wrappedValue?.remove(at: index)
                 } else {
-                    resolvedResult.wrappedValue.append(choice.value)
+                    resolvedResult.wrappedValue?.append(choice.value)
                 }
             } label: {
-                if resolvedResult.wrappedValue.contains(where: { $0 == choice.value }) {
+                if let result = resolvedResult.wrappedValue,
+                   result.contains(where: { $0 == choice.value }) {
                     Image(uiImage: choice.selectedImage ?? choice.normalImage)
                         .resizable()
                         .imageSizeConstraints()
@@ -258,7 +274,7 @@ fileprivate extension View {
 }
 
 #Preview {
-    @Previewable @State var selection: [ResultValue] = []
+    @Previewable @State var selection: [ResultValue]? = []
     ScrollView {
         ImageChoiceView(
             id: UUID().uuidString,
