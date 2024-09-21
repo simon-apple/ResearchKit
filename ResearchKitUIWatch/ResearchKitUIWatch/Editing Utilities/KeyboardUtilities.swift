@@ -28,42 +28,14 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// apple-internal
+import UIKit
 
-import SwiftUI
-
-internal extension EnvironmentValues {
-    @Entry var questionRequired: Bool = false
-}
-
-public extension View {
-    func questionRequired(_ value: Bool) -> some View {
-        self
-            .environment(\.questionRequired, value)
+#if !os(watchOS)
+extension UIApplication {
+    
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
+    
 }
-
-struct QuestionRequiredPreferenceKey: PreferenceKey {
-    static var defaultValue: Bool = false
-
-    static func reduce(value: inout Bool, nextValue: () -> Bool) {
-        value = nextValue()
-    }
-}
-
-struct QuestionAnsweredPreferenceKey: PreferenceKey {
-    static var defaultValue = false
-
-    static func reduce(value: inout Bool, nextValue: () -> Bool) {
-        value = nextValue()
-    }
-}
-
-struct StepCompletedPreferenceKey: PreferenceKey {
-    static var defaultValue: Bool = false
-
-    static func reduce(value: inout Bool, nextValue: () -> Bool) {
-        value = nextValue()
-    }
-}
-
+#endif

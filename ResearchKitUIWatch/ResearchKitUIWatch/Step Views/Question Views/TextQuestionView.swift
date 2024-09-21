@@ -135,7 +135,7 @@ public struct TextQuestionView<Header: View>: View {
         self.characterLimit = characterLimit > 0 ? characterLimit : .max
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.result = .automatic(key: StepResultKey(id: id))
+        self.result = .automatic(key: .text(id: id))
     }
 
     private var axis: Axis {
@@ -160,7 +160,7 @@ public struct TextQuestionView<Header: View>: View {
             header
         } content: {
             VStack {
-                TextField(id, text: resolvedResult.toUnwrapped(defaultValue: ""), prompt: placeholder, axis: axis)
+                TextField(id, text: resolvedResult.unwrapped(defaultValue: ""), prompt: placeholder, axis: axis)
                     .textFieldStyle(.plain) // Text binding's `didSet` called twice if this is not set.
                     .focused($focusTarget, equals: .textQuestion)
                     .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
@@ -188,16 +188,6 @@ public struct TextQuestionView<Header: View>: View {
                             }
                         }
                     }
-#if os(iOS)
-                    .doneKeyboardToolbar(
-                        condition: {
-                            focusTarget == .textQuestion
-                        },
-                        action: {
-                            focusTarget = nil
-                        }
-                    )
-#endif
                     .onChange(of: resolvedResult.wrappedValue) { oldValue, newValue in
                         if resolvedResult.wrappedValue?.count ?? 0 > characterLimit {
                             resolvedResult.wrappedValue = oldValue
@@ -206,6 +196,16 @@ public struct TextQuestionView<Header: View>: View {
                 }
             }
             .padding()
+#if os(iOS)
+            .doneKeyboardToolbar(
+                condition: {
+                    focusTarget == .textQuestion
+                },
+                action: {
+                    focusTarget = nil
+                }
+            )
+#endif
         }
         .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
         .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
@@ -283,8 +283,3 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
     }
 }
 
-extension Binding {
-     func toUnwrapped<T>(defaultValue: T) -> Binding<T> where Value == Optional<T>  {
-        Binding<T>(get: { self.wrappedValue ?? defaultValue }, set: { self.wrappedValue = $0 })
-    }
-}

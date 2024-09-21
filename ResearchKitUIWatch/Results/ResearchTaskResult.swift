@@ -28,17 +28,18 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import Combine
 import SwiftUI
 
 enum AnswerFormat {
     case text(String?)
     case numeric(Double?)
-    case date(Date)
-    case weight(Double)
-    case height(Double)
-    case multipleChoice([ResultValue])
-    case image([ResultValue])
-    case scale(Double)
+    case date(Date?)
+    case weight(Double?)
+    case height(Double?)
+    case multipleChoice([ResultValue]?)
+    case image([ResultValue]?)
+    case scale(Double?)
 }
 
 extension AnswerFormat: Codable {}

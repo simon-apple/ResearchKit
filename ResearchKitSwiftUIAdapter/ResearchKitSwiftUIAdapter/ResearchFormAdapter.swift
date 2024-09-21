@@ -103,6 +103,7 @@ struct ResearchFormAdapter: View {
                 ForEach(groupItems(formItems), id: \.identifier) { formItem in
                     if let answerFormat = formItem.answerFormat {
                         build(answerFormat, id: formItem.identifier, title: formItem.text, placeholder: formItem.placeholder, detail: formItem.detailText)
+                            .questionRequired(!formItem.isOptional)
                     }
                 }
             }
@@ -114,6 +115,7 @@ struct ResearchFormAdapter: View {
         ResearchFormStep(title: questionStep.title, subtitle: questionStep.detailText) {
             if let answerFormat = questionStep.answerFormat {
                 build(answerFormat, id: questionStep.identifier, title: questionStep.question, detail: questionStep.detailText)
+                    .questionRequired(!questionStep.isOptional)
             }
         }
     }
