@@ -183,53 +183,46 @@ public struct WeightQuestionView: View {
                     } label: {
                         Text(selectionString)
                             .foregroundStyle(Color.primary)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        Button {
-                            isInputActive = true
-                        } label: {
-                            Text(selectionString)
-                                .foregroundStyle(Color.primary)
-                        }
-                        .buttonStyle(.bordered)
-                        .buttonBorderShape(.roundedRectangle)
-#if os(watchOS)
-                        .navigationDestination(isPresented: $isInputActive) {
-                            WeightPickerView(
-                                measurementSystem: measurementSystem,
-                                precision: precision,
-                                defaultValue: defaultValue,
-                                minimumValue: minimumValue,
-                                maximumValue: maximumValue,
-                                selection: resolvedResult,
-                                hasChanges: $hasChanges
-                            )
-                        }
-#else
-                        .popover(
-                            isPresented: $isInputActive,
-                            attachmentAnchor: .point(.bottom),
-                            arrowEdge: .top
-                        ) {
-                            WeightPickerView(
-                                measurementSystem: measurementSystem,
-                                precision: precision,
-                                defaultValue: defaultValue,
-                                minimumValue: minimumValue,
-                                maximumValue: maximumValue,
-                                selection: resolvedResult,
-                                hasChanges: $hasChanges
-                            )
-                            .frame(width: 300)
-                            .presentationCompactAdaptation((.popover))
-                        }
-#endif
                     }
-                    .padding()
+                    .buttonStyle(.bordered)
+                    .buttonBorderShape(.roundedRectangle)
+#if os(watchOS)
+                    .navigationDestination(isPresented: $isInputActive) {
+                        WeightPickerView(
+                            measurementSystem: measurementSystem,
+                            precision: precision,
+                            defaultValue: defaultValue,
+                            minimumValue: minimumValue,
+                            maximumValue: maximumValue,
+                            selection: resolvedResult,
+                            hasChanges: $hasChanges
+                        )
+                    }
+#else
+                    .popover(
+                        isPresented: $isInputActive,
+                        attachmentAnchor: .point(.bottom),
+                        arrowEdge: .top
+                    ) {
+                        WeightPickerView(
+                            measurementSystem: measurementSystem,
+                            precision: precision,
+                            defaultValue: defaultValue,
+                            minimumValue: minimumValue,
+                            maximumValue: maximumValue,
+                            selection: resolvedResult,
+                            hasChanges: $hasChanges
+                        )
+                        .frame(width: 300)
+                        .presentationCompactAdaptation((.popover))
+                    }
+#endif
                 }
+                .padding()
             }
+            .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
+            .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
         }
-        .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
-        .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
     }
     
     private var isAnswered: Bool {

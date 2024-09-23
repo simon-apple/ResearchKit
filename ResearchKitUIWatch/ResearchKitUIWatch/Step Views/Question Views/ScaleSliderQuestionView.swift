@@ -438,9 +438,9 @@ public struct ScaleSliderQuestionView: View {
                         sliderUIValue = sliderValue
                     }
             }
+            .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
+            .preference(key: QuestionAnsweredPreferenceKey.self, value: !isWaitingForUserFeedback)
         }
-        .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
-        .preference(key: QuestionAnsweredPreferenceKey.self, value: !isWaitingForUserFeedback)
     }
 
     @ViewBuilder
