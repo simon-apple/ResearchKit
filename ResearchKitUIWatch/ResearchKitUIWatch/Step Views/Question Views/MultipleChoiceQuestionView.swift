@@ -35,13 +35,16 @@ public struct MultipleChoiceQuestionView: View {
 
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
+    
+    @Environment(\.questionRequired)
+    private var isRequired: Bool
 
-    private var resolvedResult: Binding<[ResultValue]> {
+    private var resolvedResult: Binding<[ResultValue]?> {
         switch result {
         case let .automatic(key: key):
             return Binding(
                 get: {
-                    managedTaskResult.resultForStep(key: key) ?? []
+                    managedTaskResult.resultForStep(key: key) ?? nil
                 },
                 set: {
                     managedTaskResult.setResultForStep(.multipleChoice($0), key: key)
@@ -57,7 +60,7 @@ public struct MultipleChoiceQuestionView: View {
     let detail: String?
     let choices: [MultipleChoiceOption]
     let selectionType: MultipleChoiceQuestion.ChoiceSelectionType
-    let result: StateManagementType<[ResultValue]>
+    let result: StateManagementType<[ResultValue]?>
 
     public init(
         id: String,
@@ -65,7 +68,7 @@ public struct MultipleChoiceQuestionView: View {
         detail: String? = nil,
         choices: [MultipleChoiceOption],
         selectionType: MultipleChoiceQuestion.ChoiceSelectionType,
-        result: Binding<[ResultValue]>
+        result: Binding<[ResultValue]?>
     ) {
         self.id = id
         self.title = title
@@ -102,9 +105,7 @@ public struct MultipleChoiceQuestionView: View {
                         
                         TextChoiceCell(
                             title: Text(option.choiceText),
-                            isSelected: resolvedResult.wrappedValue.contains(where: { choice in
-                                choice == option.value
-                            })
+                            isSelected: isSelected(option)
                         ) {
                             choiceSelected(option)
                         }
@@ -117,18 +118,34 @@ public struct MultipleChoiceQuestionView: View {
                     }
                 }
             }
+            .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
+            .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
         }
     }
+    
+    private var isAnswered: Bool {
+        if let resultArray = resolvedResult.wrappedValue, !resultArray.isEmpty {
+            return true
+        }
+        return false
+    }
 
+    private func isSelected(_ option: MultipleChoiceOption) -> Bool {
+        resolvedResult.wrappedValue?.contains(where: { choice in
+            choice == option.value
+        }) ?? false
+    }
+    
     private func choiceSelected(_ option: MultipleChoiceOption) {
-        if let index = resolvedResult.wrappedValue.firstIndex(where: { $0 == option.value }) {
-            resolvedResult.wrappedValue.remove(at: index)
+        if let resultArray = resolvedResult.wrappedValue,
+           let index = resultArray.firstIndex(where: { $0 == option.value }) {
+               resolvedResult.wrappedValue?.remove(at: index)
         } else {
             switch selectionType {
             case .single:
                 resolvedResult.wrappedValue = [option.value]
             case .multiple:
-                resolvedResult.wrappedValue = resolvedResult.wrappedValue + [option.value]
+                resolvedResult.wrappedValue = (resolvedResult.wrappedValue ?? []) + [option.value]
             }
         }
     }

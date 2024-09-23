@@ -79,6 +79,9 @@ public struct HeightQuestionView: View {
     
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
+    
+    @Environment(\.questionRequired)
+    private var isRequired: Bool
 
     @State var isInputActive = false
     @State var hasChanges: Bool
@@ -87,11 +90,11 @@ public struct HeightQuestionView: View {
     let title: String
     let detail: String?
     let measurementSystem: MeasurementSystem
-    let result: StateManagementType<(Double)>
+    let result: StateManagementType<Double?>
 
     var initialPrimaryValue: Double = 162 // Denotes height in cm, which is ~5'4", a good average height.
 
-    private var resolvedResult: Binding<Double> {
+    private var resolvedResult: Binding<Double?> {
         switch result {
         case let .automatic(key: key):
             return Binding(
@@ -137,7 +140,7 @@ public struct HeightQuestionView: View {
         title: String,
         detail: String? = nil,
         measurementSystem: MeasurementSystem,
-        selection: Binding<Double>
+        selection: Binding<Double?>
     ) {
         self.id = id
         self.hasChanges = false
@@ -163,11 +166,14 @@ public struct HeightQuestionView: View {
     }
 
     var selectionString: String {
+        guard let result = resolvedResult.wrappedValue else {
+            return "\(Int(initialPrimaryValue)) cm"
+        }
         if measurementSystem == .USC {
-            let (feet, inches) = convertCentimetersToFeetAndInches(resolvedResult.wrappedValue)
+            let (feet, inches) = convertCentimetersToFeetAndInches(result)
             return "\(feet)' \(inches)\""
         } else {
-            return "\(Int(resolvedResult.wrappedValue)) cm"
+            return "\(Int(result)) cm"
         }
     }
 
@@ -180,6 +186,9 @@ public struct HeightQuestionView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     Button {
                         isInputActive = true
+#if !os(watchOS)
+                        UIApplication.shared.endEditing()
+#endif
                     } label: {
                         Text(selectionString)
                             .foregroundStyle(Color.primary)
@@ -214,7 +223,13 @@ public struct HeightQuestionView: View {
                 }
                 .padding()
             }
+            .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
+            .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
         }
+    }
+    
+    private var isAnswered: Bool {
+        resolvedResult.wrappedValue != nil
     }
 }
 
@@ -227,24 +242,29 @@ struct HeightPickerView: View {
 
     let measurementSystem: MeasurementSystem
 
-    @Binding var selection: Double
+    @Binding var selection: Double?
     @Binding var hasChanges: Bool
 
     init(
         measurementSystem: MeasurementSystem,
-        selection: Binding<Double>,
+        selection: Binding<Double?>,
         hasChanges: Binding<Bool>
     ) {
         self.measurementSystem = measurementSystem
         self._selection = selection
         self._hasChanges = hasChanges
 
+        guard let centimeters = selection.wrappedValue else {
+            firstSelection = 0
+            secondSelection = 0
+            return
+        }
         if Self.usesMetricSystem(measurementSystem: measurementSystem) == false {
-            let (feet, inches) = convertCentimetersToFeetAndInches(selection.wrappedValue)
+            let (feet, inches) = convertCentimetersToFeetAndInches(centimeters)
             firstSelection = feet
             secondSelection = inches
         } else {
-            firstSelection = Int(selection.wrappedValue)
+            firstSelection = Int(centimeters)
             secondSelection = 0
         }
     }
@@ -336,7 +356,7 @@ struct HeightPickerView: View {
 
 @available(iOS 18.0, *)
 #Preview {
-    @Previewable @State var selection: Double = 162
+    @Previewable @State var selection: Double? = 162
     NavigationStack {
         HeightQuestionView(
             id: UUID().uuidString,

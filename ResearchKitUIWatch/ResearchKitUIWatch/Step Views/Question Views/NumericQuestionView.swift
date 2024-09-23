@@ -73,6 +73,9 @@ public struct NumericQuestionView<Header: View>: View {
     private let prompt: String?
     @FocusState private var focusTarget: FocusTarget?
     private let result: StateManagementType<Double?>
+    
+    @Environment(\.questionRequired)
+    private var isRequired: Bool
 
     private var resolvedResult: Binding<Double?> {
         switch result {
@@ -109,6 +112,8 @@ public struct NumericQuestionView<Header: View>: View {
                         .padding()
                 }
             )
+            .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
+            .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
         }
     }
     
@@ -120,6 +125,9 @@ public struct NumericQuestionView<Header: View>: View {
         return nil
     }
     
+    private var isAnswered: Bool {
+        resolvedResult.wrappedValue != nil
+    }
 }
 
 @available(watchOS, unavailable)
