@@ -95,30 +95,32 @@ public struct MultipleChoiceQuestionView: View {
     }
 
     public var body: some View {
-        FormItemCardView(title: title, detail: detail) {
-            ForEach(Array(choices.enumerated()), id: \.offset) { index, option in
-                VStack(spacing: .zero) {
-                    if index != 0 {
-                        Divider()
-                    }
-
-                    TextChoiceCell(
-                        title: Text(option.choiceText),
-                        isSelected: isSelected(option)
-                    ) {
-                        choiceSelected(option)
-                    }
-                    .padding(.horizontal, 8)
+        QuestionCard {
+            Question(title: title) {
+                ForEach(Array(choices.enumerated()), id: \.offset) { index, option in
+                    VStack(spacing: .zero) {
+                        if index != 0 {
+                            Divider()
+                        }
+                        
+                        TextChoiceCell(
+                            title: Text(option.choiceText),
+                            isSelected: isSelected(option)
+                        ) {
+                            choiceSelected(option)
+                        }
+                        .padding(.horizontal, 8)
 #if !os(watchOS)
-                    .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 12))
-                    .hoverEffect()
+                        .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 12))
+                        .hoverEffect()
 #endif
-                    .padding(.horizontal, -8)
+                        .padding(.horizontal, -8)
+                    }
                 }
             }
+            .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
+            .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
         }
-        .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
-        .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
     }
     
     private var isAnswered: Bool {

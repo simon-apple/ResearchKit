@@ -56,6 +56,7 @@ public struct DateQuestion: Identifiable {
 }
 
 public struct DateTimeView<Header: View>: View {
+    
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
     
@@ -119,65 +120,67 @@ public struct DateTimeView<Header: View>: View {
     }
 
     public var body: some View {
-        FormItemCardView {
-            header
-        } content: {
+        QuestionCard {
+            Question {
+                header
+            } content: {
 #if os(watchOS)
-            VStack {
-                if displayedComponents.contains(.date) {
-                    Button {
-                        showDatePickerModal.toggle()
-                    } label: {
-                        Text(
-                            resolvedResult.wrappedValue ?? Date(),
-                            format: .dateTime.day().month().year()
-                        )
+                VStack {
+                    if displayedComponents.contains(.date) {
+                        Button {
+                            showDatePickerModal.toggle()
+                        } label: {
+                            Text(
+                                resolvedResult.wrappedValue ?? Date(),
+                                format: .dateTime.day().month().year()
+                            )
+                        }
+                    }
+                    
+                    if displayedComponents.contains(.hourMinuteAndSecond) {
+                        Button {
+                            showTimePickerModal.toggle()
+                        } label: {
+                            Text(
+                                resolvedResult.wrappedValue ?? Date(),
+                                format: .dateTime.hour().minute().second()
+                            )
+                        }
+                    } else if displayedComponents.contains(.hourAndMinute){
+                        Button {
+                            showTimePickerModal.toggle()
+                        } label: {
+                            Text(
+                                resolvedResult.wrappedValue ?? Date(),
+                                format: .dateTime.hour().minute()
+                            )
+                        }
                     }
                 }
-                
-                if displayedComponents.contains(.hourMinuteAndSecond) {
-                    Button {
-                        showTimePickerModal.toggle()
-                    } label: {
-                        Text(
-                            resolvedResult.wrappedValue ?? Date(),
-                            format: .dateTime.hour().minute().second()
-                        )
-                    }
-                } else if displayedComponents.contains(.hourAndMinute){
-                    Button {
-                        showTimePickerModal.toggle()
-                    } label: {
-                        Text(
-                            resolvedResult.wrappedValue ?? Date(),
-                            format: .dateTime.hour().minute()
-                        )
-                    }
+                .buttonBorderShape(.roundedRectangle)
+                .buttonStyle(.bordered)
+                .padding()
+                .navigationDestination(isPresented: $showDatePickerModal) {
+                    watchDatePicker(displayedComponents: .date)
                 }
-            }
-            .buttonBorderShape(.roundedRectangle)
-            .buttonStyle(.bordered)
-            .padding()
-            .navigationDestination(isPresented: $showDatePickerModal) {
-                watchDatePicker(displayedComponents: .date)
-            }
-            .navigationDestination(isPresented: $showTimePickerModal) {
-                watchDatePicker(displayedComponents: displayedComponents.contains(.hourMinuteAndSecond) ? .hourMinuteAndSecond : .hourAndMinute)
-            }
+                .navigationDestination(isPresented: $showTimePickerModal) {
+                    watchDatePicker(displayedComponents: displayedComponents.contains(.hourMinuteAndSecond) ? .hourMinuteAndSecond : .hourAndMinute)
+                }
 #else
-            DatePicker(
-                pickerPrompt,
-                selection: resolvedResult.unwrapped(defaultValue: Date()),
-                in: range,
-                displayedComponents: displayedComponents
-            )
-            .datePickerStyle(.compact)
-            .foregroundStyle(.primary)
-            .padding()
+                DatePicker(
+                    pickerPrompt,
+                    selection: resolvedResult.unwrapped(defaultValue: Date()),
+                    in: range,
+                    displayedComponents: displayedComponents
+                )
+                .datePickerStyle(.compact)
+                .foregroundStyle(.primary)
+                .padding()
 #endif
+            }
+            .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
+            .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
         }
-        .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
-        .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
     }
     
     @ViewBuilder
@@ -211,7 +214,7 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
         range: ClosedRange<Date>
     ) {
         self.id = id
-        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        self.header = _SimpleFormItemViewHeader(title: title)
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range
@@ -228,7 +231,7 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
         range: ClosedRange<Date>
     ) {
         self.id = id
-        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        self.header = _SimpleFormItemViewHeader(title: title)
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range

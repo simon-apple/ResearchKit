@@ -50,6 +50,7 @@ public struct InstructionBodyItem: View {
             text?
                 .font(.subheadline)
         }
+        .preference(key: QuestionCardPreferenceKey.self, value: false)
 #else
         HStack {
             image?
@@ -59,8 +60,19 @@ public struct InstructionBodyItem: View {
             text?
                 .font(.subheadline)
         }
+        .preference(key: QuestionCardPreferenceKey.self, value: false)
 #endif
     }
+}
+
+struct QuestionCardPreferenceKey: PreferenceKey {
+    
+    static var defaultValue = true
+    
+    static func reduce(value: inout Bool, nextValue: () -> Bool) {
+        value = nextValue()
+    }
+    
 }
 
 #Preview {
