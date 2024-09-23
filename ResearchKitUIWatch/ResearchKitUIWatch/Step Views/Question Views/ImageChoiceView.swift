@@ -68,6 +68,7 @@ public struct ImageChoiceQuestion: Identifiable {
 }
 
 public struct ImageChoiceView: View {
+    
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
     
@@ -130,30 +131,32 @@ public struct ImageChoiceView: View {
     }
 
     public var body: some View {
-        FormItemCardView(title: title, detail: detail) {
-            VStack {
-                if style == .multiple {
-                    multipleSelectionHeader()
-                }
-
-                if vertical {
-                    VStack {
-                        imageChoices()
+        QuestionCard {
+            Question(title: title) {
+                VStack {
+                    if style == .multiple {
+                        multipleSelectionHeader()
                     }
-                    .padding()
-                } else {
-                    HStack {
-                        imageChoices()
+                    
+                    if vertical {
+                        VStack {
+                            imageChoices()
+                        }
+                        .padding()
+                    } else {
+                        HStack {
+                            imageChoices()
+                        }
+                        .padding()
                     }
-                    .padding()
+                    selectionText()
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding()
                 }
-                selectionText()
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding()
             }
+            .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
+            .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
         }
-        .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
-        .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
     }
     
     private var isAnswered: Bool {

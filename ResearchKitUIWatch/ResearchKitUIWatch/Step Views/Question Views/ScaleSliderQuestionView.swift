@@ -394,51 +394,53 @@ public struct ScaleSliderQuestionView: View {
     }
 
     public var body: some View {
-        FormItemCardView(title: title, detail: detail) {
-            scaleView(selectionConfiguration: scaleSelectionConfiguration)
-                .onChange(of: sliderUIValue) { oldValue, newValue in
-                    isWaitingForUserFeedback = false
-                    switch resolvedBinding.wrappedValue {
-                    case .double(let doubleBinding):
-                        doubleBinding.wrappedValue = newValue
-                    case .int(let intBinding):
-                        intBinding.wrappedValue = Int(newValue)
-                    case .textChoice(let textChoiceBinding):
-                        guard case let .textChoice(array) = scaleSelectionConfiguration else {
-                            return
-                        }
-                        let index = Int(newValue)
-                        textChoiceBinding.wrappedValue = array[index]
-                    }
-                }
-                .onChange(of: clientManagedSelection) { oldValue, newValue in
-                    switch newValue {
-                        case .textChoice(let binding):
+        QuestionCard {
+            Question(title: title) {
+                scaleView(selectionConfiguration: scaleSelectionConfiguration)
+                    .onChange(of: sliderUIValue) { oldValue, newValue in
+                        isWaitingForUserFeedback = false
+                        switch resolvedBinding.wrappedValue {
+                        case .double(let doubleBinding):
+                            doubleBinding.wrappedValue = newValue
+                        case .int(let intBinding):
+                            intBinding.wrappedValue = Int(newValue)
+                        case .textChoice(let textChoiceBinding):
                             guard case let .textChoice(array) = scaleSelectionConfiguration else {
                                 return
                             }
-                            let selectedIndex = array.firstIndex(where: { $0.id == binding.wrappedValue.id }) ?? 0
-                            sliderUIValue = Double(selectedIndex)
-                        case .int(let binding):
-                        if let value = binding.wrappedValue {
-                            sliderUIValue = Double(value)
-                        }
-                        case .double(let binding):
-                        if let value = binding.wrappedValue {
-                            sliderUIValue = value
+                            let index = Int(newValue)
+                            textChoiceBinding.wrappedValue = array[index]
                         }
                     }
-                }
-                .padding()
-                .onAppear {
-                    guard case .automatic(let key) = stateManagementType, let sliderValue = managedTaskResult.resultForStep(key: key) else {
-                        return
+                    .onChange(of: clientManagedSelection) { oldValue, newValue in
+                        switch newValue {
+                            case .textChoice(let binding):
+                                guard case let .textChoice(array) = scaleSelectionConfiguration else {
+                                    return
+                                }
+                                let selectedIndex = array.firstIndex(where: { $0.id == binding.wrappedValue.id }) ?? 0
+                                sliderUIValue = Double(selectedIndex)
+                            case .int(let binding):
+                            if let value = binding.wrappedValue {
+                                sliderUIValue = Double(value)
+                            }
+                            case .double(let binding):
+                            if let value = binding.wrappedValue {
+                                sliderUIValue = value
+                            }
+                        }
                     }
-                    sliderUIValue = sliderValue
-                }
+                    .padding()
+                    .onAppear {
+                        guard case .automatic(let key) = stateManagementType, let sliderValue = managedTaskResult.resultForStep(key: key) else {
+                            return
+                        }
+                        sliderUIValue = sliderValue
+                    }
+            }
+            .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
+            .preference(key: QuestionAnsweredPreferenceKey.self, value: !isWaitingForUserFeedback)
         }
-        .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
-        .preference(key: QuestionAnsweredPreferenceKey.self, value: !isWaitingForUserFeedback)
     }
 
     @ViewBuilder

@@ -90,29 +90,31 @@ public struct NumericQuestionView<Header: View>: View {
     }
 
     public var body: some View {
-        FormItemCardView(
-            header: {
-                header
-            },
-            content: {
-                TextField("", value: resolvedResult, format: .number, prompt: placeholder)
+        QuestionCard {
+            Question(
+                header: {
+                    header
+                },
+                content: {
+                    TextField("", value: resolvedResult, format: .number, prompt: placeholder)
 #if !os(watchOS) && !os(macOS)
-                    .keyboardType(.decimalPad)
-                    .focused($focusTarget, equals: .numericQuestion)
+                        .keyboardType(.decimalPad)
+                        .focused($focusTarget, equals: .numericQuestion)
 #endif
-                    .doneKeyboardToolbar(
-                        condition: {
-                            focusTarget == .numericQuestion
-                        },
-                        action: {
-                            focusTarget = nil
-                        }
-                    )
-                    .padding()
-            }
-        )
-        .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
-        .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
+                        .doneKeyboardToolbar(
+                            condition: {
+                                focusTarget == .numericQuestion
+                            },
+                            action: {
+                                focusTarget = nil
+                            }
+                        )
+                        .padding()
+                }
+            )
+            .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
+            .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
+        }
     }
     
     private var placeholder: Text? {
@@ -139,7 +141,7 @@ public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
         prompt: String?
     ) {
         self.id = id
-        header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        header = _SimpleFormItemViewHeader(title: title)
         self.prompt = prompt
         self.result = .manual(text)
     }
@@ -152,7 +154,7 @@ public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
         prompt: String?
     ) {
         self.id = id
-        header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        header = _SimpleFormItemViewHeader(title: title)
         self.prompt = prompt
         self.result = .automatic(key: .numeric(id: id))
     }

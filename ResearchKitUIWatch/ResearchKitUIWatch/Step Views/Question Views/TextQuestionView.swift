@@ -66,6 +66,7 @@ public struct TextQuestion: Identifiable {
 }
 
 public struct TextQuestionView<Header: View>: View {
+    
     @EnvironmentObject
     private var managedTaskResult: ResearchTaskResult
 
@@ -156,59 +157,61 @@ public struct TextQuestionView<Header: View>: View {
     }
 
     public var body: some View {
-        FormItemCardView {
-            header
-        } content: {
-            VStack {
-                TextField(id, text: resolvedResult.unwrapped(defaultValue: ""), prompt: placeholder, axis: axis)
-                    .textFieldStyle(.plain) // Text binding's `didSet` called twice if this is not set.
-                    .focused($focusTarget, equals: .textQuestion)
-                    .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
-                    .contentShape(Rectangle())
-                    .onAppear(perform: {
+        QuestionCard {
+            Question {
+                header
+            } content: {
+                VStack {
+                    TextField(id, text: resolvedResult.unwrapped(defaultValue: ""), prompt: placeholder, axis: axis)
+                        .textFieldStyle(.plain) // Text binding's `didSet` called twice if this is not set.
+                        .focused($focusTarget, equals: .textQuestion)
+                        .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
+                        .contentShape(Rectangle())
+                        .onAppear(perform: {
 #if !os(watchOS)
-                    if textFieldType == .singleLine {
-                        UITextField.appearance().clearButtonMode = .whileEditing
-                    }
+                            if textFieldType == .singleLine {
+                                UITextField.appearance().clearButtonMode = .whileEditing
+                            }
 #endif
-                    })
-
-                if textFieldType == .multiline {
-                    HStack {
-                        if hideCharacterCountLabel == false {
-                            Text("\(resolvedResult.wrappedValue?.count ?? 0)/\(characterLimit)")
+                        })
+                    
+                    if textFieldType == .multiline {
+                        HStack {
+                            if hideCharacterCountLabel == false {
+                                Text("\(resolvedResult.wrappedValue?.count ?? 0)/\(characterLimit)")
+                            }
+                            Spacer()
+                            
+                            if !hideClearButton {
+                                Button {
+                                    resolvedResult.wrappedValue = .none
+                                } label: {
+                                    Text("Clear")
+                                }
+                            }
                         }
-                        Spacer()
-
-                        if !hideClearButton {
-                            Button {
-                                resolvedResult.wrappedValue = .none
-                            } label: {
-                                Text("Clear")
+                        .onChange(of: resolvedResult.wrappedValue) { oldValue, newValue in
+                            if resolvedResult.wrappedValue?.count ?? 0 > characterLimit {
+                                resolvedResult.wrappedValue = oldValue
                             }
                         }
                     }
-                    .onChange(of: resolvedResult.wrappedValue) { oldValue, newValue in
-                        if resolvedResult.wrappedValue?.count ?? 0 > characterLimit {
-                            resolvedResult.wrappedValue = oldValue
-                        }
+                }
+                .padding()
+    #if os(iOS)
+                .doneKeyboardToolbar(
+                    condition: {
+                        focusTarget == .textQuestion
+                    },
+                    action: {
+                        focusTarget = nil
                     }
-                }
+                )
+    #endif
             }
-            .padding()
-#if os(iOS)
-            .doneKeyboardToolbar(
-                condition: {
-                    focusTarget == .textQuestion
-                },
-                action: {
-                    focusTarget = nil
-                }
-            )
-#endif
+            .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
+            .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
         }
-        .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
-        .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
     }
     
     private var isAnswered: Bool {
@@ -232,7 +235,7 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
         result: Binding<String?>
     ) {
         self.id = id
-        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        self.header = _SimpleFormItemViewHeader(title: title)
         self.prompt = prompt
         self.textFieldType = textFieldType
         self.characterLimit = characterLimit
@@ -253,7 +256,7 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
         defaultTextAnswer: String? = nil
     ) {
         self.id = id
-        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        self.header = _SimpleFormItemViewHeader(title: title)
         self.prompt = prompt
         self.textFieldType = textFieldType
         self.characterLimit = characterLimit
