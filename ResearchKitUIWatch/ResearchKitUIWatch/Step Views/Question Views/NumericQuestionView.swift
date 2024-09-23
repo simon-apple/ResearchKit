@@ -60,7 +60,7 @@ public struct NumericQuestion: Identifiable {
 public struct NumericQuestionView<Header: View>: View {
 
     @EnvironmentObject
-    private var managedTaskResult: ResearchFormResult
+    private var managedFormResult: ResearchFormResult
 
     enum FocusTarget {
         
@@ -81,8 +81,8 @@ public struct NumericQuestionView<Header: View>: View {
         switch result {
         case let .automatic(key: key):
             return Binding(
-                get: { managedTaskResult.resultForStep(key: key) ?? nil },
-                set: { managedTaskResult.setResultForStep(.numeric($0), key: key) }
+                get: { managedFormResult.resultForStep(key: key) ?? nil },
+                set: { managedFormResult.setResultForStep(.numeric($0), key: key) }
             )
         case let .manual(value):
             return value

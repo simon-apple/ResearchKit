@@ -40,7 +40,7 @@ public struct TaskView<Content>: View where Content: View {
     private var taskManager: TaskManager
 
     @State
-    private var managedTaskResult: ResearchFormResult = ResearchFormResult()
+    private var managedFormResult: ResearchFormResult = ResearchFormResult()
 
     private let content: (ORKStep, ORKStepResult) -> Content
 
@@ -57,7 +57,7 @@ public struct TaskView<Content>: View where Content: View {
         NavigationStack {
             TaskContentView(index: 0, content)
                 .environmentObject(self.taskManager)
-                .environmentObject(managedTaskResult)
+                .environmentObject(managedFormResult)
         }
     }
 }

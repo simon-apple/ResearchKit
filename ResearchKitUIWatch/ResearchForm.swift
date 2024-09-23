@@ -32,7 +32,7 @@ import SwiftUI
 
 public struct ResearchForm<Content: View>: View {
     @State
-    private var managedTaskResult: ResearchFormResult
+    private var managedFormResult: ResearchFormResult
     
 #if os(watchOS)
     @State
@@ -53,14 +53,14 @@ public struct ResearchForm<Content: View>: View {
         self.taskKey = .text(id: taskIdentifier)
         self.steps = steps()
         self.onResearchFormCompletion = onResearchFormCompletion
-        self.managedTaskResult = restorationResult ?? ResearchFormResult()
+        self.managedFormResult = restorationResult ?? ResearchFormResult()
     }
     
     public var body: some View {
         Group(subviews: steps) { steps in
             NavigationalLayout(steps, onResearchFormCompletion: onResearchFormCompletion)
         }
-        .environmentObject(managedTaskResult)
+        .environmentObject(managedFormResult)
 #if os(watchOS)
         // On the watch, an x button is automatically added to the top left of the screen when presenting content, so we have
         // to remove the cancel button, which had invoked `onResearchFormCompletion` with a completion of `discarded`.

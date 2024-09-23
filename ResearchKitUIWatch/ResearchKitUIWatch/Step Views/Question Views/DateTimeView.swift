@@ -58,7 +58,7 @@ public struct DateQuestion: Identifiable {
 public struct DateTimeView<Header: View>: View {
     
     @EnvironmentObject
-    private var managedTaskResult: ResearchFormResult
+    private var managedFormResult: ResearchFormResult
     
     @Environment(\.questionRequired)
     private var isRequired: Bool
@@ -79,8 +79,8 @@ public struct DateTimeView<Header: View>: View {
         switch result {
         case let .automatic(key: key):
             return Binding(
-                get: { managedTaskResult.resultForStep(key: key) ?? Date() },
-                set: { managedTaskResult.setResultForStep(.date($0), key: key) }
+                get: { managedFormResult.resultForStep(key: key) ?? Date() },
+                set: { managedFormResult.setResultForStep(.date($0), key: key) }
             )
         case let .manual(value):
             return value
