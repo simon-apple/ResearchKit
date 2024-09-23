@@ -40,7 +40,7 @@ public struct TaskView<Content>: View where Content: View {
     private var taskManager: TaskManager
 
     @State
-    private var managedTaskResult: ResearchTaskResult = ResearchTaskResult()
+    private var managedTaskResult: ResearchFormResult = ResearchFormResult()
 
     private let content: (ORKStep, ORKStepResult) -> Content
 

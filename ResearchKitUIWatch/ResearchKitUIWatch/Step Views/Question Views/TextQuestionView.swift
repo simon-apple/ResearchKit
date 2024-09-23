@@ -68,7 +68,7 @@ public struct TextQuestion: Identifiable {
 public struct TextQuestionView<Header: View>: View {
     
     @EnvironmentObject
-    private var managedTaskResult: ResearchTaskResult
+    private var managedTaskResult: ResearchFormResult
 
     @Environment(\.questionRequired)
     private var isRequired: Bool

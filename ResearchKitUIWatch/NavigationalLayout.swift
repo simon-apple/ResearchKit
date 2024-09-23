@@ -37,10 +37,13 @@ struct NavigationalLayout: View {
     @State
     private var stepIdentifiers: [Subview.ID] = []
     
-    private let steps: SubviewsCollection
-    private let onResearchFormCompletion: ((ResearchTaskCompletion) -> Void)?
+    @State
+    private var researchFormCompletion: ResearchFormCompletion?
     
-    init(_ steps: SubviewsCollection, onResearchFormCompletion: ((ResearchTaskCompletion) -> Void)?) {
+    private let steps: SubviewsCollection
+    private let onResearchFormCompletion: ((ResearchFormCompletion) -> Void)?
+    
+    init(_ steps: SubviewsCollection, onResearchFormCompletion: ((ResearchFormCompletion) -> Void)?) {
         self.steps = steps
         self.onResearchFormCompletion = onResearchFormCompletion
     }
@@ -53,6 +56,10 @@ struct NavigationalLayout: View {
                     case .failed, .discarded, .terminated:
                         dismiss()
                     case .completed(let result):
+#if os(watchOS)
+                        researchFormCompletion = .completed(result)
+#endif
+                        
                         onResearchFormCompletion?(completion)
                     case .saved(let result):
                         if let currentStepIndex = index(for: firstStep) {
@@ -70,8 +77,11 @@ struct NavigationalLayout: View {
                             case .failed, .discarded, .terminated:
                                 dismiss()
                             case .completed(let result):
+#if os(watchOS)
+                                researchFormCompletion = .completed(result)
+#endif
+                                
                                 onResearchFormCompletion?(completion)
-                                dismiss()
                             case .saved(let result):
                                 if let currentStepIndex = index(for: subviewID) {
                                     moveToNextStep(relativeToCurrentIndex: currentStepIndex)
@@ -86,6 +96,9 @@ struct NavigationalLayout: View {
                 }
             }
         }
+#if os(watchOS)
+        .preference(key: ResearchFormCompletionKey.self, value: researchFormCompletion)
+#endif
     }
     
     private func moveToNextStep(relativeToCurrentIndex currentIndex: Int) {
@@ -124,3 +137,15 @@ struct NavigationalLayout: View {
     }
     
 }
+
+#if os(watchOS)
+struct ResearchFormCompletionKey: PreferenceKey {
+    
+    static var defaultValue: ResearchFormCompletion? = nil
+    
+    static func reduce(value: inout ResearchFormCompletion?, nextValue: () -> ResearchFormCompletion?) {
+        value = nextValue()
+    }
+    
+}
+#endif

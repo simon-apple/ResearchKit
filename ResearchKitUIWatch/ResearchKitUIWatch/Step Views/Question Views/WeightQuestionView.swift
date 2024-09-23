@@ -33,7 +33,7 @@ import SwiftUI
 public struct WeightQuestionView: View {
     
     @EnvironmentObject
-    private var managedTaskResult: ResearchTaskResult
+    private var managedTaskResult: ResearchFormResult
     
     @State var isInputActive = false
     @State var hasChanges: Bool

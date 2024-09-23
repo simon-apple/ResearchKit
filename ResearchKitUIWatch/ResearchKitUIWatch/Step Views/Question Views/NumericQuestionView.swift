@@ -60,7 +60,7 @@ public struct NumericQuestion: Identifiable {
 public struct NumericQuestionView<Header: View>: View {
 
     @EnvironmentObject
-    private var managedTaskResult: ResearchTaskResult
+    private var managedTaskResult: ResearchFormResult
 
     enum FocusTarget {
         

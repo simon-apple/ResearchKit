@@ -37,8 +37,8 @@ public extension ResearchForm where Content == ResearchFormDataAdapter {
     init(
         taskIdentifier: String,
         surveyData: Data,
-        restorationResult: ResearchTaskResult? = nil,
-        onResearchTaskCompletion: ((ResearchTaskCompletion) -> Void)? = nil
+        restorationResult: ResearchFormResult? = nil,
+        onResearchTaskCompletion: ((ResearchFormCompletion) -> Void)? = nil
     ) {
         self.init(
             taskIdentifier: taskIdentifier,

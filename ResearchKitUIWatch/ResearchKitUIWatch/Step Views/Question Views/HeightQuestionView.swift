@@ -78,7 +78,7 @@ public struct HeightQuestion: Identifiable {
 public struct HeightQuestionView: View {
     
     @EnvironmentObject
-    private var managedTaskResult: ResearchTaskResult
+    private var managedTaskResult: ResearchFormResult
     
     @Environment(\.questionRequired)
     private var isRequired: Bool

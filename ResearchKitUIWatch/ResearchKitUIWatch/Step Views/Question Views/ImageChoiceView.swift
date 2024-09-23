@@ -70,7 +70,7 @@ public struct ImageChoiceQuestion: Identifiable {
 public struct ImageChoiceView: View {
     
     @EnvironmentObject
-    private var managedTaskResult: ResearchTaskResult
+    private var managedTaskResult: ResearchFormResult
     
     @Environment(\.questionRequired)
     private var isRequired: Bool

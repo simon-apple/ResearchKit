@@ -400,7 +400,7 @@ public class RKAdapter {
         return firstUUID == secondUUID
     }
 
-    public static func createORKResults(from taskResult: ResearchTaskResult) -> [ORKResult] {
+    public static func createORKResults(from taskResult: ResearchFormResult) -> [ORKResult] {
         let resultsDictionary = taskResult.stepResults
 
         var resultsArray: [ORKResult] = []
@@ -474,9 +474,9 @@ public class RKAdapter {
         return resultsArray
     }
 
-    public static func createTaskResults(from data: Data) -> ResearchTaskResult? {
+    public static func createTaskResults(from data: Data) -> ResearchFormResult? {
         if let taskResult = ORKIESerializer.swiftUI_object(fromJSONData: data, error: nil) as? ORKTaskResult {
-            let researchTaskResult = ResearchTaskResult()
+            let researchTaskResult = ResearchFormResult()
             if let stepResults = taskResult.results as? [ORKStepResult] {
                 for stepResult in stepResults {
                     guard let results = stepResult.results else { continue }

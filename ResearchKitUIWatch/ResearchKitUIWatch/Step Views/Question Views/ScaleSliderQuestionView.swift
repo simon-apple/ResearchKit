@@ -107,7 +107,7 @@ public struct ScaleSliderQuestionView: View {
     }
     
     @EnvironmentObject
-    private var managedTaskResult: ResearchTaskResult
+    private var managedTaskResult: ResearchFormResult
     
     @Environment(\.questionRequired)
     private var isRequired: Bool
