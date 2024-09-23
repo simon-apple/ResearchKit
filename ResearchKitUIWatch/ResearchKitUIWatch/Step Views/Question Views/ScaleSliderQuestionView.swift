@@ -398,6 +398,7 @@ public struct ScaleSliderQuestionView: View {
             Question(title: title) {
                 scaleView(selectionConfiguration: scaleSelectionConfiguration)
                     .onChange(of: sliderUIValue) { oldValue, newValue in
+                        isWaitingForUserFeedback = false
                         switch resolvedBinding.wrappedValue {
                         case .double(let doubleBinding):
                             doubleBinding.wrappedValue = newValue
@@ -413,17 +414,17 @@ public struct ScaleSliderQuestionView: View {
                     }
                     .onChange(of: clientManagedSelection) { oldValue, newValue in
                         switch newValue {
-                        case .textChoice(let binding):
-                            guard case let .textChoice(array) = scaleSelectionConfiguration else {
-                                return
-                            }
-                            let selectedIndex = array.firstIndex(where: { $0.id == binding.wrappedValue.id }) ?? 0
-                            sliderUIValue = Double(selectedIndex)
-                        case .int(let binding):
+                            case .textChoice(let binding):
+                                guard case let .textChoice(array) = scaleSelectionConfiguration else {
+                                    return
+                                }
+                                let selectedIndex = array.firstIndex(where: { $0.id == binding.wrappedValue.id }) ?? 0
+                                sliderUIValue = Double(selectedIndex)
+                            case .int(let binding):
                             if let value = binding.wrappedValue {
                                 sliderUIValue = Double(value)
                             }
-                        case .double(let binding):
+                            case .double(let binding):
                             if let value = binding.wrappedValue {
                                 sliderUIValue = value
                             }
@@ -434,7 +435,6 @@ public struct ScaleSliderQuestionView: View {
                         guard case .automatic(let key) = stateManagementType, let sliderValue = managedTaskResult.resultForStep(key: key) else {
                             return
                         }
-                        
                         sliderUIValue = sliderValue
                     }
             }
