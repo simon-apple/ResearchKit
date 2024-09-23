@@ -198,19 +198,18 @@ public struct TextQuestionView<Header: View>: View {
                     }
                 }
                 .padding()
+    #if os(iOS)
+                .doneKeyboardToolbar(
+                    condition: {
+                        focusTarget == .textQuestion
+                    },
+                    action: {
+                        focusTarget = nil
+                    }
+                )
+    #endif
             }
         }
-        .padding()
-#if os(iOS)
-        .doneKeyboardToolbar(
-            condition: {
-                focusTarget == .textQuestion
-            },
-            action: {
-                focusTarget = nil
-            }
-        )
-#endif
         .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
         .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
     }
