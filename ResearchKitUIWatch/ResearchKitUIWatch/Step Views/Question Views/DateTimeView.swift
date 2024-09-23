@@ -190,7 +190,9 @@ public struct DateTimeView<Header: View>: View {
                 in: range,
                 displayedComponents: displayedComponents
             )
+#if !os(watchOS)
             .padding(.horizontal)
+#endif
         }
     }
     
