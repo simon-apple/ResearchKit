@@ -28,10 +28,35 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-public enum ResearchTaskCompletion {
-    case saved(ResearchTaskResult)
+public enum ResearchFormCompletion {
+    case saved(ResearchFormResult)
     case discarded
-    case completed(ResearchTaskResult)
+    case completed(ResearchFormResult)
     case failed
     case terminated
+}
+
+extension ResearchFormCompletion: Equatable {
+    
+    public static func == (lhs: ResearchFormCompletion, rhs: ResearchFormCompletion) -> Bool {
+        let isEqual: Bool
+        
+        switch (lhs, rhs) {
+        case let (.saved(lhsValue), .saved(rhsValue)):
+            isEqual = lhsValue == rhsValue
+        case (.discarded, .discarded):
+            isEqual = true
+        case let (.completed(lhsValue), .completed(rhsValue)):
+            isEqual = lhsValue == rhsValue
+        case (.failed, .failed):
+            isEqual = true
+        case (.terminated, .terminated):
+            isEqual = true
+        default:
+            isEqual = false
+        }
+        
+        return isEqual
+    }
+    
 }

@@ -36,10 +36,10 @@
 		3815C0142C2081CE00A29CD3 /* DateTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3815C0132C2081CE00A29CD3 /* DateTimeView.swift */; };
 		381CAC082C34C62100FCE89A /* FormRowContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC072C34C61D00FCE89A /* FormRowContent.swift */; };
 		381CAC0A2C35E06500FCE89A /* ResearchFormStepContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC092C35E05A00FCE89A /* ResearchFormStepContentView.swift */; };
-		381CAC0C2C35F4CE00FCE89A /* ResearchTaskCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC0B2C35F4C300FCE89A /* ResearchTaskCompletion.swift */; };
+		381CAC0C2C35F4CE00FCE89A /* ResearchFormCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC0B2C35F4C300FCE89A /* ResearchFormCompletion.swift */; };
 		381CAC102C3C759200FCE89A /* HeightQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381CAC0F2C3C759200FCE89A /* HeightQuestionView.swift */; };
 		381E23F12C4097070095EBBB /* WeightQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381E23F02C4097040095EBBB /* WeightQuestion.swift */; };
-		3820BE212C6574C00012CB2C /* ResearchTaskResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820BE1F2C6574350012CB2C /* ResearchTaskResult.swift */; };
+		3820BE212C6574C00012CB2C /* ResearchFormResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820BE1F2C6574350012CB2C /* ResearchFormResult.swift */; };
 		3820BE222C6574C50012CB2C /* StepResultKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820BE202C6574640012CB2C /* StepResultKey.swift */; };
 		382A57412C5AB02C00EE7DB3 /* QuestionStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382A57402C5AB02700EE7DB3 /* QuestionStep.swift */; };
 		382CF7852C3F2632000F3433 /* WeightQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382CF7842C3F262F000F3433 /* WeightQuestionView.swift */; };
@@ -135,10 +135,10 @@
 		3815C0132C2081CE00A29CD3 /* DateTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeView.swift; sourceTree = "<group>"; };
 		381CAC072C34C61D00FCE89A /* FormRowContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormRowContent.swift; sourceTree = "<group>"; };
 		381CAC092C35E05A00FCE89A /* ResearchFormStepContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchFormStepContentView.swift; sourceTree = "<group>"; };
-		381CAC0B2C35F4C300FCE89A /* ResearchTaskCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchTaskCompletion.swift; sourceTree = "<group>"; };
+		381CAC0B2C35F4C300FCE89A /* ResearchFormCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchFormCompletion.swift; sourceTree = "<group>"; };
 		381CAC0F2C3C759200FCE89A /* HeightQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightQuestionView.swift; sourceTree = "<group>"; };
 		381E23F02C4097040095EBBB /* WeightQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightQuestion.swift; sourceTree = "<group>"; };
-		3820BE1F2C6574350012CB2C /* ResearchTaskResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchTaskResult.swift; sourceTree = "<group>"; };
+		3820BE1F2C6574350012CB2C /* ResearchFormResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchFormResult.swift; sourceTree = "<group>"; };
 		3820BE202C6574640012CB2C /* StepResultKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepResultKey.swift; sourceTree = "<group>"; };
 		382A57402C5AB02700EE7DB3 /* QuestionStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionStep.swift; sourceTree = "<group>"; };
 		382CF7842C3F262F000F3433 /* WeightQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightQuestionView.swift; sourceTree = "<group>"; };
@@ -269,7 +269,7 @@
 				3810A3D42C7D126700535B38 /* Serializer */,
 				3820BE1E2C65742D0012CB2C /* Results */,
 				5ED16E262C5AF7DF0072016D /* InstructionBodyItem.swift */,
-				381CAC0B2C35F4C300FCE89A /* ResearchTaskCompletion.swift */,
+				381CAC0B2C35F4C300FCE89A /* ResearchFormCompletion.swift */,
 				380E14AF2C3350A900085D2B /* ResearchForm.swift */,
 				5EAFC71B2C7549B9008560D7 /* NavigationalLayout.swift */,
 				381CAC092C35E05A00FCE89A /* ResearchFormStepContentView.swift */,
@@ -354,7 +354,7 @@
 			children = (
 				3858D2652C90EF1500F334EB /* ResultValue.swift */,
 				3820BE202C6574640012CB2C /* StepResultKey.swift */,
-				3820BE1F2C6574350012CB2C /* ResearchTaskResult.swift */,
+				3820BE1F2C6574350012CB2C /* ResearchFormResult.swift */,
 			);
 			path = Results;
 			sourceTree = "<group>";
@@ -566,7 +566,7 @@
 			files = (
 				E46F44CF2C66BF25009E5762 /* MultipleChoiceQuestionView.swift in Sources */,
 				69EE51532C77F1B8008B2AD6 /* QuestionRequired.swift in Sources */,
-				381CAC0C2C35F4CE00FCE89A /* ResearchTaskCompletion.swift in Sources */,
+				381CAC0C2C35F4CE00FCE89A /* ResearchFormCompletion.swift in Sources */,
 				E4DBF1C32BA24B8B0085D6A1 /* StickyScrollView+StickyLayout.swift in Sources */,
 				E4DBF1C12BA24B190085D6A1 /* StickyFooterLayout.swift in Sources */,
 				5E44D4482C24A6FF0045007E /* NumericQuestionView.swift in Sources */,
@@ -609,7 +609,7 @@
 				386ABFBE2C2F800E0006B84D /* MultipleChoiceQuestion.swift in Sources */,
 				38CD263B2C1BA6EA000FDBB0 /* TextQuestionView.swift in Sources */,
 				386ABFC42C2F80DE0006B84D /* ScaleSliderQuestion.swift in Sources */,
-				3820BE212C6574C00012CB2C /* ResearchTaskResult.swift in Sources */,
+				3820BE212C6574C00012CB2C /* ResearchFormResult.swift in Sources */,
 				38CD26392C1B90F3000FDBB0 /* RKAdapter.swift in Sources */,
 				5EBAA2892C3E064900F193C6 /* InstructionStep.swift in Sources */,
 				0B72134F2B4F39CC00463E69 /* View+Task.swift in Sources */,

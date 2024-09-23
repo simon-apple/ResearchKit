@@ -78,7 +78,7 @@ public struct HeightQuestion: Identifiable {
 public struct HeightQuestionView: View {
     
     @EnvironmentObject
-    private var managedTaskResult: ResearchTaskResult
+    private var managedFormResult: ResearchFormResult
     
     @Environment(\.questionRequired)
     private var isRequired: Bool
@@ -98,8 +98,8 @@ public struct HeightQuestionView: View {
         switch result {
         case let .automatic(key: key):
             return Binding(
-                get: { managedTaskResult.resultForStep(key: key) ?? initialPrimaryValue },
-                set: { managedTaskResult.setResultForStep(.height($0), key: key) }
+                get: { managedFormResult.resultForStep(key: key) ?? initialPrimaryValue },
+                set: { managedFormResult.setResultForStep(.height($0), key: key) }
             )
         case let .manual(value):
             return value

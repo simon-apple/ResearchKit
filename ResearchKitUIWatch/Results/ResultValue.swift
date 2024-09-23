@@ -32,8 +32,11 @@ public enum ResultValue: Codable {
     case int(Int)
     case string(String)
     case date(Date)
+}
 
-    static func == (lhs: ResultValue, rhs: ResultValue) -> Bool {
+extension ResultValue: Equatable {
+    
+    public static func == (lhs: ResultValue, rhs: ResultValue) -> Bool {
         switch (lhs, rhs) {
         case (.int(let a), .int(let b)):
             return a == b
@@ -45,4 +48,5 @@ public enum ResultValue: Codable {
             return false
         }
     }
+    
 }

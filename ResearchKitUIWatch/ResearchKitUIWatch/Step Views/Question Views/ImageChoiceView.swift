@@ -70,7 +70,7 @@ public struct ImageChoiceQuestion: Identifiable {
 public struct ImageChoiceView: View {
     
     @EnvironmentObject
-    private var managedTaskResult: ResearchTaskResult
+    private var managedFormResult: ResearchFormResult
     
     @Environment(\.questionRequired)
     private var isRequired: Bool
@@ -87,8 +87,8 @@ public struct ImageChoiceView: View {
         switch result {
         case .automatic(let key):
             return Binding(
-                get: { managedTaskResult.resultForStep(key: key) ?? [] },
-                set: { managedTaskResult.setResultForStep(.image($0), key: key) }
+                get: { managedFormResult.resultForStep(key: key) ?? [] },
+                set: { managedFormResult.setResultForStep(.image($0), key: key) }
             )
         case .manual(let value):
             return value

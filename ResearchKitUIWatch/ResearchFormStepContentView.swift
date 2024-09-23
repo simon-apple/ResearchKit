@@ -33,19 +33,19 @@ import SwiftUI
 
 public struct ResearchFormStepContentView<Content: View>: View {
     @EnvironmentObject
-    private var managedTaskResult: ResearchTaskResult
+    private var managedFormResult: ResearchFormResult
 
     private let content: Content
 
     let isLastStep: Bool
-    var onStepCompletion: ((ResearchTaskCompletion) -> Void)?
+    var onStepCompletion: ((ResearchFormCompletion) -> Void)?
     
     @State
     private var doneButtonEnabled: Bool = true
 
     public init(
         isLastStep: Bool,
-        onStepCompletion: ((ResearchTaskCompletion) -> Void)? = nil,
+        onStepCompletion: ((ResearchFormCompletion) -> Void)? = nil,
         @ViewBuilder content: () -> Content
     ) {
         self.isLastStep = isLastStep
@@ -60,6 +60,7 @@ public struct ResearchFormStepContentView<Content: View>: View {
                     doneButtonEnabled = $0
                 }
                 .padding()
+#if !os(watchOS)
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
@@ -69,12 +70,13 @@ public struct ResearchFormStepContentView<Content: View>: View {
                         }
                     }
                 }
+#endif
         } footerContent: {
             Button {
                 if isLastStep {
-                    onStepCompletion?(.completed(managedTaskResult))
+                    onStepCompletion?(.completed(managedFormResult))
                 } else {
-                    onStepCompletion?(.saved(managedTaskResult))
+                    onStepCompletion?(.saved(managedFormResult))
                 }
             } label: {
                 Text(isLastStep ? "Done" : "Next")

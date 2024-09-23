@@ -107,7 +107,7 @@ public struct ScaleSliderQuestionView: View {
     }
     
     @EnvironmentObject
-    private var managedTaskResult: ResearchTaskResult
+    private var managedFormResult: ResearchFormResult
     
     @Environment(\.questionRequired)
     private var isRequired: Bool
@@ -161,7 +161,7 @@ public struct ScaleSliderQuestionView: View {
                     scaleSelectionBinding = .textChoice(
                         .init(
                             get: {
-                                guard let sliderValue = managedTaskResult.resultForStep(key: key)
+                                guard let sliderValue = managedFormResult.resultForStep(key: key)
                                 else {
                                     return MultipleChoiceOption(id: "", choiceText: "", value: .int(0))
                                 }
@@ -171,7 +171,7 @@ public struct ScaleSliderQuestionView: View {
                                 guard let index = multipleChoiceOptions.firstIndex(where: { $0.id == multipleChoiceOption.id }) else {
                                     return
                                 }
-                                managedTaskResult.setResultForStep(.scale(Double(index)), key: key)
+                                managedFormResult.setResultForStep(.scale(Double(index)), key: key)
                             }
                         )
                     )
@@ -180,14 +180,14 @@ public struct ScaleSliderQuestionView: View {
                     scaleSelectionBinding = .int(
                         .init(
                             get: {
-                                guard let sliderValue = managedTaskResult.resultForStep(key: key) else {
+                                guard let sliderValue = managedFormResult.resultForStep(key: key) else {
                                     return 0
                                 }
                                 return Int(sliderValue)
                             },
                             set: {
                                 guard let result = $0 else { return }
-                                managedTaskResult.setResultForStep(.scale(Double(result)), key: key)
+                                managedFormResult.setResultForStep(.scale(Double(result)), key: key)
                             }
                         )
                     )
@@ -195,14 +195,14 @@ public struct ScaleSliderQuestionView: View {
                     scaleSelectionBinding = .double(
                         .init(
                             get: {
-                                guard let sliderValue = managedTaskResult.resultForStep(key: key) else {
+                                guard let sliderValue = managedFormResult.resultForStep(key: key) else {
                                     return 0
                                 }
                                 return sliderValue
                             },
                             set: {
                                 guard let result = $0 else { return }
-                                managedTaskResult.setResultForStep(.scale(result), key: key)
+                                managedFormResult.setResultForStep(.scale(result), key: key)
                             }
                         )
                     )
@@ -223,15 +223,15 @@ public struct ScaleSliderQuestionView: View {
                     let index = multipleChoiceOptions.firstIndex(
                         where: { binding.wrappedValue.id == $0.id }
                     ) ?? 0
-                    managedTaskResult.setResultForStep(.scale(Double(index)), key: key)
+                    managedFormResult.setResultForStep(.scale(Double(index)), key: key)
 #endif
                 case let (.int(binding), .integerRange):
                     guard let result = binding.wrappedValue else { return }
-                    managedTaskResult.setResultForStep(.scale(Double(result)), key: key)
+                    managedFormResult.setResultForStep(.scale(Double(result)), key: key)
 
                 case let (.double(binding), .doubleRange):
                     guard let result = binding.wrappedValue else { return }
-                    managedTaskResult.setResultForStep(.scale(result), key: key)
+                    managedFormResult.setResultForStep(.scale(result), key: key)
                     
                 default:
                     break
@@ -432,7 +432,7 @@ public struct ScaleSliderQuestionView: View {
                     }
                     .padding()
                     .onAppear {
-                        guard case .automatic(let key) = stateManagementType, let sliderValue = managedTaskResult.resultForStep(key: key) else {
+                        guard case .automatic(let key) = stateManagementType, let sliderValue = managedFormResult.resultForStep(key: key) else {
                             return
                         }
                         sliderUIValue = sliderValue

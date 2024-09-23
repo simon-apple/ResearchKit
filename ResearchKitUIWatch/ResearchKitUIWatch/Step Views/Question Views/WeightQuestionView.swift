@@ -33,7 +33,7 @@ import SwiftUI
 public struct WeightQuestionView: View {
     
     @EnvironmentObject
-    private var managedTaskResult: ResearchTaskResult
+    private var managedFormResult: ResearchFormResult
     
     @State var isInputActive = false
     @State var hasChanges: Bool
@@ -57,8 +57,8 @@ public struct WeightQuestionView: View {
         switch result {
         case let .automatic(key: key):
             return Binding(
-                get: { managedTaskResult.resultForStep(key: key) ?? nil },
-                set: { managedTaskResult.setResultForStep(.numeric($0), key: key) }
+                get: { managedFormResult.resultForStep(key: key) ?? nil },
+                set: { managedFormResult.setResultForStep(.numeric($0), key: key) }
             )
         case let .manual(value):
             return value

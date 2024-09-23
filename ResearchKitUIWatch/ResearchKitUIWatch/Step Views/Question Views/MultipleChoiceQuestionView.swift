@@ -34,7 +34,7 @@ import SwiftUI
 public struct MultipleChoiceQuestionView: View {
 
     @EnvironmentObject
-    private var managedTaskResult: ResearchTaskResult
+    private var managedFormResult: ResearchFormResult
     
     @Environment(\.questionRequired)
     private var isRequired: Bool
@@ -44,10 +44,10 @@ public struct MultipleChoiceQuestionView: View {
         case let .automatic(key: key):
             return Binding(
                 get: {
-                    managedTaskResult.resultForStep(key: key) ?? nil
+                    managedFormResult.resultForStep(key: key) ?? nil
                 },
                 set: {
-                    managedTaskResult.setResultForStep(.multipleChoice($0), key: key)
+                    managedFormResult.setResultForStep(.multipleChoice($0), key: key)
                 }
             )
         case let .manual(value):

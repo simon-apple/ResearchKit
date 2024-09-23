@@ -32,30 +32,51 @@ import SwiftUI
 
 public struct ResearchForm<Content: View>: View {
     @State
-    private var managedTaskResult: ResearchTaskResult
+    private var managedFormResult: ResearchFormResult
+    
+#if os(watchOS)
+    @State
+    private var researchFormCompletion: ResearchFormCompletion?
+#endif
 
     private let taskKey: StepResultKey<String?>
     private let steps: Content
     
-    var onResearchFormCompletion: ((ResearchTaskCompletion) -> Void)?
+    var onResearchFormCompletion: ((ResearchFormCompletion) -> Void)?
     
     public init(
         taskIdentifier: String,
-        restorationResult: ResearchTaskResult? = nil,
+        restorationResult: ResearchFormResult? = nil,
         @ViewBuilder steps: () -> Content,
-        onResearchFormCompletion: ((ResearchTaskCompletion) -> Void)? = nil
+        onResearchFormCompletion: ((ResearchFormCompletion) -> Void)? = nil
     ) {
         self.taskKey = .text(id: taskIdentifier)
         self.steps = steps()
         self.onResearchFormCompletion = onResearchFormCompletion
-        self.managedTaskResult = restorationResult ?? ResearchTaskResult()
+        self.managedFormResult = restorationResult ?? ResearchFormResult()
     }
     
     public var body: some View {
         Group(subviews: steps) { steps in
             NavigationalLayout(steps, onResearchFormCompletion: onResearchFormCompletion)
         }
-        .environmentObject(managedTaskResult)
+        .environmentObject(managedFormResult)
+#if os(watchOS)
+        // On the watch, an x button is automatically added to the top left of the screen when presenting content, so we have
+        // to remove the cancel button, which had invoked `onResearchFormCompletion` with a completion of `discarded`.
+        //
+        // Here, we track the completions that come in, and in `onDisappear`, we invoke the completion with the `discarded`
+        // state if no completion was ever set. This helps with passing through the discarded state even when there is
+        // no cancel button on the watch.
+        .onPreferenceChange(ResearchFormCompletionKey.self, perform: { researchFormCompletion in
+            self.researchFormCompletion = researchFormCompletion
+        })
+        .onDisappear {
+            if researchFormCompletion == nil {
+                onResearchFormCompletion?(.discarded)
+            }
+        }
+#endif
     }
     
 }

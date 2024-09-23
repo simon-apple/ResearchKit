@@ -44,7 +44,39 @@ enum AnswerFormat {
 
 extension AnswerFormat: Codable {}
 
-public final class ResearchTaskResult: ObservableObject {
+extension AnswerFormat: Equatable {
+    
+    static func == (lhs: AnswerFormat, rhs: AnswerFormat) -> Bool {
+        let isEqual: Bool
+        
+        switch (lhs, rhs) {
+        case let (.text(lhsValue), .text(rhsValue)):
+            isEqual = lhsValue == rhsValue
+        case let (.numeric(lhsValue), .numeric(rhsValue)):
+            isEqual = lhsValue == rhsValue
+        case let (.date(lhsValue), .date(rhsValue)):
+            isEqual = lhsValue == rhsValue
+        case let (.weight(lhsValue), .weight(rhsValue)):
+            isEqual = lhsValue == rhsValue
+        case let (.height(lhsValue), .height(rhsValue)):
+            isEqual = lhsValue == rhsValue
+        case let (.multipleChoice(lhsValue), .multipleChoice(rhsValue)):
+            isEqual = lhsValue == rhsValue
+        case let (.image(lhsValue), .image(rhsValue)):
+            isEqual = lhsValue == rhsValue
+        case let (.scale(lhsValue), .scale(rhsValue)):
+            isEqual = lhsValue == rhsValue
+        default:
+            isEqual = false
+            
+        }
+        
+        return isEqual
+    }
+    
+}
+
+public final class ResearchFormResult: ObservableObject {
 
     @Published
     var stepResults: [String: AnswerFormat] = [:]
@@ -86,7 +118,7 @@ public final class ResearchTaskResult: ObservableObject {
     }
 }
 
-extension ResearchTaskResult: Codable {
+extension ResearchFormResult: Codable {
     
     enum CodingKeys: CodingKey {
         
@@ -97,6 +129,14 @@ extension ResearchTaskResult: Codable {
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(stepResults, forKey: .stepResults)
+    }
+    
+}
+
+extension ResearchFormResult: Equatable {
+    
+    public static func == (lhs: ResearchFormResult, rhs: ResearchFormResult) -> Bool {
+        lhs.stepResults == rhs.stepResults
     }
     
 }

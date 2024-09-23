@@ -68,7 +68,7 @@ public struct TextQuestion: Identifiable {
 public struct TextQuestionView<Header: View>: View {
     
     @EnvironmentObject
-    private var managedTaskResult: ResearchTaskResult
+    private var managedFormResult: ResearchFormResult
 
     @Environment(\.questionRequired)
     private var isRequired: Bool
@@ -92,8 +92,8 @@ public struct TextQuestionView<Header: View>: View {
         switch result {
         case let .automatic(key: key):
             return Binding(
-                get: { managedTaskResult.resultForStep(key: key) ?? nil },
-                set: { managedTaskResult.setResultForStep(.text($0), key: key) }
+                get: { managedFormResult.resultForStep(key: key) ?? nil },
+                set: { managedFormResult.setResultForStep(.text($0), key: key) }
             )
         case let .manual(value):
             return value
