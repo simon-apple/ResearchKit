@@ -90,80 +90,58 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
             .filter { visibleQuestions.contains($0) }
             .subtracting(answeredQuestions).isEmpty
     }
-
+    
     public var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             header
             
-            if shouldWrapInQuestionCard {
-                Group(
-                    subviews: content.environment(\.isQuestionCardEnabled, false)
-                ) { questions in
-                    ForEach(subviews: questions) { question in
-                        if let questionIndex = questions.firstIndex(where: { $0.id == question.id }) {
-                            let questionNumber = questionIndex + 1
+            Group(
+                subviews: cardConsideredContent()
+            ) { questions in
+                ForEach(subviews: questions) { question in
+                    Group {
+                        if shouldWrapInQuestionCard {
                             QuestionCard {
                                 VStack(alignment: .leading, spacing: 0) {
-                                    Text("Question \(questionNumber) of \(questions.count)")
-                                        .foregroundColor(.secondary)
-                                        .font(.footnote)
+                                    if let questionIndex = questions.firstIndex(where: { $0.id == question.id }) {
+                                        let questionNumber = questionIndex + 1
+                                        Text("Question \(questionNumber) of \(questions.count)")
+                                            .foregroundColor(.secondary)
+                                            .font(.footnote)
 #if os(watchOS)
-                                        .padding([.horizontal])
-                                        .padding(.top, 4)
+                                            .padding([.horizontal])
+                                            .padding(.top, 4)
 #else
-                                        .fontWeight(.bold)
-                                        .padding([.horizontal, .top])
+                                            .fontWeight(.bold)
+                                            .padding([.horizontal, .top])
 #endif
+                                    }
                                     
                                     question
-                                        .onPreferenceChange(QuestionRequiredPreferenceKey.self) {
-                                            if $0 == true {
-                                                requiredQuestions.insert(question.id)
-                                            }
-                                        }
-                                        .onPreferenceChange(QuestionAnsweredPreferenceKey.self) {
-                                            if $0 == true {
-                                                answeredQuestions.insert(question.id)
-                                            } else {
-                                                answeredQuestions.remove(question.id)
-                                            }
-                                        }
-                                        .onAppear {
-                                            visibleQuestions.insert(question.id)
-                                        }
-                                        .onDisappear {
-                                            visibleQuestions.remove(question.id)
-                                        }
                                 }
                             }
                         } else {
                             question
                         }
                     }
-                }
-            } else {
-                Group(subviews: content) { questions in
-                    ForEach(subviews: questions, content: { question in
-                        question
-                            .onPreferenceChange(QuestionRequiredPreferenceKey.self) {
-                                if $0 == true {
-                                    requiredQuestions.insert(question.id)
-                                }
-                            }
-                            .onPreferenceChange(QuestionAnsweredPreferenceKey.self) {
-                                if $0 == true {
-                                    answeredQuestions.insert(question.id)
-                                } else {
-                                    answeredQuestions.remove(question.id)
-                                }
-                            }
-                            .onAppear {
-                                visibleQuestions.insert(question.id)
-                            }
-                            .onDisappear {
-                                visibleQuestions.remove(question.id)
-                            }
-                    })
+                    .onPreferenceChange(QuestionRequiredPreferenceKey.self) {
+                        if $0 == true {
+                            requiredQuestions.insert(question.id)
+                        }
+                    }
+                    .onPreferenceChange(QuestionAnsweredPreferenceKey.self) {
+                        if $0 == true {
+                            answeredQuestions.insert(question.id)
+                        } else {
+                            answeredQuestions.remove(question.id)
+                        }
+                    }
+                    .onAppear {
+                        visibleQuestions.insert(question.id)
+                    }
+                    .onDisappear {
+                        visibleQuestions.remove(question.id)
+                    }
                 }
             }
         }
@@ -178,33 +156,11 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
     }
     
     @ViewBuilder
-    private func questionCardWrappedContent() -> some View {
-        Group(
-            subviews: content.environment(\.isQuestionCardEnabled, false)
-        ) { questions in
-            ForEach(subviews: questions) { question in
-                if let questionIndex = questions.firstIndex(where: { $0.id == question.id }) {
-                    let questionNumber = questionIndex + 1
-                    QuestionCard {
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("Question \(questionNumber) of \(questions.count)")
-                                .foregroundColor(.secondary)
-                                .font(.footnote)
-#if os(watchOS)
-                                .padding([.horizontal])
-                                .padding(.top, 4)
-#else
-                                .fontWeight(.bold)
-                                .padding([.horizontal, .top])
-#endif
-                            
-                            question
-                        }
-                    }
-                } else {
-                    question
-                }
-            }
+    private func cardConsideredContent() -> some View {
+        if shouldWrapInQuestionCard {
+            content.environment(\.isQuestionCardEnabled, false)
+        } else {
+            content
         }
     }
     
