@@ -36,8 +36,6 @@ Hearing      | Environment SPL              | Microphone                        
 Hand Dexterity | 9-Hole Peg                 | Multi-Touch display                           | Completion time, Move distance
 Vision       | Amsler Grid                  | Multi-Touch display       | Touch activity, Eye side, Areas of distortion annoted by the user 
 
-  
-![Welcome instruction step](amsler-grid-1)
 
 You can disable the instruction or completion steps that are automatically
 included in the framework by passing appropriate options when you create an active task. See the
@@ -45,21 +43,18 @@ included in the framework by passing appropriate options when you create an acti
 
 You can use options flags to exclude data collection for data types that are not needed for your study. For example, to perform the fitness task without recording heart rate data, use the `ORKPredefinedTaskOptionExcludeHeartRate` option.
  
-## Range of Motion<a name="range"></a>
+## Range of Motion
 In the range of motion task, participants follow movement instructions while accelerometer and gyroscope data is captured to measure flexed and extended positions for the knee or shoulder. Range of motion steps for the knee are shown in Figure 1.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="KneeRangeOfMotionTaskImages/KneeRangeOfMotionStep1.png" style="width: 100%;border: solid black 1px; ">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="KneeRangeOfMotionTaskImages/KneeRangeOfMotionStep2.png" style="width: 100%;border: solid black 1px;">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="KneeRangeOfMotionTaskImages/KneeRangeOfMotionStep3.png" style="width: 100%;border: solid black 1px;">Specific instructions with an illustration</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="KneeRangeOfMotionTaskImages/KneeRangeOfMotionStep4.png" style="width: 100%;border: solid black 1px; ">Further instructions with an illustration</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="KneeRangeOfMotionTaskImages/KneeRangeOfMotionStep5.png" style="width: 100%;border: solid black 1px;">A touch anywhere step</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="KneeRangeOfMotionTaskImages/KneeRangeOfMotionStep6.png" style="width: 100%;border: solid black 1px;">A further touch anywhere step</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="KneeRangeOfMotionTaskImages/KneeRangeOfMotionStep7.png" style="width: 100%;border: solid black 1px;">Confirms task completion</p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 1. Range of motion steps for the right knee</center></figcaption>
 
-## Gait and Balance<a name="gait"></a>
+|                                                                  |                                                     |
+|------------------------------------------------------------------|-----------------------------------------------------|
+| ![Instruction step introducing the task](knee-range-of-motion-1) | ![A touch anywhere step](knee-range-of-motion-2)    |
+| ![A further touch anywhere step](knee-range-of-motion-3)         | ![Confirms task completion](knee-range-of-motion-4) |
+
+Figure 1. Range of motion steps for the right knee
+
+## Gait and Balance
 
 In the gait and balance task (see the method [ORKOrderedTask shortWalkTaskWithIdentifier:intendedUseDescription:numberOfStepsPerLeg:restDuration:options]([ORKOrderedTask shortWalkTaskWithIdentifier:intendedUseDescription:numberOfStepsPerLeg:restDuration:options:])),
 the user walks for a short distance, which may be indoors. You might
@@ -69,19 +64,17 @@ aspects of the participant's walking.
 
 Gait and balance steps are shown in Figure 2.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="ShortWalkTaskImages/ShortWalkStep1.png" alt="Welcome/introduction Screen" style="width: 100%;border: solid black 1px; ">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="ShortWalkTaskImages/ShortWalkStep2.png" style="width: 100%;border: solid black 1px;">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="ShortWalkTaskImages/ShortWalkStep3.png" style="width: 100%;border: solid black 1px;">Count down a specified duration into the task</p>
-<p style="clear: both;">
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="ShortWalkTaskImages/ShortWalkStep4.png" style="width: 100%;border: solid black 1px; ">Asking user to walk</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="ShortWalkTaskImages/ShortWalkStep5.png" style="width: 100%;border: solid black 1px;">Asking user to walk</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="ShortWalkTaskImages/ShortWalkStep6.png" style="width: 100%;border: solid black 1px;">Asking user to rest</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="ShortWalkTaskImages/ShortWalkStep7.png" style="width: 100%;border: solid black 1px;">Confirms task completion</p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 2. Gait and balance steps</center></figcaption>
+|                                                                     |                                                             |
+|---------------------------------------------------------------------|-------------------------------------------------------------|
+| ![Instruction step introducing the task](short-walk-task-1)         | ![Instruction step introducing the task](short-walk-task-2) |
+| ![Count down a specified duration into the task](short-walk-task-3) | ![Asking user to walk](short-walk-task-4)                   |
+| ![Asking user to walk](short-walk-task-5)                           | ![Asking user to rest](short-walk-task-6)                   |
+| ![Confirms task completion](short-walk-task-7)      
 
-## Tapping Speed<a name="tapping"></a>
+
+Figure 2. Gait and balance steps
+
+## Tapping Speed
 
 In the tapping task (see the method [ORKOrderedTask twoFingerTappingIntervalTaskWithIdentifier:intendedUseDescription:duration:handOptions:options]([ORKOrderedTask twoFingerTappingIntervalTaskWithIdentifier:intendedUseDescription:duration:handOptions:options:])), the user rapidly alternates between tapping two
 targets on the touch screen. The resulting touch data can be used to
@@ -92,17 +85,16 @@ collected using public APIs. No analysis is performed by the ResearchKit framewo
 
 Tapping speed steps are shown in Figure 3.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="TwoFingerTappingTaskImages/TwoFingerTappingStep1.png" alt="Instruction step introducing the task" style="width: 100%;border: solid black 1px; ">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="TwoFingerTappingTaskImages/TwoFingerTappingStep2.png" style="width: 100%;border: solid black 1px;">Providing instruction for the right hand task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="TwoFingerTappingTaskImages/TwoFingerTappingStep3.png" style="width: 100%;border: solid black 1px; ">The user rapidly taps on the targets using the right hand</p>
-<p style="clear: both;">
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="TwoFingerTappingTaskImages/TwoFingerTappingStep4.png" style="width: 100%;border: solid black 1px;">Providing instruction for the left hand task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="TwoFingerTappingTaskImages/TwoFingerTappingStep5.png" style="width: 100%;border: solid black 1px;">The user rapidly taps on the targets using the left hand</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="TwoFingerTappingTaskImages/TwoFingerTappingStep6.png" style="width: 100%;border: solid black 1px;">Confirms task completion</p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 3. Tapping speed steps</center></figcaption>
+|                                                                                         |                                                                             |
+|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| ![Instruction step introducing the task](two-finger-tapping-task-1)                     | ![Providing instruction for the right hand task](two-finger-tapping-task-2) |
+| ![The user rapidly taps on the targets using the right hand](two-finger-tapping-task-3) | ![Providing instruction for the left hand task](two-finger-tapping-task-4)  |
+| ![The user rapidly taps on the targets using the left hand](two-finger-tapping-task-5)  | ![Confirms task completion](two-finger-tapping-task-6)                      |
 
-## Fitness<a name="fitness"></a>
+
+Figure 3. Tapping speed steps
+
+## Fitness
 
 In the fitness task (see the method [ORKOrderedTask fitnessCheckTaskWithIdentifier:intendedUseDescription:walkDuration:restDuration:options]([ORKOrderedTask fitnessCheckTaskWithIdentifier:intendedUseDescription:walkDuration:restDuration:options:])), the user walks for a specified duration (usually
 several minutes). Sensor data is collected and returned through the
@@ -116,19 +108,18 @@ during the rest period.
 
 Fitness steps are shown in Figure 4.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="FitnessTaskImages/FitnessStep1.png" style="width: 100%;border: solid black 1px; ">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="FitnessTaskImages/FitnessStep2.png" style="width: 100%;border: solid black 1px;">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="FitnessTaskImages/FitnessStep3.png" style="width: 100%;border: solid black 1px;">Count down a specified duration to begin the task</p>
-<p style="clear: both;"></p><p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="FitnessTaskImages/FitnessStep4.png" style="width: 100%;border: solid black 1px; ">Displays distance and heart rate</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="FitnessTaskImages/FitnessStep5.png" style="width: 100%;border: solid black 1px;">The rest step, which can be skipped if heart rate data is unavailable</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="FitnessTaskImages/FitnessStep6.png" style="width: 100%;border: solid black 1px;">Confirms task completion</p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 4. Fitness task</center></figcaption>
+|                                                          |                                                                                         |
+|----------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| ![Instruction step introducing the task](fitness-task-1) | ![Instruction step introducing the task](fitness-task-2)                                |
+| ![Health access alert](fitness-task-3)                   | ![Count down a specified duration to begin the task](fitness-task-4)                    | 
+| ![Displays distance and heart rate](fitness-task-5)      | ![The rest step, which can be skipped if heart rate data is unavailable](fitness-task-6)|
+| ![Confirms task completion](fitness-task-7)                      
+
+Figure 4. Fitness task
 
 All of the data is collected from public <a href="https://developer.apple.com/library/ios/documentation/CoreMotion/Reference/CoreMotion_Reference/index.html">CoreMotion</a> and <a href="https://developer.apple.com/library/ios/documentation/HealthKit/Reference/HealthKit_Framework/">HealthKit</a> APIs on iOS, and serialized to JSON. No analysis is applied to the data by the ResearchKit framework.
 
-## Timed Walk<a name="timed"></a> 
-
+## Timed Walk
 In the timed walk task (see the method [ORKOrderedTask timedWalkTaskWithIdentifier:intendedUseDescription:distanceInMeters:timeLimit:turnAroundLimit:includeAssistiveDeviceForm:options:]([ORKOrderedTask timedWalkTaskWithIdentifier:intendedUseDescription:distanceInMeters:timeLimit:turnAroundLimit:includeAssistiveDeviceForm:options:])), the user is asked to walk quickly and safely for a specific distance. The task is immediately administered again by having the user walk the same distance in the opposite direction. The timed walk task differs from both the fitness and the short walk tasks in that the distance walked by the user is fixed. A timed walk task measures the user's lower-extremity function.
  
 The data collected by this task includes accelerometer, device motion, pedometer data, and location of the user. Note that the location is available only if the user agrees to share their location.
@@ -136,20 +127,16 @@ Data collected by the task is in the form of an `ORKTimedWalkResult` object.
 
 Timed walk steps are shown in Figure 5.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="TimedWalkTaskImages/TimedWalkStep1.png" alt="Welcome/introduction Screen" style="width: 100%;border: solid black 1px; ">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="TimedWalkTaskImages/TimedWalkStep2.png" alt="Gather information about the user's assistive device" style="width: 100%;border: solid black 1px;">Gathers information about the user's assistive device</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="TimedWalkTaskImages/TimedWalkStep3.png" alt="Instruction to perform the task" style="width: 100%;border: solid black 1px; ">Instructions on how to perform the task</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="TimedWalkTaskImages/TimedWalkStep4.png" alt="Count down a specified duration to begin the task" style="width: 100%;border: solid black 1px;">Count down a specified duration to begin the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="TimedWalkTaskImages/TimedWalkStep5.png" alt="Actual task screen" style="width: 100%;border: solid black 1px;">Actual task screen</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="TimedWalkTaskImages/TimedWalkStep6.png" alt="Instruct the user to turn around" style="width: 100%;border: solid black 1px;">Instruct the user to turn around</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="TimedWalkTaskImages/TimedWalkStep7.png" alt="Actual task screen" style="width: 100%;border: solid black 1px;">Actual task screen</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="TimedWalkTaskImages/TimedWalkStep8.png" alt="Task Completion screen" style="width: 100%;border: solid black 1px;">Task completion</p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 5. Timed walk steps</center></figcaption>
+|                                                               |                                                                             |
+|---------------------------------------------------------------|-----------------------------------------------------------------------------|
+| ![Instruction step introducing the task](timed-walk-task-1)   | ![Gathers information about the user’s assistive device](timed-walk-task-2) |
+| ![Instructions on how to perform the task](timed-walk-task-3) | ![Count down a specified duration to begin the task](timed-walk-task-4)     | 
+| ![Actual task screen](timed-walk-task-5)                      | ![Instruct the user to turn around](timed-walk-task-6)                      |
+| ![Actual task screen](timed-walk-task-7)                      | ![Task completion](timed-walk-task-8)                                       |
 
-## Spatial Memory<a name="spatial"></a>
+Figure 5. Timed walk steps
+
+## Spatial Memory
 
 In the spatial memory task (see the method [ORKOrderedTask spatialSpanMemoryTaskWithIdentifier:intendedUseDescription:initialSpan:minimumSpan:maximumSpan:playSpeed:maximumTests:maximumConsecutiveFailures:customTargetImage:customTargetPluralName:requireReversal:options:]([ORKOrderedTask spatialSpanMemoryTaskWithIdentifier:intendedUseDescription:initialSpan:minimumSpan:maximumSpan:playSpeed:maximumTests:maximumConsecutiveFailures:customTargetImage:customTargetPluralName:requireReversal:options:])),
 the user is asked to observe and then recall pattern sequences of
@@ -169,29 +156,23 @@ the game, and the touch inputs made by the user.
 
 Spatial memory test steps are shown in Figure 6.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SpatialSpanMemoryTaskImages/SpatialSpanMemoryStep1.png" alt="Welcome/introduction Screen" style="width: 100%;border: solid black 1px; ">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SpatialSpanMemoryTaskImages/SpatialSpanMemoryStep2.png" alt="Instruction step" style="width: 100%;border: solid black 1px;">Describes what the user must do</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="SpatialSpanMemoryTaskImages/SpatialSpanMemoryStep3.png" alt="Initial sequence playback screen" style="width: 100%;border: solid black 1px;">The flowers light up in sequence</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SpatialSpanMemoryTaskImages/SpatialSpanMemoryStep4.png" alt="Recall sequence screen" style="width: 100%;border: solid black 1px; ">The user must recall the sequence</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SpatialSpanMemoryTaskImages/SpatialSpanMemoryStep5.png" alt="Consecutive failure screen" style="width: 100%;border: solid black 1px;">If users make a mistake, they will be offered a new pattern</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="SpatialSpanMemoryTaskImages/SpatialSpanMemoryStep6.png" alt="Welcome/introduction Screen" style="width: 100%;border: solid black 1px;">The user is offered a shorter sequence</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="SpatialSpanMemoryTaskImages/SpatialSpanMemoryStep7.png" alt="Task Completion screen" style="width: 100%;border: solid black 1px;">Confirms task completion</p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 6. Spatial memory steps</center></figcaption>
+|                                                                        |                                                                |
+|------------------------------------------------------------------------|----------------------------------------------------------------|
+| ![Instruction step introducing the task](spatial-span-memory-task-1)   | ![Describes what the user must do](spatial-span-memory-task-2) |
+| ![The user must recall the sequence](spatial-span-memory-task-3)       | ![Confirms task completion](spatial-span-memory-task-4)        | 
 
-## Stroop Test<a name="stroop"></a>
+Figure 6. Spatial memory steps
+
+## Stroop Test
 In the Stroop test, the participant is shown a series of words that are displayed in color, and must select the first letter of the color's name. Stroop test steps are shown in Figure 7.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="StroopTaskImages/StroopStep1.png" style="width: 100%;border: solid black 1px;">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="StroopTaskImages/StroopStep2.png" style="width: 100%;border: solid black 1px;">Further instructions</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="StroopTaskImages/StroopStep3.png" style="width: 100%;border: solid black 1px; ">Count down a specified duration to begin the activity</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="StroopTaskImages/StroopStep4.png" style="width: 100%;border: solid black 1px;">A typical Stroop test; the correct answer is "B" for blue</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="StroopTaskImages/StroopStep5.png" style="width: 100%;border: solid black 1px;">Confirms task completion</p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 7. Stroop test steps</center></figcaption>
+|                                                                         |                                                                              |
+|-------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| ![Instruction step introducing the task](stroop-task-1)                 | ![Further instructions](stroop-task-2)                                       |
+| ![Count down a specified duration to begin the activity](stroop-task-3) | ![A typical Stroop test; the correct answer is “Y” for yellow](stroop-task-4)|
+| ![Confirms task completion](stroop-task-5)
+
+Figure 7. Stroop test steps
 
 ## Trail Making Test<a name="trail"></a>
 In the trail making test, the participant connects a series of labelled circles, in order. The time to complete the test is recorded. The circles can be labelled with sequential numbers (1, 2, 3, ...) or with alternating numbers and letters  (1, a, 2, b, 3, c, ...). 
