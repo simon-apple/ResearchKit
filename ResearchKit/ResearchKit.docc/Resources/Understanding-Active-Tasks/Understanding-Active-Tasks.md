@@ -37,7 +37,7 @@ Hand Dexterity | 9-Hole Peg                 | Multi-Touch display               
 Vision       | Amsler Grid                  | Multi-Touch display       | Touch activity, Eye side, Areas of distortion annoted by the user 
 
   
-
+![Welcome instruction step](amsler-grid-1)
 
 You can disable the instruction or completion steps that are automatically
 included in the framework by passing appropriate options when you create an active task. See the
