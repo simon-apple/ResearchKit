@@ -1,4 +1,3 @@
-
 # Understanding Active Tasks
 
 Learn more about the Active Tasks provided by ResearchKit.
@@ -174,22 +173,20 @@ In the Stroop test, the participant is shown a series of words that are displaye
 
 Figure 7. Stroop test steps
 
-## Trail Making Test<a name="trail"></a>
+## Trail Making Test
 In the trail making test, the participant connects a series of labelled circles, in order. The time to complete the test is recorded. The circles can be labelled with sequential numbers (1, 2, 3, ...) or with alternating numbers and letters  (1, a, 2, b, 3, c, ...). 
 
 Trail making test steps are shown in Figure 8.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="TrailMakingTaskImages/TrailMakingStep1.png" style="width: 100%;border: solid black 1px; ">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="TrailMakingTaskImages/TrailMakingStep2.png" style="width: 100%;border: solid black 1px;">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="TrailMakingTaskImages/TrailMakingStep3.png" style="width: 100%;border: solid black 1px;">Further instructions</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="TrailMakingTaskImages/TrailMakingStep4.png" style="width: 100%;border: solid black 1px; ">Count down a specified duration to begin the activity</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="TrailMakingTaskImages/TrailMakingStep5.png" style="width: 100%;border: solid black 1px;">The activity screen, shown mid-task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="TrailMakingTaskImages/TrailMakingStep6.png" style="width: 100%;border: solid black 1px;">Confirms task completion</p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 8. Trail making test steps</center></figcaption>
+|                                                               |                                                                               |
+|---------------------------------------------------------------|-------------------------------------------------------------------------------|
+| ![Instruction step introducing the task](trail-making-task-1) | ![Instruction step introducing the task](trail-making-task-2)                 |
+| ![Further instructions](trail-making-task-3)                  | ![Count down a specified duration to begin the activity](trail-making-task-4) |
+| ![The activity screen, shown mid-task](trail-making-task-5)   | ![Confirms task completion](trail-making-task-6)                              |
 
-## Paced Serial Addition Test (PSAT)<a name="paced"></a>
+Figure 8. Trail making test steps
+
+## Paced Serial Addition Test (PSAT)
 
 The Paced Serial Addition Test (PSAT) task (see method [ORKOrderedTask PSATTaskWithIdentifier:intendedUseDescription:presentationMode:interStimulusInterval:stimulusDuration:seriesLength:options]([ORKOrderedTask PSATTaskWithIdentifier:intendedUseDescription:presentationMode:interStimulusInterval:stimulusDuration:seriesLength:options:])) measures the cognitive function that assesses auditory and/or visual information processing speed, flexibility, and the calculation ability of the user.
 
@@ -207,16 +204,15 @@ PVSAT steps are shown in Figure 9.
 
 Note that the visual and auditory components of the task are optional. You can choose to include either of them or both.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="PsatTaskImages/PSATStep1.png" alt="Welcome/introduction Screen" style="width: 100%;border: solid black 1px; ">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="PsatTaskImages/PSATStep2.png" alt="Instruction step" style="width: 100%;border: solid black 1px;">Describes what the user must do</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="PsatTaskImages/PSATStep3.png" alt="Countdown screen" style="width: 100%;border: solid black 1px;">Count down a specified duration into the task</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="PsatTaskImages/PSATStep4.png" alt="The user must add each new digit on the screen to the one immediately prior to it" style="width: 100%;border: solid black 1px; ">The user must add each new digit on the screen to the one immediately prior to it</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="PsatTaskImages/PSATStep5.png" alt="Task completion screen" style="width: 100%;border: solid black 1px;">Confirms task completion</p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 9. PVSAT memory steps</center></figcaption>
+|                                                               |                                                                                                   |
+|---------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| ![Instruction step introducing the task](psat-task-1)         | ![Describes what the user must do](psat-task-2)                                                   |
+| ![Count down a specified duration into the task](psat-task-3) | ![The user must add each new digit on the screen to the one immediately prior to it](psat-task-4) |
+| ![Confirms task completion](psat-task-5)   
 
-## Tower of Hanoi <a name="tower"></a>
+Figure 9. PVSAT memory steps
+
+## Tower of Hanoi
 
 In the Tower of Hanoi task (see the method [ORKOrderedTask towerOfHanoiTaskWithIdentifier:intendedUseDescription:numberOfDisks:options:]([ORKOrderedTask towerOfHanoiTaskWithIdentifier:intendedUseDescription:numberOfDisks:options:])), the user is asked to solve the classic Tower of Hanoi puzzle in a minimum number of moves. To solve the puzzle, the user must move the entire stack to the highlighted platform in as few moves as possible. This task measures the user's problem solving skills. A Tower of Hanoi task finishes when the user completes the puzzle correctly or concedes that they cannot solve the puzzle.
  
@@ -224,13 +220,14 @@ Data collected by this task is in the form of an `ORKTowerOfHanoiResult` object.
  
 Tower of Hanoi steps are shown in Figure 10.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="TOHTaskImages/TOHStep1.png" alt="Welcome/introduction Screen" style="width: 100%;border: solid black 1px; ">Instruction step introducing the task</p><p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="TOHTaskImages/TOHStep2.png" alt="Instruction step" style="width: 100%;border: solid black 1px;">Describes what the user must do</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="TOHTaskImages/TOHStep3.png" alt="Actual task screen" style="width: 100%;border: solid black 1px; ">Actual task</p><p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="TOHTaskImages/TOHStep4.png" alt="Task completion screen" style="width: 100%;border: solid black 1px;">Confirms task completion</p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 10. Tower of Hanoi steps</center></figcaption>
+|                                                            |                                                      |
+|------------------------------------------------------------|------------------------------------------------------|
+| ![Instruction step introducing the task](tower-of-hanoi-1) | ![Describes what the user must do](tower-of-hanoi-2) |
+| ![Actual task](tower-of-hanoi-3)                           | ![Confirms task completion](tower-of-hanoi-4)        |
 
-## Reaction Time <a name="reaction"></a>
+Figure 10. Tower of Hanoi steps
+
+## Reaction Time
 
 In the reaction time task, the user shakes the device in response to a visual clue on the device's screen. The task is divided into a number of attempts, which you determine. To complete an attempt in a task, the user must shake or move the device with an acceleration that exceeds a threshold value ( `thresholdAcceleration` property) within the given time. The task finishes when the user successfully completes all the attempts as instructed in the task. Use this task to evaluate a user's response to the stimulus and calculate their reaction time. (See the method [ORKOrderedTask reactionTimeTaskWithIdentifier:intendedUseDescription:maximumStimulusInterval:minimumStimulusInterval:thresholdAcceleration:numberOfAttempts:timeout:successSound:timeoutSound:failureSound:option]([ORKOrderedTask reactionTimeTaskWithIdentifier:intendedUseDescription:maximumStimulusInterval:minimumStimulusInterval:thresholdAcceleration:numberOfAttempts:timeout:successSound:timeoutSound:failureSound:options:])).
 
@@ -238,14 +235,14 @@ Data collected by this task is in the form of `ORKReactionTimeResult` objects. E
 
 Reaction time steps are shown in Figure 11.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="ReactionTimeTaskImages/ReactionTimeStep1.png" alt="Welcome/introduction Screen" style="width: 100%;border: solid black 1px; ">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="ReactionTimeTaskImages/ReactionTimeStep2.png" alt="Instruction step" style="width: 100%;border: solid black 1px;">Describes what the user must do</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="ReactionTimeTaskImages/ReactionTimeStep3.png" alt="Actual task screen" style="width: 100%;border: solid black 1px; ">Actual task</p><p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="ReactionTimeTaskImages/ReactionTimeStep4.png" alt="Task completion screen" style="width: 100%;border: solid black 1px;">Confirms task completion</p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 11. Reaction time steps</center></figcaption>
+|                                                                |                                                          |
+|----------------------------------------------------------------|----------------------------------------------------------|
+| ![Instruction step introducing the task](reaction-time-task-1) | ![Describes what the user must do](reaction-time-task-2) |
+| ![Actual task](reaction-time-task-3)                           | ![Confirms task completion](reaction-time-task-4)        |
 
-## Sustained Phonation<a name="sustained"></a> 
+Figure 11. Reaction time steps
+
+## Sustained Phonation
 
 In the sustained phonation task (see the method [ORKOrderedTask audioTaskWithIdentifier:intendedUseDescription:speechInstruction:shortSpeechInstruction:duration:recordingSettings:checkAudioLevel:options]([ORKOrderedTask audioTaskWithIdentifier:intendedUseDescription:speechInstruction:shortSpeechInstruction:duration:recordingSettings:checkAudioLevel:options:])), the user makes a sustained sound, and an audio
 recording is made. Analysis of the audio data is not included in the
@@ -257,16 +254,15 @@ analysis is done by ResearchKit; you can define your analysis on this
 task according to your own requirements.
 Audio steps are shown in Figure 12.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="AudioTaskImages/AudioStep1.png" alt="Welcome Screen"  style="width: 100%;border: solid black 1px; ">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="AudioTaskImages/AudioStep2.png" alt="Instruction Screen" style="width: 100%;border: solid black 1px;">Instruction step describes user action during the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="AudioTaskImages/AudioStep3.png" alt="Task Completion Screen" style="width: 100%;border: solid black 1px;">Count down a specified duration to begin the task</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="AudioTaskImages/AudioStep4.png" alt="Task Screen" style="width: 100%;border: solid black 1px; ">Displays a graph during audio playback (audio collection step)</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="AudioTaskImages/AudioStep5.png"  alt="Task Completion Screen" style="width: 100%;border: solid black 1px;">Confirms task completion</p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 12. Audio steps</center></figcaption>
+|                                                                    |                                                                                 |
+|--------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| ![Instruction step introducing the task](audio-task-1)             | ![Instruction step describes user action during the task](audio-task-2)         |
+| ![Count down a specified duration to begin the task](audio-task-3) | ![Displays a graph during audio playback (audio collection step)](audio-task-4) |
+| ![Confirms task completion](audio-task-5)
 
-## Speech Recognition<a name="speech_recognition"></a>
+Figure 12. Audio steps
+
+## Speech Recognition
 
 Researchers and developers can use ResearchKit to record audio data and produce transcriptions generated by Apple’s speech recognition system. ResearchKit also provides word alignments, confidence scores, and alternative speech recognition hypotheses in the form of an n-best list. Medical researchers and developers can leverage this information to analyze speech and language features like speaking rate, word usage, and pause durations.
 
@@ -276,25 +272,21 @@ The `ORKSpeechRecognitionStep` class represents a single recording step. In this
 
 Speech recognition steps showing capturing and displaying recorded text are in Figure 13.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SpeechRecognitionImages/SpeechRecognitionStep1.png" alt="Instruction step introducing the task" style="width: 100%;border: solid black 1px; ">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="SpeechRecognitionImages/SpeechRecognitionStep2.png" alt="Instruct the user to prepare for recording" style="width: 100%;border: solid black 1px;">Instruct the user to prepare for recording</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SpeechRecognitionImages/SpeechRecognitionStep3.png" alt="Prompts the user to start the recording" style="width: 100%;border: solid black 1px; ">Prompts the user to start the recording</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SpeechRecognitionImages/SpeechRecognitionStep4.png" alt="Records the user's speech" style="width: 100%;border: solid black 1px;">Records the user's speech</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="SpeechRecognitionImages/SpeechRecognitionStep5.png" alt="Provides the transcription and allows editing" style="width: 100%;border: solid black 1px;">Provides the transcription and allows editing</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="SpeechRecognitionImages/SpeechRecognitionStep6.png" alt="Task completion" style="width: 100%;border: solid black 1px;">Task completion</p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 13. Speech recognition steps</center></figcaption>
+|                                                                     |                                                                             |
+|---------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| ![Instruction step introducing the task](speech-recognition-task-1) | ![Instruct the user to prepare for recording](speech-recognition-task-2)    |
+| ![Records the user’s speech](speech-recognition-task-3)             | ![Provides the transcription and allows editing](speech-recognition-task-4) |
+| ![Task completion](speech-recognition-task-5)
+
+Figure 13. Speech recognition steps
 
 Once a user completes the recording, they are given the option to edit the transcript generated by the speech recognition engine. The data collected by this task consists of three main components:
-<ol>
-<li>The raw audio recording of what the user said.</li>
-<li>The transcriptino generated by the speech recognition engine returned as an object of type `SFTranscript`.</li>
-<li>The edited transcript, if any, by the user.</li>
-</ol>
 
-## Speech-in-Noise<a name="speech_in_noise"></a>
+1. The raw audio recording of what the user said.
+2. The transcriptino generated by the speech recognition engine returned as an object of type `SFTranscript`.
+3. The edited transcript, if any, by the user.
 
+## Speech-in-Noise
 
 Understanding speech in noisy environments depends on both the level of the background noise and the hearing health of the listener. A speech-in-noise test quantifies the difficulty of understanding speech in noisy environments.
  
@@ -304,35 +296,30 @@ The `ORKSpeechInNoiseStep` class plays the speech from a file set by the `speech
 
 Speech-in-noise steps are shown in Figure 14.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SpeechInNoiseImages/SpeechInNoiseStep1.png" alt="Instruction step introducing the task" style="width: 100%;border: solid black 1px; ">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="SpeechInNoiseImages/SpeechInNoiseStep2.png" alt="Instructs the user how to proceed with the task" style="width: 100%;border: solid black 1px;">Instructs the user how to proceed with the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SpeechInNoiseImages/SpeechInNoiseStep3.png" alt="Prompts the user to play the spoken sentence" style="width: 100%;border: solid black 1px; ">Prompts the user to play the spoken sentence</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SpeechInNoiseImages/SpeechInNoiseStep4.png" alt="Plays the spoken sentence with background noise" style="width: 100%;border: solid black 1px;">Plays the spoken sentence with background noise</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="SpeechInNoiseImages/SpeechInNoiseStep5.png" alt="Prompts the user to record and repeat what they heard" style="width: 100%;border: solid black 1px;">Prompts the user to record and repeat what they heard</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="SpeechInNoiseImages/SpeechInNoiseStep6.png" alt="Records the user's voice" style="width: 100%;border: solid black 1px;">Records the user's voice</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SpeechInNoiseImages/SpeechInNoiseStep7.png" alt="Task completion" style="width: 100%;border: solid black 1px;">Task completion</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SpeechInNoiseImages/SpeechInNoiseStep8.png" alt="Displays spoken text and provides transcript editing" style="width: 100%;border: solid black 1px;">Displays spoken text and provides transcript editing</p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 14. Speech-in-noise steps</center></figcaption>
+|                                                                            |                                                                       |
+|----------------------------------------------------------------------------|-----------------------------------------------------------------------|
+| ![Instruction step introducing the task](speech-in-noise-1)                | ![Instructs the user how to proceed with the task](speech-in-noise-2) |
+| ![Plays the spoken sentence with background noise](speech-in-noise-3)      | ![Records the user’s voice](speech-in-noise-4)                        |
+| ![Displays spoken text and provides transcript editing](speech-in-noise-5) | ![Task completion](speech-in-noise-6)                                 |
 
-## Environment SPL Meter<a name="spl"></a>
+Figure 14. Speech-in-noise steps
+
+## Environment SPL Meter
 
 The Environment SPL Meter is not a task, but a single step that detects the sound pressure level in the user's environment. Configure this step with the following properties:
 
-* `thresholdValue` is the maximum permissible value for the environment sound pressure level in dBA.
-* `samplingInterval` is the rate at which the `AVAudioPCMBuffer` is queried and A-weighted filter is applied.
-* `requiredContiguousSamples` is the number of consecutive samples less than threshold value required for the step to proceed.
+- `thresholdValue` is the maximum permissible value for the environment sound pressure level in dBA.
+- `samplingInterval` is the rate at which the `AVAudioPCMBuffer` is queried and A-weighted filter is applied.
+- `requiredContiguousSamples` is the number of consecutive samples less than threshold value required for the step to proceed.
+
+|                                                        |                                                                    |
+|--------------------------------------------------------|--------------------------------------------------------------------|
+| ![Prompt the user if environment is too loud](spl-meter-1) | ![Task collects required samples under the threshold](spl-meter-2) |
+| ![Step is complete](spl-meter-3)  
 
 The environment SPL meter step is shown in Figure 15.
 
-<center>
-<img src="EnvironmentSPLImages/EnvironmentSPL.png" width="25%" style="border: solid black 1px;"  align="middle"/>
-<figcaption><center>Figure 15. Environment SPL meter</center></figcaption>
-</center>
-
-## Tone Audiometry<a name="tone"></a>
+## Tone Audiometry
 
 In the tone audiometry task users listen through headphones to a series of tones, and tap left or right buttons on the screen when they hear each tone.  These tones are of different audio frequencies, playing on different channels (left and right), with the volume being progressively increased until the user taps one of the buttons. A tone audiometry task measures different properties of a user's hearing ability, based on their reaction to a wide range of frequencies. (See the method [ORKOrderedTask toneAudiometryTaskWithIdentifier:intendedUseDescription:speechInstruction:shortSpeechInstruction:toneDuration:options:]([ORKOrderedTask toneAudiometryTaskWithIdentifier:intendedUseDescription:speechInstruction:shortSpeechInstruction:toneDuration:options:])).
 
@@ -340,17 +327,15 @@ Data collected in this task consists of audio signal amplitude for specific freq
  
 Tone audiometry steps are shown in Figure 16.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="ToneAudiometryTaskImages/ToneAudiometryStep1.png" style="width: 100%;border: solid black 1px; ">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="ToneAudiometryTaskImages/ToneAudiometryStep2.png" style="width: 100%;border: solid black 1px;">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="ToneAudiometryTaskImages/ToneAudiometryStep3.png" style="width: 100%;border: solid black 1px;">Further instructions</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="ToneAudiometryTaskImages/ToneAudiometryStep4.png" style="width: 100%;border: solid black 1px; ">Count down a specified duration to begin the activity</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="ToneAudiometryTaskImages/ToneAudiometryStep5.png" style="width: 100%;border: solid black 1px;">The tone test screen with buttons for left and right ears</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="ToneAudiometryTaskImages/ToneAudiometryStep6.png" style="width: 100%;border: solid black 1px;">Confirms task completion</p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 16. Tone audiometry steps</center></figcaption>
+|                                                                                      |                                                                                  |
+|--------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| ![Instruction step introducing the task](tone-audiometry-task-1)                     | ![Instruction step introducing the task](tone-audiometry-task-2)                 |
+| ![Further instructions](tone-audiometry-task-3)                                      | ![Count down a specified duration to begin the activity](tone-audiometry-task-4) |
+| ![The tone test screen with buttons for left and right ears](tone-audiometry-task-5) | ![Confirms task completion](speech-in-noise-6)                                   |
 
-## dBHL Tone Audiometry<a name="dBHL"></a>
+Figure 16. Tone audiometry steps
+
+## dBHL Tone Audiometry
 
 The dBHL tone audiometry task implements the Hughson-Westlake method of determining hearing threshold. It is similar to the tone audiometry task, except that it utilizes a dB HL scale. (See the method [ORKOrderedTask dBHLToneAudiometryTaskWithIdentifier:intendedUseDescription:options:]([ORKOrderedTask dBHLToneAudiometryTaskWithIdentifier:intendedUseDescription:options:])).
 
@@ -358,20 +343,17 @@ Data collected in this task consists of audio signal amplitude for specific freq
 
 dBHL tone audiometry steps are shown in Figure 17.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="dBHLToneAudiometryTaskImages/dBHLToneAudiometryStep1.png" style="width: 100%;border: solid black 1px; ">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="dBHLToneAudiometryTaskImages/dBHLToneAudiometryStep2.png" style="width: 100%;border: solid black 1px;">Instruction step allowing the user to select an ear</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="dBHLToneAudiometryTaskImages/dBHLToneAudiometryStep3.png" style="width: 100%;border: solid black 1px;">Further instructions</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="dBHLToneAudiometryTaskImages/dBHLToneAudiometryStep4.png" style="width: 100%;border: solid black 1px; ">Count down a specified duration to begin the activity</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="dBHLToneAudiometryTaskImages/dBHLToneAudiometryStep5.png" style="width: 100%;border: solid black 1px;">The tone test screen with buttons for the left ear</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="dBHLToneAudiometryTaskImages/dBHLToneAudiometryStep6.png" style="width: 100%;border: solid black 1px;">Count down a specified duration to begin the activity</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="dBHLToneAudiometryTaskImages/dBHLToneAudiometryStep7.png" style="width: 100%;border: solid black 1px;">The tone test screen with buttons for the right ear</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="dBHLToneAudiometryTaskImages/dBHLToneAudiometryStep8.png" style="width: 100%;border: solid black 1px;">Confirms task completion</p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 17. dBHL tone audiometry steps</center></figcaption>
+|                                                                                                      |                                                                                     |
+|------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| ![Instruction step introducing the task](dbhl-tone-audiometry-task-1)                                | ![Instruction step introducing the task](dbhl-tone-audiometry-task-2)               |
+| ![Further instructions](dbhl-tone-audiometry-task-3)                                                 | ![Check noise levels](dbhl-tone-audiometry-task-4)                                  |
+| ![Instruction step displaying which ear the user will hear sounds from](dbhl-tone-audiometry-task-5) | ![The tone test screen with buttons for the right ear](dbhl-tone-audiometry-task-6) |
+| ![Instruction step displaying which ear the user will hear sounds from](dbhl-tone-audiometry-task-7) | ![The tone test screen with buttons for the left ear](dbhl-tone-audiometry-task-8)  |
+| ![Confirms task completion](dbhl-tone-audiometry-task-9)
 
-## 9-Hole Peg Test<a name="nine"></a>
+Figure 17. dBHL tone audiometry steps
+
+## 9-Hole Peg Test
 
 The 9-hole peg test is a two-step test of hand dexterity to measure the <a href="http://www.nationalmssociety.org/For-Professionals/Researchers/Resources-for-Researchers/Clinical-Study-Measures/9-Hole-Peg-Test-(9-HPT)">MSFC score in Multiple Sclerosis</a>, or signs of <a href="http://www.rehabmeasures.org/Lists/RehabMeasures/DispForm.aspx?ID=925">Parkinson's disease or stroke</a>. This task is well documented in the scientific literature (see <a href="http://www.ncbi.nlm.nih.gov/pubmed/22020457">Earhart et al., 2011</a>).
 
@@ -381,20 +363,17 @@ The `ORKHolePegTestPlaceStep` class represents the place step. In this step, the
 
 9-Hole peg test steps are shown in Figure 18.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="HolePegTaskImages/HolePegStep1.png" style="width: 100%;border: solid black 1px; ">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="HolePegTaskImages/HolePegStep2.png"  style="width: 100%;border: solid black 1px;">Describes what the user must do</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="HolePegTaskImages/HolePegStep3.png"  style="width: 100%;border: solid black 1px;">Instructs the user to perform the step with the right hand</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="HolePegTaskImages/HolePegStep4.png" style="width: 100%;border: solid black 1px; ">Instructs the user to perform the step with the right hand</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="HolePegTaskImages/HolePegStep5.png"  style="width: 100%;border: solid black 1px;">Instructs the user to perform the step with the right hand</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="HolePegTaskImages/HolePegStep6.png"  style="width: 100%;border: solid black 1px;">Instructs the user to perform the step with the left hand</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="HolePegTaskImages/HolePegStep7.png"  style="width: 100%;border: solid black 1px;">Task completion</p><p style="clear: both;"></p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 18. 9-hole peg test steps</center></figcaption>
+|                                                                                |                                                                                |
+|--------------------------------------------------------------------------------|--------------------------------------------------------------------------------|
+| ![Instruction step introducing the task](hole-peg-task-1)                      | ![Describes what the user must do](hole-peg-task-2)                            |
+| ![Instructs the user to perform the step with the right hand](hole-peg-task-3) | ![Instructs the user to perform the step with the right hand](hole-peg-task-4) |
+| ![Instructs the user to perform the step with the left hand](hole-peg-task-5)  | ![Instructs the user to perform the step with the left hand](hole-peg-task-6)  |
+| ![Task completion](hole-peg-task-7)                                            |
+
+Figure 18. 9-hole peg test steps
 
 
-## Amsler Grid<a name="amsler"></a>
+## Amsler Grid
 
 The Amsler Grid task is a tool used to detect the onset of vision problems such as macular degeneration.
 
@@ -404,15 +383,13 @@ Data collected by this task is in the form of an `ORKAmslerGridResult` object fo
 
 Amsler grid steps for the left and right eyes are shown in Figure 19.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="AmslerGridImages/AmslerGridStep1.png" alt="Instruction step introducing the task" style="width: 100%;border: solid black 1px; ">Instruction step introducing the task</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="AmslerGridImages/AmslerGridStep2.png" alt="Instruct the user how to measure the left eye" style="width: 100%;border: solid black 1px;">Instruct the user how to measure the left eye</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="AmslerGridImages/AmslerGridStep3.png" alt="Perform the left eye test" style="width: 100%;border: solid black 1px; ">Perform the left eye test</p>
-<p style="clear: both;"></p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="AmslerGridImages/AmslerGridStep4.png" alt="Instruct the user how to measure the right eye" style="width: 100%;border: solid black 1px;">Instruct the user how to measure the right eye</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="AmslerGridImages/AmslerGridStep5.png" alt="Perform the right eye test" style="width: 100%;border: solid black 1px;">Perform the right eye test</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 3%; margin-bottom: 0.5em;"><img src="AmslerGridImages/AmslerGridStep6.png" alt="Task completion" style="width: 100%;border: solid black 1px;">Task completion</p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 19. Amsler grid steps</center></figcaption>
+|                                                                                                                            |             |
+|---------------------------------------------------------|------------------------------------------------------------------|
+| ![Instruction step introducing the task](amsler-grid-1) | ![Instruct the user how to measure the left eye](amsler-grid-2)  |
+| ![Perform the left eye test](amsler-grid-3)             | ![Instruct the user how to measure the right eye](amsler-grid-4) |
+| ![Perform the right eye test](amsler-grid-5)            | ![Task completion](amsler-grid-6)                                |
+
+Figure 19. Amsler grid steps
 
 ## Collect the Data
 
@@ -427,11 +404,11 @@ Active steps support attaching recorder configurations
 data that should be collected for the duration of the step from a sensor or
 a database on the device. For example:
 
-* The pedometer sensor returns a `CMPedometerData` object that provides step counts computed by the motion coprocessor on supported devices.
-* The accelerometer sensor returns a `CMAccelerometerData` object that provides raw accelerometer samples indicating the forces on the device.
-* A `CMDeviceMotion` object provides information about the orientation and movement of the device by combining data collected from the accelerometer, gyroscope, and magnetometer.
-* HealthKit returns sample types, such as heart rate.
-* CoreLocation returns location data (combined from GPS, Wi-Fi and cell tower information).
+- The pedometer sensor returns a `CMPedometerData` object that provides step counts computed by the motion coprocessor on supported devices.
+- The accelerometer sensor returns a `CMAccelerometerData` object that provides raw accelerometer samples indicating the forces on the device.
+- A `CMDeviceMotion` object provides information about the orientation and movement of the device by combining data collected from the accelerometer, gyroscope, and magnetometer.
+- HealthKit returns sample types, such as heart rate.
+- CoreLocation returns location data (combined from GPS, Wi-Fi and cell tower information).
 
 The recorders used by ResearchKit's predefined active tasks always use
 `NSFileProtectionCompleteUnlessOpen` while writing data to disk, and
@@ -442,27 +419,10 @@ then change the file protection level on any files generated to
 
 For HealthKit related data, there are two recorder configurations:
 
-* `ORKHealthQuantityTypeRecorderConfiguration` to access quantity data such as heart rate.
-* `ORKHealthClinicalTypeRecorderConfiguration` to access health records data. 
+- `ORKHealthQuantityTypeRecorderConfiguration` to access quantity data such as heart rate.
+- `ORKHealthClinicalTypeRecorderConfiguration` to access health records data. 
 
 Access to health quanity and records data requires explicit permission that the user must grant explicitly. More information about accessing health record data <a href="https://developer.apple.com/documentation/healthkit/health_and_fitness_samples/accessing_health_records?language=objc">can be found here</a>.
-
-## Create Custom Active Tasks
-
-You can build your own custom active tasks by creating custom subclasses of `ORKActiveStep` and
-`ORKActiveStepViewController`. Follow the example of active steps in ResearchKit's predefined tasks. (A helpful tutorial on creating active tasks <a href="http://blog.shazino.com/articles/dev/researchkit-new-active-task/">can be found here</a>).
-
-Some steps used in the predefined tasks may be useful as guides for creating your own tasks. For example:
-
-*  `ORKCountdownStep` displays a timer that counts down with animation for the step duration.
-*  `ORKCompletionStep` displays a confirmation that the task is completed.
-
-Figure 20 shows examples of custom tasks.
-
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="ShortWalkTaskImages/ShortWalkStep3.png" alt="Countdown step" style="width: 100%;border: solid black 1px; ">Countdown step</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 25%; margin-right: 5%; margin-bottom: 0.5em;"><img src="SpatialSpanMemoryTaskImages/SpatialSpanMemoryStep7.png" alt="Task completion step" style="width: 100%;border: solid black 1px;">Task completion step</p>
-<p style="clear: both;"></p>
-<figcaption><center>Figure 20. Custom task examples</center></figcaption>
 
 --
 ### References
