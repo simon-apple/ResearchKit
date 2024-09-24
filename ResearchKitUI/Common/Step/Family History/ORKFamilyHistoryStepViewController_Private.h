@@ -1,3 +1,4 @@
+//
 /*
  Copyright (c) 2023, Apple Inc. All rights reserved.
  
@@ -28,38 +29,16 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitInternal/ORKFamilyHistoryStepViewController.h>
+#import <ResearchKitUI/ORKFamilyHistoryStepViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
+@interface ORKFamilyHistoryStepViewController (ORKFamilyHistoryReviewSupport) <UITableViewDelegate, UITableViewDataSource>
 
-@class ORKFamilyHistoryReviewController;
-@class ORKOrderedTask;
-@class ORKNavigableOrderedTask;
-
-@protocol ORKFamilyHistoryReviewControllerDelegate <NSObject>
-@required
-- (void)familyHistoryReviewController:(ORKFamilyHistoryReviewController *)familyHistoryReviewController didUpdateResult:(ORKTaskResult *)updatedResult source:(ORKTaskResult *)resultSource;
-- (void)familyHistoryReviewControllerDidSelectIncompleteCell:(ORKFamilyHistoryReviewController *)familyHistoryReviewController;
-@end
-
-ORK_CLASS_AVAILABLE
-@interface ORKFamilyHistoryReviewController : ORKFamilyHistoryStepViewController
-
-- (instancetype)initWithTask:(ORKOrderedTask *)task
-                      result:(ORKTaskResult *)result
-                    delegate:(id<ORKFamilyHistoryReviewControllerDelegate>)delegate;
-
-- (instancetype)initWithTask:(ORKNavigableOrderedTask *)task
-                    delegate:(id<ORKFamilyHistoryReviewControllerDelegate>)delegate
-                 isCompleted:(BOOL)isCompleted
-              incompleteText:(NSString *)incompleteText;
-
-- (void)updateResultSource:(ORKTaskResult *)taskResult;
-- (void)setText:(NSString *)text;
-
-@property (nonatomic, weak) id<ORKFamilyHistoryReviewControllerDelegate> reviewDelegate;
-
-@property (nonatomic, nullable) NSString *reviewTitle;
+- (void)setupFooterViewIfNeeded;
+- (void)handleRelatedPersonTaskResult:(ORKTaskResult *)taskResult taskIdentifier:(NSString *)identifier;
+- (void)updateDisplayedConditionsFromTaskResult:(ORKTaskResult *)taskResult;
+- (NSInteger)numberOfRowsForRelativeGroupInSection:(NSInteger)section;
+- (void)updateViewColors;
 
 @end
 

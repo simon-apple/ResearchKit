@@ -40,6 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, ORKSettingType) {
     ORKSettingTypeReduceLoudSounds = 0,
+    ORKSettingTypeEnvironmentalNoise = 1,
 } ORK_ENUM_AVAILABLE;
 
 /**

@@ -47,6 +47,7 @@
 #import "ORKIUtils.h"
 
 #import <ResearchKitUI/ORKTaskViewController.h>
+#import <ResearchKitInternal/ORKITaskViewController.h>
 #import <ResearchKitActiveTask/ORKEnvironmentSPLMeterStep.h>
 
 #if TARGET_OS_IOS
@@ -192,7 +193,8 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
     } else if ([_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
                [_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2]) {
         return ORKILocalizedString(@"TINNITUS_ALERT_TEXT_AIRPODSPRO", nil);
-    } else if ([_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
+    } else if ([_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax] ||
+               [_headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMaxUSBC]) {
         return ORKILocalizedString(@"TINNITUS_ALERT_TEXT_AIRPODSMAX", nil);
     } else {
         return ORKILocalizedString(@"TINNITUS_ALERT_TEXT_EARPODS", nil);
@@ -231,7 +233,8 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 - (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
     if ([[_headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
         [[_headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2] ||
-        [[_headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
+        [[_headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax] ||
+        [[_headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMaxUSBC]) {
         if (_bluetoothMode == ORKBluetoothModeNone) {
             // save bluetooth mode for the first time
             _bluetoothMode = bluetoothMode;
@@ -646,7 +649,7 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
     return nextStep;
 }
 
-- (ORKStep *)stepAfterStep:(ORKStep *)step withResult:(ORKTaskResult *)result {
+- (nullable ORKStep *)stepAfterStep:(ORKStep *)step withResult:(ORKTaskResult *)result {
     if (step == nil) {
         [self setupStraightStepAfterStepDict];
     }
@@ -659,6 +662,10 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 
     if (!nextStep) {
         nextStep = [self apendedStepAfterStep:step];
+    }
+    
+    if ([step.identifier isEqualToString:ORKEnvironmentSPLMeterTimeoutIdentifier]) {
+        return nil;
     }
     
     if (nextStep) {

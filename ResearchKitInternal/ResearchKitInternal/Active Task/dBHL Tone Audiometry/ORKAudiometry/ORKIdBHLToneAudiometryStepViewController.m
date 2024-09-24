@@ -104,26 +104,6 @@
             if ([firstResult isKindOfClass:[ORKHeadphoneDetectResult class]]) {
                 ORKHeadphoneDetectResult *headphoneDetectResult = (ORKHeadphoneDetectResult *)firstResult;
                 dBHLTAStep.headphoneType = headphoneDetectResult.headphoneType;
-        
-            } else if ([firstResult isKindOfClass:[ORKIdBHLToneAudiometryResult class]]) {
-                if (@available(iOS 14.0, *)) {
-                    ORKIdBHLToneAudiometryResult *dBHLToneAudiometryResult = (ORKIdBHLToneAudiometryResult *)firstResult;
-                    BOOL suitableResult = (dBHLToneAudiometryResult.algorithmVersion == 1 &&
-                                           [self.audiometryEngine isKindOfClass:[ORKNewAudiometry class]] &&
-                                           dBHLToneAudiometryResult.samples.count > 0);
-                    
-                    // Only use audiograms from ORKNewAudiometry generated results
-                    if (suitableResult) {
-                        NSMutableDictionary *audiogram = [[NSMutableDictionary alloc] init];
-                        
-                        for (ORKdBHLToneAudiometryFrequencySample *sample in dBHLToneAudiometryResult.samples) {
-                            NSNumber *frequency = [NSNumber numberWithDouble:sample.frequency];
-                            NSNumber *threshold = [NSNumber numberWithDouble:sample.calculatedThreshold];
-                            audiogram[frequency] = threshold;
-                        }
-                        [(ORKNewAudiometry *)self.audiometryEngine setPreviousAudiogram:audiogram];
-                    }
-                }
             }
         }
     }
@@ -214,8 +194,9 @@
 
 - (void)bluetoothModeChanged:(ORKBluetoothMode)bluetoothMode {
     if ([[[self idBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
-        [[[self idBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
-            
+        [[[self idBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2] ||
+        [[[self idBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax] ||
+        [[[self idBHLToneAudiometryStep].headphoneType uppercaseString] isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMaxUSBC]) {
         BOOL newModeIsNoiseCancellingMode = (bluetoothMode == ORKBluetoothModeNoiseCancellation);
         if (!newModeIsNoiseCancellingMode) {
             [self showAlert];
@@ -250,6 +231,7 @@
                                         actionWithTitle:ORKILocalizedString(@"dBHL_ALERT_TITLE_START_OVER", nil)
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction *action) {
+                [self.dBHLToneAudiometryStep resetAudiometryEngine];
                 [[self taskViewController] restartTask];
             }];
             [alertController addAction:startOver];

@@ -176,11 +176,11 @@ final class SurveyQuestionsUITests: BaseUITest {
     }
     
     ///<rdar://tsc/21847958> [Survey Questions] Text Choice Question
-    func testSingleTextChoiceQuestion() {
+    func testTextChoiceQuestion() {
         tasksList
             .selectTaskByName(Task.textChoiceQuestion.description)
 
-        test("Step 1: Select an option") {
+        test("Step 1: Verify Single Text Choice Question") {
             let formStep1 = FormStepScreen(itemIds: ["formItem01"])
             formStep1
                 .verify(.title)
@@ -196,7 +196,7 @@ final class SurveyQuestionsUITests: BaseUITest {
                 .tap(.continueButton)
         }
         
-        test("Step 2: Select one or more options") {
+        test("Step 2: Verify Multiple Text Choice Question") {
             let formStep2 = FormStepScreen(itemIds: ["formItem02"])
             let indicesToSelect1 = [0, 2]
             let exclusiveChoiceIndex = [3]
@@ -681,7 +681,17 @@ final class SurveyQuestionsUITests: BaseUITest {
     ///rdar://tsc/21847953 ([Survey Questions] Location Question) - Happy Path
     func testLocationQuestion() throws {
         if isRunningInXcodeCloud {
-            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment")
+            guard !isRunningOnSimulator else {
+                try XCTSkipIf(true, "Skipping this test on simulator when running in Xcode Cloud environment due to Intel VMs, which Xcode Cloud uses for its hosts, are known to not have the Maps app work (display location / map data) (unsupported)")
+                return
+            }
+            test("Enable location services in the Setting app") {
+                let settingsApp = SettingsAppScreens()
+                settingsApp
+                    .terminateAndLaunchApp()
+                    .enableLocationServices()
+            }
+            app.activate() // Bring ORKCatalog to foreground
         }
         
         /// https://developer.apple.com/documentation/xcode/simulating-location-in-tests
@@ -716,8 +726,14 @@ final class SurveyQuestionsUITests: BaseUITest {
     
     /// rdar://tsc/21847953 ([Survey Questions] Location Question) - Negative Path
     func testLocationQuestionInvalidAddress() throws {
-        if isRunningInXcodeCloud {
-            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment")
+        if isPhysicalDeviceInXcodeCloud()  {
+            test("Enable location services in the Setting app") {
+                let settingsApp = SettingsAppScreens()
+                settingsApp
+                    .terminateAndLaunchApp()
+                    .enableLocationServices()
+            }
+            app.activate() // Bring ORKCatalog to foreground
         }
         /// https://developer.apple.com/documentation/xcode/simulating-location-in-tests
         if #available(iOS 16.4, *) {

@@ -30,46 +30,40 @@
 
 
 #import "ORKFamilyHistoryStepViewController.h"
-#import "ORKFamilyHistoryStepViewController_Private.h"
 
-#import "ORKConditionStepConfiguration.h"
-#import "ORKFamilyHistoryResult.h"
-#import "ORKFamilyHistoryStep.h"
-#import "ORKHealthCondition.h"
-#import "ORKRelatedPerson.h"
-#import "ORKRelativeGroup.h"
-
-#import "ORKFamilyHistoryTableHeaderView.h"
-
+#import "ORKAccessibilityFunctions.h"
 #import "ORKFamilyHistoryRelatedPersonCell.h"
+#import "ORKFamilyHistoryStepViewController_Private.h"
 #import "ORKFamilyHistoryTableFooterView.h"
 #import "ORKFamilyHistoryTableHeaderView.h"
-
-#import "ORKIUtils.h"
+#import "ORKLearnMoreStepViewController.h"
+#import "ORKNavigationContainerView_Internal.h"
+#import "ORKReviewIncompleteCell.h"
+#import "ORKStepContainerView.h"
+#import "ORKStepContentView.h"
+#import "ORKStepHeaderView_Internal.h"
+#import "ORKStepViewController_Internal.h"
+#import "ORKTableContainerView.h"
+#import "ORKTaskViewController_Internal.h"
 
 #import <ResearchKit/ORKAnswerFormat.h>
 #import <ResearchKit/ORKAnswerFormat_Internal.h>
 #import <ResearchKit/ORKCollectionResult_Private.h>
+#import <ResearchKit/ORKConditionStepConfiguration.h>
+#import <ResearchKit/ORKFamilyHistoryResult.h>
+#import <ResearchKit/ORKFamilyHistoryStep.h>
 #import <ResearchKit/ORKFormStep.h>
+#import <ResearchKit/ORKHealthCondition.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ORKNavigableOrderedTask.h>
 #import <ResearchKit/ORKPredicateFormItemVisibilityRule.h>
+#import <ResearchKit/ORKRelatedPerson.h>
+#import <ResearchKit/ORKRelativeGroup.h>
 #import <ResearchKit/ORKResultPredicate.h>
 #import <ResearchKit/ORKResult_Private.h>
 #import <ResearchKit/ORKSkin.h>
 #import <ResearchKit/ORKStep_Private.h>
 #import <ResearchKit/ORKQuestionResult.h>
-
-#import <ResearchKitUI/ORKAccessibilityFunctions.h>
-#import <ResearchKitUI/ORKLearnMoreStepViewController.h>
-#import <ResearchKitUI/ORKNavigationContainerView_Internal.h>
-#import <ResearchKitUI/ORKReviewIncompleteCell.h>
-#import <ResearchKitUI/ORKStepContainerView.h>
-#import <ResearchKitUI/ORKStepContentView.h>
-#import <ResearchKitUI/ORKStepHeaderView_Internal.h>
-#import <ResearchKitUI/ORKStepViewController_Internal.h>
-#import <ResearchKitUI/ORKTableContainerView.h>
-#import <ResearchKitUI/ORKTaskViewController_Internal.h>
 
 
 @class ORKTaskViewController;
@@ -109,6 +103,8 @@ NSString * const SiblingVitalStatusFormItemIdentifier = @"f1fc324c-5494-4339-ba1
 NSString * const VitalStatusDontKnowValue = @"do not know";
 NSString * const VitalStatusPreferNotToAnswerValue = @"prefer not to answer";
 NSString * const VitalStatusDeceasedAnswerValue = @"deceased";
+
+NSString * const FamilyHistoryProvideMinorConditionInfoQuestion = @"This person is a minor. Would you like to continue with their medical history?";
 
 double const AgeOfDeathPredicateMinorAgeValue = 18.0;
 double const AgeOfDeathPredicateMinExpectedValue = 19.0;
@@ -334,7 +330,7 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
         
         ORKTextChoiceAnswerFormat *textChoiceAnswerFormat = [self makeConditionsTextChoiceAnswerFormat:[step.conditionStepConfiguration.conditions copy]];
         ORKFormItem *healthConditionsFormItem = [[ORKFormItem alloc] initWithIdentifier:step.conditionStepConfiguration.conditionsFormItemIdentifier
-                                                                                   text:ORKILocalizedString(@"FAMILY_HISTORY_CONDITIONS_FORM_ITEM_TEXT", @"")
+                                                                                   text:ORKLocalizedString(@"FAMILY_HISTORY_CONDITIONS_FORM_ITEM_TEXT", @"")
                                                                            answerFormat:textChoiceAnswerFormat];
         
 #if RK_APPLE_INTERNAL
@@ -375,7 +371,7 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
             // create bool formItem that appears above conditions list formItem
             ORKBooleanAnswerFormat *boolAnswerFormat = [ORKAnswerFormat booleanAnswerFormat];
             ORKFormItem *checkForMinorConditionsFormItem = [[ORKFormItem alloc] initWithIdentifier:minorFormItemIdentifier
-                                                                                              text:ORKILocalizedString(@"FAMILY_HISTORY_PROVIDE_MINOR_CONDITION_INFO_QUESTION", @"")
+                                                                                              text:FamilyHistoryProvideMinorConditionInfoQuestion
                                                                                       answerFormat:boolAnswerFormat];
             
             // create predicate that will makes sure the bool formItem is only presented if 18 or younger is selected
@@ -408,8 +404,8 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
         [formItems addObjectsFromArray:step.conditionStepConfiguration.formItems];
         
         ORKFormStep *conditionFormStep = [[ORKFormStep alloc] initWithIdentifier:step.conditionStepConfiguration.stepIdentifier];
-        conditionFormStep.title = ORKILocalizedString(@"FAMILY_HISTORY_CONDITIONS_STEP_TITLE", @"");
-        conditionFormStep.detailText = ORKILocalizedString(@"FAMILY_HISTORY_CONDITIONS_STEP_DESCRIPTION_TEMP", @"");
+        conditionFormStep.title = ORKLocalizedString(@"FAMILY_HISTORY_CONDITIONS_STEP_TITLE", @"");
+        conditionFormStep.detailText = ORKLocalizedString(@"FAMILY_HISTORY_CONDITIONS_STEP_DESCRIPTION_TEMP", @"");
         conditionFormStep.optional = NO;
         conditionFormStep.formItems = [formItems copy];
         
@@ -444,17 +440,17 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
     
     _conditionsWithinCurrentTask = [conditionsWithinCurrentTask copy];
     
-    ORKTextChoice *noneOfTheAboveTextChoice = [[ORKTextChoice alloc] initWithText:ORKILocalizedString(@"FAMILY_HISTORY_NONE_OF_THE_ABOVE", @"")
+    ORKTextChoice *noneOfTheAboveTextChoice = [[ORKTextChoice alloc] initWithText:ORKLocalizedString(@"FAMILY_HISTORY_NONE_OF_THE_ABOVE", @"")
                                                          detailText:nil
                                                               value:ORKHealthConditionNoneOfTheAboveChoiceValue
                                                           exclusive:YES];
     
-    ORKTextChoice *idkTextChoice = [[ORKTextChoice alloc] initWithText:ORKILocalizedString(@"FAMILY_HISTORY_I_DONT_KNOW", @"")
+    ORKTextChoice *idkTextChoice = [[ORKTextChoice alloc] initWithText:ORKLocalizedString(@"FAMILY_HISTORY_I_DONT_KNOW", @"")
                                                          detailText:nil
                                                               value:ORKHealthConditionIDontKnowChoiceValue
                                                           exclusive:YES];
     
-    ORKTextChoice *preferNotToAnswerTextChoice = [[ORKTextChoice alloc] initWithText:ORKILocalizedString(@"FAMILY_HISTORY_PREFER_NOT_TO_ANSWER", @"")
+    ORKTextChoice *preferNotToAnswerTextChoice = [[ORKTextChoice alloc] initWithText:ORKLocalizedString(@"FAMILY_HISTORY_PREFER_NOT_TO_ANSWER", @"")
                                                          detailText:nil
                                                               value:ORKHealthConditionPreferNotToAnswerChoiceValue
                                                           exclusive:YES];
@@ -854,11 +850,11 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
                 
             case ORKFamilyHistoryTooltipOptionDelete: {
                 // delete flow for ORKRelatedPerson
-                UIAlertController *deleteAlert = [UIAlertController alertControllerWithTitle:ORKILocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY_TITLE", @"")
+                UIAlertController *deleteAlert = [UIAlertController alertControllerWithTitle:ORKLocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY_TITLE", @"")
                                                                                      message:nil
                                                                               preferredStyle:UIAlertControllerStyleActionSheet];
                 
-                UIAlertAction* unfollowAction = [UIAlertAction actionWithTitle:ORKILocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY", @"")
+                UIAlertAction* unfollowAction = [UIAlertAction actionWithTitle:ORKLocalizedString(@"FAMILY_HISTORY_DELETE_ENTRY", @"")
                                                                          style:UIAlertActionStyleDestructive
                                                                        handler:^(UIAlertAction * action) {
                     [self->_relatedPersons[currentRelatedPerson.groupIdentifier] removeObject:currentRelatedPerson];
@@ -867,7 +863,7 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
                     [self resultUpdated];
                 }];
                 
-                UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:ORKILocalizedString(@"FAMILY_HISTORY_CANCEL", @"")
+                UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:ORKLocalizedString(@"FAMILY_HISTORY_CANCEL", @"")
                                                                        style:UIAlertActionStyleCancel
                                                                      handler:nil];
                 
@@ -955,6 +951,8 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
     }
     
     [self resultUpdated];
+    
+    [_tableContainer setNeedsLayout];
 }
 
 - (NSInteger)numberOfRowsForRelativeGroupInSection:(NSInteger)section {
@@ -1065,7 +1063,7 @@ double const BirthYearPredicateMinExpectedValue = 1.0;
     ORKRelativeGroup *relativeGroup = _relativeGroups[section];
 
     if (footerView == nil) {
-        footerView = [[ORKFamilyHistoryTableFooterView alloc] initWithTitle:[NSString stringWithFormat:ORKILocalizedString(@"FAMILY_HISTORY_ADD", @"") ,relativeGroup.name]
+        footerView = [[ORKFamilyHistoryTableFooterView alloc] initWithTitle:[NSString stringWithFormat:ORKLocalizedString(@"FAMILY_HISTORY_ADD", @"") ,relativeGroup.name]
                                                     relativeGroupIdentifier:[relativeGroup.identifier copy]
                                                                    delegate:self];
     }

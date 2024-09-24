@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 ORK_CLASS_AVAILABLE
 @interface ORKSettingStatusCollector : NSObject
 
-- (ORKSettingStatusSnapshot *)getSettingStatusForSettingType:(ORKSettingType)settingType;
+- (ORKSettingStatusSnapshot *)settingStatusForSettingType:(ORKSettingType)settingType;
 
 @end
 
@@ -57,6 +57,13 @@ ORK_CLASS_AVAILABLE
  */
 ORK_CLASS_AVAILABLE
 @interface ORKAudioSettingStatusCollector : ORKSettingStatusCollector
+@end
+
+/**
+ A setting collector object specific for environment noise related settings.
+ */
+ORK_CLASS_AVAILABLE
+@interface ORKEnvironmentNoiseStatusCollector : ORKSettingStatusCollector
 @end
 
 NS_ASSUME_NONNULL_END

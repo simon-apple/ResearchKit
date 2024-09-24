@@ -204,7 +204,7 @@ final class OnboardingUITests: BaseUITest {
     
     /// rdar://tsc/33600824 ([Onboarding] Consent Task) - Happy Path
     func testConsentTask() throws {
-        if isRunningInXcodeCloud && !isRunningOnSimulator {
+        if isPhysicalDeviceInXcodeCloud() {
             try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment on device compute devices due to this issue: rdar://130824888 (Health Authorization Error and Health Access screen won't trigger in XCUITests - Occurs only on skywagon device compute devices)")
         }
         obtainConsentViaConsentTask(verifyElements: true)
@@ -272,7 +272,7 @@ final class OnboardingUITests: BaseUITest {
     }
     
     func testConsentDocumentReview() throws {
-        if isRunningInXcodeCloud && !isRunningOnSimulator {
+        if isPhysicalDeviceInXcodeCloud() {
             try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment on device compute devices due to this issue: rdar://130824888 (Health Authorization Error and Health Access screen won't trigger in XCUITests - Occurs only on skywagon device compute devices)")
         }
         

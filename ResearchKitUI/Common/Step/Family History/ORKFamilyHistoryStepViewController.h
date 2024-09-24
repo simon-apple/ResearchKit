@@ -28,24 +28,13 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import UIKit;
+#import <ResearchKitUI/ORKStepViewController.h>
+
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class ORKRelativeGroup;
-@class ORKFamilyHistoryTableFooterView;
-
-@protocol ORKFamilyHistoryTableFooterViewDelegate <NSObject>
-
-- (void)ORKFamilyHistoryTableFooterView:(ORKFamilyHistoryTableFooterView *)footerView didSelectFooterForRelativeGroup:(NSString *)relativeGroup;
-
-@end
-
-@interface ORKFamilyHistoryTableFooterView: UIView
-
-- (instancetype)initWithTitle:(NSString *)title relativeGroupIdentifier:(NSString *)relativeGroupIdentifier delegate:(id<ORKFamilyHistoryTableFooterViewDelegate>)delegate;
-
-- (void)setExpanded:(BOOL)isExpanded;
+ORK_CLASS_AVAILABLE
+@interface ORKFamilyHistoryStepViewController : ORKStepViewController
 
 @end
 

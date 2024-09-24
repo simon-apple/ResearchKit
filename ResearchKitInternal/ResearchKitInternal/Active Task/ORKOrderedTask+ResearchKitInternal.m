@@ -139,6 +139,8 @@ NSString *const ORKdBHLToneAudiometryMethodOfAdjustmentStep2Identifier = @"dBHL2
         step.title = ORKILocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2", nil);
         step.stepDuration = CGFLOAT_MAX;
         step.algorithm = 1;
+        step.initialdBHLValue = 60.0;
+        step.dBHLMaximumThreshold = 85.0;
         step.earPreference = ORKAudioChannelRight;
         ORKStepArrayAddStep(steps, step);
     }
@@ -154,6 +156,8 @@ NSString *const ORKdBHLToneAudiometryMethodOfAdjustmentStep2Identifier = @"dBHL2
         step.title = ORKILocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2", nil);
         step.stepDuration = CGFLOAT_MAX;
         step.algorithm = 1;
+        step.initialdBHLValue = 60.0;
+        step.dBHLMaximumThreshold = 85.0;
         step.earPreference = ORKAudioChannelLeft;
         ORKStepArrayAddStep(steps, step);
     }

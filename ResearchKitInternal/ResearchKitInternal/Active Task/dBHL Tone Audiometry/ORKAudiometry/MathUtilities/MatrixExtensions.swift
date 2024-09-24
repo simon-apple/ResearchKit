@@ -39,6 +39,15 @@ public extension Matrix where Element == Double {
         return Matrix(elements: rowArray, rows: 1, columns: rowArray.count)
     }
     
+    func getRows(_ rows: [Int]) -> Self {
+        var newMatrix = Matrix(elements: [], rows: 0, columns: shape.columns)
+        for row in rows {
+            let rowArray = Array(self.rows[row])
+            newMatrix.appendRow(rowArray)
+        }
+        return newMatrix
+    }
+    
     func getColumn(_ column: Int) -> Self {
         return self[columnIndices: [column]]
     }
@@ -159,7 +168,7 @@ public extension Matrix where Element == Double {
             if pivot != index + 1 {
                 determinant = -determinant * new[index, index]
             } else {
-                determinant = determinant * new[index, index]
+                determinant *= new[index, index]
             }
         }
         return determinant
@@ -271,5 +280,118 @@ public extension Matrix where Element == Double {
             newMatrix.appendRows(of: matrix)
         }
         return newMatrix
+    }
+}
+
+@available(iOS 14, *)
+public extension Matrix where Element == Double {
+    func sorted(byColumn: Int, ascending: Bool = true) -> Matrix<Element> {
+        precondition(byColumn < shape.columns)
+        
+        var indices = Array(0..<shape.rows).map { vDSP_Length($0) }
+        var values = getColumn(byColumn).elements
+        let order: Int32 = ascending ? 1 : -1
+        
+        withUnsafeMutablePointer(to: &indices[0]) { unsafeIndices in
+            withUnsafePointer(to: &values[0]) { unsafeValues in
+                vDSP_vsortiD(unsafeValues, unsafeIndices, nil, vDSP_Length(shape.rows), order)
+            }
+        }
+  
+        var sortedMatrix = Matrix<Element>(elements: [], rows: 0, columns: shape.columns)
+        for rowIdx in 0..<shape.rows {
+            let row = getRow(Int(indices[rowIdx]))
+            sortedMatrix.appendRow(row.elements)
+        }
+        
+        return sortedMatrix
+    }
+    
+    func filterOnColumn(_ column: Int, by condition: (Element) -> Bool) -> Matrix<Element> {
+        precondition(column < shape.columns)
+
+        var newMatrix = Matrix<Double>(elements: [], rows: 0, columns: shape.columns)
+        for rowSlice in rows {
+            let row = Array(rowSlice)
+            if condition(row[column]) {
+                newMatrix.appendRow(row)
+            }
+        }
+
+        return newMatrix
+    }
+    
+    func gatherRows(_ rows: [Int]) -> Matrix<Element> {
+        precondition(rows.count <= shape.rows)
+        guard rows != Array(0..<shape.rows) else {
+            return self
+        }
+
+        var newMatrix = Matrix<Double>(elements: [], rows: 0, columns: shape.columns)
+        for rowIdx in rows {
+            let row = Array(self.rows[rowIdx])
+            newMatrix.appendRow(row)
+        }
+
+        return newMatrix
+    }
+    
+    func filterRows(_ rows: [Int]) -> Matrix<Element> {
+        precondition(rows.count <= shape.rows)
+        guard !rows.isEmpty else {
+            return self
+        }
+        
+        var newMatrix = Matrix<Double>(elements: [], rows: 0, columns: shape.columns)
+        for rowIdx in 0..<shape.rows {
+            if !rows.contains(rowIdx) {
+                let row = Array(self.rows[rowIdx])
+                newMatrix.appendRow(row)
+            }
+        }
+
+        return newMatrix
+    }
+    
+    mutating func clip(to range: ClosedRange<Double>, along axis: Axis, withIndex index: Int) {
+        precondition(self.number(of: axis) > index)
+        
+        var idx = 0
+        modify(along: axis) { slice in
+            if index == idx {
+                var lowerBound = range.lowerBound
+                var upperBound = range.upperBound
+                vDSP_vclipD(
+                    slice.pointer,
+                    slice.stride,
+                    &lowerBound,
+                    &upperBound,
+                    slice.pointer,
+                    slice.stride,
+                    vDSP_Length(slice.count)
+                )
+            }
+            idx += 1
+        }
+    }
+    
+    mutating func addInplace(_ element: Element) {
+        let axis: MatrixAxis = shape.rows > shape.columns ? .columns : .rows
+        
+        modify(along: axis) { slice in
+            var scalar = element
+            vDSP_vsaddD(
+                slice.pointer,
+                slice.stride,
+                &scalar,
+                slice.pointer,
+                slice.stride,
+                vDSP_Length(slice.count)
+            )
+        }
+    }
+    
+    static func allClose(_ lhs: Matrix<Element>, _ rhs: Matrix<Element>, atol: Element) -> Bool {
+        return zip(lhs.elements, rhs.elements).allSatisfy { abs($0 - $1) <= atol }
     }
 }

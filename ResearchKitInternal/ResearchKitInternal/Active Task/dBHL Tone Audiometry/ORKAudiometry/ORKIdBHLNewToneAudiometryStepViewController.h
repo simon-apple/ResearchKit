@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2023, Apple Inc. All rights reserved.
+ Copyright (c) 2022, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -28,31 +28,13 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
-
-#import <ResearchKit/ORKTypes.h>
-
-@class ORKTaskResult;
-@class ORKHealthCondition;
-@class ORKFormItem;
+#import <Foundation/Foundation.h>
+#import <ResearchKitActiveTask/ORKdBHLToneAudiometryStepViewController.h>
+#import <ResearchKitInternal/ORKHeadphoneDetector.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-ORK_CLASS_AVAILABLE
-@interface ORKConditionStepConfiguration : NSObject <NSSecureCoding, NSCopying>
-
-+ (instancetype)new NS_UNAVAILABLE;
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithStepIdentifier:(NSString *)stepIdentifier
-          conditionsFormItemIdentifier:(NSString *)conditionsFormItemIdentifier
-                            conditions:(NSArray<ORKHealthCondition *> *)conditions
-                             formItems:(NSArray<ORKFormItem *> *)formItems NS_DESIGNATED_INITIALIZER;
-
-@property (nonatomic, readonly, copy) NSString *stepIdentifier;
-@property (nonatomic, readonly, copy) NSString *conditionsFormItemIdentifier;
-@property (nonatomic, readonly, copy) NSArray<ORKHealthCondition *> *conditions;
-@property (nonatomic, copy) NSArray<ORKFormItem *> *formItems;
+@interface ORKIdBHLNewToneAudiometryStepViewController: ORKActiveStepViewController<ORKHeadphoneDetectorDelegate>
 
 @end
 

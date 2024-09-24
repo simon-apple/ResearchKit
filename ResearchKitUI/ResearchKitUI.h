@@ -48,6 +48,9 @@
 #import <ResearchKitUI/ORKDateTimePicker.h>
 #import <ResearchKitUI/ORKDefaultFont.h>
 #import <ResearchKitUI/ORKDontKnowButton.h>
+#import <ResearchKitUI/ORKFamilyHistoryRelatedPersonCell.h>
+#import <ResearchKitUI/ORKFamilyHistoryStepViewController.h>
+#import <ResearchKitUI/ORKFamilyHistoryTableFooterView.h>
 #import <ResearchKitUI/ORKFootnoteLabel.h>
 #import <ResearchKitUI/ORKFormItemCell.h>
 #import <ResearchKitUI/ORKFormSectionTitleLabel.h>
