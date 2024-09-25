@@ -103,7 +103,7 @@ public struct MultipleChoiceQuestionView: View {
                             Divider()
                         }
                         
-                        TextChoiceCell(
+                        TextChoiceOption(
                             title: Text(option.choiceText),
                             isSelected: isSelected(option)
                         ) {
