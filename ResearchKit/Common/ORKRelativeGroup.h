@@ -38,6 +38,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ An object to represent a relative type displayed
+ during a family health history survey.
+ 
+ Examples of relative groups could be parents, children, or siblings.
+ */
+
 ORK_CLASS_AVAILABLE
 @interface ORKRelativeGroup : NSObject
 

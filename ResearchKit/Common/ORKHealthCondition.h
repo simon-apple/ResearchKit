@@ -36,6 +36,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ A base class that represents a single health condition displayed
+ by the family history step.
+ */
+
 ORK_CLASS_AVAILABLE
 @interface ORKHealthCondition : NSObject <NSSecureCoding, NSCopying>
 

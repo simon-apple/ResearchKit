@@ -38,6 +38,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ The base object for configuring the displayed health conditions
+ for the family history step.
+ */
+
 ORK_CLASS_AVAILABLE
 @interface ORKConditionStepConfiguration : NSObject <NSSecureCoding, NSCopying>
 

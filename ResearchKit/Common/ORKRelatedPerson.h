@@ -43,6 +43,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ An object that represents a relative added during
+ a family health history survey.
+ */
+
 ORK_CLASS_AVAILABLE
 @interface ORKRelatedPerson : NSObject <NSSecureCoding, NSCopying>
 
