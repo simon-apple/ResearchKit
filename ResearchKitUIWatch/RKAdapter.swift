@@ -331,14 +331,35 @@ public class RKAdapter {
                 )
             )
         case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
-            let choices = imageChoiceAnswerFormat.imageChoices.map { choice in
-                let value: ResultValue? = RKAdapter.value(from: choice.value)
-                return ImageChoice(
-                    normalImage: choice.normalStateImage,
-                    selectedImage: choice.selectedStateImage,
-                    text: choice.text!,
-                    value: value ?? .string("Unknown")
-                )
+            let choices = imageChoiceAnswerFormat.imageChoices.compactMap { choice in
+                let imageChoice: ImageChoice?
+                
+                if let number = choice.value as? NSNumber {
+                    imageChoice = ImageChoice(
+                        normalImage: choice.normalStateImage,
+                        selectedImage: choice.selectedStateImage,
+                        text: choice.text!,
+                        value: number.intValue
+                    )
+                } else if let string = choice.value as? NSString {
+                    imageChoice = ImageChoice(
+                        normalImage: choice.normalStateImage,
+                        selectedImage: choice.selectedStateImage,
+                        text: choice.text!,
+                        value: String(string)
+                    )
+                } else if let date = choice.value as? Date {
+                    imageChoice = ImageChoice(
+                        normalImage: choice.normalStateImage,
+                        selectedImage: choice.selectedStateImage,
+                        text: choice.text!,
+                        value: date
+                    )
+                } else {
+                    imageChoice = nil
+                }
+                
+                return imageChoice
             }
 
             let style: ImageChoiceQuestion.ChoiceSelectionType = {

@@ -35,9 +35,51 @@ public struct ImageChoice: Identifiable, Equatable {
     public let normalImage: UIImage
     public let selectedImage: UIImage?
     public let text: String
-    public let value: ResultValue
-
+    let value: ResultValue
+    
     public init(
+        normalImage: UIImage,
+        selectedImage: UIImage?,
+        text: String,
+        value: Int
+    ) {
+        self.init(
+            normalImage: normalImage,
+            selectedImage: selectedImage,
+            text: text,
+            value: .int(value)
+        )
+    }
+    
+    public init(
+        normalImage: UIImage,
+        selectedImage: UIImage?,
+        text: String,
+        value: String
+    ) {
+        self.init(
+            normalImage: normalImage,
+            selectedImage: selectedImage,
+            text: text,
+            value: .string(value)
+        )
+    }
+    
+    public init(
+        normalImage: UIImage,
+        selectedImage: UIImage?,
+        text: String,
+        value: Date
+    ) {
+        self.init(
+            normalImage: normalImage,
+            selectedImage: selectedImage,
+            text: text,
+            value: .date(value)
+        )
+    }
+
+    private init(
         normalImage: UIImage,
         selectedImage: UIImage?,
         text: String,
@@ -54,6 +96,7 @@ public struct ImageChoice: Identifiable, Equatable {
         return lhs.id == rhs.id && lhs.text == rhs.text
     }
 }
+
 public struct ImageChoiceQuestion: Identifiable {
     public enum ChoiceSelectionType {
         case single, multiple
@@ -64,7 +107,7 @@ public struct ImageChoiceQuestion: Identifiable {
     public let choices: [ImageChoice]
     public let style: ChoiceSelectionType
     public let vertical: Bool
-    public let selections: [ResultValue]
+    let selections: [ResultValue]
 }
 
 public struct ImageChoiceView: View {
@@ -94,8 +137,128 @@ public struct ImageChoiceView: View {
             return value
         }
     }
-
+    
     public init(
+        id: String,
+        title: String,
+        detail: String?,
+        choices: [ImageChoice],
+        style: ImageChoiceQuestion.ChoiceSelectionType,
+        vertical: Bool,
+        result: Binding<[Int]?>
+    ) {
+        self.init(
+            id: id,
+            title: title,
+            detail: detail,
+            choices: choices,
+            style: style,
+            vertical: vertical,
+            result: .init(
+                get: {
+                    guard let integers = result.wrappedValue else {
+                        return nil
+                    }
+                    return integers.map { .int($0) }
+                },
+                set: { newValues in
+                    guard let newValues else {
+                        result.wrappedValue = nil
+                        return
+                    }
+                    
+                    result.wrappedValue = newValues.compactMap { resultValue in
+                        guard case let .int(value) = resultValue else {
+                            return nil
+                        }
+                        return value
+                    }
+                }
+            )
+        )
+    }
+    
+    public init(
+        id: String,
+        title: String,
+        detail: String?,
+        choices: [ImageChoice],
+        style: ImageChoiceQuestion.ChoiceSelectionType,
+        vertical: Bool,
+        result: Binding<[String]?>
+    ) {
+        self.init(
+            id: id,
+            title: title,
+            detail: detail,
+            choices: choices,
+            style: style,
+            vertical: vertical,
+            result: .init(
+                get: {
+                    guard let strings = result.wrappedValue else {
+                        return nil
+                    }
+                    return strings.map { .string($0) }
+                },
+                set: { newValues in
+                    guard let newValues else {
+                        result.wrappedValue = nil
+                        return
+                    }
+                    
+                    result.wrappedValue = newValues.compactMap { resultValue in
+                        guard case let .string(value) = resultValue else {
+                            return nil
+                        }
+                        return value
+                    }
+                }
+            )
+        )
+    }
+    
+    public init(
+        id: String,
+        title: String,
+        detail: String?,
+        choices: [ImageChoice],
+        style: ImageChoiceQuestion.ChoiceSelectionType,
+        vertical: Bool,
+        result: Binding<[Date]?>
+    ) {
+        self.init(
+            id: id,
+            title: title,
+            detail: detail,
+            choices: choices,
+            style: style,
+            vertical: vertical,
+            result: .init(
+                get: {
+                    guard let dates = result.wrappedValue else {
+                        return nil
+                    }
+                    return dates.map { .date($0) }
+                },
+                set: { newValues in
+                    guard let newValues else {
+                        result.wrappedValue = nil
+                        return
+                    }
+                    
+                    result.wrappedValue = newValues.compactMap { resultValue in
+                        guard case let .date(value) = resultValue else {
+                            return nil
+                        }
+                        return value
+                    }
+                }
+            )
+        )
+    }
+
+    private init(
         id: String,
         title: String,
         detail: String?,
@@ -277,7 +440,7 @@ fileprivate extension View {
 }
 
 #Preview {
-    @Previewable @State var selection: [ResultValue]? = []
+    @Previewable @State var selection: [Int]? = []
     ScrollView {
         ImageChoiceView(
             id: UUID().uuidString,
@@ -288,13 +451,13 @@ fileprivate extension View {
                     normalImage: UIImage(systemName: "carrot")!,
                     selectedImage: nil,
                     text: "carrot",
-                    value: .int(0)
+                    value: 0
                 ),
                 ImageChoice(
                     normalImage: UIImage(systemName: "birthday.cake")!,
                     selectedImage: nil,
                     text: "cake",
-                    value: .int(1)
+                    value: 1
                 ),
             ],
             style: .multiple,
