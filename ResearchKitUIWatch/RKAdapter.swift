@@ -81,14 +81,47 @@ public class RKAdapter {
                 return multipleChoiceOption
             }
             
-            return FormRow.multipleChoiceRow(
-                MultipleChoiceQuestion(
-                    id: identifier,
-                    title: title,
-                    choices: answerOptions,
-                    selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
-                )
-            )
+            let formRow: FormRow?
+            
+            switch answerOptions.first {
+            case .some(let multipleChoiceOption):
+                switch multipleChoiceOption.value {
+                case .int:
+                    formRow = FormRow.multipleChoiceRow(
+                        MultipleChoiceQuestion(
+                            id: identifier,
+                            title: title,
+                            choices: answerOptions,
+                            result: [Int](),
+                            selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
+                        )
+                    )
+                case .string:
+                    formRow = FormRow.multipleChoiceRow(
+                        MultipleChoiceQuestion(
+                            id: identifier,
+                            title: title,
+                            choices: answerOptions,
+                            result: [String](),
+                            selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
+                        )
+                    )
+                case .date:
+                    formRow = FormRow.multipleChoiceRow(
+                        MultipleChoiceQuestion(
+                            id: identifier,
+                            title: title,
+                            choices: answerOptions,
+                            result: [Date](),
+                            selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
+                        )
+                    )
+                }
+            case .none:
+                formRow = nil
+            }
+            
+            return formRow
         case let scaleAnswerFormat as ORKScaleAnswerFormat:
             return FormRow.intSliderRow(
                 ScaleSliderQuestion(
@@ -576,7 +609,7 @@ public class RKAdapter {
         return nil
     }
 
-    public static func rkValue(from result: ResultValue) -> NSCopying & NSSecureCoding & NSObjectProtocol {
+    static func rkValue(from result: ResultValue) -> NSCopying & NSSecureCoding & NSObjectProtocol {
         switch result {
         case .int(let int):
             return NSNumber(integerLiteral: int)
@@ -587,7 +620,7 @@ public class RKAdapter {
         }
     }
 
-    public static func value(from rkValue: NSCopying & NSSecureCoding & NSObjectProtocol) -> ResultValue? {
+    static func value(from rkValue: NSCopying & NSSecureCoding & NSObjectProtocol) -> ResultValue? {
         if let number = rkValue as? NSNumber {
             return .int(number.intValue)
         } else if let string = rkValue as? NSString {

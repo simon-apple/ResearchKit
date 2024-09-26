@@ -75,10 +75,58 @@ public struct MultipleChoiceQuestion: Identifiable {
     public var title: String?
     public var id: String
     public var choices: [MultipleChoiceOption]
-    public var result: [ResultValue]
+    var result: [ResultValue]
     public var selectionType: ChoiceSelectionType
-
+    
     public init(
+        id: ID,
+        title: String?,
+        choices: [MultipleChoiceOption],
+        result: [Int] = [],
+        selectionType: ChoiceSelectionType
+    ) {
+        self.init(
+            id: id,
+            title: title,
+            choices: choices,
+            result: result.map { .int($0) },
+            selectionType: selectionType
+        )
+    }
+    
+    public init(
+        id: ID,
+        title: String?,
+        choices: [MultipleChoiceOption],
+        result: [String] = [],
+        selectionType: ChoiceSelectionType
+    ) {
+        self.init(
+            id: id,
+            title: title,
+            choices: choices,
+            result: result.map { .string($0) },
+            selectionType: selectionType
+        )
+    }
+    
+    public init(
+        id: ID,
+        title: String?,
+        choices: [MultipleChoiceOption],
+        result: [Date] = [],
+        selectionType: ChoiceSelectionType
+    ) {
+        self.init(
+            id: id,
+            title: title,
+            choices: choices,
+            result: result.map { .date($0) },
+            selectionType: selectionType
+        )
+    }
+
+    private init(
         id: ID,
         title: String?,
         choices: [MultipleChoiceOption],
