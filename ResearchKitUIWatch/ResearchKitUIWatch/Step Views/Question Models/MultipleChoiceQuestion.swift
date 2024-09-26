@@ -34,8 +34,32 @@ public struct MultipleChoiceOption: Identifiable {
     public var id: String
     var choiceText: String
     var value: ResultValue
-
+    
     public init(
+        id: String,
+        choiceText: String,
+        value: Int
+    ) {
+        self.init(id: id, choiceText: choiceText, value: .int(value))
+    }
+    
+    public init(
+        id: String,
+        choiceText: String,
+        value: String
+    ) {
+        self.init(id: id, choiceText: choiceText, value: .string(value))
+    }
+    
+    public init(
+        id: String,
+        choiceText: String,
+        value: Date
+    ) {
+        self.init(id: id, choiceText: choiceText, value: .date(value))
+    }
+
+    private init(
         id: String,
         choiceText: String,
         value: ResultValue

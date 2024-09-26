@@ -133,13 +133,32 @@ struct ResearchFormAdapter: View {
             MultipleChoiceQuestionView(
                 id: id,
                 title: title ?? "",
-                choices: textChoiceAnswerFormat.textChoices.map { textChoice in
-                    let value: ResultValue? = RKAdapter.value(from: textChoice.value)
-                    return MultipleChoiceOption(
-                        id: UUID().uuidString,
-                        choiceText: textChoice.text,
-                        value: value ?? .string("Unknown")
-                    )
+                choices: textChoiceAnswerFormat.textChoices.compactMap { textChoice in
+                    let multipleChoiceOption: MultipleChoiceOption?
+                    
+                    if let number = textChoice.value as? NSNumber {
+                        multipleChoiceOption = MultipleChoiceOption(
+                            id: UUID().uuidString,
+                            choiceText: textChoice.text,
+                            value: number.intValue
+                        )
+                    } else if let string = textChoice.value as? NSString {
+                        multipleChoiceOption = MultipleChoiceOption(
+                            id: UUID().uuidString,
+                            choiceText: textChoice.text,
+                            value: String(string)
+                        )
+                    } else if let date = textChoice.value as? Date {
+                        multipleChoiceOption = MultipleChoiceOption(
+                            id: UUID().uuidString,
+                            choiceText: textChoice.text,
+                            value: date
+                        )
+                    } else {
+                        multipleChoiceOption = nil
+                    }
+                    
+                    return multipleChoiceOption
                 },
                 selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
             )
@@ -172,13 +191,32 @@ struct ResearchFormAdapter: View {
             )
 #if !os(watchOS)
         case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
-            let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
-                let value: ResultValue? = RKAdapter.value(from: textChoice.value)
-                return MultipleChoiceOption(
-                    id: UUID().uuidString,
-                    choiceText: textChoice.text,
-                    value: value ?? .string("Unknown")
-                )
+            let answerOptions = textChoiceScaleAnswerFormat.textChoices.compactMap { textChoice in
+                let multipleChoiceOption: MultipleChoiceOption?
+                
+                if let number = textChoice.value as? NSNumber {
+                    multipleChoiceOption = MultipleChoiceOption(
+                        id: UUID().uuidString,
+                        choiceText: textChoice.text,
+                        value: number.intValue
+                    )
+                } else if let string = textChoice.value as? NSString {
+                    multipleChoiceOption = MultipleChoiceOption(
+                        id: UUID().uuidString,
+                        choiceText: textChoice.text,
+                        value: String(string)
+                    )
+                } else if let date = textChoice.value as? Date {
+                    multipleChoiceOption = MultipleChoiceOption(
+                        id: UUID().uuidString,
+                        choiceText: textChoice.text,
+                        value: date
+                    )
+                } else {
+                    multipleChoiceOption = nil
+                }
+                
+                return multipleChoiceOption
             }
             
             if answerOptions.indices.contains(textChoiceScaleAnswerFormat.defaultIndex) {

@@ -163,7 +163,7 @@ public struct ScaleSliderQuestionView: View {
                             get: {
                                 guard let sliderValue = managedFormResult.resultForStep(key: key)
                                 else {
-                                    return MultipleChoiceOption(id: "", choiceText: "", value: .int(0))
+                                    return MultipleChoiceOption(id: "", choiceText: "", value: 0)
                                 }
                                 return multipleChoiceOptions[Int(sliderValue)]
                             },
@@ -607,14 +607,14 @@ struct ScaleSliderQuestionView_Previews: PreviewProvider {
             id: UUID().uuidString,
             title: "On a scale of Pun - Poem, how would rate today?",
             multipleChoiceOptions: [
-                .init(id: "1", choiceText: "Pun", value: .int(1)),
-                .init(id: "2", choiceText: "Dad Joke", value: .int(2)),
-                .init(id: "3", choiceText: "Knock-Knock Joke", value: .int(3)),
-                .init(id: "4", choiceText: "One-Liner", value: .int(4)),
-                .init(id: "5", choiceText: "Parody", value: .int(5)),
-                .init(id: "5", choiceText: "Poem", value: .int(6)),
+                .init(id: "1", choiceText: "Pun", value: 1),
+                .init(id: "2", choiceText: "Dad Joke", value: 2),
+                .init(id: "3", choiceText: "Knock-Knock Joke", value: 3),
+                .init(id: "4", choiceText: "One-Liner", value: 4),
+                .init(id: "5", choiceText: "Parody", value: 5),
+                .init(id: "5", choiceText: "Poem", value: 6),
             ],
-            selection: .constant(.init(id: "2", choiceText: "Dad Joke", value: .int(2))))
+            selection: .constant(.init(id: "2", choiceText: "Dad Joke", value: 2)))
     }
 }
 #endif

@@ -60,8 +60,122 @@ public struct MultipleChoiceQuestionView: View {
     let choices: [MultipleChoiceOption]
     let selectionType: MultipleChoiceQuestion.ChoiceSelectionType
     let result: StateManagementType<[ResultValue]?>
-
+    
     public init(
+        id: String,
+        title: String,
+        detail: String? = nil,
+        choices: [MultipleChoiceOption],
+        selectionType: MultipleChoiceQuestion.ChoiceSelectionType,
+        result: Binding<[Int]?>
+    ) {
+        self.init(
+            id: id,
+            title: title,
+            detail: detail,
+            choices: choices,
+            selectionType: selectionType,
+            result: .init(
+                get: {
+                    guard let integers = result.wrappedValue else {
+                        return nil
+                    }
+                    return integers.map { .int($0) }
+                },
+                set: { newValues in
+                    guard let newValues else {
+                        result.wrappedValue = nil
+                        return
+                    }
+                    
+                    result.wrappedValue = newValues.compactMap { resultValue in
+                        guard case let .int(value) = resultValue else {
+                            return nil
+                        }
+                        return value
+                    }
+                }
+            )
+        )
+    }
+    
+    public init(
+        id: String,
+        title: String,
+        detail: String? = nil,
+        choices: [MultipleChoiceOption],
+        selectionType: MultipleChoiceQuestion.ChoiceSelectionType,
+        result: Binding<[String]?>
+    ) {
+        self.init(
+            id: id,
+            title: title,
+            detail: detail,
+            choices: choices,
+            selectionType: selectionType,
+            result: .init(
+                get: {
+                    guard let strings = result.wrappedValue else {
+                        return nil
+                    }
+                    return strings.map { .string($0) }
+                },
+                set: { newValues in
+                    guard let newValues else {
+                        result.wrappedValue = nil
+                        return
+                    }
+                    
+                    result.wrappedValue = newValues.compactMap { resultValue in
+                        guard case let .string(value) = resultValue else {
+                            return nil
+                        }
+                        return value
+                    }
+                }
+            )
+        )
+    }
+    
+    public init(
+        id: String,
+        title: String,
+        detail: String? = nil,
+        choices: [MultipleChoiceOption],
+        selectionType: MultipleChoiceQuestion.ChoiceSelectionType,
+        result: Binding<[Date]?>
+    ) {
+        self.init(
+            id: id,
+            title: title,
+            detail: detail,
+            choices: choices,
+            selectionType: selectionType,
+            result: .init(
+                get: {
+                    guard let dates = result.wrappedValue else {
+                        return nil
+                    }
+                    return dates.map { .date($0) }
+                },
+                set: { newValues in
+                    guard let newValues else {
+                        result.wrappedValue = nil
+                        return
+                    }
+                    
+                    result.wrappedValue = newValues.compactMap { resultValue in
+                        guard case let .date(value) = resultValue else {
+                            return nil
+                        }
+                        return value
+                    }
+                }
+            )
+        )
+    }
+
+    private init(
         id: String,
         title: String,
         detail: String? = nil,
@@ -160,12 +274,12 @@ struct MultipleChoiceQuestionView_Previews: PreviewProvider {
                 id: UUID().uuidString,
                 title: "Which do you prefer?",
                 choices: [
-                    MultipleChoiceOption(id: "a", choiceText: "Option A", value: .int(0)),
-                    MultipleChoiceOption(id: "b", choiceText: "Option B", value: .int(1)),
-                    MultipleChoiceOption(id: "c", choiceText: "Option C", value: .int(2))
+                    MultipleChoiceOption(id: "a", choiceText: "Option A", value: 0),
+                    MultipleChoiceOption(id: "b", choiceText: "Option B", value: 1),
+                    MultipleChoiceOption(id: "c", choiceText: "Option C", value: 2)
             ],
                 selectionType: .multiple,
-                result: .constant([.int(0)])
+                result: .constant([0])
             )
             .padding(.horizontal)
         }

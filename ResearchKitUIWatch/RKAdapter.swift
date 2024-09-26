@@ -53,17 +53,34 @@ public class RKAdapter {
 
         switch answer {
         case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
-            var answerOptions : [MultipleChoiceOption] = []
-            textChoiceAnswerFormat.textChoices.forEach { textChoice in
-                let value: ResultValue? = RKAdapter.value(from: textChoice.value)
-                answerOptions.append(
-                    MultipleChoiceOption(
+            var answerOptions : [MultipleChoiceOption] = textChoiceAnswerFormat.textChoices.compactMap { textChoice in
+                let multipleChoiceOption: MultipleChoiceOption?
+                
+                if let number = textChoice.value as? NSNumber {
+                    multipleChoiceOption = MultipleChoiceOption(
                         id: UUID().uuidString,
                         choiceText: textChoice.text,
-                        value: value ?? .string("Unknown")
+                        value: number.intValue
                     )
-                )
+                } else if let string = textChoice.value as? NSString {
+                    multipleChoiceOption = MultipleChoiceOption(
+                        id: UUID().uuidString,
+                        choiceText: textChoice.text,
+                        value: String(string)
+                    )
+                } else if let date = textChoice.value as? Date {
+                    multipleChoiceOption = MultipleChoiceOption(
+                        id: UUID().uuidString,
+                        choiceText: textChoice.text,
+                        value: date
+                    )
+                } else {
+                    multipleChoiceOption = nil
+                }
+                
+                return multipleChoiceOption
             }
+            
             return FormRow.multipleChoiceRow(
                 MultipleChoiceQuestion(
                     id: identifier,
@@ -103,15 +120,32 @@ public class RKAdapter {
             
 #if !os(watchOS)
         case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
-
-
-            let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
-                let value: ResultValue? = RKAdapter.value(from: textChoice.value)
-                return MultipleChoiceOption(
-                    id: UUID().uuidString,
-                    choiceText: textChoice.text,
-                    value: value ?? .string("Unknown")
-                )
+            let answerOptions = textChoiceScaleAnswerFormat.textChoices.compactMap { textChoice in
+                let multipleChoiceOption: MultipleChoiceOption?
+                
+                if let number = textChoice.value as? NSNumber {
+                    multipleChoiceOption = MultipleChoiceOption(
+                        id: UUID().uuidString,
+                        choiceText: textChoice.text,
+                        value: number.intValue
+                    )
+                } else if let string = textChoice.value as? NSString {
+                    multipleChoiceOption = MultipleChoiceOption(
+                        id: UUID().uuidString,
+                        choiceText: textChoice.text,
+                        value: String(string)
+                    )
+                } else if let date = textChoice.value as? Date {
+                    multipleChoiceOption = MultipleChoiceOption(
+                        id: UUID().uuidString,
+                        choiceText: textChoice.text,
+                        value: date
+                    )
+                } else {
+                    multipleChoiceOption = nil
+                }
+                
+                return multipleChoiceOption
             }
             guard var defaultOption = answerOptions.first else {
                 fatalError("Invalid Choice Array for ORKTextScaleAnswerFormat")
