@@ -45,30 +45,3 @@ public struct MultipleChoiceOption: Identifiable {
         self.value = value
     }
 }
-
-public struct MultipleChoiceQuestion: Identifiable {
-
-    public var title: String?
-    public var id: String
-    public var choices: [MultipleChoiceOption]
-    public var result: [ResultValue]
-    public var selectionType: ChoiceSelectionType
-
-    public init(
-        id: ID,
-        title: String?,
-        choices: [MultipleChoiceOption],
-        result: [ResultValue] = [],
-        selectionType: ChoiceSelectionType
-    ) {
-        self.title = title
-        self.id = id
-        self.choices = choices
-        self.result = result
-        self.selectionType = selectionType
-    }
-
-    public enum ChoiceSelectionType {
-        case single, multiple
-    }
-}

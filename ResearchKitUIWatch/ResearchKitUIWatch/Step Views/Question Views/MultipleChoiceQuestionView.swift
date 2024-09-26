@@ -32,6 +32,12 @@ import SwiftUI
 
 // TODO(rdar://129033515): Update name of this module to reflect just the choice options without the header.
 public struct MultipleChoiceQuestionView: View {
+    
+    public enum ChoiceSelectionType {
+        
+        case single, multiple
+        
+    }
 
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
@@ -59,7 +65,7 @@ public struct MultipleChoiceQuestionView: View {
     let title: String
     let detail: String?
     let choices: [MultipleChoiceOption]
-    let selectionType: MultipleChoiceQuestion.ChoiceSelectionType
+    let selectionType: ChoiceSelectionType
     let result: StateManagementType<[ResultValue]?>
 
     public init(
@@ -67,7 +73,7 @@ public struct MultipleChoiceQuestionView: View {
         title: String,
         detail: String? = nil,
         choices: [MultipleChoiceOption],
-        selectionType: MultipleChoiceQuestion.ChoiceSelectionType,
+        selectionType: ChoiceSelectionType,
         result: Binding<[ResultValue]?>
     ) {
         self.id = id
@@ -84,7 +90,7 @@ public struct MultipleChoiceQuestionView: View {
         title: String,
         detail: String? = nil,
         choices: [MultipleChoiceOption],
-        selectionType: MultipleChoiceQuestion.ChoiceSelectionType
+        selectionType: ChoiceSelectionType
     ) {
         self.id = id
         self.title = title
