@@ -30,7 +30,6 @@
 
 import SwiftUI
 
-// TODO(rdar://129033515): Update name of this module to reflect just the choice options without the header.
 public struct MultipleChoiceQuestionView: View {
 
     @EnvironmentObject
@@ -77,8 +76,7 @@ public struct MultipleChoiceQuestionView: View {
         self.selectionType = selectionType
         self.result = .manual(result)
     }
-
-    // TODO(rdar://129033515): Remove title parameter from initializer since the body reflects just the options.
+    
     public init(
         id: String,
         title: String,
