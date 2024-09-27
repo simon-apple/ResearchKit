@@ -30,12 +30,13 @@
 
 // apple-internal
 
+import Combine
 import ResearchKit
 import SwiftUI
 
-extension ORKStep: ObservableObject {}
-extension ORKOrderedTask: ObservableObject {}
-extension ORKResult: ObservableObject {}
+extension ORKStep: @retroactive ObservableObject {}
+extension ORKOrderedTask: @retroactive ObservableObject {}
+extension ORKResult: @retroactive ObservableObject {}
 
 @available(watchOS 6.0, *)
 open class TaskManager: ObservableObject {
