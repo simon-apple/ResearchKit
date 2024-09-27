@@ -1956,7 +1956,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ORKCatalog/Supporting Files/ORKCatalog.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
