@@ -28,55 +28,25 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ORKFamilyHistoryResult.h"
+#import <UIKit/UIKit.h>
 
-#import "ORKRelatedPerson.h"
+NS_ASSUME_NONNULL_BEGIN
 
-#import <ResearchKit/ORKResult_Private.h>
-#import <ResearchKit/ORKHelpers_Internal.h>
+@class ORKRelativeGroup;
+@class ORKFamilyHistoryTableFooterView;
 
+@protocol ORKFamilyHistoryTableFooterViewDelegate <NSObject>
 
-@implementation ORKFamilyHistoryResult
-
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [super encodeWithCoder:aCoder];
-    ORK_ENCODE_OBJ(aCoder, relatedPersons);
-    ORK_ENCODE_OBJ(aCoder, displayedConditions);
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        ORK_DECODE_OBJ_ARRAY(aDecoder, relatedPersons, ORKRelatedPerson);
-        ORK_DECODE_OBJ_ARRAY(aDecoder, displayedConditions, NSString);
-    }
-    return self;
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (BOOL)isEqual:(id)object {
-    BOOL isParentSame = [super isEqual:object];
-    
-    __typeof(self) castObject = object;
-    return (isParentSame &&
-            ORKEqualObjects(self.relatedPersons, castObject.relatedPersons) &&
-            ORKEqualObjects(self.displayedConditions, castObject.displayedConditions));
-}
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-    ORKFamilyHistoryResult *result = [super copyWithZone:zone];
-
-    result->_relatedPersons = ORKArrayCopyObjects(_relatedPersons);
-    result->_displayedConditions = [_displayedConditions copy];
-
-    return result;
-}
-
-- (NSUInteger)hash {
-    return super.hash ^ self.relatedPersons.hash ^ self.displayedConditions.hash;
-}
+- (void)ORKFamilyHistoryTableFooterView:(ORKFamilyHistoryTableFooterView *)footerView didSelectFooterForRelativeGroup:(NSString *)relativeGroup;
 
 @end
+
+@interface ORKFamilyHistoryTableFooterView: UIView
+
+- (instancetype)initWithTitle:(NSString *)title relativeGroupIdentifier:(NSString *)relativeGroupIdentifier delegate:(id<ORKFamilyHistoryTableFooterViewDelegate>)delegate;
+
+- (void)setExpanded:(BOOL)isExpanded;
+
+@end
+
+NS_ASSUME_NONNULL_END

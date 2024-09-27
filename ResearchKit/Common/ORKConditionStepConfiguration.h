@@ -28,27 +28,31 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 #import <ResearchKit/ORKTypes.h>
 
 @class ORKTaskResult;
+@class ORKHealthCondition;
+@class ORKFormItem;
 
 NS_ASSUME_NONNULL_BEGIN
 
 ORK_CLASS_AVAILABLE
-@interface ORKHealthCondition : NSObject <NSSecureCoding, NSCopying>
+@interface ORKConditionStepConfiguration : NSObject <NSSecureCoding, NSCopying>
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithIdentifier:(NSString *)identifier
-                       displayName:(NSString *)name
-                             value:(NSObject<NSCopying, NSSecureCoding> *)value NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithStepIdentifier:(NSString *)stepIdentifier
+          conditionsFormItemIdentifier:(NSString *)conditionsFormItemIdentifier
+                            conditions:(NSArray<ORKHealthCondition *> *)conditions
+                             formItems:(NSArray<ORKFormItem *> *)formItems NS_DESIGNATED_INITIALIZER;
 
-@property (nonatomic, readonly, copy) NSString *identifier;
-@property (nonatomic, readonly, copy) NSString *displayName;
-@property (nonatomic, readonly, copy) NSObject<NSCopying, NSSecureCoding> *value;
+@property (nonatomic, readonly, copy) NSString *stepIdentifier;
+@property (nonatomic, readonly, copy) NSString *conditionsFormItemIdentifier;
+@property (nonatomic, readonly, copy) NSArray<ORKHealthCondition *> *conditions;
+@property (nonatomic, copy) NSArray<ORKFormItem *> *formItems;
 
 @end
 

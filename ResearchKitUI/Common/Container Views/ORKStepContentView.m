@@ -1131,6 +1131,10 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
                                                                  constant:constant];
 }
 
+- (void)setStepContentViewBottomConstraint:(CGFloat)bottomConstraint {
+    _stepContentBottomConstraint.constant = bottomConstraint;
+}
+
 - (void)setupUpdatedConstraints {
     _updatedConstraints = [[NSMutableArray alloc] init];
 }

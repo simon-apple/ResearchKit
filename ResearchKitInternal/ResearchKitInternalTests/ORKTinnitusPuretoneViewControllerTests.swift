@@ -60,7 +60,8 @@ class ORKTinnitusPuretoneViewControllerTests: XCTestCase {
     
     // TEST 1 (Inconsistencies and Frequencies too low)
     func testInconsistenciesAndTooLow() {
-        step.roundNumber = 1
+        attachContextForStep(roundNumber: 1)
+
         puretoneController = ORKTinnitusPureToneStepViewController(step: step, result: result)
         
         utilities.setupTopLevelUI(withViewController: puretoneController)
@@ -188,7 +189,8 @@ class ORKTinnitusPuretoneViewControllerTests: XCTestCase {
     // TEST 2 (Inconsistencies and Frequencies too high)
     func testHighFrequencyInconsistence() {
         puretoneController = ORKTinnitusPureToneStepViewController(step: step, result: result)
-        
+        attachContextForStep(roundNumber: 1)
+
         utilities.setupTopLevelUI(withViewController: puretoneController)
         
         var higherFrequencyLimit:Double = Double(truncating: possibleFrequencies.last!)
@@ -305,7 +307,8 @@ class ORKTinnitusPuretoneViewControllerTests: XCTestCase {
     
     // TEST 3 (Frequencies too low high through octave confusion step)
     func testtooLowHighThroughOctaveConfusion() {
-        step.roundNumber = 1
+        attachContextForStep(roundNumber: 1)
+
         puretoneController = ORKTinnitusPureToneStepViewController(step: step, result: result)
         
         utilities.setupTopLevelUI(withViewController: puretoneController)
@@ -380,7 +383,8 @@ class ORKTinnitusPuretoneViewControllerTests: XCTestCase {
     
     // TEST 4 (Convergence, 3 of 3 target = 4490 Hz)
     func testConvergence4490() {
-        step.roundNumber = 1
+        attachContextForStep(roundNumber: 1)
+
         puretoneController = ORKTinnitusPureToneStepViewController(step: step, result: result)
         
         utilities.setupTopLevelUI(withViewController: puretoneController)
@@ -527,7 +531,8 @@ class ORKTinnitusPuretoneViewControllerTests: XCTestCase {
     
     // TEST 5 (Convergence, 3 of 3 target = 400 Hz)
     func testConverge400() {
-        step.roundNumber = 1
+        attachContextForStep(roundNumber: 1)
+
         puretoneController = ORKTinnitusPureToneStepViewController(step: step, result: result)
         
         utilities.setupTopLevelUI(withViewController: puretoneController)
@@ -648,7 +653,8 @@ class ORKTinnitusPuretoneViewControllerTests: XCTestCase {
     
     // TEST 6 (Convergence, 3 of 3 target = 1250 Hz)
     func testConverge1250() {
-        step.roundNumber = 1
+        attachContextForStep(roundNumber: 1)
+
         puretoneController = ORKTinnitusPureToneStepViewController(step: step, result: result)
         
         utilities.setupTopLevelUI(withViewController: puretoneController)
@@ -775,7 +781,8 @@ class ORKTinnitusPuretoneViewControllerTests: XCTestCase {
     
     // TEST 7 (Convergence, 3 of 3 target = 561 Hz)
     func testConverge561() {
-        step.roundNumber = 1
+        attachContextForStep(roundNumber: 1)
+
         puretoneController = ORKTinnitusPureToneStepViewController(step: step, result: result)
         
         utilities.setupTopLevelUI(withViewController: puretoneController)
@@ -883,7 +890,8 @@ class ORKTinnitusPuretoneViewControllerTests: XCTestCase {
     
     // TEST 8 (Convergence, 3 of 3 target = 6300 Hz)
     func testConverge6300() {
-        step.roundNumber = 1
+        attachContextForStep(roundNumber: 1)
+
         puretoneController = ORKTinnitusPureToneStepViewController(step: step, result: result)
         
         utilities.setupTopLevelUI(withViewController: puretoneController)
@@ -1011,7 +1019,8 @@ class ORKTinnitusPuretoneViewControllerTests: XCTestCase {
     
     // TEST 9 (Convergence, 2 of 3 target = 8000 Hz)
     func testConverge8000() {
-        step.roundNumber = 1
+        attachContextForStep(roundNumber: 1)
+
         puretoneController = ORKTinnitusPureToneStepViewController(step: step, result: result)
         
         utilities.setupTopLevelUI(withViewController: puretoneController)
@@ -1127,7 +1136,8 @@ class ORKTinnitusPuretoneViewControllerTests: XCTestCase {
     
     // TEST 10 (Convergence, 2 of 3 target = 3536  Hz)
     func testConverge3536() {
-        step.roundNumber = 1
+        attachContextForStep(roundNumber: 1)
+
         puretoneController = ORKTinnitusPureToneStepViewController(step: step, result: result)
         
         utilities.setupTopLevelUI(withViewController: puretoneController)
@@ -1281,7 +1291,8 @@ class ORKTinnitusPuretoneViewControllerTests: XCTestCase {
     
     // TEST 11 (Convergence, 1 of 3 target = 5000  Hz)
     func testConverge5000() {
-        step.roundNumber = 1
+        attachContextForStep(roundNumber: 1)
+
         puretoneController = ORKTinnitusPureToneStepViewController(step: step, result: result)
         
         utilities.setupTopLevelUI(withViewController: puretoneController)
@@ -1412,7 +1423,8 @@ class ORKTinnitusPuretoneViewControllerTests: XCTestCase {
     }
     
     func testMissingLowerOctaveConfusionWithoutErrors() {
-        step.roundNumber = 1
+        attachContextForStep(roundNumber: 1)
+
         puretoneController = ORKTinnitusPureToneStepViewController(step: step, result: result)
         
         utilities.setupTopLevelUI(withViewController: puretoneController)
@@ -1479,7 +1491,8 @@ class ORKTinnitusPuretoneViewControllerTests: XCTestCase {
     }
     
     func testInitialVariables() {
-        step.roundNumber = 1;
+        attachContextForStep(roundNumber: 1)
+
         puretoneController = ORKTinnitusPureToneStepViewController(step: step, result: result)
        
         utilities.setupTopLevelUI(withViewController: puretoneController)
@@ -1500,7 +1513,8 @@ class ORKTinnitusPuretoneViewControllerTests: XCTestCase {
         XCTAssertEqual(higherFrequency, 5000.0)
 
         step = ORKTinnitusPureToneStep(identifier: "STEP")
-        step.roundNumber = 2;
+ 
+        attachContextForStep(roundNumber: 2)
 
         puretoneController = ORKTinnitusPureToneStepViewController(step: step, result: result)
         
@@ -1515,8 +1529,8 @@ class ORKTinnitusPuretoneViewControllerTests: XCTestCase {
         XCTAssertEqual(higherFrequency, 6300.0)
         
         step = ORKTinnitusPureToneStep(identifier: "STEP")
-        step.roundNumber = 3;
-        
+        attachContextForStep(roundNumber: 3)
+
         puretoneController = ORKTinnitusPureToneStepViewController(step: step, result: result)
         
         utilities.setupTopLevelUI(withViewController: puretoneController)
@@ -1528,5 +1542,12 @@ class ORKTinnitusPuretoneViewControllerTests: XCTestCase {
         XCTAssertEqual(lowerFrequency, 630.0)
         XCTAssertEqual(middleFrequency, 1600.0)
         XCTAssertEqual(higherFrequency, 8000.0)
+    }
+    
+    private func attachContextForStep(roundNumber: UInt) {
+        let context =  ORKTinnitusPredefinedTaskContext()
+        context.headphoneType = .airPodsPro
+        step.context = context
+        step.roundNumber = roundNumber
     }
 }

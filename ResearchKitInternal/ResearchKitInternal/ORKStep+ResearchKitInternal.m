@@ -36,6 +36,9 @@
 @implementation ORKIdBHLToneAudiometryStep (ViewControllerProviding)
 
 - (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
+    if (self.algorithm == 1) {
+        return [[ORKIdBHLNewToneAudiometryStepViewController alloc] initWithStep:self result:result];
+    }
     return [[ORKIdBHLToneAudiometryStepViewController alloc] initWithStep:self result:result];
 }
 
@@ -149,13 +152,6 @@
 
 @end
 
-@implementation ORKFamilyHistoryStep (ViewControllerProviding)
-
-- (ORKStepViewController *)makeViewControllerWithResult:(ORKResult *)result {
-    return [[ORKFamilyHistoryStepViewController alloc] initWithStep:self result:result];
-}
-
-@end
 
 @implementation ORKSettingStatusStep (ViewControllerProviding)
 
