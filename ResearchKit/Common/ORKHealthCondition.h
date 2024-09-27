@@ -47,6 +47,16 @@ ORK_CLASS_AVAILABLE
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
+/**
+ Creates a new health condition with the specified identifier.
+ 
+ This method is the primary designated initializer.
+ 
+ @param   identifier   The unique identifier of the health condition.
+ @param   displayName   The name displayed to the participant for selection.
+ @param   value   The value stored to the result if the health condition is selected.
+ */
+
 - (instancetype)initWithIdentifier:(NSString *)identifier
                        displayName:(NSString *)name
                              value:(NSObject<NSCopying, NSSecureCoding> *)value NS_DESIGNATED_INITIALIZER;

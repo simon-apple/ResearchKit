@@ -49,6 +49,16 @@ ORK_CLASS_AVAILABLE
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
+/**
+ Creates a new conditions step configuration.
+ 
+ This method is the primary designated initializer.
+ 
+ @param stepIdentifier   The identifier attached to the form step that displays the health conditions.
+ @param conditionsFormItemIdentifier   The identifier attached to the form item used from the health conditions list.
+ @param conditions   List of health conditions displayed to participants.
+ @param formItems   List of form items that are presented below the health conditions text choice. This is optional.
+ */
 - (instancetype)initWithStepIdentifier:(NSString *)stepIdentifier
           conditionsFormItemIdentifier:(NSString *)conditionsFormItemIdentifier
                             conditions:(NSArray<ORKHealthCondition *> *)conditions

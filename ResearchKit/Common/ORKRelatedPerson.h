@@ -54,6 +54,17 @@ ORK_CLASS_AVAILABLE
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 
+/**
+ Creates a new related person with the specified identifier.
+ 
+ This method is the primary designated initializer.
+ 
+ @param identifier   The unique identifier of the related person.
+ @param groupIdentifier   The identifier of the relative group to which the person belongs.
+ @param identifierForCellTitle   The identifier of the result value to be used for the relative's cell title.
+ @param taskResult   The task result generated for the relative's health history survey.
+ */
+
 - (instancetype)initWithIdentifier:(NSString *)identifier
                    groupIdentifier:(NSString *)groupIdentifier
             identifierForCellTitle:(NSString *)identifierForCellTitle

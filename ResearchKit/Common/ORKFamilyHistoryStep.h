@@ -38,7 +38,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- A concrete subclass that will provide a participant with a family history survey.
+ A concrete subclass that will provide a participant with a
+ family history survey.
  */
 
 ORK_CLASS_AVAILABLE
