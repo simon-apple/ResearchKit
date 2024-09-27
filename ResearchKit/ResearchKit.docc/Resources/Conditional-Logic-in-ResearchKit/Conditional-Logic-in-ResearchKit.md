@@ -70,11 +70,11 @@ Selecting no:
 
 Familiarize yourself with the following classes to conditionally hide or show a question based on results from questions within the same form.
 
-- `ORKResultSelector` - Same as the section above.
-- `ORKResultPredicate` - Same as the section above.
-- `ORKPredicateFormItemVisibilityRule` - A class that determines if the formItem it's attached to is hidden or visible if a given `ORKResultPredicate` is true.
+- `ORKResultSelector` - A class that identifies a result within a set of task results.
+- `ORKResultPredicate` - Creates a predicate by accepting an `ORKResultSelector` and the expected result.
+- `ORKPredicateFormItemVisibilityRule` - A class that determines if the form item it's attached to is hidden or visible if a given `ORKResultPredicate` is true.
 
-Following the previous example, use the same questions, but now with both on the same page.
+Following the previous example, use the same questions but now with both on the same page.
 
 
 - **Answering yes**: makes the apple choice question visible.
