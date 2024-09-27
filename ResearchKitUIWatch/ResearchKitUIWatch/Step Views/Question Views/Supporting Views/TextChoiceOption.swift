@@ -30,7 +30,7 @@
 
 import SwiftUI
 
-public struct TextChoiceCell: View {
+public struct TextChoiceOption: View {
 
     var isSelected: Bool
 

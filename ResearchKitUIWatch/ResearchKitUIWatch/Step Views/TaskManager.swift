@@ -30,12 +30,13 @@
 
 // apple-internal
 
+import Combine
 import ResearchKit
 import SwiftUI
 
-extension ORKStep: ObservableObject {}
-extension ORKOrderedTask: ObservableObject {}
-extension ORKResult: ObservableObject {}
+extension ORKStep: @retroactive ObservableObject {}
+extension ORKOrderedTask: @retroactive ObservableObject {}
+extension ORKResult: @retroactive ObservableObject {}
 
 @available(watchOS 6.0, *)
 open class TaskManager: ObservableObject {
@@ -58,8 +59,8 @@ open class TaskManager: ObservableObject {
     @Published
     public private(set) var result: ORKTaskResult
 
-    public private(set) var task: ORKOrderedTask
-
+    private(set) var task: ORKOrderedTask
+    
     @Published
     internal private(set) var answeredSteps: Set<ORKStep> = []
     
@@ -89,9 +90,9 @@ extension TaskManager {
     
     func progressForQuestionStep(_ step: ORKStep) -> Progress? {
         
-        let questionSteps = task.steps.compactMap { $0 as? ORKFormStep }
-
-        guard let questionStep = step as? ORKFormStep,
+        let questionSteps = task.steps.compactMap { $0 as? ORKQuestionStep }
+        
+        guard let questionStep = step as? ORKQuestionStep,
               let index = questionSteps.firstIndex(of: questionStep) else {
             
             return nil
@@ -123,16 +124,14 @@ internal extension TaskManager {
         
         if let viewModel = viewModels[step.identifier] {
             return viewModel
-        } else if let questionStep = step as? ORKFormStep {
-
-            let viewModel = FormStepViewModel(step: questionStep,
-                                            result: getOrCreateResult(for: step))
+        } else if let questionStep = step as? ORKQuestionStep {
+            let viewModel = QuestionStepViewModel(step: questionStep,
+                                                  result: getOrCreateResult(for: step))
             viewModel.progress = progressForQuestionStep(step)
-            self.viewModels[step.identifier] = .formStep(viewModel)
-            return .formStep(viewModel)
+            self.viewModels[step.identifier] = .questionStep(viewModel)
+            return .questionStep(viewModel)
         }
-
-        debugPrint("Attempted to create a ViewModel for an ORKStep type that is not supported yet: \(step.description)")
+        
         return .none
     }
 }
