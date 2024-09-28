@@ -124,8 +124,8 @@ public final class ResearchFormResult: ObservableObject {
         stepResults[key.id] = format
     }
     
-    public func map<T>(_ transform: (Result) -> T) -> [T] {
-        stepResults.map { entry in
+    public func compactMap<T>(_ transform: (Result) -> T?) -> [T] {
+        stepResults.compactMap { entry in
             transform(
                 Result(identifier: entry.key, answer: entry.value)
             )

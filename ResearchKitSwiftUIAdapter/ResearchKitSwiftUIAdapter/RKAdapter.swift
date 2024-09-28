@@ -43,8 +43,8 @@ public class RKAdapter {
     static var multipleChoiceAnswerFormatKey = "multipleChoiceAnswerFormatKey"
     
     public static func createORKResults(from taskResult: ResearchFormResult) -> [ORKResult] {
-        taskResult.map { result in
-            let orkResult: ORKResult
+        taskResult.compactMap { result in
+            let orkResult: ORKResult?
             
             switch result.answer {
             case let .text(answer):
@@ -109,8 +109,7 @@ public class RKAdapter {
                 result.questionType = .scale
                 orkResult = result
             @unknown default:
-                // TODO: Handle properly.
-                orkResult = ORKResult(identifier: "")
+                orkResult = nil
             }
             
             return orkResult
