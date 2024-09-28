@@ -1,21 +1,21 @@
 /*
- Copyright (c) 2024, Apple Inc. All rights reserved.
-
+ Copyright (c) 2015, Apple Inc. All rights reserved.
+ 
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
-
+ 
  1.  Redistributions of source code must retain the above copyright notice, this
  list of conditions and the following disclaimer.
-
+ 
  2.  Redistributions in binary form must reproduce the above copyright notice,
  this list of conditions and the following disclaimer in the documentation and/or
  other materials provided with the distribution.
-
+ 
  3.  Neither the name of the copyright holder(s) nor the names of any contributors
  may be used to endorse or promote products derived from this software without
  specific prior written permission. No license is granted to the trademarks of
  the copyright holders even if such marks are included in this software.
-
+ 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,12 +28,30 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitUI_Watch_/ORKSerializationEntryProvider.h>
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
+#import <ResearchKitSwiftUIAdapter/ORKESerialization+Helpers.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKSwiftUISerializationEntryProvider : ORKSerializationEntryProvider
+@interface ORKIESerializer : NSObject
+
+- (instancetype)initWithEntryProviders:(NSArray<ORKSerializationEntryProvider *> *)entryProviders;
+
+- (id)objectFromJSONData:(NSData *)data error:(NSError **)error;
+
+- (nullable NSData *)JSONDataForObject:(id)object error:(NSError **)error;
+
+// TODO: implement the below instance methods
+
+//- (nullable NSDictionary *)JSONObjectForObject:(id)object error:(NSError **)error;
+
+//- (nullable id)objectFromJSONObject:(NSDictionary *)object error:(NSError **)error;
+
+//- (nullable id)objectFromJSONObject:(NSDictionary *)object context:(ORKESerializationContext *)context error:(NSError **)error;
+
+//- (NSDictionary *)JSONObjectForObject:(id)object context:(ORKESerializationContext *)context error:(__unused NSError **)error;
 
 @end
 

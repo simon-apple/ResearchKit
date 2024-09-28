@@ -28,7 +28,16 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Testing
+#import <ResearchKitSwiftUIAdapter/ORKIESerializer.h>
 
-struct RKAdapterTests {
-}
+NS_ASSUME_NONNULL_BEGIN
+
+@interface ORKIESerializer (SerializationEntryProvider)
+
++ (id)swiftUI_objectFromJSONData:(NSData *)data error:(NSError **)error;
+
++ (nullable NSData *)swiftUI_JSONDataForObject:(id)object error:(NSError **)error;
+
+@end
+
+NS_ASSUME_NONNULL_END

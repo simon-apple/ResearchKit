@@ -35,6 +35,12 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			publicHeaders = (
 				ResearchKitSwiftUIAdapter.h,
+				"Serializer/Refactored Serializer/ORKESerialization+Helpers.h",
+				"Serializer/Refactored Serializer/ORKESerializer+SwiftUIEntryProvider.h",
+				"Serializer/Refactored Serializer/ORKIESerializer.h",
+				"Serializer/Serialization Entry Providers/ORKCoreSerializationEntryProvider.h",
+				"Serializer/Serialization Entry Providers/ORKSerializationEntryProvider.h",
+				"Serializer/Serialization Entry Providers/ORKSwiftUISerializationEntryProvider.h",
 			);
 			target = 5E04F14A2C7FE76800247389 /* ResearchKitSwiftUIAdapter */;
 		};
@@ -274,7 +280,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				MODULEMAP_FILE = "";
+				MODULEMAP_FILE = ResearchKitSwiftUIAdapter/ResearchKitSwiftUIAdapter.modulemap;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitSwiftUIAdapter.ResearchKitSwiftUIAdapter;
@@ -320,7 +326,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				MODULEMAP_FILE = "";
+				MODULEMAP_FILE = ResearchKitSwiftUIAdapter/ResearchKitSwiftUIAdapter.modulemap;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				PRODUCT_BUNDLE_IDENTIFIER = org.researchkit.ResearchKitSwiftUIAdapter.ResearchKitSwiftUIAdapter;
