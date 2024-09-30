@@ -38,7 +38,7 @@ enum MultipleChoiceAnswerFormat: Int {
 }
 
 public class RKAdapter {
-    
+
     static var multipleChoiceAnswerFormatKey = "multipleChoiceAnswerFormatKey"
     
     public static func createORKResults(from taskResult: ResearchFormResult) -> [ORKResult] {
@@ -161,8 +161,8 @@ public class RKAdapter {
         }
         return nil
     }
-    
-    public static func rkValue(from result: ResultValue) -> NSCopying & NSSecureCoding & NSObjectProtocol {
+
+    static func rkValue(from result: ResultValue) -> NSCopying & NSSecureCoding & NSObjectProtocol {
         switch result {
         case .int(let int):
             return NSNumber(integerLiteral: int)
@@ -172,8 +172,8 @@ public class RKAdapter {
             return date as NSDate
         }
     }
-    
-    public static func value(from rkValue: NSCopying & NSSecureCoding & NSObjectProtocol) -> ResultValue? {
+
+    static func value(from rkValue: NSCopying & NSSecureCoding & NSObjectProtocol) -> ResultValue? {
         if let number = rkValue as? NSNumber {
             return .int(number.intValue)
         } else if let string = rkValue as? NSString {

@@ -30,35 +30,35 @@
 
 import Foundation
 
-public struct StepResultKey<Result> {
+struct StepResultKey<Result> {
 
     let id: String
-
-    public static func text(id: String) -> StepResultKey<String?> {
+    
+    static func text(id: String) -> StepResultKey<String?> {
         return StepResultKey<String?>(id: id)
     }
-
-    public static func imageChoice(id: String) -> StepResultKey<[ResultValue]?> {
+    
+    static func imageChoice(id: String) -> StepResultKey<[ResultValue]?> {
         return StepResultKey<[ResultValue]?>(id: id)
     }
-
-    public static func multipleChoice(id: String) -> StepResultKey<[ResultValue]?> {
+    
+    static func multipleChoice(id: String) -> StepResultKey<[ResultValue]?> {
         return StepResultKey<[ResultValue]?>(id: id)
     }
-
-    public static func numeric(id: String) -> StepResultKey<Double?> {
+    
+    static func numeric(id: String) -> StepResultKey<Double?> {
         return StepResultKey<Double?>(id: id)
     }
-
-    public static func height(id: String) -> StepResultKey<Double?> {
+    
+    static func height(id: String) -> StepResultKey<Double?> {
         return StepResultKey<Double?>(id: id)
     }
-
-    public static func weight(id: String) -> StepResultKey<Double?> {
+    
+    static func weight(id: String) -> StepResultKey<Double?> {
         return StepResultKey<Double?>(id: id)
     }
-
-    public static func date(id: String) -> StepResultKey<Date?> {
+    
+    static func date(id: String) -> StepResultKey<Date?> {
         return StepResultKey<Date?>(id: id)
     }
 }

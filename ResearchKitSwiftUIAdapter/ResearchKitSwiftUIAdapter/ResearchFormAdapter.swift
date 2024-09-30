@@ -133,14 +133,7 @@ struct ResearchFormAdapter: View {
             MultipleChoiceQuestionView(
                 id: id,
                 title: title ?? "",
-                choices: textChoiceAnswerFormat.textChoices.map { textChoice in
-                    let value: ResultValue? = RKAdapter.value(from: textChoice.value)
-                    return MultipleChoiceOption(
-                        id: UUID().uuidString,
-                        choiceText: textChoice.text,
-                        value: value ?? .string("Unknown")
-                    )
-                },
+                choices: answerOptions(for: textChoiceAnswerFormat.textChoices),
                 selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
             )
         case let scaleAnswerFormat as ORKScaleAnswerFormat:
@@ -172,14 +165,7 @@ struct ResearchFormAdapter: View {
             )
 #if !os(watchOS)
         case let textChoiceScaleAnswerFormat as ORKTextScaleAnswerFormat:
-            let answerOptions = textChoiceScaleAnswerFormat.textChoices.map { textChoice in
-                let value: ResultValue? = RKAdapter.value(from: textChoice.value)
-                return MultipleChoiceOption(
-                    id: UUID().uuidString,
-                    choiceText: textChoice.text,
-                    value: value ?? .string("Unknown")
-                )
-            }
+            let answerOptions = answerOptions(for: textChoiceScaleAnswerFormat.textChoices)
             
             if answerOptions.indices.contains(textChoiceScaleAnswerFormat.defaultIndex) {
                 ScaleSliderQuestionView(
@@ -344,14 +330,35 @@ struct ResearchFormAdapter: View {
                 maximumValue: maximumValue
             )
         case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
-            let choices = imageChoiceAnswerFormat.imageChoices.map { choice in
-                let value: ResultValue? = RKAdapter.value(from: choice.value)
-                return ImageChoice(
-                    normalImage: choice.normalStateImage,
-                    selectedImage: choice.selectedStateImage,
-                    text: choice.text!,
-                    value: value ?? .string("Unknown")
-                )
+            let choices = imageChoiceAnswerFormat.imageChoices.compactMap { choice in
+                let imageChoice: ImageChoice?
+                
+                if let number = choice.value as? NSNumber {
+                    imageChoice = ImageChoice(
+                        normalImage: choice.normalStateImage,
+                        selectedImage: choice.selectedStateImage,
+                        text: choice.text!,
+                        value: number.intValue
+                    )
+                } else if let string = choice.value as? NSString {
+                    imageChoice = ImageChoice(
+                        normalImage: choice.normalStateImage,
+                        selectedImage: choice.selectedStateImage,
+                        text: choice.text!,
+                        value: String(string)
+                    )
+                } else if let date = choice.value as? Date {
+                    imageChoice = ImageChoice(
+                        normalImage: choice.normalStateImage,
+                        selectedImage: choice.selectedStateImage,
+                        text: choice.text!,
+                        value: date
+                    )
+                } else {
+                    imageChoice = nil
+                }
+                
+                return imageChoice
             }
             
             let style: ImageChoiceQuestion.ChoiceSelectionType = {
@@ -374,6 +381,36 @@ struct ResearchFormAdapter: View {
             )
         default:
             EmptyView()
+        }
+    }
+    
+    private func answerOptions(for textChoices: [ORKTextChoice]) -> [MultipleChoiceOption] {
+        textChoices.compactMap { textChoice in
+            let multipleChoiceOption: MultipleChoiceOption?
+            
+            if let number = textChoice.value as? NSNumber {
+                multipleChoiceOption = MultipleChoiceOption(
+                    id: UUID().uuidString,
+                    choiceText: textChoice.text,
+                    value: number.intValue
+                )
+            } else if let string = textChoice.value as? NSString {
+                multipleChoiceOption = MultipleChoiceOption(
+                    id: UUID().uuidString,
+                    choiceText: textChoice.text,
+                    value: String(string)
+                )
+            } else if let date = textChoice.value as? Date {
+                multipleChoiceOption = MultipleChoiceOption(
+                    id: UUID().uuidString,
+                    choiceText: textChoice.text,
+                    value: date
+                )
+            } else {
+                multipleChoiceOption = nil
+            }
+            
+            return multipleChoiceOption
         }
     }
     
