@@ -127,6 +127,7 @@ private struct ResearchFormStepButtonStyle: ButtonStyle {
                 .ultraThinMaterial,
                 in: RoundedRectangle(cornerRadius: 25)
             )
+            .hoverEffect(.highlight)
 #endif
     }
     
