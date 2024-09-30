@@ -84,7 +84,11 @@ public struct ResearchFormStepContentView<Content: View>: View {
                     .frame(maxWidth: maxWidthForDoneButton)
                     .padding(.vertical, 8)
             }
+#if os(iOS) || os(visionOS)
             .buttonStyle(.researchFormStep)
+#elseif os(watchOS)
+            .buttonStyle(.borderedProminent)
+#endif
             .disabled(!doneButtonEnabled)
         }
         .background(Color.choice(for: .secondaryBackground))
@@ -98,6 +102,7 @@ public struct ResearchFormStepContentView<Content: View>: View {
     .infinity
 #endif
     }
+    
 }
 
 private struct ResearchFormStepButtonStyle: ButtonStyle {
