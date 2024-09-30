@@ -55,7 +55,7 @@ Figure 1. Range of motion steps for the right knee
 
 ## Gait and Balance
 
-In the gait and balance task (see the method [ORKOrderedTask shortWalkTaskWithIdentifier:intendedUseDescription:numberOfStepsPerLeg:restDuration:options]([ORKOrderedTask shortWalkTaskWithIdentifier:intendedUseDescription:numberOfStepsPerLeg:restDuration:options:])),
+In the gait and balance task,
 the user walks for a short distance, which may be indoors. You might
 use this semi-controlled task to collect objective measurements that
 can be used to estimate stride length, smoothness, sway, and other
@@ -75,7 +75,7 @@ Figure 2. Gait and balance steps
 
 ## Tapping Speed
 
-In the tapping task (see the method [ORKOrderedTask twoFingerTappingIntervalTaskWithIdentifier:intendedUseDescription:duration:handOptions:options]([ORKOrderedTask twoFingerTappingIntervalTaskWithIdentifier:intendedUseDescription:duration:handOptions:options:])), the user rapidly alternates between tapping two
+In the tapping task, the user rapidly alternates between tapping two
 targets on the touch screen. The resulting touch data can be used to
 assess basic motor capabilities such as speed, accuracy, and rhythm.
 
@@ -95,7 +95,7 @@ Figure 3. Tapping speed steps
 
 ## Fitness
 
-In the fitness task (see the method [ORKOrderedTask fitnessCheckTaskWithIdentifier:intendedUseDescription:walkDuration:restDuration:options]([ORKOrderedTask fitnessCheckTaskWithIdentifier:intendedUseDescription:walkDuration:restDuration:options:])), the user walks for a specified duration (usually
+In the fitness task, the user walks for a specified duration (usually
 several minutes). Sensor data is collected and returned through the
 task view controller's delegate. Sensor data can include
 accelerometer, device motion, pedometer, location, and heart rate data
@@ -116,10 +116,10 @@ Fitness steps are shown in Figure 4.
 
 Figure 4. Fitness task
 
-All of the data is collected from public <a href="https://developer.apple.com/library/ios/documentation/CoreMotion/Reference/CoreMotion_Reference/index.html">CoreMotion</a> and <a href="https://developer.apple.com/library/ios/documentation/HealthKit/Reference/HealthKit_Framework/">HealthKit</a> APIs on iOS, and serialized to JSON. No analysis is applied to the data by the ResearchKit framework.
+All of the data is collected from public [CoreMotion](https://developer.apple.com/library/ios/documentation/CoreMotion/Reference/CoreMotion_Reference/index.html) and [HealthKit](https://developer.apple.com/library/ios/documentation/HealthKit/Reference/HealthKit_Framework/) APIs on iOS, and serialized to JSON. No analysis is applied to the data by the ResearchKit framework.
 
 ## Timed Walk
-In the timed walk task (see the method [ORKOrderedTask timedWalkTaskWithIdentifier:intendedUseDescription:distanceInMeters:timeLimit:turnAroundLimit:includeAssistiveDeviceForm:options:]([ORKOrderedTask timedWalkTaskWithIdentifier:intendedUseDescription:distanceInMeters:timeLimit:turnAroundLimit:includeAssistiveDeviceForm:options:])), the user is asked to walk quickly and safely for a specific distance. The task is immediately administered again by having the user walk the same distance in the opposite direction. The timed walk task differs from both the fitness and the short walk tasks in that the distance walked by the user is fixed. A timed walk task measures the user's lower-extremity function.
+In the timed walk task, the user is asked to walk quickly and safely for a specific distance. The task is immediately administered again by having the user walk the same distance in the opposite direction. The timed walk task differs from both the fitness and the short walk tasks in that the distance walked by the user is fixed. A timed walk task measures the user's lower-extremity function.
  
 The data collected by this task includes accelerometer, device motion, pedometer data, and location of the user. Note that the location is available only if the user agrees to share their location.
 Data collected by the task is in the form of an `ORKTimedWalkResult` object. 
@@ -137,7 +137,7 @@ Figure 5. Timed walk steps
 
 ## Spatial Memory
 
-In the spatial memory task (see the method [ORKOrderedTask spatialSpanMemoryTaskWithIdentifier:intendedUseDescription:initialSpan:minimumSpan:maximumSpan:playSpeed:maximumTests:maximumConsecutiveFailures:customTargetImage:customTargetPluralName:requireReversal:options:]([ORKOrderedTask spatialSpanMemoryTaskWithIdentifier:intendedUseDescription:initialSpan:minimumSpan:maximumSpan:playSpeed:maximumTests:maximumConsecutiveFailures:customTargetImage:customTargetPluralName:requireReversal:options:])),
+In the spatial memory task,
 the user is asked to observe and then recall pattern sequences of
 increasing length in a game-like environment. The task collects data that
 can be used to assess visuospatial memory and executive function.
@@ -188,7 +188,7 @@ Figure 8. Trail making test steps
 
 ## Paced Serial Addition Test (PSAT)
 
-The Paced Serial Addition Test (PSAT) task (see method [ORKOrderedTask PSATTaskWithIdentifier:intendedUseDescription:presentationMode:interStimulusInterval:stimulusDuration:seriesLength:options]([ORKOrderedTask PSATTaskWithIdentifier:intendedUseDescription:presentationMode:interStimulusInterval:stimulusDuration:seriesLength:options:])) measures the cognitive function that assesses auditory and/or visual information processing speed, flexibility, and the calculation ability of the user.
+The Paced Serial Addition Test (PSAT) task measures the cognitive function that assesses auditory and/or visual information processing speed, flexibility, and the calculation ability of the user.
 
 Single digits are presented every two or three seconds and the user must add each new digit to the one immediately before.
 
@@ -214,7 +214,7 @@ Figure 9. PVSAT memory steps
 
 ## Tower of Hanoi
 
-In the Tower of Hanoi task (see the method [ORKOrderedTask towerOfHanoiTaskWithIdentifier:intendedUseDescription:numberOfDisks:options:]([ORKOrderedTask towerOfHanoiTaskWithIdentifier:intendedUseDescription:numberOfDisks:options:])), the user is asked to solve the classic Tower of Hanoi puzzle in a minimum number of moves. To solve the puzzle, the user must move the entire stack to the highlighted platform in as few moves as possible. This task measures the user's problem solving skills. A Tower of Hanoi task finishes when the user completes the puzzle correctly or concedes that they cannot solve the puzzle.
+In the Tower of Hanoi task, the user is asked to solve the classic Tower of Hanoi puzzle in a minimum number of moves. To solve the puzzle, the user must move the entire stack to the highlighted platform in as few moves as possible. This task measures the user's problem solving skills. A Tower of Hanoi task finishes when the user completes the puzzle correctly or concedes that they cannot solve the puzzle.
  
 Data collected by this task is in the form of an `ORKTowerOfHanoiResult` object. It contains every move taken by the user and indicates whether the puzzle was successfully completed or not.
  
@@ -229,7 +229,7 @@ Figure 10. Tower of Hanoi steps
 
 ## Reaction Time
 
-In the reaction time task, the user shakes the device in response to a visual clue on the device's screen. The task is divided into a number of attempts, which you determine. To complete an attempt in a task, the user must shake or move the device with an acceleration that exceeds a threshold value ( `thresholdAcceleration` property) within the given time. The task finishes when the user successfully completes all the attempts as instructed in the task. Use this task to evaluate a user's response to the stimulus and calculate their reaction time. (See the method [ORKOrderedTask reactionTimeTaskWithIdentifier:intendedUseDescription:maximumStimulusInterval:minimumStimulusInterval:thresholdAcceleration:numberOfAttempts:timeout:successSound:timeoutSound:failureSound:option]([ORKOrderedTask reactionTimeTaskWithIdentifier:intendedUseDescription:maximumStimulusInterval:minimumStimulusInterval:thresholdAcceleration:numberOfAttempts:timeout:successSound:timeoutSound:failureSound:options:])).
+In the reaction time task, the user shakes the device in response to a visual clue on the device's screen. The task is divided into a number of attempts, which you determine. To complete an attempt in a task, the user must shake or move the device with an acceleration that exceeds a threshold value ( `thresholdAcceleration` property) within the given time. The task finishes when the user successfully completes all the attempts as instructed in the task. Use this task to evaluate a user's response to the stimulus and calculate their reaction time.
 
 Data collected by this task is in the form of `ORKReactionTimeResult` objects. Each of these objects contain a timestamp representing the delivery of the stimulus and an `ORKFileResult` object that references the motion data collected during an attempt. To present this task, use an `ORKTaskViewController` object. 
 
@@ -244,11 +244,11 @@ Figure 11. Reaction time steps
 
 ## Sustained Phonation
 
-In the sustained phonation task (see the method [ORKOrderedTask audioTaskWithIdentifier:intendedUseDescription:speechInstruction:shortSpeechInstruction:duration:recordingSettings:checkAudioLevel:options]([ORKOrderedTask audioTaskWithIdentifier:intendedUseDescription:speechInstruction:shortSpeechInstruction:duration:recordingSettings:checkAudioLevel:options:])), the user makes a sustained sound, and an audio
+In the sustained phonation task, the user makes a sustained sound, and an audio
 recording is made. Analysis of the audio data is not included in the
 ResearchKit framework, but might naturally involve looking at the power spectrum
 and how it relates to the ability to produce certain
-sounds. The ResearchKit framework uses the <a href="https://developer.apple.com/library/ios/documentation/AVFoundation/Reference/AVFoundationFramework/">AVFoundation framework</a> to collect this
+sounds. The ResearchKit framework uses the [AVFoundation](https://developer.apple.com/library/ios/documentation/AVFoundation/Reference/AVFoundationFramework/) framework to collect this
 data and to present volume indication during recording. No data
 analysis is done by ResearchKit; you can define your analysis on this
 task according to your own requirements.
@@ -321,7 +321,7 @@ The environment SPL meter step is shown in Figure 15.
 
 ## Tone Audiometry
 
-In the tone audiometry task users listen through headphones to a series of tones, and tap left or right buttons on the screen when they hear each tone.  These tones are of different audio frequencies, playing on different channels (left and right), with the volume being progressively increased until the user taps one of the buttons. A tone audiometry task measures different properties of a user's hearing ability, based on their reaction to a wide range of frequencies. (See the method [ORKOrderedTask toneAudiometryTaskWithIdentifier:intendedUseDescription:speechInstruction:shortSpeechInstruction:toneDuration:options:]([ORKOrderedTask toneAudiometryTaskWithIdentifier:intendedUseDescription:speechInstruction:shortSpeechInstruction:toneDuration:options:])).
+In the tone audiometry task users listen through headphones to a series of tones, and tap left or right buttons on the screen when they hear each tone.  These tones are of different audio frequencies, playing on different channels (left and right), with the volume being progressively increased until the user taps one of the buttons. A tone audiometry task measures different properties of a user's hearing ability, based on their reaction to a wide range of frequencies.
 
 Data collected in this task consists of audio signal amplitude for specific frequencies and channels for each ear. 
  
@@ -337,7 +337,7 @@ Figure 16. Tone audiometry steps
 
 ## dBHL Tone Audiometry
 
-The dBHL tone audiometry task implements the Hughson-Westlake method of determining hearing threshold. It is similar to the tone audiometry task, except that it utilizes a dB HL scale. (See the method [ORKOrderedTask dBHLToneAudiometryTaskWithIdentifier:intendedUseDescription:options:]([ORKOrderedTask dBHLToneAudiometryTaskWithIdentifier:intendedUseDescription:options:])).
+The dBHL tone audiometry task implements the Hughson-Westlake method of determining hearing threshold. It is similar to the tone audiometry task, except that it utilizes a dB HL scale.
 
 Data collected in this task consists of audio signal amplitude for specific frequencies and channels for each ear. 
 
@@ -355,7 +355,7 @@ Figure 17. dBHL tone audiometry steps
 
 ## 9-Hole Peg Test
 
-The 9-hole peg test is a two-step test of hand dexterity to measure the <a href="http://www.nationalmssociety.org/For-Professionals/Researchers/Resources-for-Researchers/Clinical-Study-Measures/9-Hole-Peg-Test-(9-HPT)">MSFC score in Multiple Sclerosis</a>, or signs of <a href="http://www.rehabmeasures.org/Lists/RehabMeasures/DispForm.aspx?ID=925">Parkinson's disease or stroke</a>. This task is well documented in the scientific literature (see <a href="http://www.ncbi.nlm.nih.gov/pubmed/22020457">Earhart et al., 2011</a>).
+The 9-hole peg test is a two-step test of hand dexterity to measure the [MSFC score in Multiple Sclerosis](http://www.nationalmssociety.org/For-Professionals/Researchers/Resources-for-Researchers/Clinical-Study-Measures/9-Hole-Peg-Test-(9-HPT)), or signs of [Parkinson's disease or stroke](http://www.rehabmeasures.org/Lists/RehabMeasures/DispForm.aspx?ID=925). This task is well documented in the scientific literature (see [Earhart et al., 2011](http://www.ncbi.nlm.nih.gov/pubmed/22020457)).
 
 The data collected by this task includes the number of pegs, an array of move samples, and the total duration that the user spent taking the test. Practically speaking, this task generates a two-step test in which the participant must put a variable number of pegs in a hole (the place step), and then remove them (the remove step). This task tests both hands.
 
@@ -422,7 +422,7 @@ For HealthKit related data, there are two recorder configurations:
 - `ORKHealthQuantityTypeRecorderConfiguration` to access quantity data such as heart rate.
 - `ORKHealthClinicalTypeRecorderConfiguration` to access health records data. 
 
-Access to health quanity and records data requires explicit permission that the user must grant explicitly. More information about accessing health record data <a href="https://developer.apple.com/documentation/healthkit/health_and_fitness_samples/accessing_health_records?language=objc">can be found here</a>.
+Access to health quanity and records data requires explicit permission that the user must grant explicitly. More information about accessing health record data [can be found here](https://developer.apple.com/documentation/healthkit/health_and_fitness_samples/accessing_health_records?language=objc).
 
 --
 ### References
