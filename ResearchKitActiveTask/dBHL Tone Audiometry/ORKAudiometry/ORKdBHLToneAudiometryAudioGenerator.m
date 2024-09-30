@@ -93,7 +93,7 @@ NSString * const filenameExtension = @"plist";
 
 @end
 
-const double DeviceVolumeMinimumValue = 0.125;
+const double DeviceVolumeMinimumValue = 0.0625;
 const double ORKdBHLSineWaveToneGeneratorSampleRateDefault = 44100.0f;
 
 static OSStatus ORKdBHLAudioGeneratorRenderTone(void *inRefCon,
