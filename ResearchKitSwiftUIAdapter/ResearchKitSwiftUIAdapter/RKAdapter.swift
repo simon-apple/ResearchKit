@@ -30,6 +30,7 @@
 
 import Foundation
 import ResearchKit
+import ResearchKitUI_Watch_
 import SwiftUI
 
 enum MultipleChoiceAnswerFormat: Int {
@@ -42,43 +43,41 @@ public class RKAdapter {
     static var multipleChoiceAnswerFormatKey = "multipleChoiceAnswerFormatKey"
     
     public static func createORKResults(from taskResult: ResearchFormResult) -> [ORKResult] {
-        let resultsDictionary = taskResult.stepResults
-        
-        var resultsArray: [ORKResult] = []
-        resultsDictionary.forEach { entry in
-            let value = entry.value
-            switch value {
+        taskResult.compactMap { result in
+            let orkResult: ORKResult?
+            
+            switch result.answer {
             case let .text(answer):
-                let result = ORKTextQuestionResult(identifier: entry.key)
+                let result = ORKTextQuestionResult(identifier: result.identifier)
                 result.questionType = .text
                 result.textAnswer = answer
-                resultsArray.append(result)
+                orkResult = result
             case .numeric(let decimal):
-                let result = ORKNumericQuestionResult(identifier: entry.key)
+                let result = ORKNumericQuestionResult(identifier: result.identifier)
                 result.questionType = .decimal
                 result.numericAnswer = NSNumber(floatLiteral: decimal ?? 0.0)
-                resultsArray.append(result)
+                orkResult = result
             case .date(let date):
-                let result = ORKDateQuestionResult(identifier: entry.key)
+                let result = ORKDateQuestionResult(identifier: result.identifier)
                 result.questionType = .date
                 result.dateAnswer = date
-                resultsArray.append(result)
+                orkResult = result
             case .height(let height):
-                let result = ORKNumericQuestionResult(identifier: entry.key)
+                let result = ORKNumericQuestionResult(identifier: result.identifier)
                 result.questionType = .height
                 if let answer = height {
                     result.numericAnswer = NSNumber(floatLiteral: answer)
                 }
-                resultsArray.append(result)
+                orkResult = result
             case .weight(let weight):
-                let result = ORKNumericQuestionResult(identifier: entry.key)
+                let result = ORKNumericQuestionResult(identifier: result.identifier)
                 result.questionType = .weight
                 if let answer = weight {
                     result.numericAnswer = NSNumber(floatLiteral: answer)
                 }
-                resultsArray.append(result)
+                orkResult = result
             case .image(let images):
-                let result = ORKChoiceQuestionResult(identifier: entry.key)
+                let result = ORKChoiceQuestionResult(identifier: result.identifier)
                 let info = [
                     multipleChoiceAnswerFormatKey :
                         MultipleChoiceAnswerFormat.image.rawValue
@@ -88,9 +87,9 @@ public class RKAdapter {
                 if let results = images {
                     result.choiceAnswers = results.map { RKAdapter.rkValue(from: $0) }
                 }
-                resultsArray.append(result)
+                orkResult = result
             case .multipleChoice(let multipleChoice):
-                let result = ORKChoiceQuestionResult(identifier: entry.key)
+                let result = ORKChoiceQuestionResult(identifier: result.identifier)
                 let info = [
                     multipleChoiceAnswerFormatKey :
                         MultipleChoiceAnswerFormat.multiple.rawValue
@@ -101,65 +100,82 @@ public class RKAdapter {
                 }
                 result.userInfo = info
                 result.questionType = .multipleChoice
-                resultsArray.append(result)
+                orkResult = result
             case .scale(let value):
-                let result = ORKScaleQuestionResult(identifier: entry.key)
+                let result = ORKScaleQuestionResult(identifier: result.identifier)
                 if let value = value {
                     result.scaleAnswer = NSNumber(floatLiteral: value)
                 }
                 result.questionType = .scale
-                resultsArray.append(result)
+                orkResult = result
+            @unknown default:
+                orkResult = nil
             }
+            
+            return orkResult
         }
-        
-        return resultsArray
+    }
+    
+    public static func data(for taskResult: ORKTaskResult) throws -> Data {
+        try ORKIESerializer.swiftUI_JSONData(for: taskResult)
     }
     
     public static func createTaskResults(from data: Data) -> ResearchFormResult? {
-        if let taskResult = ORKIESerializer.swiftUI_object(fromJSONData: data, error: nil) as? ORKTaskResult {
-            let researchTaskResult = ResearchFormResult()
-            if let stepResults = taskResult.results as? [ORKStepResult] {
-                for stepResult in stepResults {
-                    guard let results = stepResult.results else { continue }
-                    
-                    for result in results {
-                        let identifier = result.identifier
-                        if let result = result as? ORKTextQuestionResult {
-                            researchTaskResult.stepResults[identifier] = .text(result.textAnswer ?? "Unknown")
-                        } else if let result = result as? ORKNumericQuestionResult {
-                            if result.questionType == .decimal {
-                                researchTaskResult.stepResults[identifier] = .numeric(result.numericAnswer?.doubleValue ?? 0)
-                            } else if result.questionType == .weight {
-                                researchTaskResult.stepResults[identifier] = .weight(result.numericAnswer?.doubleValue ?? 0)
-                            } else if result.questionType == .height {
-                                researchTaskResult.stepResults[identifier] = .height(result.numericAnswer?.doubleValue ?? 0)
-                            }
-                        } else if let result = result as? ORKDateQuestionResult {
-                            researchTaskResult.stepResults[identifier] = .date(result.dateAnswer ?? Date())
-                        } else if let result = result as? ORKChoiceQuestionResult {
-                            if let userInfo = result.userInfo,
-                               let formatValue = userInfo[multipleChoiceAnswerFormatKey] as? Int,
-                               let format = MultipleChoiceAnswerFormat(rawValue: formatValue) {
-                                if let selections = result.choiceAnswers {
-                                    let newSelections: [ResultValue] = selections.compactMap { RKAdapter.value(from: $0) }
-                                    switch format {
-                                    case .multiple:
-                                        researchTaskResult.stepResults[identifier] = .multipleChoice(newSelections)
-                                    case .image:
-                                        researchTaskResult.stepResults[identifier] = .image(newSelections)
-                                    }
-                                }
-                            }
-                        } else if let result = result as? ORKScaleQuestionResult {
-                            researchTaskResult.stepResults[identifier] = .scale(result.scaleAnswer?.doubleValue ?? 0)
-                        }
-                    }
-                }
-            }
-            
-            return researchTaskResult
+        guard let taskResult = ORKIESerializer.swiftUI_object(fromJSONData: data, error: nil) as? ORKTaskResult else {
+            return nil
         }
-        return nil
+        
+        let stepResults = taskResult.results as? [ORKStepResult] ?? []
+        let results: [Result] = stepResults.flatMap { stepResult in
+            let questionResults = stepResult.results ?? []
+            
+            return questionResults.compactMap { questionResult -> Result? in
+                let identifier = questionResult.identifier
+                
+                let result: Result?
+                
+                if let textQuestionResult = questionResult as? ORKTextQuestionResult {
+                    result = Result(identifier: identifier, answer: .text(textQuestionResult.textAnswer ?? "Unknown"))
+                } else if let numericQuestionResult = questionResult as? ORKNumericQuestionResult {
+                    if numericQuestionResult.questionType == .decimal {
+                        result = Result(identifier: identifier, answer: .numeric(numericQuestionResult.numericAnswer?.doubleValue ?? 0))
+                    } else if numericQuestionResult.questionType == .weight {
+                        result = Result(identifier: identifier, answer: .weight(numericQuestionResult.numericAnswer?.doubleValue ?? 0))
+                    } else if numericQuestionResult.questionType == .height {
+                        result = Result(identifier: identifier, answer: .height(numericQuestionResult.numericAnswer?.doubleValue ?? 0))
+                    } else {
+                        result = nil
+                    }
+                } else if let dateQuestionResult = questionResult as? ORKDateQuestionResult {
+                    result = Result(identifier: identifier, answer: .date(dateQuestionResult.dateAnswer ?? Date()))
+                } else if let choiceQuestionResult = questionResult as? ORKChoiceQuestionResult {
+                    if let userInfo = choiceQuestionResult.userInfo,
+                       let formatValue = userInfo[multipleChoiceAnswerFormatKey] as? Int,
+                       let format = MultipleChoiceAnswerFormat(rawValue: formatValue) {
+                        if let selections = choiceQuestionResult.choiceAnswers {
+                            let newSelections: [ResultValue] = selections.compactMap { RKAdapter.value(from: $0) }
+                            switch format {
+                            case .multiple:
+                                result = Result(identifier: identifier, answer: .multipleChoice(newSelections))
+                            case .image:
+                                result = Result(identifier: identifier, answer: .image(newSelections))
+                            }
+                        } else {
+                            result = nil
+                        }
+                    } else {
+                        result = nil
+                    }
+                } else if let scaleQuestionResult = questionResult as? ORKScaleQuestionResult {
+                    result = Result(identifier: identifier, answer: .scale(scaleQuestionResult.scaleAnswer?.doubleValue ?? 0))
+                } else {
+                    result = nil
+                }
+                
+                return result
+            }
+        }
+        return ResearchFormResult(results: results)
     }
 
     static func rkValue(from result: ResultValue) -> NSCopying & NSSecureCoding & NSObjectProtocol {

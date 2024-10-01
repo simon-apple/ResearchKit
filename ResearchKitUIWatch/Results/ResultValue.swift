@@ -28,7 +28,9 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-enum ResultValue: Codable {
+import Foundation
+
+public enum ResultValue: Codable {
     case int(Int)
     case string(String)
     case date(Date)
@@ -36,7 +38,7 @@ enum ResultValue: Codable {
 
 extension ResultValue: Equatable {
     
-    static func == (lhs: ResultValue, rhs: ResultValue) -> Bool {
+    public static func == (lhs: ResultValue, rhs: ResultValue) -> Bool {
         switch (lhs, rhs) {
         case (.int(let a), .int(let b)):
             return a == b

@@ -31,7 +31,7 @@
 import Combine
 import SwiftUI
 
-enum AnswerFormat {
+public enum AnswerFormat {
     case text(String?)
     case numeric(Double?)
     case date(Date?)
@@ -46,7 +46,7 @@ extension AnswerFormat: Codable {}
 
 extension AnswerFormat: Equatable {
     
-    static func == (lhs: AnswerFormat, rhs: AnswerFormat) -> Bool {
+    public static func == (lhs: AnswerFormat, rhs: AnswerFormat) -> Bool {
         let isEqual: Bool
         
         switch (lhs, rhs) {
@@ -79,10 +79,17 @@ extension AnswerFormat: Equatable {
 public final class ResearchFormResult: ObservableObject {
 
     @Published
-    var stepResults: [String: AnswerFormat] = [:]
+    var stepResults: [String: AnswerFormat]
     
-    // This initializer is to remain internal so that 3rd party developers can't insert into the environment.
-    init() {}
+    public convenience init() {
+        self.init(results: [])
+    }
+    
+    public init(results: [Result]) {
+        stepResults = results.reduce(into: [String: AnswerFormat]()) { partialResult, result in
+            partialResult[result.identifier] = result.answer
+        }
+    }
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -116,6 +123,26 @@ public final class ResearchFormResult: ObservableObject {
     func setResultForStep<Result>(_ format: AnswerFormat, key: StepResultKey<Result>) {
         stepResults[key.id] = format
     }
+    
+    public func compactMap<T>(_ transform: (Result) -> T?) -> [T] {
+        stepResults.compactMap { entry in
+            transform(
+                Result(identifier: entry.key, answer: entry.value)
+            )
+        }
+    }
+}
+
+public struct Result {
+    
+    public let identifier: String
+    public let answer: AnswerFormat
+    
+    public init(identifier: String, answer: AnswerFormat) {
+        self.identifier = identifier
+        self.answer = answer
+    }
+    
 }
 
 extension ResearchFormResult: Codable {

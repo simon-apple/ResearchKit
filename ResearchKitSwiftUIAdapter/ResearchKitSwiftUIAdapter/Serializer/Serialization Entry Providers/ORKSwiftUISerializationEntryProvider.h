@@ -28,12 +28,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitUI_Watch_/ORKSerializationEntryProvider.h>
+#import <ResearchKitSwiftUIAdapter/ORKSerializationEntryProvider.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ORKCoreSerializationEntryProvider : ORKSerializationEntryProvider
+@interface ORKSwiftUISerializationEntryProvider : ORKSerializationEntryProvider
 
 @end
 
