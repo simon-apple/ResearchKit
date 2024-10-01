@@ -466,18 +466,6 @@ public struct ScaleSliderQuestionView: View {
     
     @ViewBuilder
     private func slider(selectionConfiguration: ScaleSelectionConfiguration) -> some View {
-#if os(watchOS)
-        Slider(
-            value: $sliderUIValue,
-            in: sliderBounds(for: selectionConfiguration)
-        ) {
-            Text("Slider for \(selectionConfiguration)")
-        } minimumValueLabel: {
-            sliderLabel("\(minimumValueDescription(for: selectionConfiguration))")
-        } maximumValueLabel: {
-            sliderLabel("\(maximumValueDescription(for: selectionConfiguration))")
-        }
-#else
         Slider(
             value: $sliderUIValue,
             in: sliderBounds(for: selectionConfiguration),
@@ -489,7 +477,6 @@ public struct ScaleSliderQuestionView: View {
         } maximumValueLabel: {
             sliderLabel("\(maximumValueDescription(for: selectionConfiguration))")
         }
-#endif
     }
     
     private func value(for selectionConfiguration: ScaleSelectionConfiguration) -> any CustomStringConvertible {
