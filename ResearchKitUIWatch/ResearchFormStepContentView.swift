@@ -84,11 +84,7 @@ public struct ResearchFormStepContentView<Content: View>: View {
                     .frame(maxWidth: maxWidthForDoneButton)
                     .padding(.vertical, 8)
             }
-#if os(iOS) || os(visionOS)
             .buttonStyle(.researchFormStep)
-#elseif os(watchOS)
-            .buttonStyle(.borderedProminent)
-#endif
             .disabled(!doneButtonEnabled)
         }
         .background(Color.choice(for: .secondaryBackground))
@@ -128,6 +124,14 @@ private struct ResearchFormStepButtonStyle: ButtonStyle {
                 in: RoundedRectangle(cornerRadius: 25)
             )
             .hoverEffect(.highlight)
+#elseif os(watchOS)
+        configuration.label
+            .foregroundStyle(isEnabled ? .white : .gray)
+            .frame(height: 50)
+            .background(
+                Color.choice(for: .systemGray4),
+                in: RoundedRectangle(cornerRadius: 25)
+            )
 #endif
     }
     
