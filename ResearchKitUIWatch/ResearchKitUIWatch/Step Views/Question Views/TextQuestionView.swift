@@ -34,37 +34,6 @@ public enum TextFieldType {
     case singleLine, multiline
 }
 
-public struct TextQuestion: Identifiable {
-    public var title: String
-    public var id: String
-    public var text: String?
-    public var prompt: String
-    public var textFieldType: TextFieldType
-    public var characterLimit: Int
-    public var hideCharacterCountLabel: Bool
-    public var hideClearButton: Bool
-
-    public init(
-        title: String,
-        id: String,
-        text: String? = nil,
-        prompt: String,
-        textFieldType: TextFieldType,
-        characterLimit: Int,
-        hideCharacterCountLabel: Bool,
-        hideClearButton: Bool
-    ) {
-        self.title = title
-        self.id = id
-        self.text = text
-        self.prompt = prompt
-        self.textFieldType = textFieldType
-        self.characterLimit = characterLimit
-        self.hideCharacterCountLabel = hideCharacterCountLabel
-        self.hideClearButton = hideClearButton
-    }
-}
-
 public struct TextQuestionView<Header: View>: View {
     
     @EnvironmentObject
