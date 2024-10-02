@@ -143,12 +143,14 @@ public struct WeightQuestionView: View {
     }
 
     var selectionString: String {
-        
-        guard let result = resolvedResult.wrappedValue else {
-            return "\(defaultWeightInKilograms.rounded()) kg"
+        let selectedResult: Double
+        if let result = resolvedResult.wrappedValue {
+            selectedResult = result
+        } else {
+            selectedResult = defaultWeightInKilograms.rounded()
         }
         
-        let (pounds, ounces) = convertKilogramsToPoundsAndOunces(result)
+        let (pounds, ounces) = convertKilogramsToPoundsAndOunces(selectedResult)
         if measurementSystem == .USC {
             switch precision {
             case .default, .low:
@@ -161,9 +163,9 @@ public struct WeightQuestionView: View {
                 // 68.039 isn't exactly the prettiest value, but it maps
                 // nice to 150 pounds, so if the user sticks with the default
                 // we'll round to the nearest result which in our case would be 60kg.
-                return "\(result.rounded()) kg"
+                return "\(selectedResult.rounded()) kg"
             }
-            return "\(result) kg"
+            return "\(selectedResult) kg"
         }
     }
 
