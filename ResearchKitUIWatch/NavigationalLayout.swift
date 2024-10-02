@@ -56,11 +56,16 @@ struct NavigationalLayout: View {
                     case .failed, .discarded, .terminated:
                         dismiss()
                     case .completed(let result):
-#if os(watchOS)
-                        researchFormCompletion = .completed(result)
-#endif
-                        
-                        onResearchFormCompletion?(completion)
+                        if let researchFormCompletion = researchFormCompletion {
+                            
+    #if os(watchOS)
+                            researchFormCompletion = .completed(result)
+    #endif
+                            
+                            onResearchFormCompletion?(completion)
+                        } else {
+                            dismiss()
+                        }
                     case .saved(let result):
                         if let currentStepIndex = index(for: firstStep) {
                             moveToNextStep(relativeToCurrentIndex: currentStepIndex)
