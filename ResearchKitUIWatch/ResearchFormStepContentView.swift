@@ -84,7 +84,7 @@ public struct ResearchFormStepContentView<Content: View>: View {
                     .frame(maxWidth: maxWidthForDoneButton)
                     .padding(.vertical, 8)
             }
-            .buttonStyle(.borderedProminent)
+            .buttonStyle(.researchFormStep)
             .disabled(!doneButtonEnabled)
         }
         .background(Color.choice(for: .secondaryBackground))
@@ -98,4 +98,47 @@ public struct ResearchFormStepContentView<Content: View>: View {
     .infinity
 #endif
     }
+    
+}
+
+private struct ResearchFormStepButtonStyle: ButtonStyle {
+    
+    @Environment(\.isEnabled)
+    private var isEnabled
+    
+    func makeBody(configuration: Configuration) -> some View {
+#if os(iOS)
+        configuration.label
+            .foregroundStyle(.white)
+            .frame(height: 50)
+            .background(
+                isEnabled ? Color.blue : Color.blue.opacity(0.5),
+                in: RoundedRectangle(cornerRadius: 12)
+            )
+#elseif os(visionOS)
+        configuration.label
+            .foregroundStyle(isEnabled ? .white : .gray)
+            .frame(height: 50)
+            .background(
+                .ultraThinMaterial,
+                in: RoundedRectangle(cornerRadius: 25)
+            )
+            .hoverEffect(.highlight)
+#elseif os(watchOS)
+        configuration.label
+            .foregroundStyle(isEnabled ? .white : .gray)
+            .frame(height: 50)
+            .background(
+                Color.choice(for: .systemGray4),
+                in: RoundedRectangle(cornerRadius: 25)
+            )
+#endif
+    }
+    
+}
+
+private extension ButtonStyle where Self == ResearchFormStepButtonStyle {
+    
+    static var researchFormStep: ResearchFormStepButtonStyle { .init() }
+    
 }
