@@ -147,7 +147,7 @@ public struct WeightQuestionView: View {
         if let result = resolvedResult.wrappedValue {
             selectedResult = result
         } else {
-            selectedResult = defaultWeightInKilograms
+            selectedResult = defaultWeightInKilograms.rounded()
         }
         
         let (pounds, ounces) = convertKilogramsToPoundsAndOunces(selectedResult)
