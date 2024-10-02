@@ -32,6 +32,15 @@ import Foundation
 import ResearchKit
 import SwiftUI
 
+public enum ScaleSelectionConfiguration {
+    
+    @available(watchOS, unavailable)
+    case textChoice([MultipleChoiceOption])
+    
+    case integerRange(ClosedRange<Int>)
+    case doubleRange(ClosedRange<Double>)
+}
+
 public struct ScaleSliderQuestionView: View {
     
     let id: String
