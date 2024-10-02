@@ -201,7 +201,6 @@
 			isa = PBXGroup;
 			children = (
 				69EE514F2C77F17F008B2AD6 /* View Modifiers */,
-				386ABFBF2C2F80380006B84D /* Question Models */,
 				E4DBF1B22B97C27E0085D6A1 /* Question Views */,
 				0B72132C2B4F368600463E69 /* DefaultStepView.swift */,
 				0B7213412B4F396B00463E69 /* CompletionStepView.swift */,
@@ -268,13 +267,6 @@
 				3820BE1F2C6574350012CB2C /* ResearchFormResult.swift */,
 			);
 			path = Results;
-			sourceTree = "<group>";
-		};
-		386ABFBF2C2F80380006B84D /* Question Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Question Models";
 			sourceTree = "<group>";
 		};
 		5E05B53B2C2E134900A0A83B /* SwiftUIKit */ = {
