@@ -30,6 +30,10 @@
 
 import SwiftUI
 
+public enum NumericPrecision {
+    case `default`, low, high
+}
+
 public struct WeightQuestionView: View {
     
     @EnvironmentObject
