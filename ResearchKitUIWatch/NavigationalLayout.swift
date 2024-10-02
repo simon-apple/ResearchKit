@@ -61,7 +61,7 @@ struct NavigationalLayout: View {
 #endif
                         
                         onResearchFormCompletion?(completion)
-                    case .saved(let result):
+                    case .saved:
                         if let currentStepIndex = index(for: firstStep) {
                             moveToNextStep(relativeToCurrentIndex: currentStepIndex)
                         }
