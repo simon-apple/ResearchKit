@@ -257,7 +257,7 @@ struct ResearchFormAdapter: View {
                 }
             }()
             
-            HeightQuestionView(
+            HeightQuestion(
                 id: id,
                 title: title ?? "",
                 measurementSystem: measurementSystem
