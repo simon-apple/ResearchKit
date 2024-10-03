@@ -56,14 +56,7 @@ struct NavigationalLayout: View {
                     case .failed, .discarded, .terminated:
                         dismiss()
                     case .completed(let result):
-                        if let onResearchFormCompletion {
-#if os(watchOS)
-                            researchFormCompletion = .completed(result)
-#endif
-                            onResearchFormCompletion(completion)
-                        } else {
-                            dismiss()
-                        }
+                        handle(formCompletion: completion, with: result)
                     case .saved:
                         if let currentStepIndex = index(for: firstStep) {
                             moveToNextStep(relativeToCurrentIndex: currentStepIndex)
@@ -80,11 +73,7 @@ struct NavigationalLayout: View {
                             case .failed, .discarded, .terminated:
                                 dismiss()
                             case .completed(let result):
-#if os(watchOS)
-                                researchFormCompletion = .completed(result)
-#endif
-                                
-                                onResearchFormCompletion?(completion)
+                                handle(formCompletion: completion, with: result)
                             case .saved:
                                 if let currentStepIndex = index(for: subviewID) {
                                     moveToNextStep(relativeToCurrentIndex: currentStepIndex)
@@ -102,6 +91,17 @@ struct NavigationalLayout: View {
 #if os(watchOS)
         .preference(key: ResearchFormCompletionKey.self, value: researchFormCompletion)
 #endif
+    }
+    
+    private func handle(formCompletion completion: ResearchFormCompletion, with result: ResearchFormResult) {
+        if let onResearchFormCompletion {
+#if os(watchOS)
+            researchFormCompletion = .completed(result)
+#endif
+            onResearchFormCompletion(completion)
+        } else {
+            dismiss()
+        }
     }
     
     private func moveToNextStep(relativeToCurrentIndex currentIndex: Int) {
