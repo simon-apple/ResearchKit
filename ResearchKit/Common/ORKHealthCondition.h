@@ -53,7 +53,7 @@ ORK_CLASS_AVAILABLE
  This method is the primary designated initializer.
  
  @param   identifier   The unique identifier of the health condition.
- @param   displayName   The name displayed to the participant for selection.
+ @param   name   The name displayed to the participant for selection.
  @param   value   The value stored to the result if the health condition is selected.
  */
 
