@@ -26,7 +26,7 @@ The task for this example includes the steps seen below.
 ![Step 2](conditional-logic-in-researchKit-step2)
 ![Step 3](conditional-logic-in-researchKit-step3)
 
-The conditional logic is based on answering `Yes` or `No` for the first question (Do you like Apples?):
+The conditional logic is based on answering `Yes` or `No` for the first question ("Do you like Apples?"):
 
 - **Answering yes**: navigates to the second screen to select your favorite apple.
 - **Answering no**: skips the second screen and navigates directly to the completion step.
