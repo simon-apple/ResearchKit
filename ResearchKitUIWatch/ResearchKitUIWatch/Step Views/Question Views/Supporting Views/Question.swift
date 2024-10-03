@@ -32,10 +32,11 @@ import SwiftUI
 
 /// A card that displays a header view, a divider line, and an answer view.
 
-public struct Question<Header: View, Content: View>: View {
+struct Question<Header: View, Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
-    let header: Header
-    let content: Content
+    
+    private let header: Header
+    private let content: Content
 
     init(
         @ViewBuilder header: () -> Header,
@@ -45,7 +46,7 @@ public struct Question<Header: View, Content: View>: View {
         self.content = content()
     }
 
-    public var body: some View {
+    var body: some View {
         VStack(alignment: .leading, spacing: .zero) {
             header
 
@@ -57,7 +58,7 @@ public struct Question<Header: View, Content: View>: View {
     }
 }
 
-public extension Question where Header == _SimpleFormItemViewHeader {
+extension Question where Header == _SimpleFormItemViewHeader {
     init(
         title: String,
         content: () -> Content

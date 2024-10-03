@@ -31,19 +31,19 @@
 
 import SwiftUI
 
-public struct ResearchFormStepContentView<Content: View>: View {
+struct ResearchFormStepContentView<Content: View>: View {
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
 
     private let content: Content
 
-    let isLastStep: Bool
-    var onStepCompletion: ((ResearchFormCompletion) -> Void)?
+    private let isLastStep: Bool
+    private var onStepCompletion: ((ResearchFormCompletion) -> Void)?
     
     @State
     private var doneButtonEnabled: Bool = true
 
-    public init(
+    init(
         isLastStep: Bool,
         onStepCompletion: ((ResearchFormCompletion) -> Void)? = nil,
         @ViewBuilder content: () -> Content
@@ -53,7 +53,7 @@ public struct ResearchFormStepContentView<Content: View>: View {
         self.content = content()
     }
 
-    public var body: some View {
+    var body: some View {
         StickyScrollView {
             content
                 .onPreferenceChange(StepCompletedPreferenceKey.self) {
