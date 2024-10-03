@@ -822,9 +822,8 @@ enum TaskListRowSteps {
         return completionStep
     }
     
-#if RK_APPLE_INTERNAL
-    // MARK: - Internal
-
+    // MARK: - ORKFamilyHistoryStep
+    
     static var familyHistoryStepExample: ORKFamilyHistoryStep {
         // create ORKHealthConditions
         
@@ -1003,6 +1002,9 @@ enum TaskListRowSteps {
         return familyHistoryStep
     }
     
+#if RK_APPLE_INTERNAL
+    // MARK: - Internal
+    
     static var readOnlyFormStepExample: ORKFormStep {
         let formStep = ORKFormStep(identifier: String(describing: Identifier.formStep))
         
@@ -1076,6 +1078,26 @@ enum TaskListRowSteps {
         instructionStep.text = "After you finish this task it will be dismissed before a another view is presented to show it's results."
 
         return instructionStep
+    }
+    
+    static var textChoiceImagesQuestionStepExample: ORKQuestionStep {
+        let textChoiceOneText = NSLocalizedString("Choice 1", comment: "")
+        let textChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
+        let textChoiceThreeText = NSLocalizedString("Choice 3", comment: "")
+        
+        // The text to display can be separate from the value coded for each choice:
+        let textChoices = [
+            ORKTextChoice(text: textChoiceOneText, image: UIImage(named: "Face")!, value: "tap 1" as NSString),
+            ORKTextChoice(text: textChoiceTwoText, image: UIImage(named: "Face")!, value: "tap 2" as NSString),
+            ORKTextChoice(text: textChoiceThreeText, image: UIImage(named: "Face")!, value: "tap 3" as NSString)
+        ]
+        
+        let textChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: textChoices)
+        let textChoiceQuestion = NSLocalizedString("Select an option below.", comment: "")
+        
+        let questionStep = ORKQuestionStep(identifier: String(describing: Identifier.textChoiceFormStep), title: NSLocalizedString("Text Choice", comment: ""), question: textChoiceQuestion, answer: textChoiceAnswerFormat)
+        
+        return questionStep
     }
 #endif
     
