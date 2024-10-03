@@ -74,7 +74,7 @@ parentFormStep.formItems = parentFormStepFormItems()
 let parentRelativeGroup = ORKRelativeGroup(identifier: "ParentGroupIdentifier",
                                            name: "Biological Parent",
                                            sectionTitle: "Biological Parents",
-                                           sectionDetailText: "Incude your blood-related parents.",
+                                           sectionDetailText: "Include your blood-related parents.",
                                            identifierForCellTitle: "ParentNameIdentifier",
                                            maxAllowed: 2,
                                            formSteps: [parentFormStep],

@@ -58,10 +58,10 @@ ORK_CLASS_AVAILABLE
  
  @param identifier   The unique identifier of the relative group.
  @param name   The name of the relative group. This should be the singular representation.
- @param sectionTitle   The table section title for the relative group.
- @param sectionDetailText   The detail text displayed in the table section header for the relative group.
+ @param title   The table section title for the relative group.
+ @param detailText   The detail text displayed in the table section header for the relative group.
  @param identifierForCellTitle   The identifier of the result value to be used for the relative's cell title.
- @param maxAllowed   The maxium amount of relatives that are allowed to be added by the participant.
+ @param maxAllowed   The maximum amount of relatives that are allowed to be added by the participant.
  @param formSteps   The form steps that will precede the health conditions step during the survey.
  @param detailTextIdentifiers   The identifiers of each result value that will be displayed in the relative's card view.
  */

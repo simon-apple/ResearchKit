@@ -62,7 +62,7 @@ ORK_CLASS_AVAILABLE
  @param identifier   The unique identifier of the related person.
  @param groupIdentifier   The identifier of the relative group to which the person belongs.
  @param identifierForCellTitle   The identifier of the result value to be used for the relative's cell title.
- @param taskResult   The task result generated for the relative's health history survey.
+ @param result   The task result generated for the relative's health history survey.
  */
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
