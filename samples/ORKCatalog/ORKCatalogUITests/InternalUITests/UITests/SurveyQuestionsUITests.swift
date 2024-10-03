@@ -1,9 +1,32 @@
-//  SurveyQuestionsUITests.swift
-//  ORKCatalogUITests
-//
-//  Created by Albina Kashapova on 10/25/23.
-//  Copyright © 2023 researchkit.org. All rights reserved.
-//
+/*
+ Copyright (c) 2024, Apple Inc. All rights reserved.
+ 
+ Redistribution and use in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+ 
+ 1.  Redistributions of source code must retain the above copyright notice, this
+ list of conditions and the following disclaimer.
+ 
+ 2.  Redistributions in binary form must reproduce the above copyright notice,
+ this list of conditions and the following disclaimer in the documentation and/or
+ other materials provided with the distribution.
+ 
+ 3.  Neither the name of the copyright holder(s) nor the names of any contributors
+ may be used to endorse or promote products derived from this software without
+ specific prior written permission. No license is granted to the trademarks of
+ the copyright holders even if such marks are included in this software.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 import Foundation
 import XCTest
@@ -153,11 +176,11 @@ final class SurveyQuestionsUITests: BaseUITest {
     }
     
     ///<rdar://tsc/21847958> [Survey Questions] Text Choice Question
-    func testSingleTextChoiceQuestion() {
+    func testTextChoiceQuestion() {
         tasksList
             .selectTaskByName(Task.textChoiceQuestion.description)
 
-        test("Step 1: Select an option") {
+        test("Step 1: Verify Single Text Choice Question") {
             let formStep1 = FormStepScreen(itemIds: ["formItem01"])
             formStep1
                 .verify(.title)
@@ -173,7 +196,7 @@ final class SurveyQuestionsUITests: BaseUITest {
                 .tap(.continueButton)
         }
         
-        test("Step 2: Select one or more options") {
+        test("Step 2: Verify Multiple Text Choice Question") {
             let formStep2 = FormStepScreen(itemIds: ["formItem02"])
             let indicesToSelect1 = [0, 2]
             let exclusiveChoiceIndex = [3]
@@ -658,7 +681,17 @@ final class SurveyQuestionsUITests: BaseUITest {
     ///rdar://tsc/21847953 ([Survey Questions] Location Question) - Happy Path
     func testLocationQuestion() throws {
         if isRunningInXcodeCloud {
-            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment")
+            guard !isRunningOnSimulator else {
+                try XCTSkipIf(true, "Skipping this test on simulator when running in Xcode Cloud environment due to Intel VMs, which Xcode Cloud uses for its hosts, are known to not have the Maps app work (display location / map data) (unsupported)")
+                return
+            }
+            test("Enable location services in the Setting app") {
+                let settingsApp = SettingsAppScreens()
+                settingsApp
+                    .terminateAndLaunchApp()
+                    .enableLocationServices()
+            }
+            app.activate() // Bring ORKCatalog to foreground
         }
         
         /// https://developer.apple.com/documentation/xcode/simulating-location-in-tests
@@ -693,8 +726,14 @@ final class SurveyQuestionsUITests: BaseUITest {
     
     /// rdar://tsc/21847953 ([Survey Questions] Location Question) - Negative Path
     func testLocationQuestionInvalidAddress() throws {
-        if isRunningInXcodeCloud {
-            try XCTSkipIf(true, "Skipping this test when running in Xcode Cloud environment")
+        if isPhysicalDeviceInXcodeCloud()  {
+            test("Enable location services in the Setting app") {
+                let settingsApp = SettingsAppScreens()
+                settingsApp
+                    .terminateAndLaunchApp()
+                    .enableLocationServices()
+            }
+            app.activate() // Bring ORKCatalog to foreground
         }
         /// https://developer.apple.com/documentation/xcode/simulating-location-in-tests
         if #available(iOS 16.4, *) {

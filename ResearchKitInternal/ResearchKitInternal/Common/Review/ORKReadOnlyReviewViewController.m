@@ -30,13 +30,13 @@
 
 #import "ORKReadOnlyReviewViewController.h"
 
-#import "ORKFamilyHistoryStep.h"
 #import "ORKReviewCardSection.h"
 #import "ORKReviewCardTableHeaderView.h"
 #import "ORKReviewCardTableViewCell.h"
 #import "ORKReviewResultModel.h"
 
 #import <ResearchKit/ORKCollectionResult.h>
+#import <ResearchKit/ORKFamilyHistoryStep.h>
 #import <ResearchKit/ORKFormStep.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
 #import <ResearchKit/ORKOrderedTask.h>
@@ -177,7 +177,7 @@ double const TableViewSectionHeaderHeight = 30.0;
 }
 
 - (void)_updateViewColors {
-    UIColor *updateColor =  self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ? [UIColor systemGray6Color] : [UIColor secondarySystemGroupedBackgroundColor];
+    UIColor *updateColor = [UIColor systemBackgroundColor];
     self.view.backgroundColor = updateColor;
     _tableView.backgroundColor = updateColor;
     [self _updateNavBarBackgroundColor: updateColor];

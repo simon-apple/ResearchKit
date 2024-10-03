@@ -42,11 +42,11 @@
 		86B89AA51AB2C0A5001626A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B89A9C1AB2C0A5001626A4 /* AppDelegate.swift */; };
 		8C1F9E9E2C0F857100A6C0D5 /* DateFormatterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1F9E9D2C0F857100A6C0D5 /* DateFormatterManager.swift */; };
 		8C49088C2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C49088B2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift */; };
-		8C49088E2B7ECEEB00DA6E2D /* OpenAndCancelActiveTasksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelActiveTasksUITests.swift */; };
-		8C4908962B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908952B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestionUITests.swift */; };
-		8C4908982B7ECF6200DA6E2D /* OpenAndCancelSurveysUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908972B7ECF6200DA6E2D /* OpenAndCancelSurveysUITests.swift */; };
+		8C49088E2B7ECEEB00DA6E2D /* OpenAndCancelUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelUITests.swift */; };
 		8C49089A2B7ECF9400DA6E2D /* ActiveStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908992B7ECF9400DA6E2D /* ActiveStepScreen.swift */; };
 		8C67958C2BC3B09B00DE7286 /* TaskListRowConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F210FD2B49D04F0072B536 /* TaskListRowConstants.swift */; };
+		8C6C5BFB2C41D13C00DEEAD3 /* ActiveTasksBaseUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6C5BFA2C41D13C00DEEAD3 /* ActiveTasksBaseUITest.swift */; };
+		8C6C5BFD2C41D1C200DEEAD3 /* ActiveTasksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6C5BFC2C41D1C200DEEAD3 /* ActiveTasksUITests.swift */; };
 		8C7C541D2B4F5CF900A2E513 /* Answers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C541C2B4F5CF900A2E513 /* Answers.swift */; };
 		8C7C54202B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */; };
 		8C7C54222B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54212B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift */; };
@@ -55,9 +55,17 @@
 		8C7C54282B4F67E200A2E513 /* Springboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54272B4F67E200A2E513 /* Springboard.swift */; };
 		8C7C542A2B4F680B00A2E513 /* RequestPermissionsStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */; };
 		8C89CD592BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */; };
+		8C97802B2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C97802A2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift */; };
+		8C97802D2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C97802C2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift */; };
 		8CBA19C72BE14AF3000E7205 /* LocaleDependentBaseUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBA19C62BE14AF3000E7205 /* LocaleDependentBaseUITest.swift */; };
 		8CC4876B2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */; };
 		8CCB03732B86AA8A00096C86 /* UITestLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCB03722B86AA8A00096C86 /* UITestLogger.swift */; };
+		8CE15F442C0D5D69003C1008 /* ToneAudiometryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F432C0D5D69003C1008 /* ToneAudiometryUITests.swift */; };
+		8CE15F462C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F452C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift */; };
+		8CE15F482C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F472C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift */; };
+		8CE15F4A2C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F492C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift */; };
+		8CE15F4C2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F4B2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift */; };
+		8CE15F4E2C0D731E003C1008 /* SettingsAppScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F4D2C0D731E003C1008 /* SettingsAppScreens.swift */; };
 		8CECC5EB2B978265002266B9 /* OnboardingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */; };
 		8CECC5ED2B978683002266B9 /* InstructionStepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EC2B978683002266B9 /* InstructionStepUITests.swift */; };
 		8CECC5EF2B978B3D002266B9 /* WebViewStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EE2B978B3D002266B9 /* WebViewStepScreen.swift */; };
@@ -256,12 +264,13 @@
 		86B89A9C1AB2C0A5001626A4 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ORKCatalog/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		8C1F9E9D2C0F857100A6C0D5 /* DateFormatterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterManager.swift; sourceTree = "<group>"; };
 		8C49088B2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelBaseUITest.swift; sourceTree = "<group>"; };
-		8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelActiveTasksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelActiveTasksUITests.swift; sourceTree = "<group>"; };
-		8C4908952B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestionUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelSurveyQuestionUITests.swift; sourceTree = "<group>"; };
-		8C4908972B7ECF6200DA6E2D /* OpenAndCancelSurveysUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelSurveysUITests.swift; sourceTree = "<group>"; };
+		8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelUITests.swift; sourceTree = "<group>"; };
 		8C4908992B7ECF9400DA6E2D /* ActiveStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveStepScreen.swift; sourceTree = "<group>"; };
 		8C49089B2B7ED08000DA6E2D /* LaunchTasksUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = LaunchTasksUITests.xctestplan; sourceTree = "<group>"; };
 		8C67958E2BC4B84500DE7286 /* SurveysRegressionUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = SurveysRegressionUITests.xctestplan; sourceTree = "<group>"; };
+		8C6C5BFA2C41D13C00DEEAD3 /* ActiveTasksBaseUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTasksBaseUITest.swift; sourceTree = "<group>"; };
+		8C6C5BFC2C41D1C200DEEAD3 /* ActiveTasksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTasksUITests.swift; sourceTree = "<group>"; };
+		8C6C5BFE2C41DC0200DEEAD3 /* ActiveTasksUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ActiveTasksUITests.xctestplan; sourceTree = "<group>"; };
 		8C7C541C2B4F5CF900A2E513 /* Answers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answers.swift; sourceTree = "<group>"; };
 		8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsLocaleDependentUITests.swift; sourceTree = "<group>"; };
 		8C7C54212B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessRequestPermissionStepUITests.swift; sourceTree = "<group>"; };
@@ -270,9 +279,17 @@
 		8C7C54272B4F67E200A2E513 /* Springboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Springboard.swift; sourceTree = "<group>"; };
 		8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPermissionsStepScreen.swift; sourceTree = "<group>"; };
 		8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsResultsUITests.swift; sourceTree = "<group>"; };
+		8C97802A2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneAudiometryInternalAirPodsUITests.swift; sourceTree = "<group>"; };
+		8C97802C2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneAudiometryInternalBaseUITests.swift; sourceTree = "<group>"; };
 		8CBA19C62BE14AF3000E7205 /* LocaleDependentBaseUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocaleDependentBaseUITest.swift; sourceTree = "<group>"; };
 		8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsHealthKitIntegrationUITests.swift; sourceTree = "<group>"; };
 		8CCB03722B86AA8A00096C86 /* UITestLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestLogger.swift; sourceTree = "<group>"; };
+		8CE15F432C0D5D69003C1008 /* ToneAudiometryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneAudiometryUITests.swift; sourceTree = "<group>"; };
+		8CE15F452C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentSPLMeterStepScreen.swift; sourceTree = "<group>"; };
+		8CE15F472C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHLToneAudiometryStepScreen.swift; sourceTree = "<group>"; };
+		8CE15F492C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadphoneDetectStepScreen.swift; sourceTree = "<group>"; };
+		8CE15F4B2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneAudiometryInternalAirPodsProUITests.swift; sourceTree = "<group>"; };
+		8CE15F4D2C0D731E003C1008 /* SettingsAppScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAppScreens.swift; sourceTree = "<group>"; };
 		8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingUITests.swift; sourceTree = "<group>"; };
 		8CECC5EC2B978683002266B9 /* InstructionStepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionStepUITests.swift; sourceTree = "<group>"; };
 		8CECC5EE2B978B3D002266B9 /* WebViewStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewStepScreen.swift; sourceTree = "<group>"; };
@@ -495,6 +512,16 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		8C6C5BF92C41D0D700DEEAD3 /* ActiveTasksUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8C97802E2C0E744F0018609A /* ToneAudiometryUITests */,
+				8C6C5BFA2C41D13C00DEEAD3 /* ActiveTasksBaseUITest.swift */,
+				8C6C5BFC2C41D1C200DEEAD3 /* ActiveTasksUITests.swift */,
+			);
+			path = ActiveTasksUITests;
+			sourceTree = "<group>";
+		};
 		8C89CD572BCD08F000C61F8A /* ResultsUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -503,13 +530,22 @@
 			path = ResultsUITests;
 			sourceTree = "<group>";
 		};
+		8C97802E2C0E744F0018609A /* ToneAudiometryUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8CE15F432C0D5D69003C1008 /* ToneAudiometryUITests.swift */,
+				8C97802C2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift */,
+				8C97802A2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift */,
+				8CE15F4B2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift */,
+			);
+			path = ToneAudiometryUITests;
+			sourceTree = "<group>";
+		};
 		8CD2A5ED2B7EC68C0078AB5F /* LaunchTasksUITests */ = {
 			isa = PBXGroup;
 			children = (
 				8C49088B2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift */,
-				8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelActiveTasksUITests.swift */,
-				8C4908952B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestionUITests.swift */,
-				8C4908972B7ECF6200DA6E2D /* OpenAndCancelSurveysUITests.swift */,
+				8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelUITests.swift */,
 			);
 			path = LaunchTasksUITests;
 			sourceTree = "<group>";
@@ -525,6 +561,7 @@
 				8CFF29262AE9CBBC000DC99E /* RegressionUITests.xctestplan */,
 				8C49089B2B7ED08000DA6E2D /* LaunchTasksUITests.xctestplan */,
 				8C67958E2BC4B84500DE7286 /* SurveysRegressionUITests.xctestplan */,
+				8C6C5BFE2C41DC0200DEEAD3 /* ActiveTasksUITests.xctestplan */,
 				8C7C541C2B4F5CF900A2E513 /* Answers.swift */,
 			);
 			path = InternalUITests;
@@ -567,6 +604,7 @@
 				8C7C54212B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift */,
 				8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */,
 				8C89CD572BCD08F000C61F8A /* ResultsUITests */,
+				8C6C5BF92C41D0D700DEEAD3 /* ActiveTasksUITests */,
 				8CD2A5ED2B7EC68C0078AB5F /* LaunchTasksUITests */,
 			);
 			path = UITests;
@@ -607,6 +645,10 @@
 				8CECC5F82B97AC03002266B9 /* PasscodeStepScreen.swift */,
 				8CECC5FA2B97ACFE002266B9 /* VerificationStepScreen.swift */,
 				8CECC5FC2B97AFB7002266B9 /* CustomStepScreen.swift */,
+				8CE15F452C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift */,
+				8CE15F472C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift */,
+				8CE15F492C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift */,
+				8CE15F4D2C0D731E003C1008 /* SettingsAppScreens.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -949,28 +991,35 @@
 				8CECC5F92B97AC03002266B9 /* PasscodeStepScreen.swift in Sources */,
 				8CECC5F52B97A8CF002266B9 /* MiscellaneousUITests.swift in Sources */,
 				8CECC5EF2B978B3D002266B9 /* WebViewStepScreen.swift in Sources */,
-				8C4908982B7ECF6200DA6E2D /* OpenAndCancelSurveysUITests.swift in Sources */,
+				8C97802B2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift in Sources */,
+				8C97802D2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift in Sources */,
 				8CECC6072B9A28FE002266B9 /* SwiftUIAdaptorUITests.swift in Sources */,
 				8CECC6032B97CF8C002266B9 /* ResultsTab.swift in Sources */,
 				8CFF29072AE9BE99000DC99E /* WaitUtils.swift in Sources */,
 				8CECC6012B97CF6C002266B9 /* SettingsTab.swift in Sources */,
+				8CE15F4C2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift in Sources */,
 				8C7C542A2B4F680B00A2E513 /* RequestPermissionsStepScreen.swift in Sources */,
 				8C7C54222B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift in Sources */,
 				9622283924F04DBF0056E74D /* TaskScreen.swift in Sources */,
+				8CE15F462C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift in Sources */,
 				8CECC5EB2B978265002266B9 /* OnboardingUITests.swift in Sources */,
 				8CFF29142AE9C3E9000DC99E /* TasksTab.swift in Sources */,
+				8C6C5BFD2C41D1C200DEEAD3 /* ActiveTasksUITests.swift in Sources */,
 				8C49088C2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift in Sources */,
 				8CECC6052B99315E002266B9 /* InternalUITests.swift in Sources */,
 				8CFF29252AE9CB4A000DC99E /* SurveyQuestionsUITests.swift in Sources */,
-				8C49088E2B7ECEEB00DA6E2D /* OpenAndCancelActiveTasksUITests.swift in Sources */,
+				8CE15F4A2C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift in Sources */,
+				8C49088E2B7ECEEB00DA6E2D /* OpenAndCancelUITests.swift in Sources */,
 				8C7C54242B4F677300A2E513 /* HealthApp.swift in Sources */,
 				8CCB03732B86AA8A00096C86 /* UITestLogger.swift in Sources */,
 				8CFF290B2AE9C051000DC99E /* XCTestCase.swift in Sources */,
 				8CFF29092AE9BEF9000DC99E /* XCUIElementQuery.swift in Sources */,
+				8CE15F4E2C0D731E003C1008 /* SettingsAppScreens.swift in Sources */,
 				9622283B24F04DFE0056E74D /* CommonElements.swift in Sources */,
 				8CC4876B2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift in Sources */,
 				8C7C541D2B4F5CF900A2E513 /* Answers.swift in Sources */,
 				8CFF29182AE9C674000DC99E /* InstructionStepScreen.swift in Sources */,
+				8C6C5BFB2C41D13C00DEEAD3 /* ActiveTasksBaseUITest.swift in Sources */,
 				8C67958C2BC3B09B00DE7286 /* TaskListRowConstants.swift in Sources */,
 				8CBA19C72BE14AF3000E7205 /* LocaleDependentBaseUITest.swift in Sources */,
 				9622284124F04EEF0056E74D /* PreSubmissionTests.swift in Sources */,
@@ -979,10 +1028,12 @@
 				8C7C54282B4F67E200A2E513 /* Springboard.swift in Sources */,
 				9622283F24F04EBA0056E74D /* Helpers.swift in Sources */,
 				8CFF290F2AE9C24A000DC99E /* AccessibilityIdentifiers.swift in Sources */,
+				8CE15F442C0D5D69003C1008 /* ToneAudiometryUITests.swift in Sources */,
 				8CFF29122AE9C395000DC99E /* TabBar.swift in Sources */,
 				8CFF290D2AE9C06E000DC99E /* XCUIElement.swift in Sources */,
 				8CECC5ED2B978683002266B9 /* InstructionStepUITests.swift in Sources */,
 				8C89CD592BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift in Sources */,
+				8CE15F482C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift in Sources */,
 				8CECC5F12B9791AD002266B9 /* PDFViewerStepScreen.swift in Sources */,
 				8CFF29162AE9C452000DC99E /* Step.swift in Sources */,
 				8CECC5F32B97A78E002266B9 /* WaitStepScreen.swift in Sources */,
@@ -994,7 +1045,6 @@
 				8C7C54262B4F678E00A2E513 /* HealthAccess.swift in Sources */,
 				8CECC5FF2B97B61E002266B9 /* LearnMoreStepScreen.swift in Sources */,
 				9622283D24F04E6F0056E74D /* AllowScreens.swift in Sources */,
-				8C4908962B7ECF4D00DA6E2D /* OpenAndCancelSurveyQuestionUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

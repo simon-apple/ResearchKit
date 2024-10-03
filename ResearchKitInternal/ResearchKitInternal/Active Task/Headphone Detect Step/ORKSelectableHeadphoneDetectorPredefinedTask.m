@@ -45,6 +45,7 @@ static NSString *const kAirPodsGen3 = @"AirPods Gen 3";
 static NSString *const kAirPodsProGen1 = @"AirPods Pro Gen 1";
 static NSString *const kAirPodsProGen2 = @"AirPods Pro Gen 2";
 static NSString *const kAirPodsMax = @"AirPods Max";
+static NSString *const kAirPodsMaxUSBC = @"AirPods Max USBC";
 static NSString *const kEarPods = @"EarPods";
 
 @implementation ORKSelectableHeadphoneDetectorPredefinedTask
@@ -58,9 +59,6 @@ static NSString *const kEarPods = @"EarPods";
 }
 
 + (NSArray<ORKStep *> *)selectableHeaphoneSteps {
-#if TARGET_OS_SIMULATOR
-    return @[];
-#else
     NSMutableArray<ORKStep *> *steps = [[NSMutableArray alloc] init];
     
     ORKFormStep *formStep = [[ORKFormStep alloc] initWithIdentifier:ORKSelectableFormStepIdentifier];
@@ -72,6 +70,7 @@ static NSString *const kEarPods = @"EarPods";
                               [ORKTextChoice choiceWithText:kAirPodsProGen1     value:ORKHeadphoneTypeIdentifierAirPodsPro],
                               [ORKTextChoice choiceWithText:kAirPodsProGen2     value:ORKHeadphoneTypeIdentifierAirPodsProGen2],
                               [ORKTextChoice choiceWithText:kAirPodsMax         value:ORKHeadphoneTypeIdentifierAirPodsMax],
+                              [ORKTextChoice choiceWithText:kAirPodsMaxUSBC     value:ORKHeadphoneTypeIdentifierAirPodsMaxUSBC],
                               [ORKTextChoice choiceWithText:kEarPods            value:ORKHeadphoneTypeIdentifierEarPods]];
     
     ORKAnswerFormat *answerFormat = [ORKAnswerFormat choiceAnswerFormatWithStyle:ORKChoiceAnswerStyleSingleChoice textChoices:textChoices];
@@ -97,7 +96,6 @@ static NSString *const kEarPods = @"EarPods";
     [steps addObject:step];
     
     return steps;
-#endif
 }
 
 - (BOOL)stepIsHeadphoneDetectStep:(ORKStep *)step {
@@ -133,6 +131,7 @@ static NSString *const kEarPods = @"EarPods";
         ORKHeadphoneTypeIdentifierAirPodsPro:       ORKILocalizedString(@"HEADPHONE_DETECT_TEXT_AIRPODSPRO1", nil),
         ORKHeadphoneTypeIdentifierAirPodsProGen2:   ORKILocalizedString(@"HEADPHONE_DETECT_TEXT_AIRPODSPRO2", nil),
         ORKHeadphoneTypeIdentifierAirPodsMax:       ORKILocalizedString(@"HEADPHONE_DETECT_TEXT_AIRPODSMAX", nil),
+        ORKHeadphoneTypeIdentifierAirPodsMaxUSBC:   ORKILocalizedString(@"HEADPHONE_DETECT_TEXT_AIRPODSMAX", nil),
         ORKHeadphoneTypeIdentifierEarPods:          ORKILocalizedString(@"HEADPHONE_DETECT_TEXT_EARPODS", nil)
     };
     step.detailText = headphoneStepDetailText[type];

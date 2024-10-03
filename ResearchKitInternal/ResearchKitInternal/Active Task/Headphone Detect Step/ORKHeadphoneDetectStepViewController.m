@@ -72,6 +72,10 @@ static NSString *const ORKHeadphoneGlyphNameAirpodsPro = @"airpods_pro";
 static NSString *const ORKHeadphoneGlyphNameAirpodsMax = @"airpods_max";
 static NSString *const ORKHeadphoneGlyphNameEarpods = @"earpods";
 
+NSString * const ORKHeadphoneDetectStepViewAccessibilityIdentifier = @"ORKHeadphoneDetectStepView";
+NSString * const ORKHeadphoneTypeTextLabelAccessibilityIdentifier = @"ORKHeadphoneTypeTextLabel";
+NSString * const ORKNoiseCancellationRequiredAccessibilityIdentifier = @"ORKNoiseCancellationRequiredLabel";
+
 typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     /** Unknown*/
@@ -97,6 +101,9 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     /** Airpods Max */
     ORKHeadphoneDetectedAirpodsMax,
+    
+    /** Airpods Max USBC */
+    ORKHeadphoneDetectedAirpodsMaxUSBC,
     
     /** Earpods */
     ORKHeadphoneDetectedEarpods,
@@ -267,6 +274,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         case ORKHeadphoneDetectedAirpodsProGen2:
             return ORKILocalizedString(@"AIRPODSPRO", nil);
         case ORKHeadphoneDetectedAirpodsMax:
+        case ORKHeadphoneDetectedAirpodsMaxUSBC:
             return ORKILocalizedString(@"AIRPODSMAX", nil);
         case ORKHeadphoneDetectedEarpods:
             return ORKILocalizedString(@"EARPODS", nil);
@@ -291,6 +299,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             }
             return _selected ? ORKILocalizedString(@"AIRPODSPRO_CONNECTED", nil) :  ORKILocalizedString(@"AIRPODSPRO_NOT_CONNECTED", nil);
         case ORKHeadphoneDetectedAirpodsMax:
+        case ORKHeadphoneDetectedAirpodsMaxUSBC:
             if (_headphoneCellType == ORKHeadphoneDetectedUnknown) {
                 return _selected ? ORKILocalizedString(@"HEADPHONE_CONNECTED_AIRPODSMAX", nil) : ORKILocalizedString(@"HEADPHONES_NONE", nil);
             }
@@ -331,6 +340,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             break;
 
         case ORKHeadphoneDetectedAirpodsMax:
+        case ORKHeadphoneDetectedAirpodsMaxUSBC:
             result = [[UIDevice currentDevice] supportsFaceID]
             ? ORKILocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODSMAX", nil)
             : ORKILocalizedString(@"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_BELOW_AIRPODSMAX", nil);
@@ -361,6 +371,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     _orangeLabel.font = [self subheadlineFontBold];
     _orangeLabel.textAlignment = NSTextAlignmentLeft;
     _orangeLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    _orangeLabel.accessibilityIdentifier = ORKNoiseCancellationRequiredAccessibilityIdentifier;
     
     _extraLabelsContainerView.translatesAutoresizingMaskIntoConstraints = NO;
     [_extraLabelsContainerView addSubview:_orangeLabelImage];
@@ -419,6 +431,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     
     NSString *titleAndTextAccessibilityLabel = [NSString stringWithFormat:@"%@ %@", _titleLabel.text, _textLabel.text];
     _titleLabel.accessibilityLabel = titleAndTextAccessibilityLabel;
+    
+    _titleLabel.accessibilityIdentifier = ORKHeadphoneTypeTextLabelAccessibilityIdentifier;
     
     self.accessibilityElements = (NSArray *)[mutableAccessibilityElements copy];
 }
@@ -536,6 +550,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
             glyphName = ORKHeadphoneGlyphNameAirpodsPro;
             break;
         case ORKHeadphoneDetectedAirpodsMax:
+        case ORKHeadphoneDetectedAirpodsMaxUSBC:
             glyphName = ORKHeadphoneGlyphNameAirpodsMax;
             break;
         case ORKHeadphoneDetectedEarpods:
@@ -666,7 +681,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     NSMutableArray<ORKHeadphoneDetectedView*> *supportedViews = [NSMutableArray array];
     
     if (![self isLockedToAppleHeadphoneType]
-        || [_lockedAppleHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
+        || [_lockedAppleHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]
+        || [_lockedAppleHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMaxUSBC]) {
         [self setupAirpodMaxView];
         [supportedViews addObject:_airpodMaxSupportView];
         [self addSupportedHeadphonesHorizontalRuleView];
@@ -866,6 +882,7 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
                     [self setAirpodMaxCellExpanded: NO];
                     break;
                 case ORKHeadphoneDetectedAirpodsMax:
+                case ORKHeadphoneDetectedAirpodsMaxUSBC:
                     _airpodMaxSupportView.selected = YES;
                     [_airpodMaxSupportView setHeadphoneDetected:_headphoneDetected];
                     [self setAirpodProCellExpanded: NO];
@@ -971,6 +988,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     [super viewDidLoad];
     self.stepView.navigationFooterView.optional = YES;
     self.stepView.navigationFooterView.continueEnabled = NO;
+    
+    self.view.accessibilityIdentifier = ORKHeadphoneDetectStepViewAccessibilityIdentifier;
 }
 
 - (void)setContinueButtonItem:(UIBarButtonItem *)continueButtonItem {
@@ -1085,8 +1104,12 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         } else if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierEarPods] ) {
             _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedEarpods;
         } else if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax] ) {
+            _lastDetectedBluetoothMode = ORKBluetoothModeNone;
             _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpodsMax;
-        }  else {
+        } else if ([headphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMaxUSBC] ) {
+            _lastDetectedBluetoothMode = ORKBluetoothModeNone;
+            _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedAirpodsMaxUSBC;
+        } else {
             _headphoneDetectStepView.headphoneDetected = ORKHeadphoneDetectedUnknown;
         }
         
@@ -1105,7 +1128,8 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
     if (_lastDetectedBluetoothMode != bluetoothMode &&
         ([_lastDetectedHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsPro] ||
          [_lastDetectedHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2] ||
-         [_lastDetectedHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax])) {
+         [_lastDetectedHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax] ||
+         [_lastDetectedHeadphoneType isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMaxUSBC])) {
         _lastDetectedBluetoothMode = bluetoothMode;
         // FIXME:- temporary workaround for <rdar://problem/62519889>
         BOOL isNoiseCancellingEnabled = (bluetoothMode == ORKBluetoothModeNoiseCancellation) || ([self detectStep].headphoneTypes == ORKHeadphoneTypesAny);

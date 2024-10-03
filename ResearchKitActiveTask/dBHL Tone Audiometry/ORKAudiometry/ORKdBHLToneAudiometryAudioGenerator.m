@@ -93,6 +93,7 @@ NSString * const filenameExtension = @"plist";
 
 @end
 
+const double DeviceVolumeMinimumValue = 0.0625;
 const double ORKdBHLSineWaveToneGeneratorSampleRateDefault = 44100.0f;
 
 static OSStatus ORKdBHLAudioGeneratorRenderTone(void *inRefCon,
@@ -200,7 +201,12 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
         } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2]) {
             headphoneTypeIdentifier = ORKHeadphoneTypeIdentifierAirPodsProGen2;
             volumeCurveFilename = ORKVolumeCurveFilenameAirPodsProGen2;
+#if RK_APPLE_INTERNAL
+        } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax] ||
+                   [headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMaxUSBC]) {
+#else
         } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
+#endif
             headphoneTypeIdentifier = ORKHeadphoneTypeIdentifierAirPodsMax;
             volumeCurveFilename = ORKVolumeCurveFilenameAirPodsMax;
         } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierEarPods]) {
@@ -407,7 +413,7 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
     // get current volume
     float currentVolume = [self getCurrentSystemVolume];
     
-    currentVolume = (int)(currentVolume / 0.0625) * 0.0625;
+    currentVolume = ((int)(currentVolume / 0.0625) * 0.0625) >= DeviceVolumeMinimumValue ?: DeviceVolumeMinimumValue;
     
     // check in volume curve table for offset
     NSDecimalNumber *offsetDueToVolume = [NSDecimalNumber decimalNumberWithString:_volumeCurve[[NSString stringWithFormat:@"%.4f",currentVolume]]];

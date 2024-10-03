@@ -57,6 +57,8 @@
 #import "ORKNavigableOrderedTask.h"
 #import "ORKStepNavigationRule.h"
 
+NSString * const ORKdBHLToneAudiometryStepViewAccessibilityIdentifier = @"ORKdBHLToneAudiometryStepView";
+
 
 @interface ORKdBHLToneAudiometryStepViewController () <ORKdBHLToneAudiometryAudioGeneratorDelegate> {
     ORKdBHLToneAudiometryFrequencySample *_resultSample;
@@ -109,6 +111,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.view.accessibilityIdentifier = ORKdBHLToneAudiometryStepViewAccessibilityIdentifier;
 }
 
 - (ORKdBHLToneAudiometryAudioGenerator *)createAudioGeneratorFromHeadphoneType:(ORKHeadphoneTypeIdentifier)type {
@@ -281,7 +285,7 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((preStimulusDelay + toneDuration + 0.2) * NSEC_PER_SEC)), dispatch_get_main_queue(), _pulseDurationWorkBlock);
     
     _postStimulusDelayWorkBlock = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS, ^{
-        [self.audiometryEngine registerResponse:NO];
+        [self.audiometryEngine registerResponse:NO forUnit:nil];
         [self nextTrial];
     });
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((preStimulusDelay + toneDuration + postStimulusDelay) * NSEC_PER_SEC)), dispatch_get_main_queue(), _postStimulusDelayWorkBlock);
@@ -300,7 +304,7 @@
     [_hapticFeedback impactOccurred];
     
     if (_preStimulusDelayWorkBlock && dispatch_block_testcancel(_preStimulusDelayWorkBlock) == 0) {
-        [self.audiometryEngine registerResponse:YES];
+        [self.audiometryEngine registerResponse:YES forUnit:nil];
     }
     [self nextTrial];
 }

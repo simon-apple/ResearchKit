@@ -42,6 +42,7 @@
 
 #import "ORKTableStep.h"
 #import "ORKStepContentView.h"
+#import "ORKStepContentView_Private.h"
 #import "ORKBodyItem.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKSkin.h"
@@ -181,6 +182,10 @@ ORKDefineStringKey(ORKBasicCellReuseIdentifier);
         
         if (self.tableStepRef.pinNavigationContainer == NO) {
             [_navigationFooterView removeStyling];
+        }
+        
+        if ([self tableStepRef].bottomPadding) {
+            [_headerView setStepContentViewBottomConstraint:[self tableStepRef].bottomPadding.doubleValue];
         }
     }
 }

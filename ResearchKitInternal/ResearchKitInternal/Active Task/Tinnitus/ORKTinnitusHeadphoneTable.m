@@ -75,11 +75,12 @@ static const CGFloat TopIndexOutOfBounds = 0.0;
         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODSPROV2";
         loudnessEQFilename = @"LoudnessEQ_AIRPODSPROV2";
         volumeCurveFilename = @"volume_curve_AIRPODSPROV2";
-    } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
-         dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODSMAX";
-         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODSMAX";
+    } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax] ||
+               [headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMaxUSBC]) {
+        dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_AIRPODSMAX";
+        dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_AIRPODSMAX";
         loudnessEQFilename = @"LoudnessEQ_AIRPODSMAX";
-         volumeCurveFilename = @"volume_curve_AIRPODSMAX";
+        volumeCurveFilename = @"volume_curve_AIRPODSMAX";
     } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierEarPods]) {
         dbAmplitudePerFrequencyFilename = @"dbAmplitudePerFrequency_EARPODS";
         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_EARPODS";

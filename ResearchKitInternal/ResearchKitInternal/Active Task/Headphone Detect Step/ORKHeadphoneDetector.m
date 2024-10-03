@@ -290,6 +290,9 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsMax]) {
                 return ORKHeadphoneTypeIdentifierAirPodsMax;
             }
+            if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsMaxUSBC]) {
+                return ORKHeadphoneTypeIdentifierAirPodsMaxUSBC;
+            }
         }
     }
     return nil;
@@ -428,10 +431,12 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
     ORKHeadphoneTypeIdentifier currentHeadphone = [self getCurrentBTHeadphoneType];
     return (currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsPro ||
             currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsProGen2 ||
-            currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsMax) &&
+            currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsMax ||
+            currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsMaxUSBC) &&
             (_lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsPro ||
              _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsProGen2 ||
-             _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsMax);
+             _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsMax ||
+             _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsMaxUSBC);
 }
 
 - (ORKBluetoothMode)findBluetoothModeFromListeningMode:(NSString *)listeningMode {

@@ -114,6 +114,12 @@ NSString *const ORKdBHLToneAudiometryMethodOfAdjustmentStep2Identifier = @"dBHL2
         ORKEnvironmentSPLMeterStep *step = [[ORKEnvironmentSPLMeterStep alloc] initWithIdentifier:@"splMeter"];
         step.requiredContiguousSamples = 5;
         step.thresholdValue = 45;
+#if RK_APPLE_INTERNAL
+        // Increase threshold to pass the step for UI Test
+        if ([[NSProcessInfo processInfo].arguments containsObject:UITestLaunchArgument]) {
+            step.thresholdValue = 200;
+        }
+#endif
         step.title = ORKILocalizedString(@"ENVIRONMENTSPL_TITLE_2", nil);
         step.text = ORKILocalizedString(@"ENVIRONMENTSPL_INTRO_TEXT_2", nil);
         
@@ -133,6 +139,8 @@ NSString *const ORKdBHLToneAudiometryMethodOfAdjustmentStep2Identifier = @"dBHL2
         step.title = ORKILocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2", nil);
         step.stepDuration = CGFLOAT_MAX;
         step.algorithm = 1;
+        step.initialdBHLValue = 60.0;
+        step.dBHLMaximumThreshold = 85.0;
         step.earPreference = ORKAudioChannelRight;
         ORKStepArrayAddStep(steps, step);
     }
@@ -148,6 +156,8 @@ NSString *const ORKdBHLToneAudiometryMethodOfAdjustmentStep2Identifier = @"dBHL2
         step.title = ORKILocalizedString(@"dBHL_TONE_AUDIOMETRY_TASK_TITLE_2", nil);
         step.stepDuration = CGFLOAT_MAX;
         step.algorithm = 1;
+        step.initialdBHLValue = 60.0;
+        step.dBHLMaximumThreshold = 85.0;
         step.earPreference = ORKAudioChannelLeft;
         ORKStepArrayAddStep(steps, step);
     }
