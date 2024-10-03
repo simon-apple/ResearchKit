@@ -32,31 +32,6 @@ import Foundation
 import SwiftUI
 
 @available(watchOS, unavailable)
-public struct NumericQuestion: Identifiable {
-    
-    public let id: String
-    public let title: String
-    public let detail: String?
-    public let prompt: String
-    public let number: NSNumber?
-    
-    public init(
-        id: String,
-        title: String,
-        detail: String?,
-        prompt: String,
-        number: NSNumber?
-    ) {
-        self.id = id
-        self.title = title
-        self.detail = detail
-        self.prompt = prompt
-        self.number = number
-    }
-    
-}
-
-@available(watchOS, unavailable)
 public struct NumericQuestionView<Header: View>: View {
 
     @EnvironmentObject

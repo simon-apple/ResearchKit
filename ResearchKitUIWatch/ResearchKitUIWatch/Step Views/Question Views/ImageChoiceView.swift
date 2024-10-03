@@ -97,17 +97,8 @@ public struct ImageChoice: Identifiable, Equatable {
     }
 }
 
-public struct ImageChoiceQuestion: Identifiable {
-    public enum ChoiceSelectionType {
-        case single, multiple
-    }
-    public let title: String
-    public let detail: String?
-    public let id: String
-    public let choices: [ImageChoice]
-    public let style: ChoiceSelectionType
-    public let vertical: Bool
-    let selections: [ResultValue]
+public enum ChoiceSelectionType {
+    case single, multiple
 }
 
 public struct ImageChoiceView: View {
@@ -122,7 +113,7 @@ public struct ImageChoiceView: View {
     let title: String
     let detail: String?
     let choices: [ImageChoice]
-    let style: ImageChoiceQuestion.ChoiceSelectionType
+    let style: ChoiceSelectionType
     let vertical: Bool
     private let result: StateManagementType<[ResultValue]?>
 
@@ -143,7 +134,7 @@ public struct ImageChoiceView: View {
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        style: ImageChoiceQuestion.ChoiceSelectionType,
+        style: ChoiceSelectionType,
         vertical: Bool,
         result: Binding<[Int]?>
     ) {
@@ -183,7 +174,7 @@ public struct ImageChoiceView: View {
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        style: ImageChoiceQuestion.ChoiceSelectionType,
+        style: ChoiceSelectionType,
         vertical: Bool,
         result: Binding<[String]?>
     ) {
@@ -223,7 +214,7 @@ public struct ImageChoiceView: View {
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        style: ImageChoiceQuestion.ChoiceSelectionType,
+        style: ChoiceSelectionType,
         vertical: Bool,
         result: Binding<[Date]?>
     ) {
@@ -263,7 +254,7 @@ public struct ImageChoiceView: View {
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        style: ImageChoiceQuestion.ChoiceSelectionType,
+        style: ChoiceSelectionType,
         vertical: Bool,
         result: Binding<[ResultValue]?>
     ) {
@@ -281,7 +272,7 @@ public struct ImageChoiceView: View {
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        style: ImageChoiceQuestion.ChoiceSelectionType,
+        style: ChoiceSelectionType,
         vertical: Bool
     ) {
         self.id = id

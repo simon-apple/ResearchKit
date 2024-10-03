@@ -34,47 +34,6 @@ public enum MeasurementSystem {
     case USC, local, metric
 }
 
-public struct HeightQuestion: Identifiable {
-
-    public let id: String
-    public let title: String
-    public let detail: String?
-    public let measurementSystem: MeasurementSystem
-    public let selection: Double
-
-    let footToCentimetersMultiplier: Double = 30.48
-    let inchToCentimetersMultiplier: Double = 2.54
-
-    public init(
-        id: String,
-        title: String,
-        detail: String?,
-        measurementSystem: MeasurementSystem,
-        selection: Double
-    ) {
-        self.id = id
-        self.title = title
-        self.detail = detail
-        self.measurementSystem = measurementSystem
-        self.selection = selection
-    }
-
-    public var usesMetricSystem: Bool {
-        switch measurementSystem {
-        case .USC:
-            return false
-        case .local:
-            if Locale.current.measurementSystem == .us {
-                return false
-            } else {
-                return true
-            }
-        case .metric:
-            return true
-        }
-    }
-}
-
 public struct HeightQuestionView: View {
     
     @EnvironmentObject

@@ -30,31 +30,6 @@
 
 import SwiftUI
 
-public struct DateQuestion: Identifiable {
-    public let id: String
-    public var title: String
-    public var selection: Date
-    public var pickerPrompt: String
-    public var displayedComponents: DatePicker.Components
-    public var range: ClosedRange<Date>
-    
-    public init(
-        id: String,
-        title: String,
-        selection: Date,
-        pickerPrompt: String,
-        displayedComponents: DatePicker.Components,
-        range: ClosedRange<Date>
-    ) {
-        self.id = id
-        self.title = title
-        self.selection = selection
-        self.pickerPrompt = pickerPrompt
-        self.displayedComponents = displayedComponents
-        self.range = range
-    }
-}
-
 public struct DateTimeView<Header: View>: View {
     
     @EnvironmentObject

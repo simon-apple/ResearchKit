@@ -28,33 +28,46 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import SwiftUI
+import Foundation
 
-struct ListHeaderView<Content: View>: View {
+public struct MultipleChoiceOption: Identifiable {
     
-    private let content: Content
+    public let id: String
+    let choiceText: String
+    let value: ResultValue
     
-    init(@ViewBuilder content: () -> Content) {
-        self.content = content()
+    public init(
+        id: String,
+        choiceText: String,
+        value: Int
+    ) {
+        self.init(id: id, choiceText: choiceText, value: .int(value))
     }
     
-    var body: some View {
-        Section(
-            content: {
-                EmptyView()
-            },
-            header: {
-                content
-            }
-        )
-        .listSectionSpacing(.custom(0))
-        .listRowInsets(EdgeInsets())
+    public init(
+        id: String,
+        choiceText: String,
+        value: String
+    ) {
+        self.init(id: id, choiceText: choiceText, value: .string(value))
     }
     
-}
+    public init(
+        id: String,
+        choiceText: String,
+        value: Date
+    ) {
+        self.init(id: id, choiceText: choiceText, value: .date(value))
+    }
 
-#Preview {
-    ListHeaderView {
-        Text("List header")
+    private init(
+        id: String,
+        choiceText: String,
+        value: ResultValue
+    ) {
+        self.id = id
+        self.choiceText = choiceText
+        self.value = value
     }
+    
 }

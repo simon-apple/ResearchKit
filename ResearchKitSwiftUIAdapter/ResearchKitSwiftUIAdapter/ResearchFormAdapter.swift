@@ -361,7 +361,7 @@ struct ResearchFormAdapter: View {
                 return imageChoice
             }
             
-            let style: ImageChoiceQuestion.ChoiceSelectionType = {
+            let style: ChoiceSelectionType = {
                 switch imageChoiceAnswerFormat.style {
                 case .singleChoice:
                     return .single
