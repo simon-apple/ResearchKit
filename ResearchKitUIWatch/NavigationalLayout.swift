@@ -56,13 +56,12 @@ struct NavigationalLayout: View {
                     case .failed, .discarded, .terminated:
                         dismiss()
                     case .completed(let result):
-                        if let researchFormCompletion = researchFormCompletion {
+                        if let onResearchFormCompletion {
                             
     #if os(watchOS)
                             researchFormCompletion = .completed(result)
     #endif
-                            
-                            onResearchFormCompletion?(completion)
+                            onResearchFormCompletion(completion)
                         } else {
                             dismiss()
                         }
