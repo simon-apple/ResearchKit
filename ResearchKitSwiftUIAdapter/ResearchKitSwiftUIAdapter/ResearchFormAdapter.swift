@@ -130,7 +130,7 @@ struct ResearchFormAdapter: View {
     ) -> some View {
         switch answerFormat {
         case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
-            MultipleChoiceQuestionView(
+            MultipleChoiceQuestion(
                 id: id,
                 title: title ?? "",
                 choices: answerOptions(for: textChoiceAnswerFormat.textChoices),

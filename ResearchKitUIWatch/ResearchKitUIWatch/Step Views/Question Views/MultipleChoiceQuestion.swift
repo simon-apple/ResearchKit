@@ -30,7 +30,7 @@
 
 import SwiftUI
 
-public struct MultipleChoiceQuestionView: View {
+public struct MultipleChoiceQuestion: View {
     
     public enum ChoiceSelectionType {
         
@@ -276,7 +276,7 @@ struct MultipleChoiceQuestionView_Previews: PreviewProvider {
             Color.choice(for: .secondaryBackground)
                 .ignoresSafeArea()
 
-            MultipleChoiceQuestionView(
+            MultipleChoiceQuestion(
                 id: UUID().uuidString,
                 title: "Which do you prefer?",
                 choices: [
