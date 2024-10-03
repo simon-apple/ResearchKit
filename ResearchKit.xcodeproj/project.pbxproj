@@ -5516,6 +5516,7 @@
 					};
 					B183A4731A8535D100C76870 = {
 						LastSwiftMigration = 1020;
+                        ProvisioningStyle = Manual;
 					};
 					CA1C7A40288B0C68004DAB3A = {
 						ProvisioningStyle = Manual;
@@ -6942,9 +6943,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC22620F27100E5442A /* ResearchKit-Debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
@@ -6952,7 +6950,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
 				"OTHER_SWIFT_FLAGS[arch=*]" = "$(inherited) -runtime-compatibility-version none";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -6963,12 +6960,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D000EC62620F27100E5442A /* ResearchKit-Release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";

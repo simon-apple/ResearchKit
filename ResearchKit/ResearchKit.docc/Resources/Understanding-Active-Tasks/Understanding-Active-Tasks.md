@@ -1,6 +1,6 @@
 # Understanding Active Tasks
 
-Learn more about the Active Tasks provided by ResearchKit.
+Learn more about the Active Tasks provided by ResearchKit™.
 
 ## Overview
 
@@ -11,7 +11,7 @@ the user to walk a short distance, while collecting accelerometer data on the de
 
 ## Predefined Active Tasks
 
-ResearchKit™ includes a number of predefined tasks, which fall into seven categories: motor activities, fitness, cognition, speech, hearing, hand dexterity, and vision. Table 1 summarizes each task and describes the data it generates.
+ResearchKit includes a number of predefined tasks, which fall into seven categories: motor activities, fitness, cognition, speech, hearing, hand dexterity, and vision. Table 1 summarizes each task and describes the data it generates.
 
 Category     | Task                         | Sensor                                        | Data Collected                          
 -------------|------------------------------|-----------------------------------------------|---------------- 
