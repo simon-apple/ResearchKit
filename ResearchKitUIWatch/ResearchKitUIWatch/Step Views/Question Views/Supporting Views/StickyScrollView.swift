@@ -24,8 +24,8 @@ import SwiftUI
 ///   footerContent: { /* Will stick to bottom if bodyContent is short */ }
 /// }
 /// ```
-public struct StickyScrollView<BodyContent: View, FooterContent: View>: View {
-
+struct StickyScrollView<BodyContent: View, FooterContent: View>: View {
+    
     /// Create a StickyScrollView with footer content that can stick to the content bounds if the content is longer
     /// than the scrollView frame.
     /// - Parameters:
@@ -33,25 +33,25 @@ public struct StickyScrollView<BodyContent: View, FooterContent: View>: View {
     /// than the container height. On watchOS, the footer will never stick to the bottom.
     ///   - bodyContent: The body content for the ScrollView
     ///   - footerContent: The footer content.
-    public init(
+    init(
         allowsExtendedLayout: Bool = false,
         paddingAboveKeyboard: CGFloat = 0.0,
         centerContentIfFits: Bool = false,
         bodyContent: @escaping (CGSize) -> BodyContent,
         footerContent: @escaping () -> FooterContent
     ) {
-        #if os(watchOS)
-            self.allowsExtendedLayout = true
-        #else
-            self.allowsExtendedLayout = allowsExtendedLayout
-        #endif
+#if os(watchOS)
+        self.allowsExtendedLayout = true
+#else
+        self.allowsExtendedLayout = allowsExtendedLayout
+#endif
         self.bodyContent = bodyContent
         self.footerContent = footerContent
         self.paddingAboveKeyboard = paddingAboveKeyboard
         self.centerContentIfFits = centerContentIfFits
     }
-
-    public init(
+    
+    init(
         allowsExtendedLayout: Bool = false,
         paddingAboveKeyboard: CGFloat = 0.0,
         centerContentIfFits: Bool = false,
@@ -66,45 +66,45 @@ public struct StickyScrollView<BodyContent: View, FooterContent: View>: View {
             footerContent: footerContent
         )
     }
-
-    @ViewBuilder public let bodyContent: (CGSize) -> BodyContent
-
-    @ViewBuilder public let footerContent: () -> FooterContent
-
-    public let paddingAboveKeyboard: CGFloat
-
-    public let centerContentIfFits: Bool
-
+    
+    @ViewBuilder  let bodyContent: (CGSize) -> BodyContent
+    
+    @ViewBuilder  let footerContent: () -> FooterContent
+    
+    let paddingAboveKeyboard: CGFloat
+    
+    let centerContentIfFits: Bool
+    
     private let allowsExtendedLayout: Bool
-
+    
     @Namespace
     var scrollCoordinateSpace
-
+    
     @State
     private var offset = CGFloat.zero
-
+    
     @State
     private var frameSize = CGSize.zero
-
+    
     @State
     private var totalLayoutHeight = CGFloat.zero
-
+    
     @State
     private var availableContentHeight = CGFloat.zero
-
+    
     @State
     private var bodySize = CGSize.zero
-
+    
     @State
     private var safeAreaInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-
+    
     @State
     private var keyboardIgnoringSafeAreaInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-
+    
     @State
     private var isFooterBackgroundVisible = false
-
-    public var body: some View {
+    
+    var body: some View {
         GeometryReader { outerGeo in
             ScrollView {
                 GeometryReader { geo in
@@ -121,7 +121,7 @@ public struct StickyScrollView<BodyContent: View, FooterContent: View>: View {
                         availableContentHeight: $availableContentHeight,
                         isFooterBackgroundVisible: $isFooterBackgroundVisible
                     ) {
-
+                        
                         let bodySize = CGSize(
                             width: geo.size.width - geo.safeAreaInsets.leading - geo.safeAreaInsets.trailing,
                             height: availableContentHeight
@@ -168,8 +168,8 @@ public struct StickyScrollView<BodyContent: View, FooterContent: View>: View {
             }
             .safeAreaInset(edge: .bottom) {
                 Color.clear.frame(height: safeAreaInsets != keyboardIgnoringSafeAreaInsets
-                    ? paddingAboveKeyboard
-                    : 0.0
+                                  ? paddingAboveKeyboard
+                                  : 0.0
                 )
             }
             .background(GeometryReader {
@@ -259,17 +259,17 @@ private struct SafeAreaInsetsKey: PreferenceKey {
 }
 
 
-public struct ToolbarButton: ButtonStyle {
+struct ToolbarButton: ButtonStyle {
     let isDisabled: Bool
-
+    
     public init(isDisabled: Bool = false) {
         self.isDisabled = isDisabled
     }
-
+    
     var buttonColor: Color {
         return isDisabled ? .gray : .blue
     }
-
+    
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .fontWeight(.semibold)
