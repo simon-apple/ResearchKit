@@ -32,7 +32,7 @@ import Foundation
 import SwiftUI
 
 @available(watchOS, unavailable)
-public struct NumericQuestionView<Header: View>: View {
+public struct NumericQuestion<Header: View>: View {
 
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
@@ -106,7 +106,7 @@ public struct NumericQuestionView<Header: View>: View {
 }
 
 @available(watchOS, unavailable)
-public extension NumericQuestionView where Header == _SimpleFormItemViewHeader {
+public extension NumericQuestion where Header == _SimpleFormItemViewHeader {
     
     init(
         id: String,
@@ -144,7 +144,7 @@ struct NumericQuestionView_Previews: PreviewProvider {
                 .ignoresSafeArea()
 
             ScrollView {
-                NumericQuestionView(
+                NumericQuestion(
                     id: UUID().uuidString,
                     text: .constant(22.0),
                     title: "How old are you?",

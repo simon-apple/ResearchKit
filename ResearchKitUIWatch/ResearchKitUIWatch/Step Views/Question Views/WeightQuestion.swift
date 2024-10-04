@@ -34,7 +34,7 @@ public enum NumericPrecision {
     case `default`, low, high
 }
 
-public struct WeightQuestionView: View {
+public struct WeightQuestion: View {
     
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
@@ -484,7 +484,7 @@ struct WeightPickerView: View {
 #Preview {
     @Previewable @State var selection: Double? = 133
     NavigationStack {
-        WeightQuestionView(
+        WeightQuestion(
             id: UUID().uuidString,
             title: "Weight question here",
             detail: nil,
