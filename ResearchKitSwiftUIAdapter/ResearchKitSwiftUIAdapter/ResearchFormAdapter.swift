@@ -189,50 +189,12 @@ struct ResearchFormAdapter: View {
                 defaultTextAnswer: textAnswerFormat.defaultTextAnswer
             )
         case let dateTimeAnswerFormat as ORKDateAnswerFormat:
-            let prompt: String = {
-                
-                if let placeholder {
-                    return placeholder
-                }
-                
-                if dateTimeAnswerFormat.style == .dateAndTime {
-                    return "Select Date and Time"
-                } else {
-                    return "Select Date"
-                }
-            }()
-            
-            let startDate: Date = {
-                if let date = dateTimeAnswerFormat.minimumDate {
-                    return date
-                }
-                return Date.distantPast
-            }()
-            
-            let endDate: Date = {
-                if let date = dateTimeAnswerFormat.maximumDate {
-                    return date
-                }
-                return Date.distantFuture
-            }()
-            
-            let components: DatePicker.Components = {
-                switch dateTimeAnswerFormat.style {
-                case .date:
-                    return [.date]
-                case .dateAndTime:
-                    return [.date, .hourAndMinute]
-                default:
-                    return [.date]
-                }
-            }()
-            
             DateTimeView(
                 id: id,
                 title: title ?? "",
-                pickerPrompt: prompt,
-                displayedComponents: components,
-                range: startDate...endDate
+                pickerPrompt: dateTimePrompt(forPlaceholder: placeholder, dateAnswerFormat: dateTimeAnswerFormat),
+                displayedComponents: dateTimeComponents(for: dateTimeAnswerFormat),
+                range: startDate(for: dateTimeAnswerFormat)...endDate(for: dateTimeAnswerFormat)
             )
 #if !os(watchOS)
         case let numericAnswerFormat as ORKNumericAnswerFormat:
@@ -263,71 +225,14 @@ struct ResearchFormAdapter: View {
                 measurementSystem: measurementSystem
             )
         case let weightAnswerFormat as ORKWeightAnswerFormat:
-            let measurementSystem: MeasurementSystem = {
-                switch weightAnswerFormat.measurementSystem {
-                case .USC:
-                    return .USC
-                case .local:
-                    return .local
-                case .metric:
-                    return .metric
-                @unknown default:
-                    return .metric
-                }
-            }()
-            
-            let precision: NumericPrecision = {
-                switch weightAnswerFormat.numericPrecision {
-                case .default:
-                    return .default
-                case .high:
-                    return .high
-                case .low:
-                    return .low
-                @unknown default:
-                    return .default
-                }
-            }()
-            
-            // At the moment the RK API for weight answer format defaults these values
-            // to the `greatestFiniteMagnitude` if you don't explicitly pass them in.
-            // We want to check for that here and pass in a valid value.
-            let defaultValue: Double = {
-                if weightAnswerFormat.defaultValue == Double.greatestFiniteMagnitude {
-                    if measurementSystem == .USC {
-                        return 133
-                    } else {
-                        return 60
-                    }
-                }
-                
-                return weightAnswerFormat.defaultValue
-            }()
-            
-            let minimumValue: Double? = {
-                if weightAnswerFormat.minimumValue == Double.greatestFiniteMagnitude {
-                    return nil
-                }
-                
-                return weightAnswerFormat.minimumValue
-            }()
-            
-            let maximumValue: Double? = {
-                if weightAnswerFormat.maximumValue == Double.greatestFiniteMagnitude {
-                    return nil
-                }
-                
-                return weightAnswerFormat.maximumValue
-            }()
-            
             WeightQuestionView(
                 id: id,
                 title: title ?? "",
-                measurementSystem: measurementSystem,
-                precision: precision,
-                defaultValue: defaultValue,
-                minimumValue: minimumValue,
-                maximumValue: maximumValue
+                measurementSystem: measurementSystem(for: weightAnswerFormat),
+                precision: precision(for: weightAnswerFormat),
+                defaultValue: defaultValue(for: weightAnswerFormat),
+                minimumValue: minimumValue(for: weightAnswerFormat),
+                maximumValue: maximumValue(for: weightAnswerFormat)
             )
         case let imageChoiceAnswerFormat as ORKImageChoiceAnswerFormat:
             let choices = imageChoiceAnswerFormat.imageChoices.compactMap { choice in
@@ -510,6 +415,121 @@ struct ResearchFormAdapter: View {
         }
         let uuidString = String(string[range])
         return uuidString
+    }
+    
+    private func dateTimePrompt(
+        forPlaceholder placeholder: String?,
+        dateAnswerFormat: ORKDateAnswerFormat
+    ) -> String {
+        let prompt: String
+        if let placeholder {
+            prompt = placeholder
+        } else if dateAnswerFormat.style == .dateAndTime {
+            prompt = "Select Date and Time"
+        } else {
+            prompt = "Select Date"
+        }
+        return prompt
+    }
+    
+    private func startDate(for dateAnswerFormat: ORKDateAnswerFormat) -> Date {
+        let date: Date
+        if let minimumDate = dateAnswerFormat.minimumDate {
+            date = minimumDate
+        } else {
+            date = Date.distantPast
+        }
+        return date
+    }
+    
+    private func endDate(for dateAnswerFormat: ORKDateAnswerFormat) -> Date {
+        let date: Date
+        if let maximumDate = dateAnswerFormat.maximumDate {
+            date = maximumDate
+        } else {
+            date = Date.distantFuture
+        }
+        return date
+    }
+    
+    private func dateTimeComponents(for dateAnswerFormat: ORKDateAnswerFormat) -> DatePicker.Components {
+        let components: DatePicker.Components
+        switch dateAnswerFormat.style {
+        case .date:
+            components = [.date]
+        case .dateAndTime:
+            components = [.date, .hourAndMinute]
+        default:
+            components = [.date]
+        }
+        return components
+    }
+    
+    // At the moment the RK API for weight answer format defaults these values
+    // to the `greatestFiniteMagnitude` if you don't explicitly pass them in.
+    // We want to check for that here and pass in a valid value.
+    private func defaultValue(for weightAnswerFormat: ORKWeightAnswerFormat) -> Double {
+        let defaultValue: Double
+        if weightAnswerFormat.defaultValue == Double.greatestFiniteMagnitude {
+            if measurementSystem(for: weightAnswerFormat) == .USC {
+                defaultValue = 133
+            } else {
+                defaultValue = 60
+            }
+        } else {
+            defaultValue = weightAnswerFormat.defaultValue
+        }
+        return defaultValue
+    }
+    
+    private func precision(for weightAnswerFormat: ORKWeightAnswerFormat) -> NumericPrecision {
+        let precision: NumericPrecision
+        switch weightAnswerFormat.numericPrecision {
+        case .default:
+            precision = .default
+        case .high:
+            precision = .high
+        case .low:
+            precision = .low
+        @unknown default:
+            precision = .default
+        }
+        return precision
+    }
+    
+    private func measurementSystem(for weightAnswerFormat: ORKWeightAnswerFormat) -> MeasurementSystem {
+        let measurementSystem: MeasurementSystem
+        switch weightAnswerFormat.measurementSystem {
+        case .USC:
+            measurementSystem = .USC
+        case .local:
+            measurementSystem = .local
+        case .metric:
+            measurementSystem = .metric
+        @unknown default:
+            measurementSystem = .metric
+        }
+        return measurementSystem
+    }
+    
+    private func minimumValue(for weightAnswerFormat: ORKWeightAnswerFormat) -> Double? {
+        let minimumValue: Double?
+        if weightAnswerFormat.minimumValue == Double.greatestFiniteMagnitude {
+            minimumValue = nil
+        } else  {
+            minimumValue = weightAnswerFormat.minimumValue
+        }
+        return minimumValue
+    }
+    
+    private func maximumValue(for weightAnswerFormat: ORKWeightAnswerFormat) -> Double? {
+        let maximumValue: Double?
+        if weightAnswerFormat.maximumValue == Double.greatestFiniteMagnitude {
+            maximumValue = nil
+        } else  {
+            maximumValue = weightAnswerFormat.maximumValue
+        }
+        return maximumValue
     }
     
 }
