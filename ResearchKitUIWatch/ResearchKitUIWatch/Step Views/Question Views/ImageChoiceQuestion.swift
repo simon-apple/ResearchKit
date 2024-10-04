@@ -101,7 +101,7 @@ public enum ChoiceSelectionType {
     case single, multiple
 }
 
-public struct ImageChoiceView: View {
+public struct ImageChoiceQuestion: View {
     
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
@@ -433,7 +433,7 @@ fileprivate extension View {
 #Preview {
     @Previewable @State var selection: [Int]? = []
     ScrollView {
-        ImageChoiceView(
+        ImageChoiceQuestion(
             id: UUID().uuidString,
             title: "Which do you prefer?",
             detail: nil,

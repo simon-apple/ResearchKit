@@ -30,7 +30,7 @@
 
 import SwiftUI
 
-public struct DateTimeView<Header: View>: View {
+public struct DateTimeQuestion<Header: View>: View {
     
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
@@ -179,7 +179,7 @@ public struct DateTimeView<Header: View>: View {
     }
 }
 
-public extension DateTimeView where Header == _SimpleFormItemViewHeader {
+public extension DateTimeQuestion where Header == _SimpleFormItemViewHeader {
     
     init(
         id: String,
@@ -221,7 +221,7 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
     @Previewable @State var date: Date? = Date()
     NavigationStack {
         ScrollView {
-            DateTimeView(
+            DateTimeQuestion(
                 id: UUID().uuidString,
                 title: "What is your birthday?",
                 detail: "Question 1 of 4",
@@ -239,7 +239,7 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
     @Previewable @State var date: Date? = Date()
     NavigationStack {
         ScrollView {
-            DateTimeView(
+            DateTimeQuestion(
                 id: UUID().uuidString,
                 title: "What time is it?",
                 detail: "Question 2 of 4",
@@ -257,7 +257,7 @@ public extension DateTimeView where Header == _SimpleFormItemViewHeader {
     @Previewable @State var date: Date? = Date()
     NavigationStack {
         ScrollView {
-            DateTimeView(
+            DateTimeQuestion(
                 id: UUID().uuidString,
                 title: "What is the time and date?",
                 detail: "Question 2 of 4",
