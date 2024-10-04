@@ -11,7 +11,7 @@ the user to walk a short distance, while collecting accelerometer data on the de
 
 ## Predefined Active Tasks
 
-ResearchKit includes a number of predefined tasks, which fall into seven categories: motor activities, fitness, cognition, speech, hearing, hand dexterity, and vision. Table 1 summarizes each task and describes the data it generates.
+ResearchKit includes a number of predefined tasks, which fall into seven categories: motor activities, fitness, cognition, speech, hearing, hand dexterity, and vision. The table below summarizes each task and describes the data it generates.
 
 Category     | Task                         | Sensor                                        | Data Collected                          
 -------------|------------------------------|-----------------------------------------------|---------------- 
@@ -29,11 +29,11 @@ Cognition    | Spatial Memory               | Multi-Touch display, Accelerometer
 Speech       | Sustained Phonation          | Microphone                                    | Uncompressed audio
 ^            | Speech Recognition           | Microphone                                    | Raw audio, Transcription, Edited transcript
 ^            | Speech-in-Noise              | Microphone            | Raw audio, Transcription, Edited transcript, Reception Threshold (SRT)
-Hearing      | Environment SPL              | Microphone                                    | Environment sound pressure level in dba
+Hearing      | Environment SPL              | Microphone                                    | Environment sound pressure level in dBA
 ^            | Tone Audiometry              | AirPods Headphones                            | Minimum amplitude recognized by the user
 ^            | DBHL Tone Audiometry         | AirPods Headphones                            | Hearing threshold in dB HL scale
 Hand Dexterity | 9-Hole Peg                 | Multi-Touch display                           | Completion time, Move distance
-Vision       | Amsler Grid                  | Multi-Touch display       | Touch activity, Eye side, Areas of distortion annoted by the user 
+Vision       | Amsler Grid                  | Multi-Touch display       | Touch activity, Eye side, Areas of distortion annotated by the user 
 
 
 You can disable the instruction or completion steps that are automatically
@@ -321,7 +321,7 @@ The environment SPL meter step is shown in Figure 15.
 
 ## Tone Audiometry
 
-In the tone audiometry task users listen through headphones to a series of tones, and tap left or right buttons on the screen when they hear each tone.  These tones are of different audio frequencies, playing on different channels (left and right), with the volume being progressively increased until the user taps one of the buttons. A tone audiometry task measures different properties of a user's hearing ability, based on their reaction to a wide range of frequencies.
+In the tone audiometry task, users listen through headphones to a series of tones, and tap left or right buttons on the screen when they hear each tone.  These tones are of different audio frequencies, playing on different channels (left and right), with the volume being progressively increased until the user taps one of the buttons. A tone audiometry task measures different properties of a user's hearing ability, based on their reaction to a wide range of frequencies.
 
 Data collected in this task consists of audio signal amplitude for specific frequencies and channels for each ear. 
  
