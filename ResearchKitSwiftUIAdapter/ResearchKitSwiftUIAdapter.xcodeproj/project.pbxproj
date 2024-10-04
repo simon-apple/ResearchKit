@@ -191,6 +191,7 @@
 				};
 			};
 			buildConfigurationList = 5E04F1452C7FE76800247389 /* Build configuration list for PBXProject "ResearchKitSwiftUIAdapter" */;
+            compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
