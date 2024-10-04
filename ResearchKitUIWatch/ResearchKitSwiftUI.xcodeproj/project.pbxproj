@@ -31,7 +31,7 @@
 		389694182C6E7622007BA17D /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389694172C6E7621007BA17D /* Utilities.swift */; };
 		38CD26102C1909CC000FDBB0 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CD260F2C1909CC000FDBB0 /* Question.swift */; };
 		38CD263B2C1BA6EA000FDBB0 /* TextQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CD263A2C1BA6EA000FDBB0 /* TextQuestionView.swift */; };
-		38DB82E32C753A8B0074B95D /* ResearchKitUI_Watch_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF86B1D2B4F360000E3790E /* ResearchKitUI_Watch_.framework */; platformFilters = (ios, xros, ); };
+		38DB82E32C753A8B0074B95D /* ResearchKitSwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF86B1D2B4F360000E3790E /* ResearchKitSwiftUI.framework */; platformFilters = (ios, xros, ); };
 		38F4F6C62C4AD35C004E7A8D /* ImageChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F4F6C52C4AD35C004E7A8D /* ImageChoiceView.swift */; };
 		5E05B53D2C2E135D00A0A83B /* DoneKeyboardToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E05B53C2C2E135D00A0A83B /* DoneKeyboardToolbar.swift */; };
 		5E44D4482C24A6FF0045007E /* NumericQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E44D4472C24A6FF0045007E /* NumericQuestionView.swift */; };
@@ -91,7 +91,7 @@
 		0B7213642B4F3C8200463E69 /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B7213672B4F3CB200463E69 /* ResearchKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B72136A2B4F3D1D00463E69 /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0BF86B1D2B4F360000E3790E /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0BF86B1D2B4F360000E3790E /* ResearchKitSwiftUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitSwiftUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF86B212B4F360000E3790E /* ResearchKitUIWatch.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ResearchKitUIWatch.docc; sourceTree = "<group>"; };
 		380E14AF2C3350A900085D2B /* ResearchForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchForm.swift; sourceTree = "<group>"; };
 		3815C0132C2081CE00A29CD3 /* DateTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeView.swift; sourceTree = "<group>"; };
@@ -153,7 +153,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38DB82E32C753A8B0074B95D /* ResearchKitUI_Watch_.framework in Frameworks */,
+				38DB82E32C753A8B0074B95D /* ResearchKitSwiftUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,7 +232,7 @@
 		0BF86B1E2B4F360000E3790E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0BF86B1D2B4F360000E3790E /* ResearchKitUI_Watch_.framework */,
+				0BF86B1D2B4F360000E3790E /* ResearchKitSwiftUI.framework */,
 				38DB82DF2C753A8B0074B95D /* ResearchKitSwiftUITests.xctest */,
 			);
 			name = Products;
@@ -343,9 +343,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		0BF86B1C2B4F360000E3790E /* ResearchKitUI(Watch) */ = {
+		0BF86B1C2B4F360000E3790E /* ResearchKitSwiftUI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0BF86B262B4F360000E3790E /* Build configuration list for PBXNativeTarget "ResearchKitUI(Watch)" */;
+			buildConfigurationList = 0BF86B262B4F360000E3790E /* Build configuration list for PBXNativeTarget "ResearchKitSwiftUI" */;
 			buildPhases = (
 				3810A4032C7D3BA000535B38 /* Headers */,
 				0BF86B192B4F360000E3790E /* Sources */,
@@ -356,9 +356,9 @@
 			);
 			dependencies = (
 			);
-			name = "ResearchKitUI(Watch)";
+			name = ResearchKitSwiftUI;
 			productName = ResearchKitUIWatch;
-			productReference = 0BF86B1D2B4F360000E3790E /* ResearchKitUI_Watch_.framework */;
+			productReference = 0BF86B1D2B4F360000E3790E /* ResearchKitSwiftUI.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		38DB82DE2C753A8B0074B95D /* ResearchKitSwiftUITests */ = {
@@ -402,7 +402,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 0BF86B172B4F360000E3790E /* Build configuration list for PBXProject "ResearchKitUI(Watch)" */;
+			buildConfigurationList = 0BF86B172B4F360000E3790E /* Build configuration list for PBXProject "ResearchKitSwiftUI" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -415,7 +415,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0BF86B1C2B4F360000E3790E /* ResearchKitUI(Watch) */,
+				0BF86B1C2B4F360000E3790E /* ResearchKitSwiftUI */,
 				38DB82DE2C753A8B0074B95D /* ResearchKitSwiftUITests */,
 			);
 		};
@@ -507,7 +507,7 @@
 				ios,
 				xros,
 			);
-			target = 0BF86B1C2B4F360000E3790E /* ResearchKitUI(Watch) */;
+			target = 0BF86B1C2B4F360000E3790E /* ResearchKitSwiftUI */;
 			targetProxy = 38DB82E42C753A8B0074B95D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -790,7 +790,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0BF86B172B4F360000E3790E /* Build configuration list for PBXProject "ResearchKitUI(Watch)" */ = {
+		0BF86B172B4F360000E3790E /* Build configuration list for PBXProject "ResearchKitSwiftUI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0BF86B242B4F360000E3790E /* Debug */,
@@ -799,7 +799,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0BF86B262B4F360000E3790E /* Build configuration list for PBXNativeTarget "ResearchKitUI(Watch)" */ = {
+		0BF86B262B4F360000E3790E /* Build configuration list for PBXNativeTarget "ResearchKitSwiftUI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0BF86B272B4F360000E3790E /* Debug */,

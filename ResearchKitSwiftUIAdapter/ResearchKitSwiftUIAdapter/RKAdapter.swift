@@ -30,7 +30,7 @@
 
 import Foundation
 import ResearchKit
-import ResearchKitUI_Watch_
+import ResearchKitSwiftUI
 import SwiftUI
 
 enum MultipleChoiceAnswerFormat: Int {
