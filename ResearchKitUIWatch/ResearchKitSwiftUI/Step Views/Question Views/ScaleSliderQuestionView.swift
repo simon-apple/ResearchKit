@@ -29,7 +29,6 @@
  */
 
 import Foundation
-import ResearchKit
 import SwiftUI
 
 public enum ScaleSelectionConfiguration {
