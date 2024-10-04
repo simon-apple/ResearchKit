@@ -200,7 +200,7 @@ public extension ResearchFormStep where Header == EmptyView {
     
 }
 
-public extension ResearchFormStep where Header == StepHeaderView, Content == EmptyView {
+public extension ResearchFormStep where Header == StepHeader, Content == EmptyView {
     
     init(
         image: Image? = nil,
@@ -219,7 +219,7 @@ public extension ResearchFormStep where Header == StepHeaderView, Content == Emp
     
 }
 
-public extension ResearchFormStep where Header == StepHeaderView {
+public extension ResearchFormStep where Header == StepHeader {
     
     init(
         image: Image? = nil,
@@ -243,7 +243,7 @@ public extension ResearchFormStep where Header == StepHeaderView {
         
         self.init(
             header: {
-                StepHeaderView(
+                StepHeader(
                     image: image,
                     title: titleText,
                     subtitle: subtitleText

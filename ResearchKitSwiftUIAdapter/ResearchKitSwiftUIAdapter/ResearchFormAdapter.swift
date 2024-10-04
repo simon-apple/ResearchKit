@@ -131,14 +131,14 @@ struct ResearchFormAdapter: View {
     ) -> some View {
         switch answerFormat {
         case let textChoiceAnswerFormat as ORKTextChoiceAnswerFormat:
-            MultipleChoiceQuestionView(
+            MultipleChoiceQuestion(
                 id: id,
                 title: title ?? "",
                 choices: answerOptions(for: textChoiceAnswerFormat.textChoices),
                 selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
             )
         case let scaleAnswerFormat as ORKScaleAnswerFormat:
-            ScaleSliderQuestionView(
+            SliderQuestion(
                 id: id,
                 title: title ?? "",
                 range: scaleAnswerFormat.minimum...scaleAnswerFormat.maximum,
@@ -157,7 +157,7 @@ struct ResearchFormAdapter: View {
                 return stepSize
             }()
             
-            ScaleSliderQuestionView(
+            SliderQuestion(
                 id: id,
                 title: title ?? "",
                 range: continuousScaleAnswerFormat.minimum...continuousScaleAnswerFormat.maximum,
@@ -169,7 +169,7 @@ struct ResearchFormAdapter: View {
             let answerOptions = answerOptions(for: textChoiceScaleAnswerFormat.textChoices)
             
             if answerOptions.indices.contains(textChoiceScaleAnswerFormat.defaultIndex) {
-                ScaleSliderQuestionView(
+                SliderQuestion(
                     id: id,
                     title: title ?? "",
                     multipleChoiceOptions: answerOptions,
@@ -178,7 +178,7 @@ struct ResearchFormAdapter: View {
             }
 #endif
         case let textAnswerFormat as ORKTextAnswerFormat:
-            TextQuestionView(
+            TextQuestion(
                 id: id,
                 title: title ?? "",
                 detail: "",
@@ -228,7 +228,7 @@ struct ResearchFormAdapter: View {
                 }
             }()
             
-            DateTimeView(
+            DateTimeQuestion(
                 id: id,
                 title: title ?? "",
                 pickerPrompt: prompt,
@@ -237,7 +237,7 @@ struct ResearchFormAdapter: View {
             )
 #if !os(watchOS)
         case let numericAnswerFormat as ORKNumericAnswerFormat:
-            NumericQuestionView(
+            NumericQuestion(
                 id: id,
                 text: numericAnswerFormat.defaultNumericAnswer?.decimalValue,
                 title: title ?? "",
@@ -258,7 +258,7 @@ struct ResearchFormAdapter: View {
                 }
             }()
             
-            HeightQuestionView(
+            HeightQuestion(
                 id: id,
                 title: title ?? "",
                 measurementSystem: measurementSystem
@@ -321,7 +321,7 @@ struct ResearchFormAdapter: View {
                 return weightAnswerFormat.maximumValue
             }()
             
-            WeightQuestionView(
+            WeightQuestion(
                 id: id,
                 title: title ?? "",
                 measurementSystem: measurementSystem,
@@ -372,7 +372,7 @@ struct ResearchFormAdapter: View {
                 }
             }()
             
-            ImageChoiceView(
+            ImageChoiceQuestion(
                 id: id,
                 title: title ?? "",
                 detail: detail,

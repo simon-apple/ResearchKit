@@ -34,7 +34,7 @@ public enum TextFieldType {
     case singleLine, multiline
 }
 
-public struct TextQuestionView<Header: View>: View {
+public struct TextQuestion<Header: View>: View {
     
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
@@ -191,7 +191,7 @@ public struct TextQuestionView<Header: View>: View {
     }
 }
 
-public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
+public extension TextQuestion where Header == _SimpleFormItemViewHeader {
     init(
         id: String,
         title: String,
@@ -242,7 +242,7 @@ public extension TextQuestionView where Header == _SimpleFormItemViewHeader {
 #Preview {
     @Previewable @State var value: String? = "Tom Riddle"
     ScrollView {
-        TextQuestionView(
+        TextQuestion(
             id: UUID().uuidString,
             title: "What is your name?",
             detail: nil,

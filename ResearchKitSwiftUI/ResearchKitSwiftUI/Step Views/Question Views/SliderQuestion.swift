@@ -40,7 +40,7 @@ public enum ScaleSelectionConfiguration {
     case doubleRange(ClosedRange<Double>)
 }
 
-public struct ScaleSliderQuestionView: View {
+public struct SliderQuestion: View {
     
     let id: String
     var title: String
@@ -51,8 +51,8 @@ public struct ScaleSliderQuestionView: View {
     private enum ScaleSelectionBindingValue: Equatable {
         
         static func == (
-            lhs: ScaleSliderQuestionView.ScaleSelectionBindingValue,
-            rhs: ScaleSliderQuestionView.ScaleSelectionBindingValue
+            lhs: SliderQuestion.ScaleSelectionBindingValue,
+            rhs: SliderQuestion.ScaleSelectionBindingValue
         ) -> Bool {
             switch lhs {
                 case .textChoice(let binding):
@@ -84,8 +84,8 @@ public struct ScaleSliderQuestionView: View {
     private enum ScaleSelectionPrimitiveValue: Equatable {
         
         static func == (
-            lhs: ScaleSliderQuestionView.ScaleSelectionPrimitiveValue,
-            rhs: ScaleSliderQuestionView.ScaleSelectionPrimitiveValue
+            lhs: SliderQuestion.ScaleSelectionPrimitiveValue,
+            rhs: SliderQuestion.ScaleSelectionPrimitiveValue
         ) -> Bool {
             switch lhs {
                 case .textChoice(let lhsValue):
@@ -558,7 +558,7 @@ struct ScaleSliderQuestionView_Previews: PreviewProvider {
             (Color.choice(for: .secondaryBackground))
                 .ignoresSafeArea()
 
-            ScaleSliderQuestionView(
+            SliderQuestion(
                 id: UUID().uuidString,
                 title: "On a scale of 1-10, how would you rate today?",
                 range: 1...10,
@@ -572,7 +572,7 @@ struct ScaleSliderQuestionView_Previews: PreviewProvider {
 
 #Preview("Int") {
     ScrollView {
-        ScaleSliderQuestionView(
+        SliderQuestion(
             id: UUID().uuidString,
             title: "On a scale of 1-10, how would you rate today?",
             range: 1...10,
@@ -585,7 +585,7 @@ struct ScaleSliderQuestionView_Previews: PreviewProvider {
     @Previewable @State var selection: Double? = 0.0
     
     ScrollView {
-        ScaleSliderQuestionView(
+        SliderQuestion(
             id: UUID().uuidString,
             title: "Double Slider Question Example",
             range: 0.0 ... 10.0,
@@ -598,7 +598,7 @@ struct ScaleSliderQuestionView_Previews: PreviewProvider {
 #if !os(watchOS)
 #Preview("Text") {
     ScrollView {
-        ScaleSliderQuestionView(
+        SliderQuestion(
             id: UUID().uuidString,
             title: "On a scale of Pun - Poem, how would rate today?",
             multipleChoiceOptions: [

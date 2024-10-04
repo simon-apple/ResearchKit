@@ -34,7 +34,7 @@ public enum MeasurementSystem {
     case USC, local, metric
 }
 
-public struct HeightQuestionView: View {
+public struct HeightQuestion: View {
     
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
@@ -317,7 +317,7 @@ struct HeightPickerView: View {
 #Preview {
     @Previewable @State var selection: Double? = 162
     NavigationStack {
-        HeightQuestionView(
+        HeightQuestion(
             id: UUID().uuidString,
             title: "Height question here",
             detail: nil,

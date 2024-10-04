@@ -30,7 +30,7 @@
 
 import SwiftUI
 
-public struct StepHeaderView: View {
+public struct StepHeader: View {
     
     private let image: Image?
     private let title: Text?
@@ -91,7 +91,7 @@ public struct StepHeaderView: View {
 }
 
 #Preview {
-    StepHeaderView(
+    StepHeader(
         image: Image(systemName: "hand.wave"),
         title: Text("Welcome"),
         subtitle: Text("Hello")
