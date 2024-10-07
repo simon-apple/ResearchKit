@@ -384,8 +384,8 @@
 					};
 				};
 			};
-			buildConfigurationList = 0BF86B172B4F360000E3790E /* Build configuration list for PBXProject "ResearchKitSwiftUI" */;
-			compatibilityVersion = "Xcode 14.0";
+			buildConfigurationList = 0BF86B172B4F360000E3790E /* Build configuration list for PBXProject "ResearchKitUI(Watch)" */;
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
