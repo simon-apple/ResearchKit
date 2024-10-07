@@ -3,14 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		5E04F1562C7FE76800247389 /* ResearchKitSwiftUIAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E04F14B2C7FE76800247389 /* ResearchKitSwiftUIAdapter.framework */; };
 		5E04F1AA2C7FF20300247389 /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E04F1A92C7FF20300247389 /* ResearchKit.framework */; };
 		E473AC472CB0A6AB00530CB1 /* ResearchKitSwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E473AC462CB0A6AB00530CB1 /* ResearchKitSwiftUI.framework */; };
-		E473AC482CB0A6AB00530CB1 /* ResearchKitSwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E473AC462CB0A6AB00530CB1 /* ResearchKitSwiftUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,20 +22,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		E473AC492CB0A6AB00530CB1 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				E473AC482CB0A6AB00530CB1 /* ResearchKitSwiftUI.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		5E04F14B2C7FE76800247389 /* ResearchKitSwiftUIAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitSwiftUIAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E04F1552C7FE76800247389 /* ResearchKitSwiftUIAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ResearchKitSwiftUIAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -47,7 +32,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5E04F15D2C7FE76800247389 /* Exceptions for "ResearchKitSwiftUIAdapter" folder in "ResearchKitSwiftUIAdapter" target */ = {
+		5E04F15D2C7FE76800247389 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			publicHeaders = (
 				ResearchKitSwiftUIAdapter.h,
@@ -63,19 +48,8 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		5E04F14D2C7FE76800247389 /* ResearchKitSwiftUIAdapter */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				5E04F15D2C7FE76800247389 /* Exceptions for "ResearchKitSwiftUIAdapter" folder in "ResearchKitSwiftUIAdapter" target */,
-			);
-			path = ResearchKitSwiftUIAdapter;
-			sourceTree = "<group>";
-		};
-		5E04F1592C7FE76800247389 /* ResearchKitSwiftUIAdapterTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ResearchKitSwiftUIAdapterTests;
-			sourceTree = "<group>";
-		};
+		5E04F14D2C7FE76800247389 /* ResearchKitSwiftUIAdapter */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5E04F15D2C7FE76800247389 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = ResearchKitSwiftUIAdapter; sourceTree = "<group>"; };
+		5E04F1592C7FE76800247389 /* ResearchKitSwiftUIAdapterTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ResearchKitSwiftUIAdapterTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,7 +124,6 @@
 				5E04F1472C7FE76800247389 /* Sources */,
 				5E04F1482C7FE76800247389 /* Frameworks */,
 				5E04F1492C7FE76800247389 /* Resources */,
-				E473AC492CB0A6AB00530CB1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -209,7 +182,7 @@
 				};
 			};
 			buildConfigurationList = 5E04F1452C7FE76800247389 /* Build configuration list for PBXProject "ResearchKitSwiftUIAdapter" */;
-            compatibilityVersion = "Xcode 15.0";
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -218,7 +191,6 @@
 			);
 			mainGroup = 5E04F1412C7FE76800247389;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			productRefGroup = 5E04F14C2C7FE76800247389 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
