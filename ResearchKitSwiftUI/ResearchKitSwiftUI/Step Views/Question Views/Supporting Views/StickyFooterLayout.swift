@@ -1,21 +1,21 @@
 /*
- Copyright (c) 2020, Apple Inc. All rights reserved.
- 
+ Copyright (c) 2024, Apple Inc. All rights reserved.
+
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
- 
+
  1.  Redistributions of source code must retain the above copyright notice, this
  list of conditions and the following disclaimer.
- 
+
  2.  Redistributions in binary form must reproduce the above copyright notice,
  this list of conditions and the following disclaimer in the documentation and/or
  other materials provided with the distribution.
- 
+
  3.  Neither the name of the copyright holder(s) nor the names of any contributors
  may be used to endorse or promote products derived from this software without
  specific prior written permission. No license is granted to the trademarks of
  the copyright holders even if such marks are included in this software.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,44 +28,49 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// apple-internal
-
-import ResearchKit
 import SwiftUI
-import UIKit
 
-@available(watchOS 6.0, *)
-public struct TaskView<Content>: View where Content: View {
+extension StickyScrollView {
 
-    @ObservedObject
-    private var taskManager: TaskManager
+    struct StickyFooterLayout: Layout {
 
-    private let content: (ORKStep, ORKStepResult) -> Content
+        let safeAreaInsets: EdgeInsets
 
-    public init(taskManager: TaskManager,
-                @ViewBuilder _ content: @escaping (ORKStep, ORKStepResult) -> Content) {
-        self.taskManager = taskManager
-        self.content = content
-        self.taskManager.result.startDate = Date()
-    }
+        func sizeThatFits(
+            proposal: ProposedViewSize,
+            subviews: Subviews,
+            cache: inout Void
+        ) -> CGSize {
 
-    public var body: some View {
-        if #available(watchOSApplicationExtension 7.0, *) {
-            NavigationView {
-                TaskContentView(index: 0, content)
-                    .environmentObject(self.taskManager)
-            }
-        } else {
-            TaskContentView(index: 0, content)
-                .environmentObject(self.taskManager)
+            let contentHeight = subviews[0].dimensions(in: proposal).height
+
+            return CGSize(
+                width: proposal.replacingUnspecifiedDimensions().width,
+                height: contentHeight + safeAreaInsets.bottom
+            )
+        }
+
+        func placeSubviews(
+            in bounds: CGRect,
+            proposal: ProposedViewSize,
+            subviews: Subviews,
+            cache: inout Void
+        ) {
+            let content = subviews[0]
+            let contentPlacementProposal = ProposedViewSize(
+                width: bounds.width,
+                height: .infinity
+            )
+            content.place(
+                at: CGPoint(
+                    x: bounds.origin.x,
+                    y: bounds.origin.y
+                ),
+                anchor: .topLeading,
+                proposal: contentPlacementProposal
+            )
         }
     }
+
 }
 
-@available(watchOS 6.0, *)
-public extension TaskView where Content == DefaultStepView {
-
-    init(taskManager: TaskManager) {
-        self.init(taskManager: taskManager) { DefaultStepView($0, result: $1) }
-    }
-}
