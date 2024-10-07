@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		5E04F1562C7FE76800247389 /* ResearchKitSwiftUIAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E04F14B2C7FE76800247389 /* ResearchKitSwiftUIAdapter.framework */; };
 		5E04F1AA2C7FF20300247389 /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E04F1A92C7FF20300247389 /* ResearchKit.framework */; };
-		5E04F1B22C7FF39600247389 /* ResearchKitUI_Watch_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E04F1B12C7FF39600247389 /* ResearchKitUI_Watch_.framework */; };
+		E473AC472CB0A6AB00530CB1 /* ResearchKitSwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E473AC462CB0A6AB00530CB1 /* ResearchKitSwiftUI.framework */; };
+		E473AC482CB0A6AB00530CB1 /* ResearchKitSwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E473AC462CB0A6AB00530CB1 /* ResearchKitSwiftUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -22,12 +23,27 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		E473AC492CB0A6AB00530CB1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E473AC482CB0A6AB00530CB1 /* ResearchKitSwiftUI.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		5E04F14B2C7FE76800247389 /* ResearchKitSwiftUIAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitSwiftUIAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E04F1552C7FE76800247389 /* ResearchKitSwiftUIAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ResearchKitSwiftUIAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E04F1A72C7FF1ED00247389 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E04F1A92C7FF20300247389 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E04F1B12C7FF39600247389 /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E473AC462CB0A6AB00530CB1 /* ResearchKitSwiftUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitSwiftUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -67,7 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5E04F1B22C7FF39600247389 /* ResearchKitUI_Watch_.framework in Frameworks */,
+				E473AC472CB0A6AB00530CB1 /* ResearchKitSwiftUI.framework in Frameworks */,
 				5E04F1AA2C7FF20300247389 /* ResearchKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -105,6 +121,7 @@
 		5E04F1A62C7FF1ED00247389 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E473AC462CB0A6AB00530CB1 /* ResearchKitSwiftUI.framework */,
 				5E04F1B12C7FF39600247389 /* ResearchKitUI_Watch_.framework */,
 				5E04F1A92C7FF20300247389 /* ResearchKit.framework */,
 				5E04F1A72C7FF1ED00247389 /* ResearchKit.framework */,
@@ -133,6 +150,7 @@
 				5E04F1472C7FE76800247389 /* Sources */,
 				5E04F1482C7FE76800247389 /* Frameworks */,
 				5E04F1492C7FE76800247389 /* Resources */,
+				E473AC492CB0A6AB00530CB1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
