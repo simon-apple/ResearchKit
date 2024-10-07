@@ -29,8 +29,9 @@
  */
 
 import ResearchKit
-import ResearchKitUI_Watch_
+import ResearchKitSwiftUI
 import SwiftUI
+import ResearchKitSwiftUI
 
 public extension ResearchForm where Content == ResearchFormDataAdapter {
     
