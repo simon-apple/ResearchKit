@@ -1,5 +1,18 @@
 # ResearchKit Release Notes
 
+## ResearchKit 3.1 Release Notes
+In addition to general stability and performance improvements, ResearchKit 3.1 includes the following updates:
+
+- **ORKFamilyHistoryStep**
+The `ORKFamilyHistoryStep` can be configured to present a Family Health History survey.
+
+- **ORKColorChoiceAnswerFormat**
+The `ORKColorChoiceAnswerFormat` presents the user with a list of color choices.
+
+- **ORKAgeAnswerFormat**
+The `ORKAgeAnswerFormat` presents a age picker that presents birth year or current age options depending on how you configure it.
+
+
 ## ResearchKit 3.0.1 Release Notes
 In addition to general stability and performance improvements, ResearchKit 3.0.1 includes the following updates:
 
