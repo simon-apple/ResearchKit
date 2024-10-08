@@ -7,13 +7,3 @@ Present a specific question and collect an answer.
 ### Essentials
 
 - ``ORKActiveStep``
-- ``ORKActiveStepViewController``
-
-### Audio
-
-- ``ORKInvalidDBHLValue``
-- ``ORKAudiometryTimestampProvider``
-- ``ORKAudioChannel``
-- ``ORKSpeechRecognizerLocale``
-- ``ORKAudiometryProtocol``
-
