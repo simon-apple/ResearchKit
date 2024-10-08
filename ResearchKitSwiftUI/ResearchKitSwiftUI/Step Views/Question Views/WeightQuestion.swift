@@ -174,7 +174,7 @@ public struct WeightQuestion: View {
         if let result = resolvedResult.wrappedValue {
             selectedResult = result
         } else {
-            selectedResult = defaultWeightInKilograms
+            selectedResult = defaultValue ?? defaultWeightInKilograms
         }
         
         let (pounds, ounces) = convertKilogramsToPoundsAndOunces(selectedResult)
@@ -224,7 +224,14 @@ public struct WeightQuestion: View {
                             defaultValue: defaultValue,
                             minimumValue: minimumValue,
                             maximumValue: maximumValue,
-                            selection: resolvedResult,
+                            selection: .init(
+                                get: {
+                                    resolvedResult.wrappedValue ?? defaultValue ?? defaultWeightInKilograms
+                                },
+                                set: {
+                                    resolvedResult.wrappedValue = $0
+                                }
+                            ),
                             hasChanges: $hasChanges
                         )
                     }
@@ -237,10 +244,17 @@ public struct WeightQuestion: View {
                         WeightPickerView(
                             measurementSystem: measurementSystem,
                             precision: precision,
-                            defaultValue: defaultValue,
+                            defaultValue: defaultValue ?? defaultWeightInKilograms,
                             minimumValue: minimumValue,
                             maximumValue: maximumValue,
-                            selection: resolvedResult,
+                            selection: .init(
+                                get: {
+                                    resolvedResult.wrappedValue ?? defaultValue ?? defaultWeightInKilograms
+                                },
+                                set: {
+                                    resolvedResult.wrappedValue = $0
+                                }
+                            ),
                             hasChanges: $hasChanges
                         )
                         .frame(width: 300)
@@ -363,24 +377,39 @@ struct WeightPickerView: View {
         self.maximumValue = maximumValue
         self._selection = selection
         self._hasChanges = hasChanges
+        
+        let displayedValue = selection.wrappedValue ?? defaultValue ?? 0
 
         let selectionOneValue: Double = {
-            if let defaultValue {
-                if measurementSystem == .USC {
-                    return convertKilogramsToPoundsAndOunces(defaultValue).pounds
-                } else {
-                    return defaultValue
-                }
+            if measurementSystem == .USC {
+                return convertKilogramsToPoundsAndOunces(displayedValue).pounds
             } else {
-                if measurementSystem == .USC {
-                    return Self.defaultValueInPounds
-                } else {
-                    return Self.defaultValueInKilograms
+                let roundedSelectionOne: Double
+                switch precision {
+                case .default:
+                    roundedSelectionOne = (displayedValue * 10).rounded() / 10
+                case .low:
+                    roundedSelectionOne = displayedValue.rounded()
+                case .high:
+                    roundedSelectionOne = floor(displayedValue)
                 }
+                return roundedSelectionOne
             }
         }()
         self.selectionOne = selectionOneValue
-        self.selectionTwo = 0
+        
+        let selectionTwoValue: Double = {
+            if measurementSystem == .USC {
+                return convertKilogramsToPoundsAndOunces(displayedValue).ounces
+            } else {
+                if case .high = precision {
+                    return (displayedValue * 100).rounded() / 100 - floor(displayedValue)
+                } else {
+                    return 0
+                }
+            }
+        }()
+        self.selectionTwo = selectionTwoValue
     }
 
     var body: some View {
