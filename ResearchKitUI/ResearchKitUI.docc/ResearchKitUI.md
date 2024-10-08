@@ -8,40 +8,46 @@ ResearchKitUI contains UI to present your configured ResearchKit task.
 
 ## Topics
 
-### Classes
+### View Controllers
 
-- ``ORKCustomSignatureFooterViewStatusDelegate``
-- ``ORKSignatureViewDelegate``
-- ``ORKSignatureView``
-- ``ORKStepViewController``
-- ``ORKStepViewControllerDelegate``
-- ``ORKLoginStepViewController``
-- ``ORKVerificationStepViewController``
 - ``ORKCompletionStepViewController``
-- ``ORKCompletionStepIdentifier``
 - ``ORKCustomStepViewController``
 - ``ORKFormStepViewController``
-- ``ORKPlaybackButton``
-- ``ORKPasscodeViewController``
-- ``ORKPasscodeDelegate``
-- ``ORKPDFViewerStepViewController``
-- ``ORKPageStepViewController``
 - ``ORKInstructionStepViewController``
 - ``ORKLearnMoreStepViewController``
+- ``ORKLoginStepViewController``
+- ``ORKPageStepViewController``
+- ``ORKPasscodeViewController``
+- ``ORKPDFViewerStepViewController``
 - ``ORKReviewViewController``
-- ``ORKReviewViewControllerDelegate``
+- ``ORKStepViewController``
 - ``ORKTableStepViewController``
-- ``ORKWaitStepViewController``
-- ``ORKWebViewStepDelegate``
-- ``ORKWebViewStepViewController``
-- ``SwiftUIViewFactory``
 - ``ORKTaskViewController``
+- ``ORKVerificationStepViewController``
+- ``ORKWaitStepViewController``
+- ``ORKWebViewStepViewController``
+
+### Delegates
+
+- ``ORKCustomSignatureFooterViewStatusDelegate``
+- ``ORKPasscodeDelegate``
+- ``ORKReviewViewControllerDelegate``
+- ``ORKSignatureViewDelegate``
+- ``ORKStepViewControllerDelegate``
 - ``ORKTaskViewControllerDelegate``
-- ``ORKTaskViewControllerFinishReason``
-- ``ORKTaskViewControllerReviewMode``
-- ``ORKStepViewControllerNavigationDirection``
-- ``ORKTaskViewControllerProgressMode``
-- ``ORKTextButton``
-- ``ORKContinueButton``
+- ``ORKWebViewStepDelegate``
+
+### Other
+
 - ``ORKBorderedButton``
 - ``ORKBorderedButtonDisabledStyle``
+- ``ORKCompletionStepIdentifier``
+- ``ORKContinueButton``
+- ``ORKPlaybackButton``
+- ``ORKSignatureView``
+- ``ORKStepViewControllerNavigationDirection``
+- ``ORKTaskViewControllerFinishReason``
+- ``ORKTaskViewControllerProgressMode``
+- ``ORKTaskViewControllerReviewMode``
+- ``ORKTextButton``
+- ``SwiftUIViewFactory``

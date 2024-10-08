@@ -139,4 +139,3 @@ Using ResearchKit, you can build apps that obtain consent, give instructions, pr
 
 - ``ORKSecondaryTaskStep``
 - ``ORKSkipStepNavigationRule``
-

@@ -8,74 +8,65 @@ Active tasks invite users to perform activities under partially controlled condi
 
 ## Topics
 
-### Classes
+### Steps
 
+- ``ORKAccuracyStroopStep``
 - ``ORKActiveStep``
-- ``ORKActiveStepViewController``
-- ``ORKInvalidDBHLValue``
-- ``ORKAudiometryTimestampProvider``
-- ``ORKAudioChannel``
-- ``ORKSpeechRecognizerLocale``
-- ``ORKAudiometryProtocol``
+- ``ORKEnvironmentSPLMeterStep``
+- ``ORKTouchAnywhereStep``
+- ``ORK3DModelStep``
 
+### Results
+
+- ``ORKAccuracyStroopResult``
+- ``ORKAmslerGridResult``
 - ``ORKdBHLToneAudiometryResult``
 - ``ORKEnvironmentSPLMeterResult``
-- ``ORKToneAudiometryResult``
-- ``ORKSpeechInNoiseResult``
-- ``ORKSpeechRecognitionResult``
-
-- ``ORKRangeOfMotionResult``
-- ``ORKReactionTimeResult``
-
-- ``ORKTimedWalkResult``
-- ``ORKTowerOfHanoiResult``
-- ``ORKTrailmakingResult``
-- ``ORKHolePegTestResult``
-- ``ORKTappingIntervalResult``
 - ``ORKHolePegTestResult``
 - ``ORKNormalizedReactionTimeResult``
 - ``ORKPSATResult``
-
+- ``ORKRangeOfMotionResult``
+- ``ORKReactionTimeResult``
 - ``ORKSpatialSpanMemoryResult``
-
+- ``ORKSpeechInNoiseResult``
+- ``ORKSpeechRecognitionResult``
 - ``ORKStroopResult``
-- ``ORKAccuracyStroopResult``
-- ``ORKAmslerGridResult``
-
+- ``ORKTappingIntervalResult``
+- ``ORKTimedWalkResult``
+- ``ORKToneAudiometryResult``
+- ``ORKTowerOfHanoiResult``
+- ``ORKTrailmakingResult``
 - ``ORKUSDZModelManagerResult``
 
-- ``ORKHolePegTestSample``
-- ``ORKEnvironmentSPLMeterStep``
+### View Controllers
 
-- ``ORK3DModelStep``
-- ``ORK3DModelManager``
-- ``ORKUSDZModelManager``
-- ``ORK3DModelManagerProtocol``
-
-- ``ORKTouchAnywhereStep``
+- ``ORKActiveStepViewController``
 - ``ORKTouchAnywhereStepViewController``
-- ``ORKAccuracyStroopStep``
 
-- ``ORKEnvironmentSPLMeterStep``
-- ``ORKBodySagittal``
+### Other
 
-- ``ORKToneAudiometrySample``
-- ``ORKdBHLToneAudiometryFrequencySample``
-- ``ORKdBHLTaskContext``
-- ``ORKdBHLToneAudiometryUnit``
-
+- ``ORKAudioChannel``
+- ``ORKAudiometryProtocol``
 - ``ORKAudiometryStimulus``
-
+- ``ORKAudiometryTimestampProvider``
+- ``ORKBodySagittal``
+- ``ORKdBHLTaskContext``
+- ``ORKdBHLToneAudiometryFrequencySample``
+- ``ORKdBHLToneAudiometryUnit``
+- ``ORKHealthClinicalTypeRecorderConfiguration``
+- ``ORKHealthQuantityTypeRecorderConfiguration``
+- ``ORKHolePegTestSample``
+- ``ORKInvalidDBHLValue``
 - ``ORKPSATSample``
-
-- ``ORKTappingSample``
-- ``ORKTappingButtonIdentifier``
-- ``ORKTowerOfHanoiMove``
-- ``ORKTrailmakingTap``
-
 - ``ORKSpatialSpanMemoryGameRecord``
 - ``ORKSpatialSpanMemoryGameStatus``
 - ``ORKSpatialSpanMemoryGameTouchSample``
-
-- ``ORKHealthClinicalTypeRecorderConfiguration``
-- ``ORKHealthQuantityTypeRecorderConfiguration``
+- ``ORKSpeechRecognizerLocale``
+- ``ORKTappingButtonIdentifier``
+- ``ORKTappingSample``
+- ``ORKToneAudiometrySample``
+- ``ORKTowerOfHanoiMove``
+- ``ORKTrailmakingTap``
+- ``ORKUSDZModelManager``
+- ``ORK3DModelManager``
+- ``ORK3DModelManagerProtocol``
