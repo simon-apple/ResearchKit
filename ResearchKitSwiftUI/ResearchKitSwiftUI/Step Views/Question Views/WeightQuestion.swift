@@ -34,6 +34,25 @@ public enum NumericPrecision {
     case `default`, low, high
 }
 
+private func weightFormatter(for precision: NumericPrecision) -> NumberFormatter {
+    let weightFormatter = NumberFormatter()
+    weightFormatter.numberStyle = .decimal
+    weightFormatter.roundingMode = .halfUp
+    switch precision {
+    case .default:
+        weightFormatter.minimumFractionDigits = 1
+        weightFormatter.maximumFractionDigits = 1
+    case .low:
+        weightFormatter.minimumFractionDigits = 0
+        weightFormatter.maximumFractionDigits = 0
+    case .high:
+        weightFormatter.minimumFractionDigits = 2
+        weightFormatter.maximumFractionDigits = 2
+    }
+    
+    return weightFormatter
+}
+
 public struct WeightQuestion: View {
     
     @EnvironmentObject
@@ -46,6 +65,8 @@ public struct WeightQuestion: View {
     private var isRequired: Bool
 
     private let defaultWeightInKilograms = 68.039
+    
+    private let weightFormatter: NumberFormatter
 
     let id: String
     let title: String
@@ -105,6 +126,7 @@ public struct WeightQuestion: View {
         self.minimumValue = minimumValue
         self.maximumValue = maximumValue
         self.result = .automatic(key: .weight(id: id))
+        self.weightFormatter = ResearchKitSwiftUI.weightFormatter(for: precision)
     }
     
     public init(
@@ -144,6 +166,7 @@ public struct WeightQuestion: View {
         self.minimumValue = minimumValue
         self.maximumValue = maximumValue
         self.result = .manual(selection)
+        self.weightFormatter = ResearchKitSwiftUI.weightFormatter(for: precision)
     }
 
     var selectionString: String {
@@ -169,7 +192,8 @@ public struct WeightQuestion: View {
                 // we'll round to the nearest result which in our case would be 60kg.
                 return "\(selectedResult.rounded()) kg"
             }
-            return "\(selectedResult) kg"
+            
+            return "\(weightFormatter.string(for: selectedResult) ?? "") kg"
         }
     }
 
