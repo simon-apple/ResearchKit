@@ -356,7 +356,14 @@ struct WeightPickerView: View {
         let upperValue = measurementSystem == .USC ? 15 : 0.99
         var range: [Double] = []
         for i in stride(from: lowerValue, through: upperValue, by: secondaryStep) {
-            range.append(i)
+            if case .USC = measurementSystem {
+                range.append(i)
+            } else {
+                let decimal = Decimal(i).rounded(2, .plain)
+                range.append(
+                    NSDecimalNumber(decimal: decimal).doubleValue
+                )
+            }
         }
         return range
     }
@@ -403,7 +410,9 @@ struct WeightPickerView: View {
                 return convertKilogramsToPoundsAndOunces(displayedValue).ounces
             } else {
                 if case .high = precision {
-                    return (displayedValue * 100).rounded() / 100 - floor(displayedValue)
+                    let selectionTwo = Decimal(displayedValue)
+                    let selectionTwoFraction = selectionTwo.rounded(2, .plain) - selectionTwo.rounded(0, .down)
+                    return NSDecimalNumber(decimal: selectionTwoFraction).doubleValue
                 } else {
                     return 0
                 }
@@ -549,4 +558,20 @@ struct WeightPickerView: View {
             selection: $selection
         )
     }
+}
+
+private extension Decimal {
+    
+    mutating func round(_ scale: Int, _ roundingMode: NSDecimalNumber.RoundingMode) {
+        var localCopy = self
+        NSDecimalRound(&self, &localCopy, scale, roundingMode)
+    }
+
+    func rounded(_ scale: Int, _ roundingMode: NSDecimalNumber.RoundingMode) -> Decimal {
+        var result = Decimal()
+        var localCopy = self
+        NSDecimalRound(&result, &localCopy, scale, roundingMode)
+        return result
+    }
+    
 }
