@@ -31,6 +31,7 @@
 import Foundation
 import SwiftUI
 
+/// A question that allows for numeric input.
 @available(watchOS, unavailable)
 public struct NumericQuestion<Header: View>: View {
 

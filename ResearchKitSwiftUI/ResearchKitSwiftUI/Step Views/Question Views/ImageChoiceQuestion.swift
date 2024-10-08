@@ -101,6 +101,7 @@ public enum ChoiceSelectionType {
     case single, multiple
 }
 
+/// A question that allows for image input.
 public struct ImageChoiceQuestion: View {
     
     @EnvironmentObject

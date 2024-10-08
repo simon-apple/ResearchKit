@@ -30,6 +30,7 @@
 
 import SwiftUI
 
+/// A question that allows for multiple choice input.
 public struct MultipleChoiceQuestion: View {
     
     public enum ChoiceSelectionType {

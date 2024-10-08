@@ -34,6 +34,7 @@ public enum TextFieldType {
     case singleLine, multiline
 }
 
+/// A question that allows for text input.
 public struct TextQuestion<Header: View>: View {
     
     @EnvironmentObject

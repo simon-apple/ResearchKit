@@ -30,6 +30,7 @@
 
 import SwiftUI
 
+/// A `ResearchForm` manages the navigation between steps in a survey. To add steps, create instances of `ResearchFormStep` and pass them into a `ResearchForm`. To display questions in each step, ResearchKit provides various question formats that you can use within a `ResearchFormStep` such as `MultipleChoiceQuestion` and `DateTimeQuestion`. These questions can be optional or required, which a `ResearchForm` tracks as part of navigation management. Additionally, a `ResearchForm` manages survey results for any questions that manage their own bindings. Results are passed back through a `ResearchFormResult` once a survey is completed. For instance, a text question for which no binding is provided has its result stored in `ResearchFormResult`. However, a text question for which the client has provided a binding does not have its result stored in `ResearchFormResult`, and in this case, the client is expected to manage the result for the text question.
 public struct ResearchForm<Content: View>: View {
     @State
     private var managedFormResult: ResearchFormResult
@@ -42,8 +43,14 @@ public struct ResearchForm<Content: View>: View {
     private let taskKey: StepResultKey<String?>
     private let steps: Content
     
-    var onResearchFormCompletion: ((ResearchFormCompletion) -> Void)?
+    private var onResearchFormCompletion: ((ResearchFormCompletion) -> Void)?
     
+    /// Initializes an instance of `ResearchForm` with the provided steps and existing results, if any.
+    /// - Parameters:
+    ///   - taskIdentifier: An identifier that uniquely identifies this research form.
+    ///   - restorationResult: A result used to pre-populate questions that had previously been answered.
+    ///   - steps: The steps in a survey, each containing a set of questions.
+    ///   - onResearchFormCompletion: A completion that is triggered when the survey is dismissed.
     public init(
         taskIdentifier: String,
         restorationResult: ResearchFormResult? = nil,
@@ -81,6 +88,11 @@ public struct ResearchForm<Content: View>: View {
     
 }
 
+/// A `ResearchFormStep` represents a step in a survey and lays out the header and questions on one page. Question numbers (e.g. 1 of 3) are automatically added at the top of each question to denote progress being made in a step.
+///
+/// Lays out header and content.
+/// Question numbers.
+///  
 public struct ResearchFormStep<Header: View, Content: View>: View {
     
     @State

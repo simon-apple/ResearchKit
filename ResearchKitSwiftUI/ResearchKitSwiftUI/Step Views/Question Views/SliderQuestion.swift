@@ -40,6 +40,7 @@ public enum ScaleSelectionConfiguration {
     case doubleRange(ClosedRange<Double>)
 }
 
+/// A question that allows for integer, double, or text input by means of a slider.
 public struct SliderQuestion: View {
     
     let id: String

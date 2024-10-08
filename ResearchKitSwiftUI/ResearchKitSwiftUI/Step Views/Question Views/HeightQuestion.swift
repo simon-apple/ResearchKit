@@ -34,6 +34,7 @@ public enum MeasurementSystem {
     case USC, local, metric
 }
 
+/// A question that allows for height input.
 public struct HeightQuestion: View {
     
     @EnvironmentObject

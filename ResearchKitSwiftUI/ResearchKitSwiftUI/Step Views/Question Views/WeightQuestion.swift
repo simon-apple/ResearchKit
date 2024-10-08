@@ -34,6 +34,7 @@ public enum NumericPrecision {
     case `default`, low, high
 }
 
+/// A question that allows for weight input.
 public struct WeightQuestion: View {
     
     @EnvironmentObject
