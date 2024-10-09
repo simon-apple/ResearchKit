@@ -30,6 +30,7 @@
 
 import Foundation
 
+/// Limited to a few question types that can have different type representations for their selected values.
 public enum ResultValue: Codable {
     case int(Int)
     case string(String)

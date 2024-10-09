@@ -30,12 +30,18 @@
 
 import SwiftUI
 
+/// A step header containing an image, title, and subtitle.
 public struct StepHeader: View {
     
     private let image: Image?
     private let title: Text?
     private let subtitle: Text?
     
+    /// Initializes and instance of `StepHeader` with the provided configuration.
+    /// - Parameters:
+    ///   - image: The image for this step header.
+    ///   - title: The title for this step header.
+    ///   - subtitle: The subtitle for this header.
     init(image: Image? = nil, title: Text? = nil, subtitle: Text? = nil) {
         self.image = image
         self.title = title

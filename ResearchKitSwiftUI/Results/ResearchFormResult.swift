@@ -31,6 +31,7 @@
 import Combine
 import SwiftUI
 
+/// Represents responses for the different kinds of questions.
 public enum AnswerFormat {
     case text(String?)
     case numeric(Double?)
@@ -88,6 +89,7 @@ public final class ResearchFormResult: ObservableObject {
     }
     
     /// Initializes and instance of `ResearchFormResult` with the provided results.
+    /// - Parameter results: The results from which an instance of `ResearchFormResult` is created.
     public init(results: [Result]) {
         stepResults = results.reduce(into: [String: AnswerFormat]()) { partialResult, result in
             partialResult[result.identifier] = result.answer
@@ -130,7 +132,7 @@ public final class ResearchFormResult: ObservableObject {
     }
     
     /// Maps the captures responses to a type of your choice.
-    /// - Parameter transform: The mapping function to be used that transforms a response to a type of your choice.
+    /// - Parameter transform: The mapping function used to transform a response to a type of your choice.
     /// - Returns: An array containing the type to which the responses were transformed.
     public func compactMap<T>(_ transform: (Result) -> T?) -> [T] {
         stepResults.compactMap { entry in
