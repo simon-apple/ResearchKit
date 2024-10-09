@@ -245,12 +245,11 @@ Figure 11. Reaction time steps
 ## Sustained Phonation
 
 In the sustained phonation task, the user makes a sustained sound, and an audio
-recording is made. Analysis of the audio data is not included in the
+recording is made. The ResearchKit framework uses the [AVFoundation](https://developer.apple.com/library/ios/documentation/AVFoundation/Reference/AVFoundationFramework/) framework to collect this
+data and to present volume indication during recording. Analysis of the audio data is not included in the
 ResearchKit framework, but might naturally involve looking at the power spectrum
 and how it relates to the ability to produce certain
-sounds. The ResearchKit framework uses the [AVFoundation](https://developer.apple.com/library/ios/documentation/AVFoundation/Reference/AVFoundationFramework/) framework to collect this
-data and to present volume indication during recording. No data
-analysis is done by ResearchKit; you can define your analysis on this
+sounds. You can define your analysis on this
 task according to your own requirements.
 Audio steps are shown in Figure 12.
 
