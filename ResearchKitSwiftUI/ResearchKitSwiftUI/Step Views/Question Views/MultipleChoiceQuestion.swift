@@ -227,14 +227,13 @@ public struct MultipleChoiceQuestion: View {
         self.result = .manual(result)
     }
     
-    /// Initializes an instance of `MultipleChoiceQuestion` that manages .
+    /// Initializes an instance of `MultipleChoiceQuestion` that manages a binding for you.
     /// - Parameters:
     ///   - id: The id associated with this question.
     ///   - title: The title for this question.
     ///   - detail: <#detail description#>
     ///   - choices: The choices that can be selected for this question.
     ///   - selectionType: The selection type for this question.
-    ///   - result: The result that is bound to this question.
     public init(
         id: String,
         title: String,

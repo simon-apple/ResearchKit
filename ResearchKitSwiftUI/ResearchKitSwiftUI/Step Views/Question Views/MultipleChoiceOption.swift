@@ -30,12 +30,19 @@
 
 import Foundation
 
+/// Represents a multiple choice option.
 public struct MultipleChoiceOption: Identifiable {
     
+    /// The id for this multiple choice option.
     public let id: String
     let choiceText: String
     let value: ResultValue
     
+    /// Initializes and instance of `MultipleChoiceOption` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for this multiple choice option.
+    ///   - choiceText: The text for this multiple choice option
+    ///   - value: The integer value associated with this multiple choice option.
     public init(
         id: String,
         choiceText: String,
@@ -44,6 +51,11 @@ public struct MultipleChoiceOption: Identifiable {
         self.init(id: id, choiceText: choiceText, value: .int(value))
     }
     
+    /// Initializes and instance of `MultipleChoiceOption` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for this multiple choice option.
+    ///   - choiceText: The text for this multiple choice option
+    ///   - value: The string value associated with this multiple choice option.
     public init(
         id: String,
         choiceText: String,
@@ -52,6 +64,11 @@ public struct MultipleChoiceOption: Identifiable {
         self.init(id: id, choiceText: choiceText, value: .string(value))
     }
     
+    /// Initializes and instance of `MultipleChoiceOption` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for this multiple choice option.
+    ///   - choiceText: The text for this multiple choice option
+    ///   - value: The date value associated with this multiple choice option.
     public init(
         id: String,
         choiceText: String,

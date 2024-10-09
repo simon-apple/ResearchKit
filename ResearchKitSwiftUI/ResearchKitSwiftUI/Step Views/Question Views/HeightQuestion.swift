@@ -30,8 +30,18 @@
 
 import SwiftUI
 
+/// Represents the different measurement systems that can be used.
 public enum MeasurementSystem {
-    case USC, local, metric
+    
+    /// The US Customary measurement system.
+    case USC
+    
+    /// The measurement system defined by the system.
+    case local
+    
+    /// The metric measurement system.
+    case metric
+    
 }
 
 /// A question that allows for height input.
@@ -65,7 +75,13 @@ public struct HeightQuestion: View {
             return value
         }
     }
-
+    
+    /// Initializes an instance of `HeightQuestion` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for the height question.
+    ///   - title: The title for the height question.
+    ///   - detail: <#detail description#>
+    ///   - measurementSystem: The measurement system for the height question.
     public init(
         id: String,
         title: String,
@@ -95,6 +111,13 @@ public struct HeightQuestion: View {
         self.result = .automatic(key: .height(id: id))
     }
     
+    /// Initializes an instance of `HeightQuestion` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for the height question.
+    ///   - title: The title for the height question.
+    ///   - detail: <#detail description#>
+    ///   - measurementSystem: The measurement system for the height question.
+    ///   - selection: The selected height binding.
     public init(
         id: String,
         title: String,

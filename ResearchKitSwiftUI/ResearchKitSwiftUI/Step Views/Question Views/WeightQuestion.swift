@@ -30,6 +30,7 @@
 
 import SwiftUI
 
+/// The precision representing the granularity of a measurement's value. (e.g. 68 kg vs. 68.04 kg or 150 lbs vs. 150 lbs 5 oz)
 public enum NumericPrecision {
     case `default`, low, high
 }
@@ -69,7 +70,17 @@ public struct WeightQuestion: View {
             return value
         }
     }
-
+    
+    /// Initializes an instance of `WeightQuestion` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for the weight question.
+    ///   - title: The title for the weight question.
+    ///   - detail: <#detail description#>
+    ///   - measurementSystem: The measurement system for the weight question.
+    ///   - precision: The precision for the weight question.
+    ///   - defaultValue: The default weight.
+    ///   - minimumValue: The minimum selectable weight.
+    ///   - maximumValue: The maximum selectable weight.
     public init(
         id: String,
         title: String,
@@ -108,6 +119,17 @@ public struct WeightQuestion: View {
         self.result = .automatic(key: .weight(id: id))
     }
     
+    /// Initializes an instance of `WeightQuestion` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for the weight question.
+    ///   - title: The title for the weight question.
+    ///   - detail: <#detail description#>
+    ///   - measurementSystem: The measurement system for the weight question.
+    ///   - precision: The precision for the weight question.
+    ///   - defaultValue: The default weight.
+    ///   - minimumValue: The minimum selectable weight.
+    ///   - maximumValue: The maximum selectable weight.
+    ///   - selection: The selected weight binding.
     public init(
         id: String,
         title: String,
@@ -147,7 +169,7 @@ public struct WeightQuestion: View {
         self.result = .manual(selection)
     }
 
-    var selectionString: String {
+    private var selectionString: String {
         let selectedResult: Double
         if let result = resolvedResult.wrappedValue {
             selectedResult = result
