@@ -30,7 +30,7 @@
 
 import SwiftUI
 
-public enum TextFieldType {
+public enum TextQuestionType {
     case singleLine, multiline
 }
 
@@ -52,7 +52,7 @@ public struct TextQuestion<Header: View>: View {
     let multilineTextFieldPadding: Double = 54
     @FocusState private var focusTarget: FocusTarget?
     let prompt: String?
-    let textFieldType: TextFieldType
+    let textQuestionType: TextQuestionType
     let characterLimit: Int
     let hideCharacterCountLabel: Bool
     let hideClearButton: Bool
@@ -75,7 +75,7 @@ public struct TextQuestion<Header: View>: View {
     ///   - id: The id for this text question.
     ///   - header: The header for this text question.
     ///   - prompt: The placeholder for this text question.
-    ///   - textFieldType: Specifies whether this text question is single line or multiline.
+    ///   - textQuestionType: Specifies whether this text question is single line or multiline.
     ///   - characterLimit: The number of characters that can be used for this text question.
     ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
     ///   - hideClearButton: Whether or not the clear button is displayed.
@@ -84,7 +84,7 @@ public struct TextQuestion<Header: View>: View {
         id: String,
         @ViewBuilder header: () -> Header,
         prompt: String?,
-        textFieldType: TextFieldType,
+        textQuestionType: TextQuestionType,
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false,
@@ -93,7 +93,7 @@ public struct TextQuestion<Header: View>: View {
         self.id = id
         self.header = header()
         self.prompt = prompt
-        self.textFieldType = textFieldType
+        self.textQuestionType = textQuestionType
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
@@ -105,7 +105,7 @@ public struct TextQuestion<Header: View>: View {
     ///   - id: The id for this text question.
     ///   - header: The header for this text question.
     ///   - prompt: The placeholder for this text question.
-    ///   - textFieldType: Specifies whether this text question is single line or multiline.
+    ///   - textQuestionType: Specifies whether this text question is single line or multiline.
     ///   - characterLimit: The number of characters that can be used for this text question.
     ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
     ///   - hideClearButton: Whether or not the clear button is displayed.
@@ -113,7 +113,7 @@ public struct TextQuestion<Header: View>: View {
         id: String,
         @ViewBuilder header: () -> Header,
         prompt: String?,
-        textFieldType: TextFieldType,
+        textQuestionType: TextQuestionType,
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false
@@ -121,7 +121,7 @@ public struct TextQuestion<Header: View>: View {
         self.id = id
         self.header = header()
         self.prompt = prompt
-        self.textFieldType = textFieldType
+        self.textQuestionType = textQuestionType
         self.characterLimit = characterLimit > 0 ? characterLimit : .max
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
@@ -129,7 +129,7 @@ public struct TextQuestion<Header: View>: View {
     }
 
     private var axis: Axis {
-        switch textFieldType {
+        switch textQuestionType {
         case .singleLine:
             return .horizontal
         case .multiline:
@@ -158,13 +158,13 @@ public struct TextQuestion<Header: View>: View {
                         .contentShape(Rectangle())
                         .onAppear(perform: {
 #if !os(watchOS)
-                            if textFieldType == .singleLine {
+                            if textQuestionType == .singleLine {
                                 UITextField.appearance().clearButtonMode = .whileEditing
                             }
 #endif
                         })
                     
-                    if textFieldType == .multiline {
+                    if textQuestionType == .multiline {
                         HStack {
                             if hideCharacterCountLabel == false {
                                 Text("\(resolvedResult.wrappedValue?.count ?? 0)/\(characterLimit)")
@@ -216,7 +216,7 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
     ///   - id: The id for this text question.
     ///   - header: The header for this text question.
     ///   - prompt: The placeholder for this text question.
-    ///   - textFieldType: Specifies whether this text question is single line or multiline.
+    ///   - textQuestionType: Specifies whether this text question is single line or multiline.
     ///   - characterLimit: The number of characters that can be used for this text question.
     ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
     ///   - hideClearButton: Whether or not the clear button is displayed.
@@ -227,7 +227,7 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
     ///   - title: The title for this text question.
     ///   - detail: <#detail description#>
     ///   - prompt: The placeholder for this text question.
-    ///   - textFieldType: Specifies whether this text question is single line or multiline.
+    ///   - textQuestionType: Specifies whether this text question is single line or multiline.
     ///   - characterLimit: The number of characters that can be used for this text question.
     ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
     ///   - hideClearButton: Whether or not the clear button is displayed.
@@ -237,7 +237,7 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
         title: String,
         detail: String?,
         prompt: String?,
-        textFieldType: TextFieldType,
+        textQuestionType: TextQuestionType,
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false,
@@ -246,7 +246,7 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
         self.id = id
         self.header = _SimpleFormItemViewHeader(title: title)
         self.prompt = prompt
-        self.textFieldType = textFieldType
+        self.textQuestionType = textQuestionType
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
@@ -259,7 +259,7 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
     ///   - title: The title for this text question.
     ///   - detail: <#detail description#>
     ///   - prompt: The placeholder for this text question.
-    ///   - textFieldType: Specifies whether this text question is single line or multiline.
+    ///   - textQuestionType: Specifies whether this text question is single line or multiline.
     ///   - characterLimit: The number of characters that can be used for this text question.
     ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
     ///   - hideClearButton: Whether or not the clear button is displayed.
@@ -269,7 +269,7 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
         title: String,
         detail: String? = nil,
         prompt: String?,
-        textFieldType: TextFieldType,
+        textQuestionType: TextQuestionType,
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false,
@@ -278,7 +278,7 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
         self.id = id
         self.header = _SimpleFormItemViewHeader(title: title)
         self.prompt = prompt
-        self.textFieldType = textFieldType
+        self.textQuestionType = textQuestionType
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
@@ -298,7 +298,7 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
             title: "What is your name?",
             detail: nil,
             prompt: "Tap to write",
-            textFieldType: .singleLine,
+            textQuestionType: .singleLine,
             characterLimit: 10,
             hideCharacterCountLabel: true,
             result: $value

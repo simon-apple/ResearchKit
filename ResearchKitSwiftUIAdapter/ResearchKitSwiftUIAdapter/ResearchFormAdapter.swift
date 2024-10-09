@@ -182,7 +182,7 @@ struct ResearchFormAdapter: View {
                 title: title ?? "",
                 detail: "",
                 prompt: placeholder,
-                textFieldType: textAnswerFormat.multipleLines ? .multiline : .singleLine,
+                textQuestionType: textAnswerFormat.multipleLines ? .multiline : .singleLine,
                 characterLimit: textAnswerFormat.maximumLength,
                 hideCharacterCountLabel: textAnswerFormat.hideCharacterCountLabel,
                 hideClearButton: textAnswerFormat.hideClearButton,
