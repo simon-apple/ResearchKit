@@ -76,21 +76,26 @@ extension AnswerFormat: Equatable {
     
 }
 
+/// Captures the responses to questions for which no binding has been provided. It is passed through `ResearchForm`'s `onResearchFormCompletion` handler upon survey completion.
 public final class ResearchFormResult: ObservableObject {
 
     @Published
     var stepResults: [String: AnswerFormat]
     
+    /// Initializes and instance of `ResearchFormResult` that contains no responses.
     public convenience init() {
         self.init(results: [])
     }
     
+    /// Initializes and instance of `ResearchFormResult` with the provided results.
     public init(results: [Result]) {
         stepResults = results.reduce(into: [String: AnswerFormat]()) { partialResult, result in
             partialResult[result.identifier] = result.answer
         }
     }
     
+    /// Initializes and instance of `ResearchFormResult` using the provided decoder.
+    /// - Parameter decoder: The decoder used to deserialize an instance of `ResearchFormResult`.
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         stepResults = try container.decode([String: AnswerFormat].self, forKey: .stepResults)
@@ -124,6 +129,9 @@ public final class ResearchFormResult: ObservableObject {
         stepResults[key.id] = format
     }
     
+    /// Maps the captures responses to a type of your choice.
+    /// - Parameter transform: The mapping function to be used that transforms a response to a type of your choice.
+    /// - Returns: An array containing the type to which the responses were transformed.
     public func compactMap<T>(_ transform: (Result) -> T?) -> [T] {
         stepResults.compactMap { entry in
             transform(
@@ -133,11 +141,16 @@ public final class ResearchFormResult: ObservableObject {
     }
 }
 
+/// The response to a question.
 public struct Result {
     
     public let identifier: String
     public let answer: AnswerFormat
     
+    /// Initializes and instance of `Result` with a question identifier and response.
+    /// - Parameters:
+    ///   - identifier: The question identifier associated with this response.
+    ///   - answer: The response.
     public init(identifier: String, answer: AnswerFormat) {
         self.identifier = identifier
         self.answer = answer
@@ -153,6 +166,8 @@ extension ResearchFormResult: Codable {
         
     }
     
+    /// Serializes the response to the provided encoder.
+    /// - Parameter encoder: The encoder used to serialize the response.
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(stepResults, forKey: .stepResults)
@@ -162,6 +177,11 @@ extension ResearchFormResult: Codable {
 
 extension ResearchFormResult: Equatable {
     
+    /// Tests for equality between two instances of `ResearchFormResult`.
+    /// - Parameters:
+    ///   - lhs: One of the `ResearchFormResult`s to compare.
+    ///   - rhs: The other `ResearchFormResult` to compare.
+    /// - Returns: True or false depending on whether or not the two instances of `ResearchFormResult` are the same.
     public static func == (lhs: ResearchFormResult, rhs: ResearchFormResult) -> Bool {
         lhs.stepResults == rhs.stepResults
     }

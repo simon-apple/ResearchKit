@@ -33,9 +33,14 @@ import SwiftUI
 /// A question that allows for multiple choice input.
 public struct MultipleChoiceQuestion: View {
     
+    /// The choice selection method.
     public enum ChoiceSelectionType {
         
-        case single, multiple
+        /// Allows for only one multiple choice option to be selected.
+        case single
+        
+        /// Allows for more than one multiple choice option to be selected.
+        case multiple
         
     }
 
@@ -68,6 +73,14 @@ public struct MultipleChoiceQuestion: View {
     let selectionType: ChoiceSelectionType
     let result: StateManagementType<[ResultValue]?>
     
+    /// Initializes an instance of `MultipleChoiceQuestion` with an integer result.
+    /// - Parameters:
+    ///   - id: The id associated with this question.
+    ///   - title: The title for this question.
+    ///   - detail: <#detail description#>
+    ///   - choices: The choices that can be selected for this question.
+    ///   - selectionType: The selection type for this question.
+    ///   - result: The result that is bound to this question.
     public init(
         id: String,
         title: String,
@@ -106,6 +119,14 @@ public struct MultipleChoiceQuestion: View {
         )
     }
     
+    /// Initializes an instance of `MultipleChoiceQuestion` with a string result.
+    /// - Parameters:
+    ///   - id: The id associated with this question.
+    ///   - title: The title for this question.
+    ///   - detail: <#detail description#>
+    ///   - choices: The choices that can be selected for this question.
+    ///   - selectionType: The selection type for this question.
+    ///   - result: The result that is bound to this question.
     public init(
         id: String,
         title: String,
@@ -144,6 +165,14 @@ public struct MultipleChoiceQuestion: View {
         )
     }
     
+    /// Initializes an instance of `MultipleChoiceQuestion` with a date result.
+    /// - Parameters:
+    ///   - id: The id associated with this question.
+    ///   - title: The title for this question.
+    ///   - detail: <#detail description#>
+    ///   - choices: The choices that can be selected for this question.
+    ///   - selectionType: The selection type for this question.
+    ///   - result: The result that is bound to this question.
     public init(
         id: String,
         title: String,
@@ -198,6 +227,14 @@ public struct MultipleChoiceQuestion: View {
         self.result = .manual(result)
     }
     
+    /// Initializes an instance of `MultipleChoiceQuestion` that manages .
+    /// - Parameters:
+    ///   - id: The id associated with this question.
+    ///   - title: The title for this question.
+    ///   - detail: <#detail description#>
+    ///   - choices: The choices that can be selected for this question.
+    ///   - selectionType: The selection type for this question.
+    ///   - result: The result that is bound to this question.
     public init(
         id: String,
         title: String,

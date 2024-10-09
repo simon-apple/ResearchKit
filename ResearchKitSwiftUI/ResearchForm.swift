@@ -89,10 +89,6 @@ public struct ResearchForm<Content: View>: View {
 }
 
 /// A `ResearchFormStep` represents a step in a survey and lays out the header and questions on one page. Question numbers (e.g. 1 of 3) are automatically added at the top of each question to denote progress being made in a step.
-///
-/// Lays out header and content.
-/// Question numbers.
-///  
 public struct ResearchFormStep<Header: View, Content: View>: View {
     
     @State
@@ -101,6 +97,10 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
     private let header: Header
     private let content: Content
     
+    /// Initializes an instance of `ResearchFormStep` with the provided header and content.
+    /// - Parameters:
+    ///   - header: The header that is displayed at the top of the step.
+    ///   - content: The content that is displayed below the header.
     public init(
         @ViewBuilder header: () -> Header,
         @ViewBuilder content: () -> Content
@@ -201,6 +201,8 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
 
 public extension ResearchFormStep where Header == EmptyView {
     
+    /// Initializes an instance of `ResearchFormStep` with just the content without a header.
+    /// - Parameter content: The content for the step.
     init(@ViewBuilder content: () -> Content) {
         self.init(
             header: {
@@ -214,6 +216,11 @@ public extension ResearchFormStep where Header == EmptyView {
 
 public extension ResearchFormStep where Header == StepHeader, Content == EmptyView {
     
+    /// Initializes an instance of `ResearchFormStep` with a header containing an image, title, and subtitle. There is no content displayed beneath the header.
+    /// - Parameters:
+    ///   - image: The image displayed in the header.
+    ///   - title: The title displayed in the header.
+    ///   - subtitle: The subtitle displayed in the header.
     init(
         image: Image? = nil,
         title: String? = nil,
@@ -233,6 +240,12 @@ public extension ResearchFormStep where Header == StepHeader, Content == EmptyVi
 
 public extension ResearchFormStep where Header == StepHeader {
     
+    /// Initializes an instance of `ResearchFormStep` with a header containing an image, title, and subtitle. The content is displayed beneath the header.
+    /// - Parameters:
+    ///   - image: The image displayed in the header.
+    ///   - title: The title displayed in the header.
+    ///   - subtitle: The subtitle displayed in the header.
+    ///   - content: The content for the step that is displayed beneath the header.
     init(
         image: Image? = nil,
         title: String? = nil,
