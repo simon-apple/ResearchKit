@@ -15,6 +15,10 @@ Obtain information from a step.
 
 - ``ORKTaskResultSource``
 
+### Family History
+
+- ``ORKFamilyHistoryResult``
+
 ### File storage
 
 - ``ORKFileResult``

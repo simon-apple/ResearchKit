@@ -16,3 +16,5 @@ Obtain a participant's consent to collect research data.
 ### Signature acquisition
 
 - ``ORKConsentSignature``
+- ``ORKSignatureFormatter``
+- ``ORKHTMLPDFWriter``
