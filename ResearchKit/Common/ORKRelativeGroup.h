@@ -38,11 +38,33 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ An object to represent a relative type displayed
+ during a family health history survey.
+ 
+ Example relative groups could be parents, children, or siblings.
+ */
+
 ORK_CLASS_AVAILABLE
 @interface ORKRelativeGroup : NSObject
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
+
+/**
+ Creates a new relative group with the specified identifier.
+ 
+ This method is the primary designated initializer.
+ 
+ @param identifier   The unique identifier of the relative group.
+ @param name   The name of the relative group. This should be the singular representation.
+ @param title   The table section title for the relative group.
+ @param detailText   The detail text displayed in the table section header for the relative group.
+ @param identifierForCellTitle   The identifier of the result value to be used for the relative's cell title.
+ @param maxAllowed   The maximum amount of relatives that are allowed to be added by the participant.
+ @param formSteps   The form steps that will precede the health conditions step during the survey.
+ @param detailTextIdentifiers   The identifiers of each result value that will be displayed in the relative's card view.
+ */
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
                               name:(NSString *)name
