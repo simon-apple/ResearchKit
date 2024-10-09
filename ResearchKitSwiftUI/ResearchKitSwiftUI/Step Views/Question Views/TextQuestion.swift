@@ -69,7 +69,17 @@ public struct TextQuestion<Header: View>: View {
             return value
         }
     }
-
+    
+    /// Initializes an instance of `TextQuestion` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for this text question.
+    ///   - header: The header for this text question.
+    ///   - prompt: The placeholder for this text question.
+    ///   - textFieldType: Specifies whether this text question is single line or multiline.
+    ///   - characterLimit: The number of characters that can be used for this text question.
+    ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
+    ///   - hideClearButton: Whether or not the clear button is displayed.
+    ///   - result: The binding for the text result.
     public init(
         id: String,
         @ViewBuilder header: () -> Header,
@@ -90,6 +100,15 @@ public struct TextQuestion<Header: View>: View {
         self.result = .manual(result)
     }
 
+    /// Initializes an instance of `TextQuestion` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for this text question.
+    ///   - header: The header for this text question.
+    ///   - prompt: The placeholder for this text question.
+    ///   - textFieldType: Specifies whether this text question is single line or multiline.
+    ///   - characterLimit: The number of characters that can be used for this text question.
+    ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
+    ///   - hideClearButton: Whether or not the clear button is displayed.
     public init(
         id: String,
         @ViewBuilder header: () -> Header,
@@ -193,6 +212,26 @@ public struct TextQuestion<Header: View>: View {
 }
 
 public extension TextQuestion where Header == _SimpleFormItemViewHeader {
+    
+    ///   - id: The id for this text question.
+    ///   - header: The header for this text question.
+    ///   - prompt: The placeholder for this text question.
+    ///   - textFieldType: Specifies whether this text question is single line or multiline.
+    ///   - characterLimit: The number of characters that can be used for this text question.
+    ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
+    ///   - hideClearButton: Whether or not the clear button is displayed.
+    
+    /// Initializes an instance of `TextQuestion` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for this text question.
+    ///   - title: The title for this text question.
+    ///   - detail: <#detail description#>
+    ///   - prompt: The placeholder for this text question.
+    ///   - textFieldType: Specifies whether this text question is single line or multiline.
+    ///   - characterLimit: The number of characters that can be used for this text question.
+    ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
+    ///   - hideClearButton: Whether or not the clear button is displayed.
+    ///   - result: The binding for the text result.
     init(
         id: String,
         title: String,
@@ -214,6 +253,17 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
         self.result = .manual(result)
     }
 
+    /// Initializes an instance of `TextQuestion` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for this text question.
+    ///   - title: The title for this text question.
+    ///   - detail: <#detail description#>
+    ///   - prompt: The placeholder for this text question.
+    ///   - textFieldType: Specifies whether this text question is single line or multiline.
+    ///   - characterLimit: The number of characters that can be used for this text question.
+    ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
+    ///   - hideClearButton: Whether or not the clear button is displayed.
+    ///   - defaultTextAnswer: The initial text to display.
     init(
         id: String,
         title: String,

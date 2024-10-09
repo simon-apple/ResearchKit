@@ -31,6 +31,7 @@
 import Foundation
 import SwiftUI
 
+/// A configuration representing the kind of `SliderQuestion` to be used.
 public enum SliderQuestionConfiguration {
     
     @available(watchOS, unavailable)
@@ -251,6 +252,14 @@ public struct SliderQuestion: View {
 
     private var clientManagedSelection: ScaleSelectionBindingValue
     
+    /// Initializes an instance of `SliderQuestion` that manages the binding for double values.
+    /// - Parameters:
+    ///   - id: The id for the slider question.
+    ///   - title: The title for the slider question
+    ///   - detail: <#detail description#>
+    ///   - range: The range of selectable values for this slider question.
+    ///   - step: The amount of change between each increment or decrement.
+    ///   - selection: The initial selected value.
     public init(
         id: String,
         title: String,
@@ -269,6 +278,14 @@ public struct SliderQuestion: View {
         self._sliderUIValue = State(wrappedValue: selection)
     }
 
+    /// Initializes an instance of `SliderQuestion` for double values.
+    /// - Parameters:
+    ///   - id: The id for the slider question.
+    ///   - title: The title for the slider question
+    ///   - detail: <#detail description#>
+    ///   - range: The range of selectable values for this slider question.
+    ///   - step: The amount of change between each increment or decrement.
+    ///   - selection: The binding for the initial selected value.
     public init(
         id: String,
         title: String,
@@ -296,6 +313,14 @@ public struct SliderQuestion: View {
         self._sliderUIValue = State(wrappedValue: selection.wrappedValue ?? range.lowerBound)
     }
     
+    /// Initializes an instance of `SliderQuestion` for integer values.
+    /// - Parameters:
+    ///   - id: The id for the slider question.
+    ///   - title: The title for the slider question
+    ///   - detail: <#detail description#>
+    ///   - range: The range of selectable values for this slider question.
+    ///   - step: The amount of change between each increment or decrement.
+    ///   - selection: The initial selected value.
     public init(
         id: String,
         title: String,
@@ -314,6 +339,14 @@ public struct SliderQuestion: View {
         self._sliderUIValue = State(wrappedValue: Double(selection ?? range.lowerBound))
     }
 
+    /// Initializes an instance of `SliderQuestion` for integer values.
+    /// - Parameters:
+    ///   - id: The id for the slider question.
+    ///   - title: The title for the slider question
+    ///   - detail: <#detail description#>
+    ///   - range: The range of selectable values for this slider question.
+    ///   - step: The amount of change between each increment or decrement.
+    ///   - selection: The binding for the initial selected value.
     public init(
         id: String,
         title: String,
@@ -341,6 +374,13 @@ public struct SliderQuestion: View {
         self._sliderUIValue = State(wrappedValue: Double(selection.wrappedValue ?? range.lowerBound))
     }
     
+    /// Initializes an instance of `SliderQuestion` for text values.
+    /// - Parameters:
+    ///   - id: The id for the slider question.
+    ///   - title: The title for the slider question
+    ///   - detail: <#detail description#>
+    ///   - multipleChoiceOptions: The text options that this slider can represent.
+    ///   - selection: The initial selected value.
     @available(watchOS, unavailable)
     public init(
         id: String,
@@ -362,6 +402,13 @@ public struct SliderQuestion: View {
         self._sliderUIValue = State(wrappedValue: Double(sliderValue))
     }
 
+    /// Initializes an instance of `SliderQuestion` for text values.
+    /// - Parameters:
+    ///   - id: The id for the slider question.
+    ///   - title: The title for the slider question
+    ///   - detail: <#detail description#>
+    ///   - multipleChoiceOptions: The text options that this slider can represent.
+    ///   - selection: The binding for the initial selected value.
     @available(watchOS, unavailable)
     public init(
         id: String,
