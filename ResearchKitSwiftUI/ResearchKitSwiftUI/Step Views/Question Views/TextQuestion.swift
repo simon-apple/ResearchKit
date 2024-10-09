@@ -76,7 +76,7 @@ public struct TextQuestion<Header: View>: View {
         }
     }
     
-    /// Initializes an instance of `TextQuestion` with the provided information.
+    /// Initializes an instance of `TextQuestion` with the provided configuration.
     /// - Parameters:
     ///   - id: The id for this text question.
     ///   - header: The header for this text question.
@@ -106,7 +106,7 @@ public struct TextQuestion<Header: View>: View {
         self.result = .manual(result)
     }
 
-    /// Initializes an instance of `TextQuestion` with the provided information.
+    /// Initializes an instance of `TextQuestion` with the provided configuration.
     /// - Parameters:
     ///   - id: The id for this text question.
     ///   - header: The header for this text question.
@@ -227,7 +227,7 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
     ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
     ///   - hideClearButton: Whether or not the clear button is displayed.
     
-    /// Initializes an instance of `TextQuestion` with the provided information.
+    /// Initializes an instance of `TextQuestion` with the provided configuration.
     /// - Parameters:
     ///   - id: The id for this text question.
     ///   - title: The title for this text question.
@@ -259,7 +259,7 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
         self.result = .manual(result)
     }
 
-    /// Initializes an instance of `TextQuestion` with the provided information.
+    /// Initializes an instance of `TextQuestion` with the provided configuration.
     /// - Parameters:
     ///   - id: The id for this text question.
     ///   - title: The title for this text question.

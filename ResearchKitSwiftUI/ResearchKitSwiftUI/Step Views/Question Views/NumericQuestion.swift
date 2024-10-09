@@ -109,7 +109,7 @@ public struct NumericQuestion<Header: View>: View {
 @available(watchOS, unavailable)
 public extension NumericQuestion where Header == _SimpleFormItemViewHeader {
     
-    /// Initializes an instance of `NumericQuestion` with the provided information.
+    /// Initializes an instance of `NumericQuestion` with the provided configuration.
     /// - Parameters:
     ///   - id: The id for this numeric question.
     ///   - text: The binding for the numeric result.
@@ -129,7 +129,7 @@ public extension NumericQuestion where Header == _SimpleFormItemViewHeader {
         self.result = .manual(text)
     }
     
-    /// Initializes an instance of `NumericQuestion` with the provided information.
+    /// Initializes an instance of `NumericQuestion` with the provided configuration.
     /// - Parameters:
     ///   - id: The id for this numeric question.
     ///   - text: The numeric result.

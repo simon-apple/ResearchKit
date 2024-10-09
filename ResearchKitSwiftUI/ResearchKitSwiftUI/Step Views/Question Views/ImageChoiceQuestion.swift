@@ -30,13 +30,29 @@
 
 import SwiftUI
 
+/// An image choice.
 public struct ImageChoice: Identifiable, Equatable {
+    
+    /// The id for this image choice.
     public let id: String
+    
+    /// The image for the unselected state.
     public let normalImage: UIImage
+    
+    /// The image for the selected state.
     public let selectedImage: UIImage?
+    
+    /// The text that describes the image.
     public let text: String
+    
     let value: ResultValue
     
+    /// Initializes and instance of `ImageChoice` with the provided configuration.
+    /// - Parameters:
+    ///   - normalImage: The image for the unselected state.
+    ///   - selectedImage: The image for the selected state.
+    ///   - text: The text that describes the image.
+    ///   - value: The selection value for this image.
     public init(
         normalImage: UIImage,
         selectedImage: UIImage?,
@@ -51,6 +67,12 @@ public struct ImageChoice: Identifiable, Equatable {
         )
     }
     
+    /// Initializes and instance of `ImageChoice` with the provided configuration.
+    /// - Parameters:
+    ///   - normalImage: The image for the unselected state.
+    ///   - selectedImage: The image for the selected state.
+    ///   - text: The text that describes the image.
+    ///   - value: The selection value for this image.
     public init(
         normalImage: UIImage,
         selectedImage: UIImage?,
@@ -65,6 +87,12 @@ public struct ImageChoice: Identifiable, Equatable {
         )
     }
     
+    /// Initializes and instance of `ImageChoice` with the provided configuration.
+    /// - Parameters:
+    ///   - normalImage: The image for the unselected state.
+    ///   - selectedImage: The image for the selected state.
+    ///   - text: The text that describes the image.
+    ///   - value: The selection value for this image.
     public init(
         normalImage: UIImage,
         selectedImage: UIImage?,
@@ -91,14 +119,26 @@ public struct ImageChoice: Identifiable, Equatable {
         self.text = text
         self.value = value
     }
-
+    
+    /// Determines whether or not the provided image choices are equal.
+    /// - Parameters:
+    ///   - lhs: The first image choice to compare.
+    ///   - rhs: The second image choice to compare.
+    /// - Returns: True or false depending on whether or not the two image choices are equal.
     public static func == (lhs: ImageChoice, rhs: ImageChoice) -> Bool {
         return lhs.id == rhs.id && lhs.text == rhs.text
     }
 }
 
+/// The choice selection type.
 public enum ChoiceSelectionType {
-    case single, multiple
+    
+    /// Allows for the selection of only one image choice.
+    case single
+    
+    /// Allows for selection of more than one image choices.
+    case multiple
+    
 }
 
 /// A question that allows for image input.
@@ -130,7 +170,7 @@ public struct ImageChoiceQuestion: View {
         }
     }
     
-    /// Initializes an instance of `ImageChoiceQuestion` with the provided information.
+    /// Initializes an instance of `ImageChoiceQuestion` with the provided configuration.
     /// - Parameters:
     ///   - id: The id for this image choice question.
     ///   - title: The title for this image choice question.
@@ -179,7 +219,7 @@ public struct ImageChoiceQuestion: View {
         )
     }
     
-    /// Initializes an instance of `ImageChoiceQuestion` with the provided information.
+    /// Initializes an instance of `ImageChoiceQuestion` with the provided configuration.
     /// - Parameters:
     ///   - id: The id for this image choice question.
     ///   - title: The title for this image choice question.
@@ -228,7 +268,7 @@ public struct ImageChoiceQuestion: View {
         )
     }
     
-    /// Initializes an instance of `ImageChoiceQuestion` with the provided information.
+    /// Initializes an instance of `ImageChoiceQuestion` with the provided configuration.
     /// - Parameters:
     ///   - id: The id for this image choice question.
     ///   - title: The title for this image choice question.
@@ -295,7 +335,7 @@ public struct ImageChoiceQuestion: View {
         self.result = .manual(result)
     }
 
-    /// Initializes an instance of `ImageChoiceQuestion` with the provided information.
+    /// Initializes an instance of `ImageChoiceQuestion` with the provided configuration.
     /// - Parameters:
     ///   - id: The id for this image choice question.
     ///   - title: The title for this image choice question.

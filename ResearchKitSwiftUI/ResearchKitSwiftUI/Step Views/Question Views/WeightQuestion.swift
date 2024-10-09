@@ -71,7 +71,7 @@ public struct WeightQuestion: View {
         }
     }
     
-    /// Initializes an instance of `WeightQuestion` with the provided information.
+    /// Initializes an instance of `WeightQuestion` with the provided configuration.
     /// - Parameters:
     ///   - id: The id for the weight question.
     ///   - title: The title for the weight question.
@@ -119,7 +119,7 @@ public struct WeightQuestion: View {
         self.result = .automatic(key: .weight(id: id))
     }
     
-    /// Initializes an instance of `WeightQuestion` with the provided information.
+    /// Initializes an instance of `WeightQuestion` with the provided configuration.
     /// - Parameters:
     ///   - id: The id for the weight question.
     ///   - title: The title for the weight question.

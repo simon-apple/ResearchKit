@@ -76,7 +76,7 @@ public struct HeightQuestion: View {
         }
     }
     
-    /// Initializes an instance of `HeightQuestion` with the provided information.
+    /// Initializes an instance of `HeightQuestion` with the provided configuration.
     /// - Parameters:
     ///   - id: The id for this height question.
     ///   - title: The title for this height question.
@@ -111,7 +111,7 @@ public struct HeightQuestion: View {
         self.result = .automatic(key: .height(id: id))
     }
     
-    /// Initializes an instance of `HeightQuestion` with the provided information.
+    /// Initializes an instance of `HeightQuestion` with the provided configuration.
     /// - Parameters:
     ///   - id: The id for this height question.
     ///   - title: The title for this height question.
