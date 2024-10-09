@@ -63,7 +63,15 @@ public struct DateTimeQuestion<Header: View>: View {
             return value
         }
     }
-
+    
+    /// Initializes an instance of `DateTimeQuestion` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for this date-time question.
+    ///   - header: The header for this date-time question.
+    ///   - selection: The selected date.
+    ///   - pickerPrompt: The prompt for this date-time question.
+    ///   - displayedComponents: The date-time components that are displayed for this date-time question.
+    ///   - range: The range of selectable dates.
     public init(
         id: String,
         @ViewBuilder header: () -> Header,
@@ -80,6 +88,14 @@ public struct DateTimeQuestion<Header: View>: View {
         self.result = .automatic(key: .date(id: id))
     }
 
+    /// Initializes an instance of `DateTimeQuestion` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for this date-time question.
+    ///   - header: The header for this date-time question.
+    ///   - selection: The selected date.
+    ///   - pickerPrompt: The prompt for this date-time question.
+    ///   - displayedComponents: The date-time components that are displayed for this date-time question.
+    ///   - range: The range of selectable dates.
     public init(
         id: String,
         @ViewBuilder header: () -> Header,
@@ -183,6 +199,15 @@ public struct DateTimeQuestion<Header: View>: View {
 
 public extension DateTimeQuestion where Header == _SimpleFormItemViewHeader {
     
+    /// Initializes an instance of `DateTimeQuestion` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for this date-time question.
+    ///   - title: The title for this date-time question.
+    ///   - detail: <#detail description#>
+    ///   - selection: The selected date.
+    ///   - pickerPrompt: The prompt for this date-time question.
+    ///   - displayedComponents: The date-time components that are displayed for this date-time question.
+    ///   - range: The range of selectable dates.
     init(
         id: String,
         title: String,
@@ -200,6 +225,15 @@ public extension DateTimeQuestion where Header == _SimpleFormItemViewHeader {
         self.result = .automatic(key: .date(id: id))
     }
     
+    /// Initializes an instance of `DateTimeQuestion` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for this date-time question.
+    ///   - title: The title for this date-time question.
+    ///   - detail: <#detail description#>
+    ///   - selection: The binding for the selected date.
+    ///   - pickerPrompt: The prompt for this date-time question.
+    ///   - displayedComponents: The date-time components that are displayed for this date-time question.
+    ///   - range: The range of selectable dates.
     init(
         id: String,
         title: String,

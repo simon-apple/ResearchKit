@@ -30,8 +30,14 @@
 
 import SwiftUI
 
+/// Represents the type of text question.
 public enum TextQuestionType {
-    case singleLine, multiline
+    
+    /// A single line text question.
+    case singleLine
+    
+    /// A multiline text question.
+    case multiline
 }
 
 /// A question that allows for text input.

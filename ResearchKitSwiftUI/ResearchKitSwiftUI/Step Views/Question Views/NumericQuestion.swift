@@ -109,6 +109,13 @@ public struct NumericQuestion<Header: View>: View {
 @available(watchOS, unavailable)
 public extension NumericQuestion where Header == _SimpleFormItemViewHeader {
     
+    /// Initializes an instance of `NumericQuestion` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for this numeric question.
+    ///   - text: The binding for the numeric result.
+    ///   - title: The title for this numeric question.
+    ///   - detail: <#detail description#>
+    ///   - prompt: The prompt for this numeric question.
     init(
         id: String,
         text: Binding<Double?>,
@@ -122,6 +129,13 @@ public extension NumericQuestion where Header == _SimpleFormItemViewHeader {
         self.result = .manual(text)
     }
     
+    /// Initializes an instance of `NumericQuestion` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for this numeric question.
+    ///   - text: The numeric result.
+    ///   - title: The title for this numeric question.
+    ///   - detail: <#detail description#>
+    ///   - prompt: The prompt for this numeric question.
     init(
         id: String,
         text: Decimal? = nil,

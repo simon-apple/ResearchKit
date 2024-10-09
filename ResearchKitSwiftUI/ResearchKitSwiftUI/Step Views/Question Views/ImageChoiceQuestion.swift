@@ -130,6 +130,15 @@ public struct ImageChoiceQuestion: View {
         }
     }
     
+    /// Initializes an instance of `ImageChoiceQuestion` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for this image choice question.
+    ///   - title: The title for this image choice question.
+    ///   - detail: <#detail description#>
+    ///   - choices: The image choices for this image choice question.
+    ///   - style: The choice selection type for this image choice question.
+    ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
+    ///   - result: The binding for the result.
     public init(
         id: String,
         title: String,
@@ -170,6 +179,15 @@ public struct ImageChoiceQuestion: View {
         )
     }
     
+    /// Initializes an instance of `ImageChoiceQuestion` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for this image choice question.
+    ///   - title: The title for this image choice question.
+    ///   - detail: <#detail description#>
+    ///   - choices: The image choices for this image choice question.
+    ///   - style: The choice selection type for this image choice question.
+    ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
+    ///   - result: The binding for the result.
     public init(
         id: String,
         title: String,
@@ -210,6 +228,15 @@ public struct ImageChoiceQuestion: View {
         )
     }
     
+    /// Initializes an instance of `ImageChoiceQuestion` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for this image choice question.
+    ///   - title: The title for this image choice question.
+    ///   - detail: <#detail description#>
+    ///   - choices: The image choices for this image choice question.
+    ///   - style: The choice selection type for this image choice question.
+    ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
+    ///   - result: The binding for the result.
     public init(
         id: String,
         title: String,
@@ -268,6 +295,14 @@ public struct ImageChoiceQuestion: View {
         self.result = .manual(result)
     }
 
+    /// Initializes an instance of `ImageChoiceQuestion` with the provided information.
+    /// - Parameters:
+    ///   - id: The id for this image choice question.
+    ///   - title: The title for this image choice question.
+    ///   - detail: <#detail description#>
+    ///   - choices: The image choices for this image choice question.
+    ///   - style: The choice selection type for this image choice question.
+    ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
     public init(
         id: String,
         title: String,
