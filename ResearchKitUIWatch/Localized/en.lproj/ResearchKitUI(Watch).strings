@@ -28,20 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitCore/ORKDefines.h>
-#import <ResearchKitCore/ORKTypes.h>
-
-#import <ResearchKitCore/ORKStep.h>
-#import <ResearchKitCore/ORKInstructionStep.h>
-#import <ResearchKitCore/ORKQuestionStep.h>
-#import <ResearchKitCore/ORKCompletionStep.h>
-
-#import <ResearchKitCore/ORKTask.h>
-#import <ResearchKitCore/ORKOrderedTask.h>
-
-#import <ResearchKitCore/ORKAnswerFormat.h>
-
-#import <ResearchKitCore/ORKResult.h>
-#import <ResearchKitCore/ORKCollectionResult.h>
-#import <ResearchKitCore/ORKQuestionResult.h>
-#import <ResearchKitCore/ORKSkin.h>
+"BUTTON_CANCEL" = "Cancel";
+"BUTTON_NEXT" = "Next";
+"BUTTON_DONE" = "Done";
+"QUESTION_PROGRESS" = "%D OF %D";

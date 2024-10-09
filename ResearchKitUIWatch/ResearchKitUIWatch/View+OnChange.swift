@@ -28,20 +28,42 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitCore/ORKDefines.h>
-#import <ResearchKitCore/ORKTypes.h>
+// apple-internal
 
-#import <ResearchKitCore/ORKStep.h>
-#import <ResearchKitCore/ORKInstructionStep.h>
-#import <ResearchKitCore/ORKQuestionStep.h>
-#import <ResearchKitCore/ORKCompletionStep.h>
+import SwiftUI
 
-#import <ResearchKitCore/ORKTask.h>
-#import <ResearchKitCore/ORKOrderedTask.h>
+// swiftlint:disable line_length
+extension View {
+    
+    @ViewBuilder
+    func whenChanged<V>(_ value: V, perform action: @escaping (V) -> Void) -> some View where V: Equatable {
+        if #available(watchOSApplicationExtension 7.0, *) {
+            onChange(of: value, perform: action)
+        } else {
+            modifier(OnChangedModifier(value: value, action: action))
+        }
+    }
+}
 
-#import <ResearchKitCore/ORKAnswerFormat.h>
+private struct OnChangedModifier<T>: ViewModifier where T: Equatable {
+    
+    let value: T
+    
+    let action: (T) -> Void
+    
+    func body(content: Content) -> some View {
+        content
+            .onPreferenceChange(OnChangeKey<T>.self, perform: { action($0!) })
+            .preference(key: OnChangeKey<T>.self, value: value)
+    }
+}
 
-#import <ResearchKitCore/ORKResult.h>
-#import <ResearchKitCore/ORKCollectionResult.h>
-#import <ResearchKitCore/ORKQuestionResult.h>
-#import <ResearchKitCore/ORKSkin.h>
+private struct OnChangeKey<T>: PreferenceKey {
+    
+    static var defaultValue: T? { nil }
+    
+    static func reduce(value: inout T?, nextValue: () -> T?) {
+        value = nextValue() ?? value
+    }
+}
+// swiftlint:enable line_length

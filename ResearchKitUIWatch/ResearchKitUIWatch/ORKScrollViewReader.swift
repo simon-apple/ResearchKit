@@ -28,20 +28,49 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitCore/ORKDefines.h>
-#import <ResearchKitCore/ORKTypes.h>
+// apple-internal
 
-#import <ResearchKitCore/ORKStep.h>
-#import <ResearchKitCore/ORKInstructionStep.h>
-#import <ResearchKitCore/ORKQuestionStep.h>
-#import <ResearchKitCore/ORKCompletionStep.h>
+import Foundation
+import SwiftUI
 
-#import <ResearchKitCore/ORKTask.h>
-#import <ResearchKitCore/ORKOrderedTask.h>
+// swiftlint:disable line_length
+// Support ScrollViewReader for only the software that supports it without having to duplicate the view hierarchy.
+// Abstract unavailable APIs behind a protocol to get support in watchOS 7.0 devices.
+// swiftlint:enable line_length
 
-#import <ResearchKitCore/ORKAnswerFormat.h>
+protocol ScrollViewProxyProtocol {
+    
+    func scrollToID<ID>(_ id: ID, anchor: UnitPoint?) where ID: Hashable
+}
 
-#import <ResearchKitCore/ORKResult.h>
-#import <ResearchKitCore/ORKCollectionResult.h>
-#import <ResearchKitCore/ORKQuestionResult.h>
-#import <ResearchKitCore/ORKSkin.h>
+struct ORKScrollViewProxy: ScrollViewProxyProtocol {
+    
+    func scrollToID<ID>(_ id: ID, anchor: UnitPoint? = nil) where ID: Hashable {
+        // Do nothing
+    }
+}
+
+@available(watchOSApplicationExtension 7.0, *)
+extension ScrollViewProxy: ScrollViewProxyProtocol {
+    
+    func scrollToID<ID>(_ id: ID, anchor: UnitPoint? = nil) where ID: Hashable {
+        scrollTo(id, anchor: anchor)
+    }
+}
+
+struct ORKScrollViewReader<Content>: View where Content: View {
+    
+    var content: (ScrollViewProxyProtocol) -> Content
+    
+    init(@ViewBuilder content: @escaping (ScrollViewProxyProtocol) -> Content) {
+        self.content = content
+    }
+    
+    var body: some View {
+        if #available(watchOSApplicationExtension 7.0, *) {
+            ScrollViewReader(content: content)
+        } else {
+            content(ORKScrollViewProxy())
+        }
+    }
+}

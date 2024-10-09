@@ -28,20 +28,41 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitCore/ORKDefines.h>
-#import <ResearchKitCore/ORKTypes.h>
+// apple-internal
 
-#import <ResearchKitCore/ORKStep.h>
-#import <ResearchKitCore/ORKInstructionStep.h>
-#import <ResearchKitCore/ORKQuestionStep.h>
-#import <ResearchKitCore/ORKCompletionStep.h>
+import ResearchKitCore
+import SwiftUI
 
-#import <ResearchKitCore/ORKTask.h>
-#import <ResearchKitCore/ORKOrderedTask.h>
+@available(watchOS 6.0, *)
+public struct InstructionStepView: View {
 
-#import <ResearchKitCore/ORKAnswerFormat.h>
+    @ObservedObject
+    public private(set) var step: ORKInstructionStep
 
-#import <ResearchKitCore/ORKResult.h>
-#import <ResearchKitCore/ORKCollectionResult.h>
-#import <ResearchKitCore/ORKQuestionResult.h>
-#import <ResearchKitCore/ORKSkin.h>
+    @ObservedObject
+    public private(set) var result: ORKStepResult
+    
+    @Environment(\.completion) var completion
+    
+    init(_ step: ORKInstructionStep, result: ORKStepResult) {
+        self.step = step
+        self.result = result
+    }
+
+    public var body: some View {
+        
+        VStack(alignment: .center) {
+            if let title = step.title {
+                Text(title)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(Font.system(.headline))
+            }
+            if let detailText = step.detailText {
+                Text(detailText)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }.onAppear {
+            completion(true)
+        }
+    }
+}

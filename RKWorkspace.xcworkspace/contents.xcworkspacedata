@@ -16,4 +16,7 @@
    <FileRef
       location = "group:ci_scripts">
    </FileRef>
+   <FileRef
+      location = "group:ResearchKitUI(Watch).xcodeproj">
+   </FileRef>
 </Workspace>

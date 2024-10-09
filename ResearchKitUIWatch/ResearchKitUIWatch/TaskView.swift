@@ -28,20 +28,44 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKitCore/ORKDefines.h>
-#import <ResearchKitCore/ORKTypes.h>
+// apple-internal
 
-#import <ResearchKitCore/ORKStep.h>
-#import <ResearchKitCore/ORKInstructionStep.h>
-#import <ResearchKitCore/ORKQuestionStep.h>
-#import <ResearchKitCore/ORKCompletionStep.h>
+import ResearchKitCore
+import SwiftUI
+import UIKit
 
-#import <ResearchKitCore/ORKTask.h>
-#import <ResearchKitCore/ORKOrderedTask.h>
+@available(watchOS 6.0, *)
+public struct TaskView<Content>: View where Content: View {
 
-#import <ResearchKitCore/ORKAnswerFormat.h>
+    @ObservedObject
+    private var taskManager: TaskManager
 
-#import <ResearchKitCore/ORKResult.h>
-#import <ResearchKitCore/ORKCollectionResult.h>
-#import <ResearchKitCore/ORKQuestionResult.h>
-#import <ResearchKitCore/ORKSkin.h>
+    private let content: (ORKStep, ORKStepResult) -> Content
+
+    public init(taskManager: TaskManager,
+                @ViewBuilder _ content: @escaping (ORKStep, ORKStepResult) -> Content) {
+        self.taskManager = taskManager
+        self.content = content
+        self.taskManager.result.startDate = Date()
+    }
+
+    public var body: some View {
+        if #available(watchOSApplicationExtension 7.0, *) {
+            NavigationView {
+                TaskContentView(index: 0, content)
+                    .environmentObject(self.taskManager)
+            }
+        } else {
+            TaskContentView(index: 0, content)
+                .environmentObject(self.taskManager)
+        }
+    }
+}
+
+@available(watchOS 6.0, *)
+public extension TaskView where Content == DefaultStepView {
+
+    init(taskManager: TaskManager) {
+        self.init(taskManager: taskManager) { DefaultStepView($0, result: $1) }
+    }
+}
