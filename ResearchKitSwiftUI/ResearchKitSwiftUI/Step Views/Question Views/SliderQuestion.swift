@@ -31,7 +31,7 @@
 import Foundation
 import SwiftUI
 
-public enum ScaleSelectionConfiguration {
+public enum SliderQuestionConfiguration {
     
     @available(watchOS, unavailable)
     case textChoice([MultipleChoiceOption])
@@ -46,7 +46,7 @@ public struct SliderQuestion: View {
     let id: String
     var title: String
     var detail: String?
-    var scaleSelectionConfiguration: ScaleSelectionConfiguration
+    var scaleSelectionConfiguration: SliderQuestionConfiguration
     let step: Double
     
     private enum ScaleSelectionBindingValue: Equatable {
@@ -453,7 +453,7 @@ public struct SliderQuestion: View {
     }
 
     @ViewBuilder
-    private func scaleView(selectionConfiguration: ScaleSelectionConfiguration) -> some View {
+    private func scaleView(selectionConfiguration: SliderQuestionConfiguration) -> some View {
         VStack {
             Text("\(value(for: selectionConfiguration))")
                 .font(.title2)
@@ -474,7 +474,7 @@ public struct SliderQuestion: View {
     }
     
     @ViewBuilder
-    private func slider(selectionConfiguration: ScaleSelectionConfiguration) -> some View {
+    private func slider(selectionConfiguration: SliderQuestionConfiguration) -> some View {
         Slider(
             value: $sliderUIValue,
             in: sliderBounds(for: selectionConfiguration),
@@ -488,7 +488,7 @@ public struct SliderQuestion: View {
         }
     }
     
-    private func value(for selectionConfiguration: ScaleSelectionConfiguration) -> any CustomStringConvertible {
+    private func value(for selectionConfiguration: SliderQuestionConfiguration) -> any CustomStringConvertible {
         let value: any CustomStringConvertible
         switch selectionConfiguration {
         case .integerRange:
@@ -501,7 +501,7 @@ public struct SliderQuestion: View {
         return value
     }
     
-    private func sliderBounds(for selectionConfiguration: ScaleSelectionConfiguration) -> ClosedRange<Double> {
+    private func sliderBounds(for selectionConfiguration: SliderQuestionConfiguration) -> ClosedRange<Double> {
         let sliderBounds: ClosedRange<Double>
         switch selectionConfiguration {
         case .textChoice(let choices):
@@ -514,7 +514,7 @@ public struct SliderQuestion: View {
         return sliderBounds
     }
     
-    private func sliderStep(for selectionConfiguration: ScaleSelectionConfiguration) -> Double.Stride {
+    private func sliderStep(for selectionConfiguration: SliderQuestionConfiguration) -> Double.Stride {
         let sliderStep: Double.Stride
         switch selectionConfiguration {
         case .textChoice:
@@ -525,7 +525,7 @@ public struct SliderQuestion: View {
         return sliderStep
     }
     
-    private func minimumValueDescription(for selectionConfiguration: ScaleSelectionConfiguration) -> any CustomStringConvertible {
+    private func minimumValueDescription(for selectionConfiguration: SliderQuestionConfiguration) -> any CustomStringConvertible {
         let minimumValueLabel: any CustomStringConvertible
         switch selectionConfiguration {
         case .textChoice(let choices):
@@ -538,7 +538,7 @@ public struct SliderQuestion: View {
         return minimumValueLabel
     }
 
-    private func maximumValueDescription(for selectionConfiguration: ScaleSelectionConfiguration) -> any CustomStringConvertible {
+    private func maximumValueDescription(for selectionConfiguration: SliderQuestionConfiguration) -> any CustomStringConvertible {
         let maximumValueDescription: any CustomStringConvertible
         switch selectionConfiguration {
         case .textChoice(let choices):
