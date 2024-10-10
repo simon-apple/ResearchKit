@@ -61,9 +61,10 @@ struct Question<Header: View, Content: View>: View {
 extension Question where Header == _SimpleFormItemViewHeader {
     init(
         title: String,
+        detail: String? = nil,
         content: () -> Content
     ) {
-        self.header = _SimpleFormItemViewHeader(title: title)
+        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
         self.content = content()
     }
 }
@@ -71,10 +72,30 @@ extension Question where Header == _SimpleFormItemViewHeader {
 /// The default header used by a `FormItemCardView`
 public struct _SimpleFormItemViewHeader: View {
 
-    let title: String
+    private let title: String
+    private let detail: String?
+    
+    init(title: String, detail: String? = nil) {
+        self.title = title
+        self.detail = detail
+    }
 
     public var body: some View {
-        titleText(title)
+        VStack(alignment: .leading, spacing: 4) {
+            titleText(title)
+            
+            if let detail {
+                Text(detail)
+                    .font(detailFont)
+            }
+        }
+#if os(watchOS)
+        .padding(.horizontal)
+        .padding(.bottom, 4)
+        .padding(.top, 4)
+#else
+        .padding()
+#endif
     }
     
     @ViewBuilder
@@ -84,14 +105,19 @@ public struct _SimpleFormItemViewHeader: View {
             .fontWeight(.bold)
         #if os(watchOS)
             .font(.footnote)
-            .padding(.horizontal)
-            .padding(.bottom, 4)
-            .padding(.top, 4)
         #else
             .font(.body)
-            .padding()
         #endif
     }
+    
+    private var detailFont: Font {
+#if os(watchOS)
+        .system(size: 12)
+#else
+        .subheadline
+#endif
+    }
+    
 }
 
 #Preview("Detail and Title") {
