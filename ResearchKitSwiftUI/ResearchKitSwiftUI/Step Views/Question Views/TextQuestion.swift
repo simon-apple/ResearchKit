@@ -204,7 +204,7 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
         result: Binding<String?>
     ) {
         self.id = id
-        self.header = _SimpleFormItemViewHeader(title: title)
+        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
         self.prompt = prompt
         self.textFieldType = textFieldType
         self.characterLimit = characterLimit
@@ -225,7 +225,7 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
         defaultTextAnswer: String? = nil
     ) {
         self.id = id
-        self.header = _SimpleFormItemViewHeader(title: title)
+        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
         self.prompt = prompt
         self.textFieldType = textFieldType
         self.characterLimit = characterLimit
