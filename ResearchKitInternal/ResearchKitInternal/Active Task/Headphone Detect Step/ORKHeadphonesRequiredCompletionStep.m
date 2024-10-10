@@ -110,6 +110,7 @@
         ORKHeadphoneTypeIdentifierAirPodsPro:       ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_AIRPODSPROGEN1", nil),
         ORKHeadphoneTypeIdentifierAirPodsProGen2:   ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_AIRPODSPROGEN2", nil),
         ORKHeadphoneTypeIdentifierAirPodsMax:       ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_AIRPODSMAX", nil),
+        ORKHeadphoneTypeIdentifierAirPodsMaxUSBC:   ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_AIRPODSMAX", nil),
         ORKHeadphoneTypeIdentifierEarPods:          ORKILocalizedString(@"dBHL_NO_COMPATIBLE_HEADPHONES_COMPLETION_TEXT_EARPODS", nil)
     };
     return stepText[headphoneType];

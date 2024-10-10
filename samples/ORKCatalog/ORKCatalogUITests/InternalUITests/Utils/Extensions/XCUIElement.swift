@@ -32,7 +32,7 @@ import Foundation
 import XCTest
 
 enum SwipeDirection {
-    case up, down
+    case up, down, left, right
 }
 
 extension XCUIElement {
@@ -81,6 +81,8 @@ extension XCUIElement {
                 let endCoord = startCoord.withOffset(CGVector(dx: 0.0, dy: yOffsetSigned))
                 startCoord.press(forDuration: 0.01, thenDragTo: endCoord)
                 sleep(2)
+            default:
+                XCTFail("Swiping in \(direction) is not supported in this method")
             }
             swipes += 1
         }

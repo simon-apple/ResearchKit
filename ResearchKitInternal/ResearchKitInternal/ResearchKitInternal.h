@@ -30,6 +30,7 @@
 
 
 #import <ResearchKitInternal/ORKICompletionStepViewController.h>
+#import <ResearchKitInternal/ORKIdBHLNewToneAudiometryStepViewController.h>
 #import <ResearchKitInternal/ORKIdBHLToneAudiometryStep.h>
 #import <ResearchKitInternal/ORKIdBHLToneAudiometryStepViewController.h>
 #import <ResearchKitInternal/ORKIdBHLToneAudiometryResult.h>

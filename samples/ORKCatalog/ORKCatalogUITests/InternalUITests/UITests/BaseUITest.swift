@@ -49,4 +49,13 @@ class BaseUITest: XCTestCase {
             app.resetAuthorizationStatus(for: .health)
         }
     }
+
+    // MARK: Helper methods
+    func convertToSeconds(hours: Int, minutes: Int) -> Int {
+        return (hours * 3600) + (minutes * 60)
+    }
+
+    func isPhysicalDeviceInXcodeCloud() -> Bool {
+      return isRunningInXcodeCloud && !isRunningOnSimulator
+    }
 }

@@ -4,18 +4,18 @@ Use the Family History Step to collect insightful health trends.
 
 ## Overview
 
-Accurate family health history is a highly valuable data set that can help prepare patients for or avoid common health conditions they might face in the future. However, obtaining this information has always been a struggle when collected manually and even digitally. Now, with ResearchKit, developers and researchers can quickly construct an ORKFamilyHistoryStep and present a family health history survey tailored to their specific needs. 
+Accurate family health history is a highly valuable data set that can help patients prepare for or avoid common health conditions they might face in the future. However, obtaining this information has always been a struggle to collect manually and even digitally. Now, with ResearchKit, developers and researchers can quickly construct an ORKFamilyHistoryStep and present a survey to collect data for family health history that is tailored to their specific needs. 
 
 With the ``ORKFamilyHistoryStep`` you can specify:
 
 - **Relative Types** - Determine the exact type of family members the survey asks about. 
 - **Survey Questions** - Use the same questions for each relative group or create a different survey for each.
 - **Health Conditions** - Include a list of health conditions that can be the same or different for each relative group.
-- **Displayed Results** - Determine what results are displayed back to the user after completing each relative's survey.
+- **Displayed Results** - Determine which results are displayed back to the user after completing each relative's survey.
 
 ## Understanding the Family History Step classes
 
-Before initializing a ``ORKFamilyHistoryStep`` you should familiarize yourself with the classes required. 
+Before initializing an ``ORKFamilyHistoryStep`` you should familiarize yourself with the classes required. 
 
 - **ORKHealthCondition** - This represents a single health condition presented in your survey.
 - **ORKConditionStepConfiguration** - This object provides the information needed for the health conditions list presented to the user. 
@@ -46,7 +46,7 @@ First, create the ``ORKHealthCondition`` objects necessary to display the health
 
 ### Create Condition Step Configuration
 
-Next, initialize a ``ORKConditionStepConfiguration`` and add the necessary information, which includes the health conditions array created before this.
+Next, initialize an ``ORKConditionStepConfiguration`` and add the necessary information, which includes the health conditions array created before this.
 
 ```swift
 let conditionStepConfiguration = ORKConditionStepConfiguration(stepIdentifier: "FamilyHistoryConditionStepIdentifier", 
@@ -74,7 +74,7 @@ parentFormStep.formItems = parentFormStepFormItems()
 let parentRelativeGroup = ORKRelativeGroup(identifier: "ParentGroupIdentifier",
                                            name: "Biological Parent",
                                            sectionTitle: "Biological Parents",
-                                           sectionDetailText: "Incude your blood-related parents.",
+                                           sectionDetailText: "Include your blood-related parents.",
                                            identifierForCellTitle: "ParentNameIdentifier",
                                            maxAllowed: 2,
                                            formSteps: [parentFormStep],
@@ -83,7 +83,7 @@ let parentRelativeGroup = ORKRelativeGroup(identifier: "ParentGroupIdentifier",
 
 ### Create Family History Step
 
-For the last step, we will construct the ``ORKFamilyHistoryStep`` and pass in the initialized objects from above.
+For the last step, we will construct an ``ORKFamilyHistoryStep`` and pass in the initialized objects from above.
         
 ```swift
 let familyHistoryStep = ORKFamilyHistoryStep(identifier: "FamilyHistoryStepIdentifier)

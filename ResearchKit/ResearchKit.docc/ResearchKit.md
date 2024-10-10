@@ -38,4 +38,16 @@ capabilities of frameworks such as HealthKit and CoreMotion.
 
 - <doc:Consent>
 - <doc:Surveys>
-- <doc:ActiveTasks>
+
+### Articles
+
+- <doc:Conditional-Logic-in-ResearchKit>
+- <doc:Creating-Surveys>
+- <doc:Obtaining-Consent>
+- <doc:Setting-up-Your-Project-to-Use-ResearchKit>
+
+### Other 
+
+- <doc:Constants>
+- <doc:Enumerations>
+- <doc:Helper-Functions>

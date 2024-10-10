@@ -50,7 +50,7 @@ ORK_SOFT_LINK_CONSTANT(AudioDataAnalysis, ADAFPreferenceKeyHAESampleTransient, N
 
 @implementation ORKSettingStatusCollector
 
-- (ORKSettingStatusSnapshot *)getSettingStatusForSettingType:(ORKSettingType)settingType {
+- (ORKSettingStatusSnapshot *)settingStatusForSettingType:(ORKSettingType)settingType {
     [NSException raise:@"getSettingStatus not overwritten" format:@"Subclasses must overwrite the getSettingStatus function"];
     return nil;
 }
@@ -60,7 +60,7 @@ ORK_SOFT_LINK_CONSTANT(AudioDataAnalysis, ADAFPreferenceKeyHAESampleTransient, N
 
 @implementation ORKAudioSettingStatusCollector
 
-- (ORKSettingStatusSnapshot *)getSettingStatusForSettingType:(ORKSettingType)settingType {
+- (ORKSettingStatusSnapshot *)settingStatusForSettingType:(ORKSettingType)settingType {
     ORKSettingStatusSnapshot *settingStatusSnapshot = [ORKSettingStatusSnapshot new];
     
     switch (settingType) {
@@ -93,6 +93,37 @@ ORK_SOFT_LINK_CONSTANT(AudioDataAnalysis, ADAFPreferenceKeyHAESampleTransient, N
     } else {
         return NO;
     }
+}
+
+@end
+
+#define HAS_ENVIRONMENTAL_DOSIMETRY_SUPPORT (TARGET_OS_WATCH || AX_TARGET_OS_PURE_IOS)
+
+ORK_SOFT_LINK_FRAMEWORK(PrivateFrameworks, HearingUtilities)
+ORK_SOFT_LINK_CLASS(HearingUtilities, HUNoiseSettings)
+
+@implementation ORKEnvironmentNoiseStatusCollector
+
+- (ORKSettingStatusSnapshot *)settingStatusForSettingType:(ORKSettingType)settingType {
+    ORKSettingStatusSnapshot *settingStatusSnapshot = [ORKSettingStatusSnapshot new];
+    
+    switch (settingType) {
+        case ORKSettingTypeEnvironmentalNoise:
+            settingStatusSnapshot = [self _getSettingStatusForEnvironmentalNoise];
+            break;
+            
+        default:
+            [NSException raise:@"Unsupported ORKSettingType" format:@"ORKEnvironmentNoiseStatusCollector does not support the provided ORKSettingType"];
+            break;
+    }
+    
+    return settingStatusSnapshot;
+}
+
+- (ORKSettingStatusSnapshot *)_getSettingStatusForEnvironmentalNoise {
+    ORKSettingStatusSnapshot *settingStatusSnapshot = [ORKSettingStatusSnapshot new];
+    settingStatusSnapshot.isEnabled = [[[getHUNoiseSettingsClass() valueForKey:@"sharedInstance"] valueForKey:@"noiseEnabled"] boolValue];
+    return settingStatusSnapshot;
 }
 
 @end

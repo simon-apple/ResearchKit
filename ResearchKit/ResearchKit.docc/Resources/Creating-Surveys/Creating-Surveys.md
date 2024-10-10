@@ -1,5 +1,9 @@
 # Creating surveys
 
+Configure and present surveys with ResearchKit.
+
+## Overview
+
 A survey is a sequence of questions that you use to collect data from your users. In a ResearchKit app, a survey is composed of a survey task that has a collection of step objects (``ORKStep``). ``ORKFormStep`` instances can be added to the collection of steps to handle one or more questions each such as "What medications are you taking?" or "How many hours did you sleep last night?".
 
 You can collect results for the individual steps or for the task as a whole. There are two types of survey tasks: an ordered task (``ORKOrderedTask``) and a navigable ordered task (``ORKNavigableOrderedTask``) which can be used to apply conditional logic.

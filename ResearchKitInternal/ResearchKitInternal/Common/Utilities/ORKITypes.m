@@ -49,3 +49,5 @@ ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIde
 ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsProGen2USBC = @"76,8228";
 
 ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsMax = @"76,8202";
+
+ORKHeadphoneVendorAndProductIdIdentifier const ORKHeadphoneVendorAndProductIdIdentifierAirPodsMaxUSBC = @"76,8223";

@@ -1016,7 +1016,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         formItem06.placeholder = formItem06Text
         
         
-        let appleChoices: [ORKTextChoice] = [ORKTextChoice(text: "Granny Smith", value: 1 as NSNumber), 
+        let appleChoices: [ORKTextChoice] = [ORKTextChoice(text: "Granny Smith", value: 1 as NSNumber),
                                              ORKTextChoice(text: "Honeycrisp", value: 2 as NSNumber),
                                              ORKTextChoice(text: "Fuji", value: 3 as NSNumber),
                                              ORKTextChoice(text: "McIntosh", value: 10 as NSNumber),
@@ -1324,7 +1324,7 @@ enum TaskListRow: Int, CustomStringConvertible {
 
 #if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     private var healthQuantityTypeTask: ORKTask {
-        let heartRateQuestion = TaskListRowSteps.heartRateExample    
+        let heartRateQuestion = TaskListRowSteps.heartRateExample
         let bloodTypeQuestion = TaskListRowSteps.bloodTypeExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.healthQuantityTask), steps: [heartRateQuestion, bloodTypeQuestion])
@@ -1380,7 +1380,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         Note that the unit is just a string, prompting the user to enter the value
         in the expected unit. The unit string propagates into the result object.
     */
-    private var numericQuestionTask: ORKTask {        
+    private var numericQuestionTask: ORKTask {
         let questionStep1 = TaskListRowSteps.decimalExample
         let questionStep2 = TaskListRowSteps.decimalNoUnitExample
         let questionStep3 = TaskListRowSteps.decimalWithDisplayUnitExample
@@ -1393,7 +1393,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
     
     /// This task presents two options for questions displaying a scale control.
-    private var scaleQuestionTask: ORKTask {    
+    private var scaleQuestionTask: ORKTask {
         let questionStep1 = TaskListRowSteps.scaleExample
         let questionStep2 = TaskListRowSteps.continuousScaleWithPercentExample
         let questionStep3 = TaskListRowSteps.verticalScaleWithPercentExample
@@ -1584,23 +1584,6 @@ enum TaskListRow: Int, CustomStringConvertible {
         return ORKOrderedTask(identifier: String(describing: Identifier.pdfViewerTask), steps: [PDFViewerStep])
     }
     
-    /// This task presents the ORKTableStep
-    private var tableTask: ORKTask {
-
-        let tableStep = ORKTableStep(identifier: String(describing: Identifier.tableStep))
-        tableStep.title = NSLocalizedString("Table Step", comment: "")
-        tableStep.bulletType = .circle
-        tableStep.detailText = NSLocalizedString("Table Step Details", comment: "")
-        tableStep.text = NSLocalizedString("Table Step Text", comment: "")
-        tableStep.bottomPadding = 8
-        tableStep.items = [
-            NSString(string: "Option A"),
-            NSString(string: "Option B"),
-            NSString(string: "Option C")
-        ]
-        return ORKOrderedTask(identifier: String(describing: Identifier.tableTask), steps: [tableStep])
-    }
-    
     private var requestPermissionsTask: ORKTask {
 
         let notificationsPermissionType = ORKNotificationPermissionType(authorizationOptions: [.alert, .badge, .sound])
@@ -1641,7 +1624,7 @@ enum TaskListRow: Int, CustomStringConvertible {
 
         requestPermissionsStep.title = "Health Data Request"
         requestPermissionsStep.detailText = "Some details here"
-        requestPermissionsStep.useExtendedPadding = false 
+        requestPermissionsStep.useExtendedPadding = false
         requestPermissionsStep.text = "Please review the health data types below and enable sharing to contribute to the study."
 
         return ORKOrderedTask(identifier: String(describing: Identifier.requestPermissionsStep), steps: [requestPermissionsStep])
@@ -2194,6 +2177,23 @@ enum TaskListRow: Int, CustomStringConvertible {
     
     #if RK_APPLE_INTERNAL
     
+    /// This task presents the ORKTableStep
+    private var tableTask: ORKTask {
+
+        let tableStep = ORKTableStep(identifier: String(describing: Identifier.tableStep))
+        tableStep.title = NSLocalizedString("Table Step", comment: "")
+        tableStep.bulletType = .circle
+        tableStep.detailText = NSLocalizedString("Table Step Details", comment: "")
+        tableStep.text = NSLocalizedString("Table Step Text", comment: "")
+        tableStep.bottomPadding = 8
+        tableStep.items = [
+            NSString(string: "Option A"),
+            NSString(string: "Option B"),
+            NSString(string: "Option C")
+        ]
+        return ORKOrderedTask(identifier: String(describing: Identifier.tableTask), steps: [tableStep])
+    }
+    
     private var platterQuestionTask: ORKTask {
         
         let textChoiceOneText = NSLocalizedString("Choice 1", comment: "")
@@ -2274,7 +2274,12 @@ enum TaskListRow: Int, CustomStringConvertible {
             return ORKOrderedTask(identifier: "\(Identifier.predefinedTinnitusTask)", steps: [completionStep])
         }
         
-        return ORKTinnitusPredefinedTask(identifier: "\(Identifier.predefinedTinnitusTask)", audioSetManifestPath: path, prepend: nil, append: nil)
+        // injected completion step to mimic Pacha in ResearchApp
+        let completionStep = ORKCompletionStep(identifier: "CompletionStepIdentifier")
+        completionStep.title = NSLocalizedString("Task Complete", comment: "")
+        completionStep.text = NSLocalizedString("Dummy completion step", comment: "")
+        
+        return ORKTinnitusPredefinedTask(identifier: "\(Identifier.predefinedTinnitusTask)", audioSetManifestPath: path, prepend: nil, append: [completionStep])
     }
     
     private var predefinedSelectableHeadphoneTask: ORKTask {
