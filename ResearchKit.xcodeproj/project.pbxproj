@@ -253,8 +253,10 @@
 		51AF1B202B683C3400D3B399 /* ORKWebViewStepResult_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 51AF1B1F2B683C3400D3B399 /* ORKWebViewStepResult_Private.h */; platformFilter = ios; settings = {ATTRIBUTES = (Private, ); }; };
 		51AF1B232B69803A00D3B399 /* Window.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51AF1B212B69803A00D3B399 /* Window.wav */; };
 		51AF1B242B69803A00D3B399 /* Noise.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51AF1B222B69803A00D3B399 /* Noise.wav */; };
-		51B94DBD2B311E810039B0E7 /* CLLocationManager+ResearchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 51B94DBC2B311E810039B0E7 /* CLLocationManager+ResearchKit.h */; platformFilter = ios; settings = {ATTRIBUTES = (Private, ); }; };
-		51B94DC72B3254FE0039B0E7 /* CLLocationManager+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B94DC62B3254FD0039B0E7 /* CLLocationManager+ResearchKit.m */; platformFilter = ios; };
+		51B76DFB2CB5B5A30061698A /* ResearchKitActiveTask.docc in Sources */ = {isa = PBXBuildFile; fileRef = 51B76DFA2CB5B5A30061698A /* ResearchKitActiveTask.docc */; };
+		51B76DFD2CB5C73C0061698A /* ResearchKitUI.docc in Sources */ = {isa = PBXBuildFile; fileRef = 51B76DFC2CB5C73C0061698A /* ResearchKitUI.docc */; };
+        51B94DBD2B311E810039B0E7 /* CLLocationManager+ResearchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 51B94DBC2B311E810039B0E7 /* CLLocationManager+ResearchKit.h */; platformFilter = ios; settings = {ATTRIBUTES = (Private, ); }; };
+        51B94DC72B3254FE0039B0E7 /* CLLocationManager+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B94DC62B3254FD0039B0E7 /* CLLocationManager+ResearchKit.m */; platformFilter = ios; };
 		51BD8FC929D60FB60001D54E /* frequency_dBSPL_AIRPODSMAX.plist in Resources */ = {isa = PBXBuildFile; fileRef = E293655D25757CC700092A7C /* frequency_dBSPL_AIRPODSMAX.plist */; };
 		51BD8FCA29D60FB60001D54E /* frequency_dBSPL_EARPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 713D4B1B20FE5464002BE28D /* frequency_dBSPL_EARPODS.plist */; };
 		51BD8FCB29D60FB60001D54E /* frequency_dBSPL_AIRPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 71B7B4D820AA91D400C5768A /* frequency_dBSPL_AIRPODS.plist */; };
@@ -1529,6 +1531,8 @@
 		51AF1B1F2B683C3400D3B399 /* ORKWebViewStepResult_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKWebViewStepResult_Private.h; sourceTree = "<group>"; };
 		51AF1B212B69803A00D3B399 /* Window.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Window.wav; sourceTree = "<group>"; };
 		51AF1B222B69803A00D3B399 /* Noise.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Noise.wav; sourceTree = "<group>"; };
+		51B76DFA2CB5B5A30061698A /* ResearchKitActiveTask.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ResearchKitActiveTask.docc; sourceTree = "<group>"; };
+		51B76DFC2CB5C73C0061698A /* ResearchKitUI.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ResearchKitUI.docc; sourceTree = "<group>"; };
 		51B94DBC2B311E810039B0E7 /* CLLocationManager+ResearchKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocationManager+ResearchKit.h"; sourceTree = "<group>"; };
 		51B94DC62B3254FD0039B0E7 /* CLLocationManager+ResearchKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocationManager+ResearchKit.m"; sourceTree = "<group>"; };
 		51BF30BC247B330900E2E669 /* ORKIconButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKIconButton.h; sourceTree = "<group>"; };
@@ -3027,6 +3031,7 @@
 				5D06633024FEF272005D9B40 /* Info.plist */,
 				CA1C7A5B288B0C69004DAB3A /* Info-iOS.plist */,
 				51FBAC582BC86E6E009CA28F /* ResearchKitUI_Private.modulemap */,
+				51B76DFC2CB5C73C0061698A /* ResearchKitUI.docc */,
 			);
 			path = ResearchKitUI;
 			sourceTree = "<group>";
@@ -4173,6 +4178,7 @@
 				CAD089A7289DDEA8007B2A98 /* Walking */,
 				51FBAC7D2BC9EBA7009CA28F /* Info.plist */,
 				0B0852772BD872EA00149963 /* PrivacyInfo.xcprivacy */,
+				51B76DFA2CB5B5A30061698A /* ResearchKitActiveTask.docc */,
 			);
 			path = ResearchKitActiveTask;
 			sourceTree = "<group>";
@@ -5533,8 +5539,8 @@
 						LastSwiftMigration = 1020;
 					};
 					B183A4731A8535D100C76870 = {
-						LastSwiftMigration = 1020;
-						ProvisioningStyle = Manual;
+                        LastSwiftMigration = 1020;
+                        ProvisioningStyle = Manual;
 					};
 					CA1C7A40288B0C68004DAB3A = {
 						ProvisioningStyle = Manual;
@@ -5939,6 +5945,7 @@
 				CAA20E5C288B3E9900EDC764 /* UIImage+ResearchKit.m in Sources */,
 				CAA20DB0288B3DB300EDC764 /* ORKSelectionSubTitleLabel.m in Sources */,
 				CAA20E49288B3E8200EDC764 /* ORKLearnMoreStepViewController.m in Sources */,
+				51B76DFD2CB5C73C0061698A /* ResearchKitUI.docc in Sources */,
 				CAA20E2F288B3E8200EDC764 /* ORKWaitStepViewController.m in Sources */,
 				CAA20DFC288B3E8100EDC764 /* ORKFreehandDrawingView.m in Sources */,
 				CAA20D69288B3D9100EDC764 /* ORKMultipleValuePicker.m in Sources */,
@@ -6198,6 +6205,7 @@
 				CA2B8F9B28A16EF90025B773 /* ORKAmslerGridStepViewController.m in Sources */,
 				5156C9F32B7E437A00983535 /* ORKTouchAbilityTapTrial.m in Sources */,
 				CAD08A99289DE7A4007B2A98 /* ORKTrailmakingResult.m in Sources */,
+				51B76DFB2CB5B5A30061698A /* ResearchKitActiveTask.docc in Sources */,
 				CA2B8F8D28A16E2E0025B773 /* ORKEnvironmentSPLMeterContentView.m in Sources */,
 				5156C9F62B7E437A00983535 /* ORKTouchAbilityTapStep.m in Sources */,
 				CA2B8FD628A176D70025B773 /* ORKReactionTimeStimulusView.m in Sources */,

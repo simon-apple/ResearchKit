@@ -325,11 +325,20 @@ final class OnboardingUITests: BaseUITest {
                 .closePopUp()
         }
         
-        let text = "Welcome! \nThank you for joining our study. Tap Next to learn more before signing up. \nBefore You Join \nThe study will ask you to share some of your Health data. You will be asked to complete various tasks over the duration of the study. Before joining, we will ask you to sign an informed consent document. Your data is kept private and secure. \n"
+        let text = ["Welcome!",
+                    "Thank you for joining our study. Tap Next to learn more before signing up.",
+                    "Before You Join",
+                    "The study will ask you to share some of your Health data.",
+                    "You will be asked to complete various tasks over the duration of the study.",
+                    "Before joining, we will ask you to sign an informed consent document.",
+                    "Your data is kept private and secure."
+        ]
         
-        test("Verify Text Exists") {
-            pdfStep
-                .verifyLabelExist(expectedText: text)
+        for line in text {
+            test("Verify Text Exists") {
+                pdfStep
+                    .verifyLabelExist(expectedText: line)
+            }
         }
         
         test("Verify Text is Scrollable") {
