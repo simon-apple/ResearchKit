@@ -143,16 +143,19 @@ public final class ResearchFormResult: ObservableObject {
     }
 }
 
-/// The response to a question.
+/// The response context for a question.
 public struct Result {
     
+    /// The question identifier associated with this result.
     public let identifier: String
+
+    /// The response to the question associated with the `identifier`.
     public let answer: AnswerFormat
     
-    /// Initializes and instance of `Result` with a question identifier and response.
+    /// Initializes and instance of `Result` with the provided configuration.
     /// - Parameters:
     ///   - identifier: The question identifier associated with this response.
-    ///   - answer: The response.
+    ///   - answer: The response to the question associated with the `identifier`.
     public init(identifier: String, answer: AnswerFormat) {
         self.identifier = identifier
         self.answer = answer
@@ -178,12 +181,7 @@ extension ResearchFormResult: Codable {
 }
 
 extension ResearchFormResult: Equatable {
-    
-    /// Tests for equality between two instances of `ResearchFormResult`.
-    /// - Parameters:
-    ///   - lhs: One of the `ResearchFormResult`s to compare.
-    ///   - rhs: The other `ResearchFormResult` to compare.
-    /// - Returns: True or false depending on whether or not the two instances of `ResearchFormResult` are the same.
+
     public static func == (lhs: ResearchFormResult, rhs: ResearchFormResult) -> Bool {
         lhs.stepResults == rhs.stepResults
     }
