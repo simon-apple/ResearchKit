@@ -30,8 +30,6 @@
 
 import SwiftUI
 
-/// A card that displays a header view, a divider line, and an answer view.
-
 struct Question<Header: View, Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
     
