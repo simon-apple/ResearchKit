@@ -78,10 +78,10 @@ public struct HeightQuestion: View {
     
     /// Initializes an instance of `HeightQuestion` with the provided configuration.
     /// - Parameters:
-    ///   - id: The id for this height question.
-    ///   - title: The title for this height question.
-    ///   - detail: <#detail description#>
-    ///   - measurementSystem: The measurement system for this height question.
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The detail for this question.
+    ///   - measurementSystem: The measurement system for this question.
     public init(
         id: String,
         title: String,
@@ -113,11 +113,11 @@ public struct HeightQuestion: View {
     
     /// Initializes an instance of `HeightQuestion` with the provided configuration.
     /// - Parameters:
-    ///   - id: The id for this height question.
-    ///   - title: The title for this height question.
-    ///   - detail: <#detail description#>
-    ///   - measurementSystem: The measurement system for this height question.
-    ///   - selection: The selected height binding.
+    ///   - id: The unique identifier question.
+    ///   - title: The title for this question.
+    ///   - detail: The detail for this question.
+    ///   - measurementSystem: The measurement system for this question.
+    ///   - selection: The binding for the selected height.
     public init(
         id: String,
         title: String,
