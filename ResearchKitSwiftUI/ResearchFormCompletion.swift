@@ -28,13 +28,13 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/// Informs the reason for survey completion.
+/// Describes the context for a survey's completion.
 public enum ResearchFormCompletion {
-    /// The survey was dismissed with the option to persist question responses.
+    /// The survey was dismissed with the intent to save question responses.
     case saved(ResearchFormResult)
-    /// The survey was dismissed without the option to persist question responses.
+    /// The survey was dismissed with the intent to discard question responses..
     case discarded
-    /// The survey was completed, and question responses are provided so they can be persisted.
+    /// The survey was completed, and question responses are provided.
     case completed(ResearchFormResult)
     /// The survey was dismissed in a failed manner.
     case failed
@@ -43,12 +43,7 @@ public enum ResearchFormCompletion {
 }
 
 extension ResearchFormCompletion: Equatable {
-    
-    /// Tests for equality between two instances of `ResearchFormCompletion`.
-    /// - Parameters:
-    ///   - lhs: One of the `ResearchFormCompletion`s to compare.
-    ///   - rhs: The other `ResearchFormCompletion` to compare.
-    /// - Returns: True or false depending on whether or not the two instances of `ResearchFormCompletion` are the same.
+ 
     public static func == (lhs: ResearchFormCompletion, rhs: ResearchFormCompletion) -> Bool {
         let isEqual: Bool
         
