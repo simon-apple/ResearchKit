@@ -33,7 +33,7 @@ import SwiftUI
 /// An image choice.
 public struct ImageChoice: Identifiable, Equatable {
     
-    /// The id for this image choice.
+    /// The unique identifier for this image choice.
     public let id: String
     
     /// The image for the unselected state.
@@ -120,23 +120,18 @@ public struct ImageChoice: Identifiable, Equatable {
         self.value = value
     }
     
-    /// Determines whether or not the provided image choices are equal.
-    /// - Parameters:
-    ///   - lhs: The first image choice to compare.
-    ///   - rhs: The second image choice to compare.
-    /// - Returns: True or false depending on whether or not the two image choices are equal.
     public static func == (lhs: ImageChoice, rhs: ImageChoice) -> Bool {
         return lhs.id == rhs.id && lhs.text == rhs.text
     }
 }
 
-/// The choice selection type.
+/// Represents the number of of choices that can be selected.
 public enum ChoiceSelectionType {
     
-    /// Allows for the selection of only one image choice.
+    /// Allows for the selection of only one choice.
     case single
     
-    /// Allows for selection of more than one image choices.
+    /// Allows for the selection of more than one choice.
     case multiple
     
 }
@@ -172,10 +167,10 @@ public struct ImageChoiceQuestion: View {
     
     /// Initializes an instance of `ImageChoiceQuestion` with the provided configuration.
     /// - Parameters:
-    ///   - id: The id for this image choice question.
-    ///   - title: The title for this image choice question.
-    ///   - detail: <#detail description#>
-    ///   - choices: The image choices for this image choice question.
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The detail for this question.
+    ///   - choices: The image choices for this question.
     ///   - style: The choice selection type for this image choice question.
     ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
     ///   - result: The binding for the result.
@@ -221,10 +216,10 @@ public struct ImageChoiceQuestion: View {
     
     /// Initializes an instance of `ImageChoiceQuestion` with the provided configuration.
     /// - Parameters:
-    ///   - id: The id for this image choice question.
-    ///   - title: The title for this image choice question.
-    ///   - detail: <#detail description#>
-    ///   - choices: The image choices for this image choice question.
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The detail for this question.
+    ///   - choices: The image choices for this question.
     ///   - style: The choice selection type for this image choice question.
     ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
     ///   - result: The binding for the result.
@@ -270,10 +265,10 @@ public struct ImageChoiceQuestion: View {
     
     /// Initializes an instance of `ImageChoiceQuestion` with the provided configuration.
     /// - Parameters:
-    ///   - id: The id for this image choice question.
-    ///   - title: The title for this image choice question.
-    ///   - detail: <#detail description#>
-    ///   - choices: The image choices for this image choice question.
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The detail for this question.
+    ///   - choices: The image choices for this question.
     ///   - style: The choice selection type for this image choice question.
     ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
     ///   - result: The binding for the result.
@@ -337,10 +332,10 @@ public struct ImageChoiceQuestion: View {
 
     /// Initializes an instance of `ImageChoiceQuestion` with the provided configuration.
     /// - Parameters:
-    ///   - id: The id for this image choice question.
-    ///   - title: The title for this image choice question.
-    ///   - detail: <#detail description#>
-    ///   - choices: The image choices for this image choice question.
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The detail for this question.
+    ///   - choices: The image choices for this question.
     ///   - style: The choice selection type for this image choice question.
     ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
     public init(
