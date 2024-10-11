@@ -30,7 +30,7 @@
 
 import SwiftUI
 
-/// Represents the type of text question.
+/// Represents the number of lines a text question can contain.
 public enum TextQuestionType {
     
     /// A single line text question.
@@ -78,11 +78,11 @@ public struct TextQuestion<Header: View>: View {
     
     /// Initializes an instance of `TextQuestion` with the provided configuration.
     /// - Parameters:
-    ///   - id: The id for this text question.
-    ///   - header: The header for this text question.
-    ///   - prompt: The placeholder for this text question.
+    ///   - id: The unique identifier for this question.
+    ///   - header: The header for this question.
+    ///   - prompt: The placeholder for this question.
     ///   - textQuestionType: Specifies whether this text question is single line or multiline.
-    ///   - characterLimit: The number of characters that can be used for this text question.
+    ///   - characterLimit: The number of characters that can be used for this question.
     ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
     ///   - hideClearButton: Whether or not the clear button is displayed.
     ///   - result: The binding for the text result.
@@ -108,9 +108,9 @@ public struct TextQuestion<Header: View>: View {
 
     /// Initializes an instance of `TextQuestion` with the provided configuration.
     /// - Parameters:
-    ///   - id: The id for this text question.
-    ///   - header: The header for this text question.
-    ///   - prompt: The placeholder for this text question.
+    ///   - id: The unique identifier for this question.
+    ///   - header: The header for this question.
+    ///   - prompt: The placeholder for this question.
     ///   - textQuestionType: Specifies whether this text question is single line or multiline.
     ///   - characterLimit: The number of characters that can be used for this text question.
     ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
@@ -219,20 +219,12 @@ public struct TextQuestion<Header: View>: View {
 
 public extension TextQuestion where Header == _SimpleFormItemViewHeader {
     
-    ///   - id: The id for this text question.
-    ///   - header: The header for this text question.
-    ///   - prompt: The placeholder for this text question.
-    ///   - textQuestionType: Specifies whether this text question is single line or multiline.
-    ///   - characterLimit: The number of characters that can be used for this text question.
-    ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
-    ///   - hideClearButton: Whether or not the clear button is displayed.
-    
     /// Initializes an instance of `TextQuestion` with the provided configuration.
     /// - Parameters:
-    ///   - id: The id for this text question.
-    ///   - title: The title for this text question.
-    ///   - detail: <#detail description#>
-    ///   - prompt: The placeholder for this text question.
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - prompt: The placeholder for this question.
     ///   - textQuestionType: Specifies whether this text question is single line or multiline.
     ///   - characterLimit: The number of characters that can be used for this text question.
     ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
@@ -261,9 +253,9 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
 
     /// Initializes an instance of `TextQuestion` with the provided configuration.
     /// - Parameters:
-    ///   - id: The id for this text question.
+    ///   - id: The unique identifier for this text question.
     ///   - title: The title for this text question.
-    ///   - detail: <#detail description#>
+    ///   - detail: The details for this text question.
     ///   - prompt: The placeholder for this text question.
     ///   - textQuestionType: Specifies whether this text question is single line or multiline.
     ///   - characterLimit: The number of characters that can be used for this text question.
