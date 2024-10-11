@@ -73,11 +73,11 @@ public struct WeightQuestion: View {
     
     /// Initializes an instance of `WeightQuestion` with the provided configuration.
     /// - Parameters:
-    ///   - id: The id for the weight question.
-    ///   - title: The title for the weight question.
-    ///   - detail: <#detail description#>
-    ///   - measurementSystem: The measurement system for the weight question.
-    ///   - precision: The precision for the weight question.
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - measurementSystem: The measurement system for this question.
+    ///   - precision: The precision for this question.
     ///   - defaultValue: The default weight.
     ///   - minimumValue: The minimum selectable weight.
     ///   - maximumValue: The maximum selectable weight.
@@ -121,11 +121,11 @@ public struct WeightQuestion: View {
     
     /// Initializes an instance of `WeightQuestion` with the provided configuration.
     /// - Parameters:
-    ///   - id: The id for the weight question.
-    ///   - title: The title for the weight question.
-    ///   - detail: <#detail description#>
-    ///   - measurementSystem: The measurement system for the weight question.
-    ///   - precision: The precision for the weight question.
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - measurementSystem: The measurement system for this question.
+    ///   - precision: The precision for this question.
     ///   - defaultValue: The default weight.
     ///   - minimumValue: The minimum selectable weight.
     ///   - maximumValue: The maximum selectable weight.
