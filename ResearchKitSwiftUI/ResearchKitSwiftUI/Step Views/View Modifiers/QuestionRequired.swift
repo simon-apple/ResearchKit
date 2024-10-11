@@ -37,6 +37,8 @@ internal extension EnvironmentValues {
 }
 
 public extension View {
+ 
+    /// Desginates a question as required or optional.
     func questionRequired(_ value: Bool) -> some View {
         self
             .environment(\.questionRequired, value)
