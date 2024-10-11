@@ -252,12 +252,12 @@ public struct SliderQuestion: View {
 
     private var clientManagedSelection: ScaleSelectionBindingValue
     
-    /// Initializes an instance of `SliderQuestion` that manages the binding for double values.
+    /// Initializes an instance of `SliderQuestion` with the provided configuration and manages the binding for double values internally.
     /// - Parameters:
-    ///   - id: The id for the slider question.
-    ///   - title: The title for the slider question
-    ///   - detail: <#detail description#>
-    ///   - range: The range of selectable values for this slider question.
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - range: The range of selectable values for this question.
     ///   - step: The amount of change between each increment or decrement.
     ///   - selection: The initial selected value.
     public init(
@@ -278,12 +278,12 @@ public struct SliderQuestion: View {
         self._sliderUIValue = State(wrappedValue: selection)
     }
 
-    /// Initializes an instance of `SliderQuestion` for double values.
+    /// Initializes an instance of `SliderQuestion` with the provided configuration for double values.
     /// - Parameters:
-    ///   - id: The id for the slider question.
-    ///   - title: The title for the slider question
-    ///   - detail: <#detail description#>
-    ///   - range: The range of selectable values for this slider question.
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - range: The range of selectable values for this question.
     ///   - step: The amount of change between each increment or decrement.
     ///   - selection: The binding for the initial selected value.
     public init(
@@ -313,11 +313,11 @@ public struct SliderQuestion: View {
         self._sliderUIValue = State(wrappedValue: selection.wrappedValue ?? range.lowerBound)
     }
     
-    /// Initializes an instance of `SliderQuestion` for integer values.
+    /// Initializes an instance of `SliderQuestion` with the provided configuration for integer values.
     /// - Parameters:
-    ///   - id: The id for the slider question.
-    ///   - title: The title for the slider question
-    ///   - detail: <#detail description#>
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
     ///   - range: The range of selectable values for this slider question.
     ///   - step: The amount of change between each increment or decrement.
     ///   - selection: The initial selected value.
@@ -339,11 +339,11 @@ public struct SliderQuestion: View {
         self._sliderUIValue = State(wrappedValue: Double(selection ?? range.lowerBound))
     }
 
-    /// Initializes an instance of `SliderQuestion` for integer values.
+    /// Initializes an instance of `SliderQuestion` with the provided configuration for integer values.
     /// - Parameters:
-    ///   - id: The id for the slider question.
-    ///   - title: The title for the slider question
-    ///   - detail: <#detail description#>
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
     ///   - range: The range of selectable values for this slider question.
     ///   - step: The amount of change between each increment or decrement.
     ///   - selection: The binding for the initial selected value.
@@ -374,11 +374,11 @@ public struct SliderQuestion: View {
         self._sliderUIValue = State(wrappedValue: Double(selection.wrappedValue ?? range.lowerBound))
     }
     
-    /// Initializes an instance of `SliderQuestion` for text values.
+    /// Initializes an instance of `SliderQuestion` with the provided configuration for text values.
     /// - Parameters:
-    ///   - id: The id for the slider question.
-    ///   - title: The title for the slider question
-    ///   - detail: <#detail description#>
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
     ///   - multipleChoiceOptions: The text options that this slider can represent.
     ///   - selection: The initial selected value.
     @available(watchOS, unavailable)
@@ -402,11 +402,11 @@ public struct SliderQuestion: View {
         self._sliderUIValue = State(wrappedValue: Double(sliderValue))
     }
 
-    /// Initializes an instance of `SliderQuestion` for text values.
+    /// Initializes an instance of `SliderQuestion` with the provided configuration for text values.
     /// - Parameters:
-    ///   - id: The id for the slider question.
-    ///   - title: The title for the slider question
-    ///   - detail: <#detail description#>
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
     ///   - multipleChoiceOptions: The text options that this slider can represent.
     ///   - selection: The binding for the initial selected value.
     @available(watchOS, unavailable)
