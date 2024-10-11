@@ -36,7 +36,7 @@ public struct InstructionBodyItem: View {
     private let image: Image?
     private let text: Text?
     
-    /// Initializes and instance of `InstructionBodyItem` with the provided image and text.
+    /// Initializes and instance of `InstructionBodyItem` with the provided configuration.
     /// - Parameters:
     ///   - image: The image to display for this instruction.
     ///   - text: The text to display for this instruction.
