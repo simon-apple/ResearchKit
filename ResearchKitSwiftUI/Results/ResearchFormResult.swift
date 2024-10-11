@@ -88,7 +88,7 @@ public final class ResearchFormResult: ObservableObject {
         self.init(results: [])
     }
     
-    /// Initializes and instance of `ResearchFormResult` with the provided results.
+    /// Initializes and instance of `ResearchFormResult` with the provided configuration.
     /// - Parameter results: The results from which an instance of `ResearchFormResult` is created.
     public init(results: [Result]) {
         stepResults = results.reduce(into: [String: AnswerFormat]()) { partialResult, result in
@@ -96,7 +96,7 @@ public final class ResearchFormResult: ObservableObject {
         }
     }
     
-    /// Initializes and instance of `ResearchFormResult` using the provided decoder.
+    /// Initializes and instance of `ResearchFormResult` with the provided configuration.
     /// - Parameter decoder: The decoder used to deserialize an instance of `ResearchFormResult`.
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
