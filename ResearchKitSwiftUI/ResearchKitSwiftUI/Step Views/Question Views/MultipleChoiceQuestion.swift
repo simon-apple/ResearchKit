@@ -73,14 +73,14 @@ public struct MultipleChoiceQuestion: View {
     let selectionType: ChoiceSelectionType
     let result: StateManagementType<[ResultValue]?>
     
-    /// Initializes an instance of `MultipleChoiceQuestion` with an integer result.
+    /// Initializes an instance of `MultipleChoiceQuestion` with the provided configuration for an integer result.
     /// - Parameters:
-    ///   - id: The id associated with this question.
+    ///   - id: The unique identifier associated with this question.
     ///   - title: The title for this question.
-    ///   - detail: <#detail description#>
+    ///   - detail: The details for this question.
     ///   - choices: The choices that can be selected for this question.
     ///   - selectionType: The selection type for this question.
-    ///   - result: The result that is bound to this question.
+    ///   - result: The binding for the result.
     public init(
         id: String,
         title: String,
@@ -119,14 +119,14 @@ public struct MultipleChoiceQuestion: View {
         )
     }
     
-    /// Initializes an instance of `MultipleChoiceQuestion` with a string result.
+    /// Initializes an instance of `MultipleChoiceQuestion` with the provided configuration for a string result.
     /// - Parameters:
-    ///   - id: The id associated with this question.
+    ///   - id: The unique identifier associated with this question.
     ///   - title: The title for this question.
-    ///   - detail: <#detail description#>
+    ///   - detail: The details for this question.
     ///   - choices: The choices that can be selected for this question.
     ///   - selectionType: The selection type for this question.
-    ///   - result: The result that is bound to this question.
+    ///   - result: The binding for the result.
     public init(
         id: String,
         title: String,
@@ -165,14 +165,14 @@ public struct MultipleChoiceQuestion: View {
         )
     }
     
-    /// Initializes an instance of `MultipleChoiceQuestion` with a date result.
+    /// Initializes an instance of `MultipleChoiceQuestion` with the provided configuration for a date result.
     /// - Parameters:
-    ///   - id: The id associated with this question.
+    ///   - id: The unique identifier associated with this question.
     ///   - title: The title for this question.
-    ///   - detail: <#detail description#>
+    ///   - detail: The details for this question.
     ///   - choices: The choices that can be selected for this question.
     ///   - selectionType: The selection type for this question.
-    ///   - result: The result that is bound to this question.
+    ///   - result: The binding for the result.
     public init(
         id: String,
         title: String,
@@ -227,11 +227,11 @@ public struct MultipleChoiceQuestion: View {
         self.result = .manual(result)
     }
     
-    /// Initializes an instance of `MultipleChoiceQuestion` that manages a binding for you.
+    /// Initializes an instance of `MultipleChoiceQuestion` with the provided configuration and manages a binding internally.
     /// - Parameters:
-    ///   - id: The id associated with this question.
+    ///   - id: The unique identifier associated with this question.
     ///   - title: The title for this question.
-    ///   - detail: <#detail description#>
+    ///   - detail: The details for this question.
     ///   - choices: The choices that can be selected for this question.
     ///   - selectionType: The selection type for this question.
     public init(
