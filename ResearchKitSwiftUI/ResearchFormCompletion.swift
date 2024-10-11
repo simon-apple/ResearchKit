@@ -28,7 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/// Describes the context for a survey's completion.
+/// Represents the context for a survey's completion.
 public enum ResearchFormCompletion {
     /// The survey was dismissed with the intent to save question responses.
     case saved(ResearchFormResult)
