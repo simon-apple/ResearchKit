@@ -216,7 +216,7 @@ public extension ResearchFormStep where Header == EmptyView {
 
 public extension ResearchFormStep where Header == StepHeader, Content == EmptyView {
     
-    /// Initializes an instance of `ResearchFormStep` with a header containing an image, title, and subtitle. There are no questions displayed beneath the header.
+    /// Initializes an instance of `ResearchFormStep` with the provided configuration. There are no questions displayed beneath the header.
     /// - Parameters:
     ///   - image: The image displayed in the header.
     ///   - title: The title displayed in the header.
@@ -240,7 +240,7 @@ public extension ResearchFormStep where Header == StepHeader, Content == EmptyVi
 
 public extension ResearchFormStep where Header == StepHeader {
     
-    /// Initializes an instance of `ResearchFormStep` with a header containing an image, title, and subtitle. The questions are displayed beneath the header.
+    /// Initializes an instance of `ResearchFormStep` with the provided configuration. The questions are displayed beneath the header.
     /// - Parameters:
     ///   - image: The image displayed in the header.
     ///   - title: The title displayed in the header.
