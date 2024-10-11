@@ -111,11 +111,11 @@ public extension NumericQuestion where Header == _SimpleFormItemViewHeader {
     
     /// Initializes an instance of `NumericQuestion` with the provided configuration.
     /// - Parameters:
-    ///   - id: The id for this numeric question.
+    ///   - id: The unique identifier for this numeric question.
     ///   - text: The binding for the numeric result.
-    ///   - title: The title for this numeric question.
-    ///   - detail: <#detail description#>
-    ///   - prompt: The prompt for this numeric question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - prompt: The prompt that informs the user.
     init(
         id: String,
         text: Binding<Double?>,
@@ -131,11 +131,11 @@ public extension NumericQuestion where Header == _SimpleFormItemViewHeader {
     
     /// Initializes an instance of `NumericQuestion` with the provided configuration.
     /// - Parameters:
-    ///   - id: The id for this numeric question.
+    ///   - id: The unique identifier for this question.
     ///   - text: The numeric result.
-    ///   - title: The title for this numeric question.
-    ///   - detail: <#detail description#>
-    ///   - prompt: The prompt for this numeric question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - prompt: The prompt that informs the user.
     init(
         id: String,
         text: Decimal? = nil,
