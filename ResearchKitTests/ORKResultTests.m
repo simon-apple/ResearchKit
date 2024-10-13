@@ -432,8 +432,6 @@
         // important to start with the same task so the identifiers match
         ORKResultTestsHelper *taskDelegate = [[ORKResultTestsHelper alloc] init];
         
-        // change task to no longer support the  [[ORKTextChoice alloc] initWithText:@"text3" detailText:@"text3" value:@"text3" exclusive:true],
-        
         ORKTaskViewController *taskViewController = [[ORKTaskViewController alloc] initWithTask:task restorationData:encodedTaskViewControllerData delegate:taskDelegate error:nil];
         
         [taskViewController viewWillAppear:true];
