@@ -30,7 +30,11 @@
 
 import SwiftUI
 
-/// A `ResearchForm` manages the navigation between steps in a survey. To add steps, create instances of `ResearchFormStep` and pass them into a `ResearchForm`. To display questions in each step, ResearchKit provides various question formats that can be used within a `ResearchFormStep` such as `MultipleChoiceQuestion` and `DateTimeQuestion`. These questions can be optional or required, which a `ResearchForm` tracks as part of navigation management. Additionally, a `ResearchForm` manages survey results for questions that manage their own bindings internally. Results are passed through a `ResearchFormResult` once a survey is completed. For instance, a text question for which no binding is provided has its result stored in `ResearchFormResult`. However, a text question that has been provided a binding does not have its result stored in `ResearchFormResult`, and in this case, you are expected to manage the result for the text question.
+/// Manages the navigation between steps in a survey.
+///
+/// To add steps to a `ResearchForm`, create instances of ``ResearchFormStep`` and pass them into a `ResearchForm`. To display questions in each step, ResearchKit provides various question formats that can be used within a ``ResearchFormStep`` such as ``MultipleChoiceQuestion``, ``DateTimeQuestion``, and more. These questions can be optional or required, which a `ResearchForm` tracks as part of navigation management.
+///
+/// Additionally, a `ResearchForm` manages survey results for questions that manage their own bindings internally. Results are passed through a ``ResearchFormResult`` once a survey is completed. For instance, a text question for which no binding is provided has its result stored in ``ResearchFormResult``. However, a text question that has been provided a binding does not have its result stored in ``ResearchFormResult``, and in this case, you are expected to manage the result for the text question.
 public struct ResearchForm<Content: View>: View {
     @State
     private var managedFormResult: ResearchFormResult
@@ -45,7 +49,7 @@ public struct ResearchForm<Content: View>: View {
     
     private var onResearchFormCompletion: ((ResearchFormCompletion) -> Void)?
     
-    /// Initializes an instance of `ResearchForm` with the provided configuration.
+    /// Initializes an instance of ``ResearchForm`` with the provided configuration.
     /// - Parameters:
     ///   - taskIdentifier: An identifier that uniquely identifies this research form.
     ///   - restorationResult: A result used to pre-populate questions that had previously been answered.
@@ -97,7 +101,7 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
     private let header: Header
     private let content: Content
     
-    /// Initializes an instance of `ResearchFormStep` with the provided configuration.
+    /// Initializes an instance of ``ResearchFormStep`` with the provided configuration.
     /// - Parameters:
     ///   - header: The header that is displayed at the top of the step.
     ///   - content: The questions that are displayed below the header.
@@ -201,7 +205,7 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
 
 public extension ResearchFormStep where Header == EmptyView {
     
-    /// Initializes an instance of `ResearchFormStep` with just the questions and no header.
+    /// Initializes an instance of ``ResearchFormStep`` with just the questions and no header.
     /// - Parameter content: The questions for the step.
     init(@ViewBuilder content: () -> Content) {
         self.init(
@@ -216,7 +220,7 @@ public extension ResearchFormStep where Header == EmptyView {
 
 public extension ResearchFormStep where Header == StepHeader, Content == EmptyView {
     
-    /// Initializes an instance of `ResearchFormStep` with the provided configuration. There are no questions displayed beneath the header.
+    /// Initializes an instance of ``ResearchFormStep`` with the provided configuration. There are no questions displayed beneath the header.
     /// - Parameters:
     ///   - image: The image displayed in the header.
     ///   - title: The title displayed in the header.
@@ -240,7 +244,7 @@ public extension ResearchFormStep where Header == StepHeader, Content == EmptyVi
 
 public extension ResearchFormStep where Header == StepHeader {
     
-    /// Initializes an instance of `ResearchFormStep` with the provided configuration. The questions are displayed beneath the header.
+    /// Initializes an instance of ``ResearchFormStep`` with the provided configuration. The questions are displayed beneath the header.
     /// - Parameters:
     ///   - image: The image displayed in the header.
     ///   - title: The title displayed in the header.

@@ -252,7 +252,7 @@ public struct SliderQuestion: View {
 
     private var clientManagedSelection: ScaleSelectionBindingValue
     
-    /// Initializes an instance of `SliderQuestion` with the provided configuration and manages the binding for double values internally.
+    /// Initializes an instance of ``SliderQuestion`` with the provided configuration and manages the binding for double values internally.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.
@@ -278,7 +278,7 @@ public struct SliderQuestion: View {
         self._sliderUIValue = State(wrappedValue: selection)
     }
 
-    /// Initializes an instance of `SliderQuestion` with the provided configuration for double values.
+    /// Initializes an instance of ``SliderQuestion`` with the provided configuration for double values.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.
@@ -313,7 +313,7 @@ public struct SliderQuestion: View {
         self._sliderUIValue = State(wrappedValue: selection.wrappedValue ?? range.lowerBound)
     }
     
-    /// Initializes an instance of `SliderQuestion` with the provided configuration for integer values.
+    /// Initializes an instance of ``SliderQuestion`` with the provided configuration for integer values.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.
@@ -339,7 +339,7 @@ public struct SliderQuestion: View {
         self._sliderUIValue = State(wrappedValue: Double(selection ?? range.lowerBound))
     }
 
-    /// Initializes an instance of `SliderQuestion` with the provided configuration for integer values.
+    /// Initializes an instance of ``SliderQuestion`` with the provided configuration for integer values.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.
@@ -374,7 +374,7 @@ public struct SliderQuestion: View {
         self._sliderUIValue = State(wrappedValue: Double(selection.wrappedValue ?? range.lowerBound))
     }
     
-    /// Initializes an instance of `SliderQuestion` with the provided configuration for text values.
+    /// Initializes an instance of ``SliderQuestion`` with the provided configuration for text values.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.
@@ -402,7 +402,7 @@ public struct SliderQuestion: View {
         self._sliderUIValue = State(wrappedValue: Double(sliderValue))
     }
 
-    /// Initializes an instance of `SliderQuestion` with the provided configuration for text values.
+    /// Initializes an instance of ``SliderQuestion`` with the provided configuration for text values.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.

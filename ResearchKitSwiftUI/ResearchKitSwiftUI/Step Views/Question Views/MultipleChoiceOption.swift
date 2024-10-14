@@ -38,7 +38,7 @@ public struct MultipleChoiceOption: Identifiable {
     let choiceText: String
     let value: ResultValue
     
-    /// Initializes an instance of `MultipleChoiceOption` with the provided configuration.
+    /// Initializes an instance of ``MultipleChoiceOption`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this multiple choice option.
     ///   - choiceText: The text for this multiple choice option.
@@ -51,7 +51,7 @@ public struct MultipleChoiceOption: Identifiable {
         self.init(id: id, choiceText: choiceText, value: .int(value))
     }
     
-    /// Initializes an instance of `MultipleChoiceOption` with the provided configuration.
+    /// Initializes an instance of ``MultipleChoiceOption`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this multiple choice option.
     ///   - choiceText: The text for this multiple choice option.
@@ -64,7 +64,7 @@ public struct MultipleChoiceOption: Identifiable {
         self.init(id: id, choiceText: choiceText, value: .string(value))
     }
     
-    /// Initializes an instance of `MultipleChoiceOption` with the provided configuration.
+    /// Initializes an instance of ``MultipleChoiceOption`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this multiple choice option.
     ///   - choiceText: The text for this multiple choice option.

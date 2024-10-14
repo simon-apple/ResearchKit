@@ -64,7 +64,7 @@ public struct DateTimeQuestion<Header: View>: View {
         }
     }
     
-    /// Initializes an instance of `DateTimeQuestion` with the provided configuration.
+    /// Initializes an instance of ``DateTimeQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - header: The header for this question.
@@ -88,7 +88,7 @@ public struct DateTimeQuestion<Header: View>: View {
         self.result = .automatic(key: .date(id: id))
     }
 
-    /// Initializes an instance of `DateTimeQuestion` with the provided configuration.
+    /// Initializes an instance of ``DateTimeQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - header: The header for this question.
@@ -199,7 +199,7 @@ public struct DateTimeQuestion<Header: View>: View {
 
 public extension DateTimeQuestion where Header == _SimpleFormItemViewHeader {
     
-    /// Initializes an instance of `DateTimeQuestion` with the provided configuration.
+    /// Initializes an instance of ``DateTimeQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.
@@ -225,7 +225,7 @@ public extension DateTimeQuestion where Header == _SimpleFormItemViewHeader {
         self.result = .automatic(key: .date(id: id))
     }
     
-    /// Initializes an instance of `DateTimeQuestion` with the provided configuration.
+    /// Initializes an instance of ``DateTimeQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.

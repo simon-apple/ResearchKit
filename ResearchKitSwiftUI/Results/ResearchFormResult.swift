@@ -77,18 +77,18 @@ extension AnswerFormat: Equatable {
     
 }
 
-/// Captures the responses to questions for which no binding has been provided. It is passed through `ResearchForm`'s `onResearchFormCompletion` handler upon survey completion.
+/// Captures the responses to questions for which no binding has been provided. It is passed through ``ResearchForm``'s `onResearchFormCompletion` handler, which is passed through the initializer, upon survey completion.
 public final class ResearchFormResult: ObservableObject {
 
     @Published
     var stepResults: [String: AnswerFormat]
     
-    /// Initializes and instance of `ResearchFormResult` that contains no responses.
+    /// Initializes an instance of ``ResearchFormResult`` that contains no responses.
     public convenience init() {
         self.init(results: [])
     }
     
-    /// Initializes and instance of `ResearchFormResult` with the provided configuration.
+    /// Initializes an instance of ``ResearchFormResult`` with the provided configuration.
     /// - Parameter results: The results from which an instance of `ResearchFormResult` is created.
     public init(results: [Result]) {
         stepResults = results.reduce(into: [String: AnswerFormat]()) { partialResult, result in
@@ -96,7 +96,7 @@ public final class ResearchFormResult: ObservableObject {
         }
     }
     
-    /// Initializes and instance of `ResearchFormResult` with the provided configuration.
+    /// Initializes an instance of ``ResearchFormResult`` with the provided configuration.
     /// - Parameter decoder: The decoder used to deserialize an instance of `ResearchFormResult`.
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -131,7 +131,7 @@ public final class ResearchFormResult: ObservableObject {
         stepResults[key.id] = format
     }
     
-    /// Maps the captures responses to a type of your choice.
+    /// Maps the captured responses to a type of your choice.
     /// - Parameter transform: The mapping function used to transform a response to a type of your choice.
     /// - Returns: An array containing the type to which the responses were transformed.
     public func compactMap<T>(_ transform: (Result) -> T?) -> [T] {
@@ -152,7 +152,7 @@ public struct Result {
     /// The response to the question associated with the `identifier`.
     public let answer: AnswerFormat
     
-    /// Initializes and instance of `Result` with the provided configuration.
+    /// Initializes an instance of ``Result`` with the provided configuration.
     /// - Parameters:
     ///   - identifier: The question identifier associated with this response.
     ///   - answer: The response to the question associated with the `identifier`.
@@ -171,8 +171,6 @@ extension ResearchFormResult: Codable {
         
     }
     
-    /// Serializes the response to the provided encoder.
-    /// - Parameter encoder: The encoder used to serialize the response.
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(stepResults, forKey: .stepResults)

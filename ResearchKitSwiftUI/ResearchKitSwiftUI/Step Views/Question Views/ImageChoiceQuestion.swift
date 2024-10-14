@@ -47,7 +47,7 @@ public struct ImageChoice: Identifiable, Equatable {
     
     let value: ResultValue
     
-    /// Initializes and instance of `ImageChoice` with the provided configuration.
+    /// Initializes an instance of ``ImageChoice`` with the provided configuration.
     /// - Parameters:
     ///   - normalImage: The image for the unselected state.
     ///   - selectedImage: The image for the selected state.
@@ -67,7 +67,7 @@ public struct ImageChoice: Identifiable, Equatable {
         )
     }
     
-    /// Initializes and instance of `ImageChoice` with the provided configuration.
+    /// Initializes an instance of ``ImageChoice`` with the provided configuration.
     /// - Parameters:
     ///   - normalImage: The image for the unselected state.
     ///   - selectedImage: The image for the selected state.
@@ -87,7 +87,7 @@ public struct ImageChoice: Identifiable, Equatable {
         )
     }
     
-    /// Initializes and instance of `ImageChoice` with the provided configuration.
+    /// Initializes an instance of ``ImageChoice`` with the provided configuration.
     /// - Parameters:
     ///   - normalImage: The image for the unselected state.
     ///   - selectedImage: The image for the selected state.
@@ -165,7 +165,7 @@ public struct ImageChoiceQuestion: View {
         }
     }
     
-    /// Initializes an instance of `ImageChoiceQuestion` with the provided configuration.
+    /// Initializes an instance of ``ImageChoiceQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.
@@ -214,7 +214,7 @@ public struct ImageChoiceQuestion: View {
         )
     }
     
-    /// Initializes an instance of `ImageChoiceQuestion` with the provided configuration.
+    /// Initializes an instance of ``ImageChoiceQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.
@@ -263,7 +263,7 @@ public struct ImageChoiceQuestion: View {
         )
     }
     
-    /// Initializes an instance of `ImageChoiceQuestion` with the provided configuration.
+    /// Initializes an instance of ``ImageChoiceQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.
@@ -330,7 +330,7 @@ public struct ImageChoiceQuestion: View {
         self.result = .manual(result)
     }
 
-    /// Initializes an instance of `ImageChoiceQuestion` with the provided configuration.
+    /// Initializes an instance of ``ImageChoiceQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.

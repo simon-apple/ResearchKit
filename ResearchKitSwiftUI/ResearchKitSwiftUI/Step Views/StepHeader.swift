@@ -37,7 +37,7 @@ public struct StepHeader: View {
     private let title: Text?
     private let subtitle: Text?
     
-    /// Initializes and instance of `StepHeader` with the provided configuration.
+    /// Initializes an instance of ``StepHeader`` with the provided configuration.
     /// - Parameters:
     ///   - image: The image for this step header.
     ///   - title: The title for this step header.

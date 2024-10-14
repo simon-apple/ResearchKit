@@ -73,7 +73,7 @@ public struct MultipleChoiceQuestion: View {
     let selectionType: ChoiceSelectionType
     let result: StateManagementType<[ResultValue]?>
     
-    /// Initializes an instance of `MultipleChoiceQuestion` with the provided configuration for an integer result.
+    /// Initializes an instance of ``MultipleChoiceQuestion`` with the provided configuration for an integer result.
     /// - Parameters:
     ///   - id: The unique identifier associated with this question.
     ///   - title: The title for this question.
@@ -119,7 +119,7 @@ public struct MultipleChoiceQuestion: View {
         )
     }
     
-    /// Initializes an instance of `MultipleChoiceQuestion` with the provided configuration for a string result.
+    /// Initializes an instance of ``MultipleChoiceQuestion`` with the provided configuration for a string result.
     /// - Parameters:
     ///   - id: The unique identifier associated with this question.
     ///   - title: The title for this question.
@@ -165,7 +165,7 @@ public struct MultipleChoiceQuestion: View {
         )
     }
     
-    /// Initializes an instance of `MultipleChoiceQuestion` with the provided configuration for a date result.
+    /// Initializes an instance of ``MultipleChoiceQuestion`` with the provided configuration for a date result.
     /// - Parameters:
     ///   - id: The unique identifier associated with this question.
     ///   - title: The title for this question.
@@ -227,7 +227,7 @@ public struct MultipleChoiceQuestion: View {
         self.result = .manual(result)
     }
     
-    /// Initializes an instance of `MultipleChoiceQuestion` with the provided configuration and manages a binding internally.
+    /// Initializes an instance of ``MultipleChoiceQuestion`` with the provided configuration and manages a binding internally.
     /// - Parameters:
     ///   - id: The unique identifier associated with this question.
     ///   - title: The title for this question.

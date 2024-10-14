@@ -76,7 +76,7 @@ public struct TextQuestion<Header: View>: View {
         }
     }
     
-    /// Initializes an instance of `TextQuestion` with the provided configuration.
+    /// Initializes an instance of ``TextQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - header: The header for this question.
@@ -106,7 +106,7 @@ public struct TextQuestion<Header: View>: View {
         self.result = .manual(result)
     }
 
-    /// Initializes an instance of `TextQuestion` with the provided configuration.
+    /// Initializes an instance of ``TextQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - header: The header for this question.
@@ -219,7 +219,7 @@ public struct TextQuestion<Header: View>: View {
 
 public extension TextQuestion where Header == _SimpleFormItemViewHeader {
     
-    /// Initializes an instance of `TextQuestion` with the provided configuration.
+    /// Initializes an instance of ``TextQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.
@@ -251,7 +251,7 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
         self.result = .manual(result)
     }
 
-    /// Initializes an instance of `TextQuestion` with the provided configuration.
+    /// Initializes an instance of ``TextQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this text question.
     ///   - title: The title for this text question.
