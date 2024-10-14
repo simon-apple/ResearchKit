@@ -406,7 +406,6 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
             
         }
     }
- 
 #if RK_APPLE_INTERNAL
     func taskViewController(_ taskViewController: ORKTaskViewController, viewControllerFor step: ORKStep) -> ORKStepViewController? {
         if showInternalViewControllers {
@@ -417,7 +416,6 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
     }
 #endif
 
-    
     func taskViewControllerSupportsSaveAndRestore(_ taskViewController: ORKTaskViewController) -> Bool {
         return true
     }
