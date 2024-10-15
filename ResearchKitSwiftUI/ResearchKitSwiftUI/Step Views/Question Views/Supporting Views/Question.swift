@@ -67,7 +67,7 @@ extension Question where Header == QuestionHeader {
     }
 }
 
-/// The default header used by a `FormItemCardView`
+/// A question header containing a title and detail.
 public struct QuestionHeader: View {
 
     private let title: String

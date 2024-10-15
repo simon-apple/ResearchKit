@@ -12,14 +12,14 @@ ResearchKit SwiftUI marks the beginning of a gradual transition from UIKit to Sw
 - ``ResearchFormCompletion``
 - ``ResearchFormStep``
 
-### Step Headers
+### Headers
 
 - ``StepHeader``
+- ``QuestionHeader``
 
 ### Multiple Choice Question
 
 - ``MultipleChoiceQuestion``
-- ``MultipleChoiceOption``
 
 ### Measurement Questions
 
@@ -63,6 +63,10 @@ ResearchKit SwiftUI marks the beginning of a gradual transition from UIKit to Sw
 ### Selection Type
 
 - ``ChoiceSelectionType``
+
+### Text Choice
+
+- ``TextChoice``
 
 ### Measurement Type
 
