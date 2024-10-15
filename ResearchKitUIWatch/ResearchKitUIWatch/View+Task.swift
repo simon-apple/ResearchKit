@@ -1,0 +1,100 @@
+/*
+ Copyright (c) 2020, Apple Inc. All rights reserved.
+ 
+ Redistribution and use in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+ 
+ 1.  Redistributions of source code must retain the above copyright notice, this
+ list of conditions and the following disclaimer.
+ 
+ 2.  Redistributions in binary form must reproduce the above copyright notice,
+ this list of conditions and the following disclaimer in the documentation and/or
+ other materials provided with the distribution.
+ 
+ 3.  Neither the name of the copyright holder(s) nor the names of any contributors
+ may be used to endorse or promote products derived from this software without
+ specific prior written permission. No license is granted to the trademarks of
+ the copyright holders even if such marks are included in this software.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+// apple-internal
+
+import ResearchKitCore
+import SwiftUI
+
+@available(watchOS 6.0, *)
+public extension View {
+
+    @ViewBuilder
+    func task(isPresented: Binding<Bool>, taskManager: TaskManager) -> some View {
+
+        if #available(watchOS 7.0, *) {
+            fullScreenCover(
+                isPresented: isPresented,
+                onDismiss: { setDiscardedIfNeeded(taskManager: taskManager) },
+                content: {
+                    if #available(watchOS 10.0, *) {
+                        TaskView(taskManager: taskManager)
+                    } else {
+                        TaskView(taskManager: taskManager).toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                // Replacement cancel button
+                                Button(
+                                    Bundle(for: TaskManager.self)
+                                        .localizedString(
+                                            forKey: "BUTTON_CANCEL",
+                                            value: nil,
+                                            table: "ResearchKitUI(Watch)"
+                                        ), action: {
+                                            setDiscardedIfNeeded(taskManager: taskManager)
+                                        }
+                                )
+                                .font(.subheadline)
+                            }
+                        }
+                    }
+                })
+        } else {
+            sheet(
+                isPresented: isPresented,
+                onDismiss: { setDiscardedIfNeeded(taskManager: taskManager) },
+                content: { TaskView(taskManager: taskManager) })
+        }
+    }
+
+    @ViewBuilder
+    func task<Content>(isPresented: Binding<Bool>,
+                       taskManager: TaskManager,
+                       @ViewBuilder content: @escaping (ORKStep, ORKStepResult) -> Content) ->
+    some View where Content: View {
+
+        if #available(watchOS 7.0, *) {
+            fullScreenCover(
+                isPresented: isPresented,
+                onDismiss: { setDiscardedIfNeeded(taskManager: taskManager) },
+                content: { TaskView(taskManager: taskManager, content) })
+        } else {
+            sheet(
+                isPresented: isPresented,
+                onDismiss: { setDiscardedIfNeeded(taskManager: taskManager) },
+                content: { TaskView(taskManager: taskManager, content) })
+        }
+    }
+    
+    internal func setDiscardedIfNeeded(taskManager: TaskManager) {
+        if taskManager.finishReason == nil {
+            taskManager.finishReason = .discarded
+        }
+    }
+}

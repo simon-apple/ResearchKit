@@ -197,7 +197,7 @@ public struct DateTimeQuestion<Header: View>: View {
     }
 }
 
-public extension DateTimeQuestion where Header == _SimpleFormItemViewHeader {
+public extension DateTimeQuestion where Header == QuestionHeader {
     
     /// Initializes an instance of ``DateTimeQuestion`` with the provided configuration.
     /// - Parameters:
@@ -218,7 +218,7 @@ public extension DateTimeQuestion where Header == _SimpleFormItemViewHeader {
         range: ClosedRange<Date>
     ) {
         self.id = id
-        self.header = _SimpleFormItemViewHeader(title: title)
+        self.header = QuestionHeader(title: title, detail: detail)
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range
@@ -244,7 +244,7 @@ public extension DateTimeQuestion where Header == _SimpleFormItemViewHeader {
         range: ClosedRange<Date>
     ) {
         self.id = id
-        self.header = _SimpleFormItemViewHeader(title: title)
+        self.header = QuestionHeader(title: title, detail: detail)
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range

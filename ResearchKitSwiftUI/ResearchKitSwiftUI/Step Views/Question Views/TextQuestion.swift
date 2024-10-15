@@ -216,20 +216,19 @@ public struct TextQuestion<Header: View>: View {
         return false
     }
 }
-
-public extension TextQuestion where Header == _SimpleFormItemViewHeader {
     
-    /// Initializes an instance of ``TextQuestion`` with the provided configuration.
-    /// - Parameters:
-    ///   - id: The unique identifier for this question.
-    ///   - title: The title for this question.
-    ///   - detail: The details for this question.
-    ///   - prompt: The placeholder for this question.
-    ///   - textQuestionType: Specifies whether this text question is single line or multiline.
-    ///   - characterLimit: The number of characters that can be used for this text question.
-    ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
-    ///   - hideClearButton: Whether or not the clear button is displayed.
-    ///   - result: The binding for the text result.
+/// Initializes an instance of ``TextQuestion`` with the provided configuration.
+/// - Parameters:
+///   - id: The unique identifier for this question.
+///   - title: The title for this question.
+///   - detail: The details for this question.
+///   - prompt: The placeholder for this question.
+///   - textQuestionType: Specifies whether this text question is single line or multiline.
+///   - characterLimit: The number of characters that can be used for this text question.
+///   - hideCharacterCountLabel: Whether or not the character count is displayed.
+///   - hideClearButton: Whether or not the clear button is displayed.
+///   - result: The binding for the text result.
+public extension TextQuestion where Header == QuestionHeader {
     init(
         id: String,
         title: String,
@@ -242,7 +241,7 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
         result: Binding<String?>
     ) {
         self.id = id
-        self.header = _SimpleFormItemViewHeader(title: title)
+        self.header = QuestionHeader(title: title, detail: detail)
         self.prompt = prompt
         self.textQuestionType = textQuestionType
         self.characterLimit = characterLimit
@@ -274,7 +273,7 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
         defaultTextAnswer: String? = nil
     ) {
         self.id = id
-        self.header = _SimpleFormItemViewHeader(title: title)
+        self.header = QuestionHeader(title: title, detail: detail)
         self.prompt = prompt
         self.textQuestionType = textQuestionType
         self.characterLimit = characterLimit

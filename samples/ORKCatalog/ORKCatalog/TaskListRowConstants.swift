@@ -298,13 +298,6 @@ enum Identifier {
     case colorChoiceQuestionStepSwatchOnly
     case colorChoiceQuestionFormItem
     
-    // PII Scrubbing tasks.
-    case textQuestionEmailPIIScrubbingStep
-    case textQuestionSSNPIIScrubbingStep
-    case textQuestionPIIScrubbingTask
-    case textQuestionPIIScrubbingEmailFormItem
-    case textQuestionPIIScrubbingSSNFormItem
-
     // Family History tasks.
     case familyHistoryStep
     case familyHistoryTask
@@ -328,6 +321,13 @@ enum Identifier {
     case tableTask
     case familyHistoryReviewController
     case readOnlyFormStepTask
+    
+    // PII Scrubbing tasks.
+    case textQuestionEmailPIIScrubbingStep
+    case textQuestionSSNPIIScrubbingStep
+    case textQuestionPIIScrubbingTask
+    case textQuestionPIIScrubbingEmailFormItem
+    case textQuestionPIIScrubbingSSNFormItem
     #endif
 }
 

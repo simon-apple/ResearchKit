@@ -30,8 +30,8 @@
 
 import Foundation
 
-/// Represents a multiple choice option.
-public struct MultipleChoiceOption: Identifiable {
+/// Represents a text choice.
+public struct TextChoice: Identifiable {
     
     /// The id for this multiple choice option.
     public let id: String

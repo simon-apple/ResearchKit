@@ -36,11 +36,26 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ A base class that represents a single health condition displayed
+ by the family history step.
+ */
+
 ORK_CLASS_AVAILABLE
 @interface ORKHealthCondition : NSObject <NSSecureCoding, NSCopying>
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
+
+/**
+ Creates a new health condition with the specified identifier.
+ 
+ This method is the primary designated initializer.
+ 
+ @param   identifier   The unique identifier of the health condition.
+ @param   name   The name displayed to the participant for selection.
+ @param   value   The value stored to the result if the health condition is selected.
+ */
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
                        displayName:(NSString *)name
