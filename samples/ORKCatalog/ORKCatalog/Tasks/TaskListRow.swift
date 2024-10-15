@@ -1021,7 +1021,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         formItem06.placeholder = formItem06Text
         
         
-        let appleChoices: [ORKTextChoice] = [ORKTextChoice(text: "Granny Smith", value: 1 as NSNumber), 
+        let appleChoices: [ORKTextChoice] = [ORKTextChoice(text: "Granny Smith", value: 1 as NSNumber),
                                              ORKTextChoice(text: "Honeycrisp", value: 2 as NSNumber),
                                              ORKTextChoice(text: "Fuji", value: 3 as NSNumber),
                                              ORKTextChoice(text: "McIntosh", value: 10 as NSNumber),
@@ -1329,7 +1329,7 @@ enum TaskListRow: Int, CustomStringConvertible {
 
 #if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
     private var healthQuantityTypeTask: ORKTask {
-        let heartRateQuestion = TaskListRowSteps.heartRateExample    
+        let heartRateQuestion = TaskListRowSteps.heartRateExample
         let bloodTypeQuestion = TaskListRowSteps.bloodTypeExample
         
         return ORKOrderedTask(identifier: String(describing: Identifier.healthQuantityTask), steps: [heartRateQuestion, bloodTypeQuestion])
@@ -1385,7 +1385,7 @@ enum TaskListRow: Int, CustomStringConvertible {
         Note that the unit is just a string, prompting the user to enter the value
         in the expected unit. The unit string propagates into the result object.
     */
-    private var numericQuestionTask: ORKTask {        
+    private var numericQuestionTask: ORKTask {
         let questionStep1 = TaskListRowSteps.decimalExample
         let questionStep2 = TaskListRowSteps.decimalNoUnitExample
         let questionStep3 = TaskListRowSteps.decimalWithDisplayUnitExample
@@ -1398,7 +1398,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     }
     
     /// This task presents two options for questions displaying a scale control.
-    private var scaleQuestionTask: ORKTask {    
+    private var scaleQuestionTask: ORKTask {
         let questionStep1 = TaskListRowSteps.scaleExample
         let questionStep2 = TaskListRowSteps.continuousScaleWithPercentExample
         let questionStep3 = TaskListRowSteps.verticalScaleWithPercentExample
@@ -1629,7 +1629,7 @@ enum TaskListRow: Int, CustomStringConvertible {
 
         requestPermissionsStep.title = "Health Data Request"
         requestPermissionsStep.detailText = "Some details here"
-        requestPermissionsStep.useExtendedPadding = false 
+        requestPermissionsStep.useExtendedPadding = false
         requestPermissionsStep.text = "Please review the health data types below and enable sharing to contribute to the study."
 
         return ORKOrderedTask(identifier: String(describing: Identifier.requestPermissionsStep), steps: [requestPermissionsStep])
@@ -1925,7 +1925,7 @@ enum TaskListRow: Int, CustomStringConvertible {
     
     /// This task presents the Speech in Noise pre-defined active task.
     private var speechInNoiseTask: ORKTask {
-        return ORKOrderedTask.speechInNoiseTask(withIdentifier: String(describing: Identifier.speechInNoiseTask), intendedUseDescription: nil, options: [])
+        return ORKOrderedTask.speechInNoiseTask(withIdentifier: String(describing: Identifier.speechInNoiseTask), intendedUseDescription: TaskListRowStrings.exampleDescription, options: [])
     }
     
     /// This task presents the Stroop pre-defined active task.

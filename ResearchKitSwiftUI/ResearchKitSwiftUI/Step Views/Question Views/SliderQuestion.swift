@@ -403,7 +403,7 @@ public struct SliderQuestion: View {
 
     public var body: some View {
         QuestionCard {
-            Question(title: title) {
+            Question(title: title, detail: detail) {
                 scaleView(selectionConfiguration: scaleSelectionConfiguration)
                     .onChange(of: sliderUIValue) { oldValue, newValue in
                         isWaitingForUserFeedback = false

@@ -34,6 +34,7 @@
 #import "ORKAnswerFormat.h"
 #import "ORKCompletionStep.h"
 #import "ORKFormStep.h"
+#import "ORKFormItem_Internal.h"
 #import "ORKHelpers_Internal.h"
 #import "ORKInstructionStep.h"
 #import "ORKQuestionStep.h"
@@ -42,7 +43,6 @@
 
 
 #if TARGET_OS_IOS
-#import "ORKFormItem_Internal.h"
 #import "ORKActiveStep_Internal.h"
 #import "ORKEarlyTerminationConfiguration.h"
 #endif
@@ -266,7 +266,6 @@
     int currentStepStartingProgressNumber = 0;
     
     for (ORKStep *step in self.steps) {
-#if TARGET_OS_IOS
         if ([step isKindOfClass:[ORKFormStep class]]) {
             ORKFormStep *formStep = (ORKFormStep *)step;
             if (formStep.identifier == currentStep.identifier) {
@@ -280,14 +279,6 @@
             }
             totalQuestions += 1;
         }
-#else
-        if ([step isKindOfClass:[ORKFormStep class]]) {
-            if (step.identifier == currentStep.identifier) {
-                currentStepStartingProgressNumber = (totalQuestions + 1);
-            }
-            totalQuestions += 1;
-        }
-#endif
     }
     
     totalProgress.currentStepStartingProgressPosition = currentStepStartingProgressNumber;
@@ -296,7 +287,6 @@
     return totalProgress;
 }
 
-#if TARGET_OS_IOS
 - (NSMutableArray *)calculateSectionsForFormItems:(NSArray *)formItems {
     NSMutableArray<NSMutableArray *> *_sections = [NSMutableArray new];
     NSMutableArray *section = nil;
@@ -377,6 +367,7 @@
     return NO;
 }
 
+#if TARGET_OS_IOS
 - (BOOL)providesBackgroundAudioPrompts {
     BOOL providesAudioPrompts = NO;
     for (ORKStep *step in self.steps) {
