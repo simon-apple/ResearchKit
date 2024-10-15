@@ -1492,9 +1492,6 @@ static ORKStepResult *(^getConsentStepResult)(NSString *, NSString *, BOOL) = ^O
 
         ORKReviewStepViewController *reviewViewController = ORKDynamicCast(taskViewController.currentStepViewController, ORKReviewStepViewController);
         XCTAssertNotNil(reviewViewController, "taskViewController.currentStepViewController should be of type ORKReviewStepViewController at this point");
-
-    
-        // [TODO]:Test if currentStep is reviewStep but not standalone -> CANNOT discardResults
     }
     
     {
