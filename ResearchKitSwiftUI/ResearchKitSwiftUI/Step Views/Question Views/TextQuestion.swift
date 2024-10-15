@@ -191,7 +191,7 @@ public struct TextQuestion<Header: View>: View {
     }
 }
 
-public extension TextQuestion where Header == _SimpleFormItemViewHeader {
+public extension TextQuestion where Header == QuestionHeader {
     init(
         id: String,
         title: String,
@@ -204,7 +204,7 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
         result: Binding<String?>
     ) {
         self.id = id
-        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        self.header = QuestionHeader(title: title, detail: detail)
         self.prompt = prompt
         self.textFieldType = textFieldType
         self.characterLimit = characterLimit
@@ -225,7 +225,7 @@ public extension TextQuestion where Header == _SimpleFormItemViewHeader {
         defaultTextAnswer: String? = nil
     ) {
         self.id = id
-        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        self.header = QuestionHeader(title: title, detail: detail)
         self.prompt = prompt
         self.textFieldType = textFieldType
         self.characterLimit = characterLimit
