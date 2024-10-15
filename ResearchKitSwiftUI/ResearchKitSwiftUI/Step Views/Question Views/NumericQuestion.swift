@@ -37,7 +37,7 @@ public struct NumericQuestion<Header: View>: View {
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
 
-    enum FocusTarget {
+    private enum FocusTarget {
         
         case numericQuestion
         
