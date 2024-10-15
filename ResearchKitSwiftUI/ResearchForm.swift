@@ -92,7 +92,7 @@ public struct ResearchForm<Content: View>: View {
     
 }
 
-/// A `ResearchFormStep` represents a step in a survey and lays out the header and questions on one page. Question numbers (e.g. 1 of 3) are automatically added at the top of each question to denote progress in a step.
+/// Represents a step in a survey and lays out the header and questions on one page. Question numbers (e.g. 1 of 3) are automatically added at the top of each question to denote progress in a step.
 public struct ResearchFormStep<Header: View, Content: View>: View {
     
     @State
