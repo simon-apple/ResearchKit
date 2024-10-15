@@ -58,19 +58,19 @@ struct Question<Header: View, Content: View>: View {
     }
 }
 
-extension Question where Header == _SimpleFormItemViewHeader {
+extension Question where Header == QuestionHeader {
     init(
         title: String,
         detail: String? = nil,
         content: () -> Content
     ) {
-        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        self.header = QuestionHeader(title: title, detail: detail)
         self.content = content()
     }
 }
 
 /// The default header used by a `FormItemCardView`
-public struct _SimpleFormItemViewHeader: View {
+public struct QuestionHeader: View {
 
     private let title: String
     private let detail: String?
