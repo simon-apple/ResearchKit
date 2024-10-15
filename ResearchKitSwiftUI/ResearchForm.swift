@@ -45,12 +45,12 @@ public struct ResearchForm<Content: View>: View {
     var onResearchFormCompletion: ((ResearchFormCompletion) -> Void)?
     
     public init(
-        taskIdentifier: String,
+        id: String,
         restorationResult: ResearchFormResult? = nil,
         @ViewBuilder steps: () -> Content,
         onResearchFormCompletion: ((ResearchFormCompletion) -> Void)? = nil
     ) {
-        self.taskKey = .text(id: taskIdentifier)
+        self.taskKey = .text(id: id)
         self.steps = steps()
         self.onResearchFormCompletion = onResearchFormCompletion
         self.managedFormResult = restorationResult ?? ResearchFormResult()

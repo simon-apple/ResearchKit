@@ -35,13 +35,13 @@ import SwiftUI
 public extension ResearchForm where Content == ResearchFormDataAdapter {
     
     init(
-        taskIdentifier: String,
+        id: String,
         surveyData: Data,
         restorationResult: ResearchFormResult? = nil,
         onResearchFormCompletion: ((ResearchFormCompletion) -> Void)? = nil
     ) {
         self.init(
-            taskIdentifier: taskIdentifier,
+            id: id,
             restorationResult: restorationResult,
             steps: {
                 ResearchFormDataAdapter(surveyData: surveyData)
