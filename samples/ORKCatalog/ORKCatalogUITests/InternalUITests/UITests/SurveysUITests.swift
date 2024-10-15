@@ -410,9 +410,13 @@ final class SurveysUITests: BaseUITest {
             .tap(.continueButton)
             .tap(.backButton)
             .verifyTextBoxValue(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex, expectedValue: Answers.loremIpsumOneLineText)
-            .answerSingleChoiceTextQuestion(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex)
-            .answerTextChoiceOtherQuestion(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex, text: Answers.loremIpsumOneLineText, clearIfNeeded: true)
+        if (!isRunningInXcodeCloud && !isRunningOnSimulator) {
+            // Hypothesizing that this extra tap prior to text entry is causing flakiness in Skywagon simulators. Omitting this step for those scenarios. rdar://134442269
+            formStep
+                .answerSingleChoiceTextQuestion(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex)
+        }
         formStep
+            .answerTextChoiceOtherQuestion(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex, text: Answers.loremIpsumOneLineText, clearIfNeeded: true)
             .tap(.continueButton)
             .tap(.continueButton)
   

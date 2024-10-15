@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5DABE54724D8BF2400570C57"
+               BlueprintIdentifier = "E452CE962CB487C50084E7E0"
                BuildableName = "ResearchKitCore.framework"
-               BlueprintName = "ResearchKitCore (watchOS)"
+               BlueprintName = "ResearchKitCore"
                ReferencedContainer = "container:ResearchKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -50,9 +50,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5DABE54724D8BF2400570C57"
+            BlueprintIdentifier = "E452CE962CB487C50084E7E0"
             BuildableName = "ResearchKitCore.framework"
-            BlueprintName = "ResearchKitCore (watchOS)"
+            BlueprintName = "ResearchKitCore"
             ReferencedContainer = "container:ResearchKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

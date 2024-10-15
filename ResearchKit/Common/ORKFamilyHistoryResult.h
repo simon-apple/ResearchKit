@@ -34,6 +34,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ A result object produced by the family history step.
+ */
+
 ORK_CLASS_AVAILABLE
 @interface ORKFamilyHistoryResult : ORKResult
 

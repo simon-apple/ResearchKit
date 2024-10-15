@@ -1,6 +1,5 @@
-//
 /*
- Copyright (c) 2024, Apple Inc. All rights reserved.
+ Copyright (c) 2020, Apple Inc. All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,12 +28,40 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ResearchKit/ResearchKit.h>
+// apple-internal
 
-NS_ASSUME_NONNULL_BEGIN
+import ResearchKitCore
+import SwiftUI
 
-@interface ORKIJSONSerializationTests : ORKOrderedTask
-
-@end
-
-NS_ASSUME_NONNULL_END
+@available(watchOS 6.0, *)
+public struct CompletionStepView: View {
+    
+    @ObservedObject
+    public private(set) var step: ORKCompletionStep
+    
+    @ObservedObject
+    public private(set) var result: ORKStepResult
+    
+    @Environment(\.completion) var completion
+    
+    init(_ step: ORKCompletionStep, result: ORKStepResult) {
+        self.step = step
+        self.result = result
+    }
+    
+    public var body: some View {
+        VStack {
+            if let title = step.title {
+                Text(title)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(Font.system(.headline))
+            }
+            if let detail = step.detailText {
+                Text(detail)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }.onAppear {
+            completion(true)
+        }
+    }
+}

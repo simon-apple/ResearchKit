@@ -121,7 +121,6 @@
     }
     NSUInteger index = indexPath.row - _beginningIndexPath.row;
     ORKChoiceViewCell *touchedCell = [self cellAtIndex:index withReuseIdentifier:nil];
-    //ORKColorChoice *colorChoice = [_helper colorChoiceAtIndex:index];
     
     if (_singleChoice) {
         [touchedCell setCellSelected:YES highlight:YES];
