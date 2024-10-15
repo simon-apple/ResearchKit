@@ -138,7 +138,7 @@ public struct HeightQuestion: View {
 
     public var body: some View {
         QuestionCard {
-            Question(title: title) {
+            Question(title: title, detail: detail) {
                 HStack {
                     Text("Select Height")
                         .foregroundStyle(Color.primary)

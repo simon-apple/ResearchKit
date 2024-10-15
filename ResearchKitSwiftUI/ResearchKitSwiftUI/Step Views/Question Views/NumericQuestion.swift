@@ -116,7 +116,7 @@ public extension NumericQuestion where Header == QuestionHeader {
         prompt: String?
     ) {
         self.id = id
-        header = QuestionHeader(title: title)
+        header = QuestionHeader(title: title, detail: detail)
         self.prompt = prompt
         self.result = .manual(text)
     }
@@ -129,7 +129,7 @@ public extension NumericQuestion where Header == QuestionHeader {
         prompt: String?
     ) {
         self.id = id
-        header = QuestionHeader(title: title)
+        header = QuestionHeader(title: title, detail: detail)
         self.prompt = prompt
         self.result = .automatic(key: .numeric(id: id))
     }

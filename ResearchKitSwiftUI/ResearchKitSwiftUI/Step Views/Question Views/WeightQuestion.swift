@@ -206,7 +206,7 @@ public struct WeightQuestion: View {
 
     public var body: some View {
         QuestionCard {
-            Question(title: title) {
+            Question(title: title, detail: detail) {
                 HStack {
                     Text("Select Weight")
                         .foregroundStyle(Color.primary)

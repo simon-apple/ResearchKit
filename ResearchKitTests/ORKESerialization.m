@@ -2849,7 +2849,7 @@ static id objectForJsonObject(id input,
                               ORKESerializationJSONToObjectBlock converterBlock,
                               ORKESerializationContext *context) {
     id output = nil;
-    // not sure what this converter block is for
+    
     if (converterBlock != nil) {
         input = converterBlock(input, context);
         if (input == nil) {

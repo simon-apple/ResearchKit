@@ -43,11 +43,27 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ An object that represents a relative added during
+ a family health history survey.
+ */
+
 ORK_CLASS_AVAILABLE
 @interface ORKRelatedPerson : NSObject <NSSecureCoding, NSCopying>
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
+
+/**
+ Creates a new related person with the specified identifier.
+ 
+ This method is the primary designated initializer.
+ 
+ @param identifier   The unique identifier of the related person.
+ @param groupIdentifier   The identifier of the relative group to which the person belongs.
+ @param identifierForCellTitle   The identifier of the result value to be used for the relative's cell title.
+ @param result   The task result generated for the relative's health history survey.
+ */
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
                    groupIdentifier:(NSString *)groupIdentifier

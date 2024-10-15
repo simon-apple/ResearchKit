@@ -191,7 +191,7 @@ public extension DateTimeQuestion where Header == QuestionHeader {
         range: ClosedRange<Date>
     ) {
         self.id = id
-        self.header = QuestionHeader(title: title)
+        self.header = QuestionHeader(title: title, detail: detail)
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range
@@ -208,7 +208,7 @@ public extension DateTimeQuestion where Header == QuestionHeader {
         range: ClosedRange<Date>
     ) {
         self.id = id
-        self.header = QuestionHeader(title: title)
+        self.header = QuestionHeader(title: title, detail: detail)
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range

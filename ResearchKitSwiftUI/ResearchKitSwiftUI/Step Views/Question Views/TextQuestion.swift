@@ -204,7 +204,7 @@ public extension TextQuestion where Header == QuestionHeader {
         result: Binding<String?>
     ) {
         self.id = id
-        self.header = QuestionHeader(title: title)
+        self.header = QuestionHeader(title: title, detail: detail)
         self.prompt = prompt
         self.textFieldType = textFieldType
         self.characterLimit = characterLimit
@@ -225,7 +225,7 @@ public extension TextQuestion where Header == QuestionHeader {
         defaultTextAnswer: String? = nil
     ) {
         self.id = id
-        self.header = QuestionHeader(title: title)
+        self.header = QuestionHeader(title: title, detail: detail)
         self.prompt = prompt
         self.textFieldType = textFieldType
         self.characterLimit = characterLimit
