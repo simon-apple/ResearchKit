@@ -208,7 +208,7 @@ public struct MultipleChoiceQuestion: View {
 
     public var body: some View {
         QuestionCard {
-            Question(title: title) {
+            Question(title: title, detail: detail) {
                 ForEach(Array(choices.enumerated()), id: \.offset) { index, option in
                     VStack(spacing: .zero) {
                         if index != 0 {
