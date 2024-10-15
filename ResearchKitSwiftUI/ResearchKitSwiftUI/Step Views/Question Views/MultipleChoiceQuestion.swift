@@ -63,7 +63,7 @@ public struct MultipleChoiceQuestion: View {
     let id: String
     let title: String
     let detail: String?
-    let choices: [MultipleChoiceOption]
+    let choices: [TextChoice]
     let selectionType: ChoiceSelectionType
     let result: StateManagementType<[ResultValue]?>
     
@@ -71,7 +71,7 @@ public struct MultipleChoiceQuestion: View {
         id: String,
         title: String,
         detail: String? = nil,
-        choices: [MultipleChoiceOption],
+        choices: [TextChoice],
         selectionType: ChoiceSelectionType,
         result: Binding<[Int]?>
     ) {
@@ -109,7 +109,7 @@ public struct MultipleChoiceQuestion: View {
         id: String,
         title: String,
         detail: String? = nil,
-        choices: [MultipleChoiceOption],
+        choices: [TextChoice],
         selectionType: ChoiceSelectionType,
         result: Binding<[String]?>
     ) {
@@ -147,7 +147,7 @@ public struct MultipleChoiceQuestion: View {
         id: String,
         title: String,
         detail: String? = nil,
-        choices: [MultipleChoiceOption],
+        choices: [TextChoice],
         selectionType: ChoiceSelectionType,
         result: Binding<[Date]?>
     ) {
@@ -185,7 +185,7 @@ public struct MultipleChoiceQuestion: View {
         id: String,
         title: String,
         detail: String? = nil,
-        choices: [MultipleChoiceOption],
+        choices: [TextChoice],
         selectionType: ChoiceSelectionType,
         result: Binding<[ResultValue]?>
     ) {
@@ -201,7 +201,7 @@ public struct MultipleChoiceQuestion: View {
         id: String,
         title: String,
         detail: String? = nil,
-        choices: [MultipleChoiceOption],
+        choices: [TextChoice],
         selectionType: ChoiceSelectionType
     ) {
         self.id = id
@@ -248,13 +248,13 @@ public struct MultipleChoiceQuestion: View {
         return false
     }
 
-    private func isSelected(_ option: MultipleChoiceOption) -> Bool {
+    private func isSelected(_ option: TextChoice) -> Bool {
         resolvedResult.wrappedValue?.contains(where: { choice in
             choice == option.value
         }) ?? false
     }
     
-    private func choiceSelected(_ option: MultipleChoiceOption) {
+    private func choiceSelected(_ option: TextChoice) {
         if let resultArray = resolvedResult.wrappedValue,
            let index = resultArray.firstIndex(where: { $0 == option.value }) {
                resolvedResult.wrappedValue?.remove(at: index)
@@ -280,9 +280,9 @@ struct MultipleChoiceQuestionView_Previews: PreviewProvider {
                 id: UUID().uuidString,
                 title: "Which do you prefer?",
                 choices: [
-                    MultipleChoiceOption(id: "a", choiceText: "Option A", value: 0),
-                    MultipleChoiceOption(id: "b", choiceText: "Option B", value: 1),
-                    MultipleChoiceOption(id: "c", choiceText: "Option C", value: 2)
+                    TextChoice(id: "a", choiceText: "Option A", value: 0),
+                    TextChoice(id: "b", choiceText: "Option B", value: 1),
+                    TextChoice(id: "c", choiceText: "Option C", value: 2)
             ],
                 selectionType: .multiple,
                 result: .constant([0])

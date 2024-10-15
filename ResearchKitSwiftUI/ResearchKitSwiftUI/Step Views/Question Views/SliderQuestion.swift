@@ -34,7 +34,7 @@ import SwiftUI
 public enum ScaleSelectionConfiguration {
     
     @available(watchOS, unavailable)
-    case textChoice([MultipleChoiceOption])
+    case textChoice([TextChoice])
     
     case integerRange(ClosedRange<Int>)
     case doubleRange(ClosedRange<Double>)
@@ -77,7 +77,7 @@ public struct SliderQuestion: View {
         case double(Binding<Double?>)
         
         @available(watchOS, unavailable)
-        case textChoice(Binding<MultipleChoiceOption>)
+        case textChoice(Binding<TextChoice>)
         
     }
     
@@ -110,7 +110,7 @@ public struct SliderQuestion: View {
         case double(Double)
         
         @available(watchOS, unavailable)
-        case textChoice(MultipleChoiceOption)
+        case textChoice(TextChoice)
         
     }
     
@@ -171,7 +171,7 @@ public struct SliderQuestion: View {
                             get: {
                                 guard let sliderValue = managedFormResult.resultForStep(key: key)
                                 else {
-                                    return MultipleChoiceOption(id: "", choiceText: "", value: 0)
+                                    return TextChoice(id: "", choiceText: "", value: 0)
                                 }
                                 return multipleChoiceOptions[Int(sliderValue)]
                             },
@@ -345,8 +345,8 @@ public struct SliderQuestion: View {
         id: String,
         title: String,
         detail: String? = nil,
-        multipleChoiceOptions: [MultipleChoiceOption],
-        selection: MultipleChoiceOption
+        multipleChoiceOptions: [TextChoice],
+        selection: TextChoice
     ) {
         self.id = id
         self.title = title
@@ -357,7 +357,7 @@ public struct SliderQuestion: View {
         self.stateManagementType = .automatic(key: StepResultKey(id: id))
         
         let index = multipleChoiceOptions.firstIndex(where: { selection.id == $0.id })
-        let sliderValue = index ?? Array<MultipleChoiceOption>.Index(0.0)
+        let sliderValue = index ?? Array<TextChoice>.Index(0.0)
         self._sliderUIValue = State(wrappedValue: Double(sliderValue))
     }
 
@@ -366,8 +366,8 @@ public struct SliderQuestion: View {
         id: String,
         title: String,
         detail: String? = nil,
-        multipleChoiceOptions: [MultipleChoiceOption],
-        selection: Binding<MultipleChoiceOption>
+        multipleChoiceOptions: [TextChoice],
+        selection: Binding<TextChoice>
     ) {
         self.id = id
         self.title = title
@@ -397,7 +397,7 @@ public struct SliderQuestion: View {
         )
         
         let index = multipleChoiceOptions.firstIndex(where: { selection.id == $0.id })
-        let sliderValue = index ?? Array<MultipleChoiceOption>.Index(0.0)
+        let sliderValue = index ?? Array<TextChoice>.Index(0.0)
         self._sliderUIValue = State(wrappedValue: Double(sliderValue))
     }
 

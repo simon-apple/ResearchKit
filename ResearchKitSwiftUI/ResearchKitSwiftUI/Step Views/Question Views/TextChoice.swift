@@ -30,7 +30,7 @@
 
 import Foundation
 
-public struct MultipleChoiceOption: Identifiable {
+public struct TextChoice: Identifiable {
     
     public let id: String
     let choiceText: String
