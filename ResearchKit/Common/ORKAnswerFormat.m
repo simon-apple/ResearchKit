@@ -41,8 +41,8 @@
 #import "ORKHelpers_Internal.h"
 #if TARGET_OS_IOS
 #import "ORKHealthAnswerFormat.h"
-#endif
 #import "ResearchKit/ResearchKit-Swift.h"
+#endif
 
 #if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
 #import <HealthKit/HealthKit.h>
@@ -398,8 +398,6 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return [[ORKValuePickerAnswerFormat alloc] initWithTextChoices:textChoices];
 }
 
-#if TARGET_OS_IOS
-
 + (ORKMultipleValuePickerAnswerFormat *)multipleValuePickerAnswerFormatWithValuePickers:(NSArray<ORKValuePickerAnswerFormat *> *)valuePickers {
     return [[ORKMultipleValuePickerAnswerFormat alloc] initWithValuePickers:valuePickers];
 }
@@ -463,8 +461,6 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
     return [[ORKSESAnswerFormat alloc] initWithTopRungText:topRungText
                                                                 bottomRungText:bottomRungText];
 }
-
-#endif
 
 + (ORKScaleAnswerFormat *)scaleAnswerFormatWithMaximumValue:(NSInteger)scaleMaximum
                                                minimumValue:(NSInteger)scaleMinimum
@@ -2733,12 +2729,14 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 @interface ORKTextAnswerFormat()
 
 #if RK_APPLE_INTERNAL
+#if TARGET_OS_IOS
 ///**
 // A Scrubber for PII
 //
 // */
 
 @property (nonatomic, readonly, copy) NSArray<PIIScrubber *> *scrubbers;
+#endif // TARGET_OS_IOS
 #endif
 
 @end
@@ -2746,7 +2744,9 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 @implementation ORKTextAnswerFormat
 
 #if RK_APPLE_INTERNAL
+#if TARGET_OS_IOS
 @synthesize scrubbers = _scrubbers;
+#endif // TARGET_OS_IOS
 #endif
 
 - (Class)questionResultClass {
@@ -2768,6 +2768,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 }
 
 #if RK_APPLE_INTERNAL
+#if TARGET_OS_IOS
 - (void)setScrubberNames:(NSArray *)scrubberNames {
     if (_scrubberNames != scrubberNames) {
         _scrubberNames = [scrubberNames copy];
@@ -2785,6 +2786,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     }
     return _scrubbers;
 }
+#endif // TARGET_OS_IOS
 #endif
 
 - (instancetype)initWithMaximumLength:(NSInteger)maximumLength {
@@ -3055,6 +3057,8 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
 }
 
 #if RK_APPLE_INTERNAL
+#if TARGET_OS_IOS
+
 - (NSString *)scrubAnswer:(NSString *)answer {
     NSString *answerString = answer;
     for (PIIScrubber* scrubber in [self scrubbers]) {
@@ -3062,12 +3066,15 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
     }
     return answerString;
 }
+#endif // TARGET_OS_IOS
 #endif
 
 - (ORKQuestionResult *)resultWithIdentifier:(NSString *)identifier answer:(id)answer {
     ORKQuestionResult *questionResult = nil;
 #if RK_APPLE_INTERNAL
+#if TARGET_OS_IOS
     answer = ([answer isKindOfClass:[NSString class]] ? [self scrubAnswer: (NSString *)answer] : answer);
+#endif // TARGET_OS_IOS
 #endif
     questionResult = (ORKQuestionResult *)[super resultWithIdentifier:identifier answer:answer];
     return questionResult;

@@ -39,7 +39,10 @@
 #import "ORKStep_Private.h"
 
 #import "ORKHelpers_Internal.h"
+
+#if !TARGET_OS_WATCH
 #import "ORKFormItemVisibilityRule.h"
+#endif
 
 @implementation ORKFormStep
 
@@ -296,7 +299,9 @@
     item->_learnMoreItem = [_learnMoreItem copy];
     item->_showsProgress = _showsProgress;
     item->_tagText = [_tagText copy];
+#if !TARGET_OS_WATCH
     item->_visibilityRule = [_visibilityRule copy];
+#endif
     return item;
 }
 
@@ -313,7 +318,9 @@
         ORK_DECODE_OBJ_CLASS(aDecoder, answerFormat, ORKAnswerFormat);
         ORK_DECODE_OBJ_CLASS(aDecoder, step, ORKFormStep);
         ORK_DECODE_OBJ_CLASS(aDecoder, tagText, NSString);
+#if !TARGET_OS_WATCH
         ORK_DECODE_OBJ_CLASS(aDecoder, visibilityRule, ORKFormItemVisibilityRule);
+#endif
     }
     return self;
 }
@@ -352,8 +359,12 @@
 }
 
 - (NSUInteger)hash {
+#if !TARGET_OS_WATCH
      // Ignore the step reference - it's not part of the content of this item
     return _identifier.hash ^ _text.hash ^ _placeholder.hash ^ _answerFormat.hash ^ (_optional ? 0xf : 0x0) ^ _detailText.hash ^ _learnMoreItem.hash ^ (_showsProgress ? 0xf : 0x0) ^ _tagText.hash ^ _visibilityRule.hash;
+#else
+    return _identifier.hash ^ _text.hash ^ _placeholder.hash ^ _answerFormat.hash ^ (_optional ? 0xf : 0x0) ^ _detailText.hash ^ _learnMoreItem.hash ^ (_showsProgress ? 0xf : 0x0) ^ _tagText.hash;
+#endif
 }
 
 - (ORKAnswerFormat *)impliedAnswerFormat {

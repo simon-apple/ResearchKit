@@ -34,6 +34,36 @@ public enum NumericPrecision {
     case `default`, low, high
 }
 
+private class WeightFormatter {
+    
+    static let shared = WeightFormatter()
+    
+    private let weightFormatter: NumberFormatter
+    
+    private init() {
+        let weightFormatter = NumberFormatter()
+        weightFormatter.numberStyle = .decimal
+        weightFormatter.roundingMode = .halfUp
+        self.weightFormatter = weightFormatter
+    }
+    
+    func string(for number: Double, precision: NumericPrecision) -> String? {
+        switch precision {
+        case .default:
+            weightFormatter.minimumFractionDigits = 1
+            weightFormatter.maximumFractionDigits = 1
+        case .low:
+            weightFormatter.minimumFractionDigits = 0
+            weightFormatter.maximumFractionDigits = 0
+        case .high:
+            weightFormatter.minimumFractionDigits = 2
+            weightFormatter.maximumFractionDigits = 2
+        }
+        return weightFormatter.string(for: number)
+    }
+    
+}
+
 public struct WeightQuestion: View {
     
     @EnvironmentObject
@@ -151,7 +181,7 @@ public struct WeightQuestion: View {
         if let result = resolvedResult.wrappedValue {
             selectedResult = result
         } else {
-            selectedResult = defaultWeightInKilograms.rounded()
+            selectedResult = defaultValue ?? defaultWeightInKilograms
         }
         
         let (pounds, ounces) = convertKilogramsToPoundsAndOunces(selectedResult)
@@ -169,7 +199,8 @@ public struct WeightQuestion: View {
                 // we'll round to the nearest result which in our case would be 60kg.
                 return "\(selectedResult.rounded()) kg"
             }
-            return "\(selectedResult) kg"
+            
+            return "\(WeightFormatter.shared.string(for: selectedResult, precision: precision) ?? "") kg"
         }
     }
 
@@ -200,7 +231,14 @@ public struct WeightQuestion: View {
                             defaultValue: defaultValue,
                             minimumValue: minimumValue,
                             maximumValue: maximumValue,
-                            selection: resolvedResult,
+                            selection: .init(
+                                get: {
+                                    resolvedResult.wrappedValue ?? defaultValue ?? defaultWeightInKilograms
+                                },
+                                set: {
+                                    resolvedResult.wrappedValue = $0
+                                }
+                            ),
                             hasChanges: $hasChanges
                         )
                     }
@@ -213,10 +251,17 @@ public struct WeightQuestion: View {
                         WeightPickerView(
                             measurementSystem: measurementSystem,
                             precision: precision,
-                            defaultValue: defaultValue,
+                            defaultValue: defaultValue ?? defaultWeightInKilograms,
                             minimumValue: minimumValue,
                             maximumValue: maximumValue,
-                            selection: resolvedResult,
+                            selection: .init(
+                                get: {
+                                    resolvedResult.wrappedValue ?? defaultValue ?? defaultWeightInKilograms
+                                },
+                                set: {
+                                    resolvedResult.wrappedValue = $0
+                                }
+                            ),
                             hasChanges: $hasChanges
                         )
                         .frame(width: 300)
@@ -318,7 +363,14 @@ struct WeightPickerView: View {
         let upperValue = measurementSystem == .USC ? 15 : 0.99
         var range: [Double] = []
         for i in stride(from: lowerValue, through: upperValue, by: secondaryStep) {
-            range.append(i)
+            if case .USC = measurementSystem {
+                range.append(i)
+            } else {
+                let decimal = Decimal(i).rounded(2, .plain)
+                range.append(
+                    NSDecimalNumber(decimal: decimal).doubleValue
+                )
+            }
         }
         return range
     }
@@ -339,24 +391,41 @@ struct WeightPickerView: View {
         self.maximumValue = maximumValue
         self._selection = selection
         self._hasChanges = hasChanges
+        
+        let displayedValue = selection.wrappedValue ?? defaultValue ?? 0
 
         let selectionOneValue: Double = {
-            if let defaultValue {
-                if measurementSystem == .USC {
-                    return convertKilogramsToPoundsAndOunces(defaultValue).pounds
-                } else {
-                    return defaultValue
-                }
+            if measurementSystem == .USC {
+                return convertKilogramsToPoundsAndOunces(displayedValue).pounds
             } else {
-                if measurementSystem == .USC {
-                    return Self.defaultValueInPounds
-                } else {
-                    return Self.defaultValueInKilograms
+                let roundedSelectionOne: Double
+                switch precision {
+                case .default:
+                    roundedSelectionOne = (displayedValue * 10).rounded() / 10
+                case .low:
+                    roundedSelectionOne = displayedValue.rounded()
+                case .high:
+                    roundedSelectionOne = floor(displayedValue)
                 }
+                return roundedSelectionOne
             }
         }()
         self.selectionOne = selectionOneValue
-        self.selectionTwo = 0
+        
+        let selectionTwoValue: Double = {
+            if measurementSystem == .USC {
+                return convertKilogramsToPoundsAndOunces(displayedValue).ounces
+            } else {
+                if case .high = precision {
+                    let selectionTwo = Decimal(displayedValue)
+                    let selectionTwoFraction = selectionTwo.rounded(2, .plain) - selectionTwo.rounded(0, .down)
+                    return NSDecimalNumber(decimal: selectionTwoFraction).doubleValue
+                } else {
+                    return 0
+                }
+            }
+        }()
+        self.selectionTwo = selectionTwoValue
     }
 
     var body: some View {
@@ -496,4 +565,15 @@ struct WeightPickerView: View {
             selection: $selection
         )
     }
+}
+
+private extension Decimal {
+
+    func rounded(_ scale: Int, _ roundingMode: NSDecimalNumber.RoundingMode) -> Decimal {
+        var result = Decimal()
+        var localCopy = self
+        NSDecimalRound(&result, &localCopy, scale, roundingMode)
+        return result
+    }
+    
 }
