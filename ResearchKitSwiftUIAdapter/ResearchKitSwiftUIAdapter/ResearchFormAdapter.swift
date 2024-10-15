@@ -289,33 +289,33 @@ struct ResearchFormAdapter: View {
         }
     }
     
-    private func answerOptions(for textChoices: [ORKTextChoice]) -> [MultipleChoiceOption] {
-        textChoices.compactMap { textChoice in
-            let multipleChoiceOption: MultipleChoiceOption?
+    private func answerOptions(for textChoices: [ORKTextChoice]) -> [TextChoice] {
+        textChoices.compactMap { orkTextChoice in
+            let textChoice: TextChoice?
             
-            if let number = textChoice.value as? NSNumber {
-                multipleChoiceOption = MultipleChoiceOption(
+            if let number = orkTextChoice.value as? NSNumber {
+                textChoice = TextChoice(
                     id: UUID().uuidString,
-                    choiceText: textChoice.text,
+                    choiceText: orkTextChoice.text,
                     value: number.intValue
                 )
-            } else if let string = textChoice.value as? NSString {
-                multipleChoiceOption = MultipleChoiceOption(
+            } else if let string = orkTextChoice.value as? NSString {
+                textChoice = TextChoice(
                     id: UUID().uuidString,
-                    choiceText: textChoice.text,
+                    choiceText: orkTextChoice.text,
                     value: String(string)
                 )
-            } else if let date = textChoice.value as? Date {
-                multipleChoiceOption = MultipleChoiceOption(
+            } else if let date = orkTextChoice.value as? Date {
+                textChoice = TextChoice(
                     id: UUID().uuidString,
-                    choiceText: textChoice.text,
+                    choiceText: orkTextChoice.text,
                     value: date
                 )
             } else {
-                multipleChoiceOption = nil
+                textChoice = nil
             }
             
-            return multipleChoiceOption
+            return textChoice
         }
     }
     
