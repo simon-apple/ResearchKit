@@ -54,12 +54,12 @@ public struct MultipleChoiceQuestion: View {
         }
     }
 
-    let id: String
-    let title: String
-    let detail: String?
-    let choices: [TextChoice]
-    let choiceSelectionQuantity: ChoiceSelectionQuantity
-    let result: StateManagementType<[ResultValue]?>
+    private let id: String
+    private let title: String
+    private let detail: String?
+    private let choices: [TextChoice]
+    private let choiceSelectionQuantity: ChoiceSelectionQuantity
+    private let result: StateManagementType<[ResultValue]?>
     
     public init(
         id: String,

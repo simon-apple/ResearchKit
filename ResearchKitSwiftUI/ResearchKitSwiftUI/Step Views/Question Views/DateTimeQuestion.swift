@@ -43,12 +43,12 @@ public struct DateTimeQuestion<Header: View>: View {
     
     @State
     private var showTimePickerModal = false
-    let id: String
-    let header: Header
-    let pickerPrompt: String
-    let displayedComponents: DatePicker.Components
-    let range: ClosedRange<Date>
-    let result: StateManagementType<Date?>
+    private let id: String
+    private let header: Header
+    private let pickerPrompt: String
+    private let displayedComponents: DatePicker.Components
+    private let range: ClosedRange<Date>
+    private let result: StateManagementType<Date?>
 
     private var resolvedResult: Binding<Date?> {
         switch result {
