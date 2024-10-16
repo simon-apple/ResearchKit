@@ -47,7 +47,7 @@ public struct SliderQuestion: View {
     private let id: String
     private let title: String
     private let detail: String?
-    private let scaleSelectionConfiguration: SliderQuestionConfiguration
+    private let sliderQuestionConfiguration: SliderQuestionConfiguration
     private let step: Double
     
     private enum ScaleSelectionBindingValue: Equatable {
@@ -165,7 +165,7 @@ public struct SliderQuestion: View {
                     )
                 }
                 let scaleSelectionBinding: ScaleSelectionBindingValue
-                switch scaleSelectionConfiguration {
+                switch sliderQuestionConfiguration {
 #if !os(watchOS)
                 case .textChoice(let multipleChoiceOptions):
                     scaleSelectionBinding = .textChoice(
@@ -227,7 +227,7 @@ public struct SliderQuestion: View {
                     return
                 }
 
-                switch (newValue, scaleSelectionConfiguration) {
+                switch (newValue, sliderQuestionConfiguration) {
 #if !os(watchOS)
                 case let (.textChoice(binding), .textChoice(multipleChoiceOptions)):
                     let index = multipleChoiceOptions.firstIndex(
@@ -271,7 +271,7 @@ public struct SliderQuestion: View {
         self.id = id
         self.title = title
         self.detail = detail
-        self.scaleSelectionConfiguration = .doubleRange(range)
+        self.sliderQuestionConfiguration = .doubleRange(range)
         self.step = step
         self.clientManagedSelection = .double(.init(get: { selection }, set: { _ in }))
         self.stateManagementType = .automatic(key: StepResultKey(id: id))
@@ -297,7 +297,7 @@ public struct SliderQuestion: View {
         self.id = id
         self.title = title
         self.detail = detail
-        self.scaleSelectionConfiguration = .doubleRange(range)
+        self.sliderQuestionConfiguration = .doubleRange(range)
         self.step = step
         self.clientManagedSelection = .double(selection)
         self.stateManagementType = .manual(
@@ -332,7 +332,7 @@ public struct SliderQuestion: View {
         self.id = id
         self.title = title
         self.detail = detail
-        self.scaleSelectionConfiguration = .integerRange(range)
+        self.sliderQuestionConfiguration = .integerRange(range)
         self.step = step
         self.clientManagedSelection = .int(.init(get: { selection }, set: { _ in }))
         self.stateManagementType = .automatic(key: StepResultKey(id: id))
@@ -358,7 +358,7 @@ public struct SliderQuestion: View {
         self.id = id
         self.title = title
         self.detail = detail
-        self.scaleSelectionConfiguration = .integerRange(range)
+        self.sliderQuestionConfiguration = .integerRange(range)
         self.step = step
         self.clientManagedSelection = .int(selection)
         self.stateManagementType = .manual(
@@ -392,7 +392,7 @@ public struct SliderQuestion: View {
         self.id = id
         self.title = title
         self.detail = detail
-        self.scaleSelectionConfiguration = .textChoice(multipleChoiceOptions)
+        self.sliderQuestionConfiguration = .textChoice(multipleChoiceOptions)
         self.step = 1.0
         self.clientManagedSelection = .textChoice(.init(get: { selection }, set: { _ in }))
         self.stateManagementType = .automatic(key: StepResultKey(id: id))
@@ -420,7 +420,7 @@ public struct SliderQuestion: View {
         self.id = id
         self.title = title
         self.detail = detail
-        self.scaleSelectionConfiguration = .textChoice(multipleChoiceOptions)
+        self.sliderQuestionConfiguration = .textChoice(multipleChoiceOptions)
         self.step = 1.0
         self.clientManagedSelection = .textChoice(selection)
         self.stateManagementType = .manual(
@@ -452,7 +452,7 @@ public struct SliderQuestion: View {
     public var body: some View {
         QuestionCard {
             Question(title: title, detail: detail) {
-                scaleView(selectionConfiguration: scaleSelectionConfiguration)
+                scaleView(selectionConfiguration: sliderQuestionConfiguration)
                     .onChange(of: sliderUIValue) { oldValue, newValue in
                         isWaitingForUserFeedback = false
                         switch resolvedBinding.wrappedValue {
@@ -461,7 +461,7 @@ public struct SliderQuestion: View {
                         case .int(let intBinding):
                             intBinding.wrappedValue = Int(newValue)
                         case .textChoice(let textChoiceBinding):
-                            guard case let .textChoice(array) = scaleSelectionConfiguration else {
+                            guard case let .textChoice(array) = sliderQuestionConfiguration else {
                                 return
                             }
                             let index = Int(newValue)
@@ -471,7 +471,7 @@ public struct SliderQuestion: View {
                     .onChange(of: clientManagedSelection) { oldValue, newValue in
                         switch newValue {
                             case .textChoice(let binding):
-                                guard case let .textChoice(array) = scaleSelectionConfiguration else {
+                                guard case let .textChoice(array) = sliderQuestionConfiguration else {
                                     return
                                 }
                                 let selectedIndex = array.firstIndex(where: { $0.id == binding.wrappedValue.id }) ?? 0
