@@ -30,7 +30,7 @@
 
 import SwiftUI
 
-/// The precision representing the granularity of a measurement's value. (e.g. 68 kg vs. 68.04 kg or 150 lbs vs. 150 lbs 5 oz)
+/// The precision representing the granularity of a measurement's value. (e.g. 68 kg vs. 68.04 kg, or 150 lbs vs. 150 lbs 5 oz)
 public enum NumericPrecision {
     case `default`, low, high
 }
