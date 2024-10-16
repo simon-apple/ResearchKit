@@ -32,7 +32,7 @@
 public enum ResearchFormCompletion {
     /// The survey was dismissed with the intent to save question responses.
     case saved(ResearchFormResult)
-    /// The survey was dismissed with the intent to discard question responses..
+    /// The survey was dismissed with the intent to discard question responses.
     case discarded
     /// The survey was completed, and question responses are provided.
     case completed(ResearchFormResult)
