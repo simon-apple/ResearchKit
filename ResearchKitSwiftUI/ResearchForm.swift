@@ -42,7 +42,7 @@ public struct ResearchForm<Content: View>: View {
     private let taskKey: StepResultKey<String?>
     private let steps: Content
     
-    var onResearchFormCompletion: ((ResearchFormCompletion) -> Void)?
+    private var onResearchFormCompletion: ((ResearchFormCompletion) -> Void)?
     
     public init(
         taskIdentifier: String,
