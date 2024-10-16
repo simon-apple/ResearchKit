@@ -9,8 +9,8 @@ ResearchKit SwiftUI marks the beginning of a gradual transition from UIKit to Sw
 ### Adding Questions to a Form
 
 - ``ResearchForm``
-- ``ResearchFormCompletion``
 - ``ResearchFormStep``
+- ``ResearchFormCompletion``
 
 ### Headers
 
@@ -29,12 +29,10 @@ ResearchKit SwiftUI marks the beginning of a gradual transition from UIKit to Sw
 ### Slider Question
 
 - ``SliderQuestion``
-- ``SliderQuestionConfiguration``
 
 ### Text Question
 
 - ``TextQuestion``
-- ``TextQuestionType``
 
 ### Date and Time Question
 
@@ -62,7 +60,7 @@ ResearchKit SwiftUI marks the beginning of a gradual transition from UIKit to Sw
 
 ### Selection Type
 
-- ``ChoiceSelectionType``
+- ``ChoiceSelectionLimit``
 
 ### Text Choice
 

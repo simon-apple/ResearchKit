@@ -229,6 +229,18 @@ public struct TextQuestion<Header: View>: View {
 ///   - hideClearButton: Whether or not the clear button is displayed.
 ///   - result: The binding for the text result.
 public extension TextQuestion where Header == QuestionHeader {
+    
+    /// Initializes an instance of ``TextQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this text question.
+    ///   - title: The title for this text question.
+    ///   - detail: The details for this text question.
+    ///   - prompt: The placeholder for this text question.
+    ///   - lineLimit: Specifies whether this text question is single line or multiline.
+    ///   - characterLimit: The number of characters that can be used for this text question.
+    ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
+    ///   - hideClearButton: Whether or not the clear button is displayed.
+    ///   - text: The entered text.
     init(
         id: String,
         title: String,
@@ -238,7 +250,7 @@ public extension TextQuestion where Header == QuestionHeader {
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false,
-        result: Binding<String?>
+        text: Binding<String?>
     ) {
         self.id = id
         self.header = QuestionHeader(title: title, detail: detail)
@@ -247,7 +259,7 @@ public extension TextQuestion where Header == QuestionHeader {
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.result = .manual(result)
+        self.result = .manual(text)
     }
 
     /// Initializes an instance of ``TextQuestion`` with the provided configuration.
@@ -298,7 +310,7 @@ public extension TextQuestion where Header == QuestionHeader {
             lineLimit: .singleLine,
             characterLimit: 10,
             hideCharacterCountLabel: true,
-            result: $value
+            text: $value
         )
     }
 }

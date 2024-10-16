@@ -171,7 +171,7 @@ public struct ImageChoiceQuestion: View {
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - choices: The image choices for this question.
-    ///   - style: The choice selection type for this image choice question.
+    ///   - choiceSelectionLimit: The choice selection limit for this image choice question.
     ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
     ///   - imageValue: The selected value associated with one of the image choices.
     public init(
@@ -220,7 +220,7 @@ public struct ImageChoiceQuestion: View {
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - choices: The image choices for this question.
-    ///   - style: The choice selection type for this image choice question.
+    ///   - choiceSelectionLimit: The choice selection limit for this image choice question.
     ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
     ///   - imageValue: The selected value associated with one of the image choices.
     public init(
@@ -269,7 +269,7 @@ public struct ImageChoiceQuestion: View {
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - choices: The image choices for this question.
-    ///   - style: The choice selection type for this image choice question.
+    ///   - choiceSelectionLimit: The choice selection limit for this image choice question.
     ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
     ///   - imageValue: The selected value associated with one of the image choices.
     public init(
@@ -336,7 +336,7 @@ public struct ImageChoiceQuestion: View {
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - choices: The image choices for this question.
-    ///   - style: The choice selection type for this image choice question.
+    ///   - choiceSelectionLimit: The choice selection limit for this image choice question.
     ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
     public init(
         id: String,
