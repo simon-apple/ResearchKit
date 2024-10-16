@@ -30,7 +30,6 @@
 
 import SwiftUI
 
-
 /// A question that allows for date and time input.
 public struct DateTimeQuestion<Header: View>: View {
     
