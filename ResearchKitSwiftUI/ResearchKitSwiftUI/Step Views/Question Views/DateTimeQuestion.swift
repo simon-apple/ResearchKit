@@ -49,10 +49,10 @@ public struct DateTimeQuestion<Header: View>: View {
     private let pickerPrompt: String
     private let displayedComponents: DatePicker.Components
     private let range: ClosedRange<Date>
-    private let result: StateManagementType<Date?>
+    private let selection: StateManagementType<Date?>
 
     private var resolvedResult: Binding<Date?> {
-        switch result {
+        switch selection {
         case let .automatic(key: key):
             return Binding(
                 get: { managedFormResult.resultForStep(key: key) ?? Date() },
@@ -84,7 +84,7 @@ public struct DateTimeQuestion<Header: View>: View {
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range
-        self.result = .automatic(key: .date(id: id))
+        self.selection = .automatic(key: .date(id: id))
     }
 
     /// Initializes an instance of ``DateTimeQuestion`` with the provided configuration.
@@ -108,7 +108,7 @@ public struct DateTimeQuestion<Header: View>: View {
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range
-        self.result = .manual(date)
+        self.selection = .manual(date)
     }
 
     public var body: some View {
@@ -221,7 +221,7 @@ public extension DateTimeQuestion where Header == QuestionHeader {
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range
-        self.result = .automatic(key: .date(id: id))
+        self.selection = .automatic(key: .date(id: id))
     }
     
     /// Initializes an instance of ``DateTimeQuestion`` with the provided configuration.
@@ -247,7 +247,7 @@ public extension DateTimeQuestion where Header == QuestionHeader {
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range
-        self.result = .manual(selection)
+        self.selection = .manual(selection)
     }
     
 }

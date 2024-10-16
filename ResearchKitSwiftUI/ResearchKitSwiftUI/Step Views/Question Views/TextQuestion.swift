@@ -62,10 +62,10 @@ public struct TextQuestion<Header: View>: View {
     private let characterLimit: Int
     private let hideCharacterCountLabel: Bool
     private let hideClearButton: Bool
-    private let result: StateManagementType<String?>
+    private let selection: StateManagementType<String?>
 
     private var resolvedResult: Binding<String?> {
-        switch result {
+        switch selection {
         case let .automatic(key: key):
             return Binding(
                 get: { managedFormResult.resultForStep(key: key) ?? nil },
@@ -103,7 +103,7 @@ public struct TextQuestion<Header: View>: View {
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.result = .manual(text)
+        self.selection = .manual(text)
     }
 
     /// Initializes an instance of ``TextQuestion`` with the provided configuration.
@@ -131,7 +131,7 @@ public struct TextQuestion<Header: View>: View {
         self.characterLimit = characterLimit > 0 ? characterLimit : .max
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.result = .automatic(key: .text(id: id))
+        self.selection = .automatic(key: .text(id: id))
     }
 
     private var axis: Axis {
@@ -259,7 +259,7 @@ public extension TextQuestion where Header == QuestionHeader {
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.result = .manual(text)
+        self.selection = .manual(text)
     }
 
     /// Initializes an instance of ``TextQuestion`` with the provided configuration.
@@ -291,7 +291,7 @@ public extension TextQuestion where Header == QuestionHeader {
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.result = .automatic(key: StepResultKey(id: id))
+        self.selection = .automatic(key: StepResultKey(id: id))
 
         if let defaultTextAnswer {
             self.resolvedResult.wrappedValue = defaultTextAnswer

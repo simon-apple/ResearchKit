@@ -151,10 +151,10 @@ public struct ImageChoiceQuestion: View {
     private let choices: [ImageChoice]
     private let choiceSelectionLimit: ChoiceSelectionLimit
     private let vertical: Bool
-    private let result: StateManagementType<[ResultValue]?>
+    private let selection: StateManagementType<[ResultValue]?>
 
     private var resolvedResult: Binding<[ResultValue]?> {
-        switch result {
+        switch selection {
         case .automatic(let key):
             return Binding(
                 get: { managedFormResult.resultForStep(key: key) ?? [] },
@@ -190,7 +190,7 @@ public struct ImageChoiceQuestion: View {
             choices: choices,
             choiceSelectionLimit: choiceSelectionLimit,
             vertical: vertical,
-            result: .init(
+            selection: .init(
                 get: {
                     guard let integers = imageValue.wrappedValue else {
                         return nil
@@ -239,7 +239,7 @@ public struct ImageChoiceQuestion: View {
             choices: choices,
             choiceSelectionLimit: choiceSelectionLimit,
             vertical: vertical,
-            result: .init(
+            selection: .init(
                 get: {
                     guard let strings = imageValue.wrappedValue else {
                         return nil
@@ -288,7 +288,7 @@ public struct ImageChoiceQuestion: View {
             choices: choices,
             choiceSelectionLimit: choiceSelectionLimit,
             vertical: vertical,
-            result: .init(
+            selection: .init(
                 get: {
                     guard let dates = imageValue.wrappedValue else {
                         return nil
@@ -319,7 +319,7 @@ public struct ImageChoiceQuestion: View {
         choices: [ImageChoice],
         choiceSelectionLimit: ChoiceSelectionLimit,
         vertical: Bool,
-        result: Binding<[ResultValue]?>
+        selection: Binding<[ResultValue]?>
     ) {
         self.id = id
         self.title = title
@@ -327,7 +327,7 @@ public struct ImageChoiceQuestion: View {
         self.choices = choices
         self.choiceSelectionLimit = choiceSelectionLimit
         self.vertical = vertical
-        self.result = .manual(result)
+        self.selection = .manual(selection)
     }
 
     /// Initializes an instance of ``ImageChoiceQuestion`` with the provided configuration.
@@ -352,7 +352,7 @@ public struct ImageChoiceQuestion: View {
         self.choices = choices
         self.choiceSelectionLimit = choiceSelectionLimit
         self.vertical = vertical
-        self.result = .automatic(key: .imageChoice(id: id))
+        self.selection = .automatic(key: .imageChoice(id: id))
     }
 
     public var body: some View {

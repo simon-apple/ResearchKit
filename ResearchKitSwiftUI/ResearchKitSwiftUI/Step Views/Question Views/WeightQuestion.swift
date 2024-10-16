@@ -87,10 +87,10 @@ public struct WeightQuestion: View {
     private let defaultValue: Double?
     private let minimumValue: Double?
     private let maximumValue: Double?
-    private let result: StateManagementType<Double?>
+    private let selection: StateManagementType<Double?>
 
     private var resolvedResult: Binding<Double?> {
-        switch result {
+        switch selection {
         case let .automatic(key: key):
             return Binding(
                 get: { managedFormResult.resultForStep(key: key) ?? nil },
@@ -146,7 +146,7 @@ public struct WeightQuestion: View {
         self.defaultValue = defaultValue
         self.minimumValue = minimumValue
         self.maximumValue = maximumValue
-        self.result = .automatic(key: .weight(id: id))
+        self.selection = .automatic(key: .weight(id: id))
     }
     
     /// Initializes an instance of ``WeightQuestion`` with the provided configuration.
@@ -196,7 +196,7 @@ public struct WeightQuestion: View {
         self.defaultValue = defaultValue
         self.minimumValue = minimumValue
         self.maximumValue = maximumValue
-        self.result = .manual(weight)
+        self.selection = .manual(weight)
     }
 
     private var selectionString: String {

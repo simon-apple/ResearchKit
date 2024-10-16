@@ -48,13 +48,13 @@ public struct NumericQuestion<Header: View>: View {
     private let header: Header
     private let prompt: String?
     @FocusState private var focusTarget: FocusTarget?
-    private let result: StateManagementType<Double?>
+    private let selection: StateManagementType<Double?>
     
     @Environment(\.questionRequired)
     private var isRequired: Bool
 
     private var resolvedResult: Binding<Double?> {
-        switch result {
+        switch selection {
         case let .automatic(key: key):
             return Binding(
                 get: { managedFormResult.resultForStep(key: key) ?? nil },
@@ -126,7 +126,7 @@ public extension NumericQuestion where Header == QuestionHeader {
         self.id = id
         header = QuestionHeader(title: title, detail: detail)
         self.prompt = prompt
-        self.result = .manual(number)
+        self.selection = .manual(number)
     }
     
     /// Initializes an instance of ``NumericQuestion`` with the provided configuration.
@@ -146,7 +146,7 @@ public extension NumericQuestion where Header == QuestionHeader {
         self.id = id
         header = QuestionHeader(title: title, detail: detail)
         self.prompt = prompt
-        self.result = .automatic(key: .numeric(id: id))
+        self.selection = .automatic(key: .numeric(id: id))
     }
     
 }

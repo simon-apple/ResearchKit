@@ -40,7 +40,7 @@ public struct MultipleChoiceQuestion: View {
     private var isRequired: Bool
 
     private var resolvedResult: Binding<[ResultValue]?> {
-        switch result {
+        switch selection {
         case let .automatic(key: key):
             return Binding(
                 get: {
@@ -60,7 +60,7 @@ public struct MultipleChoiceQuestion: View {
     private let detail: String?
     private let choices: [TextChoice]
     private let choiceSelectionLimit: ChoiceSelectionLimit
-    private let result: StateManagementType<[ResultValue]?>
+    private let selection: StateManagementType<[ResultValue]?>
     
     /// Initializes an instance of ``MultipleChoiceQuestion`` with the provided configuration for an integer result.
     /// - Parameters:
@@ -84,7 +84,7 @@ public struct MultipleChoiceQuestion: View {
             detail: detail,
             choices: choices,
             choiceSelectionLimit: choiceSelectionLimit,
-            result: .init(
+            selection: .init(
                 get: {
                     guard let integers = selection.wrappedValue else {
                         return nil
@@ -130,7 +130,7 @@ public struct MultipleChoiceQuestion: View {
             detail: detail,
             choices: choices,
             choiceSelectionLimit: choiceSelectionLimit,
-            result: .init(
+            selection: .init(
                 get: {
                     guard let strings = selection.wrappedValue else {
                         return nil
@@ -176,7 +176,7 @@ public struct MultipleChoiceQuestion: View {
             detail: detail,
             choices: choices,
             choiceSelectionLimit: choiceSelectionLimit,
-            result: .init(
+            selection: .init(
                 get: {
                     guard let dates = selection.wrappedValue else {
                         return nil
@@ -206,14 +206,14 @@ public struct MultipleChoiceQuestion: View {
         detail: String? = nil,
         choices: [TextChoice],
         choiceSelectionLimit: ChoiceSelectionLimit,
-        result: Binding<[ResultValue]?>
+        selection: Binding<[ResultValue]?>
     ) {
         self.id = id
         self.title = title
         self.detail = detail
         self.choices = choices
         self.choiceSelectionLimit = choiceSelectionLimit
-        self.result = .manual(result)
+        self.selection = .manual(selection)
     }
     
     /// Initializes an instance of ``MultipleChoiceQuestion`` with the provided configuration and manages a binding internally.
@@ -235,7 +235,7 @@ public struct MultipleChoiceQuestion: View {
         self.detail = detail
         self.choices = choices
         self.choiceSelectionLimit = choiceSelectionLimit
-        self.result = .automatic(key: .multipleChoice(id: id))
+        self.selection = .automatic(key: .multipleChoice(id: id))
     }
 
     public var body: some View {

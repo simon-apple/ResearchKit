@@ -60,12 +60,12 @@ public struct HeightQuestion: View {
     private let title: String
     private let detail: String?
     private let measurementSystem: MeasurementSystem
-    private let result: StateManagementType<Double?>
+    private let selection: StateManagementType<Double?>
 
     private var initialPrimaryValue: Double = 162 // Denotes height in cm, which is ~5'4", a good average height.
 
     private var resolvedResult: Binding<Double?> {
-        switch result {
+        switch selection {
         case let .automatic(key: key):
             return Binding(
                 get: { managedFormResult.resultForStep(key: key) ?? initialPrimaryValue },
@@ -108,7 +108,7 @@ public struct HeightQuestion: View {
             }
         }()
         self.measurementSystem = system
-        self.result = .automatic(key: .height(id: id))
+        self.selection = .automatic(key: .height(id: id))
     }
     
     /// Initializes an instance of ``HeightQuestion`` with the provided configuration.
@@ -145,7 +145,7 @@ public struct HeightQuestion: View {
             }
         }()
         self.measurementSystem = system
-        self.result = .manual(height)
+        self.selection = .manual(height)
     }
 
     private var selectionString: String {
