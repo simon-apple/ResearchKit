@@ -126,7 +126,7 @@ public struct ImageChoice: Identifiable, Equatable {
 }
 
 /// Represents the number of of choices that can be selected.
-public enum ChoiceSelectionType {
+public enum ChoiceSelectionQuantity {
     
     /// Allows for the selection of only one choice.
     case single
@@ -149,7 +149,7 @@ public struct ImageChoiceQuestion: View {
     private let title: String
     private let detail: String?
     private let choices: [ImageChoice]
-    private let style: ChoiceSelectionType
+    private let choiceSelectionQuantity: ChoiceSelectionQuantity
     private let vertical: Bool
     private let result: StateManagementType<[ResultValue]?>
 
@@ -179,7 +179,7 @@ public struct ImageChoiceQuestion: View {
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        style: ChoiceSelectionType,
+        choiceSelectionQuantity: ChoiceSelectionQuantity,
         vertical: Bool,
         result: Binding<[Int]?>
     ) {
@@ -188,7 +188,7 @@ public struct ImageChoiceQuestion: View {
             title: title,
             detail: detail,
             choices: choices,
-            style: style,
+            choiceSelectionQuantity: choiceSelectionQuantity,
             vertical: vertical,
             result: .init(
                 get: {
@@ -228,7 +228,7 @@ public struct ImageChoiceQuestion: View {
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        style: ChoiceSelectionType,
+        choiceSelectionQuantity: ChoiceSelectionQuantity,
         vertical: Bool,
         result: Binding<[String]?>
     ) {
@@ -237,7 +237,7 @@ public struct ImageChoiceQuestion: View {
             title: title,
             detail: detail,
             choices: choices,
-            style: style,
+            choiceSelectionQuantity: choiceSelectionQuantity,
             vertical: vertical,
             result: .init(
                 get: {
@@ -277,7 +277,7 @@ public struct ImageChoiceQuestion: View {
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        style: ChoiceSelectionType,
+        choiceSelectionQuantity: ChoiceSelectionQuantity,
         vertical: Bool,
         result: Binding<[Date]?>
     ) {
@@ -286,7 +286,7 @@ public struct ImageChoiceQuestion: View {
             title: title,
             detail: detail,
             choices: choices,
-            style: style,
+            choiceSelectionQuantity: choiceSelectionQuantity,
             vertical: vertical,
             result: .init(
                 get: {
@@ -317,7 +317,7 @@ public struct ImageChoiceQuestion: View {
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        style: ChoiceSelectionType,
+        choiceSelectionQuantity: ChoiceSelectionQuantity,
         vertical: Bool,
         result: Binding<[ResultValue]?>
     ) {
@@ -325,7 +325,7 @@ public struct ImageChoiceQuestion: View {
         self.title = title
         self.detail = detail
         self.choices = choices
-        self.style = style
+        self.choiceSelectionQuantity = choiceSelectionQuantity
         self.vertical = vertical
         self.result = .manual(result)
     }
@@ -343,14 +343,14 @@ public struct ImageChoiceQuestion: View {
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        style: ChoiceSelectionType,
+        choiceSelectionQuantity: ChoiceSelectionQuantity,
         vertical: Bool
     ) {
         self.id = id
         self.title = title
         self.detail = detail
         self.choices = choices
-        self.style = style
+        self.choiceSelectionQuantity = choiceSelectionQuantity
         self.vertical = vertical
         self.result = .automatic(key: .imageChoice(id: id))
     }
@@ -359,7 +359,7 @@ public struct ImageChoiceQuestion: View {
         QuestionCard {
             Question(title: title, detail: detail) {
                 VStack {
-                    if style == .multiple {
+                    if choiceSelectionQuantity == .multiple {
                         multipleSelectionHeader()
                     }
                     
@@ -522,7 +522,7 @@ fileprivate extension View {
                     value: 1
                 ),
             ],
-            style: .multiple,
+            choiceSelectionQuantity: .multiple,
             vertical: false,
             result: $selection
         )

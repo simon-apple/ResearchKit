@@ -134,7 +134,7 @@ struct ResearchFormAdapter: View {
                 id: id,
                 title: title ?? "",
                 choices: answerOptions(for: textChoiceAnswerFormat.textChoices),
-                selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
+                choiceSelectionQuantity: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
             )
         case let scaleAnswerFormat as ORKScaleAnswerFormat:
             SliderQuestion(
@@ -266,7 +266,7 @@ struct ResearchFormAdapter: View {
                 return imageChoice
             }
             
-            let style: ChoiceSelectionType = {
+            let choiceSelectionQuantity: ChoiceSelectionQuantity = {
                 switch imageChoiceAnswerFormat.style {
                 case .singleChoice:
                     return .single
@@ -281,7 +281,7 @@ struct ResearchFormAdapter: View {
                 title: title ?? "",
                 detail: detail,
                 choices: choices,
-                style: style,
+                choiceSelectionQuantity: choiceSelectionQuantity,
                 vertical: imageChoiceAnswerFormat.isVertical
             )
         default:

@@ -32,17 +32,6 @@ import SwiftUI
 
 /// A question that allows for multiple choice input.
 public struct MultipleChoiceQuestion: View {
-    
-    /// The choice selection method.
-    public enum ChoiceSelectionType {
-        
-        /// Allows for only one multiple choice option to be selected.
-        case single
-        
-        /// Allows for more than one multiple choice option to be selected.
-        case multiple
-        
-    }
 
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
@@ -70,7 +59,7 @@ public struct MultipleChoiceQuestion: View {
     private let title: String
     private let detail: String?
     private let choices: [TextChoice]
-    private let selectionType: ChoiceSelectionType
+    private let choiceSelectionQuantity: ChoiceSelectionQuantity
     private let result: StateManagementType<[ResultValue]?>
     
     /// Initializes an instance of ``MultipleChoiceQuestion`` with the provided configuration for an integer result.
@@ -86,7 +75,7 @@ public struct MultipleChoiceQuestion: View {
         title: String,
         detail: String? = nil,
         choices: [TextChoice],
-        selectionType: ChoiceSelectionType,
+        choiceSelectionQuantity: ChoiceSelectionQuantity,
         result: Binding<[Int]?>
     ) {
         self.init(
@@ -94,7 +83,7 @@ public struct MultipleChoiceQuestion: View {
             title: title,
             detail: detail,
             choices: choices,
-            selectionType: selectionType,
+            choiceSelectionQuantity: choiceSelectionQuantity,
             result: .init(
                 get: {
                     guard let integers = result.wrappedValue else {
@@ -132,7 +121,7 @@ public struct MultipleChoiceQuestion: View {
         title: String,
         detail: String? = nil,
         choices: [TextChoice],
-        selectionType: ChoiceSelectionType,
+        choiceSelectionQuantity: ChoiceSelectionQuantity,
         result: Binding<[String]?>
     ) {
         self.init(
@@ -140,7 +129,7 @@ public struct MultipleChoiceQuestion: View {
             title: title,
             detail: detail,
             choices: choices,
-            selectionType: selectionType,
+            choiceSelectionQuantity: choiceSelectionQuantity,
             result: .init(
                 get: {
                     guard let strings = result.wrappedValue else {
@@ -178,7 +167,7 @@ public struct MultipleChoiceQuestion: View {
         title: String,
         detail: String? = nil,
         choices: [TextChoice],
-        selectionType: ChoiceSelectionType,
+        choiceSelectionQuantity: ChoiceSelectionQuantity,
         result: Binding<[Date]?>
     ) {
         self.init(
@@ -186,7 +175,7 @@ public struct MultipleChoiceQuestion: View {
             title: title,
             detail: detail,
             choices: choices,
-            selectionType: selectionType,
+            choiceSelectionQuantity: choiceSelectionQuantity,
             result: .init(
                 get: {
                     guard let dates = result.wrappedValue else {
@@ -216,14 +205,14 @@ public struct MultipleChoiceQuestion: View {
         title: String,
         detail: String? = nil,
         choices: [TextChoice],
-        selectionType: ChoiceSelectionType,
+        choiceSelectionQuantity: ChoiceSelectionQuantity,
         result: Binding<[ResultValue]?>
     ) {
         self.id = id
         self.title = title
         self.detail = detail
         self.choices = choices
-        self.selectionType = selectionType
+        self.choiceSelectionQuantity = choiceSelectionQuantity
         self.result = .manual(result)
     }
     
@@ -239,13 +228,13 @@ public struct MultipleChoiceQuestion: View {
         title: String,
         detail: String? = nil,
         choices: [TextChoice],
-        selectionType: ChoiceSelectionType
+        choiceSelectionQuantity: ChoiceSelectionQuantity
     ) {
         self.id = id
         self.title = title
         self.detail = detail
         self.choices = choices
-        self.selectionType = selectionType
+        self.choiceSelectionQuantity = choiceSelectionQuantity
         self.result = .automatic(key: .multipleChoice(id: id))
     }
 
@@ -296,7 +285,7 @@ public struct MultipleChoiceQuestion: View {
            let index = resultArray.firstIndex(where: { $0 == option.value }) {
                resolvedResult.wrappedValue?.remove(at: index)
         } else {
-            switch selectionType {
+            switch choiceSelectionQuantity {
             case .single:
                 resolvedResult.wrappedValue = [option.value]
             case .multiple:
@@ -320,8 +309,8 @@ struct MultipleChoiceQuestionView_Previews: PreviewProvider {
                     TextChoice(id: "a", choiceText: "Option A", value: 0),
                     TextChoice(id: "b", choiceText: "Option B", value: 1),
                     TextChoice(id: "c", choiceText: "Option C", value: 2)
-            ],
-                selectionType: .multiple,
+                ],
+                choiceSelectionQuantity: .multiple,
                 result: .constant([0])
             )
             .padding(.horizontal)
