@@ -49,20 +49,20 @@ public struct TextQuestion<Header: View>: View {
     @Environment(\.questionRequired)
     private var isRequired: Bool
         
-    enum FocusTarget {
+    private enum FocusTarget {
         case textQuestion
     }
     
-    let id: String
-    let header: Header
-    let multilineTextFieldPadding: Double = 54
+    private let id: String
+    private let header: Header
+    private let multilineTextFieldPadding: Double = 54
     @FocusState private var focusTarget: FocusTarget?
-    let prompt: String?
-    let textQuestionType: TextQuestionType
-    let characterLimit: Int
-    let hideCharacterCountLabel: Bool
-    let hideClearButton: Bool
-    let result: StateManagementType<String?>
+    private let prompt: String?
+    private let textQuestionType: TextQuestionType
+    private let characterLimit: Int
+    private let hideCharacterCountLabel: Bool
+    private let hideClearButton: Bool
+    private let result: StateManagementType<String?>
 
     private var resolvedResult: Binding<String?> {
         switch result {

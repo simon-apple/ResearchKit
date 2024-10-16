@@ -145,12 +145,12 @@ public struct ImageChoiceQuestion: View {
     @Environment(\.questionRequired)
     private var isRequired: Bool
 
-    let id: String
-    let title: String
-    let detail: String?
-    let choices: [ImageChoice]
-    let style: ChoiceSelectionType
-    let vertical: Bool
+    private let id: String
+    private let title: String
+    private let detail: String?
+    private let choices: [ImageChoice]
+    private let style: ChoiceSelectionType
+    private let vertical: Bool
     private let result: StateManagementType<[ResultValue]?>
 
     private var resolvedResult: Binding<[ResultValue]?> {
@@ -392,7 +392,7 @@ public struct ImageChoiceQuestion: View {
     }
 
     @ViewBuilder
-    func selectionText() -> some View {
+    private func selectionText() -> some View {
         
         if let result = resolvedResult.wrappedValue,
            result.isEmpty == false
@@ -416,7 +416,7 @@ public struct ImageChoiceQuestion: View {
     }
 
     @ViewBuilder
-    func imageChoices() -> some View {
+    private func imageChoices() -> some View {
         ForEach(choices, id: \.id) { choice in
             Button {
                 if let index = resolvedResult.wrappedValue?.firstIndex(where: { $0 == choice.value }) {

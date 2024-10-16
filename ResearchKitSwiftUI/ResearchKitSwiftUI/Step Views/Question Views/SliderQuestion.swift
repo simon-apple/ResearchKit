@@ -44,11 +44,11 @@ public enum SliderQuestionConfiguration {
 /// A question that allows for integer, double, or text input by means of a slider.
 public struct SliderQuestion: View {
     
-    let id: String
-    var title: String
-    var detail: String?
-    var scaleSelectionConfiguration: SliderQuestionConfiguration
-    let step: Double
+    private let id: String
+    private let title: String
+    private let detail: String?
+    private let scaleSelectionConfiguration: SliderQuestionConfiguration
+    private let step: Double
     
     private enum ScaleSelectionBindingValue: Equatable {
         
