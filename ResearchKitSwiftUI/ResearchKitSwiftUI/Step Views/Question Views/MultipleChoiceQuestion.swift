@@ -68,7 +68,7 @@ public struct MultipleChoiceQuestion: View {
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - choices: The choices that can be selected for this question.
-    ///   - selectionType: The selection type for this question.
+    ///   - choiceSelectionQuantity: The selection type for this question.
     ///   - result: The binding for the result.
     public init(
         id: String,
@@ -114,7 +114,7 @@ public struct MultipleChoiceQuestion: View {
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - choices: The choices that can be selected for this question.
-    ///   - selectionType: The selection type for this question.
+    ///   - choiceSelectionQuantity: The selection type for this question.
     ///   - result: The binding for the result.
     public init(
         id: String,
@@ -160,7 +160,7 @@ public struct MultipleChoiceQuestion: View {
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - choices: The choices that can be selected for this question.
-    ///   - selectionType: The selection type for this question.
+    ///   - choiceSelectionQuantity: The selection type for this question.
     ///   - result: The binding for the result.
     public init(
         id: String,
@@ -222,7 +222,7 @@ public struct MultipleChoiceQuestion: View {
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - choices: The choices that can be selected for this question.
-    ///   - selectionType: The selection type for this question.
+    ///   - choiceSelectionQuantity: The selection type for this question.
     public init(
         id: String,
         title: String,
