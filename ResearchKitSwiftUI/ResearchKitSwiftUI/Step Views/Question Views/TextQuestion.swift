@@ -30,11 +30,18 @@
 
 import SwiftUI
 
-public enum TextFieldType {
-    case singleLine, multiline
-}
-
+/// A question that allows for text input.
 public struct TextQuestion<Header: View>: View {
+    
+    /// Represents the number of lines a text question can contain.
+    public enum LineLimit {
+        
+        /// A single line text question.
+        case singleLine
+        
+        /// A multiline text question.
+        case multiline
+    }
     
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
@@ -51,14 +58,14 @@ public struct TextQuestion<Header: View>: View {
     private let multilineTextFieldPadding: Double = 54
     @FocusState private var focusTarget: FocusTarget?
     private let prompt: String?
-    private let textFieldType: TextFieldType
+    private let lineLimit: LineLimit
     private let characterLimit: Int
     private let hideCharacterCountLabel: Bool
     private let hideClearButton: Bool
-    private let result: StateManagementType<String?>
+    private let selection: StateManagementType<String?>
 
     private var resolvedResult: Binding<String?> {
-        switch result {
+        switch selection {
         case let .automatic(key: key):
             return Binding(
                 get: { managedFormResult.resultForStep(key: key) ?? nil },
@@ -68,32 +75,51 @@ public struct TextQuestion<Header: View>: View {
             return value
         }
     }
-
+    
+    /// Initializes an instance of ``TextQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this question.
+    ///   - header: The header for this question.
+    ///   - prompt: The placeholder for this question.
+    ///   - lineLimit: Specifies whether this text question is single line or multiline.
+    ///   - characterLimit: The number of characters that can be used for this question.
+    ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
+    ///   - hideClearButton: Whether or not the clear button is displayed.
+    ///   - text: The entered text.
     public init(
         id: String,
         @ViewBuilder header: () -> Header,
         prompt: String?,
-        textFieldType: TextFieldType,
+        lineLimit: LineLimit,
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false,
-        result: Binding<String?>
+        text: Binding<String?>
     ) {
         self.id = id
         self.header = header()
         self.prompt = prompt
-        self.textFieldType = textFieldType
+        self.lineLimit = lineLimit
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.result = .manual(result)
+        self.selection = .manual(text)
     }
 
+    /// Initializes an instance of ``TextQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this question.
+    ///   - header: The header for this question.
+    ///   - prompt: The placeholder for this question.
+    ///   - lineLimit: Specifies whether this text question is single line or multiline.
+    ///   - characterLimit: The number of characters that can be used for this text question.
+    ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
+    ///   - hideClearButton: Whether or not the clear button is displayed.
     public init(
         id: String,
         @ViewBuilder header: () -> Header,
         prompt: String?,
-        textFieldType: TextFieldType,
+        lineLimit: LineLimit,
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false
@@ -101,15 +127,15 @@ public struct TextQuestion<Header: View>: View {
         self.id = id
         self.header = header()
         self.prompt = prompt
-        self.textFieldType = textFieldType
+        self.lineLimit = lineLimit
         self.characterLimit = characterLimit > 0 ? characterLimit : .max
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.result = .automatic(key: .text(id: id))
+        self.selection = .automatic(key: .text(id: id))
     }
 
     private var axis: Axis {
-        switch textFieldType {
+        switch lineLimit {
         case .singleLine:
             return .horizontal
         case .multiline:
@@ -138,13 +164,13 @@ public struct TextQuestion<Header: View>: View {
                         .contentShape(Rectangle())
                         .onAppear(perform: {
 #if !os(watchOS)
-                            if textFieldType == .singleLine {
+                            if lineLimit == .singleLine {
                                 UITextField.appearance().clearButtonMode = .whileEditing
                             }
 #endif
                         })
                     
-                    if textFieldType == .multiline {
+                    if lineLimit == .multiline {
                         HStack {
                             if hideCharacterCountLabel == false {
                                 Text("\(resolvedResult.wrappedValue?.count ?? 0)/\(characterLimit)")
@@ -192,33 +218,56 @@ public struct TextQuestion<Header: View>: View {
 }
 
 public extension TextQuestion where Header == QuestionHeader {
+    
+    /// Initializes an instance of ``TextQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this text question.
+    ///   - title: The title for this text question.
+    ///   - detail: The details for this text question.
+    ///   - prompt: The placeholder for this text question.
+    ///   - lineLimit: Specifies whether this text question is single line or multiline.
+    ///   - characterLimit: The number of characters that can be used for this text question.
+    ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
+    ///   - hideClearButton: Whether or not the clear button is displayed.
+    ///   - text: The entered text.
     init(
         id: String,
         title: String,
         detail: String?,
         prompt: String?,
-        textFieldType: TextFieldType,
+        lineLimit: LineLimit,
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false,
-        result: Binding<String?>
+        text: Binding<String?>
     ) {
         self.id = id
         self.header = QuestionHeader(title: title, detail: detail)
         self.prompt = prompt
-        self.textFieldType = textFieldType
+        self.lineLimit = lineLimit
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.result = .manual(result)
+        self.selection = .manual(text)
     }
 
+    /// Initializes an instance of ``TextQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this text question.
+    ///   - title: The title for this text question.
+    ///   - detail: The details for this text question.
+    ///   - prompt: The placeholder for this text question.
+    ///   - lineLimit: Specifies whether this text question is single line or multiline.
+    ///   - characterLimit: The number of characters that can be used for this text question.
+    ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
+    ///   - hideClearButton: Whether or not the clear button is displayed.
+    ///   - defaultTextAnswer: The initial text to display.
     init(
         id: String,
         title: String,
         detail: String? = nil,
         prompt: String?,
-        textFieldType: TextFieldType,
+        lineLimit: LineLimit,
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false,
@@ -227,11 +276,11 @@ public extension TextQuestion where Header == QuestionHeader {
         self.id = id
         self.header = QuestionHeader(title: title, detail: detail)
         self.prompt = prompt
-        self.textFieldType = textFieldType
+        self.lineLimit = lineLimit
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.result = .automatic(key: StepResultKey(id: id))
+        self.selection = .automatic(key: StepResultKey(id: id))
 
         if let defaultTextAnswer {
             self.resolvedResult.wrappedValue = defaultTextAnswer
@@ -247,10 +296,10 @@ public extension TextQuestion where Header == QuestionHeader {
             title: "What is your name?",
             detail: nil,
             prompt: "Tap to write",
-            textFieldType: .singleLine,
+            lineLimit: .singleLine,
             characterLimit: 10,
             hideCharacterCountLabel: true,
-            result: $value
+            text: $value
         )
     }
 }

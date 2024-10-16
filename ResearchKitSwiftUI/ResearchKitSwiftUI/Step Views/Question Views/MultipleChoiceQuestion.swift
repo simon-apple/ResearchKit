@@ -30,6 +30,7 @@
 
 import SwiftUI
 
+/// A question that allows for multiple choice input.
 public struct MultipleChoiceQuestion: View {
 
     @EnvironmentObject
@@ -39,7 +40,7 @@ public struct MultipleChoiceQuestion: View {
     private var isRequired: Bool
 
     private var resolvedResult: Binding<[ResultValue]?> {
-        switch result {
+        switch selection {
         case let .automatic(key: key):
             return Binding(
                 get: {
@@ -58,37 +59,45 @@ public struct MultipleChoiceQuestion: View {
     private let title: String
     private let detail: String?
     private let choices: [TextChoice]
-    private let choiceSelectionQuantity: ChoiceSelectionQuantity
-    private let result: StateManagementType<[ResultValue]?>
+    private let choiceSelectionLimit: ChoiceSelectionLimit
+    private let selection: StateManagementType<[ResultValue]?>
     
+    /// Initializes an instance of ``MultipleChoiceQuestion`` with the provided configuration for an integer result.
+    /// - Parameters:
+    ///   - id: The unique identifier associated with this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - choices: The choices that can be selected for this question.
+    ///   - choiceSelectionLimit: The selection type for this question.
+    ///   - selection: The selected choices, where the choice values are represented as integers.
     public init(
         id: String,
         title: String,
         detail: String? = nil,
         choices: [TextChoice],
-        choiceSelectionQuantity: ChoiceSelectionQuantity,
-        result: Binding<[Int]?>
+        choiceSelectionLimit: ChoiceSelectionLimit,
+        selection: Binding<[Int]?>
     ) {
         self.init(
             id: id,
             title: title,
             detail: detail,
             choices: choices,
-            choiceSelectionQuantity: choiceSelectionQuantity,
-            result: .init(
+            choiceSelectionLimit: choiceSelectionLimit,
+            selection: .init(
                 get: {
-                    guard let integers = result.wrappedValue else {
+                    guard let integers = selection.wrappedValue else {
                         return nil
                     }
                     return integers.map { .int($0) }
                 },
                 set: { newValues in
                     guard let newValues else {
-                        result.wrappedValue = nil
+                        selection.wrappedValue = nil
                         return
                     }
                     
-                    result.wrappedValue = newValues.compactMap { resultValue in
+                    selection.wrappedValue = newValues.compactMap { resultValue in
                         guard case let .int(value) = resultValue else {
                             return nil
                         }
@@ -99,34 +108,42 @@ public struct MultipleChoiceQuestion: View {
         )
     }
     
+    /// Initializes an instance of ``MultipleChoiceQuestion`` with the provided configuration for a string result.
+    /// - Parameters:
+    ///   - id: The unique identifier associated with this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - choices: The choices that can be selected for this question.
+    ///   - choiceSelectionLimit: The selection type for this question.
+    ///   - selection: The selected choices, where the choice values are represented as strings.
     public init(
         id: String,
         title: String,
         detail: String? = nil,
         choices: [TextChoice],
-        choiceSelectionQuantity: ChoiceSelectionQuantity,
-        result: Binding<[String]?>
+        choiceSelectionLimit: ChoiceSelectionLimit,
+        selection: Binding<[String]?>
     ) {
         self.init(
             id: id,
             title: title,
             detail: detail,
             choices: choices,
-            choiceSelectionQuantity: choiceSelectionQuantity,
-            result: .init(
+            choiceSelectionLimit: choiceSelectionLimit,
+            selection: .init(
                 get: {
-                    guard let strings = result.wrappedValue else {
+                    guard let strings = selection.wrappedValue else {
                         return nil
                     }
                     return strings.map { .string($0) }
                 },
                 set: { newValues in
                     guard let newValues else {
-                        result.wrappedValue = nil
+                        selection.wrappedValue = nil
                         return
                     }
                     
-                    result.wrappedValue = newValues.compactMap { resultValue in
+                    selection.wrappedValue = newValues.compactMap { resultValue in
                         guard case let .string(value) = resultValue else {
                             return nil
                         }
@@ -137,34 +154,42 @@ public struct MultipleChoiceQuestion: View {
         )
     }
     
+    /// Initializes an instance of ``MultipleChoiceQuestion`` with the provided configuration for a date result.
+    /// - Parameters:
+    ///   - id: The unique identifier associated with this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - choices: The choices that can be selected for this question.
+    ///   - choiceSelectionLimit: The selection type for this question.
+    ///   - selection: The selected choices, where the choice values are represented as dates.
     public init(
         id: String,
         title: String,
         detail: String? = nil,
         choices: [TextChoice],
-        choiceSelectionQuantity: ChoiceSelectionQuantity,
-        result: Binding<[Date]?>
+        choiceSelectionLimit: ChoiceSelectionLimit,
+        selection: Binding<[Date]?>
     ) {
         self.init(
             id: id,
             title: title,
             detail: detail,
             choices: choices,
-            choiceSelectionQuantity: choiceSelectionQuantity,
-            result: .init(
+            choiceSelectionLimit: choiceSelectionLimit,
+            selection: .init(
                 get: {
-                    guard let dates = result.wrappedValue else {
+                    guard let dates = selection.wrappedValue else {
                         return nil
                     }
                     return dates.map { .date($0) }
                 },
                 set: { newValues in
                     guard let newValues else {
-                        result.wrappedValue = nil
+                        selection.wrappedValue = nil
                         return
                     }
                     
-                    result.wrappedValue = newValues.compactMap { resultValue in
+                    selection.wrappedValue = newValues.compactMap { resultValue in
                         guard case let .date(value) = resultValue else {
                             return nil
                         }
@@ -180,30 +205,37 @@ public struct MultipleChoiceQuestion: View {
         title: String,
         detail: String? = nil,
         choices: [TextChoice],
-        choiceSelectionQuantity: ChoiceSelectionQuantity,
-        result: Binding<[ResultValue]?>
+        choiceSelectionLimit: ChoiceSelectionLimit,
+        selection: Binding<[ResultValue]?>
     ) {
         self.id = id
         self.title = title
         self.detail = detail
         self.choices = choices
-        self.choiceSelectionQuantity = choiceSelectionQuantity
-        self.result = .manual(result)
+        self.choiceSelectionLimit = choiceSelectionLimit
+        self.selection = .manual(selection)
     }
     
+    /// Initializes an instance of ``MultipleChoiceQuestion`` with the provided configuration and manages a binding internally.
+    /// - Parameters:
+    ///   - id: The unique identifier associated with this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - choices: The choices that can be selected for this question.
+    ///   - choiceSelectionLimit: The selection type for this question.
     public init(
         id: String,
         title: String,
         detail: String? = nil,
         choices: [TextChoice],
-        choiceSelectionQuantity: ChoiceSelectionQuantity
+        choiceSelectionLimit: ChoiceSelectionLimit
     ) {
         self.id = id
         self.title = title
         self.detail = detail
         self.choices = choices
-        self.choiceSelectionQuantity = choiceSelectionQuantity
-        self.result = .automatic(key: .multipleChoice(id: id))
+        self.choiceSelectionLimit = choiceSelectionLimit
+        self.selection = .automatic(key: .multipleChoice(id: id))
     }
 
     public var body: some View {
@@ -253,7 +285,7 @@ public struct MultipleChoiceQuestion: View {
            let index = resultArray.firstIndex(where: { $0 == option.value }) {
                resolvedResult.wrappedValue?.remove(at: index)
         } else {
-            switch choiceSelectionQuantity {
+            switch choiceSelectionLimit {
             case .single:
                 resolvedResult.wrappedValue = [option.value]
             case .multiple:
@@ -278,8 +310,8 @@ struct MultipleChoiceQuestionView_Previews: PreviewProvider {
                     TextChoice(id: "b", choiceText: "Option B", value: 1),
                     TextChoice(id: "c", choiceText: "Option C", value: 2)
                 ],
-                choiceSelectionQuantity: .multiple,
-                result: .constant([0])
+                choiceSelectionLimit: .multiple,
+                selection: .constant([0])
             )
             .padding(.horizontal)
         }

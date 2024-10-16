@@ -28,16 +28,22 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/// Represents the context for a survey's completion.
 public enum ResearchFormCompletion {
+    /// The survey was dismissed with the intent to save question responses.
     case saved(ResearchFormResult)
+    /// The survey was dismissed with the intent to discard question responses.
     case discarded
+    /// The survey was completed, and question responses are provided.
     case completed(ResearchFormResult)
+    /// The survey was dismissed in a failed manner.
     case failed
+    /// The survey was terminated.
     case terminated
 }
 
 extension ResearchFormCompletion: Equatable {
-    
+ 
     public static func == (lhs: ResearchFormCompletion, rhs: ResearchFormCompletion) -> Bool {
         let isEqual: Bool
         

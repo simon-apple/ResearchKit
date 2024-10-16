@@ -30,8 +30,6 @@
 
 import SwiftUI
 
-/// A card that displays a header view, a divider line, and an answer view.
-
 struct Question<Header: View, Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
     
@@ -69,7 +67,7 @@ extension Question where Header == QuestionHeader {
     }
 }
 
-/// The default header used by a `FormItemCardView`
+/// A question header containing a title and detail.
 public struct QuestionHeader: View {
 
     private let title: String

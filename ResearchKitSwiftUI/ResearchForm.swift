@@ -30,6 +30,11 @@
 
 import SwiftUI
 
+/// Manages the navigation between steps in a survey.
+///
+/// To add steps to a `ResearchForm`, create instances of ``ResearchFormStep`` and pass them into a `ResearchForm`. To display questions in each step, ResearchKit provides various question formats that can be used within a ``ResearchFormStep`` such as ``MultipleChoiceQuestion``, ``DateTimeQuestion``, and more. These questions can be marked as optional or required, which a `ResearchForm` tracks as part of navigation management.
+///
+/// Additionally, a `ResearchForm` manages survey results for questions that manage their own bindings internally. Results are passed through a ``ResearchFormResult`` once a survey is completed. For instance, a text question for which no binding is provided has its result stored in ``ResearchFormResult``. However, a text question that has been provided a binding does not have its result stored in ``ResearchFormResult``, and in this case, you are expected to manage the result for the text question.
 public struct ResearchForm<Content: View>: View {
     @State
     private var managedFormResult: ResearchFormResult
@@ -44,6 +49,12 @@ public struct ResearchForm<Content: View>: View {
     
     private var onResearchFormCompletion: ((ResearchFormCompletion) -> Void)?
     
+    /// Initializes an instance of ``ResearchForm`` with the provided configuration.
+    /// - Parameters:
+    ///   - taskIdentifier: An identifier that uniquely identifies this research form.
+    ///   - restorationResult: A result used to pre-populate questions that had previously been answered.
+    ///   - steps: The steps in a survey, each of which can contain a set of questions.
+    ///   - onResearchFormCompletion: A completion that is triggered when the survey is dismissed.
     public init(
         taskIdentifier: String,
         restorationResult: ResearchFormResult? = nil,
@@ -81,6 +92,7 @@ public struct ResearchForm<Content: View>: View {
     
 }
 
+/// Represents a step in a survey and lays out the header and questions on one page. Question numbers (e.g. 1 of 3) are automatically added at the top of each question to denote progress in a step.
 public struct ResearchFormStep<Header: View, Content: View>: View {
     
     @State
@@ -89,6 +101,10 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
     private let header: Header
     private let content: Content
     
+    /// Initializes an instance of ``ResearchFormStep`` with the provided configuration.
+    /// - Parameters:
+    ///   - header: The header that is displayed at the top of the step.
+    ///   - content: The questions that are displayed below the header.
     public init(
         @ViewBuilder header: () -> Header,
         @ViewBuilder content: () -> Content
@@ -189,6 +205,8 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
 
 public extension ResearchFormStep where Header == EmptyView {
     
+    /// Initializes an instance of ``ResearchFormStep`` with just the questions and no header.
+    /// - Parameter content: The questions for the step.
     init(@ViewBuilder content: () -> Content) {
         self.init(
             header: {
@@ -202,6 +220,11 @@ public extension ResearchFormStep where Header == EmptyView {
 
 public extension ResearchFormStep where Header == StepHeader, Content == EmptyView {
     
+    /// Initializes an instance of ``ResearchFormStep`` with the provided configuration. There are no questions displayed beneath the header.
+    /// - Parameters:
+    ///   - image: The image displayed in the header.
+    ///   - title: The title displayed in the header.
+    ///   - subtitle: The subtitle displayed in the header.
     init(
         image: Image? = nil,
         title: String? = nil,
@@ -221,6 +244,12 @@ public extension ResearchFormStep where Header == StepHeader, Content == EmptyVi
 
 public extension ResearchFormStep where Header == StepHeader {
     
+    /// Initializes an instance of ``ResearchFormStep`` with the provided configuration. The questions are displayed beneath the header.
+    /// - Parameters:
+    ///   - image: The image displayed in the header.
+    ///   - title: The title displayed in the header.
+    ///   - subtitle: The subtitle displayed in the header.
+    ///   - content: The questions for the step that are displayed beneath the header.
     init(
         image: Image? = nil,
         title: String? = nil,

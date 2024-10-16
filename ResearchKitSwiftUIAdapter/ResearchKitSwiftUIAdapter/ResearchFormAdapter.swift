@@ -134,7 +134,7 @@ struct ResearchFormAdapter: View {
                 id: id,
                 title: title ?? "",
                 choices: answerOptions(for: textChoiceAnswerFormat.textChoices),
-                choiceSelectionQuantity: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
+                choiceSelectionLimit: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
             )
         case let scaleAnswerFormat as ORKScaleAnswerFormat:
             SliderQuestion(
@@ -182,7 +182,7 @@ struct ResearchFormAdapter: View {
                 title: title ?? "",
                 detail: "",
                 prompt: placeholder,
-                textFieldType: textAnswerFormat.multipleLines ? .multiline : .singleLine,
+                lineLimit: textAnswerFormat.multipleLines ? .multiline : .singleLine,
                 characterLimit: textAnswerFormat.maximumLength,
                 hideCharacterCountLabel: textAnswerFormat.hideCharacterCountLabel,
                 hideClearButton: textAnswerFormat.hideClearButton,
@@ -200,7 +200,7 @@ struct ResearchFormAdapter: View {
         case let numericAnswerFormat as ORKNumericAnswerFormat:
             NumericQuestion(
                 id: id,
-                text: numericAnswerFormat.defaultNumericAnswer?.decimalValue,
+                number: numericAnswerFormat.defaultNumericAnswer?.decimalValue,
                 title: title ?? "",
                 prompt: numericAnswerFormat.placeholder ?? "Tap to answer"
             )
@@ -266,7 +266,7 @@ struct ResearchFormAdapter: View {
                 return imageChoice
             }
             
-            let choiceSelectionQuantity: ChoiceSelectionQuantity = {
+            let choiceSelectionLimit: ChoiceSelectionLimit = {
                 switch imageChoiceAnswerFormat.style {
                 case .singleChoice:
                     return .single
@@ -281,7 +281,7 @@ struct ResearchFormAdapter: View {
                 title: title ?? "",
                 detail: detail,
                 choices: choices,
-                choiceSelectionQuantity: choiceSelectionQuantity,
+                choiceSelectionLimit: choiceSelectionLimit,
                 vertical: imageChoiceAnswerFormat.isVertical
             )
         default:

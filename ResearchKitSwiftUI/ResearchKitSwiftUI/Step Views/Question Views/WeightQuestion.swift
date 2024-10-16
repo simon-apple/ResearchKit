@@ -30,6 +30,7 @@
 
 import SwiftUI
 
+/// The precision representing the granularity of a measurement's value. (e.g. 68 kg vs. 68.04 kg, or 150 lbs vs. 150 lbs 5 oz)
 public enum NumericPrecision {
     case `default`, low, high
 }
@@ -64,6 +65,7 @@ private class WeightFormatter {
     
 }
 
+/// A question that allows for weight input.
 public struct WeightQuestion: View {
     
     @EnvironmentObject
@@ -85,10 +87,10 @@ public struct WeightQuestion: View {
     private let defaultValue: Double?
     private let minimumValue: Double?
     private let maximumValue: Double?
-    private let result: StateManagementType<Double?>
+    private let selection: StateManagementType<Double?>
 
     private var resolvedResult: Binding<Double?> {
-        switch result {
+        switch selection {
         case let .automatic(key: key):
             return Binding(
                 get: { managedFormResult.resultForStep(key: key) ?? nil },
@@ -98,7 +100,17 @@ public struct WeightQuestion: View {
             return value
         }
     }
-
+    
+    /// Initializes an instance of ``WeightQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - measurementSystem: The measurement system for this question.
+    ///   - precision: The precision for this question.
+    ///   - defaultValue: The default weight.
+    ///   - minimumValue: The minimum selectable weight.
+    ///   - maximumValue: The maximum selectable weight.
     public init(
         id: String,
         title: String,
@@ -134,9 +146,20 @@ public struct WeightQuestion: View {
         self.defaultValue = defaultValue
         self.minimumValue = minimumValue
         self.maximumValue = maximumValue
-        self.result = .automatic(key: .weight(id: id))
+        self.selection = .automatic(key: .weight(id: id))
     }
     
+    /// Initializes an instance of ``WeightQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - measurementSystem: The measurement system for this question.
+    ///   - precision: The precision for this question.
+    ///   - defaultValue: The default weight.
+    ///   - minimumValue: The minimum selectable weight.
+    ///   - maximumValue: The maximum selectable weight.
+    ///   - weight: The selected weight.
     public init(
         id: String,
         title: String,
@@ -146,7 +169,7 @@ public struct WeightQuestion: View {
         defaultValue: Double?,
         minimumValue: Double?,
         maximumValue: Double?,
-        selection: Binding<Double?>
+        weight: Binding<Double?>
     ) {
         self.id = id
         self.hasChanges = false
@@ -173,7 +196,7 @@ public struct WeightQuestion: View {
         self.defaultValue = defaultValue
         self.minimumValue = minimumValue
         self.maximumValue = maximumValue
-        self.result = .manual(selection)
+        self.selection = .manual(weight)
     }
 
     private var selectionString: String {
@@ -562,7 +585,7 @@ struct WeightPickerView: View {
             defaultValue: 150,
             minimumValue: 0,
             maximumValue: 1430,
-            selection: $selection
+            weight: $selection
         )
     }
 }
