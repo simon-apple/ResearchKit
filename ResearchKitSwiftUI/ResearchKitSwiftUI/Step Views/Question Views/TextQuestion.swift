@@ -216,18 +216,7 @@ public struct TextQuestion<Header: View>: View {
         return false
     }
 }
-    
-/// Initializes an instance of ``TextQuestion`` with the provided configuration.
-/// - Parameters:
-///   - id: The unique identifier for this question.
-///   - title: The title for this question.
-///   - detail: The details for this question.
-///   - prompt: The placeholder for this question.
-///   - lineLimit: Specifies whether this text question is single line or multiline.
-///   - characterLimit: The number of characters that can be used for this text question.
-///   - hideCharacterCountLabel: Whether or not the character count is displayed.
-///   - hideClearButton: Whether or not the clear button is displayed.
-///   - result: The binding for the text result.
+
 public extension TextQuestion where Header == QuestionHeader {
     
     /// Initializes an instance of ``TextQuestion`` with the provided configuration.
