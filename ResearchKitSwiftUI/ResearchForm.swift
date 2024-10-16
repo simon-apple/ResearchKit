@@ -32,7 +32,7 @@ import SwiftUI
 
 /// Manages the navigation between steps in a survey.
 ///
-/// To add steps to a `ResearchForm`, create instances of ``ResearchFormStep`` and pass them into a `ResearchForm`. To display questions in each step, ResearchKit provides various question formats that can be used within a ``ResearchFormStep`` such as ``MultipleChoiceQuestion``, ``DateTimeQuestion``, and more. These questions can be optional or required, which a `ResearchForm` tracks as part of navigation management.
+/// To add steps to a `ResearchForm`, create instances of ``ResearchFormStep`` and pass them into a `ResearchForm`. To display questions in each step, ResearchKit provides various question formats that can be used within a ``ResearchFormStep`` such as ``MultipleChoiceQuestion``, ``DateTimeQuestion``, and more. These questions can be marked as optional or required, which a `ResearchForm` tracks as part of navigation management.
 ///
 /// Additionally, a `ResearchForm` manages survey results for questions that manage their own bindings internally. Results are passed through a ``ResearchFormResult`` once a survey is completed. For instance, a text question for which no binding is provided has its result stored in ``ResearchFormResult``. However, a text question that has been provided a binding does not have its result stored in ``ResearchFormResult``, and in this case, you are expected to manage the result for the text question.
 public struct ResearchForm<Content: View>: View {
