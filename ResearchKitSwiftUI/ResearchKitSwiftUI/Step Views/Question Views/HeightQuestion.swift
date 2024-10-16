@@ -80,7 +80,7 @@ public struct HeightQuestion: View {
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.
-    ///   - detail: The detail for this question.
+    ///   - detail: The details for this question.
     ///   - measurementSystem: The measurement system for this question.
     public init(
         id: String,
@@ -115,7 +115,7 @@ public struct HeightQuestion: View {
     /// - Parameters:
     ///   - id: The unique identifier question.
     ///   - title: The title for this question.
-    ///   - detail: The detail for this question.
+    ///   - detail: The details for this question.
     ///   - measurementSystem: The measurement system for this question.
     ///   - selection: The binding for the selected height.
     public init(

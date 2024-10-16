@@ -169,7 +169,7 @@ public struct ImageChoiceQuestion: View {
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.
-    ///   - detail: The detail for this question.
+    ///   - detail: The details for this question.
     ///   - choices: The image choices for this question.
     ///   - style: The choice selection type for this image choice question.
     ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
@@ -218,7 +218,7 @@ public struct ImageChoiceQuestion: View {
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.
-    ///   - detail: The detail for this question.
+    ///   - detail: The details for this question.
     ///   - choices: The image choices for this question.
     ///   - style: The choice selection type for this image choice question.
     ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
@@ -267,7 +267,7 @@ public struct ImageChoiceQuestion: View {
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.
-    ///   - detail: The detail for this question.
+    ///   - detail: The details for this question.
     ///   - choices: The image choices for this question.
     ///   - style: The choice selection type for this image choice question.
     ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
@@ -334,7 +334,7 @@ public struct ImageChoiceQuestion: View {
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.
-    ///   - detail: The detail for this question.
+    ///   - detail: The details for this question.
     ///   - choices: The image choices for this question.
     ///   - style: The choice selection type for this image choice question.
     ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
