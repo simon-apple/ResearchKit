@@ -173,7 +173,7 @@ public struct ImageChoiceQuestion: View {
     ///   - choices: The image choices for this question.
     ///   - style: The choice selection type for this image choice question.
     ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
-    ///   - result: The binding for the result.
+    ///   - imageValue: The selected value associated with one of the image choices.
     public init(
         id: String,
         title: String,
@@ -181,7 +181,7 @@ public struct ImageChoiceQuestion: View {
         choices: [ImageChoice],
         choiceSelectionLimit: ChoiceSelectionLimit,
         vertical: Bool,
-        result: Binding<[Int]?>
+        imageValue: Binding<[Int]?>
     ) {
         self.init(
             id: id,
@@ -192,18 +192,18 @@ public struct ImageChoiceQuestion: View {
             vertical: vertical,
             result: .init(
                 get: {
-                    guard let integers = result.wrappedValue else {
+                    guard let integers = imageValue.wrappedValue else {
                         return nil
                     }
                     return integers.map { .int($0) }
                 },
                 set: { newValues in
                     guard let newValues else {
-                        result.wrappedValue = nil
+                        imageValue.wrappedValue = nil
                         return
                     }
                     
-                    result.wrappedValue = newValues.compactMap { resultValue in
+                    imageValue.wrappedValue = newValues.compactMap { resultValue in
                         guard case let .int(value) = resultValue else {
                             return nil
                         }
@@ -222,7 +222,7 @@ public struct ImageChoiceQuestion: View {
     ///   - choices: The image choices for this question.
     ///   - style: The choice selection type for this image choice question.
     ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
-    ///   - result: The binding for the result.
+    ///   - imageValue: The selected value associated with one of the image choices.
     public init(
         id: String,
         title: String,
@@ -230,7 +230,7 @@ public struct ImageChoiceQuestion: View {
         choices: [ImageChoice],
         choiceSelectionLimit: ChoiceSelectionLimit,
         vertical: Bool,
-        result: Binding<[String]?>
+        imageValue: Binding<[String]?>
     ) {
         self.init(
             id: id,
@@ -241,18 +241,18 @@ public struct ImageChoiceQuestion: View {
             vertical: vertical,
             result: .init(
                 get: {
-                    guard let strings = result.wrappedValue else {
+                    guard let strings = imageValue.wrappedValue else {
                         return nil
                     }
                     return strings.map { .string($0) }
                 },
                 set: { newValues in
                     guard let newValues else {
-                        result.wrappedValue = nil
+                        imageValue.wrappedValue = nil
                         return
                     }
                     
-                    result.wrappedValue = newValues.compactMap { resultValue in
+                    imageValue.wrappedValue = newValues.compactMap { resultValue in
                         guard case let .string(value) = resultValue else {
                             return nil
                         }
@@ -271,7 +271,7 @@ public struct ImageChoiceQuestion: View {
     ///   - choices: The image choices for this question.
     ///   - style: The choice selection type for this image choice question.
     ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
-    ///   - result: The binding for the result.
+    ///   - imageValue: The selected value associated with one of the image choices.
     public init(
         id: String,
         title: String,
@@ -279,7 +279,7 @@ public struct ImageChoiceQuestion: View {
         choices: [ImageChoice],
         choiceSelectionLimit: ChoiceSelectionLimit,
         vertical: Bool,
-        result: Binding<[Date]?>
+        imageValue: Binding<[Date]?>
     ) {
         self.init(
             id: id,
@@ -290,18 +290,18 @@ public struct ImageChoiceQuestion: View {
             vertical: vertical,
             result: .init(
                 get: {
-                    guard let dates = result.wrappedValue else {
+                    guard let dates = imageValue.wrappedValue else {
                         return nil
                     }
                     return dates.map { .date($0) }
                 },
                 set: { newValues in
                     guard let newValues else {
-                        result.wrappedValue = nil
+                        imageValue.wrappedValue = nil
                         return
                     }
                     
-                    result.wrappedValue = newValues.compactMap { resultValue in
+                    imageValue.wrappedValue = newValues.compactMap { resultValue in
                         guard case let .date(value) = resultValue else {
                             return nil
                         }
@@ -524,7 +524,7 @@ fileprivate extension View {
             ],
             choiceSelectionLimit: .multiple,
             vertical: false,
-            result: $selection
+            imageValue: $selection
         )
     }
 }

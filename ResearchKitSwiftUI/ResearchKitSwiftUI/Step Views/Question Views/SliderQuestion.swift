@@ -259,7 +259,7 @@ public struct SliderQuestion: View {
     ///   - detail: The details for this question.
     ///   - range: The range of selectable values for this question.
     ///   - step: The amount of change between each increment or decrement.
-    ///   - selection: The initial selected value.
+    ///   - selection: The selected value.
     public init(
         id: String,
         title: String,
@@ -285,7 +285,7 @@ public struct SliderQuestion: View {
     ///   - detail: The details for this question.
     ///   - range: The range of selectable values for this question.
     ///   - step: The amount of change between each increment or decrement.
-    ///   - selection: The binding for the initial selected value.
+    ///   - selection: The selected value.
     public init(
         id: String,
         title: String,
@@ -320,7 +320,7 @@ public struct SliderQuestion: View {
     ///   - detail: The details for this question.
     ///   - range: The range of selectable values for this slider question.
     ///   - step: The amount of change between each increment or decrement.
-    ///   - selection: The initial selected value.
+    ///   - selection: The selected value.
     public init(
         id: String,
         title: String,
@@ -346,7 +346,7 @@ public struct SliderQuestion: View {
     ///   - detail: The details for this question.
     ///   - range: The range of selectable values for this slider question.
     ///   - step: The amount of change between each increment or decrement.
-    ///   - selection: The binding for the initial selected value.
+    ///   - selection: The selected value.
     public init(
         id: String,
         title: String,
@@ -380,7 +380,7 @@ public struct SliderQuestion: View {
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - multipleChoiceOptions: The text options that this slider can represent.
-    ///   - selection: The initial selected value.
+    ///   - selection: The selected value.
     @available(watchOS, unavailable)
     public init(
         id: String,
@@ -408,7 +408,7 @@ public struct SliderQuestion: View {
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - multipleChoiceOptions: The text options that this slider can represent.
-    ///   - selection: The binding for the initial selected value.
+    ///   - selection: The selected value.
     @available(watchOS, unavailable)
     public init(
         id: String,

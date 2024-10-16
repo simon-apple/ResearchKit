@@ -200,7 +200,7 @@ struct ResearchFormAdapter: View {
         case let numericAnswerFormat as ORKNumericAnswerFormat:
             NumericQuestion(
                 id: id,
-                text: numericAnswerFormat.defaultNumericAnswer?.decimalValue,
+                number: numericAnswerFormat.defaultNumericAnswer?.decimalValue,
                 title: title ?? "",
                 prompt: numericAnswerFormat.placeholder ?? "Tap to answer"
             )

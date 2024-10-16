@@ -159,7 +159,7 @@ public struct WeightQuestion: View {
     ///   - defaultValue: The default weight.
     ///   - minimumValue: The minimum selectable weight.
     ///   - maximumValue: The maximum selectable weight.
-    ///   - selection: The selected weight binding.
+    ///   - weight: The selected weight.
     public init(
         id: String,
         title: String,
@@ -169,7 +169,7 @@ public struct WeightQuestion: View {
         defaultValue: Double?,
         minimumValue: Double?,
         maximumValue: Double?,
-        selection: Binding<Double?>
+        weight: Binding<Double?>
     ) {
         self.id = id
         self.hasChanges = false
@@ -196,7 +196,7 @@ public struct WeightQuestion: View {
         self.defaultValue = defaultValue
         self.minimumValue = minimumValue
         self.maximumValue = maximumValue
-        self.result = .manual(selection)
+        self.result = .manual(weight)
     }
 
     private var selectionString: String {
@@ -585,7 +585,7 @@ struct WeightPickerView: View {
             defaultValue: 150,
             minimumValue: 0,
             maximumValue: 1430,
-            selection: $selection
+            weight: $selection
         )
     }
 }

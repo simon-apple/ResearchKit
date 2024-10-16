@@ -117,13 +117,13 @@ public struct HeightQuestion: View {
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - measurementSystem: The measurement system for this question.
-    ///   - selection: The binding for the selected height.
+    ///   - height: The selected height.
     public init(
         id: String,
         title: String,
         detail: String? = nil,
         measurementSystem: MeasurementSystem,
-        selection: Binding<Double?>
+        height: Binding<Double?>
     ) {
         self.id = id
         self.hasChanges = false
@@ -145,7 +145,7 @@ public struct HeightQuestion: View {
             }
         }()
         self.measurementSystem = system
-        self.result = .manual(selection)
+        self.result = .manual(height)
     }
 
     private var selectionString: String {
@@ -346,7 +346,7 @@ struct HeightPickerView: View {
             title: "Height question here",
             detail: nil,
             measurementSystem: .USC,
-            selection: $selection
+            height: $selection
         )
     }
 }

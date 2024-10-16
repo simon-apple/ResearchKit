@@ -85,7 +85,7 @@ public struct TextQuestion<Header: View>: View {
     ///   - characterLimit: The number of characters that can be used for this question.
     ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
     ///   - hideClearButton: Whether or not the clear button is displayed.
-    ///   - result: The binding for the text result.
+    ///   - text: The entered text.
     public init(
         id: String,
         @ViewBuilder header: () -> Header,
@@ -94,7 +94,7 @@ public struct TextQuestion<Header: View>: View {
         characterLimit: Int,
         hideCharacterCountLabel: Bool = false,
         hideClearButton: Bool = false,
-        result: Binding<String?>
+        text: Binding<String?>
     ) {
         self.id = id
         self.header = header()
@@ -103,7 +103,7 @@ public struct TextQuestion<Header: View>: View {
         self.characterLimit = characterLimit
         self.hideCharacterCountLabel = hideCharacterCountLabel
         self.hideClearButton = hideClearButton
-        self.result = .manual(result)
+        self.result = .manual(text)
     }
 
     /// Initializes an instance of ``TextQuestion`` with the provided configuration.

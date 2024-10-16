@@ -112,13 +112,13 @@ public extension NumericQuestion where Header == QuestionHeader {
     /// Initializes an instance of ``NumericQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this numeric question.
-    ///   - text: The binding for the numeric result.
+    ///   - number: The entered number.
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - prompt: The prompt that informs the user.
     init(
         id: String,
-        text: Binding<Double?>,
+        number: Binding<Double?>,
         title: String,
         detail: String? = nil,
         prompt: String?
@@ -126,19 +126,19 @@ public extension NumericQuestion where Header == QuestionHeader {
         self.id = id
         header = QuestionHeader(title: title, detail: detail)
         self.prompt = prompt
-        self.result = .manual(text)
+        self.result = .manual(number)
     }
     
     /// Initializes an instance of ``NumericQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
-    ///   - text: The numeric result.
+    ///   - number: The entered number.
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - prompt: The prompt that informs the user.
     init(
         id: String,
-        text: Decimal? = nil,
+        number: Decimal? = nil,
         title: String,
         detail: String? = nil,
         prompt: String?
@@ -161,7 +161,7 @@ struct NumericQuestionView_Previews: PreviewProvider {
             ScrollView {
                 NumericQuestion(
                     id: UUID().uuidString,
-                    text: .constant(22.0),
+                    number: .constant(22.0),
                     title: "How old are you?",
                     detail: nil,
                     prompt: "Tap to enter age"

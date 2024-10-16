@@ -68,14 +68,14 @@ public struct DateTimeQuestion<Header: View>: View {
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - header: The header for this question.
-    ///   - selection: The selected date.
+    ///   - date: The selected date.
     ///   - pickerPrompt: The prompt that informs the user.
     ///   - displayedComponents: The date-time components that are displayed for this question.
     ///   - range: The range of selectable dates.
     public init(
         id: String,
         @ViewBuilder header: () -> Header,
-        selection: Date = Date(),
+        date: Date = Date(),
         pickerPrompt: String,
         displayedComponents: DatePicker.Components,
         range: ClosedRange<Date>
@@ -92,14 +92,14 @@ public struct DateTimeQuestion<Header: View>: View {
     /// - Parameters:
     ///   - id: The unique identifier for this question.
     ///   - header: The header for this question.
-    ///   - selection: The selected date.
+    ///   - date: The selected date.
     ///   - pickerPrompt: The prompt that informs the user.
     ///   - displayedComponents: The date-time components that are displayed for this question.
     ///   - range: The range of selectable dates.
     public init(
         id: String,
         @ViewBuilder header: () -> Header,
-        selection: Binding<Date?>,
+        date: Binding<Date?>,
         pickerPrompt: String,
         displayedComponents: DatePicker.Components,
         range: ClosedRange<Date>
@@ -109,7 +109,7 @@ public struct DateTimeQuestion<Header: View>: View {
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range
-        self.result = .manual(selection)
+        self.result = .manual(date)
     }
 
     public var body: some View {
