@@ -32,7 +32,7 @@ import Foundation
 import SwiftUI
 
 /// A configuration representing the kind of `SliderQuestion` to be used.
-public enum SliderQuestionConfiguration {
+enum SliderQuestionConfiguration {
     
     @available(watchOS, unavailable)
     case textChoice([TextChoice])
