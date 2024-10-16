@@ -126,7 +126,7 @@ public struct ImageChoice: Identifiable, Equatable {
 }
 
 /// Represents the number of of choices that can be selected.
-public enum ChoiceSelectionQuantity {
+public enum ChoiceSelectionLimit {
     
     /// Allows for the selection of only one choice.
     case single
@@ -149,7 +149,7 @@ public struct ImageChoiceQuestion: View {
     private let title: String
     private let detail: String?
     private let choices: [ImageChoice]
-    private let choiceSelectionQuantity: ChoiceSelectionQuantity
+    private let choiceSelectionLimit: ChoiceSelectionLimit
     private let vertical: Bool
     private let result: StateManagementType<[ResultValue]?>
 
@@ -179,7 +179,7 @@ public struct ImageChoiceQuestion: View {
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        choiceSelectionQuantity: ChoiceSelectionQuantity,
+        choiceSelectionLimit: ChoiceSelectionLimit,
         vertical: Bool,
         result: Binding<[Int]?>
     ) {
@@ -188,7 +188,7 @@ public struct ImageChoiceQuestion: View {
             title: title,
             detail: detail,
             choices: choices,
-            choiceSelectionQuantity: choiceSelectionQuantity,
+            choiceSelectionLimit: choiceSelectionLimit,
             vertical: vertical,
             result: .init(
                 get: {
@@ -228,7 +228,7 @@ public struct ImageChoiceQuestion: View {
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        choiceSelectionQuantity: ChoiceSelectionQuantity,
+        choiceSelectionLimit: ChoiceSelectionLimit,
         vertical: Bool,
         result: Binding<[String]?>
     ) {
@@ -237,7 +237,7 @@ public struct ImageChoiceQuestion: View {
             title: title,
             detail: detail,
             choices: choices,
-            choiceSelectionQuantity: choiceSelectionQuantity,
+            choiceSelectionLimit: choiceSelectionLimit,
             vertical: vertical,
             result: .init(
                 get: {
@@ -277,7 +277,7 @@ public struct ImageChoiceQuestion: View {
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        choiceSelectionQuantity: ChoiceSelectionQuantity,
+        choiceSelectionLimit: ChoiceSelectionLimit,
         vertical: Bool,
         result: Binding<[Date]?>
     ) {
@@ -286,7 +286,7 @@ public struct ImageChoiceQuestion: View {
             title: title,
             detail: detail,
             choices: choices,
-            choiceSelectionQuantity: choiceSelectionQuantity,
+            choiceSelectionLimit: choiceSelectionLimit,
             vertical: vertical,
             result: .init(
                 get: {
@@ -317,7 +317,7 @@ public struct ImageChoiceQuestion: View {
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        choiceSelectionQuantity: ChoiceSelectionQuantity,
+        choiceSelectionLimit: ChoiceSelectionLimit,
         vertical: Bool,
         result: Binding<[ResultValue]?>
     ) {
@@ -325,7 +325,7 @@ public struct ImageChoiceQuestion: View {
         self.title = title
         self.detail = detail
         self.choices = choices
-        self.choiceSelectionQuantity = choiceSelectionQuantity
+        self.choiceSelectionLimit = choiceSelectionLimit
         self.vertical = vertical
         self.result = .manual(result)
     }
@@ -343,14 +343,14 @@ public struct ImageChoiceQuestion: View {
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        choiceSelectionQuantity: ChoiceSelectionQuantity,
+        choiceSelectionLimit: ChoiceSelectionLimit,
         vertical: Bool
     ) {
         self.id = id
         self.title = title
         self.detail = detail
         self.choices = choices
-        self.choiceSelectionQuantity = choiceSelectionQuantity
+        self.choiceSelectionLimit = choiceSelectionLimit
         self.vertical = vertical
         self.result = .automatic(key: .imageChoice(id: id))
     }
@@ -359,7 +359,7 @@ public struct ImageChoiceQuestion: View {
         QuestionCard {
             Question(title: title, detail: detail) {
                 VStack {
-                    if choiceSelectionQuantity == .multiple {
+                    if choiceSelectionLimit == .multiple {
                         multipleSelectionHeader()
                     }
                     
@@ -522,7 +522,7 @@ fileprivate extension View {
                     value: 1
                 ),
             ],
-            choiceSelectionQuantity: .multiple,
+            choiceSelectionLimit: .multiple,
             vertical: false,
             result: $selection
         )

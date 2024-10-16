@@ -59,7 +59,7 @@ public struct MultipleChoiceQuestion: View {
     private let title: String
     private let detail: String?
     private let choices: [TextChoice]
-    private let choiceSelectionQuantity: ChoiceSelectionQuantity
+    private let choiceSelectionLimit: ChoiceSelectionLimit
     private let result: StateManagementType<[ResultValue]?>
     
     /// Initializes an instance of ``MultipleChoiceQuestion`` with the provided configuration for an integer result.
@@ -68,14 +68,14 @@ public struct MultipleChoiceQuestion: View {
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - choices: The choices that can be selected for this question.
-    ///   - choiceSelectionQuantity: The selection type for this question.
+    ///   - choiceSelectionLimit: The selection type for this question.
     ///   - result: The binding for the result.
     public init(
         id: String,
         title: String,
         detail: String? = nil,
         choices: [TextChoice],
-        choiceSelectionQuantity: ChoiceSelectionQuantity,
+        choiceSelectionLimit: ChoiceSelectionLimit,
         result: Binding<[Int]?>
     ) {
         self.init(
@@ -83,7 +83,7 @@ public struct MultipleChoiceQuestion: View {
             title: title,
             detail: detail,
             choices: choices,
-            choiceSelectionQuantity: choiceSelectionQuantity,
+            choiceSelectionLimit: choiceSelectionLimit,
             result: .init(
                 get: {
                     guard let integers = result.wrappedValue else {
@@ -114,14 +114,14 @@ public struct MultipleChoiceQuestion: View {
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - choices: The choices that can be selected for this question.
-    ///   - choiceSelectionQuantity: The selection type for this question.
+    ///   - choiceSelectionLimit: The selection type for this question.
     ///   - result: The binding for the result.
     public init(
         id: String,
         title: String,
         detail: String? = nil,
         choices: [TextChoice],
-        choiceSelectionQuantity: ChoiceSelectionQuantity,
+        choiceSelectionLimit: ChoiceSelectionLimit,
         result: Binding<[String]?>
     ) {
         self.init(
@@ -129,7 +129,7 @@ public struct MultipleChoiceQuestion: View {
             title: title,
             detail: detail,
             choices: choices,
-            choiceSelectionQuantity: choiceSelectionQuantity,
+            choiceSelectionLimit: choiceSelectionLimit,
             result: .init(
                 get: {
                     guard let strings = result.wrappedValue else {
@@ -160,14 +160,14 @@ public struct MultipleChoiceQuestion: View {
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - choices: The choices that can be selected for this question.
-    ///   - choiceSelectionQuantity: The selection type for this question.
+    ///   - choiceSelectionLimit: The selection type for this question.
     ///   - result: The binding for the result.
     public init(
         id: String,
         title: String,
         detail: String? = nil,
         choices: [TextChoice],
-        choiceSelectionQuantity: ChoiceSelectionQuantity,
+        choiceSelectionLimit: ChoiceSelectionLimit,
         result: Binding<[Date]?>
     ) {
         self.init(
@@ -175,7 +175,7 @@ public struct MultipleChoiceQuestion: View {
             title: title,
             detail: detail,
             choices: choices,
-            choiceSelectionQuantity: choiceSelectionQuantity,
+            choiceSelectionLimit: choiceSelectionLimit,
             result: .init(
                 get: {
                     guard let dates = result.wrappedValue else {
@@ -205,14 +205,14 @@ public struct MultipleChoiceQuestion: View {
         title: String,
         detail: String? = nil,
         choices: [TextChoice],
-        choiceSelectionQuantity: ChoiceSelectionQuantity,
+        choiceSelectionLimit: ChoiceSelectionLimit,
         result: Binding<[ResultValue]?>
     ) {
         self.id = id
         self.title = title
         self.detail = detail
         self.choices = choices
-        self.choiceSelectionQuantity = choiceSelectionQuantity
+        self.choiceSelectionLimit = choiceSelectionLimit
         self.result = .manual(result)
     }
     
@@ -222,19 +222,19 @@ public struct MultipleChoiceQuestion: View {
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - choices: The choices that can be selected for this question.
-    ///   - choiceSelectionQuantity: The selection type for this question.
+    ///   - choiceSelectionLimit: The selection type for this question.
     public init(
         id: String,
         title: String,
         detail: String? = nil,
         choices: [TextChoice],
-        choiceSelectionQuantity: ChoiceSelectionQuantity
+        choiceSelectionLimit: ChoiceSelectionLimit
     ) {
         self.id = id
         self.title = title
         self.detail = detail
         self.choices = choices
-        self.choiceSelectionQuantity = choiceSelectionQuantity
+        self.choiceSelectionLimit = choiceSelectionLimit
         self.result = .automatic(key: .multipleChoice(id: id))
     }
 
@@ -285,7 +285,7 @@ public struct MultipleChoiceQuestion: View {
            let index = resultArray.firstIndex(where: { $0 == option.value }) {
                resolvedResult.wrappedValue?.remove(at: index)
         } else {
-            switch choiceSelectionQuantity {
+            switch choiceSelectionLimit {
             case .single:
                 resolvedResult.wrappedValue = [option.value]
             case .multiple:
@@ -310,7 +310,7 @@ struct MultipleChoiceQuestionView_Previews: PreviewProvider {
                     TextChoice(id: "b", choiceText: "Option B", value: 1),
                     TextChoice(id: "c", choiceText: "Option C", value: 2)
                 ],
-                choiceSelectionQuantity: .multiple,
+                choiceSelectionLimit: .multiple,
                 result: .constant([0])
             )
             .padding(.horizontal)
