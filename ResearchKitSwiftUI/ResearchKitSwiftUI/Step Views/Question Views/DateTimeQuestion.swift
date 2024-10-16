@@ -203,7 +203,7 @@ public extension DateTimeQuestion where Header == QuestionHeader {
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
-    ///   - selection: The selected date.
+    ///   - date: The selected date.
     ///   - pickerPrompt: The prompt that informs the user.
     ///   - displayedComponents: The date-time components that are displayed for this question.
     ///   - range: The range of selectable dates.
@@ -211,7 +211,7 @@ public extension DateTimeQuestion where Header == QuestionHeader {
         id: String,
         title: String,
         detail: String? = nil,
-        selection: Date = Date(),
+        date: Date = Date(),
         pickerPrompt: String,
         displayedComponents: DatePicker.Components,
         range: ClosedRange<Date>
@@ -229,7 +229,7 @@ public extension DateTimeQuestion where Header == QuestionHeader {
     ///   - id: The unique identifier for this question.
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
-    ///   - selection: The binding for the selected date.
+    ///   - date: The selected date.
     ///   - pickerPrompt: The prompt that informs the user.
     ///   - displayedComponents: The date-time components that are displayed for this question.
     ///   - range: The range of selectable dates.
@@ -237,7 +237,7 @@ public extension DateTimeQuestion where Header == QuestionHeader {
         id: String,
         title: String,
         detail: String? = nil,
-        selection: Binding<Date?>,
+        date: Binding<Date?>,
         pickerPrompt: String,
         displayedComponents: DatePicker.Components,
         range: ClosedRange<Date>
@@ -247,7 +247,7 @@ public extension DateTimeQuestion where Header == QuestionHeader {
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range
-        self.selection = .manual(selection)
+        self.selection = .manual(date)
     }
     
 }
@@ -260,7 +260,7 @@ public extension DateTimeQuestion where Header == QuestionHeader {
                 id: UUID().uuidString,
                 title: "What is your birthday?",
                 detail: "Question 1 of 4",
-                selection: $date,
+                date: $date,
                 pickerPrompt: "Select Date",
                 displayedComponents: [.date],
                 range: Date.distantPast...Date.distantFuture
@@ -278,7 +278,7 @@ public extension DateTimeQuestion where Header == QuestionHeader {
                 id: UUID().uuidString,
                 title: "What time is it?",
                 detail: "Question 2 of 4",
-                selection: $date,
+                date: $date,
                 pickerPrompt: "Select Time",
                 displayedComponents: [.hourAndMinute],
                 range: Date.distantPast...Date.distantFuture
@@ -296,7 +296,7 @@ public extension DateTimeQuestion where Header == QuestionHeader {
                 id: UUID().uuidString,
                 title: "What is the time and date?",
                 detail: "Question 2 of 4",
-                selection: $date,
+                date: $date,
                 pickerPrompt: "Select Time and Date",
                 displayedComponents: [.date, .hourAndMinute],
                 range: Date.distantPast...Date.distantFuture
