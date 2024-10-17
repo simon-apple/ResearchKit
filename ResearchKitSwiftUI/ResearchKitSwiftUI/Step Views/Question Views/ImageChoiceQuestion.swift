@@ -30,13 +30,29 @@
 
 import SwiftUI
 
+/// An image choice.
 public struct ImageChoice: Identifiable, Equatable {
+    
+    /// The unique identifier for this image choice.
     public let id: String
+    
+    /// The image for the unselected state.
     public let normalImage: UIImage
+    
+    /// The image for the selected state.
     public let selectedImage: UIImage?
+    
+    /// The text that describes the image.
     public let text: String
+    
     let value: ResultValue
     
+    /// Initializes an instance of ``ImageChoice`` with the provided configuration.
+    /// - Parameters:
+    ///   - normalImage: The image for the unselected state.
+    ///   - selectedImage: The image for the selected state.
+    ///   - text: The text that describes the image.
+    ///   - value: The selection value for this image.
     public init(
         normalImage: UIImage,
         selectedImage: UIImage?,
@@ -51,6 +67,12 @@ public struct ImageChoice: Identifiable, Equatable {
         )
     }
     
+    /// Initializes an instance of ``ImageChoice`` with the provided configuration.
+    /// - Parameters:
+    ///   - normalImage: The image for the unselected state.
+    ///   - selectedImage: The image for the selected state.
+    ///   - text: The text that describes the image.
+    ///   - value: The selection value for this image.
     public init(
         normalImage: UIImage,
         selectedImage: UIImage?,
@@ -65,6 +87,12 @@ public struct ImageChoice: Identifiable, Equatable {
         )
     }
     
+    /// Initializes an instance of ``ImageChoice`` with the provided configuration.
+    /// - Parameters:
+    ///   - normalImage: The image for the unselected state.
+    ///   - selectedImage: The image for the selected state.
+    ///   - text: The text that describes the image.
+    ///   - value: The selection value for this image.
     public init(
         normalImage: UIImage,
         selectedImage: UIImage?,
@@ -91,16 +119,24 @@ public struct ImageChoice: Identifiable, Equatable {
         self.text = text
         self.value = value
     }
-
+    
     public static func == (lhs: ImageChoice, rhs: ImageChoice) -> Bool {
         return lhs.id == rhs.id && lhs.text == rhs.text
     }
 }
 
-public enum ChoiceSelectionType {
-    case single, multiple
+/// Represents the number of of choices that can be selected.
+public enum ChoiceSelectionLimit {
+    
+    /// Allows for the selection of only one choice.
+    case single
+    
+    /// Allows for the selection of more than one choice.
+    case multiple
+    
 }
 
+/// A question that allows for image input.
 public struct ImageChoiceQuestion: View {
     
     @EnvironmentObject
@@ -109,16 +145,16 @@ public struct ImageChoiceQuestion: View {
     @Environment(\.questionRequired)
     private var isRequired: Bool
 
-    let id: String
-    let title: String
-    let detail: String?
-    let choices: [ImageChoice]
-    let style: ChoiceSelectionType
-    let vertical: Bool
-    private let result: StateManagementType<[ResultValue]?>
+    private let id: String
+    private let title: String
+    private let detail: String?
+    private let choices: [ImageChoice]
+    private let choiceSelectionLimit: ChoiceSelectionLimit
+    private let vertical: Bool
+    private let selection: StateManagementType<[ResultValue]?>
 
     private var resolvedResult: Binding<[ResultValue]?> {
-        switch result {
+        switch selection {
         case .automatic(let key):
             return Binding(
                 get: { managedFormResult.resultForStep(key: key) ?? [] },
@@ -129,36 +165,45 @@ public struct ImageChoiceQuestion: View {
         }
     }
     
+    /// Initializes an instance of ``ImageChoiceQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - choices: The image choices for this question.
+    ///   - choiceSelectionLimit: The choice selection limit for this image choice question.
+    ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
+    ///   - imageValue: The selected value associated with one of the image choices.
     public init(
         id: String,
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        style: ChoiceSelectionType,
+        choiceSelectionLimit: ChoiceSelectionLimit,
         vertical: Bool,
-        result: Binding<[Int]?>
+        imageValue: Binding<[Int]?>
     ) {
         self.init(
             id: id,
             title: title,
             detail: detail,
             choices: choices,
-            style: style,
+            choiceSelectionLimit: choiceSelectionLimit,
             vertical: vertical,
-            result: .init(
+            selection: .init(
                 get: {
-                    guard let integers = result.wrappedValue else {
+                    guard let integers = imageValue.wrappedValue else {
                         return nil
                     }
                     return integers.map { .int($0) }
                 },
                 set: { newValues in
                     guard let newValues else {
-                        result.wrappedValue = nil
+                        imageValue.wrappedValue = nil
                         return
                     }
                     
-                    result.wrappedValue = newValues.compactMap { resultValue in
+                    imageValue.wrappedValue = newValues.compactMap { resultValue in
                         guard case let .int(value) = resultValue else {
                             return nil
                         }
@@ -169,36 +214,45 @@ public struct ImageChoiceQuestion: View {
         )
     }
     
+    /// Initializes an instance of ``ImageChoiceQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - choices: The image choices for this question.
+    ///   - choiceSelectionLimit: The choice selection limit for this image choice question.
+    ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
+    ///   - imageValue: The selected value associated with one of the image choices.
     public init(
         id: String,
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        style: ChoiceSelectionType,
+        choiceSelectionLimit: ChoiceSelectionLimit,
         vertical: Bool,
-        result: Binding<[String]?>
+        imageValue: Binding<[String]?>
     ) {
         self.init(
             id: id,
             title: title,
             detail: detail,
             choices: choices,
-            style: style,
+            choiceSelectionLimit: choiceSelectionLimit,
             vertical: vertical,
-            result: .init(
+            selection: .init(
                 get: {
-                    guard let strings = result.wrappedValue else {
+                    guard let strings = imageValue.wrappedValue else {
                         return nil
                     }
                     return strings.map { .string($0) }
                 },
                 set: { newValues in
                     guard let newValues else {
-                        result.wrappedValue = nil
+                        imageValue.wrappedValue = nil
                         return
                     }
                     
-                    result.wrappedValue = newValues.compactMap { resultValue in
+                    imageValue.wrappedValue = newValues.compactMap { resultValue in
                         guard case let .string(value) = resultValue else {
                             return nil
                         }
@@ -209,36 +263,45 @@ public struct ImageChoiceQuestion: View {
         )
     }
     
+    /// Initializes an instance of ``ImageChoiceQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - choices: The image choices for this question.
+    ///   - choiceSelectionLimit: The choice selection limit for this image choice question.
+    ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
+    ///   - imageValue: The selected value associated with one of the image choices.
     public init(
         id: String,
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        style: ChoiceSelectionType,
+        choiceSelectionLimit: ChoiceSelectionLimit,
         vertical: Bool,
-        result: Binding<[Date]?>
+        imageValue: Binding<[Date]?>
     ) {
         self.init(
             id: id,
             title: title,
             detail: detail,
             choices: choices,
-            style: style,
+            choiceSelectionLimit: choiceSelectionLimit,
             vertical: vertical,
-            result: .init(
+            selection: .init(
                 get: {
-                    guard let dates = result.wrappedValue else {
+                    guard let dates = imageValue.wrappedValue else {
                         return nil
                     }
                     return dates.map { .date($0) }
                 },
                 set: { newValues in
                     guard let newValues else {
-                        result.wrappedValue = nil
+                        imageValue.wrappedValue = nil
                         return
                     }
                     
-                    result.wrappedValue = newValues.compactMap { resultValue in
+                    imageValue.wrappedValue = newValues.compactMap { resultValue in
                         guard case let .date(value) = resultValue else {
                             return nil
                         }
@@ -254,41 +317,49 @@ public struct ImageChoiceQuestion: View {
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        style: ChoiceSelectionType,
+        choiceSelectionLimit: ChoiceSelectionLimit,
         vertical: Bool,
-        result: Binding<[ResultValue]?>
+        selection: Binding<[ResultValue]?>
     ) {
         self.id = id
         self.title = title
         self.detail = detail
         self.choices = choices
-        self.style = style
+        self.choiceSelectionLimit = choiceSelectionLimit
         self.vertical = vertical
-        self.result = .manual(result)
+        self.selection = .manual(selection)
     }
 
+    /// Initializes an instance of ``ImageChoiceQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - choices: The image choices for this question.
+    ///   - choiceSelectionLimit: The choice selection limit for this image choice question.
+    ///   - vertical: Whether or not the images should be displayed horizontally or vertically.
     public init(
         id: String,
         title: String,
         detail: String?,
         choices: [ImageChoice],
-        style: ChoiceSelectionType,
+        choiceSelectionLimit: ChoiceSelectionLimit,
         vertical: Bool
     ) {
         self.id = id
         self.title = title
         self.detail = detail
         self.choices = choices
-        self.style = style
+        self.choiceSelectionLimit = choiceSelectionLimit
         self.vertical = vertical
-        self.result = .automatic(key: .imageChoice(id: id))
+        self.selection = .automatic(key: .imageChoice(id: id))
     }
 
     public var body: some View {
         QuestionCard {
-            Question(title: title) {
+            Question(title: title, detail: detail) {
                 VStack {
-                    if style == .multiple {
+                    if choiceSelectionLimit == .multiple {
                         multipleSelectionHeader()
                     }
                     
@@ -321,7 +392,7 @@ public struct ImageChoiceQuestion: View {
     }
 
     @ViewBuilder
-    func selectionText() -> some View {
+    private func selectionText() -> some View {
         
         if let result = resolvedResult.wrappedValue,
            result.isEmpty == false
@@ -345,7 +416,7 @@ public struct ImageChoiceQuestion: View {
     }
 
     @ViewBuilder
-    func imageChoices() -> some View {
+    private func imageChoices() -> some View {
         ForEach(choices, id: \.id) { choice in
             Button {
                 if let index = resolvedResult.wrappedValue?.firstIndex(where: { $0 == choice.value }) {
@@ -451,9 +522,9 @@ fileprivate extension View {
                     value: 1
                 ),
             ],
-            style: .multiple,
+            choiceSelectionLimit: .multiple,
             vertical: false,
-            result: $selection
+            imageValue: $selection
         )
     }
 }

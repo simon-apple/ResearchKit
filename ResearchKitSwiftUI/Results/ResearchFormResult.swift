@@ -31,6 +31,7 @@
 import Combine
 import SwiftUI
 
+/// Represents responses for the different kinds of questions.
 public enum AnswerFormat {
     case text(String?)
     case numeric(Double?)
@@ -76,21 +77,27 @@ extension AnswerFormat: Equatable {
     
 }
 
+/// Captures the responses to questions for which no binding has been provided. It is passed through ``ResearchForm``'s `onResearchFormCompletion` handler, which is passed through the initializer, upon survey completion.
 public final class ResearchFormResult: ObservableObject {
 
     @Published
     var stepResults: [String: AnswerFormat]
     
+    /// Initializes an instance of ``ResearchFormResult`` that contains no responses.
     public convenience init() {
         self.init(results: [])
     }
     
+    /// Initializes an instance of ``ResearchFormResult`` with the provided configuration.
+    /// - Parameter results: The results from which an instance of `ResearchFormResult` is created.
     public init(results: [Result]) {
         stepResults = results.reduce(into: [String: AnswerFormat]()) { partialResult, result in
             partialResult[result.identifier] = result.answer
         }
     }
     
+    /// Initializes an instance of ``ResearchFormResult`` with the provided configuration.
+    /// - Parameter decoder: The decoder used to deserialize an instance of `ResearchFormResult`.
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         stepResults = try container.decode([String: AnswerFormat].self, forKey: .stepResults)
@@ -124,6 +131,9 @@ public final class ResearchFormResult: ObservableObject {
         stepResults[key.id] = format
     }
     
+    /// Maps the captured responses to a type of your choice.
+    /// - Parameter transform: The mapping function used to transform a response to a type of your choice.
+    /// - Returns: An array containing the type to which the responses were transformed.
     public func compactMap<T>(_ transform: (Result) -> T?) -> [T] {
         stepResults.compactMap { entry in
             transform(
@@ -133,11 +143,19 @@ public final class ResearchFormResult: ObservableObject {
     }
 }
 
+/// The response context for a question.
 public struct Result {
     
+    /// The question identifier associated with this result.
     public let identifier: String
+
+    /// The response to the question associated with the `identifier`.
     public let answer: AnswerFormat
     
+    /// Initializes an instance of ``Result`` with the provided configuration.
+    /// - Parameters:
+    ///   - identifier: The question identifier associated with this response.
+    ///   - answer: The response to the question associated with the `identifier`.
     public init(identifier: String, answer: AnswerFormat) {
         self.identifier = identifier
         self.answer = answer
@@ -161,7 +179,7 @@ extension ResearchFormResult: Codable {
 }
 
 extension ResearchFormResult: Equatable {
-    
+
     public static func == (lhs: ResearchFormResult, rhs: ResearchFormResult) -> Bool {
         lhs.stepResults == rhs.stepResults
     }
