@@ -32,21 +32,21 @@ import SwiftUI
 
 /// An image choice.
 public struct ImageChoice: Identifiable, Equatable {
-    
+
     /// The unique identifier for this image choice.
     public let id: String
-    
+
     /// The image for the unselected state.
     public let normalImage: UIImage
-    
+
     /// The image for the selected state.
     public let selectedImage: UIImage?
-    
+
     /// The text that describes the image.
     public let text: String
-    
+
     let value: ResultValue
-    
+
     /// Initializes an instance of ``ImageChoice`` with the provided configuration.
     /// - Parameters:
     ///   - normalImage: The image for the unselected state.
@@ -66,7 +66,7 @@ public struct ImageChoice: Identifiable, Equatable {
             value: .int(value)
         )
     }
-    
+
     /// Initializes an instance of ``ImageChoice`` with the provided configuration.
     /// - Parameters:
     ///   - normalImage: The image for the unselected state.
@@ -86,7 +86,7 @@ public struct ImageChoice: Identifiable, Equatable {
             value: .string(value)
         )
     }
-    
+
     /// Initializes an instance of ``ImageChoice`` with the provided configuration.
     /// - Parameters:
     ///   - normalImage: The image for the unselected state.
@@ -119,7 +119,7 @@ public struct ImageChoice: Identifiable, Equatable {
         self.text = text
         self.value = value
     }
-    
+
     public static func == (lhs: ImageChoice, rhs: ImageChoice) -> Bool {
         return lhs.id == rhs.id && lhs.text == rhs.text
     }
@@ -127,21 +127,21 @@ public struct ImageChoice: Identifiable, Equatable {
 
 /// Represents the number of of choices that can be selected.
 public enum ChoiceSelectionLimit {
-    
+
     /// Allows for the selection of only one choice.
     case single
-    
+
     /// Allows for the selection of more than one choice.
     case multiple
-    
+
 }
 
 /// A question that allows for image input.
 public struct ImageChoiceQuestion: View {
-    
+
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
-    
+
     @Environment(\.questionRequired)
     private var isRequired: Bool
 
@@ -158,13 +158,15 @@ public struct ImageChoiceQuestion: View {
         case .automatic(let key):
             return Binding(
                 get: { managedFormResult.resultForStep(key: key) ?? [] },
-                set: { managedFormResult.setResultForStep(.image($0), key: key) }
+                set: {
+                    managedFormResult.setResultForStep(.image($0), key: key)
+                }
             )
         case .manual(let value):
             return value
         }
     }
-    
+
     /// Initializes an instance of ``ImageChoiceQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
@@ -202,8 +204,9 @@ public struct ImageChoiceQuestion: View {
                         imageValue.wrappedValue = nil
                         return
                     }
-                    
-                    imageValue.wrappedValue = newValues.compactMap { resultValue in
+
+                    imageValue.wrappedValue = newValues.compactMap {
+                        resultValue in
                         guard case let .int(value) = resultValue else {
                             return nil
                         }
@@ -213,7 +216,7 @@ public struct ImageChoiceQuestion: View {
             )
         )
     }
-    
+
     /// Initializes an instance of ``ImageChoiceQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
@@ -251,8 +254,9 @@ public struct ImageChoiceQuestion: View {
                         imageValue.wrappedValue = nil
                         return
                     }
-                    
-                    imageValue.wrappedValue = newValues.compactMap { resultValue in
+
+                    imageValue.wrappedValue = newValues.compactMap {
+                        resultValue in
                         guard case let .string(value) = resultValue else {
                             return nil
                         }
@@ -262,7 +266,7 @@ public struct ImageChoiceQuestion: View {
             )
         )
     }
-    
+
     /// Initializes an instance of ``ImageChoiceQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
@@ -300,8 +304,9 @@ public struct ImageChoiceQuestion: View {
                         imageValue.wrappedValue = nil
                         return
                     }
-                    
-                    imageValue.wrappedValue = newValues.compactMap { resultValue in
+
+                    imageValue.wrappedValue = newValues.compactMap {
+                        resultValue in
                         guard case let .date(value) = resultValue else {
                             return nil
                         }
@@ -362,7 +367,7 @@ public struct ImageChoiceQuestion: View {
                     if choiceSelectionLimit == .multiple {
                         multipleSelectionHeader()
                     }
-                    
+
                     if vertical {
                         VStack {
                             imageChoices()
@@ -379,11 +384,14 @@ public struct ImageChoiceQuestion: View {
                         .padding()
                 }
             }
-            .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
-            .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
+            .preference(
+                key: QuestionRequiredPreferenceKey.self, value: isRequired
+            )
+            .preference(
+                key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
         }
     }
-    
+
     private var isAnswered: Bool {
         if let resultArray = resolvedResult.wrappedValue, !resultArray.isEmpty {
             return true
@@ -393,9 +401,9 @@ public struct ImageChoiceQuestion: View {
 
     @ViewBuilder
     private func selectionText() -> some View {
-        
+
         if let result = resolvedResult.wrappedValue,
-           result.isEmpty == false
+            result.isEmpty == false
         {
             let strings: [String] = {
                 var strings: [String] = []
@@ -408,10 +416,10 @@ public struct ImageChoiceQuestion: View {
             }()
 
             Text(strings.joined(separator: ", "))
-                    .foregroundStyle(.primary)
+                .foregroundStyle(.primary)
         } else {
             Text("Tap to select")
-                    .foregroundStyle(.secondary)
+                .foregroundStyle(.secondary)
         }
     }
 
@@ -419,21 +427,27 @@ public struct ImageChoiceQuestion: View {
     private func imageChoices() -> some View {
         ForEach(choices, id: \.id) { choice in
             Button {
-                if let index = resolvedResult.wrappedValue?.firstIndex(where: { $0 == choice.value }) {
+                if let index = resolvedResult.wrappedValue?.firstIndex(where: {
+                    $0 == choice.value
+                }) {
                     resolvedResult.wrappedValue?.remove(at: index)
                 } else {
                     resolvedResult.wrappedValue?.append(choice.value)
                 }
             } label: {
                 if let result = resolvedResult.wrappedValue,
-                   result.contains(where: { $0 == choice.value }) {
+                    result.contains(where: { $0 == choice.value })
+                {
                     Image(uiImage: choice.selectedImage ?? choice.normalImage)
                         .resizable()
                         .imageSizeConstraints()
                         .scaledToFit()
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(choice.selectedImage == nil ? Color.choice(for: .systemGray5) : Color.clear)
+                        .background(
+                            choice.selectedImage == nil
+                                ? Color.choice(for: .systemGray5) : Color.clear
+                        )
                         .cornerRadius(24)
                         .imageChoiceHoverEffect()
                 } else {
@@ -447,57 +461,57 @@ public struct ImageChoiceQuestion: View {
                         .imageChoiceHoverEffect()
                         .contentShape(Capsule())
                 }
-                
+
             }
             .buttonStyle(.plain)
         }
     }
-    
+
     @ViewBuilder
     private func multipleSelectionHeader() -> some View {
-#if !os(watchOS)
-        Text("SELECT ALL THAT APPLY")
-            .font(.caption)
-            .fontWeight(.semibold)
-            .foregroundStyle(.secondary)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding([.horizontal, .top])
-        Divider()
-#else
-        Text("SELECT ALL THAT APPLY")
-            .lineLimit(1)
-            .minimumScaleFactor(0.5)
-            .font(.caption2)
-            .fontWeight(.semibold)
-            .foregroundStyle(.secondary)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal)
-#endif
+        #if !os(watchOS)
+            Text("SELECT ALL THAT APPLY")
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding([.horizontal, .top])
+            Divider()
+        #else
+            Text("SELECT ALL THAT APPLY")
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+                .font(.caption2)
+                .fontWeight(.semibold)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal)
+        #endif
     }
 }
 
-fileprivate extension View {
-    func imageChoiceHoverEffect() -> some View {
+extension View {
+    fileprivate func imageChoiceHoverEffect() -> some View {
         self
-#if !os(watchOS)
-            .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 24))
-            .hoverEffect()
-#endif
+            #if !os(watchOS)
+                .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 24))
+                .hoverEffect()
+            #endif
     }
-    
-    func imageSizeConstraints() -> some View {
+
+    fileprivate func imageSizeConstraints() -> some View {
         self
-#if !os(watchOS)
-            .frame(
-                minWidth: 10, maxWidth: 50,
-                minHeight: 10, maxHeight: 50
-            )
-#else
-            .frame(
-                minWidth: 10, maxWidth: 30,
-                minHeight: 10, maxHeight: 30
-            )
-#endif
+            #if !os(watchOS)
+                .frame(
+                    minWidth: 10, maxWidth: 50,
+                    minHeight: 10, maxHeight: 50
+                )
+            #else
+                .frame(
+                    minWidth: 10, maxWidth: 30,
+                    minHeight: 10, maxHeight: 30
+                )
+            #endif
     }
 }
 

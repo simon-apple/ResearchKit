@@ -33,33 +33,32 @@ import Foundation
 struct StepResultKey<Result> {
 
     let id: String
-    
+
     static func text(id: String) -> StepResultKey<String?> {
         return StepResultKey<String?>(id: id)
     }
-    
+
     static func imageChoice(id: String) -> StepResultKey<[ResultValue]?> {
         return StepResultKey<[ResultValue]?>(id: id)
     }
-    
+
     static func multipleChoice(id: String) -> StepResultKey<[ResultValue]?> {
         return StepResultKey<[ResultValue]?>(id: id)
     }
-    
+
     static func numeric(id: String) -> StepResultKey<Double?> {
         return StepResultKey<Double?>(id: id)
     }
-    
+
     static func height(id: String) -> StepResultKey<Double?> {
         return StepResultKey<Double?>(id: id)
     }
-    
+
     static func weight(id: String) -> StepResultKey<Double?> {
         return StepResultKey<Double?>(id: id)
     }
-    
+
     static func date(id: String) -> StepResultKey<Date?> {
         return StepResultKey<Date?>(id: id)
     }
 }
-

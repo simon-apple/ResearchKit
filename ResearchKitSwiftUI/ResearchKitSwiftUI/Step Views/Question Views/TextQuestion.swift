@@ -32,27 +32,27 @@ import SwiftUI
 
 /// A question that allows for text input.
 public struct TextQuestion<Header: View>: View {
-    
+
     /// Represents the number of lines a text question can contain.
     public enum LineLimit {
-        
+
         /// A single line text question.
         case singleLine
-        
+
         /// A multiline text question.
         case multiline
     }
-    
+
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
 
     @Environment(\.questionRequired)
     private var isRequired: Bool
-        
+
     private enum FocusTarget {
         case textQuestion
     }
-    
+
     private let id: String
     private let header: Header
     private let multilineTextFieldPadding: Double = 54
@@ -75,7 +75,7 @@ public struct TextQuestion<Header: View>: View {
             return value
         }
     }
-    
+
     /// Initializes an instance of ``TextQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
@@ -157,26 +157,35 @@ public struct TextQuestion<Header: View>: View {
                 header
             } content: {
                 VStack {
-                    TextField(id, text: resolvedResult.unwrapped(defaultValue: ""), prompt: placeholder, axis: axis)
-                        .textFieldStyle(.plain) // Text binding's `didSet` called twice if this is not set.
-                        .focused($focusTarget, equals: .textQuestion)
-                        .padding(.bottom, axis == .vertical ? multilineTextFieldPadding : .zero)
-                        .contentShape(Rectangle())
-                        .onAppear(perform: {
-#if !os(watchOS)
+                    TextField(
+                        id, text: resolvedResult.unwrapped(defaultValue: ""),
+                        prompt: placeholder, axis: axis
+                    )
+                    .textFieldStyle(.plain)  // Text binding's `didSet` called twice if this is not set.
+                    .focused($focusTarget, equals: .textQuestion)
+                    .padding(
+                        .bottom,
+                        axis == .vertical ? multilineTextFieldPadding : .zero
+                    )
+                    .contentShape(Rectangle())
+                    .onAppear(perform: {
+                        #if !os(watchOS)
                             if lineLimit == .singleLine {
-                                UITextField.appearance().clearButtonMode = .whileEditing
+                                UITextField.appearance().clearButtonMode =
+                                    .whileEditing
                             }
-#endif
-                        })
-                    
+                        #endif
+                    })
+
                     if lineLimit == .multiline {
                         HStack {
                             if hideCharacterCountLabel == false {
-                                Text("\(resolvedResult.wrappedValue?.count ?? 0)/\(characterLimit)")
+                                Text(
+                                    "\(resolvedResult.wrappedValue?.count ?? 0)/\(characterLimit)"
+                                )
                             }
                             Spacer()
-                            
+
                             if !hideClearButton {
                                 Button {
                                     resolvedResult.wrappedValue = .none
@@ -185,30 +194,36 @@ public struct TextQuestion<Header: View>: View {
                                 }
                             }
                         }
-                        .onChange(of: resolvedResult.wrappedValue) { oldValue, newValue in
-                            if resolvedResult.wrappedValue?.count ?? 0 > characterLimit {
+                        .onChange(of: resolvedResult.wrappedValue) {
+                            oldValue, newValue in
+                            if resolvedResult.wrappedValue?.count ?? 0
+                                > characterLimit
+                            {
                                 resolvedResult.wrappedValue = oldValue
                             }
                         }
                     }
                 }
                 .padding()
-    #if os(iOS)
-                .doneKeyboardToolbar(
-                    condition: {
-                        focusTarget == .textQuestion
-                    },
-                    action: {
-                        focusTarget = nil
-                    }
-                )
-    #endif
+                #if os(iOS)
+                    .doneKeyboardToolbar(
+                        condition: {
+                            focusTarget == .textQuestion
+                        },
+                        action: {
+                            focusTarget = nil
+                        }
+                    )
+                #endif
             }
-            .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
-            .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
+            .preference(
+                key: QuestionRequiredPreferenceKey.self, value: isRequired
+            )
+            .preference(
+                key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
         }
     }
-    
+
     private var isAnswered: Bool {
         if let result = resolvedResult.wrappedValue {
             return !result.isEmpty
@@ -217,8 +232,8 @@ public struct TextQuestion<Header: View>: View {
     }
 }
 
-public extension TextQuestion where Header == QuestionHeader {
-    
+extension TextQuestion where Header == QuestionHeader {
+
     /// Initializes an instance of ``TextQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this text question.
@@ -230,7 +245,7 @@ public extension TextQuestion where Header == QuestionHeader {
     ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
     ///   - hideClearButton: Whether or not the clear button is displayed.
     ///   - text: The entered text.
-    init(
+    public init(
         id: String,
         title: String,
         detail: String?,
@@ -262,7 +277,7 @@ public extension TextQuestion where Header == QuestionHeader {
     ///   - hideCharacterCountLabel: Whether or not the character count is displayed.
     ///   - hideClearButton: Whether or not the clear button is displayed.
     ///   - defaultTextAnswer: The initial text to display.
-    init(
+    public init(
         id: String,
         title: String,
         detail: String? = nil,
@@ -303,4 +318,3 @@ public extension TextQuestion where Header == QuestionHeader {
         )
     }
 }
-

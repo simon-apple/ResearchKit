@@ -28,7 +28,6 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 import SwiftUI
 
 struct ResearchFormStepContentView<Content: View>: View {
@@ -39,7 +38,7 @@ struct ResearchFormStepContentView<Content: View>: View {
 
     private let isLastStep: Bool
     private var onStepCompletion: ((ResearchFormCompletion) -> Void)?
-    
+
     @State
     private var doneButtonEnabled: Bool = true
 
@@ -60,17 +59,17 @@ struct ResearchFormStepContentView<Content: View>: View {
                     doneButtonEnabled = $0
                 }
                 .padding()
-#if !os(watchOS)
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            onStepCompletion?(.discarded)
-                        } label: {
-                            Text("Cancel")
+                #if !os(watchOS)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button {
+                                onStepCompletion?(.discarded)
+                            } label: {
+                                Text("Cancel")
+                            }
                         }
                     }
-                }
-#endif
+                #endif
         } footerContent: {
             Button {
                 if isLastStep {
@@ -92,53 +91,55 @@ struct ResearchFormStepContentView<Content: View>: View {
     }
 
     private var maxWidthForDoneButton: CGFloat {
-#if os(visionOS)
-        300
-#else
-    .infinity
-#endif
+        #if os(visionOS)
+            300
+        #else
+            .infinity
+        #endif
     }
-    
+
 }
 
 private struct ResearchFormStepButtonStyle: ButtonStyle {
-    
+
     @Environment(\.isEnabled)
     private var isEnabled
-    
+
     func makeBody(configuration: Configuration) -> some View {
-#if os(iOS)
-        configuration.label
-            .foregroundStyle(.white)
-            .frame(height: 50)
-            .background(
-                isEnabled ? Color.blue : Color.blue.opacity(0.5),
-                in: RoundedRectangle(cornerRadius: 12)
-            )
-#elseif os(visionOS)
-        configuration.label
-            .foregroundStyle(isEnabled ? .white : .gray)
-            .frame(height: 50)
-            .background(
-                .ultraThinMaterial,
-                in: RoundedRectangle(cornerRadius: 25)
-            )
-            .hoverEffect(.highlight)
-#elseif os(watchOS)
-        configuration.label
-            .foregroundStyle(isEnabled ? .white : .gray)
-            .frame(height: 50)
-            .background(
-                Color.choice(for: .systemGray4),
-                in: RoundedRectangle(cornerRadius: 25)
-            )
-#endif
+        #if os(iOS)
+            configuration.label
+                .foregroundStyle(.white)
+                .frame(height: 50)
+                .background(
+                    isEnabled ? Color.blue : Color.blue.opacity(0.5),
+                    in: RoundedRectangle(cornerRadius: 12)
+                )
+        #elseif os(visionOS)
+            configuration.label
+                .foregroundStyle(isEnabled ? .white : .gray)
+                .frame(height: 50)
+                .background(
+                    .ultraThinMaterial,
+                    in: RoundedRectangle(cornerRadius: 25)
+                )
+                .hoverEffect(.highlight)
+        #elseif os(watchOS)
+            configuration.label
+                .foregroundStyle(isEnabled ? .white : .gray)
+                .frame(height: 50)
+                .background(
+                    Color.choice(for: .systemGray4),
+                    in: RoundedRectangle(cornerRadius: 25)
+                )
+        #endif
     }
-    
+
 }
 
-private extension ButtonStyle where Self == ResearchFormStepButtonStyle {
-    
-    static var researchFormStep: ResearchFormStepButtonStyle { .init() }
-    
+extension ButtonStyle where Self == ResearchFormStepButtonStyle {
+
+    fileprivate static var researchFormStep: ResearchFormStepButtonStyle {
+        .init()
+    }
+
 }
