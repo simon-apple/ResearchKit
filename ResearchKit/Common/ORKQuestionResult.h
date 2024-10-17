@@ -149,8 +149,7 @@ ORK_CLASS_AVAILABLE
 @end
 
 
-#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
-#if !TARGET_OS_VISION && !TARGET_OS_WATCH
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS
 /**
  The `ORKLocation` class represents the location addess obtained from a location question.
  */
@@ -181,8 +180,7 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, readonly, nullable) CNPostalAddress *postalAddress;
 
 @end
-#endif // ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
-#endif // !TARGET_OS_VISION || !TARGET_OS_WATCH
+#endif
 
 /**
  A result object from a location answer format.
@@ -195,8 +193,7 @@ ORK_CLASS_AVAILABLE
  or to immediately perform analysis on it.
  */
 
-#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
-#if !TARGET_OS_VISION && !TARGET_OS_WATCH
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS
 ORK_CLASS_AVAILABLE
 @interface ORKLocationQuestionResult : ORKQuestionResult
 
@@ -206,8 +203,7 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, copy, nullable) ORKLocation *locationAnswer;
 
 @end
-#endif // ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
-#endif // !TARGET_OS_VISION || !TARGET_OS_WATCH
+#endif
 
 /**
  A result object from a multiple-component picker-style choice-based answer format.
