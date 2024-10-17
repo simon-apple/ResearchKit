@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B7213532B4F39CC00463E69 /* View+OnChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B72134D2B4F39CC00463E69 /* View+OnChange.swift */; };
 		0BF86B222B4F360000E3790E /* ResearchKitSwiftUI.docc in Sources */ = {isa = PBXBuildFile; fileRef = 0BF86B212B4F360000E3790E /* ResearchKitSwiftUI.docc */; };
 		380E14B02C3350A900085D2B /* ResearchForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380E14AF2C3350A900085D2B /* ResearchForm.swift */; };
 		3815C0142C2081CE00A29CD3 /* DateTimeQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3815C0132C2081CE00A29CD3 /* DateTimeQuestion.swift */; };
@@ -62,7 +61,6 @@
 		0B7213362B4F373300463E69 /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B7213392B4F379500463E69 /* ResearchKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B72133C2B4F37B300463E69 /* ResearchKitActiveTask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitActiveTask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B72134D2B4F39CC00463E69 /* View+OnChange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+OnChange.swift"; sourceTree = "<group>"; };
 		0B7213542B4F3A8400463E69 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B7213572B4F3ABD00463E69 /* ResearchKitActiveTask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitActiveTask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B72135A2B4F3AD400463E69 /* ResearchKitInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -217,7 +215,6 @@
 			isa = PBXGroup;
 			children = (
 				5EFC55722C9DEF8F002C9587 /* Editing Utilities */,
-				0B72134D2B4F39CC00463E69 /* View+OnChange.swift */,
 				0B7213472B4F39A500463E69 /* Step Views */,
 				5E507F822C1144DE002958E2 /* Slider */,
 				5E05B53B2C2E134900A0A83B /* SwiftUIKit */,
@@ -433,7 +430,6 @@
 				E4DBF1BF2BA24AA40085D6A1 /* StickyScrollView.swift in Sources */,
 				E4FBFEDD2C6C0D0500F50946 /* SliderQuestion.swift in Sources */,
 				5EFC55352C9B9C4D002C9587 /* QuestionCard.swift in Sources */,
-				0B7213532B4F39CC00463E69 /* View+OnChange.swift in Sources */,
 				5EBAA28F2C4063C100F193C6 /* StepIconForegroundStyle.swift in Sources */,
 				5EAFC71C2C7549BD008560D7 /* NavigationalLayout.swift in Sources */,
 				5EBAA28D2C40634800F193C6 /* BodyItemIconForegroundStyle.swift in Sources */,

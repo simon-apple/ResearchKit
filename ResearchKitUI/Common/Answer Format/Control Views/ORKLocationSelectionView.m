@@ -36,7 +36,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS
 
 #import "ORKLocationSelectionView.h"
 
@@ -320,22 +320,21 @@ static const NSString *FormattedAddressLines = @"FormattedAddressLines";
         [self setAnswer:ORKNullAnswerValue()];
         return;
     }
-// TODO: rdar://133020747 (Remove deprecated APIs from ORKLocation for iOS 18)
-//    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-//    ORKWeakTypeOf(self) weakSelf = self;
-//    CLLocation *cllocation = [[CLLocation alloc] initWithLatitude:location.coordinate.latitude longitude:location.coordinate.longitude];
-//    [geocoder reverseGeocodeLocation:cllocation completionHandler:^(NSArray *placemarks, NSError *error) {
-//        ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
-//        if (error) {
-//            [self notifyDelegateOfError:error];
-//            [strongSelf setAnswer:ORKNullAnswerValue()];
-//        } else {
-//            CLPlacemark *placemark = [placemarks lastObject];
-//            [strongSelf setAnswer:[[ORKLocation alloc] initWithPlacemark:placemark
-//                                                               userInput:location.userInput ? : placemark.ork_addressLine]
-//                        updateMap:YES];
-//        }
-//    }];
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    ORKWeakTypeOf(self) weakSelf = self;
+    CLLocation *cllocation = [[CLLocation alloc] initWithLatitude:location.coordinate.latitude longitude:location.coordinate.longitude];
+    [geocoder reverseGeocodeLocation:cllocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        ORKStrongTypeOf(weakSelf) strongSelf = weakSelf;
+        if (error) {
+            [self notifyDelegateOfError:error];
+            [strongSelf setAnswer:ORKNullAnswerValue()];
+        } else {
+            CLPlacemark *placemark = [placemarks lastObject];
+            [strongSelf setAnswer:[[ORKLocation alloc] initWithPlacemark:placemark
+                                                               userInput:location.userInput ? : placemark.ork_addressLine]
+                        updateMap:YES];
+        }
+    }];
 }
 
 - (void)setAnswer:(ORKLocation *)answer {
@@ -356,17 +355,15 @@ static const NSString *FormattedAddressLines = @"FormattedAddressLines";
     ORKLocation *location = isAnswerClassORKLocation ? (ORKLocation *)_answer : nil;
     
     if (location) {
+        if (!location.userInput || !location.region |!location.postalAddress) {
+            // redo geo decoding if any of them is missing
+            [self reverseGeocodeAndDisplay:location];
+            return;
+        }
         
-        // TODO: rdar://133020747 (Remove deprecated APIs from ORKLocation for iOS 18)
-//        if (!location.userInput || !location.region |!location.postalAddress) {
-//            // redo geo decoding if any of them is missing
-//            [self reverseGeocodeAndDisplay:location];
-//            return;
-//        }
-//        
-//        if (location.userInput) {
-//            _textField.text = location.userInput;
-//        }
+        if (location.userInput) {
+            _textField.text = location.userInput;
+        }
     }
     
     if (updateMap) {
@@ -380,21 +377,19 @@ static const NSString *FormattedAddressLines = @"FormattedAddressLines";
 
 - (void)updateMapWithLocation:(ORKLocation *)location {
     
-    // TODO: rdar://133020747 (Remove deprecated APIs from ORKLocation for iOS 18)
-//    MKPlacemark *placemark = location ? [[MKPlacemark alloc] initWithCoordinate:location.coordinate postalAddress:location.postalAddress] : nil;
-    
+    MKPlacemark *placemark = location ? [[MKPlacemark alloc] initWithCoordinate:location.coordinate postalAddress:location.postalAddress] : nil;
     [_mapView removeAnnotations:_mapView.annotations];
     
-//    if (placemark) {
-//        [_mapView addAnnotation:placemark];
-//        CLLocationDistance span = MAX(200, location.region.radius);
-//        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location.region.center, span, span);
-//        [self setMapRegion:region];
-//    } else {
+    if (placemark) {
+        [_mapView addAnnotation:placemark];
+        CLLocationDistance span = MAX(200, location.region.radius);
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location.region.center, span, span);
+        [self setMapRegion:region];
+    } else {
         if (_setInitialCoordinateRegion) {
             [self setMapRegion:_initalCoordinateRegion];
         }
-//    }
+    }
 }
 
 - (void)setMapRegion:(MKCoordinateRegion)region {
