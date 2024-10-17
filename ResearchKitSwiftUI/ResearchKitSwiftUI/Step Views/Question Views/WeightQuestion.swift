@@ -30,6 +30,7 @@
 
 import SwiftUI
 
+/// The precision representing the granularity of a measurement's value. (e.g. 68 kg vs. 68.04 kg, or 150 lbs vs. 150 lbs 5 oz)
 public enum NumericPrecision {
     case `default`, low, high
 }
@@ -64,31 +65,32 @@ private class WeightFormatter {
     
 }
 
+/// A question that allows for weight input.
 public struct WeightQuestion: View {
     
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
     
-    @State var isInputActive = false
-    @State var hasChanges: Bool
+    @State private var isInputActive = false
+    @State private var hasChanges: Bool
     
     @Environment(\.questionRequired)
     private var isRequired: Bool
 
     private let defaultWeightInKilograms = 68.039
 
-    let id: String
-    let title: String
-    let detail: String?
-    let measurementSystem: MeasurementSystem
-    let precision: NumericPrecision
-    let defaultValue: Double?
-    let minimumValue: Double?
-    let maximumValue: Double?
-    let result: StateManagementType<Double?>
+    private let id: String
+    private let title: String
+    private let detail: String?
+    private let measurementSystem: MeasurementSystem
+    private let precision: NumericPrecision
+    private let defaultValue: Double?
+    private let minimumValue: Double?
+    private let maximumValue: Double?
+    private let selection: StateManagementType<Double?>
 
     private var resolvedResult: Binding<Double?> {
-        switch result {
+        switch selection {
         case let .automatic(key: key):
             return Binding(
                 get: { managedFormResult.resultForStep(key: key) ?? nil },
@@ -98,7 +100,17 @@ public struct WeightQuestion: View {
             return value
         }
     }
-
+    
+    /// Initializes an instance of ``WeightQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - measurementSystem: The measurement system for this question.
+    ///   - precision: The precision for this question.
+    ///   - defaultValue: The default weight.
+    ///   - minimumValue: The minimum selectable weight.
+    ///   - maximumValue: The maximum selectable weight.
     public init(
         id: String,
         title: String,
@@ -134,9 +146,20 @@ public struct WeightQuestion: View {
         self.defaultValue = defaultValue
         self.minimumValue = minimumValue
         self.maximumValue = maximumValue
-        self.result = .automatic(key: .weight(id: id))
+        self.selection = .automatic(key: .weight(id: id))
     }
     
+    /// Initializes an instance of ``WeightQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - measurementSystem: The measurement system for this question.
+    ///   - precision: The precision for this question.
+    ///   - defaultValue: The default weight.
+    ///   - minimumValue: The minimum selectable weight.
+    ///   - maximumValue: The maximum selectable weight.
+    ///   - weight: The selected weight.
     public init(
         id: String,
         title: String,
@@ -146,7 +169,7 @@ public struct WeightQuestion: View {
         defaultValue: Double?,
         minimumValue: Double?,
         maximumValue: Double?,
-        selection: Binding<Double?>
+        weight: Binding<Double?>
     ) {
         self.id = id
         self.hasChanges = false
@@ -173,10 +196,10 @@ public struct WeightQuestion: View {
         self.defaultValue = defaultValue
         self.minimumValue = minimumValue
         self.maximumValue = maximumValue
-        self.result = .manual(selection)
+        self.selection = .manual(weight)
     }
 
-    var selectionString: String {
+    private var selectionString: String {
         let selectedResult: Double
         if let result = resolvedResult.wrappedValue {
             selectedResult = result
@@ -282,30 +305,30 @@ public struct WeightQuestion: View {
 }
 
 struct WeightPickerView: View {
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
 
-    let measurementSystem: MeasurementSystem
-    let precision: NumericPrecision
-    let defaultValue: Double?
-    let minimumValue: Double?
-    let maximumValue: Double?
+    private let measurementSystem: MeasurementSystem
+    private let precision: NumericPrecision
+    private let defaultValue: Double?
+    private let minimumValue: Double?
+    private let maximumValue: Double?
 
-    @Binding var selection: Double?
-    @Binding var hasChanges: Bool
+    @Binding private var selection: Double?
+    @Binding private var hasChanges: Bool
 
-    @State var highPrecisionSelection: Int = 0
-    @State var selectionOne: Double
-    @State var selectionTwo: Double
+    @State private var highPrecisionSelection: Int = 0
+    @State private var selectionOne: Double
+    @State private var selectionTwo: Double
 
     private static let defaultValueInKilograms: Double = 68.0
     private static let defaultValueInPounds: Double = 150.0
 
-    var lowerValue: Double {
+    private var lowerValue: Double {
         guard let minimumValue else { return 0 }
         return minimumValue
     }
 
-    var upperValue: Double {
+    private var upperValue: Double {
         if measurementSystem == .USC {
             guard let maximumValue else { return 1_450}
             return maximumValue
@@ -322,7 +345,7 @@ struct WeightPickerView: View {
         }
     }
 
-    var primaryStep: Double {
+    private var primaryStep: Double {
         if measurementSystem != .USC {
             switch precision {
             case .default:
@@ -335,7 +358,7 @@ struct WeightPickerView: View {
         }
     }
 
-    var secondaryStep: Double {
+    private var secondaryStep: Double {
         if measurementSystem == .USC {
             return 1
         } else {
@@ -343,7 +366,7 @@ struct WeightPickerView: View {
         }
     }
 
-    var primaryUnit: String {
+    private var primaryUnit: String {
         if measurementSystem == .USC {
             return "lb"
         } else {
@@ -351,7 +374,7 @@ struct WeightPickerView: View {
         }
     }
 
-    var primaryRange: [Double] {
+    private var primaryRange: [Double] {
         var range:[Double] = []
         for i in stride(from: lowerValue, through: upperValue, by: primaryStep) {
             range.append(i)
@@ -359,7 +382,7 @@ struct WeightPickerView: View {
         return range
     }
 
-    var secondaryRange: [Double] {
+    private var secondaryRange: [Double] {
         let upperValue = measurementSystem == .USC ? 15 : 0.99
         var range: [Double] = []
         for i in stride(from: lowerValue, through: upperValue, by: secondaryStep) {
@@ -562,7 +585,7 @@ struct WeightPickerView: View {
             defaultValue: 150,
             minimumValue: 0,
             maximumValue: 1430,
-            selection: $selection
+            weight: $selection
         )
     }
 }

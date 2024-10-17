@@ -134,7 +134,7 @@ struct ResearchFormAdapter: View {
                 id: id,
                 title: title ?? "",
                 choices: answerOptions(for: textChoiceAnswerFormat.textChoices),
-                selectionType: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
+                choiceSelectionLimit: textChoiceAnswerFormat.style == .singleChoice ? .single : .multiple
             )
         case let scaleAnswerFormat as ORKScaleAnswerFormat:
             SliderQuestion(
@@ -182,7 +182,7 @@ struct ResearchFormAdapter: View {
                 title: title ?? "",
                 detail: "",
                 prompt: placeholder,
-                textFieldType: textAnswerFormat.multipleLines ? .multiline : .singleLine,
+                lineLimit: textAnswerFormat.multipleLines ? .multiline : .singleLine,
                 characterLimit: textAnswerFormat.maximumLength,
                 hideCharacterCountLabel: textAnswerFormat.hideCharacterCountLabel,
                 hideClearButton: textAnswerFormat.hideClearButton,
@@ -200,7 +200,7 @@ struct ResearchFormAdapter: View {
         case let numericAnswerFormat as ORKNumericAnswerFormat:
             NumericQuestion(
                 id: id,
-                text: numericAnswerFormat.defaultNumericAnswer?.decimalValue,
+                number: numericAnswerFormat.defaultNumericAnswer?.decimalValue,
                 title: title ?? "",
                 prompt: numericAnswerFormat.placeholder ?? "Tap to answer"
             )
@@ -266,7 +266,7 @@ struct ResearchFormAdapter: View {
                 return imageChoice
             }
             
-            let style: ChoiceSelectionType = {
+            let choiceSelectionLimit: ChoiceSelectionLimit = {
                 switch imageChoiceAnswerFormat.style {
                 case .singleChoice:
                     return .single
@@ -281,7 +281,7 @@ struct ResearchFormAdapter: View {
                 title: title ?? "",
                 detail: detail,
                 choices: choices,
-                style: style,
+                choiceSelectionLimit: choiceSelectionLimit,
                 vertical: imageChoiceAnswerFormat.isVertical
             )
         default:
@@ -289,33 +289,33 @@ struct ResearchFormAdapter: View {
         }
     }
     
-    private func answerOptions(for textChoices: [ORKTextChoice]) -> [MultipleChoiceOption] {
-        textChoices.compactMap { textChoice in
-            let multipleChoiceOption: MultipleChoiceOption?
+    private func answerOptions(for textChoices: [ORKTextChoice]) -> [TextChoice] {
+        textChoices.compactMap { orkTextChoice in
+            let textChoice: TextChoice?
             
-            if let number = textChoice.value as? NSNumber {
-                multipleChoiceOption = MultipleChoiceOption(
+            if let number = orkTextChoice.value as? NSNumber {
+                textChoice = TextChoice(
                     id: UUID().uuidString,
-                    choiceText: textChoice.text,
+                    choiceText: orkTextChoice.text,
                     value: number.intValue
                 )
-            } else if let string = textChoice.value as? NSString {
-                multipleChoiceOption = MultipleChoiceOption(
+            } else if let string = orkTextChoice.value as? NSString {
+                textChoice = TextChoice(
                     id: UUID().uuidString,
-                    choiceText: textChoice.text,
+                    choiceText: orkTextChoice.text,
                     value: String(string)
                 )
-            } else if let date = textChoice.value as? Date {
-                multipleChoiceOption = MultipleChoiceOption(
+            } else if let date = orkTextChoice.value as? Date {
+                textChoice = TextChoice(
                     id: UUID().uuidString,
-                    choiceText: textChoice.text,
+                    choiceText: orkTextChoice.text,
                     value: date
                 )
             } else {
-                multipleChoiceOption = nil
+                textChoice = nil
             }
             
-            return multipleChoiceOption
+            return textChoice
         }
     }
     

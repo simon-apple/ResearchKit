@@ -30,6 +30,7 @@
 
 import SwiftUI
 
+/// A question that allows for date and time input.
 public struct DateTimeQuestion<Header: View>: View {
     
     @EnvironmentObject
@@ -43,15 +44,15 @@ public struct DateTimeQuestion<Header: View>: View {
     
     @State
     private var showTimePickerModal = false
-    let id: String
-    let header: Header
-    let pickerPrompt: String
-    let displayedComponents: DatePicker.Components
-    let range: ClosedRange<Date>
-    let result: StateManagementType<Date?>
+    private let id: String
+    private let header: Header
+    private let pickerPrompt: String
+    private let displayedComponents: DatePicker.Components
+    private let range: ClosedRange<Date>
+    private let selection: StateManagementType<Date?>
 
     private var resolvedResult: Binding<Date?> {
-        switch result {
+        switch selection {
         case let .automatic(key: key):
             return Binding(
                 get: { managedFormResult.resultForStep(key: key) ?? Date() },
@@ -61,11 +62,19 @@ public struct DateTimeQuestion<Header: View>: View {
             return value
         }
     }
-
+    
+    /// Initializes an instance of ``DateTimeQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this question.
+    ///   - header: The header for this question.
+    ///   - date: The selected date.
+    ///   - pickerPrompt: The prompt that informs the user.
+    ///   - displayedComponents: The date-time components that are displayed for this question.
+    ///   - range: The range of selectable dates.
     public init(
         id: String,
         @ViewBuilder header: () -> Header,
-        selection: Date = Date(),
+        date: Date = Date(),
         pickerPrompt: String,
         displayedComponents: DatePicker.Components,
         range: ClosedRange<Date>
@@ -75,13 +84,21 @@ public struct DateTimeQuestion<Header: View>: View {
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range
-        self.result = .automatic(key: .date(id: id))
+        self.selection = .automatic(key: .date(id: id))
     }
 
+    /// Initializes an instance of ``DateTimeQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this question.
+    ///   - header: The header for this question.
+    ///   - date: The selected date.
+    ///   - pickerPrompt: The prompt that informs the user.
+    ///   - displayedComponents: The date-time components that are displayed for this question.
+    ///   - range: The range of selectable dates.
     public init(
         id: String,
         @ViewBuilder header: () -> Header,
-        selection: Binding<Date?>,
+        date: Binding<Date?>,
         pickerPrompt: String,
         displayedComponents: DatePicker.Components,
         range: ClosedRange<Date>
@@ -91,7 +108,7 @@ public struct DateTimeQuestion<Header: View>: View {
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range
-        self.result = .manual(selection)
+        self.selection = .manual(date)
     }
 
     public var body: some View {
@@ -179,40 +196,58 @@ public struct DateTimeQuestion<Header: View>: View {
     }
 }
 
-public extension DateTimeQuestion where Header == _SimpleFormItemViewHeader {
+public extension DateTimeQuestion where Header == QuestionHeader {
     
+    /// Initializes an instance of ``DateTimeQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - date: The selected date.
+    ///   - pickerPrompt: The prompt that informs the user.
+    ///   - displayedComponents: The date-time components that are displayed for this question.
+    ///   - range: The range of selectable dates.
     init(
         id: String,
         title: String,
         detail: String? = nil,
-        selection: Date = Date(),
+        date: Date = Date(),
         pickerPrompt: String,
         displayedComponents: DatePicker.Components,
         range: ClosedRange<Date>
     ) {
         self.id = id
-        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        self.header = QuestionHeader(title: title, detail: detail)
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range
-        self.result = .automatic(key: .date(id: id))
+        self.selection = .automatic(key: .date(id: id))
     }
     
+    /// Initializes an instance of ``DateTimeQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - date: The selected date.
+    ///   - pickerPrompt: The prompt that informs the user.
+    ///   - displayedComponents: The date-time components that are displayed for this question.
+    ///   - range: The range of selectable dates.
     init(
         id: String,
         title: String,
         detail: String? = nil,
-        selection: Binding<Date?>,
+        date: Binding<Date?>,
         pickerPrompt: String,
         displayedComponents: DatePicker.Components,
         range: ClosedRange<Date>
     ) {
         self.id = id
-        self.header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        self.header = QuestionHeader(title: title, detail: detail)
         self.pickerPrompt = pickerPrompt
         self.displayedComponents = displayedComponents
         self.range = range
-        self.result = .manual(selection)
+        self.selection = .manual(date)
     }
     
 }
@@ -225,7 +260,7 @@ public extension DateTimeQuestion where Header == _SimpleFormItemViewHeader {
                 id: UUID().uuidString,
                 title: "What is your birthday?",
                 detail: "Question 1 of 4",
-                selection: $date,
+                date: $date,
                 pickerPrompt: "Select Date",
                 displayedComponents: [.date],
                 range: Date.distantPast...Date.distantFuture
@@ -243,7 +278,7 @@ public extension DateTimeQuestion where Header == _SimpleFormItemViewHeader {
                 id: UUID().uuidString,
                 title: "What time is it?",
                 detail: "Question 2 of 4",
-                selection: $date,
+                date: $date,
                 pickerPrompt: "Select Time",
                 displayedComponents: [.hourAndMinute],
                 range: Date.distantPast...Date.distantFuture
@@ -261,7 +296,7 @@ public extension DateTimeQuestion where Header == _SimpleFormItemViewHeader {
                 id: UUID().uuidString,
                 title: "What is the time and date?",
                 detail: "Question 2 of 4",
-                selection: $date,
+                date: $date,
                 pickerPrompt: "Select Time and Date",
                 displayedComponents: [.date, .hourAndMinute],
                 range: Date.distantPast...Date.distantFuture

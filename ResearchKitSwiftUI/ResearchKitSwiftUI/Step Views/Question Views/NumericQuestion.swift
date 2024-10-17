@@ -31,13 +31,14 @@
 import Foundation
 import SwiftUI
 
+/// A question that allows for numeric input.
 @available(watchOS, unavailable)
 public struct NumericQuestion<Header: View>: View {
 
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
 
-    enum FocusTarget {
+    private enum FocusTarget {
         
         case numericQuestion
         
@@ -47,13 +48,13 @@ public struct NumericQuestion<Header: View>: View {
     private let header: Header
     private let prompt: String?
     @FocusState private var focusTarget: FocusTarget?
-    private let result: StateManagementType<Double?>
+    private let selection: StateManagementType<Double?>
     
     @Environment(\.questionRequired)
     private var isRequired: Bool
 
     private var resolvedResult: Binding<Double?> {
-        switch result {
+        switch selection {
         case let .automatic(key: key):
             return Binding(
                 get: { managedFormResult.resultForStep(key: key) ?? nil },
@@ -106,32 +107,46 @@ public struct NumericQuestion<Header: View>: View {
 }
 
 @available(watchOS, unavailable)
-public extension NumericQuestion where Header == _SimpleFormItemViewHeader {
+public extension NumericQuestion where Header == QuestionHeader {
     
+    /// Initializes an instance of ``NumericQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this numeric question.
+    ///   - number: The entered number.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - prompt: The prompt that informs the user.
     init(
         id: String,
-        text: Binding<Double?>,
+        number: Binding<Double?>,
         title: String,
         detail: String? = nil,
         prompt: String?
     ) {
         self.id = id
-        header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        header = QuestionHeader(title: title, detail: detail)
         self.prompt = prompt
-        self.result = .manual(text)
+        self.selection = .manual(number)
     }
     
+    /// Initializes an instance of ``NumericQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this question.
+    ///   - number: The entered number.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - prompt: The prompt that informs the user.
     init(
         id: String,
-        text: Decimal? = nil,
+        number: Decimal? = nil,
         title: String,
         detail: String? = nil,
         prompt: String?
     ) {
         self.id = id
-        header = _SimpleFormItemViewHeader(title: title, detail: detail)
+        header = QuestionHeader(title: title, detail: detail)
         self.prompt = prompt
-        self.result = .automatic(key: .numeric(id: id))
+        self.selection = .automatic(key: .numeric(id: id))
     }
     
 }
@@ -146,7 +161,7 @@ struct NumericQuestionView_Previews: PreviewProvider {
             ScrollView {
                 NumericQuestion(
                     id: UUID().uuidString,
-                    text: .constant(22.0),
+                    number: .constant(22.0),
                     title: "How old are you?",
                     detail: nil,
                     prompt: "Tap to enter age"

@@ -30,10 +30,21 @@
 
 import SwiftUI
 
+/// Represents the different measurement systems that can be used.
 public enum MeasurementSystem {
-    case USC, local, metric
+    
+    /// The US Customary measurement system.
+    case USC
+    
+    /// The measurement system defined by the system.
+    case local
+    
+    /// The metric measurement system.
+    case metric
+    
 }
 
+/// A question that allows for height input.
 public struct HeightQuestion: View {
     
     @EnvironmentObject
@@ -42,19 +53,19 @@ public struct HeightQuestion: View {
     @Environment(\.questionRequired)
     private var isRequired: Bool
 
-    @State var isInputActive = false
-    @State var hasChanges: Bool
+    @State private var isInputActive = false
+    @State private var hasChanges: Bool
 
-    let id: String
-    let title: String
-    let detail: String?
-    let measurementSystem: MeasurementSystem
-    let result: StateManagementType<Double?>
+    private let id: String
+    private let title: String
+    private let detail: String?
+    private let measurementSystem: MeasurementSystem
+    private let selection: StateManagementType<Double?>
 
-    var initialPrimaryValue: Double = 162 // Denotes height in cm, which is ~5'4", a good average height.
+    private var initialPrimaryValue: Double = 162 // Denotes height in cm, which is ~5'4", a good average height.
 
     private var resolvedResult: Binding<Double?> {
-        switch result {
+        switch selection {
         case let .automatic(key: key):
             return Binding(
                 get: { managedFormResult.resultForStep(key: key) ?? initialPrimaryValue },
@@ -64,7 +75,13 @@ public struct HeightQuestion: View {
             return value
         }
     }
-
+    
+    /// Initializes an instance of ``HeightQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier for this question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - measurementSystem: The measurement system for this question.
     public init(
         id: String,
         title: String,
@@ -91,15 +108,22 @@ public struct HeightQuestion: View {
             }
         }()
         self.measurementSystem = system
-        self.result = .automatic(key: .height(id: id))
+        self.selection = .automatic(key: .height(id: id))
     }
     
+    /// Initializes an instance of ``HeightQuestion`` with the provided configuration.
+    /// - Parameters:
+    ///   - id: The unique identifier question.
+    ///   - title: The title for this question.
+    ///   - detail: The details for this question.
+    ///   - measurementSystem: The measurement system for this question.
+    ///   - height: The selected height.
     public init(
         id: String,
         title: String,
         detail: String? = nil,
         measurementSystem: MeasurementSystem,
-        selection: Binding<Double?>
+        height: Binding<Double?>
     ) {
         self.id = id
         self.hasChanges = false
@@ -121,10 +145,10 @@ public struct HeightQuestion: View {
             }
         }()
         self.measurementSystem = system
-        self.result = .manual(selection)
+        self.selection = .manual(height)
     }
 
-    var selectionString: String {
+    private var selectionString: String {
         guard let result = resolvedResult.wrappedValue else {
             return "\(Int(initialPrimaryValue)) cm"
         }
@@ -193,16 +217,16 @@ public struct HeightQuestion: View {
 }
 
 struct HeightPickerView: View {
-    @Environment(\.dismiss) var dismiss
-    @State var firstSelection: Int
-    @State var secondSelection: Int
-    let footToCentimetersMultiplier: Double = 30.48
-    let inchToCentimetersMultiplier: Double = 2.54
+    @Environment(\.dismiss) private var dismiss
+    @State private var firstSelection: Int
+    @State private var secondSelection: Int
+    private let footToCentimetersMultiplier: Double = 30.48
+    private let inchToCentimetersMultiplier: Double = 2.54
 
-    let measurementSystem: MeasurementSystem
+    private let measurementSystem: MeasurementSystem
 
-    @Binding var selection: Double?
-    @Binding var hasChanges: Bool
+    @Binding private var selection: Double?
+    @Binding private var hasChanges: Bool
 
     init(
         measurementSystem: MeasurementSystem,
@@ -228,7 +252,7 @@ struct HeightPickerView: View {
         }
     }
 
-    var upperValue: Int {
+    private var upperValue: Int {
         if measurementSystem == .USC {
             return 10
         } else {
@@ -236,12 +260,12 @@ struct HeightPickerView: View {
         }
     }
 
-    var secondaryUpperValue: Int {
+    private var secondaryUpperValue: Int {
         // Numbers up to 1 foot or 12 inches
         return 12
     }
 
-    var primaryUnit: String {
+    private var primaryUnit: String {
         if measurementSystem == .USC {
             return "ft"
         } else {
@@ -249,7 +273,7 @@ struct HeightPickerView: View {
         }
     }
 
-    var secondaryUnit: String {
+    private var secondaryUnit: String {
         return "in"
     }
 
@@ -322,7 +346,7 @@ struct HeightPickerView: View {
             title: "Height question here",
             detail: nil,
             measurementSystem: .USC,
-            selection: $selection
+            height: $selection
         )
     }
 }

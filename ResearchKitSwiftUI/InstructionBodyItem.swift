@@ -30,11 +30,16 @@
 
 import SwiftUI
 
+/// Displays an image and text side by side.
 public struct InstructionBodyItem: View {
     
     private let image: Image?
     private let text: Text?
     
+    /// Initializes an instance of ``InstructionBodyItem`` with the provided configuration.
+    /// - Parameters:
+    ///   - image: The image to display for this instruction.
+    ///   - text: The text to display for this instruction.
     public init(image: Image? = nil, text: Text? = nil) {
         self.image = image
         self.text = text
