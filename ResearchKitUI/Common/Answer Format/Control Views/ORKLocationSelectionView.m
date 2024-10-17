@@ -320,6 +320,7 @@ static const NSString *FormattedAddressLines = @"FormattedAddressLines";
         [self setAnswer:ORKNullAnswerValue()];
         return;
     }
+    
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     ORKWeakTypeOf(self) weakSelf = self;
     CLLocation *cllocation = [[CLLocation alloc] initWithLatitude:location.coordinate.latitude longitude:location.coordinate.longitude];
@@ -355,6 +356,7 @@ static const NSString *FormattedAddressLines = @"FormattedAddressLines";
     ORKLocation *location = isAnswerClassORKLocation ? (ORKLocation *)_answer : nil;
     
     if (location) {
+
         if (!location.userInput || !location.region |!location.postalAddress) {
             // redo geo decoding if any of them is missing
             [self reverseGeocodeAndDisplay:location];
@@ -378,6 +380,7 @@ static const NSString *FormattedAddressLines = @"FormattedAddressLines";
 - (void)updateMapWithLocation:(ORKLocation *)location {
     
     MKPlacemark *placemark = location ? [[MKPlacemark alloc] initWithCoordinate:location.coordinate postalAddress:location.postalAddress] : nil;
+    
     [_mapView removeAnnotations:_mapView.annotations];
     
     if (placemark) {
