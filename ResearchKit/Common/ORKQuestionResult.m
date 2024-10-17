@@ -39,6 +39,7 @@
 
 #if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS
 #import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
 #endif
 
 @implementation ORKQuestionResult {
@@ -331,7 +332,6 @@
 @end
 
 #if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS
-// TODO: rdar://133020747 (Remove deprecated APIs from ORKLocation for iOS 18)
 #pragma mark - ORKLocationQuestionResult
 
 @implementation ORKLocation
@@ -390,10 +390,10 @@ static NSString *const RegionIdentifierKey = @"region.identifier";
     ORK_ENCODE_COORDINATE(aCoder, coordinate);
     ORK_ENCODE_OBJ(aCoder, postalAddress);
     
-//    [aCoder encodeObject:@(_region.center.latitude) forKey:RegionCenterLatitudeKey];
-//    [aCoder encodeObject:@(_region.center.longitude) forKey:RegionCenterLongitudeKey];
-//    [aCoder encodeObject:_region.identifier forKey:RegionIdentifierKey];
-//    [aCoder encodeObject:@(_region.radius) forKey:RegionRadiusKey];
+    [aCoder encodeObject:@(_region.center.latitude) forKey:RegionCenterLatitudeKey];
+    [aCoder encodeObject:@(_region.center.longitude) forKey:RegionCenterLongitudeKey];
+    [aCoder encodeObject:_region.identifier forKey:RegionIdentifierKey];
+    [aCoder encodeObject:@(_region.radius) forKey:RegionRadiusKey];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -402,39 +402,39 @@ static NSString *const RegionIdentifierKey = @"region.identifier";
         ORK_DECODE_OBJ_CLASS(aDecoder, userInput, NSString);
         ORK_DECODE_COORDINATE(aDecoder, coordinate);
         ORK_DECODE_OBJ_CLASS(aDecoder, postalAddress, CNPostalAddress);
-//        ORK_DECODE_OBJ_CLASS(aDecoder, region, CLCircularRegion);
+        ORK_DECODE_OBJ_CLASS(aDecoder, region, CLCircularRegion);
         
         NSNumber *latitude = [aDecoder decodeObjectOfClass:[NSNumber class] forKey:RegionCenterLatitudeKey];
         NSNumber *longitude = [aDecoder decodeObjectOfClass:[NSNumber class] forKey:RegionCenterLongitudeKey];
         NSNumber *radius = [aDecoder decodeObjectOfClass:[NSNumber class] forKey:RegionRadiusKey];
         CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(latitude.doubleValue, longitude.doubleValue);
-//        _region = [[CLCircularRegion alloc] initWithCenter:coordinate
-//                                                    radius:radius.doubleValue
-//                                                identifier:[aDecoder decodeObjectOfClass:[NSString class] forKey:RegionIdentifierKey]];
+        _region = [[CLCircularRegion alloc] initWithCenter:coordinate
+                                                    radius:radius.doubleValue
+                                                identifier:[aDecoder decodeObjectOfClass:[NSString class] forKey:RegionIdentifierKey]];
     }
     return self;
 }
 
-//- (NSUInteger)hash {
-//    NSUInteger regionHash = (NSUInteger)(self.region.center.latitude * 1000) ^ (NSUInteger)(self.region.center.longitude * 1000) ^ (NSUInteger)(self.region.radius * 1000);
-//    NSUInteger coordinateHash = (NSUInteger)(self.coordinate.latitude * 1000) ^ (NSUInteger)(self.coordinate.longitude * 1000);
-//    return coordinateHash ^ regionHash ^ self.userInput.hash ^ self.postalAddress.hash;
-//}
-//
-//- (BOOL)isEqual:(id)object {
-//    if ([self class] != [object class]) {
-//        return NO;
-//    }
-//    
-//    __typeof(self) castObject = object;
-//    return (ORKEqualObjects(self.userInput, castObject.userInput) &&
-//            ORKEqualObjects(self.postalAddress, castObject.postalAddress)&&
-//            // The region is not checking for equality properly so check the values
-//            (self.region.center.latitude == castObject.region.center.latitude) &&
-//            (self.region.center.longitude == castObject.region.center.longitude) &&
-//            (self.region.radius == castObject.region.radius) &&
-//            ORKEqualObjects([NSValue valueWithMKCoordinate:self.coordinate], [NSValue valueWithMKCoordinate:castObject.coordinate]));
-//}
+- (NSUInteger)hash {
+    NSUInteger regionHash = (NSUInteger)(self.region.center.latitude * 1000) ^ (NSUInteger)(self.region.center.longitude * 1000) ^ (NSUInteger)(self.region.radius * 1000);
+    NSUInteger coordinateHash = (NSUInteger)(self.coordinate.latitude * 1000) ^ (NSUInteger)(self.coordinate.longitude * 1000);
+    return coordinateHash ^ regionHash ^ self.userInput.hash ^ self.postalAddress.hash;
+}
+
+- (BOOL)isEqual:(id)object {
+    if ([self class] != [object class]) {
+        return NO;
+    }
+    
+    __typeof(self) castObject = object;
+    return (ORKEqualObjects(self.userInput, castObject.userInput) &&
+            ORKEqualObjects(self.postalAddress, castObject.postalAddress)&&
+            // The region is not checking for equality properly so check the values
+            (self.region.center.latitude == castObject.region.center.latitude) &&
+            (self.region.center.longitude == castObject.region.center.longitude) &&
+            (self.region.radius == castObject.region.radius) &&
+            ORKEqualObjects([NSValue valueWithMKCoordinate:self.coordinate], [NSValue valueWithMKCoordinate:castObject.coordinate]));
+}
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"%@ region:%@ userInput:%@ postalAddress:%@>", [super description], self.region, self.userInput, self.postalAddress];
