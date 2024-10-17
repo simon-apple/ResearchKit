@@ -37,6 +37,10 @@
 #import <ResearchKit/ORKResult_Private.h>
 #import <ResearchKit/ORKStep_Private.h>
 
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS
+#import <CoreLocation/CoreLocation.h>
+#endif
+
 @implementation ORKQuestionResult {
     @protected
     NSObject<NSCopying, NSSecureCoding> *_typedAnswerOrNoAnswer;
@@ -326,7 +330,7 @@
 
 @end
 
-#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS
 // TODO: rdar://133020747 (Remove deprecated APIs from ORKLocation for iOS 18)
 #pragma mark - ORKLocationQuestionResult
 

@@ -487,7 +487,7 @@ static NSNumberFormatterStyle ORKNumberFormattingStyleConvert(ORKNumberFormattin
                                                        defaultValue:defaultValue];
 }
 
-#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS
 + (ORKLocationAnswerFormat *)locationAnswerFormat {
     return [ORKLocationAnswerFormat new];
 }
@@ -4077,7 +4077,7 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
 @end
 
 
-#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS
 #pragma mark - ORKLocationAnswerFormat
 @implementation ORKLocationAnswerFormat
 

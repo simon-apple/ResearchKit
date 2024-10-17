@@ -155,7 +155,7 @@ ORK_CLASS_AVAILABLE
  The `ORKLocation` class represents the location addess obtained from a location question.
  */
 ORK_CLASS_AVAILABLE
-@interface ORKLocation : NSObject <NSCopying, NSSecureCoding> // TODO: rdar://133020747 (Remove deprecated APIs from ORKLocation for iOS 18)
+@interface ORKLocation : NSObject <NSCopying, NSSecureCoding>
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;

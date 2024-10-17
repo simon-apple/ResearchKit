@@ -35,7 +35,7 @@ ORK_FRAMEWORK_BUILD_NUMBER_CI_ = $(ORK_FRAMEWORK_BUILD_NUMBER_CI_FALSE)
 // for NSLocationAlwaysAndWhenInUseUsageDescription and NSLocationWhenInUseUsageDescription.
 // If your app doesn't use ORKLocationRecorder and doesn't specify these Info.plist strings, disable
 // ResearchKit's CLLocationManager authorization
-ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION = 0
+ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION = 1
 
 // Control whether ResearchKit compiles out CLLocationManager calls that would request authorization for location
 // ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION=0 compiles out the feature
