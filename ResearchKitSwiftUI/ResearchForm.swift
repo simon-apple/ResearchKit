@@ -56,12 +56,12 @@ public struct ResearchForm<Content: View>: View {
     ///   - steps: The steps in a survey, each of which can contain a set of questions.
     ///   - onResearchFormCompletion: A completion that is triggered when the survey is dismissed.
     public init(
-        taskIdentifier: String,
+        id: String,
         restorationResult: ResearchFormResult? = nil,
         @ViewBuilder steps: () -> Content,
         onResearchFormCompletion: ((ResearchFormCompletion) -> Void)? = nil
     ) {
-        self.taskKey = .text(id: taskIdentifier)
+        self.taskKey = .text(id: id)
         self.steps = steps()
         self.onResearchFormCompletion = onResearchFormCompletion
         self.managedFormResult = restorationResult ?? ResearchFormResult()
