@@ -1,21 +1,21 @@
 /*
  Copyright (c) 2024, Apple Inc. All rights reserved.
- 
+
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
- 
+
  1.  Redistributions of source code must retain the above copyright notice, this
  list of conditions and the following disclaimer.
- 
+
  2.  Redistributions in binary form must reproduce the above copyright notice,
  this list of conditions and the following disclaimer in the documentation and/or
  other materials provided with the distribution.
- 
+
  3.  Neither the name of the copyright holder(s) nor the names of any contributors
  may be used to endorse or promote products derived from this software without
  specific prior written permission. No license is granted to the trademarks of
  the copyright holders even if such marks are included in this software.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,7 +35,7 @@ public struct MultipleChoiceQuestion: View {
 
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
-    
+
     @Environment(\.questionRequired)
     private var isRequired: Bool
 
@@ -47,7 +47,8 @@ public struct MultipleChoiceQuestion: View {
                     managedFormResult.resultForStep(key: key) ?? nil
                 },
                 set: {
-                    managedFormResult.setResultForStep(.multipleChoice($0), key: key)
+                    managedFormResult.setResultForStep(
+                        .multipleChoice($0), key: key)
                 }
             )
         case let .manual(value):
@@ -61,7 +62,7 @@ public struct MultipleChoiceQuestion: View {
     private let choices: [TextChoice]
     private let choiceSelectionLimit: ChoiceSelectionLimit
     private let selection: StateManagementType<[ResultValue]?>
-    
+
     /// Initializes an instance of ``MultipleChoiceQuestion`` with the provided configuration for an integer result.
     /// - Parameters:
     ///   - id: The unique identifier associated with this question.
@@ -96,8 +97,9 @@ public struct MultipleChoiceQuestion: View {
                         selection.wrappedValue = nil
                         return
                     }
-                    
-                    selection.wrappedValue = newValues.compactMap { resultValue in
+
+                    selection.wrappedValue = newValues.compactMap {
+                        resultValue in
                         guard case let .int(value) = resultValue else {
                             return nil
                         }
@@ -107,7 +109,7 @@ public struct MultipleChoiceQuestion: View {
             )
         )
     }
-    
+
     /// Initializes an instance of ``MultipleChoiceQuestion`` with the provided configuration for a string result.
     /// - Parameters:
     ///   - id: The unique identifier associated with this question.
@@ -142,8 +144,9 @@ public struct MultipleChoiceQuestion: View {
                         selection.wrappedValue = nil
                         return
                     }
-                    
-                    selection.wrappedValue = newValues.compactMap { resultValue in
+
+                    selection.wrappedValue = newValues.compactMap {
+                        resultValue in
                         guard case let .string(value) = resultValue else {
                             return nil
                         }
@@ -153,7 +156,7 @@ public struct MultipleChoiceQuestion: View {
             )
         )
     }
-    
+
     /// Initializes an instance of ``MultipleChoiceQuestion`` with the provided configuration for a date result.
     /// - Parameters:
     ///   - id: The unique identifier associated with this question.
@@ -188,8 +191,9 @@ public struct MultipleChoiceQuestion: View {
                         selection.wrappedValue = nil
                         return
                     }
-                    
-                    selection.wrappedValue = newValues.compactMap { resultValue in
+
+                    selection.wrappedValue = newValues.compactMap {
+                        resultValue in
                         guard case let .date(value) = resultValue else {
                             return nil
                         }
@@ -215,7 +219,7 @@ public struct MultipleChoiceQuestion: View {
         self.choiceSelectionLimit = choiceSelectionLimit
         self.selection = .manual(selection)
     }
-    
+
     /// Initializes an instance of ``MultipleChoiceQuestion`` with the provided configuration and manages a binding internally.
     /// - Parameters:
     ///   - id: The unique identifier associated with this question.
@@ -241,12 +245,13 @@ public struct MultipleChoiceQuestion: View {
     public var body: some View {
         QuestionCard {
             Question(title: title, detail: detail) {
-                ForEach(Array(choices.enumerated()), id: \.offset) { index, option in
+                ForEach(Array(choices.enumerated()), id: \.offset) {
+                    index, option in
                     VStack(spacing: .zero) {
                         if index != 0 {
                             Divider()
                         }
-                        
+
                         TextChoiceOption(
                             title: Text(option.choiceText),
                             isSelected: isSelected(option)
@@ -254,19 +259,24 @@ public struct MultipleChoiceQuestion: View {
                             choiceSelected(option)
                         }
                         .padding(.horizontal, 8)
-#if !os(watchOS)
-                        .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 12))
-                        .hoverEffect()
-#endif
+                        #if !os(watchOS)
+                            .contentShape(
+                                .hoverEffect, RoundedRectangle(cornerRadius: 12)
+                            )
+                            .hoverEffect()
+                        #endif
                         .padding(.horizontal, -8)
                     }
                 }
             }
-            .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
-            .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
+            .preference(
+                key: QuestionRequiredPreferenceKey.self, value: isRequired
+            )
+            .preference(
+                key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
         }
     }
-    
+
     private var isAnswered: Bool {
         if let resultArray = resolvedResult.wrappedValue, !resultArray.isEmpty {
             return true
@@ -279,17 +289,19 @@ public struct MultipleChoiceQuestion: View {
             choice == option.value
         }) ?? false
     }
-    
+
     private func choiceSelected(_ option: TextChoice) {
         if let resultArray = resolvedResult.wrappedValue,
-           let index = resultArray.firstIndex(where: { $0 == option.value }) {
-               resolvedResult.wrappedValue?.remove(at: index)
+            let index = resultArray.firstIndex(where: { $0 == option.value })
+        {
+            resolvedResult.wrappedValue?.remove(at: index)
         } else {
             switch choiceSelectionLimit {
             case .single:
                 resolvedResult.wrappedValue = [option.value]
             case .multiple:
-                resolvedResult.wrappedValue = (resolvedResult.wrappedValue ?? []) + [option.value]
+                resolvedResult.wrappedValue =
+                    (resolvedResult.wrappedValue ?? []) + [option.value]
             }
         }
     }
@@ -308,7 +320,7 @@ struct MultipleChoiceQuestionView_Previews: PreviewProvider {
                 choices: [
                     TextChoice(id: "a", choiceText: "Option A", value: 0),
                     TextChoice(id: "b", choiceText: "Option B", value: 1),
-                    TextChoice(id: "c", choiceText: "Option C", value: 2)
+                    TextChoice(id: "c", choiceText: "Option C", value: 2),
                 ],
                 choiceSelectionLimit: .multiple,
                 selection: .constant([0])

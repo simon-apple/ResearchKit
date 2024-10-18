@@ -32,24 +32,24 @@ import SwiftUI
 
 /// Represents the different measurement systems that can be used.
 public enum MeasurementSystem {
-    
+
     /// The US Customary measurement system.
     case USC
-    
+
     /// The measurement system defined by the system.
     case local
-    
+
     /// The metric measurement system.
     case metric
-    
+
 }
 
 /// A question that allows for height input.
 public struct HeightQuestion: View {
-    
+
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
-    
+
     @Environment(\.questionRequired)
     private var isRequired: Bool
 
@@ -62,20 +62,25 @@ public struct HeightQuestion: View {
     private let measurementSystem: MeasurementSystem
     private let selection: StateManagementType<Double?>
 
-    private var initialPrimaryValue: Double = 162 // Denotes height in cm, which is ~5'4", a good average height.
+    private var initialPrimaryValue: Double = 162  // Denotes height in cm, which is ~5'4", a good average height.
 
     private var resolvedResult: Binding<Double?> {
         switch selection {
         case let .automatic(key: key):
             return Binding(
-                get: { managedFormResult.resultForStep(key: key) ?? initialPrimaryValue },
-                set: { managedFormResult.setResultForStep(.height($0), key: key) }
+                get: {
+                    managedFormResult.resultForStep(key: key)
+                        ?? initialPrimaryValue
+                },
+                set: {
+                    managedFormResult.setResultForStep(.height($0), key: key)
+                }
             )
         case let .manual(value):
             return value
         }
     }
-    
+
     /// Initializes an instance of ``HeightQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
@@ -110,7 +115,7 @@ public struct HeightQuestion: View {
         self.measurementSystem = system
         self.selection = .automatic(key: .height(id: id))
     }
-    
+
     /// Initializes an instance of ``HeightQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier question.
@@ -169,48 +174,51 @@ public struct HeightQuestion: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     Button {
                         isInputActive = true
-#if !os(watchOS)
-                        UIApplication.shared.endEditing()
-#endif
+                        #if !os(watchOS)
+                            UIApplication.shared.endEditing()
+                        #endif
                     } label: {
                         Text(selectionString)
                             .foregroundStyle(Color.primary)
                     }
                     .buttonStyle(.bordered)
                     .buttonBorderShape(.roundedRectangle)
-#if !os(watchOS)
-                    .popover(
-                        isPresented: $isInputActive,
-                        attachmentAnchor: .point(.bottom),
-                        arrowEdge: .top
-                    ) {
-                        HeightPickerView(
-                            measurementSystem: measurementSystem,
-                            selection: resolvedResult,
-                            hasChanges: $hasChanges
-                        )
-                        .frame(width: 300)
-                        .presentationCompactAdaptation((.popover))
-                    }
-#else
-                    .navigationDestination(
-                        isPresented: $isInputActive
-                    ) {
-                        HeightPickerView(
-                            measurementSystem: measurementSystem,
-                            selection: resolvedResult,
-                            hasChanges: $hasChanges
-                        )
-                    }
-#endif
+                    #if !os(watchOS)
+                        .popover(
+                            isPresented: $isInputActive,
+                            attachmentAnchor: .point(.bottom),
+                            arrowEdge: .top
+                        ) {
+                            HeightPickerView(
+                                measurementSystem: measurementSystem,
+                                selection: resolvedResult,
+                                hasChanges: $hasChanges
+                            )
+                            .frame(width: 300)
+                            .presentationCompactAdaptation((.popover))
+                        }
+                    #else
+                        .navigationDestination(
+                            isPresented: $isInputActive
+                        ) {
+                            HeightPickerView(
+                                measurementSystem: measurementSystem,
+                                selection: resolvedResult,
+                                hasChanges: $hasChanges
+                            )
+                        }
+                    #endif
                 }
                 .padding()
             }
-            .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
-            .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
+            .preference(
+                key: QuestionRequiredPreferenceKey.self, value: isRequired
+            )
+            .preference(
+                key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
         }
     }
-    
+
     private var isAnswered: Bool {
         resolvedResult.wrappedValue != nil
     }
@@ -242,7 +250,8 @@ struct HeightPickerView: View {
             secondSelection = 0
             return
         }
-        if Self.usesMetricSystem(measurementSystem: measurementSystem) == false {
+        if Self.usesMetricSystem(measurementSystem: measurementSystem) == false
+        {
             let (feet, inches) = convertCentimetersToFeetAndInches(centimeters)
             firstSelection = feet
             secondSelection = inches
@@ -290,7 +299,8 @@ struct HeightPickerView: View {
             .pickerStyle(.wheel)
             .onChange(of: firstSelection) { _, _ in
                 hasChanges = true
-                selection = standardizedHeight((firstSelection, secondSelection))
+                selection = standardizedHeight(
+                    (firstSelection, secondSelection))
             }
 
             if measurementSystem == .USC {
@@ -305,22 +315,28 @@ struct HeightPickerView: View {
                 .pickerStyle(.wheel)
                 .onChange(of: secondSelection) { _, _ in
                     hasChanges = true
-                    selection = standardizedHeight((firstSelection, secondSelection))
+                    selection = standardizedHeight(
+                        (firstSelection, secondSelection))
                 }
             }
         }
     }
 
     private func standardizedHeight(_ height: (Int, Int)) -> Double {
-        if Self.usesMetricSystem(measurementSystem: measurementSystem) == false {
-            let centimeters = (Double(height.0) * footToCentimetersMultiplier) + (Double(height.1) * inchToCentimetersMultiplier)
+        if Self.usesMetricSystem(measurementSystem: measurementSystem) == false
+        {
+            let centimeters =
+                (Double(height.0) * footToCentimetersMultiplier)
+                + (Double(height.1) * inchToCentimetersMultiplier)
             return centimeters
         } else {
             return Double(height.0)
         }
     }
 
-    private static func usesMetricSystem(measurementSystem: MeasurementSystem) -> Bool {
+    private static func usesMetricSystem(measurementSystem: MeasurementSystem)
+        -> Bool
+    {
         switch measurementSystem {
         case .USC:
             return false
@@ -335,7 +351,6 @@ struct HeightPickerView: View {
         }
     }
 }
-
 
 @available(iOS 18.0, *)
 #Preview {

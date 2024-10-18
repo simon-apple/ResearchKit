@@ -32,10 +32,10 @@ import SwiftUI
 
 /// Displays an image and text side by side.
 public struct InstructionBodyItem: View {
-    
+
     private let image: Image?
     private let text: Text?
-    
+
     /// Initializes an instance of ``InstructionBodyItem`` with the provided configuration.
     /// - Parameters:
     ///   - image: The image to display for this instruction.
@@ -44,40 +44,40 @@ public struct InstructionBodyItem: View {
         self.image = image
         self.text = text
     }
-    
+
     public var body: some View {
-#if os(watchOS)
-        VStack(alignment: .leading) {
-            image?
-                .frame(width: 20, height: 20)
-                .foregroundStyle(.bodyItemIconForegroundStyle)
-            
-            text?
-                .font(.subheadline)
-        }
-        .preference(key: QuestionCardPreferenceKey.self, value: false)
-#else
-        HStack {
-            image?
-                .frame(width: 40, height: 40)
-                .foregroundStyle(.bodyItemIconForegroundStyle)
-            
-            text?
-                .font(.subheadline)
-        }
-        .preference(key: QuestionCardPreferenceKey.self, value: false)
-#endif
+        #if os(watchOS)
+            VStack(alignment: .leading) {
+                image?
+                    .frame(width: 20, height: 20)
+                    .foregroundStyle(.bodyItemIconForegroundStyle)
+
+                text?
+                    .font(.subheadline)
+            }
+            .preference(key: QuestionCardPreferenceKey.self, value: false)
+        #else
+            HStack {
+                image?
+                    .frame(width: 40, height: 40)
+                    .foregroundStyle(.bodyItemIconForegroundStyle)
+
+                text?
+                    .font(.subheadline)
+            }
+            .preference(key: QuestionCardPreferenceKey.self, value: false)
+        #endif
     }
 }
 
 struct QuestionCardPreferenceKey: PreferenceKey {
-    
+
     static var defaultValue = true
-    
+
     static func reduce(value: inout Bool, nextValue: () -> Bool) {
         value = nextValue()
     }
-    
+
 }
 
 #Preview {
@@ -88,19 +88,24 @@ struct QuestionCardPreferenceKey: PreferenceKey {
         ) {
             InstructionBodyItem(
                 image: Image(systemName: "heart.fill"),
-                text: Text("The study will ask you to share some of your Health data.")
+                text: Text(
+                    "The study will ask you to share some of your Health data.")
             )
-            
+
             InstructionBodyItem(
                 image: Image(systemName: "checkmark.circle.fill"),
-                text: Text("You will be asked to complete various tasks over the duration of the study.")
+                text: Text(
+                    "You will be asked to complete various tasks over the duration of the study."
+                )
             )
-            
+
             InstructionBodyItem(
                 image: Image(systemName: "signature"),
-                text: Text("Before joining, we will ask you to sign an informed consent document.")
+                text: Text(
+                    "Before joining, we will ask you to sign an informed consent document."
+                )
             )
-            
+
             InstructionBodyItem(
                 image: Image(systemName: "lock.fill"),
                 text: Text("Your data is kept private and secure.")

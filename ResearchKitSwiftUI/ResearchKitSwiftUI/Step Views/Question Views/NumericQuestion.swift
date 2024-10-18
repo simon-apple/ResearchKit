@@ -39,9 +39,9 @@ public struct NumericQuestion<Header: View>: View {
     private var managedFormResult: ResearchFormResult
 
     private enum FocusTarget {
-        
+
         case numericQuestion
-        
+
     }
 
     private let id: String
@@ -49,7 +49,7 @@ public struct NumericQuestion<Header: View>: View {
     private let prompt: String?
     @FocusState private var focusTarget: FocusTarget?
     private let selection: StateManagementType<Double?>
-    
+
     @Environment(\.questionRequired)
     private var isRequired: Bool
 
@@ -58,7 +58,9 @@ public struct NumericQuestion<Header: View>: View {
         case let .automatic(key: key):
             return Binding(
                 get: { managedFormResult.resultForStep(key: key) ?? nil },
-                set: { managedFormResult.setResultForStep(.numeric($0), key: key) }
+                set: {
+                    managedFormResult.setResultForStep(.numeric($0), key: key)
+                }
             )
         case let .manual(value):
             return value
@@ -72,27 +74,33 @@ public struct NumericQuestion<Header: View>: View {
                     header
                 },
                 content: {
-                    TextField("", value: resolvedResult, format: .number, prompt: placeholder)
-#if !os(watchOS) && !os(macOS)
+                    TextField(
+                        "", value: resolvedResult, format: .number,
+                        prompt: placeholder
+                    )
+                    #if !os(watchOS) && !os(macOS)
                         .keyboardType(.decimalPad)
                         .focused($focusTarget, equals: .numericQuestion)
-#endif
-                        .doneKeyboardToolbar(
-                            condition: {
-                                focusTarget == .numericQuestion
-                            },
-                            action: {
-                                focusTarget = nil
-                            }
-                        )
-                        .padding()
+                    #endif
+                    .doneKeyboardToolbar(
+                        condition: {
+                            focusTarget == .numericQuestion
+                        },
+                        action: {
+                            focusTarget = nil
+                        }
+                    )
+                    .padding()
                 }
             )
-            .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
-            .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
+            .preference(
+                key: QuestionRequiredPreferenceKey.self, value: isRequired
+            )
+            .preference(
+                key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
         }
     }
-    
+
     private var placeholder: Text? {
         if let prompt {
             return Text(prompt)
@@ -100,15 +108,15 @@ public struct NumericQuestion<Header: View>: View {
 
         return nil
     }
-    
+
     private var isAnswered: Bool {
         resolvedResult.wrappedValue != nil
     }
 }
 
 @available(watchOS, unavailable)
-public extension NumericQuestion where Header == QuestionHeader {
-    
+extension NumericQuestion where Header == QuestionHeader {
+
     /// Initializes an instance of ``NumericQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this numeric question.
@@ -116,7 +124,7 @@ public extension NumericQuestion where Header == QuestionHeader {
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - prompt: The prompt that informs the user.
-    init(
+    public init(
         id: String,
         number: Binding<Double?>,
         title: String,
@@ -128,7 +136,7 @@ public extension NumericQuestion where Header == QuestionHeader {
         self.prompt = prompt
         self.selection = .manual(number)
     }
-    
+
     /// Initializes an instance of ``NumericQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
@@ -136,7 +144,7 @@ public extension NumericQuestion where Header == QuestionHeader {
     ///   - title: The title for this question.
     ///   - detail: The details for this question.
     ///   - prompt: The prompt that informs the user.
-    init(
+    public init(
         id: String,
         number: Decimal? = nil,
         title: String,
@@ -148,7 +156,7 @@ public extension NumericQuestion where Header == QuestionHeader {
         self.prompt = prompt
         self.selection = .automatic(key: .numeric(id: id))
     }
-    
+
 }
 
 @available(watchOS, unavailable)

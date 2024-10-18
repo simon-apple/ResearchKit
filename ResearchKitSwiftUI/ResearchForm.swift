@@ -38,17 +38,17 @@ import SwiftUI
 public struct ResearchForm<Content: View>: View {
     @State
     private var managedFormResult: ResearchFormResult
-    
-#if os(watchOS)
-    @State
-    private var researchFormCompletion: ResearchFormCompletion?
-#endif
+
+    #if os(watchOS)
+        @State
+        private var researchFormCompletion: ResearchFormCompletion?
+    #endif
 
     private let taskKey: StepResultKey<String?>
     private let steps: Content
-    
+
     private var onResearchFormCompletion: ((ResearchFormCompletion) -> Void)?
-    
+
     /// Initializes an instance of ``ResearchForm`` with the provided configuration.
     /// - Parameters:
     ///   - taskIdentifier: An identifier that uniquely identifies this research form.
@@ -66,41 +66,45 @@ public struct ResearchForm<Content: View>: View {
         self.onResearchFormCompletion = onResearchFormCompletion
         self.managedFormResult = restorationResult ?? ResearchFormResult()
     }
-    
+
     public var body: some View {
         Group(subviews: steps) { steps in
-            NavigationalLayout(steps, onResearchFormCompletion: onResearchFormCompletion)
+            NavigationalLayout(
+                steps, onResearchFormCompletion: onResearchFormCompletion)
         }
         .environmentObject(managedFormResult)
-#if os(watchOS)
-        // On the watch, an x button is automatically added to the top left of the screen when presenting content, so we have
-        // to remove the cancel button, which had invoked `onResearchFormCompletion` with a completion of `discarded`.
-        //
-        // Here, we track the completions that come in, and in `onDisappear`, we invoke the completion with the `discarded`
-        // state if no completion was ever set. This helps with passing through the discarded state even when there is
-        // no cancel button on the watch.
-        .onPreferenceChange(ResearchFormCompletionKey.self, perform: { researchFormCompletion in
-            self.researchFormCompletion = researchFormCompletion
-        })
-        .onDisappear {
-            if researchFormCompletion == nil {
-                onResearchFormCompletion?(.discarded)
+        #if os(watchOS)
+            // On the watch, an x button is automatically added to the top left of the screen when presenting content, so we have
+            // to remove the cancel button, which had invoked `onResearchFormCompletion` with a completion of `discarded`.
+            //
+            // Here, we track the completions that come in, and in `onDisappear`, we invoke the completion with the `discarded`
+            // state if no completion was ever set. This helps with passing through the discarded state even when there is
+            // no cancel button on the watch.
+            .onPreferenceChange(
+                ResearchFormCompletionKey.self,
+                perform: { researchFormCompletion in
+                    self.researchFormCompletion = researchFormCompletion
+                }
+            )
+            .onDisappear {
+                if researchFormCompletion == nil {
+                    onResearchFormCompletion?(.discarded)
+                }
             }
-        }
-#endif
+        #endif
     }
-    
+
 }
 
 /// Represents a step in a survey and lays out the header and questions on one page. Question numbers (e.g. 1 of 3) are automatically added at the top of each question to denote progress in a step.
 public struct ResearchFormStep<Header: View, Content: View>: View {
-    
+
     @State
     private var shouldWrapInQuestionCard = true
-    
+
     private let header: Header
     private let content: Content
-    
+
     /// Initializes an instance of ``ResearchFormStep`` with the provided configuration.
     /// - Parameters:
     ///   - header: The header that is displayed at the top of the step.
@@ -112,26 +116,26 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
         self.header = header()
         self.content = content()
     }
-    
+
     @State
     private var visibleQuestions = Set<Subview.ID>()
-    
+
     @State
     private var requiredQuestions = Set<Subview.ID>()
-    
+
     @State
     private var answeredQuestions = Set<Subview.ID>()
-    
+
     private var canMoveToNextStep: Bool {
         requiredQuestions
             .filter { visibleQuestions.contains($0) }
             .subtracting(answeredQuestions).isEmpty
     }
-    
+
     public var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             header
-            
+
             Group(
                 subviews: cardConsideredContent()
             ) { questions in
@@ -140,20 +144,24 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
                         if shouldWrapInQuestionCard {
                             QuestionCard {
                                 VStack(alignment: .leading, spacing: 0) {
-                                    if let questionIndex = questions.firstIndex(where: { $0.id == question.id }) {
+                                    if let questionIndex = questions.firstIndex(
+                                        where: { $0.id == question.id })
+                                    {
                                         let questionNumber = questionIndex + 1
-                                        Text("Question \(questionNumber) of \(questions.count)")
-                                            .foregroundColor(.secondary)
-                                            .font(.footnote)
-#if os(watchOS)
+                                        Text(
+                                            "Question \(questionNumber) of \(questions.count)"
+                                        )
+                                        .foregroundColor(.secondary)
+                                        .font(.footnote)
+                                        #if os(watchOS)
                                             .padding([.horizontal])
                                             .padding(.top, 4)
-#else
+                                        #else
                                             .fontWeight(.bold)
                                             .padding([.horizontal, .top])
-#endif
+                                        #endif
                                     }
-                                    
+
                                     question
                                 }
                             }
@@ -182,16 +190,19 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
                 }
             }
         }
-        .preference(key: StepCompletedPreferenceKey.self, value: canMoveToNextStep)
+        .preference(
+            key: StepCompletedPreferenceKey.self, value: canMoveToNextStep
+        )
 
-#if os(iOS)
-        .frame(maxWidth: .infinity, alignment: .leading)
-#endif
-        .onPreferenceChange(QuestionCardPreferenceKey.self) { shouldWrapInQuestionCard in
+        #if os(iOS)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        #endif
+        .onPreferenceChange(QuestionCardPreferenceKey.self) {
+            shouldWrapInQuestionCard in
             self.shouldWrapInQuestionCard = shouldWrapInQuestionCard
         }
     }
-    
+
     @ViewBuilder
     private func cardConsideredContent() -> some View {
         if shouldWrapInQuestionCard {
@@ -200,14 +211,14 @@ public struct ResearchFormStep<Header: View, Content: View>: View {
             content
         }
     }
-    
+
 }
 
-public extension ResearchFormStep where Header == EmptyView {
-    
+extension ResearchFormStep where Header == EmptyView {
+
     /// Initializes an instance of ``ResearchFormStep`` with just the questions and no header.
     /// - Parameter content: The questions for the step.
-    init(@ViewBuilder content: () -> Content) {
+    public init(@ViewBuilder content: () -> Content) {
         self.init(
             header: {
                 EmptyView()
@@ -215,17 +226,17 @@ public extension ResearchFormStep where Header == EmptyView {
             content: content
         )
     }
-    
+
 }
 
-public extension ResearchFormStep where Header == StepHeader, Content == EmptyView {
-    
+extension ResearchFormStep where Header == StepHeader, Content == EmptyView {
+
     /// Initializes an instance of ``ResearchFormStep`` with the provided configuration. There are no questions displayed beneath the header.
     /// - Parameters:
     ///   - image: The image displayed in the header.
     ///   - title: The title displayed in the header.
     ///   - subtitle: The subtitle displayed in the header.
-    init(
+    public init(
         image: Image? = nil,
         title: String? = nil,
         subtitle: String? = nil
@@ -239,18 +250,18 @@ public extension ResearchFormStep where Header == StepHeader, Content == EmptyVi
             }
         )
     }
-    
+
 }
 
-public extension ResearchFormStep where Header == StepHeader {
-    
+extension ResearchFormStep where Header == StepHeader {
+
     /// Initializes an instance of ``ResearchFormStep`` with the provided configuration. The questions are displayed beneath the header.
     /// - Parameters:
     ///   - image: The image displayed in the header.
     ///   - title: The title displayed in the header.
     ///   - subtitle: The subtitle displayed in the header.
     ///   - content: The questions for the step that are displayed beneath the header.
-    init(
+    public init(
         image: Image? = nil,
         title: String? = nil,
         subtitle: String? = nil,
@@ -262,14 +273,14 @@ public extension ResearchFormStep where Header == StepHeader {
         } else {
             titleText = nil
         }
-        
+
         let subtitleText: Text?
         if let subtitle, !subtitle.isEmpty {
             subtitleText = Text(subtitle)
         } else {
             subtitleText = nil
         }
-        
+
         self.init(
             header: {
                 StepHeader(
@@ -281,5 +292,5 @@ public extension ResearchFormStep where Header == StepHeader {
             content: content
         )
     }
-    
+
 }
