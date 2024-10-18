@@ -5258,7 +5258,6 @@
 				B183A5591A8535D100C76870 /* Frameworks */,
 				B183A5681A8535D100C76870 /* Resources */,
 				B1429E9C1AAA651C003DE546 /* ShellScript */,
-				714174B5227ADF87005DD5E4 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -5498,25 +5497,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./scripts/create-universal-frameworks-for-distribution.sh\n";
-		};
-		714174B5227ADF87005DD5E4 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n./ide_swiftlint.sh\n";
-			showEnvVarsInLog = 0;
 		};
 		B1429E9C1AAA651C003DE546 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

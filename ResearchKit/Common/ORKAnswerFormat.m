@@ -3034,13 +3034,9 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 
 @interface ORKTextAnswerFormat()
 
-#endif
-
 @end
 
 @implementation ORKTextAnswerFormat
-
-#endif
 
 - (Class)questionResultClass {
     return [ORKTextQuestionResult class];
@@ -3059,8 +3055,6 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     _hideCharacterCountLabel = NO;
     
 }
-
-#endif
 
 - (instancetype)initWithMaximumLength:(NSInteger)maximumLength {
     self = [super init];
@@ -3313,11 +3307,8 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
     return answerString;
 }
 
-#endif
-
 - (ORKQuestionResult *)resultWithIdentifier:(NSString *)identifier answer:(id)answer {
     ORKQuestionResult *questionResult = nil;
-#endif
     questionResult = (ORKQuestionResult *)[super resultWithIdentifier:identifier answer:answer];
     return questionResult;
 }
