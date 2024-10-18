@@ -31,13 +31,7 @@
 @import Foundation;
 @import UIKit;
 
-#if TARGET_OS_WATCH || TARGET_OS_VISION
-#import <ResearchKitCore/ORKDefines.h>
-#endif
-
-#if TARGET_OS_IOS
 #import <ResearchKit/ORKDefines.h>
-#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

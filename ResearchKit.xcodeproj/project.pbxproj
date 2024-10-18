@@ -255,8 +255,8 @@
 		51AF1B242B69803A00D3B399 /* Noise.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51AF1B222B69803A00D3B399 /* Noise.wav */; };
 		51B76DFB2CB5B5A30061698A /* ResearchKitActiveTask.docc in Sources */ = {isa = PBXBuildFile; fileRef = 51B76DFA2CB5B5A30061698A /* ResearchKitActiveTask.docc */; };
 		51B76DFD2CB5C73C0061698A /* ResearchKitUI.docc in Sources */ = {isa = PBXBuildFile; fileRef = 51B76DFC2CB5C73C0061698A /* ResearchKitUI.docc */; };
-        51B94DBD2B311E810039B0E7 /* CLLocationManager+ResearchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 51B94DBC2B311E810039B0E7 /* CLLocationManager+ResearchKit.h */; platformFilter = ios; settings = {ATTRIBUTES = (Private, ); }; };
-        51B94DC72B3254FE0039B0E7 /* CLLocationManager+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B94DC62B3254FD0039B0E7 /* CLLocationManager+ResearchKit.m */; platformFilter = ios; };
+		51B94DBD2B311E810039B0E7 /* CLLocationManager+ResearchKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 51B94DBC2B311E810039B0E7 /* CLLocationManager+ResearchKit.h */; platformFilter = ios; settings = {ATTRIBUTES = (Private, ); }; };
+		51B94DC72B3254FE0039B0E7 /* CLLocationManager+ResearchKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B94DC62B3254FD0039B0E7 /* CLLocationManager+ResearchKit.m */; platformFilter = ios; };
 		51BD8FC929D60FB60001D54E /* frequency_dBSPL_AIRPODSMAX.plist in Resources */ = {isa = PBXBuildFile; fileRef = E293655D25757CC700092A7C /* frequency_dBSPL_AIRPODSMAX.plist */; };
 		51BD8FCA29D60FB60001D54E /* frequency_dBSPL_EARPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 713D4B1B20FE5464002BE28D /* frequency_dBSPL_EARPODS.plist */; };
 		51BD8FCB29D60FB60001D54E /* frequency_dBSPL_AIRPODS.plist in Resources */ = {isa = PBXBuildFile; fileRef = 71B7B4D820AA91D400C5768A /* frequency_dBSPL_AIRPODS.plist */; };
@@ -1048,6 +1048,7 @@
 		E452CECF2CB48D6C0084E7E0 /* ResearchKit_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 5DABE5AD24DA16E600570C57 /* ResearchKit_Prefix.pch */; };
 		E452CED02CB48D730084E7E0 /* ORKQuestionStep_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40BA31A8D7C5C00081FAC /* ORKQuestionStep_Internal.h */; };
 		E452CED12CB48D7B0084E7E0 /* ORKAnswerFormat_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 86C40B661A8D7C5B00081FAC /* ORKAnswerFormat_Internal.h */; };
+		E454438D2CC1C78E0004E385 /* ResearchKit_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 5DABE5AD24DA16E600570C57 /* ResearchKit_Prefix.pch */; };
 		FA7A9D2B1B082688005A2BEA /* ORKConsentDocumentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7A9D2A1B082688005A2BEA /* ORKConsentDocumentTests.m */; };
 		FA7A9D2F1B083DD3005A2BEA /* ORKConsentSectionFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = FA7A9D2D1B083DD3005A2BEA /* ORKConsentSectionFormatter.h */; platformFilter = ios; };
 		FA7A9D301B083DD3005A2BEA /* ORKConsentSectionFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7A9D2E1B083DD3005A2BEA /* ORKConsentSectionFormatter.m */; platformFilter = ios; };
@@ -5100,6 +5101,7 @@
 				CAA20D7C288B3D9100EDC764 /* ORKSurveyAnswerCellForSES.h in Headers */,
 				CAA20F3B288B3F6D00EDC764 /* UIView+ORKAccessibility.h in Headers */,
 				CAA20D61288B3D9100EDC764 /* ORKScaleSlider.h in Headers */,
+				E454438D2CC1C78E0004E385 /* ResearchKit_Prefix.pch in Headers */,
 				CAA20DEF288B3DB400EDC764 /* ORKCaption1Label.h in Headers */,
 				CAA20F31288B3F5B00EDC764 /* ORKConsentReviewStepViewController.h in Headers */,
 				CAA20DC8288B3DB400EDC764 /* ORKRoundTappingButton.h in Headers */,
@@ -5539,8 +5541,8 @@
 						LastSwiftMigration = 1020;
 					};
 					B183A4731A8535D100C76870 = {
-                        LastSwiftMigration = 1020;
-                        ProvisioningStyle = Manual;
+						LastSwiftMigration = 1020;
+						ProvisioningStyle = Manual;
 					};
 					CA1C7A40288B0C68004DAB3A = {
 						ProvisioningStyle = Manual;
@@ -6423,7 +6425,6 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
-				ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION = 0;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2,4,7";
@@ -6456,7 +6457,6 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
-				ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION = 0;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2,4,7";
@@ -6489,7 +6489,6 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
-				ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION = 0;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2,4,7";
@@ -6945,7 +6944,6 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
-				ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION = 0;
 				"OTHER_SWIFT_FLAGS[arch=*]" = "$(inherited) -runtime-compatibility-version none";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -6961,7 +6959,6 @@
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MODULEMAP_PRIVATE_FILE = ResearchKit/ResearchKit_Private.modulemap;
-				ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION = 0;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2,4,7";
@@ -6978,6 +6975,7 @@
 				CURRENT_PROJECT_VERSION = "";
 				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
+				GCC_PREFIX_HEADER = ResearchKit/ResearchKit_Prefix.pch;
 				MODULEMAP_PRIVATE_FILE = ResearchKitUI/ResearchKitUI_Private.modulemap;
 				PRODUCT_NAME = ResearchKitUI;
 				SUPPORTS_MACCATALYST = NO;
@@ -6994,6 +6992,7 @@
 				CURRENT_PROJECT_VERSION = "";
 				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
+				GCC_PREFIX_HEADER = ResearchKit/ResearchKit_Prefix.pch;
 				MODULEMAP_PRIVATE_FILE = ResearchKitUI/ResearchKitUI_Private.modulemap;
 				PRODUCT_NAME = ResearchKitUI;
 				SUPPORTS_MACCATALYST = NO;
@@ -7010,6 +7009,7 @@
 				CURRENT_PROJECT_VERSION = "";
 				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
+				GCC_PREFIX_HEADER = ResearchKit/ResearchKit_Prefix.pch;
 				MODULEMAP_PRIVATE_FILE = ResearchKitUI/ResearchKitUI_Private.modulemap;
 				PRODUCT_NAME = ResearchKitUI;
 				SUPPORTS_MACCATALYST = NO;
@@ -7026,6 +7026,7 @@
 				CURRENT_PROJECT_VERSION = "";
 				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
+				GCC_PREFIX_HEADER = ResearchKit/ResearchKit_Prefix.pch;
 				MODULEMAP_PRIVATE_FILE = ResearchKitUI/ResearchKitUI_Private.modulemap;
 				PRODUCT_NAME = ResearchKitUI;
 				SUPPORTS_MACCATALYST = NO;
@@ -7042,6 +7043,7 @@
 				CURRENT_PROJECT_VERSION = "";
 				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
+				GCC_PREFIX_HEADER = ResearchKit/ResearchKit_Prefix.pch;
 				MODULEMAP_PRIVATE_FILE = ResearchKitUI/ResearchKitUI_Private.modulemap;
 				PRODUCT_NAME = ResearchKitUI;
 				SUPPORTS_MACCATALYST = NO;

@@ -32,8 +32,6 @@
 #import <ResearchKit/ORKFeatureFlags.h>
 #endif
 
-// TODO: Need to group by platform since visionOS and watchOS will both require just a subset.
-
 #import <ResearchKit/ORKAnswerFormat.h>
 #import <ResearchKit/ORKCollectionResult.h>
 #import <ResearchKit/ORKCompletionStep.h>

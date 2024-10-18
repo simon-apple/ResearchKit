@@ -31,7 +31,7 @@
 
 #import <ResearchKit/ORKAnswerFormat.h>
 
-#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION && !TARGET_OS_VISION
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION && TARGET_OS_IOS
 #import <HealthKit/HealthKit.h>
 #endif
 
@@ -74,7 +74,7 @@ ORK_EXTERN ORKBloodTypeIdentifier const ORKBloodTypeIdentifierONegative;
  You can use the HealthKit characteristic answer format to let users autofill information, such as their blood type or date of birth.
  */
 
-#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION && !TARGET_OS_VISION
+#if ORK_FEATURE_HEALTHKIT_AUTHORIZATION && TARGET_OS_IOS
 ORK_CLASS_AVAILABLE
 @interface ORKHealthKitCharacteristicTypeAnswerFormat : ORKAnswerFormat
 

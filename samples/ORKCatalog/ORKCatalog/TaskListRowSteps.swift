@@ -239,7 +239,7 @@ enum TaskListRowSteps {
         
         //Start of section for scale question
         let formItem03Text = TaskListRowStrings.exampleQuestionText
-        let scaleAnswerFormat = ORKContinuousScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0.0, maximumFractionDigits: 1)//ORKScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0, step: 1)
+        let scaleAnswerFormat = ORKContinuousScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0.0, maximumFractionDigits: 1)
         let formItem03 = ORKFormItem(identifier: String(describing: Identifier.formItem03), text: formItem03Text, detailText: nil, learnMoreItem: nil, showsProgress: true, answerFormat: scaleAnswerFormat, tagText: nil, optional: true)
         
         step.formItems = [
@@ -865,10 +865,10 @@ enum TaskListRowSteps {
         parentSextAtBirthFormItem.isOptional = false
         
         let vitalStatusOptions = [
-            ORKTextChoice(text: "Living", value: "system=snomedct&code=73211009" as NSString),
-            ORKTextChoice(text: "Deceased", value: "system=snomedct&code=73211008" as NSString),
-            ORKTextChoice(text: "I don't know", value: "system=snomedct&code=73211007" as NSString),
-            ORKTextChoice(text: "I prefer not to answer", value: "system=snomedct&code=73211006" as NSString),
+            ORKTextChoice(text: "Living", value: "living" as NSString),
+            ORKTextChoice(text: "Deceased", value: "deceased" as NSString),
+            ORKTextChoice(text: "I don't know", value: "dont_know" as NSString),
+            ORKTextChoice(text: "I prefer not to answer", value: "prefer_not_to_answer" as NSString),
         ]
         
         let parentVitalStatusChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: vitalStatusOptions)
@@ -879,7 +879,7 @@ enum TaskListRowSteps {
         let visibilityRule = ORKPredicateFormItemVisibilityRule(
             predicate: ORKResultPredicate.predicateForChoiceQuestionResult(
                 with: .init(stepIdentifier: parentFormStep.identifier, resultIdentifier: parentVitalStatusFormItem.identifier),
-                expectedAnswerValue: NSString(string: "system=snomedct&code=73211009")
+                expectedAnswerValue: NSString(string: "living")
             )
         )
 
@@ -953,7 +953,7 @@ enum TaskListRowSteps {
         let siblingAgeVisibilityRule = ORKPredicateFormItemVisibilityRule(
             predicate: ORKResultPredicate.predicateForChoiceQuestionResult(
                 with: .init(stepIdentifier: siblingFormStep.identifier, resultIdentifier: siblingVitalStatusFormItem.identifier),
-                expectedAnswerValue: NSString(string: "system=snomedct&code=73211009")
+                expectedAnswerValue: NSString(string: "living")
             )
         )
         siblingAgePickerSectionHeaderFormItem.visibilityRule = siblingAgeVisibilityRule
@@ -976,7 +976,7 @@ enum TaskListRowSteps {
         ORKRelativeGroup(identifier: "ParentGroupIdentifier",
                          name: "Biological Parent",
                          sectionTitle: "Biological Parents",
-                         sectionDetailText: "Incude your blood-related parents.",
+                         sectionDetailText: "Include your blood-related parents.",
                          identifierForCellTitle: "ParentNameIdentifier",
                          maxAllowed: 2,
                          formSteps: [parentFormStep],
