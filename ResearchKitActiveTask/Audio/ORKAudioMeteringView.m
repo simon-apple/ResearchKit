@@ -41,9 +41,6 @@ NSArray<NSNumber *> * ORKLastNSamples(NSArray<NSNumber *> *samples, NSInteger li
     return [samples copy];
 }
 
-#if RK_APPLE_INTERNAL
-NSString * const AudioDictionViewClass = @"ORKAudioDictationView";
-#endif
 
 @interface ORKAudioMeteringView ()
 @property (nonatomic, strong) UIView<ORKAudioMetering, ORKAudioMeteringDisplay> *meteringView;
@@ -77,16 +74,7 @@ NSString * const AudioDictionViewClass = @"ORKAudioDictationView";
 
 - (void)configureMeteringView {
     if (!_meteringView) {
-#if RK_APPLE_INTERNAL && !TARGET_IPHONE_SIMULATOR
-        if (_useInternalGraphView) {
-            Class audioGraphViewClass = NSClassFromString(AudioDictionViewClass) ?: [ORKAudioGraphView self];
-            [self setMeteringView:[[audioGraphViewClass alloc] init]];
-        } else {
-            [self setMeteringView:[[ORKAudioGraphView alloc] init]];
-        }
-#else
         [self setMeteringView:[[ORKAudioGraphView alloc] init]];
-#endif
 
     }
 }
@@ -112,19 +100,6 @@ NSString * const AudioDictionViewClass = @"ORKAudioDictationView";
     }
 }
 
-#if RK_APPLE_INTERNAL
-- (void)setUseInternalGraphView:(BOOL)useInternalGraphView {
-    self->_useInternalGraphView = useInternalGraphView;
-    
-    if (useInternalGraphView) {
-        [_meteringView removeFromSuperview];
-        _meteringView = nil;
-        
-        [self configureMeteringView];
-        [self addSubview:_meteringView];
-    }
-}
-#endif
 
 #pragma mark - ORKAudioMetering
 

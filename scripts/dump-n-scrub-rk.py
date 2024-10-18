@@ -282,6 +282,7 @@ class RKScrubber():
         self.core_project_path = "../ResearchKitCore"
         self.ui_project_path = "../ResearchKitUI"
         self.at_project_path = "../ResearchKitActiveTask"
+        self.researchkit_swiftui_project_path = "../ResearchKitSwiftUI"
         self.project_file_path = "../ResearchKit.xcodeproj/project.pbxproj"
         self.folders_to_remove = ["PrivateHeaders", "Scrubbers", "ResearchKitCore", "ResearchKitCore-(watchOS)", "PredefinedTaskResources"]
         self.json_keys_to_remove = ["scrubberNames", "discreteUnits", "fitMatrix", "algorithmVersion"]
@@ -289,7 +290,7 @@ class RKScrubber():
 
     def scrub_project(self):
         # gather all files from project
-        files = self.file_helper.recursively_read_files(self.project_path) + self.file_helper.recursively_read_files(self.tests_project_path) + self.file_helper.recursively_read_files(self.core_project_path) + self.file_helper.recursively_read_files(self.ui_project_path) + self.file_helper.recursively_read_files(self.at_project_path)
+        files = self.file_helper.recursively_read_files(self.project_path) + self.file_helper.recursively_read_files(self.tests_project_path) + self.file_helper.recursively_read_files(self.core_project_path) + self.file_helper.recursively_read_files(self.ui_project_path) + self.file_helper.recursively_read_files(self.at_project_path) + self.file_helper.recursively_read_files(self.researchkit_swiftui_project_path)
 
         files_with_special_comment = self.file_helper.fetch_files_with_special_comment(files)
         json_files_to_delete = self.file_helper.fetch_files_to_delete(files, self.json_files_to_remove)

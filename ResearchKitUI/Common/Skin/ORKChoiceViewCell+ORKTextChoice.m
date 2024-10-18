@@ -41,7 +41,6 @@
         [self setDetailAttributedText:textChoice.detailTextAttributedString];
     }
     
-    // [LC:TODO] rdar://113246902 (Make ORKColorChoice a subclass of ORKTextChoice)
     self.isExclusive = textChoice.exclusive;;
     self.isLastItem = isLastItem;
     self.immediateNavigation = NO;

@@ -32,11 +32,9 @@ import ResearchKit_Private
 
 public extension ORKPredicateStepNavigationRule {
     
-    // swiftlint:disable line_length
     convenience init(resultPredicatesAndDestinationStepIdentifiers tuples: [ (resultPredicate: NSPredicate,
                                                                               destinationStepIdentifier: String) ],
                      defaultStepIdentifierOrNil: String? = nil ) {
-        // swiftlint:enable line_length
         var resultPredicates: [NSPredicate] = []
         var destinationStepIdentifiers: [String] = []
         for tuple in tuples {

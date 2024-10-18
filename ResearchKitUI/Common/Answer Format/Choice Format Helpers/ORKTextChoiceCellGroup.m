@@ -91,7 +91,6 @@
     return [_helper textChoiceAtIndex:index];
 }
 
-// TODO: REVISIT THIS IMPLEMENTATION TO USE THE DEQUEUE FLOW
 - (ORKChoiceViewCell *)cellAtIndex:(NSUInteger)index withReuseIdentifier:(NSString *)identifier {
     ORKChoiceViewCell *cell = _cells[@(index)];
     

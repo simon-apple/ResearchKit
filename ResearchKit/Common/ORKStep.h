@@ -311,13 +311,5 @@ API_AVAILABLE(ios(11))
 
 #pragma mark - watchOS / VisionOS
 
-#if TARGET_OS_WATCH || TARGET_OS_VISION
-#pragma mark - watchOS
-
-API_AVAILABLE(watchos(6.0))
-@interface ORKStep ()
-
-@end
-#endif
 
 NS_ASSUME_NONNULL_END

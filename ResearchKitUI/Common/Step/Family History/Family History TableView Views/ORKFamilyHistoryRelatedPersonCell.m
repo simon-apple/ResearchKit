@@ -418,7 +418,6 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     _title = title;
 }
 
-// TODO: investigate making values their own type
 - (void)configureWithDetailValues:(NSArray<NSString *> *)detailValues
                  conditionsValues:(NSArray<NSString *> *)conditionsValues
 isLastItemBeforeAddRelativeButton:(BOOL)isLastItemBeforeAddRelativeButton {

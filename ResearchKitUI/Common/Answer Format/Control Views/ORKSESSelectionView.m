@@ -52,7 +52,6 @@
  */
 
 static const int defaultNumberOfRungs = 10;
-//  FIXME: need specs
 static const CGFloat rungHeight = 36.0;
 static const CGFloat rungWidth = 40.0;
 static const CGFloat labelToRungPadding = 20.0;
@@ -317,7 +316,6 @@ static const CGFloat rungButtonPadding = 10.0;
 
 - (void)updateFillColor {
     _fillColor = [UIColor secondarySystemGroupedBackgroundColor];
-    // FIXME:- dark mode color displays solid black after animation ends if the views are stacked
     if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
         _fillColor = [UIColor colorWithRed:0.173 green:0.173 blue:0.180 alpha:1.0];
     }

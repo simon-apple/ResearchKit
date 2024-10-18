@@ -5,18 +5,9 @@
       location = "group:ResearchKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:ResearchKitInternal/ResearchKitInternal.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:samples/ORKCatalog/ORKCatalog.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:ResearchKitSwiftUI/ResearchKitSwiftUI.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:ci_scripts">
-   </FileRef>
-   <FileRef
-      location = "group:ResearchKitUI(Watch).xcodeproj">
    </FileRef>
 </Workspace>

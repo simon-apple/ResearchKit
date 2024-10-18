@@ -201,12 +201,7 @@ static OSStatus ORKdBHLAudioGeneratorZeroTone(void *inRefCon,
         } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsProGen2]) {
             headphoneTypeIdentifier = ORKHeadphoneTypeIdentifierAirPodsProGen2;
             volumeCurveFilename = ORKVolumeCurveFilenameAirPodsProGen2;
-#if RK_APPLE_INTERNAL
-        } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax] ||
-                   [headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMaxUSBC]) {
-#else
         } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierAirPodsMax]) {
-#endif
             headphoneTypeIdentifier = ORKHeadphoneTypeIdentifierAirPodsMax;
             volumeCurveFilename = ORKVolumeCurveFilenameAirPodsMax;
         } else if ([headphoneTypeUppercased isEqualToString:ORKHeadphoneTypeIdentifierEarPods]) {

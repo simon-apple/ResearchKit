@@ -123,7 +123,6 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
     
     UIColor *color = [UIColor secondarySystemGroupedBackgroundColor];;
     
-    // FIXME:- dark mode color displays solid black after animation ends if the views are stacked
     if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
         color = [UIColor colorWithRed:0.173 green:0.173 blue:0.180 alpha:1.0];
     }
@@ -453,9 +452,7 @@ static const CGFloat ColorSwatchExpandedRightPadding = 16.0;
     }
     [NSLayoutConstraint deactivateConstraints:_containerConstraints];
     [_containerConstraints removeAllObjects];
-    // [LC:NOTE] no need to reset the checkmark, because we have a call in cellForRow that manually sets/unsets the checkmark
     // [choiceViewCell setCellSelected:NO highlight:NO];
-    // [LC:TODO] rdar://113283650 (Move `SetCellSelected` to be set in the `ORKChoiceViewCell.configure` method)
     [super prepareForReuse];
 }
 

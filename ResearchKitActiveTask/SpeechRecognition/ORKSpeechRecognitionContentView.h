@@ -73,9 +73,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateButtonStates;
 
-#if RK_APPLE_INTERNAL
-- (void)useInternalGraphView;
-#endif
 
 @end
 

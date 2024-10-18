@@ -40,15 +40,8 @@
 #import <ResearchKit/ORKHelpers_Internal.h>
 
 
-#if RK_APPLE_INTERNAL
-#import <ResearchKit/ORKFormStep.h>
-#endif
 
 @implementation ORKRelatedPerson {
-#if RK_APPLE_INTERNAL
-    ORKAgeAnswerFormat *_ageAnswerFormat;
-    NSString *_ageFormItemIdentifier;
-#endif
 }
 
 - (instancetype)initWithIdentifier:(NSString *)identifier
@@ -178,12 +171,6 @@
             } else {
                 NSString *answer = (NSString *)questionResult.answer;
                 
-                #if RK_APPLE_INTERNAL
-                    if (![questionResult.answer isKindOfClass:[ORKDontKnowAnswer class]] && _ageFormItemIdentifier && [_ageFormItemIdentifier isEqual:identifier]) {
-                        int ageValue = [answer intValue];
-                        return ageValue == 0 ? nil : [_ageAnswerFormat stringForAnswer:[NSNumber numberWithInt:ageValue]];
-                    }
-                #endif
                 
                 return answer;
             }
@@ -199,50 +186,5 @@
     return ([[value lowercaseString] isEqual:@"i don't know"] || [[value lowercaseString] isEqual:@"i don’t know"] || [[value lowercaseString] isEqual:@"i prefer not to answer"]);
 }
 
-#if RK_APPLE_INTERNAL
-- (void)setAgeAnswerFormat:(id)ageAnswerFormat ageFormItemIdentifier:(NSString *)ageFormItemIdentifier {
-    _ageAnswerFormat = ageAnswerFormat;
-    _ageFormItemIdentifier = ageFormItemIdentifier;
-}
-
-- (nullable NSNumber *)getAgeFromFormSteps:(NSArray<ORKFormStep *> *)formSteps {
-    for (ORKFormStep *formStep in formSteps) {
-        for (ORKFormItem *formItem in formStep.formItems) {
-            if ([formItem.answerFormat isKindOfClass:[ORKAgeAnswerFormat class]]) {
-                
-                ORKAgeAnswerFormat *ageAnswerFormat = (ORKAgeAnswerFormat *)formItem.answerFormat;
-                
-                if (ageAnswerFormat.minimumAgeCustomText != nil && ageAnswerFormat.maximumAgeCustomText != nil && ageAnswerFormat.treatMinAgeAsRange) {
-                    
-                    // If answerFormat is nil that means that the formItem is used as a section header and we should fetch the next formItem in the array
-                    NSString *identifier = formItem.identifier;
-                    NSString *value = [self getResultValueWithIdentifier:identifier];
-                    if (value && ![value isKindOfClass:[ORKDontKnowAnswer class]]) {
-                        
-                        if ([value isEqual:_ageAnswerFormat.minimumAgeCustomText] && _ageAnswerFormat.treatMinAgeAsRange) {
-                            return [NSNumber numberWithInteger:[self currentYear]];
-                        } else if ([value isEqual:_ageAnswerFormat.maximumAgeCustomText] && _ageAnswerFormat.treatMaxAgeAsRange) {
-                            return [NSNumber numberWithInteger:_ageAnswerFormat.relativeYear - _ageAnswerFormat.maximumAge];
-                        }
-
-                        NSInteger intValue = [value integerValue];
-                        return intValue == [ORKAgeAnswerFormat minimumAgeSentinelValue] ? [NSNumber numberWithInteger:[self currentYear]] : [NSNumber numberWithInteger:intValue];
-                    }
-                    break;
-                }
-            }
-        }
-    }
-    
-    return nil;
-}
-
-- (NSInteger)currentYear {
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSDateComponents *components = [calendar components:NSCalendarUnitYear fromDate:[NSDate date]];
-    return [components year];
-}
-
-#endif
 
 @end

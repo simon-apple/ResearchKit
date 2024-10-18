@@ -3034,25 +3034,12 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
 
 @interface ORKTextAnswerFormat()
 
-#if RK_APPLE_INTERNAL
-#if TARGET_OS_IOS
-///**
-// A Scrubber for PII
-//
-// */
-
-@property (nonatomic, readonly, copy) NSArray<PIIScrubber *> *scrubbers;
-#endif // TARGET_OS_IOS
 #endif
 
 @end
 
 @implementation ORKTextAnswerFormat
 
-#if RK_APPLE_INTERNAL
-#if TARGET_OS_IOS
-@synthesize scrubbers = _scrubbers;
-#endif // TARGET_OS_IOS
 #endif
 
 - (Class)questionResultClass {
@@ -3073,26 +3060,6 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     
 }
 
-#if RK_APPLE_INTERNAL
-#if TARGET_OS_IOS
-- (void)setScrubberNames:(NSArray *)scrubberNames {
-    if (_scrubberNames != scrubberNames) {
-        _scrubberNames = [scrubberNames copy];
-        _scrubbers = nil;
-    }
-}
-
-- (NSArray *)scrubbers {
-    if (_scrubbers == nil) {
-        NSMutableArray *scrubbers = [NSMutableArray new];
-        for (NSString* scrubberName in _scrubberNames) {
-            [scrubbers addObject: [[PIIScrubber alloc] initWithScrubberName:scrubberName]];
-        }
-         _scrubbers = [scrubbers copy];
-    }
-    return _scrubbers;
-}
-#endif // TARGET_OS_IOS
 #endif
 
 - (instancetype)initWithMaximumLength:(NSInteger)maximumLength {
@@ -3156,9 +3123,6 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     answerFormat->_spellCheckingType = _spellCheckingType;
     answerFormat->_keyboardType = _keyboardType;
     answerFormat->_textContentType = _textContentType;
-#if RK_APPLE_INTERNAL
-    answerFormat->_scrubberNames = [_scrubberNames copy];
-#endif
     
     if (@available(iOS 12.0, *)) {
         answerFormat->_passwordRules = _passwordRules;
@@ -3236,9 +3200,6 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     answerFormat->_keyboardType = _keyboardType;
     answerFormat->_autocapitalizationType = _autocapitalizationType;
     answerFormat->_textContentType = _textContentType;
-#if RK_APPLE_INTERNAL
-    answerFormat->_scrubberNames = [_scrubberNames copy];
-#endif
     
     if (@available(iOS 12.0, *)) {
         answerFormat->_passwordRules = _passwordRules;
@@ -3278,9 +3239,6 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
         ORK_DECODE_BOOL(aDecoder, hideCharacterCountLabel);
         ORK_DECODE_BOOL(aDecoder, secureTextEntry);
         ORK_DECODE_OBJ_CLASS(aDecoder, placeholder, NSString);
-#if RK_APPLE_INTERNAL
-        ORK_DECODE_OBJ_CLASS(aDecoder, scrubberNames, NSArray<NSString *>);
-#endif
     }
     return self;
 }
@@ -3306,9 +3264,6 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
     ORK_ENCODE_BOOL(aCoder, hideCharacterCountLabel);
     ORK_ENCODE_BOOL(aCoder, secureTextEntry);
     ORK_ENCODE_OBJ(aCoder, placeholder);
-#if RK_APPLE_INTERNAL
-    ORK_ENCODE_OBJ(aCoder, scrubberNames);
-#endif
 }
 
 + (BOOL)supportsSecureCoding {
@@ -3344,11 +3299,7 @@ NSArray<Class> *ORKAllowableValueClasses(void) {
              self.hideCharacterCountLabel == castObject.hideCharacterCountLabel) &&
              self.secureTextEntry == castObject.secureTextEntry) &&
              ORKEqualObjects(self.placeholder, castObject.placeholder)
-#if RK_APPLE_INTERNAL
-             && ORKEqualObjects(self.scrubberNames, castObject.scrubberNames);
-#else
              ;
-#endif
 }
 
 static NSString *const kSecureTextEntryEscapeString = @"*";
@@ -3362,24 +3313,10 @@ static NSString *const kSecureTextEntryEscapeString = @"*";
     return answerString;
 }
 
-#if RK_APPLE_INTERNAL
-#if TARGET_OS_IOS
-- (NSString *)scrubAnswer:(NSString *)answer {
-    NSString *answerString = answer;
-    for (PIIScrubber* scrubber in [self scrubbers]) {
-        answerString = [scrubber scrub:answerString];
-    }
-    return answerString;
-}
-#endif // TARGET_OS_IOS
 #endif
 
 - (ORKQuestionResult *)resultWithIdentifier:(NSString *)identifier answer:(id)answer {
     ORKQuestionResult *questionResult = nil;
-#if RK_APPLE_INTERNAL
-#if TARGET_OS_IOS
-    answer = ([answer isKindOfClass:[NSString class]] ? [self scrubAnswer: (NSString *)answer] : answer);
-#endif // TARGET_OS_IOS
 #endif
     questionResult = (ORKQuestionResult *)[super resultWithIdentifier:identifier answer:answer];
     return questionResult;
@@ -4001,7 +3938,6 @@ static const NSInteger ORKAgeAnswerDefaultMaxAge = 125;
     return _useYearForResult ? ORKQuestionTypeYear : ORKQuestionTypeAge;
 }
 
-// TODO: add hash implementation
 
 - (instancetype)copyWithZone:(NSZone *)zone {
     ORKAgeAnswerFormat *ageAnswerFormat = [super copyWithZone:zone];

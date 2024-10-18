@@ -92,7 +92,6 @@
 - (void)updateCheckView {
     if (_checked) {
         self.image = _checkedImage;
-        //        FIXME: Need to be replaced.
         self.tintColor = ORKViewTintColor(self);
     }
     else {

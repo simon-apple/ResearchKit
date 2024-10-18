@@ -193,7 +193,6 @@ typedef NS_CLOSED_ENUM(NSInteger, ORKUpdateConstraintSequence) {
         return;
     }
     
-    // [LC:NOTE] for dark mode we need to able to set the tint on the UIImageView,
     // this requires the image to be set to the UIImageRenderingModeAlwaysTemplate rendering mode
     // in the UIImageRenderingModeAlwaysOriginal rendering mode, tintColor does not apply
     [_topContentImageView updateRenderingModeForUserInterfaceStyle:self.traitCollection.userInterfaceStyle];

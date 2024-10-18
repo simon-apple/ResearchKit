@@ -308,7 +308,6 @@ ORKDefineStringKey(ORKBasicCellReuseIdentifier);
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    // FIXME:- temporary fix for estimating tableFooterView's height
     if (indexPath == tableView.indexPathsForVisibleRows.lastObject) {
         [self.view setNeedsLayout];
     }

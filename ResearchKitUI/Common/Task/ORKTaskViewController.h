@@ -589,28 +589,6 @@ ORK_CLASS_AVAILABLE
 
 @property (nonatomic) ORKTaskViewControllerProgressMode progressMode;
 
-#if RK_APPLE_INTERNAL
-/**
- A  boolean that determines what the discard button texts says when a user taps cancel during a task.
-    
- if set to YES, the text will say Discard Changes
- 
- if set to NO, the text will say Discard Results
- 
- The default value is NO
- */
-
-- (void)setUpdatingPreviousResults:(BOOL)updatingPreviousResults;
-
-/*
- A method that returns either the current result,
- the default result if the `alwaysCheckForDefaultResult` is set,
- or the previous result, if everything else is nil. 
- */
-
-- (nullable ORKResult *)getCurrentStepResult:(ORKStep *)step;
-
-#endif
 
 @end
 

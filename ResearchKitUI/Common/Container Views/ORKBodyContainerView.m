@@ -63,7 +63,6 @@ static const CGFloat ORKCardStyleBuildInPostitionEnd = 26.0;
 
 static NSString *ORKBulletUnicode = @"\u2981";
 
-//  FIXME: Short and Compact paddings
 //static const CGFloat ORKBulletToBulletPaddingShort = 22.0;
 //static const CGFloat ORKBulletToBulletPaddingGenerous = 36.0;
 //static const CGFloat ORKBodyToBulletPaddingShort = 22.0;
@@ -116,7 +115,6 @@ static NSString *ORKBulletUnicode = @"\u2981";
 }
 
 - (void)setupBodyStyleView {
-    // FIXME:- remove cardStyle property, not using it anymore
     if (_bodyItem.useCardStyle == YES) {
         _cardView = [[UIView alloc] init];
         _cardView.translatesAutoresizingMaskIntoConstraints = NO;

@@ -28,11 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if TARGET_OS_WATCH
-#import <ResearchKitCore/ORKDevice.h>
-#else
 #import <ResearchKit/ORKDevice.h>
-#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

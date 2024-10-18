@@ -1,7 +1,0 @@
-//
-// Project-Skywagon-Public-Release.xcconfig
-//
-// apple-internal
-#include "Project-Release.xcconfig"
-
-LIBRARY_SEARCH_PATHS = $(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)

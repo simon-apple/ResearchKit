@@ -30,9 +30,6 @@
 
 import ResearchKitActiveTask
 
-#if RK_APPLE_INTERNAL
-import ResearchKitInternal
-#endif
 
 enum TaskListRowSteps {
     
@@ -86,11 +83,6 @@ enum TaskListRowSteps {
                                             text: nil,
                                             answerFormat: bloodTypeAnswerFormat)
         bloodTypeFormItem.placeholder = String(describing: TaskListRowStrings.exampleTapHereText)
-        // start-omit-internal-code
-        if ProcessInfo.processInfo.environment.keys.contains("WriteHealthKitUITestData") {
-            bloodTypeFormItem.isOptional = false
-        }
-        // end-omit-internal-code
         
         let bloodTypeFormStep = ORKFormStep(identifier: String(describing: Identifier.healthQuantityFormStep2),
                                             title: NSLocalizedString("Blood Type", comment: ""),
@@ -268,11 +260,6 @@ enum TaskListRowSteps {
                                             text: nil,
                                             answerFormat:heartRateAnswerFormat)
         
-        // start-omit-internal-code
-        if ProcessInfo.processInfo.environment.keys.contains("WriteHealthKitUITestData") {
-            heartRateFormItem.isOptional = false
-        }
-        // end-omit-internal-code
         let heartRateFormStep = ORKFormStep(identifier: String(describing: Identifier.healthQuantityFormStep1),
                                             title: NSLocalizedString("Heart Rate", comment: ""),
                                             text: TaskListRowStrings.exampleDetailText)
@@ -1002,104 +989,6 @@ enum TaskListRowSteps {
         return familyHistoryStep
     }
     
-#if RK_APPLE_INTERNAL
-    // MARK: - Internal
-    
-    static var readOnlyFormStepExample: ORKFormStep {
-        let formStep = ORKFormStep(identifier: String(describing: Identifier.formStep))
-        
-        let textAnswerFormat = ORKTextAnswerFormat(maximumLength: 10)
-        let textFormItem = ORKFormItem(identifier: String(describing: Identifier.textQuestionFormItem), text: "Your name?", answerFormat: textAnswerFormat)
-        
-        let ageAnswerFormat = ORKAgeAnswerFormat(minimumAge: 18, maximumAge: 70, minimumAgeCustomText: "18 or younger", maximumAgeCustomText: "70 or older", showYear: true, useYearForResult: true, defaultValue: 21)
-        let ageFormItem = ORKFormItem(identifier: String(describing: Identifier.ageQuestionFormItem), text: "What is your age?", answerFormat: ageAnswerFormat)
-        
-        let heightAnswerFormat = ORKHeightAnswerFormat()
-        let heightFormItem = ORKFormItem(identifier: String(describing: Identifier.heightQuestionFormItem1), text: "Your height?", answerFormat: heightAnswerFormat)
-        
-        let weightAnswerFormat = ORKWeightAnswerFormat()
-        let weightFormItem = ORKFormItem(identifier: String(describing: Identifier.weightQuestionFormStep1), text: "Your weight?", answerFormat: weightAnswerFormat)
-        
-        let sesAnswerFormat = ORKSESAnswerFormat(topRungText: "Best Off", bottomRungText: "Worst Off")
-        let sesFormItem = ORKFormItem(identifier: "sesIdentifier", text: "Select where you are on the socioeconomic ladder.", answerFormat: sesAnswerFormat)
-        
-        let appleChoices: [ORKTextChoice] = [ORKTextChoice(text: "Granny Smith", value: 1 as NSNumber), ORKTextChoice(text: "Honeycrisp", value: 2 as NSNumber), ORKTextChoice(text: "Fuji", value: 3 as NSNumber), ORKTextChoice(text: "McIntosh", value: 10 as NSNumber), ORKTextChoice(text: "Kanzi", value: 5 as NSNumber)]
-        
-        let appleAnswerFormat = ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: appleChoices)
-        
-        let appleFormItem = ORKFormItem(identifier: String(describing: Identifier.appleFormItemIdentifier), text: "Which is your favorite apple?", answerFormat: appleAnswerFormat)
-        
-        formStep.formItems = [
-            textFormItem,
-            ageFormItem,
-            heightFormItem,
-            weightFormItem,
-            sesFormItem,
-            appleFormItem
-        ]
-        
-        return formStep
-    }
-    
-    static var readOnlyHeightQuestionStepExample: ORKQuestionStep {
-        let heightQuestionStep = ORKQuestionStep(identifier: String(describing: Identifier.heightQuestionTask))
-        heightQuestionStep.title = "Height Question"
-        heightQuestionStep.question = "Select your height."
-        heightQuestionStep.answerFormat = ORKHeightAnswerFormat()
-        
-        return heightQuestionStep
-    }
-    
-    static var readOnlyWeightQuestionStepExample: ORKQuestionStep {
-        let weightQuestionStep = ORKQuestionStep(identifier: String(describing: Identifier.weightQuestionTask))
-        weightQuestionStep.title = "Weight Question"
-        weightQuestionStep.question = "Select your weight."
-        weightQuestionStep.answerFormat = ORKWeightAnswerFormat()
-        
-        return weightQuestionStep
-    }
-    
-    static var readOnlyTextChoiceQuestionStepExample: ORKQuestionStep {
-        let appleChoices: [ORKTextChoice] = [ORKTextChoice(text: "Granny Smith", value: 1 as NSNumber), ORKTextChoice(text: "Honeycrisp", value: 2 as NSNumber), ORKTextChoice(text: "Fuji", value: 3 as NSNumber), ORKTextChoice(text: "McIntosh", value: 10 as NSNumber), ORKTextChoice(text: "Kanzi", value: 5 as NSNumber)]
-        
-        let appleAnswerFormat = ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: appleChoices)
-        
-        let textChoiceQuestionStep = ORKQuestionStep(identifier: String(describing: Identifier.textQuestionStep))
-        textChoiceQuestionStep.text = "Text Choice Question"
-        textChoiceQuestionStep.question = "Which is your favorite apple?"
-        textChoiceQuestionStep.answerFormat = appleAnswerFormat
-        
-        return textChoiceQuestionStep
-    }
-    
-    static var readOnlyInstructionStepExample: ORKInstructionStep {
-        let instructionStep = ORKInstructionStep(identifier: String(describing: Identifier.surveyTask))
-        instructionStep.title = "Read Only View Example"
-        instructionStep.text = "After you finish this task it will be dismissed before a another view is presented to show it's results."
-
-        return instructionStep
-    }
-    
-    static var textChoiceImagesQuestionStepExample: ORKQuestionStep {
-        let textChoiceOneText = NSLocalizedString("Choice 1", comment: "")
-        let textChoiceTwoText = NSLocalizedString("Choice 2", comment: "")
-        let textChoiceThreeText = NSLocalizedString("Choice 3", comment: "")
-        
-        // The text to display can be separate from the value coded for each choice:
-        let textChoices = [
-            ORKTextChoice(text: textChoiceOneText, image: UIImage(named: "Face")!, value: "tap 1" as NSString),
-            ORKTextChoice(text: textChoiceTwoText, image: UIImage(named: "Face")!, value: "tap 2" as NSString),
-            ORKTextChoice(text: textChoiceThreeText, image: UIImage(named: "Face")!, value: "tap 3" as NSString)
-        ]
-        
-        let textChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: textChoices)
-        let textChoiceQuestion = NSLocalizedString("Select an option below.", comment: "")
-        
-        let questionStep = ORKQuestionStep(identifier: String(describing: Identifier.textChoiceFormStep), title: NSLocalizedString("Text Choice", comment: ""), question: textChoiceQuestion, answer: textChoiceAnswerFormat)
-        
-        return questionStep
-    }
-#endif
     
     // MARK: - Helpers
     

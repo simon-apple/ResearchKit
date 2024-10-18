@@ -260,7 +260,6 @@
            ENTRY(ORKScaleAnswerFormat,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      NSNumber *defaultValue = (NSNumber *)GETPROP(dict, defaultValue);
-                     // FIXME:- We are adding this for scenarios where the payload does not have the "defaultValue" key
                      if (defaultValue == nil) {
                          defaultValue = [[NSNumber alloc] initWithInt:INT_MAX];
                      }
@@ -292,7 +291,6 @@
            ENTRY(ORKContinuousScaleAnswerFormat,
                  ^id(NSDictionary *dict, ORKESerializationPropertyGetter getter) {
                      NSNumber *defaultValue = (NSNumber *)GETPROP(dict, defaultValue);
-                     // FIXME:- We are adding this for scenarios where the payload does not have the "defaultValue" key
                      if (defaultValue == nil) {
                          defaultValue = [[NSNumber alloc] initWithDouble:DBL_MAX];
                      }
@@ -366,9 +364,6 @@
                              ^id(id value, __unused ORKESerializationContext *context) { return [ORKESerializerHelper dictionaryFromPasswordRules:(UITextInputPasswordRules *)value]; },
                              ^id(id dict, __unused ORKESerializationContext *context) { return [ORKESerializerHelper passwordRulesFromDictionary:dict]; } ),
                     PROPERTY(placeholder, NSString, NSObject, YES, nil, nil),
-#if RK_APPLE_INTERNAL
-                    PROPERTY(scrubberNames, NSArray, NSObject, YES, nil, nil)
-#endif
                     })),
            ENTRY(ORKEmailAnswerFormat,
                  nil,

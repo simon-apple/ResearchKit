@@ -41,7 +41,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)objectFromJSONData:(NSData *)data error:(NSError **)error;
 
-// TODO: implement the below instance methods
 
 //- (nullable NSDictionary *)JSONObjectForObject:(id)object error:(NSError **)error;
 

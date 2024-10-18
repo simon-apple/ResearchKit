@@ -48,7 +48,6 @@ NS_ASSUME_NONNULL_BEGIN
 ORK_CLASS_AVAILABLE
 @interface ORKCompletionStepViewController : ORKInstructionStepViewController
 
-//      FIXME:Deprecate this property
 /**
  Optional property to allow showing the "Done/Next" button rather than moving this button 
  to the `rightBarButtonItem`.

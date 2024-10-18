@@ -1,4 +1,0 @@
-This file is to make sure the appropriate subdirectories are created.
-
-You can delete this file once this directory is populated with the soft linking files, as they should be put here 
-once the ORKTaskViewController dependency is eliminated.

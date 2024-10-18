@@ -960,44 +960,6 @@
 }
 
 
-#if RK_APPLE_INTERNAL
-
-- (void)testCustomTask {
-    // only should initialize with a valid content view
-    UIView *customView = nil;
-    XCTAssertThrows([ORKCustomStep customStepWithIdentifier:@"whoops" contentView: customView]);
-}
-
-- (void)testTextAnswerFormatPIIScrubber {
-    // Setup an answer format
-    ORKTextAnswerFormat *answerFormat = [ORKAnswerFormat textAnswerFormat];
-    answerFormat.scrubberNames = @[PIIScrubber.emailScrubberName];
-    NSString* answer = (NSString *)[answerFormat resultWithIdentifier:@"testID" answer:@"This is a test email foo@gmail.com whoops"].answer;
-    XCTAssertEqualObjects(answer, @"This is a test email  whoops");
-
-    ORKTextAnswerFormat *answerFormatSSN = [ORKAnswerFormat textAnswerFormat];
-    answerFormatSSN.scrubberNames = @[@"SSNScrubber"];
-    NSString* answerSSN = (NSString *)[answerFormatSSN resultWithIdentifier:@"testID" answer:@"This is my SSN: 123-45-4891 whoops"].answer;
-    XCTAssertEqualObjects(answerSSN, @"This is my SSN:  whoops");
-    
-    ORKTextAnswerFormat *answerFormatAllPII = [ORKAnswerFormat textAnswerFormat];
-    answerFormatAllPII.scrubberNames =  [PIIScrubber allScrubberNames];
-    NSString* answerAllPII = (NSString *)[answerFormatAllPII resultWithIdentifier:@"testID" answer:@"This is all my PII foo@gmail.com 123-45-4891"].answer;
-    XCTAssertEqualObjects(answerAllPII, @"This is all my PII  ");
-}
-
-- (void)testIllegalAnswerTypesAreUnscrubbed {
-    ORKTextAnswerFormat *answerFormatAllPIINonStringAnswer = [ORKAnswerFormat textAnswerFormat];
-    answerFormatAllPIINonStringAnswer.scrubberNames =  [PIIScrubber allScrubberNames];
-    XCTAssertThrowsSpecificNamed((NSString *)[answerFormatAllPIINonStringAnswer resultWithIdentifier:@"testID" answer:@20.0].answer, NSException, NSInternalInconsistencyException, @"Should throw NSInternalInconsistencyException - invalid parameter type for answer");
-}
-
-- (void)testStringForAnswerIsUnscrubbed {
-    ORKTextAnswerFormat *answerFormatAllPII = [ORKAnswerFormat textAnswerFormat];
-    answerFormatAllPII.scrubberNames =  [PIIScrubber allScrubberNames];
-    XCTAssertEqualObjects([answerFormatAllPII stringForAnswer:@"This is all my PII foo@gmail.com ac bd 123-45-4891"], @"This is all my PII foo@gmail.com ac bd 123-45-4891");
-}
-#endif
 - (void)testContinuousScaleAnswerFormat {
     
     XCTAssertThrowsSpecificNamed([ORKAnswerFormat continuousScaleAnswerFormatWithMaximumValue:10

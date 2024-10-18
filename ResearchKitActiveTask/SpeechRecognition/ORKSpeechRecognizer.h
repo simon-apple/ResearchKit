@@ -108,11 +108,5 @@
  */
 - (void)endAudio;
 
-#if RK_APPLE_INTERNAL
-/**
- Indicates if the speech recognizer can operate without network access
- */
-- (BOOL)isOfflineRecognitionAvailable;
-#endif
 
 @end

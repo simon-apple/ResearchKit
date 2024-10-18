@@ -155,9 +155,6 @@ static NSMutableDictionary *colors(void) {
 #if TARGET_OS_IOS
                     ORKBackgroundColorKey: [UIColor secondarySystemBackgroundColor],
 #endif
-#if TARGET_OS_WATCH
-                    ORKBackgroundColorKey: ORKRGB(0xffffff),
-#endif
                     ORKConsentBackgroundColorKey: ORKRGB(0xffffff),
                     ORKToolBarTintColorKey: ORKRGB(0xffffff),
                     ORKLightTintColorKey: ORKRGB(0xeeeeee),
@@ -171,9 +168,6 @@ static NSMutableDictionary *colors(void) {
                     ORKiPadBackgroundViewColorKey: [UIColor colorWithRed:249.0 / 255.0 green:249.0 / 255.0 blue:251.0 / 255.0 alpha:1.0],
 #if TARGET_OS_IOS
                     ORKTopContentImageViewBackgroundColorKey: UIColor.quaternarySystemFillColor,
-#endif
-#if TARGET_OS_WATCH
-                    ORKBackgroundColorKey: ORKRGB(0xffffff),
 #endif
                     ORKBulletItemTextColorKey: [UIColor colorWithRed:0.56 green:0.56 blue:0.58 alpha:1.0]
                     } mutableCopy];
@@ -554,7 +548,6 @@ CGFloat ORKStepContainerFirstItemTopPaddingForWindow(UIWindow *window) {
     return ceil((ORKStepContainerFirstItemTopPaddingPercentage / 100.0) * windowSize.height);
 }
 
-//FIXME: Consolidate title/Icon to Body/Bullet methods into one. remove copy paste.
 
 CGFloat ORKStepContainerTitleToBodyTopPaddingForWindow(UIWindow *window) {
     CGFloat padding = 0;
@@ -584,7 +577,6 @@ CGFloat ORKStepContainerTitleToBulletTopPaddingForWindow(UIWindow *window) {
         case ORKScreenTypeiPhone6Plus:
         case ORKScreenTypeiPhone6:
         default:
-            // FIXME:- defaulting to short padding for larger devices as well
             padding = ORKStepContainerTitleToBulletTopPaddingShort;
             break;
     }

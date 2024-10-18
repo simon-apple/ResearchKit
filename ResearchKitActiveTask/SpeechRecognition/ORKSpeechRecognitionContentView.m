@@ -130,14 +130,6 @@ static CGFloat const ORKSpeechRecognitionContentBottomLayoutMargin = 44.0;
     [self addSubview:_graphView];
 }
 
-#if RK_APPLE_INTERNAL
-- (void)useInternalGraphView {
-    [_graphView setUseInternalGraphView:YES];
-    
-    [self updateGraphSamples];
-    [self applyKeyColor];
-}
-#endif
 
 - (void)setupTranscriptLabel {
     _transcriptLabel = [ORKSubheadlineLabel new];

@@ -8,91 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		03F7FD9F23959DD500432EF6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F7FD9E23959DD500432EF6 /* SceneDelegate.swift */; };
-		0B1735512B5736E100AAB6BC /* ORKCatalogWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 0B1735502B5736E100AAB6BC /* ORKCatalogWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		0B1735562B5736E100AAB6BC /* ORKCatalogWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1735552B5736E100AAB6BC /* ORKCatalogWatchApp.swift */; };
-		0B1735582B5736E100AAB6BC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1735572B5736E100AAB6BC /* ContentView.swift */; };
-		0B17355A2B5736E300AAB6BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B1735592B5736E300AAB6BC /* Assets.xcassets */; };
-		0B17355D2B5736E300AAB6BC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B17355C2B5736E300AAB6BC /* Preview Assets.xcassets */; };
-		0B1735982B57394300AAB6BC /* ResearchKitUI_Watch_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B1735972B57394300AAB6BC /* ResearchKitUI_Watch_.framework */; };
-		0B1735992B57394300AAB6BC /* ResearchKitUI_Watch_.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B1735972B57394300AAB6BC /* ResearchKitUI_Watch_.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0B270D6C28D147AC0072BEA1 /* StudyPromoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B270D6B28D147AC0072BEA1 /* StudyPromoViewController.swift */; };
-		0B31EE4729887C4E00CD0D24 /* WrapperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B31EE4629887C4E00CD0D24 /* WrapperViewController.swift */; };
-		0B58E51C2981D293007263DA /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B58E51B2981D293007263DA /* UserDefaultKeys.swift */; };
 		0B6CB32728B577640092E993 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6CB32628B577640092E993 /* Bundle+Extensions.swift */; };
-		0BE9D5182943E92700DA0625 /* ResearchKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE9D5172943E92700DA0625 /* ResearchKitView.swift */; };
-		0BE9D51A2943F3A800DA0625 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE9D5192943F3A800DA0625 /* SettingsViewController.swift */; };
-		0BE9D51C2943F42600DA0625 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE9D51B2943F42600DA0625 /* SettingsView.swift */; };
-		0BEE14A6286BC6A9005F26D1 /* Scrubbers in Resources */ = {isa = PBXBuildFile; fileRef = 0BEE14A5286BC6A9005F26D1 /* Scrubbers */; };
 		3E39B9FB1ABF682D00C2ABE5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E39B9F91ABF682D00C2ABE5 /* Main.storyboard */; };
 		3E39B9FE1ABF683700C2ABE5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E39B9FC1ABF683700C2ABE5 /* LaunchScreen.xib */; };
 		3E39BA001ABF683F00C2ABE5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E39B9FF1ABF683F00C2ABE5 /* Images.xcassets */; };
 		3ED967B81AC13D37007E2D83 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3ED967BA1AC13D37007E2D83 /* Localizable.strings */; };
-		518E16CA2C248F5500F44B98 /* ORKESerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 518E16C92C248F5500F44B98 /* ORKESerializer.m */; };
-		518E16D52C24DA2B00F44B98 /* TaskExamples in Resources */ = {isa = PBXBuildFile; fileRef = 518E16D42C24DA2B00F44B98 /* TaskExamples */; };
 		51AF19862B59F3A900D3B399 /* ORKKeychainWrapperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AF19852B59F3A900D3B399 /* ORKKeychainWrapperTests.m */; };
-		51BD8FC729D3AE2E0001D54E /* Sentence1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 51BD8FC629D3AE2E0001D54E /* Sentence1.wav */; };
 		51C173282BA4B4E1006604FB /* sphere_model.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 51C173272BA4B4E1006604FB /* sphere_model.usdz */; };
 		51F210EF2B4634FC0072B536 /* TaskListRowSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F210EE2B4634FC0072B536 /* TaskListRowSteps.swift */; };
 		51F210FE2B49D04F0072B536 /* TaskListRowConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F210FD2B49D04F0072B536 /* TaskListRowConstants.swift */; };
-		5D1CE45123FB1DFE004CB416 /* List1 in Resources */ = {isa = PBXBuildFile; fileRef = 5D1CE45023FB1DFE004CB416 /* List1 */; };
-		5D3800B52459F4FF00E7D2BD /* PracticeList in Resources */ = {isa = PBXBuildFile; fileRef = 5D3800B42459F4FF00E7D2BD /* PracticeList */; };
-		5DB068EA25AE5940000F3170 /* TinnitusSounds1 in Resources */ = {isa = PBXBuildFile; fileRef = 5DB068E925AE5940000F3170 /* TinnitusSounds1 */; };
-		5DD2B46B249974AC00FF17F5 /* QuestionList1 in Resources */ = {isa = PBXBuildFile; fileRef = 5DD2B46A249974AC00FF17F5 /* QuestionList1 */; };
 		863CCD821ACF545E009FD3B4 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863CCD811ACF545E009FD3B4 /* HealthKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		86B89AA51AB2C0A5001626A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B89A9C1AB2C0A5001626A4 /* AppDelegate.swift */; };
-		8C1F9E9E2C0F857100A6C0D5 /* DateFormatterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1F9E9D2C0F857100A6C0D5 /* DateFormatterManager.swift */; };
-		8C49088C2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C49088B2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift */; };
-		8C49088E2B7ECEEB00DA6E2D /* OpenAndCancelUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelUITests.swift */; };
-		8C49089A2B7ECF9400DA6E2D /* ActiveStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4908992B7ECF9400DA6E2D /* ActiveStepScreen.swift */; };
 		8C67958C2BC3B09B00DE7286 /* TaskListRowConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F210FD2B49D04F0072B536 /* TaskListRowConstants.swift */; };
-		8C6C5BFB2C41D13C00DEEAD3 /* ActiveTasksBaseUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6C5BFA2C41D13C00DEEAD3 /* ActiveTasksBaseUITest.swift */; };
-		8C6C5BFD2C41D1C200DEEAD3 /* ActiveTasksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6C5BFC2C41D1C200DEEAD3 /* ActiveTasksUITests.swift */; };
-		8C7C541D2B4F5CF900A2E513 /* Answers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C541C2B4F5CF900A2E513 /* Answers.swift */; };
-		8C7C54202B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */; };
-		8C7C54222B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54212B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift */; };
-		8C7C54242B4F677300A2E513 /* HealthApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54232B4F677300A2E513 /* HealthApp.swift */; };
-		8C7C54262B4F678E00A2E513 /* HealthAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54252B4F678E00A2E513 /* HealthAccess.swift */; };
-		8C7C54282B4F67E200A2E513 /* Springboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54272B4F67E200A2E513 /* Springboard.swift */; };
-		8C7C542A2B4F680B00A2E513 /* RequestPermissionsStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */; };
-		8C89CD592BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */; };
-		8C97802B2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C97802A2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift */; };
-		8C97802D2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C97802C2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift */; };
-		8CBA19C72BE14AF3000E7205 /* LocaleDependentBaseUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBA19C62BE14AF3000E7205 /* LocaleDependentBaseUITest.swift */; };
-		8CC4876B2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */; };
-		8CCB03732B86AA8A00096C86 /* UITestLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCB03722B86AA8A00096C86 /* UITestLogger.swift */; };
-		8CE15F442C0D5D69003C1008 /* ToneAudiometryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F432C0D5D69003C1008 /* ToneAudiometryUITests.swift */; };
-		8CE15F462C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F452C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift */; };
-		8CE15F482C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F472C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift */; };
-		8CE15F4A2C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F492C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift */; };
-		8CE15F4C2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F4B2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift */; };
-		8CE15F4E2C0D731E003C1008 /* SettingsAppScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE15F4D2C0D731E003C1008 /* SettingsAppScreens.swift */; };
-		8CECC5EB2B978265002266B9 /* OnboardingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */; };
-		8CECC5ED2B978683002266B9 /* InstructionStepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EC2B978683002266B9 /* InstructionStepUITests.swift */; };
-		8CECC5EF2B978B3D002266B9 /* WebViewStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5EE2B978B3D002266B9 /* WebViewStepScreen.swift */; };
-		8CECC5F12B9791AD002266B9 /* PDFViewerStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5F02B9791AD002266B9 /* PDFViewerStepScreen.swift */; };
-		8CECC5F32B97A78E002266B9 /* WaitStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5F22B97A78E002266B9 /* WaitStepScreen.swift */; };
-		8CECC5F52B97A8CF002266B9 /* MiscellaneousUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5F42B97A8CF002266B9 /* MiscellaneousUITests.swift */; };
-		8CECC5F92B97AC03002266B9 /* PasscodeStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5F82B97AC03002266B9 /* PasscodeStepScreen.swift */; };
-		8CECC5FB2B97ACFE002266B9 /* VerificationStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5FA2B97ACFE002266B9 /* VerificationStepScreen.swift */; };
-		8CECC5FD2B97AFB7002266B9 /* CustomStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5FC2B97AFB7002266B9 /* CustomStepScreen.swift */; };
-		8CECC5FF2B97B61E002266B9 /* LearnMoreStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC5FE2B97B61E002266B9 /* LearnMoreStepScreen.swift */; };
-		8CECC6012B97CF6C002266B9 /* SettingsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC6002B97CF6C002266B9 /* SettingsTab.swift */; };
-		8CECC6032B97CF8C002266B9 /* ResultsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC6022B97CF8C002266B9 /* ResultsTab.swift */; };
-		8CECC6052B99315E002266B9 /* InternalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC6042B99315E002266B9 /* InternalUITests.swift */; };
-		8CECC6072B9A28FE002266B9 /* SwiftUIAdaptorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CECC6062B9A28FE002266B9 /* SwiftUIAdaptorUITests.swift */; };
-		8CFF29072AE9BE99000DC99E /* WaitUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29062AE9BE99000DC99E /* WaitUtils.swift */; };
-		8CFF29092AE9BEF9000DC99E /* XCUIElementQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29082AE9BEF9000DC99E /* XCUIElementQuery.swift */; };
-		8CFF290B2AE9C051000DC99E /* XCTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF290A2AE9C051000DC99E /* XCTestCase.swift */; };
-		8CFF290D2AE9C06E000DC99E /* XCUIElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF290C2AE9C06E000DC99E /* XCUIElement.swift */; };
-		8CFF290F2AE9C24A000DC99E /* AccessibilityIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF290E2AE9C24A000DC99E /* AccessibilityIdentifiers.swift */; };
-		8CFF29122AE9C395000DC99E /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29112AE9C395000DC99E /* TabBar.swift */; };
-		8CFF29142AE9C3E9000DC99E /* TasksTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29132AE9C3E9000DC99E /* TasksTab.swift */; };
-		8CFF29162AE9C452000DC99E /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29152AE9C452000DC99E /* Step.swift */; };
-		8CFF29182AE9C674000DC99E /* InstructionStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29172AE9C674000DC99E /* InstructionStepScreen.swift */; };
-		8CFF291E2AE9CA95000DC99E /* FormStepScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF291D2AE9CA95000DC99E /* FormStepScreen.swift */; };
-		8CFF29212AE9CB00000DC99E /* BaseUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29202AE9CB00000DC99E /* BaseUITest.swift */; };
-		8CFF29232AE9CB20000DC99E /* SurveysUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29222AE9CB20000DC99E /* SurveysUITests.swift */; };
-		8CFF29252AE9CB4A000DC99E /* SurveyQuestionsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFF29242AE9CB4A000DC99E /* SurveyQuestionsUITests.swift */; };
 		9622283924F04DBF0056E74D /* TaskScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9622283824F04DBF0056E74D /* TaskScreen.swift */; };
 		9622283B24F04DFE0056E74D /* CommonElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9622283A24F04DFE0056E74D /* CommonElements.swift */; };
 		9622283D24F04E6F0056E74D /* AllowScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9622283C24F04E6F0056E74D /* AllowScreens.swift */; };
@@ -110,20 +37,11 @@
 		BC9A273F1B82741900BDA84D /* TextImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9A273B1B82741900BDA84D /* TextImageTableViewCell.swift */; };
 		CA6A0D8F288F04260048C1EF /* ResearchKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA6A0D8E288F04260048C1EF /* ResearchKitUI.framework */; };
 		CA6A0D90288F04260048C1EF /* ResearchKitUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA6A0D8E288F04260048C1EF /* ResearchKitUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		CA8D8CFF28B01E85000CF52F /* ResearchKitInternal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA8D8CFE28B01E85000CF52F /* ResearchKitInternal.framework */; };
-		CA8D8D0028B01E90000CF52F /* ResearchKitInternal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA8D8CFE28B01E85000CF52F /* ResearchKitInternal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CA9B6DF828A2BF51000A7603 /* ResearchKitActiveTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9B6DF728A2BF51000A7603 /* ResearchKitActiveTask.framework */; };
 		CA9B6DF928A2BF64000A7603 /* ResearchKitActiveTask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA9B6DF728A2BF51000A7603 /* ResearchKitActiveTask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0B1735522B5736E100AAB6BC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 869230B61AAA890A00BFE11B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0B17354F2B5736E100AAB6BC;
-			remoteInfo = "ORKCatalogWatch Watch App";
-		};
 		51AF197B2B59F1E500D3B399 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 869230B61AAA890A00BFE11B /* Project object */;
@@ -141,35 +59,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		0B1735792B5736E400AAB6BC /* Embed Watch Content */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
-			dstSubfolderSpec = 16;
-			files = (
-				0B1735512B5736E100AAB6BC /* ORKCatalogWatch Watch App.app in Embed Watch Content */,
-			);
-			name = "Embed Watch Content";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0B17359A2B57394400AAB6BC /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				0B1735992B57394300AAB6BC /* ResearchKitUI_Watch_.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		BC2A3CDB1C58F1CA00DA64B7 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CA8D8D0028B01E90000CF52F /* ResearchKitInternal.framework in Embed Frameworks */,
 				CA9B6DF928A2BF64000A7603 /* ResearchKitActiveTask.framework in Embed Frameworks */,
 				CA6A0D90288F04260048C1EF /* ResearchKitUI.framework in Embed Frameworks */,
 				BC2A3CDA1C58F1CA00DA64B7 /* ResearchKit.framework in Embed Frameworks */,
@@ -181,24 +76,11 @@
 
 /* Begin PBXFileReference section */
 		03F7FD9E23959DD500432EF6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		0B17354B2B5736E100AAB6BC /* ORKCatalogWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORKCatalogWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B1735502B5736E100AAB6BC /* ORKCatalogWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ORKCatalogWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B1735552B5736E100AAB6BC /* ORKCatalogWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORKCatalogWatchApp.swift; sourceTree = "<group>"; };
-		0B1735572B5736E100AAB6BC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		0B1735592B5736E300AAB6BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		0B17355C2B5736E300AAB6BC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0B17358D2B57379C00AAB6BC /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B1735912B5737A300AAB6BC /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B1735942B5737CE00AAB6BC /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B1735972B57394300AAB6BC /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B270D6B28D147AC0072BEA1 /* StudyPromoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPromoViewController.swift; sourceTree = "<group>"; };
-		0B31EE4629887C4E00CD0D24 /* WrapperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrapperViewController.swift; sourceTree = "<group>"; };
-		0B58E51B2981D293007263DA /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
 		0B6CB32628B577640092E993 /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
-		0BE9D5172943E92700DA0625 /* ResearchKitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResearchKitView.swift; sourceTree = "<group>"; };
-		0BE9D5192943F3A800DA0625 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		0BE9D51B2943F42600DA0625 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		0BEE14A5286BC6A9005F26D1 /* Scrubbers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scrubbers; sourceTree = "<group>"; };
 		246DF9FF1BEADFDF00591E9A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		246DFA021BEAE01700591E9A /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		246DFA031BEAE02100591E9A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -243,81 +125,16 @@
 		3E39B9FF1ABF683F00C2ABE5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3ED967B91AC13D37007E2D83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5116D0BF2677FB780010FAB1 /* ResearchKit-Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ResearchKit-Shared.xcconfig"; sourceTree = "<group>"; };
-		518E16C72C248F5400F44B98 /* ORKCatalog-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ORKCatalog-Bridging-Header.h"; sourceTree = "<group>"; };
-		518E16C82C248F5500F44B98 /* ORKESerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ORKESerializer.h; sourceTree = "<group>"; };
-		518E16C92C248F5500F44B98 /* ORKESerializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ORKESerializer.m; sourceTree = "<group>"; };
-		518E16D42C24DA2B00F44B98 /* TaskExamples */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TaskExamples; sourceTree = "<group>"; };
 		51AF19772B59F1E400D3B399 /* ORKCatalogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ORKCatalogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51AF19852B59F3A900D3B399 /* ORKKeychainWrapperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKKeychainWrapperTests.m; sourceTree = "<group>"; };
-		51BD8FC629D3AE2E0001D54E /* Sentence1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Sentence1.wav; path = List1/Sentence1.wav; sourceTree = "<group>"; };
 		51C173272BA4B4E1006604FB /* sphere_model.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = sphere_model.usdz; sourceTree = "<group>"; };
 		51F210EE2B4634FC0072B536 /* TaskListRowSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListRowSteps.swift; sourceTree = "<group>"; };
 		51F210FD2B49D04F0072B536 /* TaskListRowConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListRowConstants.swift; sourceTree = "<group>"; };
-		5D1CE45023FB1DFE004CB416 /* List1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = List1; sourceTree = "<group>"; };
-		5D3800B42459F4FF00E7D2BD /* PracticeList */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PracticeList; sourceTree = "<group>"; };
-		5DB068E925AE5940000F3170 /* TinnitusSounds1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TinnitusSounds1; sourceTree = "<group>"; };
-		5DD2B46A249974AC00FF17F5 /* QuestionList1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = QuestionList1; sourceTree = "<group>"; };
 		863CCD811ACF545E009FD3B4 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		863CCD831ACF545E009FD3B4 /* ORKCatalog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ORKCatalog.entitlements; sourceTree = "<group>"; };
 		869230BE1AAA890A00BFE11B /* ORKCatalog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ORKCatalog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86B89A981AB2C0A5001626A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86B89A9C1AB2C0A5001626A4 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ORKCatalog/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
-		8C1F9E9D2C0F857100A6C0D5 /* DateFormatterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterManager.swift; sourceTree = "<group>"; };
-		8C49088B2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelBaseUITest.swift; sourceTree = "<group>"; };
-		8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAndCancelUITests.swift; sourceTree = "<group>"; };
-		8C4908992B7ECF9400DA6E2D /* ActiveStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveStepScreen.swift; sourceTree = "<group>"; };
-		8C49089B2B7ED08000DA6E2D /* LaunchTasksUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = LaunchTasksUITests.xctestplan; sourceTree = "<group>"; };
-		8C67958E2BC4B84500DE7286 /* SurveysRegressionUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = SurveysRegressionUITests.xctestplan; sourceTree = "<group>"; };
-		8C6C5BFA2C41D13C00DEEAD3 /* ActiveTasksBaseUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTasksBaseUITest.swift; sourceTree = "<group>"; };
-		8C6C5BFC2C41D1C200DEEAD3 /* ActiveTasksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTasksUITests.swift; sourceTree = "<group>"; };
-		8C6C5BFE2C41DC0200DEEAD3 /* ActiveTasksUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ActiveTasksUITests.xctestplan; sourceTree = "<group>"; };
-		8C7C541C2B4F5CF900A2E513 /* Answers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answers.swift; sourceTree = "<group>"; };
-		8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsLocaleDependentUITests.swift; sourceTree = "<group>"; };
-		8C7C54212B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessRequestPermissionStepUITests.swift; sourceTree = "<group>"; };
-		8C7C54232B4F677300A2E513 /* HealthApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthApp.swift; sourceTree = "<group>"; };
-		8C7C54252B4F678E00A2E513 /* HealthAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthAccess.swift; sourceTree = "<group>"; };
-		8C7C54272B4F67E200A2E513 /* Springboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Springboard.swift; sourceTree = "<group>"; };
-		8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPermissionsStepScreen.swift; sourceTree = "<group>"; };
-		8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsResultsUITests.swift; sourceTree = "<group>"; };
-		8C97802A2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneAudiometryInternalAirPodsUITests.swift; sourceTree = "<group>"; };
-		8C97802C2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneAudiometryInternalBaseUITests.swift; sourceTree = "<group>"; };
-		8CBA19C62BE14AF3000E7205 /* LocaleDependentBaseUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocaleDependentBaseUITest.swift; sourceTree = "<group>"; };
-		8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsHealthKitIntegrationUITests.swift; sourceTree = "<group>"; };
-		8CCB03722B86AA8A00096C86 /* UITestLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestLogger.swift; sourceTree = "<group>"; };
-		8CE15F432C0D5D69003C1008 /* ToneAudiometryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneAudiometryUITests.swift; sourceTree = "<group>"; };
-		8CE15F452C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentSPLMeterStepScreen.swift; sourceTree = "<group>"; };
-		8CE15F472C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHLToneAudiometryStepScreen.swift; sourceTree = "<group>"; };
-		8CE15F492C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadphoneDetectStepScreen.swift; sourceTree = "<group>"; };
-		8CE15F4B2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneAudiometryInternalAirPodsProUITests.swift; sourceTree = "<group>"; };
-		8CE15F4D2C0D731E003C1008 /* SettingsAppScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAppScreens.swift; sourceTree = "<group>"; };
-		8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingUITests.swift; sourceTree = "<group>"; };
-		8CECC5EC2B978683002266B9 /* InstructionStepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionStepUITests.swift; sourceTree = "<group>"; };
-		8CECC5EE2B978B3D002266B9 /* WebViewStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewStepScreen.swift; sourceTree = "<group>"; };
-		8CECC5F02B9791AD002266B9 /* PDFViewerStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewerStepScreen.swift; sourceTree = "<group>"; };
-		8CECC5F22B97A78E002266B9 /* WaitStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitStepScreen.swift; sourceTree = "<group>"; };
-		8CECC5F42B97A8CF002266B9 /* MiscellaneousUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscellaneousUITests.swift; sourceTree = "<group>"; };
-		8CECC5F82B97AC03002266B9 /* PasscodeStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeStepScreen.swift; sourceTree = "<group>"; };
-		8CECC5FA2B97ACFE002266B9 /* VerificationStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationStepScreen.swift; sourceTree = "<group>"; };
-		8CECC5FC2B97AFB7002266B9 /* CustomStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStepScreen.swift; sourceTree = "<group>"; };
-		8CECC5FE2B97B61E002266B9 /* LearnMoreStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnMoreStepScreen.swift; sourceTree = "<group>"; };
-		8CECC6002B97CF6C002266B9 /* SettingsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTab.swift; sourceTree = "<group>"; };
-		8CECC6022B97CF8C002266B9 /* ResultsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTab.swift; sourceTree = "<group>"; };
-		8CECC6042B99315E002266B9 /* InternalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalUITests.swift; sourceTree = "<group>"; };
-		8CECC6062B9A28FE002266B9 /* SwiftUIAdaptorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIAdaptorUITests.swift; sourceTree = "<group>"; };
-		8CFF29062AE9BE99000DC99E /* WaitUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitUtils.swift; sourceTree = "<group>"; };
-		8CFF29082AE9BEF9000DC99E /* XCUIElementQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCUIElementQuery.swift; sourceTree = "<group>"; };
-		8CFF290A2AE9C051000DC99E /* XCTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestCase.swift; sourceTree = "<group>"; };
-		8CFF290C2AE9C06E000DC99E /* XCUIElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCUIElement.swift; sourceTree = "<group>"; };
-		8CFF290E2AE9C24A000DC99E /* AccessibilityIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifiers.swift; sourceTree = "<group>"; };
-		8CFF29112AE9C395000DC99E /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
-		8CFF29132AE9C3E9000DC99E /* TasksTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksTab.swift; sourceTree = "<group>"; };
-		8CFF29152AE9C452000DC99E /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
-		8CFF29172AE9C674000DC99E /* InstructionStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionStepScreen.swift; sourceTree = "<group>"; };
-		8CFF291D2AE9CA95000DC99E /* FormStepScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormStepScreen.swift; sourceTree = "<group>"; };
-		8CFF29202AE9CB00000DC99E /* BaseUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseUITest.swift; sourceTree = "<group>"; };
-		8CFF29222AE9CB20000DC99E /* SurveysUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveysUITests.swift; sourceTree = "<group>"; };
-		8CFF29242AE9CB4A000DC99E /* SurveyQuestionsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyQuestionsUITests.swift; sourceTree = "<group>"; };
-		8CFF29262AE9CBBC000DC99E /* RegressionUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = RegressionUITests.xctestplan; sourceTree = "<group>"; };
 		9622282A24F04D780056E74D /* ORKCatalogUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ORKCatalogUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9622282E24F04D780056E74D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9622283824F04DBF0056E74D /* TaskScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskScreen.swift; sourceTree = "<group>"; };
@@ -338,19 +155,10 @@
 		BC9A273B1B82741900BDA84D /* TextImageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextImageTableViewCell.swift; path = Results/TextImageTableViewCell.swift; sourceTree = "<group>"; };
 		CA6A0D8B288F01D10048C1EF /* ResearchKitUI (iOS).framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = "ResearchKitUI (iOS).framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA6A0D8E288F04260048C1EF /* ResearchKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CA8D8CFE28B01E85000CF52F /* ResearchKitInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA9B6DF728A2BF51000A7603 /* ResearchKitActiveTask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitActiveTask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0B17354D2B5736E100AAB6BC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0B1735982B57394300AAB6BC /* ResearchKitUI_Watch_.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		51AF19742B59F1E400D3B399 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -362,7 +170,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA8D8CFF28B01E85000CF52F /* ResearchKitInternal.framework in Frameworks */,
 				CA9B6DF828A2BF51000A7603 /* ResearchKitActiveTask.framework in Frameworks */,
 				CA6A0D8F288F04260048C1EF /* ResearchKitUI.framework in Frameworks */,
 				BC2A3CD91C58F1CA00DA64B7 /* ResearchKit.framework in Frameworks */,
@@ -380,25 +187,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0B1735542B5736E100AAB6BC /* ORKCatalogWatch Watch App */ = {
-			isa = PBXGroup;
-			children = (
-				0B1735552B5736E100AAB6BC /* ORKCatalogWatchApp.swift */,
-				0B1735572B5736E100AAB6BC /* ContentView.swift */,
-				0B1735592B5736E300AAB6BC /* Assets.xcassets */,
-				0B17355B2B5736E300AAB6BC /* Preview Content */,
-			);
-			path = "ORKCatalogWatch Watch App";
-			sourceTree = "<group>";
-		};
-		0B17355B2B5736E300AAB6BC /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				0B17355C2B5736E300AAB6BC /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
 		0B1A0A8228B6E0D800C16ABA /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -412,16 +200,7 @@
 			children = (
 				51F210FC2B49D02C0072B536 /* Task List Row Helpers */,
 				BC9A27321B82740D00BDA84D /* TaskListRow.swift */,
-				0B270D6B28D147AC0072BEA1 /* StudyPromoViewController.swift */,
 				BC9A27331B82740D00BDA84D /* TaskListViewController.swift */,
-				0BE9D5192943F3A800DA0625 /* SettingsViewController.swift */,
-				0BE9D51B2943F42600DA0625 /* SettingsView.swift */,
-				0B58E51B2981D293007263DA /* UserDefaultKeys.swift */,
-				0BE9D5172943E92700DA0625 /* ResearchKitView.swift */,
-				0B31EE4629887C4E00CD0D24 /* WrapperViewController.swift */,
-				518E16C82C248F5500F44B98 /* ORKESerializer.h */,
-				518E16C92C248F5500F44B98 /* ORKESerializer.m */,
-				518E16C72C248F5400F44B98 /* ORKCatalog-Bridging-Header.h */,
 			);
 			name = "Presenting Tasks";
 			sourceTree = "<group>";
@@ -461,7 +240,6 @@
 				3E39B9E81ABF675000C2ABE5 /* README.md */,
 				9622282B24F04D780056E74D /* ORKCatalogUITests */,
 				51AF19782B59F1E500D3B399 /* ORKCatalogTests */,
-				0B1735542B5736E100AAB6BC /* ORKCatalogWatch Watch App */,
 				BC2A3C9E1C58E81500DA64B7 /* Frameworks */,
 				869230C01AAA890A00BFE11B /* ORKCatalog */,
 				869230BF1AAA890A00BFE11B /* Products */,
@@ -473,8 +251,6 @@
 			children = (
 				869230BE1AAA890A00BFE11B /* ORKCatalog.app */,
 				9622282A24F04D780056E74D /* ORKCatalogUITests.xctest */,
-				0B17354B2B5736E100AAB6BC /* ORKCatalogWatch.app */,
-				0B1735502B5736E100AAB6BC /* ORKCatalogWatch Watch App.app */,
 				51AF19772B59F1E400D3B399 /* ORKCatalogTests.xctest */,
 			);
 			name = Products;
@@ -503,70 +279,6 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		8C1F9E9F2C0F8A5A00A6C0D5 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				8C1F9E9D2C0F857100A6C0D5 /* DateFormatterManager.swift */,
-				8CFF29052AE9BE73000DC99E /* Extensions */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
-		8C6C5BF92C41D0D700DEEAD3 /* ActiveTasksUITests */ = {
-			isa = PBXGroup;
-			children = (
-				8C97802E2C0E744F0018609A /* ToneAudiometryUITests */,
-				8C6C5BFA2C41D13C00DEEAD3 /* ActiveTasksBaseUITest.swift */,
-				8C6C5BFC2C41D1C200DEEAD3 /* ActiveTasksUITests.swift */,
-			);
-			path = ActiveTasksUITests;
-			sourceTree = "<group>";
-		};
-		8C89CD572BCD08F000C61F8A /* ResultsUITests */ = {
-			isa = PBXGroup;
-			children = (
-				8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */,
-			);
-			path = ResultsUITests;
-			sourceTree = "<group>";
-		};
-		8C97802E2C0E744F0018609A /* ToneAudiometryUITests */ = {
-			isa = PBXGroup;
-			children = (
-				8CE15F432C0D5D69003C1008 /* ToneAudiometryUITests.swift */,
-				8C97802C2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift */,
-				8C97802A2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift */,
-				8CE15F4B2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift */,
-			);
-			path = ToneAudiometryUITests;
-			sourceTree = "<group>";
-		};
-		8CD2A5ED2B7EC68C0078AB5F /* LaunchTasksUITests */ = {
-			isa = PBXGroup;
-			children = (
-				8C49088B2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift */,
-				8C49088D2B7ECEEB00DA6E2D /* OpenAndCancelUITests.swift */,
-			);
-			path = LaunchTasksUITests;
-			sourceTree = "<group>";
-		};
-		8CD81ABC2AFD910A00ABCA39 /* InternalUITests */ = {
-			isa = PBXGroup;
-			children = (
-				8C1F9E9F2C0F8A5A00A6C0D5 /* Utils */,
-				9622283724F04D850056E74D /* Screens */,
-				8CFF291F2AE9CAEB000DC99E /* UITests */,
-				8CFF290E2AE9C24A000DC99E /* AccessibilityIdentifiers.swift */,
-				8CCB03722B86AA8A00096C86 /* UITestLogger.swift */,
-				8CFF29262AE9CBBC000DC99E /* RegressionUITests.xctestplan */,
-				8C49089B2B7ED08000DA6E2D /* LaunchTasksUITests.xctestplan */,
-				8C67958E2BC4B84500DE7286 /* SurveysRegressionUITests.xctestplan */,
-				8C6C5BFE2C41DC0200DEEAD3 /* ActiveTasksUITests.xctestplan */,
-				8C7C541C2B4F5CF900A2E513 /* Answers.swift */,
-			);
-			path = InternalUITests;
-			sourceTree = "<group>";
-		};
 		8CDBF98A2AFD9FC800AF767B /* Screens */ = {
 			isa = PBXGroup;
 			children = (
@@ -577,43 +289,9 @@
 			path = Screens;
 			sourceTree = "<group>";
 		};
-		8CFF29052AE9BE73000DC99E /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				8CFF29062AE9BE99000DC99E /* WaitUtils.swift */,
-				8CFF29082AE9BEF9000DC99E /* XCUIElementQuery.swift */,
-				8CFF290A2AE9C051000DC99E /* XCTestCase.swift */,
-				8CFF290C2AE9C06E000DC99E /* XCUIElement.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		8CFF291F2AE9CAEB000DC99E /* UITests */ = {
-			isa = PBXGroup;
-			children = (
-				8CFF29202AE9CB00000DC99E /* BaseUITest.swift */,
-				8CBA19C62BE14AF3000E7205 /* LocaleDependentBaseUITest.swift */,
-				8CFF29222AE9CB20000DC99E /* SurveysUITests.swift */,
-				8CFF29242AE9CB4A000DC99E /* SurveyQuestionsUITests.swift */,
-				8CECC5EA2B978265002266B9 /* OnboardingUITests.swift */,
-				8CECC6042B99315E002266B9 /* InternalUITests.swift */,
-				8CECC5F42B97A8CF002266B9 /* MiscellaneousUITests.swift */,
-				8CECC5EC2B978683002266B9 /* InstructionStepUITests.swift */,
-				8CECC6062B9A28FE002266B9 /* SwiftUIAdaptorUITests.swift */,
-				8C7C541F2B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift */,
-				8C7C54212B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift */,
-				8CC4876A2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift */,
-				8C89CD572BCD08F000C61F8A /* ResultsUITests */,
-				8C6C5BF92C41D0D700DEEAD3 /* ActiveTasksUITests */,
-				8CD2A5ED2B7EC68C0078AB5F /* LaunchTasksUITests */,
-			);
-			path = UITests;
-			sourceTree = "<group>";
-		};
 		9622282B24F04D780056E74D /* ORKCatalogUITests */ = {
 			isa = PBXGroup;
 			children = (
-				8CD81ABC2AFD910A00ABCA39 /* InternalUITests */,
 				8CDBF98A2AFD9FC800AF767B /* Screens */,
 				9622282E24F04D780056E74D /* Info.plist */,
 				9622283E24F04EBA0056E74D /* Helpers.swift */,
@@ -623,36 +301,6 @@
 			path = ORKCatalogUITests;
 			sourceTree = "<group>";
 		};
-		9622283724F04D850056E74D /* Screens */ = {
-			isa = PBXGroup;
-			children = (
-				8CFF29152AE9C452000DC99E /* Step.swift */,
-				8CFF291D2AE9CA95000DC99E /* FormStepScreen.swift */,
-				8CFF29172AE9C674000DC99E /* InstructionStepScreen.swift */,
-				8C4908992B7ECF9400DA6E2D /* ActiveStepScreen.swift */,
-				8CECC5FE2B97B61E002266B9 /* LearnMoreStepScreen.swift */,
-				8CFF29112AE9C395000DC99E /* TabBar.swift */,
-				8CFF29132AE9C3E9000DC99E /* TasksTab.swift */,
-				8CECC6002B97CF6C002266B9 /* SettingsTab.swift */,
-				8CECC6022B97CF8C002266B9 /* ResultsTab.swift */,
-				8C7C54232B4F677300A2E513 /* HealthApp.swift */,
-				8C7C54252B4F678E00A2E513 /* HealthAccess.swift */,
-				8C7C54272B4F67E200A2E513 /* Springboard.swift */,
-				8C7C54292B4F680B00A2E513 /* RequestPermissionsStepScreen.swift */,
-				8CECC5EE2B978B3D002266B9 /* WebViewStepScreen.swift */,
-				8CECC5F02B9791AD002266B9 /* PDFViewerStepScreen.swift */,
-				8CECC5F22B97A78E002266B9 /* WaitStepScreen.swift */,
-				8CECC5F82B97AC03002266B9 /* PasscodeStepScreen.swift */,
-				8CECC5FA2B97ACFE002266B9 /* VerificationStepScreen.swift */,
-				8CECC5FC2B97AFB7002266B9 /* CustomStepScreen.swift */,
-				8CE15F452C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift */,
-				8CE15F472C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift */,
-				8CE15F492C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift */,
-				8CE15F4D2C0D731E003C1008 /* SettingsAppScreens.swift */,
-			);
-			path = Screens;
-			sourceTree = "<group>";
-		};
 		BC2A3C9E1C58E81500DA64B7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -660,7 +308,6 @@
 				0B17358D2B57379C00AAB6BC /* ResearchKitUI_Watch_.framework */,
 				0B1735942B5737CE00AAB6BC /* ResearchKitUI_Watch_.framework */,
 				0B1735912B5737A300AAB6BC /* ResearchKitCore.framework */,
-				CA8D8CFE28B01E85000CF52F /* ResearchKitInternal.framework */,
 				CA9B6DF728A2BF51000A7603 /* ResearchKitActiveTask.framework */,
 				CA6A0D8E288F04260048C1EF /* ResearchKitUI.framework */,
 				CA6A0D8B288F01D10048C1EF /* ResearchKitUI (iOS).framework */,
@@ -673,14 +320,7 @@
 		BC74787A1B990EED0072BFE8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				518E16D42C24DA2B00F44B98 /* TaskExamples */,
 				51C173272BA4B4E1006604FB /* sphere_model.usdz */,
-				51BD8FC629D3AE2E0001D54E /* Sentence1.wav */,
-				0BEE14A5286BC6A9005F26D1 /* Scrubbers */,
-				5DB068E925AE5940000F3170 /* TinnitusSounds1 */,
-				5DD2B46A249974AC00FF17F5 /* QuestionList1 */,
-				5D3800B42459F4FF00E7D2BD /* PracticeList */,
-				5D1CE45023FB1DFE004CB416 /* List1 */,
 				BAAC3FD520C4EF1C0065B9E1 /* ResearchKit.pdf */,
 				3E39B9FF1ABF683F00C2ABE5 /* Images.xcassets */,
 				3E39B9FC1ABF683700C2ABE5 /* LaunchScreen.xib */,
@@ -694,41 +334,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0B17354A2B5736E100AAB6BC /* ORKCatalogWatch */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0B17358A2B5736E400AAB6BC /* Build configuration list for PBXNativeTarget "ORKCatalogWatch" */;
-			buildPhases = (
-				0B1735492B5736E100AAB6BC /* Resources */,
-				0B1735792B5736E400AAB6BC /* Embed Watch Content */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				0B1735532B5736E100AAB6BC /* PBXTargetDependency */,
-			);
-			name = ORKCatalogWatch;
-			productName = ORKCatalogWatch;
-			productReference = 0B17354B2B5736E100AAB6BC /* ORKCatalogWatch.app */;
-			productType = "com.apple.product-type.application.watchapp2-container";
-		};
-		0B17354F2B5736E100AAB6BC /* ORKCatalogWatch Watch App */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0B1735892B5736E400AAB6BC /* Build configuration list for PBXNativeTarget "ORKCatalogWatch Watch App" */;
-			buildPhases = (
-				0B17354C2B5736E100AAB6BC /* Sources */,
-				0B17354D2B5736E100AAB6BC /* Frameworks */,
-				0B17354E2B5736E100AAB6BC /* Resources */,
-				0B17359A2B57394400AAB6BC /* Embed Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "ORKCatalogWatch Watch App";
-			productName = "ORKCatalogWatch Watch App";
-			productReference = 0B1735502B5736E100AAB6BC /* ORKCatalogWatch Watch App.app */;
-			productType = "com.apple.product-type.application";
-		};
 		51AF19762B59F1E400D3B399 /* ORKCatalogTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 51AF19822B59F1E600D3B399 /* Build configuration list for PBXNativeTarget "ORKCatalogTests" */;
@@ -794,12 +399,6 @@
 				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = researchkit.org;
 				TargetAttributes = {
-					0B17354A2B5736E100AAB6BC = {
-						CreatedOnToolsVersion = 15.0;
-					};
-					0B17354F2B5736E100AAB6BC = {
-						CreatedOnToolsVersion = 15.0;
-					};
 					51AF19762B59F1E400D3B399 = {
 						CreatedOnToolsVersion = 15.1;
 						TestTargetID = 869230BD1AAA890A00BFE11B;
@@ -879,30 +478,12 @@
 			targets = (
 				869230BD1AAA890A00BFE11B /* ORKCatalog */,
 				9622282924F04D780056E74D /* ORKCatalogUITests */,
-				0B17354A2B5736E100AAB6BC /* ORKCatalogWatch */,
-				0B17354F2B5736E100AAB6BC /* ORKCatalogWatch Watch App */,
 				51AF19762B59F1E400D3B399 /* ORKCatalogTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		0B1735492B5736E100AAB6BC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0B17354E2B5736E100AAB6BC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0B17355D2B5736E300AAB6BC /* Preview Assets.xcassets in Resources */,
-				0B17355A2B5736E300AAB6BC /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		51AF19752B59F1E400D3B399 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -914,19 +495,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0BEE14A6286BC6A9005F26D1 /* Scrubbers in Resources */,
-				5DD2B46B249974AC00FF17F5 /* QuestionList1 in Resources */,
 				51C173282BA4B4E1006604FB /* sphere_model.usdz in Resources */,
 				3E39BA001ABF683F00C2ABE5 /* Images.xcassets in Resources */,
-				51BD8FC729D3AE2E0001D54E /* Sentence1.wav in Resources */,
 				3E39B9FB1ABF682D00C2ABE5 /* Main.storyboard in Resources */,
 				BAAC3FD620C4EF1C0065B9E1 /* ResearchKit.pdf in Resources */,
-				5D3800B52459F4FF00E7D2BD /* PracticeList in Resources */,
 				B125E3D41B1BA47600FF8759 /* tap.aif in Resources */,
 				3E39B9FE1ABF683700C2ABE5 /* LaunchScreen.xib in Resources */,
-				518E16D52C24DA2B00F44B98 /* TaskExamples in Resources */,
-				5D1CE45123FB1DFE004CB416 /* List1 in Resources */,
-				5DB068EA25AE5940000F3170 /* TinnitusSounds1 in Resources */,
 				3ED967B81AC13D37007E2D83 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -941,15 +515,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		0B17354C2B5736E100AAB6BC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0B1735582B5736E100AAB6BC /* ContentView.swift in Sources */,
-				0B1735562B5736E100AAB6BC /* ORKCatalogWatchApp.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		51AF19732B59F1E400D3B399 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -962,20 +527,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B58E51C2981D293007263DA /* UserDefaultKeys.swift in Sources */,
-				0BE9D51C2943F42600DA0625 /* SettingsView.swift in Sources */,
-				518E16CA2C248F5500F44B98 /* ORKESerializer.m in Sources */,
-				0B270D6C28D147AC0072BEA1 /* StudyPromoViewController.swift in Sources */,
 				51F210FE2B49D04F0072B536 /* TaskListRowConstants.swift in Sources */,
 				BC9A273E1B82741900BDA84D /* ResultViewController.swift in Sources */,
 				0B6CB32728B577640092E993 /* Bundle+Extensions.swift in Sources */,
 				BC9A273D1B82741900BDA84D /* ResultTableViewProviders.swift in Sources */,
 				BC9A273F1B82741900BDA84D /* TextImageTableViewCell.swift in Sources */,
-				0BE9D5182943E92700DA0625 /* ResearchKitView.swift in Sources */,
 				86B89AA51AB2C0A5001626A4 /* AppDelegate.swift in Sources */,
-				0BE9D51A2943F3A800DA0625 /* SettingsViewController.swift in Sources */,
 				03F7FD9F23959DD500432EF6 /* SceneDelegate.swift in Sources */,
-				0B31EE4729887C4E00CD0D24 /* WrapperViewController.swift in Sources */,
 				BC9A273C1B82741900BDA84D /* ImageTableViewCell.swift in Sources */,
 				BC9A27351B82740D00BDA84D /* TaskListViewController.swift in Sources */,
 				BC9A27341B82740D00BDA84D /* TaskListRow.swift in Sources */,
@@ -987,63 +545,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8CFF29212AE9CB00000DC99E /* BaseUITest.swift in Sources */,
-				8CECC5F92B97AC03002266B9 /* PasscodeStepScreen.swift in Sources */,
-				8CECC5F52B97A8CF002266B9 /* MiscellaneousUITests.swift in Sources */,
-				8CECC5EF2B978B3D002266B9 /* WebViewStepScreen.swift in Sources */,
-				8C97802B2C0E72E50018609A /* ToneAudiometryInternalAirPodsUITests.swift in Sources */,
-				8C97802D2C0E73890018609A /* ToneAudiometryInternalBaseUITests.swift in Sources */,
-				8CECC6072B9A28FE002266B9 /* SwiftUIAdaptorUITests.swift in Sources */,
-				8CECC6032B97CF8C002266B9 /* ResultsTab.swift in Sources */,
-				8CFF29072AE9BE99000DC99E /* WaitUtils.swift in Sources */,
-				8CECC6012B97CF6C002266B9 /* SettingsTab.swift in Sources */,
-				8CE15F4C2C0D72A3003C1008 /* ToneAudiometryInternalAirPodsProUITests.swift in Sources */,
-				8C7C542A2B4F680B00A2E513 /* RequestPermissionsStepScreen.swift in Sources */,
-				8C7C54222B4F675500A2E513 /* AccessRequestPermissionStepUITests.swift in Sources */,
 				9622283924F04DBF0056E74D /* TaskScreen.swift in Sources */,
-				8CE15F462C0D5F15003C1008 /* EnvironmentSPLMeterStepScreen.swift in Sources */,
-				8CECC5EB2B978265002266B9 /* OnboardingUITests.swift in Sources */,
-				8CFF29142AE9C3E9000DC99E /* TasksTab.swift in Sources */,
-				8C6C5BFD2C41D1C200DEEAD3 /* ActiveTasksUITests.swift in Sources */,
-				8C49088C2B7ECED200DA6E2D /* OpenAndCancelBaseUITest.swift in Sources */,
-				8CECC6052B99315E002266B9 /* InternalUITests.swift in Sources */,
-				8CFF29252AE9CB4A000DC99E /* SurveyQuestionsUITests.swift in Sources */,
-				8CE15F4A2C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift in Sources */,
-				8C49088E2B7ECEEB00DA6E2D /* OpenAndCancelUITests.swift in Sources */,
-				8C7C54242B4F677300A2E513 /* HealthApp.swift in Sources */,
-				8CCB03732B86AA8A00096C86 /* UITestLogger.swift in Sources */,
-				8CFF290B2AE9C051000DC99E /* XCTestCase.swift in Sources */,
-				8CFF29092AE9BEF9000DC99E /* XCUIElementQuery.swift in Sources */,
-				8CE15F4E2C0D731E003C1008 /* SettingsAppScreens.swift in Sources */,
 				9622283B24F04DFE0056E74D /* CommonElements.swift in Sources */,
-				8CC4876B2C06444D00AE23E6 /* SurveyQuestionsHealthKitIntegrationUITests.swift in Sources */,
-				8C7C541D2B4F5CF900A2E513 /* Answers.swift in Sources */,
-				8CFF29182AE9C674000DC99E /* InstructionStepScreen.swift in Sources */,
-				8C6C5BFB2C41D13C00DEEAD3 /* ActiveTasksBaseUITest.swift in Sources */,
 				8C67958C2BC3B09B00DE7286 /* TaskListRowConstants.swift in Sources */,
-				8CBA19C72BE14AF3000E7205 /* LocaleDependentBaseUITest.swift in Sources */,
 				9622284124F04EEF0056E74D /* PreSubmissionTests.swift in Sources */,
-				8CFF29232AE9CB20000DC99E /* SurveysUITests.swift in Sources */,
-				8C49089A2B7ECF9400DA6E2D /* ActiveStepScreen.swift in Sources */,
-				8C7C54282B4F67E200A2E513 /* Springboard.swift in Sources */,
 				9622283F24F04EBA0056E74D /* Helpers.swift in Sources */,
-				8CFF290F2AE9C24A000DC99E /* AccessibilityIdentifiers.swift in Sources */,
-				8CE15F442C0D5D69003C1008 /* ToneAudiometryUITests.swift in Sources */,
-				8CFF29122AE9C395000DC99E /* TabBar.swift in Sources */,
-				8CFF290D2AE9C06E000DC99E /* XCUIElement.swift in Sources */,
-				8CECC5ED2B978683002266B9 /* InstructionStepUITests.swift in Sources */,
-				8C89CD592BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift in Sources */,
-				8CE15F482C0D624C003C1008 /* DBHLToneAudiometryStepScreen.swift in Sources */,
-				8CECC5F12B9791AD002266B9 /* PDFViewerStepScreen.swift in Sources */,
-				8CFF29162AE9C452000DC99E /* Step.swift in Sources */,
-				8CECC5F32B97A78E002266B9 /* WaitStepScreen.swift in Sources */,
-				8C7C54202B4F671800A2E513 /* SurveyQuestionsLocaleDependentUITests.swift in Sources */,
-				8C1F9E9E2C0F857100A6C0D5 /* DateFormatterManager.swift in Sources */,
-				8CECC5FD2B97AFB7002266B9 /* CustomStepScreen.swift in Sources */,
-				8CECC5FB2B97ACFE002266B9 /* VerificationStepScreen.swift in Sources */,
-				8CFF291E2AE9CA95000DC99E /* FormStepScreen.swift in Sources */,
-				8C7C54262B4F678E00A2E513 /* HealthAccess.swift in Sources */,
-				8CECC5FF2B97B61E002266B9 /* LearnMoreStepScreen.swift in Sources */,
 				9622283D24F04E6F0056E74D /* AllowScreens.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1051,11 +557,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0B1735532B5736E100AAB6BC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0B17354F2B5736E100AAB6BC /* ORKCatalogWatch Watch App */;
-			targetProxy = 0B1735522B5736E100AAB6BC /* PBXContainerItemProxy */;
-		};
 		51AF197C2B59F1E500D3B399 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 869230BD1AAA890A00BFE11B /* ORKCatalog */;
@@ -1138,179 +639,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		050968F2236B73A8006F734C /* Skywagon Stable */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
-			};
-			name = "Skywagon Stable";
-		};
-		050968F3236B73A8006F734C /* Skywagon Stable */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5116D0BF2677FB780010FAB1 /* ResearchKit-Shared.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CODE_SIGN_ENTITLEMENTS = "ORKCatalog/Supporting Files/ORKCatalog.entitlements";
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/ORKCatalog/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.researchkit-samplecode.$(PRODUCT_NAME:rfc1034identifier)-qa";
-				PRODUCT_NAME = ORKCatalog;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "ORKCatalog/ORKCatalog-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = "Skywagon Stable";
-		};
-		050968FA236B744C006F734C /* Skywagon Public Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = iphoneos;
-				SWIFT_VERSION = 4.0;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = "Skywagon Public Release";
-		};
-		050968FB236B744C006F734C /* Skywagon Public Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5116D0BF2677FB780010FAB1 /* ResearchKit-Shared.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CODE_SIGN_ENTITLEMENTS = "ORKCatalog/Supporting Files/ORKCatalog.entitlements";
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/ORKCatalog/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.researchkit-samplecode.$(PRODUCT_NAME:rfc1034identifier)-public";
-				PRODUCT_NAME = ORKCatalog;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OBJC_BRIDGING_HEADER = "ORKCatalog/ORKCatalog-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = "Skywagon Public Release";
-		};
 		050B7A0323ECA11400CC1719 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1387,359 +715,11 @@
 				PRODUCT_NAME = ORKCatalog;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OBJC_BRIDGING_HEADER = "ORKCatalog/ORKCatalog-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
-		};
-		0B1735742B5736E400AAB6BC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		0B1735752B5736E400AAB6BC /* Skywagon Stable */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_VERSION = 5.0;
-			};
-			name = "Skywagon Stable";
-		};
-		0B1735762B5736E400AAB6BC /* Skywagon Internal Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_VERSION = 5.0;
-			};
-			name = "Skywagon Internal Release";
-		};
-		0B1735772B5736E400AAB6BC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		0B1735782B5736E400AAB6BC /* Skywagon Public Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_VERSION = 5.0;
-			};
-			name = "Skywagon Public Release";
-		};
-		0B17357A2B5736E400AAB6BC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_ASSET_PATHS = "\"ORKCatalogWatch Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
-				ENABLE_PREVIEWS = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKWatchOnly = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
-			};
-			name = Debug;
-		};
-		0B17357B2B5736E400AAB6BC /* Skywagon Stable */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_ASSET_PATHS = "\"ORKCatalogWatch Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
-				ENABLE_PREVIEWS = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKWatchOnly = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
-			};
-			name = "Skywagon Stable";
-		};
-		0B17357C2B5736E400AAB6BC /* Skywagon Internal Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_ASSET_PATHS = "\"ORKCatalogWatch Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
-				ENABLE_PREVIEWS = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKWatchOnly = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
-			};
-			name = "Skywagon Internal Release";
-		};
-		0B17357D2B5736E400AAB6BC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_ASSET_PATHS = "\"ORKCatalogWatch Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
-				ENABLE_PREVIEWS = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKWatchOnly = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
-			};
-			name = Release;
-		};
-		0B17357E2B5736E400AAB6BC /* Skywagon Public Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_ASSET_PATHS = "\"ORKCatalogWatch Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
-				ENABLE_PREVIEWS = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = ORKCatalogWatch;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKWatchOnly = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = Apple.ORKCatalogWatch.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
-			};
-			name = "Skywagon Public Release";
 		};
 		51AF197D2B59F1E600D3B399 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1771,64 +751,6 @@
 			};
 			name = Debug;
 		};
-		51AF197E2B59F1E600D3B399 /* Skywagon Stable */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.orkcatalog.ORKCatalogTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ORKCatalog.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ORKCatalog";
-			};
-			name = "Skywagon Stable";
-		};
-		51AF197F2B59F1E600D3B399 /* Skywagon Internal Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.orkcatalog.ORKCatalogTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ORKCatalog.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ORKCatalog";
-			};
-			name = "Skywagon Internal Release";
-		};
 		51AF19802B59F1E600D3B399 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1857,35 +779,6 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ORKCatalog.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ORKCatalog";
 			};
 			name = Release;
-		};
-		51AF19812B59F1E600D3B399 /* Skywagon Public Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.orkcatalog.ORKCatalogTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ORKCatalog.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ORKCatalog";
-			};
-			name = "Skywagon Public Release";
 		};
 		869230DD1AAA890A00BFE11B /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1946,56 +839,6 @@
 			};
 			name = Debug;
 		};
-		869230DE1AAA890A00BFE11B /* Skywagon Internal Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = iphoneos;
-				SWIFT_VERSION = 4.0;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = "Skywagon Internal Release";
-		};
 		869230E01AAA890A00BFE11B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5116D0BF2677FB780010FAB1 /* ResearchKit-Shared.xcconfig */;
@@ -2021,45 +864,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.researchkit-samplecode.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ORKCatalog;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "ORKCatalog/ORKCatalog-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
-		};
-		869230E11AAA890A00BFE11B /* Skywagon Internal Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5116D0BF2677FB780010FAB1 /* ResearchKit-Shared.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CODE_SIGN_ENTITLEMENTS = "ORKCatalog/Supporting Files/ORKCatalog.entitlements";
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(ORK_GCC_PREPROCESSOR_DEFINITIONS)",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/ORKCatalog/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.researchkit-samplecode.$(PRODUCT_NAME:rfc1034identifier)-internal";
-				PRODUCT_NAME = ORKCatalog;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OBJC_BRIDGING_HEADER = "ORKCatalog/ORKCatalog-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = "Skywagon Internal Release";
 		};
 		9622283124F04D780056E74D /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2092,68 +901,6 @@
 			};
 			name = Debug;
 		};
-		9622283224F04D780056E74D /* Skywagon Stable */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = ORKCatalogUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.HRP.ORKCatalogUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = ORKCatalog;
-			};
-			name = "Skywagon Stable";
-		};
-		9622283324F04D780056E74D /* Skywagon Internal Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = ORKCatalogUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.HRP.ORKCatalogUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = ORKCatalog;
-			};
-			name = "Skywagon Internal Release";
-		};
 		9622283424F04D780056E74D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2185,111 +932,44 @@
 			};
 			name = Release;
 		};
-		9622283524F04D780056E74D /* Skywagon Public Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = ORKCatalogUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.HRP.ORKCatalogUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = ORKCatalog;
-			};
-			name = "Skywagon Public Release";
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0B1735892B5736E400AAB6BC /* Build configuration list for PBXNativeTarget "ORKCatalogWatch Watch App" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0B17357A2B5736E400AAB6BC /* Debug */,
-				0B17357B2B5736E400AAB6BC /* Skywagon Stable */,
-				0B17357C2B5736E400AAB6BC /* Skywagon Internal Release */,
-				0B17357D2B5736E400AAB6BC /* Release */,
-				0B17357E2B5736E400AAB6BC /* Skywagon Public Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Skywagon Internal Release";
-		};
-		0B17358A2B5736E400AAB6BC /* Build configuration list for PBXNativeTarget "ORKCatalogWatch" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0B1735742B5736E400AAB6BC /* Debug */,
-				0B1735752B5736E400AAB6BC /* Skywagon Stable */,
-				0B1735762B5736E400AAB6BC /* Skywagon Internal Release */,
-				0B1735772B5736E400AAB6BC /* Release */,
-				0B1735782B5736E400AAB6BC /* Skywagon Public Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Skywagon Internal Release";
-		};
 		51AF19822B59F1E600D3B399 /* Build configuration list for PBXNativeTarget "ORKCatalogTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				51AF197D2B59F1E600D3B399 /* Debug */,
-				51AF197E2B59F1E600D3B399 /* Skywagon Stable */,
-				51AF197F2B59F1E600D3B399 /* Skywagon Internal Release */,
 				51AF19802B59F1E600D3B399 /* Release */,
-				51AF19812B59F1E600D3B399 /* Skywagon Public Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Skywagon Internal Release";
+			defaultConfigurationName = Debug;
 		};
 		869230B91AAA890A00BFE11B /* Build configuration list for PBXProject "ORKCatalog" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				869230DD1AAA890A00BFE11B /* Debug */,
-				050968F2236B73A8006F734C /* Skywagon Stable */,
-				869230DE1AAA890A00BFE11B /* Skywagon Internal Release */,
 				050B7A0323ECA11400CC1719 /* Release */,
-				050968FA236B744C006F734C /* Skywagon Public Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Skywagon Internal Release";
+			defaultConfigurationName = Debug;
 		};
 		869230DF1AAA890A00BFE11B /* Build configuration list for PBXNativeTarget "ORKCatalog" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				869230E01AAA890A00BFE11B /* Debug */,
-				050968F3236B73A8006F734C /* Skywagon Stable */,
-				869230E11AAA890A00BFE11B /* Skywagon Internal Release */,
 				050B7A0423ECA11400CC1719 /* Release */,
-				050968FB236B744C006F734C /* Skywagon Public Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Skywagon Internal Release";
+			defaultConfigurationName = Debug;
 		};
 		9622283624F04D780056E74D /* Build configuration list for PBXNativeTarget "ORKCatalogUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9622283124F04D780056E74D /* Debug */,
-				9622283224F04D780056E74D /* Skywagon Stable */,
-				9622283324F04D780056E74D /* Skywagon Internal Release */,
 				9622283424F04D780056E74D /* Release */,
-				9622283524F04D780056E74D /* Skywagon Public Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Skywagon Internal Release";
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

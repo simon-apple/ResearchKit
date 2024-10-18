@@ -302,33 +302,6 @@ enum Identifier {
     case familyHistoryStep
     case familyHistoryTask
     
-    #if RK_APPLE_INTERNAL
-    case catalogAppVersionHistory
-    case platterQuestionTask
-    case platterQuestionStep
-    case predefinedSpeechInNoiseTask
-    case predefinedAVJournalingTask
-    case predefinedSelectableHeadphoneTask
-    case predefinedTinnitusTask
-    case methodOfAdjustmentdBHLToneAudiometryTask
-    case newdBHLToneAudiometryTask
-    case customStepTask
-    case settingStatusStep
-    case settingStatusStepTask
-    case studyPromoTask
-    case studySignPostStep
-    case tableStep
-    case tableTask
-    case familyHistoryReviewController
-    case readOnlyFormStepTask
-    
-    // PII Scrubbing tasks.
-    case textQuestionEmailPIIScrubbingStep
-    case textQuestionSSNPIIScrubbingStep
-    case textQuestionPIIScrubbingTask
-    case textQuestionPIIScrubbingEmailFormItem
-    case textQuestionPIIScrubbingSSNFormItem
-    #endif
 }
 
 
@@ -395,14 +368,5 @@ enum TaskListRowStrings {
         return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam adhuc, meo fortasse vitio, quid ego quaeram non perspicis. Plane idem, inquit, et maxima quidem, qua fieri nulla maior potest. Quonam, inquit, modo? An potest, inquit ille, quicquam esse suavius quam nihil dolere? Cave putes quicquam esse verius. Quonam, inquit, modo?"
     }
     
-#if RK_APPLE_INTERNAL
-    static var examplePIIScrubbedEmailQuestionText: String {
-        return NSLocalizedString("Your question goes here. Your email will be scrubbed", comment: "")
-    }
-
-    static var examplePIIScrubbedSSNQuestionText: String {
-        return NSLocalizedString("Your question goes here. Your SSN will be scrubbed", comment: "")
-    }
-#endif
 
 }

@@ -111,9 +111,6 @@
         return;
     }
     
-#if RK_APPLE_INTERNAL
-    request.requiresOnDeviceRecognition = YES;
-#endif
     
     request.shouldReportPartialResults = reportPartialResults;
     request.taskHint = SFSpeechRecognitionTaskHintDictation;
@@ -133,11 +130,6 @@
     });
 }
 
-#if RK_APPLE_INTERNAL
-- (BOOL)isOfflineRecognitionAvailable {
-    return recognizer.supportsOnDeviceRecognition;
-}
-#endif
 
 // MARK: SFSpeechRecognizerDelegate
 

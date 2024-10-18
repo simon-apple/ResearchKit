@@ -36,7 +36,6 @@
     [self setSwatchColor:colorChoice.color];
     self.shouldIgnoreDarkMode = YES;
     
-    // [LC:TODO] rdar://113246902 (Make ORKColorChoice a subclass of ORKTextChoice)
     self.isExclusive = colorChoice.exclusive;;
     self.isLastItem = isLastItem;
     self.immediateNavigation = NO;

@@ -90,10 +90,6 @@ struct TaskScreen {
             "Trail Making Test"
             ]
         
-#if RK_APPLE_INTERNAL
-        tasks.append("Predefined Speech In Noise")
-        tasks.append("Predefined AVJournaling")
-#endif
         return tasks
     }
     

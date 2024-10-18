@@ -203,7 +203,6 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
             _headerView.titleIconImage = self.step.iconImage;
             _headerView.stepTitle = self.step.title;
             _headerView.stepText = self.step.text;
-            // TODO:- we are currently not setting detailText to _headerView because we are restricting detailText to be displayed only inside ORKSurveyCardHeaderView, might wanna rethink this later. Please use the text property on ORKQuestionStep for adding extra information.
             _headerView.stepHeaderTextAlignment = self.step.headerTextAlignment;
             _headerView.bodyItems = self.step.bodyItems;
             _tableContainer.stepTopContentImageContentMode = self.step.imageContentMode;
@@ -697,7 +696,6 @@ static const NSTimeInterval DelayBeforeAutoScroll = 0.25;
 // Not to use `ImmediateNavigation` when current step already has an answer.
 // So user is able to review the answer when it is present.
 - (BOOL)isStepImmediateNavigation {
-    // FIXME: - add explicit property in QuestionStep to dictate this behavior
 //    return [self.questionStep isFormatImmediateNavigation] && [self hasAnswer] == NO && !self.isBeingReviewed;
     return NO;
 }

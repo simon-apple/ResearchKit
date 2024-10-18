@@ -533,7 +533,6 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIContentSizeCategoryDidChangeNotification object:nil];
 }
 
-// [RDLS:NOTE] Removed sections and tableCellItem
 /// returns YES if the answeredSections changed
 - (BOOL)updateAnsweredSections {
     NSSet *oldValue = [_identifiersOfAnsweredSections copy];
@@ -546,7 +545,6 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
             id answer = _savedAnswers[itemIdentifier.formItemIdentifier];
             if (ORKIsAnswerEmpty(answer) == NO) {
                 
-                // [RDLS:NOTE] avoiding putting the answer info into a section viewModel object
                 [newValue addObject:eachSectionIdentifier];
             }
         }
@@ -565,7 +563,6 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
     __auto_type snapshot = [_diffableDataSource snapshot];
     NSMutableArray<ORKTableCellItemIdentifier *> *itemIdentifiersToReload = [NSMutableArray array];
 
-    // [RDLS:????] not sure how this ever worked since visibleCells may not represent all rows in the tableView
     for (ORKFormItemCell *cell in [_tableView visibleCells]) {
         NSIndexPath *indexPath = [_tableView indexPathForCell:cell];
         
@@ -725,7 +722,6 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
         _tableView.delegate = self;
         [self _registerCellClassesInTableView:_tableView];
 
-        // [RDLS:NOTE] swapping out existing impl for diffableDataSource
         ORKWeakTypeOf(self) weakSelf = self;
         _diffableDataSource = [[UITableViewDiffableDataSource alloc] initWithTableView:_tableView cellProvider:^UITableViewCell * _Nullable(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, id  _Nonnull itemIdentifier) {
             return [weakSelf _tableView:tableView cellForIndexPath:indexPath itemIdentifier:itemIdentifier];
@@ -862,7 +858,6 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
     
     _maxLabelWidth = -1;
     
-    // TODO: rdar://110144795 ([ConditionalFormItems] ORKFormStepViewController buildDataSource method is way too big)
     
     // make a brand new snapshot that holds the section and item identifiers that result from analyzing the formItems
     NSDiffableDataSourceSnapshot<NSString *, ORKTableCellItemIdentifier *> *newSnapshot = [[NSDiffableDataSourceSnapshot alloc] init];
@@ -888,7 +883,6 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
             }
             
             // Step 2/2: Are we adding a single identifier for this formItem or exploding the formItem into an identifier per choice?
-            // [RDLS:NOTE] unfortunately, besides checking isKindOfClass, we can't tell when we need to convert choices into tableView items. Some answerFormats have choices but don't want to be converted to one row per choice
             if (ORKDynamicCast(answerFormat, ORKTextChoiceAnswerFormat) != nil || ORKDynamicCast(answerFormat, ORKColorChoiceAnswerFormat) != nil) {
                 // Make one row per choice, we probably made a section already since formItems with choice answerFormats are requiresSingleSection==YES
                 NSArray *choices = answerFormat.choices;
@@ -1175,7 +1169,6 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
 
     NSArray<ORKFormItem *> *allFormItems = [self allFormItems];
     
-    // TODO: rdar://110150128 ([ConditionalFormItems] Likely performance hotspot _formItemForFormItemIdentifier)
     NSInteger formItemIndex = [allFormItems indexOfObjectPassingTest:^BOOL(ORKFormItem * testItem, NSUInteger testIndex, BOOL *stop) {
         BOOL foundIndex = [testItem.identifier isEqualToString:formItemIdentifier];
         return foundIndex;
@@ -1248,7 +1241,6 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
 // Not to use `ImmediateNavigation` when current step already has an answer.
 // So user is able to review the answer when it is present.
 - (BOOL)isStepImmediateNavigation {
-    // FIXME: - add explicit property in FormStep to dictate this behavior
 //    return [[self formStep] isFormatImmediateNavigation] && [self hasAnswer] == NO && !self.isBeingReviewed;
     return NO;
 }
@@ -1674,7 +1666,6 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
         ORKAnswerFormat *answerFormat = formItem.impliedAnswerFormat;
         NSInteger choiceIndex = itemIdentifier.choiceIndex;
         if (choiceIndex != NSNotFound) {
-            // TODO: rdar://110145136 ([ConditionalFormItems] choiceViewCell handling only supports textChoices (ORKFormStepViewController))
             BOOL isLastItem = (choiceIndex + 1) == answerFormat.choices.count;
             if ([answerFormat isKindOfClass:[ORKTextChoiceAnswerFormat class]]) {
                 ORKTextChoice *textChoice = [answerFormat.choices objectAtIndex:choiceIndex];
@@ -1696,7 +1687,6 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
             }
 
         } else {
-            // [RDLS:????] Can this be NSNotFound if we're here?
             ORK_Log_Debug("[FORMSTEP] choiceIndex was NSNotFound");
         }
 
@@ -1716,7 +1706,6 @@ NSString * const ORKFormStepViewAccessibilityIdentifier = @"ORKFormStepView";
         choiceViewCell.useCardView = [self formStep].useCardView;
         choiceViewCell.cardViewStyle = [self formStep].cardViewStyle;
         
-        // TODO: rdar://110150724 ([ConditionalFormItems] choiceViewCells draw strangely because we're not setting isLastItem or isFirstItemInSectionWithoutTitle)
 //        choiceViewCell.isLastItem = isLastItem;
 //        choiceViewCell.isFirstItemInSectionWithoutTitle = isFirstItemWithSectionWithoutTitle;
         [choiceViewCell layoutSubviews];
@@ -2206,7 +2195,6 @@ static NSString *const _ORKAnsweredSectionIdentifiersRestoreKey = @"answeredSect
     NSAssert(handled == YES, @"Answer change went unhandled");
     
     if (handled && [self isContentSizeLargerThanFrame]) {
-        // rdar://116741746 - triggering a conditional formItem when we have content outside of the bounds of the tableview, results in the footer to have the wrong size. We need to resize it to the min value here.
         [_tableContainer resizeFooterToFitUsingMinHeight:YES];
     }
     // Delay updating answered sections so our autoscroll logic can check for the case where a section is answered for the first time

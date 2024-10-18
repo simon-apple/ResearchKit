@@ -34,36 +34,5 @@ import XCTest
 
 class ORKSecureCodingTests: XCTestCase {
     
-    // start-omit-internal-code
-
-    // This test ensures that `NSSecureDecoding` of `ORKWebViewStepResult`, which tries to decode
-    // an `userDictionary`, is correctly implemented and doesn't regress.
-    // On iOS 14, a missing plist type when secure decoding was treated as a warning, but it changed
-    // to an exception (crashing the app) under some circumstances on iOS 15.
-    // We're using the '_enforceExplicitPlistTypes' SPI to ensure the test doesn't succeed when missing plist types,
-    // because when we run this test from internal Xcodes with iOS 15 SDKs, missing plist types are treated as a warning
-    // instead of an exception again.
-    func testSecureDecodingOfResultUserInfoIsCorrect() throws {
-        let taskResult = ORKTaskResult(taskIdentifier: UUID().uuidString, taskRun: UUID(), outputDirectory: nil)
-        let webStepResult = ORKWebViewStepResult(identifier: UUID().uuidString)
-        webStepResult.userInfo = ["html": "test"]
-        webStepResult.result = "test"
-        let stepResult = ORKStepResult(stepIdentifier: UUID().uuidString, results: [webStepResult])
-        taskResult.results = [stepResult]
-        
-        let data = try NSKeyedArchiver.archivedData(withRootObject: taskResult, requiringSecureCoding: true)
-        XCTAssertNotNil(data)
-        
-        let unarchiver = try NSKeyedUnarchiver(forReadingFrom: data)
-        // SPI only available in iOS 15.0+
-        let selector = NSSelectorFromString("_enforceExplicitPlistTypes")
-        if (unarchiver.responds(to: selector)) {
-            _ = unarchiver.perform(selector)
-        }
-        let taskResultB = unarchiver.decodeObject(of: ORKTaskResult.self, forKey: "root")
-        XCTAssertEqual(taskResult, taskResultB)
-    }
-    
-    // end-omit-internal-code
 
 }

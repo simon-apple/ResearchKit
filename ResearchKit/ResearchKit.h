@@ -28,9 +28,6 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if RK_APPLE_INTERNAL
-#import <ResearchKit/ORKFeatureFlags.h>
-#endif
 
 #import <ResearchKit/ORKAnswerFormat.h>
 #import <ResearchKit/ORKCollectionResult.h>

@@ -67,7 +67,6 @@ struct TextChoiceOption: View {
         }
     }
 
-    // TODO(rdar://129073682): Update checkmark to more accurately match designs for both iOS and visionOS.
     private var deselectedCheckmarkColor: Color {
         #if os(iOS)
             Color(.systemGray3)

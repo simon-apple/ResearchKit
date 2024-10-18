@@ -33,11 +33,6 @@ import UIKit
 import ResearchKit_Private
 import ResearchKitUI
 
-#if RK_APPLE_INTERNAL
-import ResearchKitInternal
-import ResearchKitInternal_Private
-import SwiftUI
-#endif
 
 
 /**
@@ -54,9 +49,6 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
     var waitStepViewController: ORKWaitStepViewController?
     var waitStepUpdateTimer: Timer?
     var waitStepProgress: CGFloat = 0.0
-    #if RK_APPLE_INTERNAL
-    var showInternalViewControllers = false
-    #endif
 
 
     // In-memory store for taskViewController restoration data
@@ -82,9 +74,6 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         super.viewDidLoad()
         
         self.tableView.backgroundColor = UIColor.systemGroupedBackground
-        // start-omit-internal-code
-        writeHeartRateUITestData()
-        // end-omit-internal-code
     }
     
     // MARK: UITableViewDataSource
@@ -119,48 +108,6 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
         
         // Present the task view controller that the user asked for.
         let taskListRow = TaskListRow.sections[(indexPath as NSIndexPath).section].rows[(indexPath as NSIndexPath).row]
-        #if RK_APPLE_INTERNAL
-        if taskListRow == .studyPromoTask {
-            let studyPromoViewController = StudyPromoViewController()
-            studyPromoViewController.delegate = self
-            self.present(studyPromoViewController, animated: true)
-            return
-        } else if taskListRow == .studySignPostStep {
-            let label1 = UILabel()
-            label1.text = "Sample Label 1"
-            
-            let label2 = UILabel()
-            label2.text = "Sample Label 2"
-            
-            let hstack = UIStackView(arrangedSubviews: [label1, label2])
-            hstack.axis = .vertical
-            let customStep = ORKCustomStep(identifier: "testt", contentView: hstack)
-            customStep.title = "My Title is here"
-            customStep.text = "My Text is here"
-            customStep.detailText = "Detail Text Here"
-            customStep.iconImage = UIImage(systemName: "clock")
-            
-            let vc = ORKCustomStepViewController(step: customStep)
-            vc.delegate = self
-            present(vc, animated: true)
-            return
-        } else if taskListRow == .familyHistoryReviewTask {
-            let reviewViewController = ORKFamilyHistoryReviewController(task: taskListRow.representedTask as! ORKNavigableOrderedTask, delegate: self, isCompleted: false, incompleteText: "Complete Family History Task")
-            reviewViewController.modalPresentationStyle = .fullScreen
-            present(reviewViewController, animated: true)
-            return
-        }
-        
-        // display internal tasks with ORKITaskViewController
-        if indexPath.section == 5 {
-            showInternalViewControllers = true
-            displayInternalTaskViewController(taskListRow: taskListRow)
-            return
-        } else {
-            showInternalViewControllers = false 
-        }
-        
-        #endif
         
         displayTaskViewController(taskListRow: taskListRow)
     }
@@ -197,119 +144,9 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
          The task property of the task view controller can be set any time before
          the task view controller is presented.
          */
-#if RK_APPLE_INTERNAL
-        if #available(iOS 15.0, *),
-           UserDefaults.standard.bool(forKey: UserDefaultsKeys.isSwiftUIEnabled) {
-            var researchKitView = ResearchTaskView(
-                task: task,
-                allowsNavigatingBackwards: true
-            )
-            let logger = Logger(subsystem: "ORKCatalog", category: "SwiftUI: TaskView")
-            researchKitView.onResultChange = { result in
-                logger.log("result has been updated to \(result)")
-            }
-            researchKitView.onStartStep = { startStep in
-                logger.log("start step has loaded \(startStep)")
-            }
-            researchKitView.onFinishStep = { finishStep in
-                logger.log("finish step has loaded \(finishStep)")
-            }
-            researchKitView.onLearnMoreTap = { learnMoreStep in
-                logger.log("learn more button has been tapped \(learnMoreStep)")
-            }
-            researchKitView.onFinishTask = { [weak self] reason, result, error in
-                self?.taskResultFinishedCompletionHandler?(result)
-            }
-            
-            let swiftUITaskViewController = UIHostingController(rootView: researchKitView)
-            present(swiftUITaskViewController, animated: true, completion: nil)
-        } else {
-            // Fallback on earlier versions
-            present(taskViewController, animated: true)
-        }
-#else
         present(taskViewController, animated: true)
-#endif
     }
     
-#if RK_APPLE_INTERNAL
-    func displayInternalTaskViewController(taskListRow: TaskListRow) {
-        // Create a task from the `TaskListRow` to present in the `ORKTaskViewController`.
-        let task = taskListRow.representedTask
-        
-        /*
-         Passing `nil` for the `taskRunUUID` lets the task view controller
-         generate an identifier for this run of the task.
-         */
-        var taskViewController = ORKITaskViewController(task: task, taskRun: nil)
-        
-        // Make sure we receive events from `taskViewController`.
-        taskViewController.delegate = self
-        taskViewController.internalDelegate = self
-        
-        // Assign a directory to store `taskViewController` output.
-        taskViewController.outputDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        
-        if let restorationData = restorationDataByTaskID[task.identifier] {
-            // we have data we can use to recreate the state of a previous taskViewController
-            taskViewController = ORKITaskViewController(task: task, restorationData: restorationData, delegate: self, error: nil)
-        } else {
-            // making a brand new taskViewController
-            taskViewController = ORKITaskViewController(task: task, ongoingResult: nil, defaultResultSource: nil, delegate: self)
-            // Assign a directory to store `taskViewController` output.
-            taskViewController.outputDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        }
-        /*
-         We present the task directly, but it is also possible to use segues.
-         The task property of the task view controller can be set any time before
-         the task view controller is presented.
-         */
-        if #available(iOS 15.0, *),
-           UserDefaults.standard.bool(forKey: UserDefaultsKeys.isSwiftUIEnabled) {
-            var researchKitView = ResearchTaskView(
-                task: task,
-                allowsNavigatingBackwards: true
-            )
-            let logger = Logger(subsystem: "ORKCatalog", category: "SwiftUI: TaskView")
-            researchKitView.onResultChange = { result in
-                logger.log("result has been updated to \(result)")
-            }
-            researchKitView.onStartStep = { startStep in
-                logger.log("start step has loaded \(startStep)")
-            }
-            researchKitView.onFinishStep = { finishStep in
-                logger.log("finish step has loaded \(finishStep)")
-            }
-            researchKitView.onLearnMoreTap = { learnMoreStep in
-                logger.log("learn more button has been tapped \(learnMoreStep)")
-            }
-            researchKitView.onFinishTask = { [weak self] reason, result, error in
-                self?.taskResultFinishedCompletionHandler?(result)
-            }
-            
-            let swiftUITaskViewController = UIHostingController(rootView: researchKitView)
-            present(swiftUITaskViewController, animated: true, completion: nil)
-        } else {
-            // Fallback on earlier versions
-            present(taskViewController, animated: true)
-        }
-    }
-    
-    func presentReadOnlyVCIfNeeded(task: ORKTask?, result: ORKTaskResult) {
-        if let task = task as? ORKOrderedTask {
-
-            if task.identifier == String(describing: Identifier.readOnlyFormStepTask) {
-                let readonlyVC = ORKReadOnlyReviewViewController(task: task, result: result, readOnlyStepType: .surveyStep, title: "Data", detailText: "If you'd like to make changes before sharing this data, visit Your Data", navTitle: "Demographics")
-                self.navigationController?.pushViewController(readonlyVC, animated: true)
-            } else if task.identifier == String(describing: Identifier.familyHistoryStep) {
-                let readonlyVC = ORKReadOnlyReviewViewController(task: task, result: result, readOnlyStepType: .familyHistoryStep, title: "Data", detailText: "If you'd like to make changes before sharing this data, visit Your Data", navTitle: "Family Health History")
-                self.navigationController?.pushViewController(readonlyVC, animated: true)
-            }
-            
-        }
-        
-    }
-#endif
     
     func storePDFIfConsentTaskDetectedIn(taskViewController: ORKTaskViewController) {
         guard taskViewController.task?.identifier == String(describing: Identifier.consentTask) else {
@@ -369,13 +206,7 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
             break;
         }
         
-#if RK_APPLE_INTERNAL
-        taskViewController.dismiss(animated: true) {
-            self.presentReadOnlyVCIfNeeded(task: taskViewController.task, result: taskViewController.result)
-        }
-#else
         taskViewController.dismiss(animated: true, completion: nil)
-#endif
     }
     
     func taskViewController(_ taskViewController: ORKTaskViewController, stepViewControllerWillAppear stepViewController: ORKStepViewController) {
@@ -401,20 +232,10 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
     }
     
     func taskViewController(_ taskViewController: ORKTaskViewController, learnMoreButtonPressedWith learnMoreStep: ORKLearnMoreInstructionStep, for stepViewController: ORKStepViewController) {
-        //        FIXME: Temporary fix. This method should not be called if it is only used to present the learnMoreStepViewController, the stepViewController should present the learnMoreStepViewController.
         stepViewController.present(UINavigationController(rootViewController: ORKLearnMoreStepViewController(step: learnMoreStep)), animated: true) {
             
         }
     }
-#if RK_APPLE_INTERNAL
-    func taskViewController(_ taskViewController: ORKTaskViewController, viewControllerFor step: ORKStep) -> ORKStepViewController? {
-        if showInternalViewControllers {
-            return ORKInternalClassMapper.mappedStepViewController(for: step, from: taskViewController)
-        }
-        
-        return nil 
-    }
-#endif
 
     func taskViewControllerSupportsSaveAndRestore(_ taskViewController: ORKTaskViewController) -> Bool {
         return true
@@ -466,126 +287,4 @@ class TaskListViewController: UITableViewController, ORKTaskViewControllerDelega
 
 }
 
-#if RK_APPLE_INTERNAL
-extension TaskListViewController: ORKITaskViewControllerDelegate {
-    // Refers to rdar://85344999 (Remove the learnmore workaround current present in customized completion steps to reduce inter-dependent approach with the Research App)
-    func taskViewController(_ taskViewController: ORKTaskViewController, sensitiveURLLearnMoreButtonPressedWith sensitiveURLLearnMoreStep: ORKSensitiveURLLearnMoreInstructionStep, for stepViewController: ORKStepViewController) {
-        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
-    }
-    
-    func taskViewController(_ taskViewController: ORKTaskViewController, goToSettingsButtonPressedWith settingStatusStep: ORKSettingStatusStep, sensitiveURLString: String, applicationString: String) {
-        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
-    }
-}
 
-extension TaskListViewController: ORKStepViewControllerDelegate {
-    func stepViewController(_ stepViewController: ORKStepViewController, didFinishWith direction: ORKStepViewControllerNavigationDirection) {
-        stepViewController.dismiss(animated: true)
-    }
-    
-    func stepViewControllerResultDidChange(_ stepViewController: ORKStepViewController) {
-        // pass
-    }
-    
-    func stepViewControllerDidFail(_ stepViewController: ORKStepViewController, withError error: Error?) {
-        // pass
-    }
-    
-    func stepViewController(_ stepViewController: ORKStepViewController, recorder: ORKRecorder, didFailWithError error: Error) {
-        // pass
-    }
-    
-    
-}
-
-
-extension TaskListViewController: ORKFamilyHistoryReviewControllerDelegate {
-    func familyHistoryReviewController(_ familyHistoryReviewController: ORKFamilyHistoryReviewController, didUpdate updatedResult: ORKTaskResult, source resultSource: ORKTaskResult) {
-        // result was updated
-    }
-    
-    func familyHistoryReviewControllerDidSelectIncompleteCell(_ familyHistoryReviewController: ORKFamilyHistoryReviewController) {
-        // incomplete cell selected
-        dismiss(animated: true)
-    }
-}
-
-#endif
-
-// start-omit-internal-code
-// This class is used in UI tests to write HealthKit data
-class HealthKitManager {
-    static let shared = HealthKitManager()
-    private let healthStore = HKHealthStore()
-    var savedHeartRateSample: HKQuantitySample?
-    private var heartRateType: HKQuantityType? {
-        return HKQuantityType.quantityType(forIdentifier: .heartRate)
-    }
-    
-    enum HealthKitManagerError: Error {
-        case healthKitNotAvailable
-        case heartRateTypeNotAvailable
-        case authorizationFailed
-        case dataWriteFailed
-    }
-    
-    private init() {
-    }
-    
-    func requestAuthorizationAndWriteHeartRateDate(bpm: Double, date: Date = Date(), completion: @escaping (Bool, Error?) -> Void) {
-        
-        if !HKHealthStore.isHealthDataAvailable() {
-            completion(false, HealthKitManagerError.healthKitNotAvailable)
-            return
-        }
-        
-        guard let heartRateType = self.heartRateType else {
-            completion(false, HealthKitManagerError.heartRateTypeNotAvailable)
-            return
-        }
-        
-        let typesToShare: Set<HKSampleType> = [heartRateType]
-        let typesToRead: Set<HKSampleType> = [heartRateType]
-        let heartRateQuantity = HKQuantity(unit: HKUnit(from: "count/min"), doubleValue: bpm)
-        let heartRateSample = HKQuantitySample(type: heartRateType, quantity: heartRateQuantity, start: date, end: date)
-        
-        healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { [weak self] (authorized, error) in
-            guard authorized else {
-                completion(false, HealthKitManagerError.authorizationFailed)
-                return
-            }
-            
-            self?.healthStore.save(heartRateSample) { (success, error) in
-                guard success else {
-                    completion(false, HealthKitManagerError.dataWriteFailed)
-                    return
-                }
-                completion(true, nil)
-                self?.savedHeartRateSample = heartRateSample
-            }
-        }
-    }
-    
-    func deleteHeartRateData(completion: @escaping (Bool, Error?) -> Void) {
-        if let sample = savedHeartRateSample {
-            healthStore.delete(sample) { (success, error) in
-            completion(success, error)}
-        } else {
-            completion(false, nil)
-        }
-    }
-}
-
-private func writeHeartRateUITestData() {
-    if ProcessInfo.processInfo.environment.keys.contains("WriteHealthKitUITestData") {
-        guard let heartRateTestData = Double(ProcessInfo.processInfo.environment["WriteHealthKitUITestData"] ?? "") else {
-            return
-        }
-        HealthKitManager.shared.requestAuthorizationAndWriteHeartRateDate(bpm: heartRateTestData) { (success, error) in
-            guard success else {
-                return
-            }
-        }
-    }
-}
-// end-omit-internal-code

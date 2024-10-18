@@ -88,10 +88,8 @@ struct FullScreenModifier<V: View>: ViewModifier {
 }
 
 extension View {
-    // swiftlint:disable line_length
     func compatibleFullScreen<Content: View>(isPresented: Binding<Bool>,
                                              @ViewBuilder content: @escaping () -> Content) -> some View {
-        // swiftlint:enable line_length
         self.modifier(FullScreenModifier(isPresented: isPresented, builder: content))
     }
 }

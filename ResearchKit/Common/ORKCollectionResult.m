@@ -28,9 +28,6 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if TARGET_OS_WATCH
-@import WatchKit;
-#endif
 
 #import "ORKCollectionResult.h"
 
@@ -274,11 +271,6 @@
     }
 #endif
     
-#if TARGET_OS_WATCH
-    if (WKAccessibilityIsVoiceOverRunning()) {
-        _enabledAssistiveTechnology = @"WKAccessibilityNotificationVoiceOverIdentifier";
-    }
-#endif
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {

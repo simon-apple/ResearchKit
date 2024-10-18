@@ -843,7 +843,6 @@ static NSString *scrollContentChangedNotification = @"scrollContentChanged";
     CGFloat bottomOfView = pointInScrollView.y + bodyItem.frame.size.height;
     CGFloat bottomOfScrollView = _scrollView.frame.size.height - [self navigationFooterView].frame.size.height;
 
-    // TODO:- update ORKBodyItemScrollPadding depending on device size
     if (bottomOfView > bottomOfScrollView) {
         [_scrollView setContentOffset:CGPointMake(0, (bottomOfView - bottomOfScrollView) + ORKBodyItemScrollPadding) animated:YES];
     }

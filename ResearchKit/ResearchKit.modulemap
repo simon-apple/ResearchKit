@@ -2,11 +2,6 @@ framework module ResearchKit {
     umbrella header "ResearchKit.h"
     
     export *
-    // start-omit-internal-code
-    module iOS {
-        exclude header "ORKFeatureFlags.h"
-    }
-    // end-omit-internal-code
     module * {
         export *
     }

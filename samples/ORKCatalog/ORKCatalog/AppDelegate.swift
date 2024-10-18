@@ -35,18 +35,6 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-        // start-omit-internal-code
-        // Disable hardware keyboard and toggle software keyboard
-        if ProcessInfo.processInfo.arguments.contains("UITest") {
-        #if targetEnvironment(simulator)
-            let setHardwareLayout = NSSelectorFromString("setHardwareLayout:")
-            UITextInputMode.activeInputModes
-            // Filter `UIKeyboardInputMode`s.
-                .filter({ $0.responds(to: setHardwareLayout) })
-                .forEach { $0.perform(setHardwareLayout, with: nil) }
-        #endif
-        }
-        // end-omit-internal-code
         return true
     }
 }

@@ -103,7 +103,6 @@ struct TextChoiceView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 115)
-                        // TODO: research stable path to fetch width of view in realtime
                         .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.clear,
                                                                           lineWidth: 1))
                         .overlay(ExpandImageOverlay().padding([.leading, .top],

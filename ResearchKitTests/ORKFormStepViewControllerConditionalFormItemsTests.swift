@@ -69,64 +69,6 @@ final class ORKFormStepViewControllerConditionalFormItemsTests: XCTestCase {
     }
     
 
-#if RK_APPLE_INTERNAL
-    //rdar://110665165 ([ConditionalFormItems] testDiffableDataSource invalidated due to synchronous call)
-    /*
-    func testDiffableDataSource() throws {
-        let formStepViewController = ORKFormStepViewController(step: FormStepTestUtilities.conditionalFormStep())
-        formStepViewController.loadView()
-        formStepViewController.viewDidLoad()
-        if #available(iOS 13.0, *) {
-            let tableView: UITableView! = formStepViewController.tableView
-            let dataSource = tableView.dataSource as! UITableViewDiffableDataSourceReference
-            formStepViewController.build(dataSource)
-            dataSource.applySnapshot(dataSource.snapshot(), animatingDifferences: false)
-
-            // [RDLS:TODO] I'm not sure whether this is actually what we want. Two sections, one that's empty.
-            XCTAssertEqual(dataSource.numberOfSections(in: tableView), 2)
-            XCTAssertEqual(dataSource.tableView(tableView, numberOfRowsInSection: 0), 0)
-            XCTAssertEqual(dataSource.tableView(tableView, numberOfRowsInSection: 1), 3)
-
-        } else {
-            // Fallback on earlier versions
-        };
-
-    }
-     */
-    
-    //rdar://110665165 ([ConditionalFormItems] testDiffableDataSource invalidated due to synchronous call)
-    //once radar is fixed above, lets enable this radar too
-    //rdar://111628089 (Add a unit test if possible for  textChoiceOtherCellDidResignFirstResponder saving text response)
-   /*
-    func testBasicFormItemWithORKTextChoiceResignFirstResponder() {
-        let formStepViewController = ORKFormStepViewController(step: FormStepTestUtilities.simpleFormStepWithTextChoices())
-        formStepViewController.loadView()
-        formStepViewController.viewDidLoad()
-        
-        if #available(iOS 13.0, *) {
-            let tableView: UITableView! = formStepViewController.tableView
-            let dataSource = tableView.dataSource as! UITableViewDiffableDataSourceReference
-            formStepViewController.build(dataSource)
-            dataSource.applySnapshot(dataSource.snapshot(), animatingDifferences: false)
-        }
-        
-        formStepViewController.tableView.selectRow(at: IndexPath(row: 2, section: 1), animated: true, scrollPosition: .middle)
-        let cell:ORKChoiceOtherViewCell = formStepViewController.tableView.cellForRow(at: IndexPath(row: 2, section: 1)) as! ORKChoiceOtherViewCell
-        (cell.textView as! ORKAnswerTextView).text = "a"
-        cell.resignFirstResponder()
-        
-        // because we forcibly skipped to the viewController without answering, all the answers should be nil
-        do {
-            let result = formStepViewController.result
-            XCTAssertEqual(result?.results?.count, 2)
-
-            let formStepResult = result?.results?[1] as? ORKStepResult
-            let formItemResult = formStepResult?.results?[0] as? ORKChoiceQuestionResult
-            XCTAssertEqual(formItemResult?.answer as! String, "a")
-        }
-    }
-    */
-#endif
     
     func testConditionalFormItemsAccessors() throws {
         let formStepViewController = ORKFormStepViewController(step: FormStepTestUtilities.conditionalFormStep())

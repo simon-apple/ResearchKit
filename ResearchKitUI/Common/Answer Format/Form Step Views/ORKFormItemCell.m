@@ -145,27 +145,19 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
                 maxLabelWidth:(CGFloat)maxLabelWidth
                      delegate:(id<ORKFormItemCellDelegate>)delegate {
 
-    // [RDLS:NOTE] Done
     // We used to set the 'delegate' on init, as some questions (such as the scale questions)
     // need it when they wish to report their default answers to 'ORKFormStepViewController'. By setting it
     // here in config, before setAnswer: we seem to be getting the same effect.
-    // [RDLS:NOTE] moved from init
     _delegate = delegate;
-    // [RDLS:NOTE] moved from init
     _maxLabelWidth = maxLabelWidth;
-    // [RDLS:NOTE] moved from init
     _answer = [answer copy];
-    // [RDLS:NOTE] moved from init. These 3 subclasses used to reset this to nil in cellInit
     _labelLabel.text = formItem.text;
     // ORKFormItemTextCell
     // ORKFormItemImageSelectionCell
     // ORKFormItemScaleCell
     
-    // [RDLS:NOTE] moved from init
     self.formItem = formItem;
-    // [RDLS:NOTE] moved from init
     [self setupConstraints];
-    // [RDLS:NOTE] moved from init
     [self setAnswer:_answer];
     
     [self enableAccessibilitySupport];
@@ -462,10 +454,8 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
     if (self != nil) {
         UILabel *label = self.labelLabel;
         label.isAccessibilityElement = NO;
-        // [RDLS:NOTE] textViewView is configured in cellInit which runs in [super initWithStyle:reuseIdentifer]
         self.textFieldView.isAccessibilityElement = YES;
 
-        // [RDLS:NOTE] not my favorite, since we are, or own, the view that posts these, but for compatibility's sake
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(orkDoneButtonPressed:)
                                                      name:ORKDoneButtonPressedKey
@@ -482,31 +472,21 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
                        answer:(id)answer
                 maxLabelWidth:(CGFloat)maxLabelWidth
                      delegate:(id<ORKFormItemCellDelegate>)delegate {
-    // [RDLS:NOTE] moved from cellInit
     self.textFieldView.textField.placeholder = formItem.placeholder;
-    // [RDLS:NOTE] moved from init. labelLabel.text set in [super config]
     self.textFieldView.accessibilityLabel = self.labelLabel.text;
     
-    // [RDLS:NOTE] moved from cellInit
     if ([formItem.answerFormat shouldShowDontKnowButton]) {
-        // [RDLS:NOTE] reset in prepareForReuse
         _shouldShowDontKnow = YES;
-        // [RDLS:NOTE] reset in prepareForReuse
         _customDontKnowString = formItem.answerFormat.customDontKnowButtonText;
         _dontKnowButtonStyle = formItem.answerFormat.dontKnowButtonStyle; // reset in prepareForResuse
         
-        // [LC:NOTE] we need to pass in our answer here, because self.answer is not set yet.
-        // [RDLS:NOTE] reset in prepareForReuse
         [self setupDontKnowButtonWithAnswer:answer];
-        // [RDLS:NOTE] reset in prepareForReuse
         self.accessibilityElements = @[_textFieldView, _dontKnowButton, self.errorLabel];
     } else {
         self.accessibilityElements = @[_textFieldView, self.errorLabel];
     }
     
-    // [RDLS:NOTE] moved from cellInit
     [self setUpContentConstraint];
-    // [RDLS:NOTE] moved from cellInit
     [self setNeedsUpdateConstraints];
 
     [super configureWithFormItem:formItem answer:answer maxLabelWidth:maxLabelWidth delegate:delegate];
@@ -553,26 +533,14 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
     [_textFieldView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     self.errorLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
-//    _shouldShowDontKnow = NO; // [RDLS:NOTE] moved to prepareForReuse
-//    _customDontKnowString = nil; // [RDLS:NOTE] moved to prepareForReuse
-//    if ([self.formItem.answerFormat shouldShowDontKnowButton]) { // [RDLS:NOTE] moved to config
-//        _shouldShowDontKnow = YES; // [RDLS:NOTE] moved to config
-//        _customDontKnowString = self.formItem.answerFormat.customDontKnowButtonText; // [RDLS:NOTE] moved to config
-//        [self setupDontKnowButton]; // [RDLS:NOTE] moved to config
-//        self.accessibilityElements = @[_textFieldView, _dontKnowButton]; // [RDLS:NOTE] moved to config
 //    }
     
-//    [self setUpContentConstraint]; // [RDLS:NOTE] moved to config
-//    [self setNeedsUpdateConstraints]; // [RDLS:NOTE] moved to config
 }
 
 - (void)prepareForReuse {
     [super prepareForReuse];
-    // [RDLS:NOTE] moved from init
     _doneButtonWasPressed = NO;
-    // [RDLS:NOTE] moved from cellInit
     _shouldShowDontKnow = NO;
-    // [RDLS:NOTE] moved from cellInit
     _customDontKnowString = nil;
     _dontKnowButtonStyle = ORKDontKnowButtonStyleStandard;
 
@@ -593,7 +561,6 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
     [self setNeedsUpdateConstraints];
 }
 
-// [LC:NOTE] we need to pass in the local answer here because self.answer is not set
 - (void)setupDontKnowButtonWithAnswer:(id)answer {
     if(!_dontKnowBackgroundView) {
         _dontKnowBackgroundView = [UIView new];
@@ -924,7 +891,6 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
 
 #pragma mark NSNotification Methods
 
-// TODO: rdar://110145976 ([ConditionalFormItems] I wish we didn't have cells listening for NSNotifications (ORKFormItemTextFieldBasedCell))
 - (void)orkDoneButtonPressed:(NSNotification *) notification {
     if ([[notification name] isEqualToString:ORKDoneButtonPressedKey]) {
         _doneButtonWasPressed = YES;
@@ -1014,7 +980,6 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
 
 - (void)configureWithFormItem:(ORKFormItem *)formItem answer:(id)answer maxLabelWidth:(CGFloat)maxLabelWidth delegate:(id<ORKFormItemCellDelegate>)delegate {
 
-    // [RDLS:NOTE] moved from cellInit
     self.textField.allowsSelection = YES;
     ORKTextAnswerFormat *answerFormat = (ORKTextAnswerFormat *)[formItem impliedAnswerFormat];
     _defaultTextAnswer = answerFormat.defaultTextAnswer;
@@ -1112,7 +1077,6 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
     NSNumber *_defaultNumericAnswer;
 }
 
-// [RDLS:NOTE] converted from cellInit
 - (void)configureWithFormItem:(ORKFormItem *)formItem answer:(id)answer maxLabelWidth:(CGFloat)maxLabelWidth delegate:(id<ORKFormItemCellDelegate>)delegate {
     
     ORKQuestionType questionType = [formItem questionType];
@@ -1237,7 +1201,6 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
 
     self.labelLabel.text = nil; // reset value set during [super config]
 
-    // [RDLS:NOTE] moved fro cellInit
     _textView = [[ORKFormTextView alloc] init];
     _textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     _textView.delegate = self;
@@ -1258,13 +1221,11 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
         [self setupMaxLengthView];
     }
     
-    // [RDLS:NOTE] moved from cellInit
     _shouldShowDontKnow = [textAnswerFormat shouldShowDontKnowButton];
     if (_shouldShowDontKnow) {
         [self setupDontKnowButton];
     }
         
-    // [RDLS:NOTE] moved from cellInit
     [self.containerView addSubview:_textView];
     [self setUpConstraints];
 }
@@ -1441,7 +1402,6 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
     [self.containerView addSubview:_maxLengthView];
 }
 
-// [LC:NOTE] we DO NOT need to pass in the local answer here because self.answer IS set
 - (void)setupDontKnowButton {
     if(!_dontKnowBackgroundView) {
         _dontKnowBackgroundView = [UIView new];
@@ -1677,7 +1637,6 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
     ORKImageSelectionView *_selectionView;
 }
 
-// [RDLS:NOTE] converted from cellInit
 - (void)configureWithFormItem:(ORKFormItem *)formItem answer:(id)answer maxLabelWidth:(CGFloat)maxLabelWidth delegate:(id<ORKFormItemCellDelegate>)delegate {
 
     self.labelLabel.text = nil; // reset value set in [super config]
@@ -1777,14 +1736,10 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
 
 - (void)configureWithFormItem:(ORKFormItem *)formItem answer:(id)answer maxLabelWidth:(CGFloat)maxLabelWidth delegate:(id<ORKFormItemCellDelegate>)delegate {
     
-    // [RDLS:NOTE] moved from cellInit
     self.labelLabel.text = nil;
-    // [RDLS:NOTE] moved from cellInit
     _sliderView = [[ORKScaleSliderView alloc] initWithFormatProvider:(ORKScaleAnswerFormat *)formItem.answerFormat
                                                             delegate:self];
-    // [RDLS:NOTE] moved from cellInit
     [self.containerView addSubview:_sliderView];
-    // [RDLS:NOTE] moved from cellInit
     [self setUpConstraints];
     
     [super configureWithFormItem:formItem answer:answer maxLabelWidth:maxLabelWidth delegate:delegate];
@@ -2109,7 +2064,6 @@ NSString * const ORKClearTextViewButtonAccessibilityIdentifier = @"ORKClearTextV
     NSLayoutConstraint *_bottomConstraint;
 }
 
-// [RDLS:NOTE] converted from cellInit
 - (void)configureWithFormItem:(ORKFormItem *)formItem answer:(id)answer maxLabelWidth:(CGFloat)maxLabelWidth delegate:(id<ORKFormItemCellDelegate>)delegate {
 
     _selectionView = [[ORKSESSelectionView alloc] initWithAnswerFormat:(ORKSESAnswerFormat *)formItem.answerFormat answer:answer];

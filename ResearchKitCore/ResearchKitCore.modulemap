@@ -1,5 +1,0 @@
-framework module ResearchKitCore {
-    umbrella header "ResearchKitCore.h"
-    export *
-    module * { export * }
-}

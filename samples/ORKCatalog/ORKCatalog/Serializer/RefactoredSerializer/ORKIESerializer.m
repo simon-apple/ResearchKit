@@ -39,11 +39,6 @@
 #import <ResearchKit/ResearchKit.h>
 //#import <ResearchKit/ORKDefines.h>
 
-// TODO: REMOVE THIS AFTER FINDING SOLUTION TO USE INTERNAL MAPPER
-//#if RK_APPLE_INTERNAL
-//#import <ResearchKitInternal/ResearchKitInternal.h>
-//#import <ResearchKitInternal/ResearchKitInternal_Private.h>
-//#endif
 
 #import <MapKit/MapKit.h>
 #import <Speech/Speech.h>
@@ -520,15 +515,6 @@ static NSDictionary *dictionaryForORKSpeechRecognitionResult(void) {
     id<ORKESerializationLocalizer> localizer = context.localizer;
     id<ORKESerializationStringInterpolator> stringInterpolator = context.stringInterpolator;
     
-//#if RK_APPLE_INTERNAL
-//    if (IS_FEATURE_INTERNAL_CLASS_MAPPER_ON) {
-//        if (expectedClass != nil) {
-//            expectedClass = [ORKInternalClassMapper getInternalClassForPublicClass:expectedClass] ?: expectedClass;
-//        }
-//    } else if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES && expectedClass != nil) {
-//        expectedClass = [ORKInternalClassMapper getInternalClassForPublicClass:expectedClass] ?: expectedClass;
-//    }
-//#endif
     
     if (expectedClass != nil && [input isKindOfClass:expectedClass]) {
         // Input is already of the expected class, do nothing
@@ -537,13 +523,6 @@ static NSDictionary *dictionaryForORKSpeechRecognitionResult(void) {
         NSDictionary *dict = (NSDictionary *)input;
         NSString *className = input[_ClassKey]; // todo: might be a spot to convert class
         
-//#if RK_APPLE_INTERNAL
-//        if (IS_FEATURE_INTERNAL_CLASS_MAPPER_ON) {
-//            className = [ORKInternalClassMapper getInternalClassStringForPublicClass:className] ?: className;
-//        } else if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES) {
-//            className = [ORKInternalClassMapper getInternalClassStringForPublicClass:className] ?: className;
-//        }
-//#endif
         
         ORKESerializationPropertyInjector *propertyInjector = context.propertyInjector;
         if (propertyInjector != nil) {
@@ -665,13 +644,6 @@ static BOOL isValid(id object) {
 - (id)_propFromDict:(NSDictionary *)dict propName:(NSString *)propName context:(ORKESerializationContext *)context {
     Class class = NSClassFromString(dict[_ClassKey]);
 
-//#if RK_APPLE_INTERNAL
-//    if (IS_FEATURE_INTERNAL_CLASS_MAPPER_ON) {
-//        class = [ORKInternalClassMapper getInternalClassForPublicClass:class] ?: class;
-//    } else if ([ORKInternalClassMapper getUseInternalMapperUserDefaultsValue] == YES) {
-//        class = [ORKInternalClassMapper getInternalClassForPublicClass:class] ?: class;
-//    }
-//#endif
     NSArray *classEncodings =  [self _classEncodingsForClass:class];
     ORKESerializableProperty *propertyEntry = nil;
     for (ORKESerializableTableEntry *classEncoding in classEncodings) {
@@ -732,7 +704,6 @@ static BOOL isValid(id object) {
     return output;
 }
 
-// TODO: Determine if this would still be needed for testing purposes
 //+ (NSArray *)serializableClasses {
 //    NSMutableArray *a = [NSMutableArray array];
 //    NSDictionary *table = ORKESerializationEncodingTable();

@@ -120,14 +120,6 @@
         {
             [_speechRecognitionContentView.recordButton setButtonState:ORKRecordButtonStateEnabled];
             
-#if RK_APPLE_INTERNAL
-            [self initializeRecognizer];
-            
-            if (![_speechRecognizer isOfflineRecognitionAvailable]) {
-                [self didPressUseKeyboardButton];
-                return;
-            }
-#endif
             break;
         }
         case SFSpeechRecognizerAuthorizationStatusRestricted:
@@ -337,7 +329,6 @@
     }
     
     // Known substitutions
-    // TODO: - make this locale specific and grab mapping from manifest file
     static NSDictionary *substitutions = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

@@ -1711,14 +1711,6 @@ ORK_CLASS_AVAILABLE
  */
 - (instancetype)initWithMaximumLength:(NSInteger)maximumLength NS_DESIGNATED_INITIALIZER;
 
-#if RK_APPLE_INTERNAL
-/**
- Sets the scrubber names on the text answer.
- 
- The PIIScrubber names to be used on this textAnswerFormat
- */
-@property (nonatomic, copy, nullable) NSArray<NSString *> *scrubberNames;
-#endif
 
 /**
  The regular expression used to validate user's input.

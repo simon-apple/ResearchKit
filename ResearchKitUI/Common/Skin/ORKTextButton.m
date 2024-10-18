@@ -90,7 +90,6 @@
 }
 
 - (CGSize)intrinsicContentSize {
-    // Fix for <rdar://problem/19528969>
     UILabel *label = nil;
     
     for (UIView *view in self.subviews) {

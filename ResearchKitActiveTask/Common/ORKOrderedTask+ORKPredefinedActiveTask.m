@@ -1995,12 +1995,6 @@ NSString *const ORKdBHLToneAudiometryStep2Identifier = @"dBHL2.tone.audiometry";
         ORKEnvironmentSPLMeterStep *step = [[ORKEnvironmentSPLMeterStep alloc] initWithIdentifier:@"splMeter"];
         step.requiredContiguousSamples = 5;
         step.thresholdValue = 45;
-#if RK_APPLE_INTERNAL
-        // Increase threshold to pass the step for UI Test
-        if ([[NSProcessInfo processInfo].arguments containsObject:UITestLaunchArgument]) {
-            step.thresholdValue = 200;
-        }
-#endif
         step.title = ORKLocalizedString(@"ENVIRONMENTSPL_TITLE_2", nil);
         step.text = ORKLocalizedString(@"ENVIRONMENTSPL_INTRO_TEXT_2", nil);
         

@@ -31,11 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import UIKit
 import ResearchKit
 
-#if RK_APPLE_INTERNAL
-import ResearchKitInternal
-#endif
 
-//swiftlint:disable force_cast
 /**
     The purpose of this view controller is to show you the kinds of data
     you can fetch from a specific `ORKResult`. The intention is for this view
@@ -63,9 +59,6 @@ class ResultViewController: UITableViewController {
         super.viewDidLoad()
         
         self.tableView.backgroundColor = UIColor.systemGroupedBackground
-        // start-omit-internal-code
-        deleteHeartRateUITestData()
-        // end-omit-internal-code
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -109,12 +102,6 @@ class ResultViewController: UITableViewController {
             
             let destinationViewController = segue.destination as! ResultViewController
             
-#if RK_APPLE_INTERNAL
-            if let familyHistoryResult = result as? ORKFamilyHistoryResult {
-                destinationViewController.result = familyHistoryResult.relatedPersons![(indexPath as NSIndexPath).row].taskResult
-                return
-            }
-#endif
             let collectionResult = result as! ORKCollectionResult
             destinationViewController.result = collectionResult.results![(indexPath as NSIndexPath).row]
         }
@@ -140,12 +127,4 @@ extension ResultViewController: ResultProviderDelegate {
     }
 }
 
-// start-omit-internal-code
-private func deleteHeartRateUITestData() {
-    if ProcessInfo.processInfo.environment.keys.contains("WriteHealthKitUITestData") {
-        HealthKitManager.shared.deleteHeartRateData { (success, error) in }
-        }
-    }
-// end-omit-internal-code
 
-//swiftlint:enable force_cast

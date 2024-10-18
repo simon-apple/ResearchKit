@@ -162,9 +162,6 @@ typedef void (^_ORKLocationAuthorizationRequestHandler)(BOOL success);
     
     NSString *_restoredTaskIdentifier;
     
-#if RK_APPLE_INTERNAL
-    BOOL _updatingPreviousResults;
-#endif
     
     UINavigationController *_childNavigationController;
     UIViewController *_previousToTopControllerInNavigationStack;
@@ -456,10 +453,8 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     return permissions;
 }
 
-// [RDLS:TODO] this method name is inaccurate—it requests location, audio recording, etc. beyond just HK access. Either break up or rename
 - (void)requestHealthAuthorizationWithCompletion:(void (^)(void))completion {
     if (_hasRequestedHealthData) {
-        // [RDLS:NOTE] It's easier for clients when completion: APIs always call back the same way. In this case that means only calling back on a different queue than the caller queue. Here we're trying to short circuit, but that means that the caller sometimes continues before the block runs, and sometimes after the block is run. I would switch this to calling the completion on a different queue, probably the main queue. Not suggesting the main queue because I like main queue, but because it's the least change given this API already calls back on the main queue when _hasRequestedHealthData == NO.
         if (completion) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completion();
@@ -559,7 +554,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
             dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
         }
         
-        // [RDLS:????] this looks like a hack. Why do we have to set it inside and outside the dispatch_async? There should only be on queue trying to write this value.
         _hasRequestedHealthData = YES;
         dispatch_async(dispatch_get_main_queue(), ^{
             _hasRequestedHealthData = YES;
@@ -655,11 +649,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     [self setNavigationBarColor:[UIColor systemGroupedBackgroundColor]];
 }
 
-#if RK_APPLE_INTERNAL
-- (void)setUpdatingPreviousResults:(BOOL)updatingPreviousResults {
-    _updatingPreviousResults = updatingPreviousResults;
-}
-#endif
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -933,8 +922,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     
     ORKStep *step = stepViewController.step;
     
-    // rdar://107531676 (investigate how TaskViewController handles its state if permissions aren't granted)
-    // [RDLS:????] this seems like a bug waiting to happen—I haven't looked into how this state is used or cleared, but if permissions aren't granted and we bail out early, should/does this state get cleared?
     [self updateLastBeginningInstructionStepIdentifierForStep:step goForward:goForward];
     
     ORKStepViewController *fromController = self.currentStepViewController;
@@ -970,7 +957,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
                 }
             }];
             
-            // [RDLS:NOTE] if we had to request auth, always return early and rely on the completion block to call showStepViewController again in case auth succeeds.
             return;
         }
     }
@@ -1268,12 +1254,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
     
     
-#if RK_APPLE_INTERNAL
-    NSString *discardText = _updatingPreviousResults ? @"Discard Changes" :  ORKLocalizedString(@"BUTTON_OPTION_DISCARD", nil);
-    NSString *discardTitle = saveable ? discardText : ORKLocalizedString(@"BUTTON_OPTION_STOP_TASK", nil);
-#else
     NSString *discardTitle = saveable ? ORKLocalizedString(@"BUTTON_OPTION_DISCARD", nil) : ORKLocalizedString(@"BUTTON_OPTION_STOP_TASK", nil);
-#endif
     
     if (supportSaving && saveable) {
         [alert addAction:[UIAlertAction actionWithTitle:ORKLocalizedString(@"BUTTON_OPTION_SAVE", nil)
@@ -1857,7 +1838,6 @@ static NSString *const _ORKProgressMode = @"progressMode";
 #pragma mark ORKTaskReviewViewControllerDelegate
 
 - (void)doneButtonTappedWithResultSource:(id<ORKTaskResultSource>)resultSource {
-    //    FIXME: might need to queue the operations if the number of steps are too many. open to debate.
     [self updateResultWithSource:resultSource];
     [self finishWithReason:ORKTaskFinishReasonCompleted error:nil];
 }

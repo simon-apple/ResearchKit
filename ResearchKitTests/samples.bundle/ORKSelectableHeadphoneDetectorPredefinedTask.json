@@ -1,9 +1,0 @@
-{
-    "_class": "ORKSelectableHeadphoneDetectorPredefinedTask",
-    "steps": [],
-    "stepModifiers": {},
-    "identifier": "",
-    "skipStepNavigationRules": {},
-    "shouldReportProgress": false,
-    "stepNavigationRules": {}
-}
