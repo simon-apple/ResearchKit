@@ -57,18 +57,12 @@
 
 /* Begin PBXFileReference section */
 		0B72132F2B4F36B900463E69 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B7213332B4F36C600463E69 /* ResearchKitInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B7213362B4F373300463E69 /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B7213392B4F379500463E69 /* ResearchKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B72133C2B4F37B300463E69 /* ResearchKitActiveTask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitActiveTask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B7213542B4F3A8400463E69 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B7213572B4F3ABD00463E69 /* ResearchKitActiveTask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitActiveTask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B72135A2B4F3AD400463E69 /* ResearchKitInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B72135D2B4F3C7600463E69 /* ResearchKitInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B7213612B4F3C7F00463E69 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B7213642B4F3C8200463E69 /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B7213672B4F3CB200463E69 /* ResearchKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B72136A2B4F3D1D00463E69 /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF86B1D2B4F360000E3790E /* ResearchKitSwiftUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKitSwiftUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF86B212B4F360000E3790E /* ResearchKitSwiftUI.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ResearchKitSwiftUI.docc; sourceTree = "<group>"; };
 		380E14AF2C3350A900085D2B /* ResearchForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchForm.swift; sourceTree = "<group>"; };
@@ -112,7 +106,6 @@
 		E4DBF1C02BA24B150085D6A1 /* StickyFooterLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyFooterLayout.swift; sourceTree = "<group>"; };
 		E4DBF1C22BA24B860085D6A1 /* StickyScrollView+StickyLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StickyScrollView+StickyLayout.swift"; sourceTree = "<group>"; };
 		E4E0AFC92C5B12B40082ADF8 /* Color+ResearchFormColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+ResearchFormColors.swift"; sourceTree = "<group>"; };
-		E4F940312C597E4A001B14BD /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -154,19 +147,12 @@
 				E4B0878B2C668EBB00EFCE35 /* ResearchKit.framework */,
 				E4B0878A2C668EB100EFCE35 /* ResearchKit.framework */,
 				E4B087862C668EA500EFCE35 /* ResearchKit.framework */,
-				E4F940312C597E4A001B14BD /* ResearchKitCore.framework */,
 				5E7596BC2BE049B90088F7B7 /* ResearchKit.framework */,
-				0B72135D2B4F3C7600463E69 /* ResearchKitInternal.framework */,
 				0B7213612B4F3C7F00463E69 /* ResearchKit.framework */,
-				0B72136A2B4F3D1D00463E69 /* ResearchKitCore.framework */,
 				0B7213672B4F3CB200463E69 /* ResearchKitUI.framework */,
-				0B7213642B4F3C8200463E69 /* ResearchKitCore.framework */,
 				0B7213542B4F3A8400463E69 /* ResearchKit.framework */,
 				0B7213572B4F3ABD00463E69 /* ResearchKitActiveTask.framework */,
-				0B72135A2B4F3AD400463E69 /* ResearchKitInternal.framework */,
 				0B72132F2B4F36B900463E69 /* ResearchKit.framework */,
-				0B7213332B4F36C600463E69 /* ResearchKitInternal.framework */,
-				0B7213362B4F373300463E69 /* ResearchKitCore.framework */,
 				0B7213392B4F379500463E69 /* ResearchKitUI.framework */,
 				0B72133C2B4F37B300463E69 /* ResearchKitActiveTask.framework */,
 			);
@@ -333,7 +319,7 @@
 			dependencies = (
 			);
 			name = ResearchKitSwiftUI;
-			productName = ResearchKitUIWatch;
+			productName = ResearchKitSwiftUI;
 			productReference = 0BF86B1D2B4F360000E3790E /* ResearchKitSwiftUI.framework */;
 			productType = "com.apple.product-type.framework";
 		};
