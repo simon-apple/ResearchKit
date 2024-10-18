@@ -31,16 +31,16 @@
 import SwiftUI
 
 struct QuestionCard<Content: View>: View {
-    
+
     @Environment(\.isQuestionCardEnabled)
     private var isQuestionCardEnabled
-    
+
     private let content: Content
-    
+
     init(content: () -> Content) {
         self.content = content()
     }
-    
+
     var body: some View {
         if isQuestionCardEnabled {
             content
@@ -52,17 +52,17 @@ struct QuestionCard<Content: View>: View {
             content
         }
     }
-    
+
 }
 
 extension EnvironmentValues {
-    
+
     @Entry var isQuestionCardEnabled = true
-    
+
 }
 
 struct QuestionCardModifier: ViewModifier {
-    
+
     func body(content: Content) -> some View {
         content
             .background(.cardColor)
@@ -70,35 +70,36 @@ struct QuestionCardModifier: ViewModifier {
                 RoundedRectangle(cornerRadius: 12)
             )
     }
-    
+
 }
 
-private extension ShapeStyle where Self == CardColor {
-    
-    static var cardColor: CardColor {
+extension ShapeStyle where Self == CardColor {
+
+    fileprivate static var cardColor: CardColor {
         CardColor()
     }
-    
+
 }
 
 private struct CardColor: ShapeStyle {
-    
+
     func resolve(in environment: EnvironmentValues) -> some ShapeStyle {
-#if os(visionOS)
-        .regularMaterial
-#else
-        environment.colorScheme == .dark ? Color.choice(for: .systemGray4) : .white
-#endif
+        #if os(visionOS)
+            .regularMaterial
+        #else
+            environment.colorScheme == .dark
+                ? Color.choice(for: .systemGray4) : .white
+        #endif
     }
-    
+
 }
 
 extension View {
-    
+
     func questionCardEnabled(_ isEnabled: Bool) -> some View {
         environment(\.isQuestionCardEnabled, isEnabled)
     }
-    
+
 }
 
 #Preview {

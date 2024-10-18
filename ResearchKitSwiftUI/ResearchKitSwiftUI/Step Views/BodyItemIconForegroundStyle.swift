@@ -31,21 +31,21 @@
 import SwiftUI
 
 extension ShapeStyle where Self == BodyItemIconForegroundStyle {
-    
+
     /// This foreground style is used for labels that display values associated with sliders.
     static var bodyItemIconForegroundStyle: BodyItemIconForegroundStyle {
         BodyItemIconForegroundStyle()
     }
-    
+
 }
 
 struct BodyItemIconForegroundStyle: ShapeStyle {
-    
+
     func resolve(in environment: EnvironmentValues) -> some ShapeStyle {
-#if os(visionOS)
-        .white
-#else
-        .blue
-#endif
+        #if os(visionOS)
+            .white
+        #else
+            .blue
+        #endif
     }
 }

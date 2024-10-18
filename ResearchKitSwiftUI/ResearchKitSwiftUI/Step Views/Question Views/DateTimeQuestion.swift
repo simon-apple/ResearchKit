@@ -32,16 +32,16 @@ import SwiftUI
 
 /// A question that allows for date and time input.
 public struct DateTimeQuestion<Header: View>: View {
-    
+
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
-    
+
     @Environment(\.questionRequired)
     private var isRequired: Bool
 
     @State
     private var showDatePickerModal = false
-    
+
     @State
     private var showTimePickerModal = false
     private let id: String
@@ -62,7 +62,7 @@ public struct DateTimeQuestion<Header: View>: View {
             return value
         }
     }
-    
+
     /// Initializes an instance of ``DateTimeQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
@@ -116,67 +116,76 @@ public struct DateTimeQuestion<Header: View>: View {
             Question {
                 header
             } content: {
-#if os(watchOS)
-                VStack {
-                    if displayedComponents.contains(.date) {
-                        Button {
-                            showDatePickerModal.toggle()
-                        } label: {
-                            Text(
-                                resolvedResult.wrappedValue ?? Date(),
-                                format: .dateTime.day().month().year()
-                            )
+                #if os(watchOS)
+                    VStack {
+                        if displayedComponents.contains(.date) {
+                            Button {
+                                showDatePickerModal.toggle()
+                            } label: {
+                                Text(
+                                    resolvedResult.wrappedValue ?? Date(),
+                                    format: .dateTime.day().month().year()
+                                )
+                            }
+                        }
+
+                        if displayedComponents.contains(.hourMinuteAndSecond) {
+                            Button {
+                                showTimePickerModal.toggle()
+                            } label: {
+                                Text(
+                                    resolvedResult.wrappedValue ?? Date(),
+                                    format: .dateTime.hour().minute().second()
+                                )
+                            }
+                        } else if displayedComponents.contains(.hourAndMinute) {
+                            Button {
+                                showTimePickerModal.toggle()
+                            } label: {
+                                Text(
+                                    resolvedResult.wrappedValue ?? Date(),
+                                    format: .dateTime.hour().minute()
+                                )
+                            }
                         }
                     }
-                    
-                    if displayedComponents.contains(.hourMinuteAndSecond) {
-                        Button {
-                            showTimePickerModal.toggle()
-                        } label: {
-                            Text(
-                                resolvedResult.wrappedValue ?? Date(),
-                                format: .dateTime.hour().minute().second()
-                            )
-                        }
-                    } else if displayedComponents.contains(.hourAndMinute){
-                        Button {
-                            showTimePickerModal.toggle()
-                        } label: {
-                            Text(
-                                resolvedResult.wrappedValue ?? Date(),
-                                format: .dateTime.hour().minute()
-                            )
-                        }
+                    .buttonBorderShape(.roundedRectangle)
+                    .buttonStyle(.bordered)
+                    .padding()
+                    .navigationDestination(isPresented: $showDatePickerModal) {
+                        watchDatePicker(displayedComponents: .date)
                     }
-                }
-                .buttonBorderShape(.roundedRectangle)
-                .buttonStyle(.bordered)
-                .padding()
-                .navigationDestination(isPresented: $showDatePickerModal) {
-                    watchDatePicker(displayedComponents: .date)
-                }
-                .navigationDestination(isPresented: $showTimePickerModal) {
-                    watchDatePicker(displayedComponents: displayedComponents.contains(.hourMinuteAndSecond) ? .hourMinuteAndSecond : .hourAndMinute)
-                }
-#else
-                DatePicker(
-                    pickerPrompt,
-                    selection: resolvedResult.unwrapped(defaultValue: Date()),
-                    in: range,
-                    displayedComponents: displayedComponents
-                )
-                .datePickerStyle(.compact)
-                .foregroundStyle(.primary)
-                .padding()
-#endif
+                    .navigationDestination(isPresented: $showTimePickerModal) {
+                        watchDatePicker(
+                            displayedComponents: displayedComponents.contains(
+                                .hourMinuteAndSecond)
+                                ? .hourMinuteAndSecond : .hourAndMinute)
+                    }
+                #else
+                    DatePicker(
+                        pickerPrompt,
+                        selection: resolvedResult.unwrapped(
+                            defaultValue: Date()),
+                        in: range,
+                        displayedComponents: displayedComponents
+                    )
+                    .datePickerStyle(.compact)
+                    .foregroundStyle(.primary)
+                    .padding()
+                #endif
             }
-            .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
-            .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
+            .preference(
+                key: QuestionRequiredPreferenceKey.self, value: isRequired
+            )
+            .preference(
+                key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
         }
     }
-    
+
     @ViewBuilder
-    private func watchDatePicker(displayedComponents: DatePicker.Components) -> some View {
+    private func watchDatePicker(displayedComponents: DatePicker.Components)
+        -> some View
+    {
         VStack(alignment: .leading) {
             header
             DatePicker(
@@ -185,19 +194,19 @@ public struct DateTimeQuestion<Header: View>: View {
                 in: range,
                 displayedComponents: displayedComponents
             )
-#if !os(watchOS)
-            .padding(.horizontal)
-#endif
+            #if !os(watchOS)
+                .padding(.horizontal)
+            #endif
         }
     }
-    
+
     private var isAnswered: Bool {
         return resolvedResult.wrappedValue != nil
     }
 }
 
-public extension DateTimeQuestion where Header == QuestionHeader {
-    
+extension DateTimeQuestion where Header == QuestionHeader {
+
     /// Initializes an instance of ``DateTimeQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
@@ -207,7 +216,7 @@ public extension DateTimeQuestion where Header == QuestionHeader {
     ///   - pickerPrompt: The prompt that informs the user.
     ///   - displayedComponents: The date-time components that are displayed for this question.
     ///   - range: The range of selectable dates.
-    init(
+    public init(
         id: String,
         title: String,
         detail: String? = nil,
@@ -223,7 +232,7 @@ public extension DateTimeQuestion where Header == QuestionHeader {
         self.range = range
         self.selection = .automatic(key: .date(id: id))
     }
-    
+
     /// Initializes an instance of ``DateTimeQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
@@ -233,7 +242,7 @@ public extension DateTimeQuestion where Header == QuestionHeader {
     ///   - pickerPrompt: The prompt that informs the user.
     ///   - displayedComponents: The date-time components that are displayed for this question.
     ///   - range: The range of selectable dates.
-    init(
+    public init(
         id: String,
         title: String,
         detail: String? = nil,
@@ -249,7 +258,7 @@ public extension DateTimeQuestion where Header == QuestionHeader {
         self.range = range
         self.selection = .manual(date)
     }
-    
+
 }
 
 #Preview("Date Only") {
@@ -305,4 +314,3 @@ public extension DateTimeQuestion where Header == QuestionHeader {
         }
     }
 }
-

@@ -46,10 +46,10 @@ public enum AnswerFormat {
 extension AnswerFormat: Codable {}
 
 extension AnswerFormat: Equatable {
-    
+
     public static func == (lhs: AnswerFormat, rhs: AnswerFormat) -> Bool {
         let isEqual: Bool
-        
+
         switch (lhs, rhs) {
         case let (.text(lhsValue), .text(rhsValue)):
             isEqual = lhsValue == rhsValue
@@ -69,12 +69,12 @@ extension AnswerFormat: Equatable {
             isEqual = lhsValue == rhsValue
         default:
             isEqual = false
-            
+
         }
-        
+
         return isEqual
     }
-    
+
 }
 
 /// Captures the responses to questions for which no binding has been provided. It is passed through ``ResearchForm``'s `onResearchFormCompletion` handler, which is passed through the initializer, upon survey completion.
@@ -82,25 +82,27 @@ public final class ResearchFormResult: ObservableObject {
 
     @Published
     var stepResults: [String: AnswerFormat]
-    
+
     /// Initializes an instance of ``ResearchFormResult`` that contains no responses.
     public convenience init() {
         self.init(results: [])
     }
-    
+
     /// Initializes an instance of ``ResearchFormResult`` with the provided configuration.
     /// - Parameter results: The results from which an instance of `ResearchFormResult` is created.
     public init(results: [Result]) {
-        stepResults = results.reduce(into: [String: AnswerFormat]()) { partialResult, result in
+        stepResults = results.reduce(into: [String: AnswerFormat]()) {
+            partialResult, result in
             partialResult[result.identifier] = result.answer
         }
     }
-    
+
     /// Initializes an instance of ``ResearchFormResult`` with the provided configuration.
     /// - Parameter decoder: The decoder used to deserialize an instance of `ResearchFormResult`.
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        stepResults = try container.decode([String: AnswerFormat].self, forKey: .stepResults)
+        stepResults = try container.decode(
+            [String: AnswerFormat].self, forKey: .stepResults)
     }
 
     func resultForStep<Result>(key: StepResultKey<Result>) -> Result? {
@@ -127,10 +129,12 @@ public final class ResearchFormResult: ObservableObject {
         }
     }
 
-    func setResultForStep<Result>(_ format: AnswerFormat, key: StepResultKey<Result>) {
+    func setResultForStep<Result>(
+        _ format: AnswerFormat, key: StepResultKey<Result>
+    ) {
         stepResults[key.id] = format
     }
-    
+
     /// Maps the captured responses to a type of your choice.
     /// - Parameter transform: The mapping function used to transform a response to a type of your choice.
     /// - Returns: An array containing the type to which the responses were transformed.
@@ -145,13 +149,13 @@ public final class ResearchFormResult: ObservableObject {
 
 /// The response context for a question.
 public struct Result {
-    
+
     /// The question identifier associated with this result.
     public let identifier: String
 
     /// The response to the question associated with the `identifier`.
     public let answer: AnswerFormat
-    
+
     /// Initializes an instance of ``Result`` with the provided configuration.
     /// - Parameters:
     ///   - identifier: The question identifier associated with this response.
@@ -160,28 +164,30 @@ public struct Result {
         self.identifier = identifier
         self.answer = answer
     }
-    
+
 }
 
 extension ResearchFormResult: Codable {
-    
+
     enum CodingKeys: CodingKey {
-        
+
         case stepResults
-        
+
     }
-    
+
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(stepResults, forKey: .stepResults)
     }
-    
+
 }
 
 extension ResearchFormResult: Equatable {
 
-    public static func == (lhs: ResearchFormResult, rhs: ResearchFormResult) -> Bool {
+    public static func == (lhs: ResearchFormResult, rhs: ResearchFormResult)
+        -> Bool
+    {
         lhs.stepResults == rhs.stepResults
     }
-    
+
 }

@@ -38,7 +38,7 @@ public enum ResultValue: Codable {
 }
 
 extension ResultValue: Equatable {
-    
+
     public static func == (lhs: ResultValue, rhs: ResultValue) -> Bool {
         switch (lhs, rhs) {
         case (.int(let a), .int(let b)):
@@ -51,5 +51,5 @@ extension ResultValue: Equatable {
             return false
         }
     }
-    
+
 }

@@ -39,43 +39,42 @@ extension Color {
         case systemGray4
         case systemGray5
     }
-    
+
     public static func choice(for choice: ColorChoice) -> Color {
         switch choice {
         case .background:
-#if os(watchOS)
-            return Color.primary
-#else
-            return Color(uiColor: UIColor.systemBackground)
-#endif
-            
+            #if os(watchOS)
+                return Color.primary
+            #else
+                return Color(uiColor: UIColor.systemBackground)
+            #endif
+
         case .secondaryBackground:
-#if os(watchOS)
-            return Color.secondary
-#else
-            return Color(uiColor: UIColor.secondarySystemBackground)
-#endif
+            #if os(watchOS)
+                return Color.secondary
+            #else
+                return Color(uiColor: UIColor.secondarySystemBackground)
+            #endif
 
         case .label:
-#if os(watchOS)
-            return Color.primary
-#else
-            return Color(uiColor: UIColor.label)
-#endif
-        
+            #if os(watchOS)
+                return Color.primary
+            #else
+                return Color(uiColor: UIColor.label)
+            #endif
+
         case .systemGray4:
-#if os(watchOS)
-            return Color.secondary.opacity(0.4)
-#else
-            return Color(uiColor: UIColor.systemGray4)
-#endif
+            #if os(watchOS)
+                return Color.secondary.opacity(0.4)
+            #else
+                return Color(uiColor: UIColor.systemGray4)
+            #endif
         case .systemGray5:
-#if os(watchOS)
-            return Color.secondary.opacity(0.5)
-#else
-            return Color(uiColor: UIColor.systemGray5)
-#endif
+            #if os(watchOS)
+                return Color.secondary.opacity(0.5)
+            #else
+                return Color(uiColor: UIColor.systemGray5)
+            #endif
         }
     }
 }
-

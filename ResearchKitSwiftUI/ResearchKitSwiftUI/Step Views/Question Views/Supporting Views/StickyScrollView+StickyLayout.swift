@@ -91,14 +91,16 @@ extension StickyScrollView {
         ) {
 
             let stickyContent = subviews[1]
-            let stickyContentHeight = stickyContent.dimensions(in: proposal).height
+            let stickyContentHeight = stickyContent.dimensions(in: proposal)
+                .height
 
             let content = subviews[0]
             let contentHeight = content.dimensions(in: proposal).height
 
             let totalHeight = contentHeight + stickyContentHeight
             let bodyHeight = bodySize.height
-            let topWhiteSpace = isContentCenteringEnabled == false
+            let topWhiteSpace =
+                isContentCenteringEnabled == false
                 ? 0
                 : (contentHeight - bodyHeight) / 2
 
@@ -106,17 +108,23 @@ extension StickyScrollView {
             let bottomInset = safeAreaInsets.bottom
 
             // This is the bottom inset with no keyboard
-            let keyboardIgnoringBottomInset = keyboardIgnoringSafeAreaInsets.bottom
+            let keyboardIgnoringBottomInset = keyboardIgnoringSafeAreaInsets
+                .bottom
 
             let shouldFooterFixPosition =
                 allowsExtendedLayout == false
-                || contentHeight + (stickyContentHeight - safeAreaInsets.bottom) < size.height
+                || contentHeight + (stickyContentHeight - safeAreaInsets.bottom)
+                    < size.height
 
             let shouldFooterBackgroundShow: Bool = {
-                let bottomOfBodyFromTop = bodySize.height + topWhiteSpace + self.offset
-                let topOfStickyFooter = size.height + bottomInset - stickyContentHeight
-                let isHeightGreaterThanAvailableSpace = bottomOfBodyFromTop > topOfStickyFooter
-                return isHeightGreaterThanAvailableSpace && shouldFooterFixPosition
+                let bottomOfBodyFromTop =
+                    bodySize.height + topWhiteSpace + self.offset
+                let topOfStickyFooter =
+                    size.height + bottomInset - stickyContentHeight
+                let isHeightGreaterThanAvailableSpace =
+                    bottomOfBodyFromTop > topOfStickyFooter
+                return isHeightGreaterThanAvailableSpace
+                    && shouldFooterFixPosition
             }()
 
             DispatchQueue.main.async {
@@ -131,7 +139,9 @@ extension StickyScrollView {
                     if bottomInset > keyboardIgnoringBottomInset {
                         // 1. The content is greater than the view size, and the keyboard is visible.
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-                            self.totalLayoutHeight = totalHeight - bottomInset - stickyContentHeight + bottomInset
+                            self.totalLayoutHeight =
+                                totalHeight - bottomInset - stickyContentHeight
+                                + bottomInset
                         }
                         // Need to cancel these (for quick dismisses)
                     } else {
@@ -142,7 +152,8 @@ extension StickyScrollView {
                     // 3. The content is not greater than the view size, doesn't matter if the keyboard is visible
                     self.totalLayoutHeight = contentHeight
                 }
-                self.availableContentHeight = size.height - stickyContentHeight + bottomInset
+                self.availableContentHeight =
+                    size.height - stickyContentHeight + bottomInset
             }
 
             let contentPlacementProposal = ProposedViewSize(
@@ -164,14 +175,16 @@ extension StickyScrollView {
                 proposal: contentPlacementProposal
             )
 
-            let offset = shouldFooterFixPosition
+            let offset =
+                shouldFooterFixPosition
                 ? size.height - stickyContentHeight - self.offset + bottomInset
                 : max(contentHeight, size.height - stickyContentHeight)
 
             stickyContent.place(
                 at: CGPoint(
                     x: bounds.origin.x,
-                    y: bounds.origin.y + offset + safeAreaInsets.bottom - keyboardIgnoringSafeAreaInsets.bottom
+                    y: bounds.origin.y + offset + safeAreaInsets.bottom
+                        - keyboardIgnoringSafeAreaInsets.bottom
                 ),
                 anchor: .topLeading,
                 proposal: stickyPlacementProposal
@@ -182,4 +195,3 @@ extension StickyScrollView {
     }
 
 }
-

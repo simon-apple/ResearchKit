@@ -28,10 +28,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import math_h
 import SwiftUI
+import math_h
 
-func convertCentimetersToFeetAndInches(_ centimeters: Double) -> (feet: Int, inches: Int) {
+func convertCentimetersToFeetAndInches(_ centimeters: Double) -> (
+    feet: Int, inches: Int
+) {
     var feet = 0
     var inches = 0
     let centimetersToInches = centimeters * 0.393701
@@ -41,7 +43,9 @@ func convertCentimetersToFeetAndInches(_ centimeters: Double) -> (feet: Int, inc
     return (feet, inches)
 }
 
-func convertKilogramsToPoundsAndOunces(_ kilograms: Double) -> (pounds: Double, ounces: Double) {
+func convertKilogramsToPoundsAndOunces(_ kilograms: Double) -> (
+    pounds: Double, ounces: Double
+) {
     let poundPerKilogram = 2.20462262
     let fractionalPounds = kilograms * poundPerKilogram
     var pounds = floor(fractionalPounds)
@@ -53,20 +57,25 @@ func convertKilogramsToPoundsAndOunces(_ kilograms: Double) -> (pounds: Double, 
     return (pounds, ounces)
 }
 
-func convertPoundsAndOuncesToKilograms(pounds: Double, ounces: Double) -> Double {
+func convertPoundsAndOuncesToKilograms(pounds: Double, ounces: Double) -> Double
+{
     let kilogramsPerPound = 0.45359237
     let kg = (pounds + (ounces / 16)) * kilogramsPerPound
     return round(kg * 100) / 100
 }
 
-func convertKilogramsToWholeAndFraction(_ kilograms: Double) -> (whole: Double, fraction: Double) {
+func convertKilogramsToWholeAndFraction(_ kilograms: Double) -> (
+    whole: Double, fraction: Double
+) {
     let whole = floor(kilograms)
     let fraction = round((kilograms - floor(kilograms)) * 100)
     return (whole, fraction)
 }
 
 extension Binding {
-     func unwrapped<T>(defaultValue: T) -> Binding<T> where Value == Optional<T>  {
-        Binding<T>(get: { self.wrappedValue ?? defaultValue }, set: { self.wrappedValue = $0 })
+    func unwrapped<T>(defaultValue: T) -> Binding<T> where Value == T? {
+        Binding<T>(
+            get: { self.wrappedValue ?? defaultValue },
+            set: { self.wrappedValue = $0 })
     }
 }

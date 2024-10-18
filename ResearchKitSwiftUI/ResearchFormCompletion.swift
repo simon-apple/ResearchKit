@@ -43,10 +43,12 @@ public enum ResearchFormCompletion {
 }
 
 extension ResearchFormCompletion: Equatable {
- 
-    public static func == (lhs: ResearchFormCompletion, rhs: ResearchFormCompletion) -> Bool {
+
+    public static func == (
+        lhs: ResearchFormCompletion, rhs: ResearchFormCompletion
+    ) -> Bool {
         let isEqual: Bool
-        
+
         switch (lhs, rhs) {
         case let (.saved(lhsValue), .saved(rhsValue)):
             isEqual = lhsValue == rhsValue
@@ -61,8 +63,8 @@ extension ResearchFormCompletion: Equatable {
         default:
             isEqual = false
         }
-        
+
         return isEqual
     }
-    
+
 }
