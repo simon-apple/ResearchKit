@@ -27,6 +27,73 @@ The *ORKCatalog* sample app is written in *Swift*.
 For more conceptual information about the *ResearchKit framework*, see the
 [ResearchKit Framework Programming Guide](http://researchkit.github.io/docs/docs/Overview/GuideOverview.html).
 
+### ResearchKit SwiftUI 
+
+We are excited to announce the release of a new beta API for surveys in ResearchKit. This API is designed to enhance the flexibility, customization, and cross-platform compatibility of surveys in your ResearchKit apps. Below are the key features and usage details.
+
+New Form APIs offer an easily configurable and flexible UI, with the same look and feel of `ORKFormStep`: 
+* `ResearchForm`
+    * Manages the navigation between steps in a survey.
+* `ResearchFormStep`
+    *  Represents a step in a survey and lays out the header and questions on one page. Question numbers (e.g. 1 of 3) are automatically added at the top of each question to denote progress in a step.
+* `ResearchFormCompletion`
+    * Represents the context for a survey's completion
+* `ResearchFormResult`
+    * Represents responses for the different kinds of questions.
+* `StepHeader`
+    * A step header containing an image, title, and subtitle.
+* `QuestionHeader`
+    * A question header containing a title and detail.
+* `InstructionBodyItem`
+    * Displays an image and text side by side.
+* `questionRequired` (`ViewModifier`)
+    * Designates a question as required or optional.
+
+#### Survey Question Types:
+* `MultipleChoiceQuestion`
+* `HeightQuestion`
+* `WeightQuestion`
+* `SliderQuestion`
+* `TextQuestion`
+* `DateTimeQuestion`
+* `NumericQuestion`
+* `ImageChoiceQuestion`    
+
+The example below shows how to create a `ResearchForm` to present a text question for the participant to answer, and then save their results. 
+
+```swift
+import ResearchKitSwiftUI
+
+ResearchForm(
+    id: "SurveyTask",
+    steps: {
+        ResearchFormStep(
+            title: "Demographics",
+            subtitle: "Tell us about yourself",
+            content: {
+                TextQuestion(
+                    id: "textQuestion",
+                    title: "What is your name?",
+                    prompt: "Enter your name here",
+                    lineLimit: .singleLine,
+                    characterLimit: 0
+                )
+                .questionRequired(true)
+            }
+        )
+    },
+    onResearchFormCompletion: { completion in
+        switch completion {
+        case .completed(let results):
+            save(results)
+        case .discarded:
+            cancel()
+        default:
+            cancel()
+        }
+    }
+)
+```
 
 ## Build Requirements
 
