@@ -76,10 +76,6 @@
 
 /* Begin PBXFileReference section */
 		03F7FD9E23959DD500432EF6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		0B17358D2B57379C00AAB6BC /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B1735912B5737A300AAB6BC /* ResearchKitCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B1735942B5737CE00AAB6BC /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B1735972B57394300AAB6BC /* ResearchKitUI_Watch_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI_Watch_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B6CB32628B577640092E993 /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
 		246DF9FF1BEADFDF00591E9A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		246DFA021BEAE01700591E9A /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -153,7 +149,6 @@
 		BC9A27391B82741900BDA84D /* ResultTableViewProviders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResultTableViewProviders.swift; path = Results/ResultTableViewProviders.swift; sourceTree = "<group>"; };
 		BC9A273A1B82741900BDA84D /* ResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResultViewController.swift; path = Results/ResultViewController.swift; sourceTree = "<group>"; };
 		BC9A273B1B82741900BDA84D /* TextImageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextImageTableViewCell.swift; path = Results/TextImageTableViewCell.swift; sourceTree = "<group>"; };
-		CA6A0D8B288F01D10048C1EF /* ResearchKitUI (iOS).framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = "ResearchKitUI (iOS).framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA6A0D8E288F04260048C1EF /* ResearchKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA9B6DF728A2BF51000A7603 /* ResearchKitActiveTask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitActiveTask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -304,13 +299,8 @@
 		BC2A3C9E1C58E81500DA64B7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0B1735972B57394300AAB6BC /* ResearchKitUI_Watch_.framework */,
-				0B17358D2B57379C00AAB6BC /* ResearchKitUI_Watch_.framework */,
-				0B1735942B5737CE00AAB6BC /* ResearchKitUI_Watch_.framework */,
-				0B1735912B5737A300AAB6BC /* ResearchKitCore.framework */,
 				CA9B6DF728A2BF51000A7603 /* ResearchKitActiveTask.framework */,
 				CA6A0D8E288F04260048C1EF /* ResearchKitUI.framework */,
-				CA6A0D8B288F01D10048C1EF /* ResearchKitUI (iOS).framework */,
 				BC2A3CD81C58F1CA00DA64B7 /* ResearchKit.framework */,
 				863CCD811ACF545E009FD3B4 /* HealthKit.framework */,
 			);
@@ -410,7 +400,6 @@
 					};
 					9622282924F04D780056E74D = {
 						CreatedOnToolsVersion = 11.6;
-						DevelopmentTeam = 7JYUG8QGJ3;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 869230BD1AAA890A00BFE11B;
 					};
@@ -881,7 +870,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = ORKCatalogUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
@@ -912,7 +901,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = ORKCatalogUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;

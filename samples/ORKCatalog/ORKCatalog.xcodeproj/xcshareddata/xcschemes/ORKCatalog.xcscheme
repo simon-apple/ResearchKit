@@ -29,20 +29,8 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:ORKCatalogUITests/ORKCatalogUI.xctestplan">
-         </TestPlanReference>
-         <TestPlanReference
-            reference = "container:ORKCatalogUITests/InternalUITests/RegressionUITests.xctestplan"
+            reference = "container:ORKCatalogUITests/ORKCatalogUI.xctestplan"
             default = "YES">
-         </TestPlanReference>
-         <TestPlanReference
-            reference = "container:ORKCatalogUITests/InternalUITests/LaunchTasksUITests.xctestplan">
-         </TestPlanReference>
-         <TestPlanReference
-            reference = "container:ORKCatalogUITests/InternalUITests/SurveysRegressionUITests.xctestplan">
-         </TestPlanReference>
-         <TestPlanReference
-            reference = "container:ORKCatalogUITests/InternalUITests/ActiveTasksUITests.xctestplan">
          </TestPlanReference>
       </TestPlans>
       <Testables>
