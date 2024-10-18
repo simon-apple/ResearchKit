@@ -32,7 +32,7 @@ import SwiftUI
 
 struct Question<Header: View, Content: View>: View {
     @Environment(\.colorScheme) var colorScheme
-    
+
     private let header: Header
     private let content: Content
 
@@ -72,7 +72,7 @@ public struct QuestionHeader: View {
 
     private let title: String
     private let detail: String?
-    
+
     init(title: String, detail: String? = nil) {
         self.title = title
         self.detail = detail
@@ -81,41 +81,41 @@ public struct QuestionHeader: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             titleText(title)
-            
+
             if let detail {
                 Text(detail)
                     .font(detailFont)
             }
         }
-#if os(watchOS)
-        .padding(.horizontal)
-        .padding(.bottom, 4)
-        .padding(.top, 4)
-#else
-        .padding()
-#endif
+        #if os(watchOS)
+            .padding(.horizontal)
+            .padding(.bottom, 4)
+            .padding(.top, 4)
+        #else
+            .padding()
+        #endif
     }
-    
+
     @ViewBuilder
     private func titleText(_ text: String) -> some View {
         Text(title)
             .foregroundStyle(Color.choice(for: .label))
             .fontWeight(.bold)
+            #if os(watchOS)
+                .font(.footnote)
+            #else
+                .font(.body)
+            #endif
+    }
+
+    private var detailFont: Font {
         #if os(watchOS)
-            .font(.footnote)
+            .system(size: 12)
         #else
-            .font(.body)
+            .subheadline
         #endif
     }
-    
-    private var detailFont: Font {
-#if os(watchOS)
-        .system(size: 12)
-#else
-        .subheadline
-#endif
-    }
-    
+
 }
 
 #Preview("Detail and Title") {

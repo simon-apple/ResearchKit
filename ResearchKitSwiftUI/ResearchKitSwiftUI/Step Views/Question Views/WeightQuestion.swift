@@ -36,18 +36,18 @@ public enum NumericPrecision {
 }
 
 private class WeightFormatter {
-    
+
     static let shared = WeightFormatter()
-    
+
     private let weightFormatter: NumberFormatter
-    
+
     private init() {
         let weightFormatter = NumberFormatter()
         weightFormatter.numberStyle = .decimal
         weightFormatter.roundingMode = .halfUp
         self.weightFormatter = weightFormatter
     }
-    
+
     func string(for number: Double, precision: NumericPrecision) -> String? {
         switch precision {
         case .default:
@@ -62,18 +62,18 @@ private class WeightFormatter {
         }
         return weightFormatter.string(for: number)
     }
-    
+
 }
 
 /// A question that allows for weight input.
 public struct WeightQuestion: View {
-    
+
     @EnvironmentObject
     private var managedFormResult: ResearchFormResult
-    
+
     @State private var isInputActive = false
     @State private var hasChanges: Bool
-    
+
     @Environment(\.questionRequired)
     private var isRequired: Bool
 
@@ -94,13 +94,15 @@ public struct WeightQuestion: View {
         case let .automatic(key: key):
             return Binding(
                 get: { managedFormResult.resultForStep(key: key) ?? nil },
-                set: { managedFormResult.setResultForStep(.numeric($0), key: key) }
+                set: {
+                    managedFormResult.setResultForStep(.numeric($0), key: key)
+                }
             )
         case let .manual(value):
             return value
         }
     }
-    
+
     /// Initializes an instance of ``WeightQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
@@ -148,7 +150,7 @@ public struct WeightQuestion: View {
         self.maximumValue = maximumValue
         self.selection = .automatic(key: .weight(id: id))
     }
-    
+
     /// Initializes an instance of ``WeightQuestion`` with the provided configuration.
     /// - Parameters:
     ///   - id: The unique identifier for this question.
@@ -206,7 +208,7 @@ public struct WeightQuestion: View {
         } else {
             selectedResult = defaultValue ?? defaultWeightInKilograms
         }
-        
+
         let (pounds, ounces) = convertKilogramsToPoundsAndOunces(selectedResult)
         if measurementSystem == .USC {
             switch precision {
@@ -222,8 +224,9 @@ public struct WeightQuestion: View {
                 // we'll round to the nearest result which in our case would be 60kg.
                 return "\(selectedResult.rounded()) kg"
             }
-            
-            return "\(WeightFormatter.shared.string(for: selectedResult, precision: precision) ?? "") kg"
+
+            return
+                "\(WeightFormatter.shared.string(for: selectedResult, precision: precision) ?? "") kg"
         }
     }
 
@@ -236,69 +239,77 @@ public struct WeightQuestion: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     Button {
                         isInputActive = true
-                        
-#if !os(watchOS)
-                        UIApplication.shared.endEditing()
-#endif
+
+                        #if !os(watchOS)
+                            UIApplication.shared.endEditing()
+                        #endif
                     } label: {
                         Text(selectionString)
                             .foregroundStyle(Color.primary)
                     }
                     .buttonStyle(.bordered)
                     .buttonBorderShape(.roundedRectangle)
-#if os(watchOS)
-                    .navigationDestination(isPresented: $isInputActive) {
-                        WeightPickerView(
-                            measurementSystem: measurementSystem,
-                            precision: precision,
-                            defaultValue: defaultValue,
-                            minimumValue: minimumValue,
-                            maximumValue: maximumValue,
-                            selection: .init(
-                                get: {
-                                    resolvedResult.wrappedValue ?? defaultValue ?? defaultWeightInKilograms
-                                },
-                                set: {
-                                    resolvedResult.wrappedValue = $0
-                                }
-                            ),
-                            hasChanges: $hasChanges
-                        )
-                    }
-#else
-                    .popover(
-                        isPresented: $isInputActive,
-                        attachmentAnchor: .point(.bottom),
-                        arrowEdge: .top
-                    ) {
-                        WeightPickerView(
-                            measurementSystem: measurementSystem,
-                            precision: precision,
-                            defaultValue: defaultValue ?? defaultWeightInKilograms,
-                            minimumValue: minimumValue,
-                            maximumValue: maximumValue,
-                            selection: .init(
-                                get: {
-                                    resolvedResult.wrappedValue ?? defaultValue ?? defaultWeightInKilograms
-                                },
-                                set: {
-                                    resolvedResult.wrappedValue = $0
-                                }
-                            ),
-                            hasChanges: $hasChanges
-                        )
-                        .frame(width: 300)
-                        .presentationCompactAdaptation((.popover))
-                    }
-#endif
+                    #if os(watchOS)
+                        .navigationDestination(isPresented: $isInputActive) {
+                            WeightPickerView(
+                                measurementSystem: measurementSystem,
+                                precision: precision,
+                                defaultValue: defaultValue,
+                                minimumValue: minimumValue,
+                                maximumValue: maximumValue,
+                                selection: .init(
+                                    get: {
+                                        resolvedResult.wrappedValue
+                                            ?? defaultValue
+                                            ?? defaultWeightInKilograms
+                                    },
+                                    set: {
+                                        resolvedResult.wrappedValue = $0
+                                    }
+                                ),
+                                hasChanges: $hasChanges
+                            )
+                        }
+                    #else
+                        .popover(
+                            isPresented: $isInputActive,
+                            attachmentAnchor: .point(.bottom),
+                            arrowEdge: .top
+                        ) {
+                            WeightPickerView(
+                                measurementSystem: measurementSystem,
+                                precision: precision,
+                                defaultValue: defaultValue
+                                    ?? defaultWeightInKilograms,
+                                minimumValue: minimumValue,
+                                maximumValue: maximumValue,
+                                selection: .init(
+                                    get: {
+                                        resolvedResult.wrappedValue
+                                            ?? defaultValue
+                                            ?? defaultWeightInKilograms
+                                    },
+                                    set: {
+                                        resolvedResult.wrappedValue = $0
+                                    }
+                                ),
+                                hasChanges: $hasChanges
+                            )
+                            .frame(width: 300)
+                            .presentationCompactAdaptation((.popover))
+                        }
+                    #endif
                 }
                 .padding()
             }
-            .preference(key: QuestionRequiredPreferenceKey.self, value: isRequired)
-            .preference(key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
+            .preference(
+                key: QuestionRequiredPreferenceKey.self, value: isRequired
+            )
+            .preference(
+                key: QuestionAnsweredPreferenceKey.self, value: isAnswered)
         }
     }
-    
+
     private var isAnswered: Bool {
         resolvedResult.wrappedValue != nil
     }
@@ -330,7 +341,7 @@ struct WeightPickerView: View {
 
     private var upperValue: Double {
         if measurementSystem == .USC {
-            guard let maximumValue else { return 1_450}
+            guard let maximumValue else { return 1_450 }
             return maximumValue
         } else {
             guard let maximumValue else {
@@ -375,8 +386,9 @@ struct WeightPickerView: View {
     }
 
     private var primaryRange: [Double] {
-        var range:[Double] = []
-        for i in stride(from: lowerValue, through: upperValue, by: primaryStep) {
+        var range: [Double] = []
+        for i in stride(from: lowerValue, through: upperValue, by: primaryStep)
+        {
             range.append(i)
         }
         return range
@@ -385,7 +397,9 @@ struct WeightPickerView: View {
     private var secondaryRange: [Double] {
         let upperValue = measurementSystem == .USC ? 15 : 0.99
         var range: [Double] = []
-        for i in stride(from: lowerValue, through: upperValue, by: secondaryStep) {
+        for i in stride(
+            from: lowerValue, through: upperValue, by: secondaryStep)
+        {
             if case .USC = measurementSystem {
                 range.append(i)
             } else {
@@ -414,7 +428,7 @@ struct WeightPickerView: View {
         self.maximumValue = maximumValue
         self._selection = selection
         self._hasChanges = hasChanges
-        
+
         let displayedValue = selection.wrappedValue ?? defaultValue ?? 0
 
         let selectionOneValue: Double = {
@@ -434,15 +448,18 @@ struct WeightPickerView: View {
             }
         }()
         self.selectionOne = selectionOneValue
-        
+
         let selectionTwoValue: Double = {
             if measurementSystem == .USC {
                 return convertKilogramsToPoundsAndOunces(displayedValue).ounces
             } else {
                 if case .high = precision {
                     let selectionTwo = Decimal(displayedValue)
-                    let selectionTwoFraction = selectionTwo.rounded(2, .plain) - selectionTwo.rounded(0, .down)
-                    return NSDecimalNumber(decimal: selectionTwoFraction).doubleValue
+                    let selectionTwoFraction =
+                        selectionTwo.rounded(2, .plain)
+                        - selectionTwo.rounded(0, .down)
+                    return NSDecimalNumber(decimal: selectionTwoFraction)
+                        .doubleValue
                 } else {
                     return 0
                 }
@@ -487,7 +504,8 @@ struct WeightPickerView: View {
             }
 
             if measurementSystem != .USC,
-               precision == .high {
+                precision == .high
+            {
                 Picker(selection: $highPrecisionSelection) {
                     ForEach(0..<1, id: \.self) { i in
                         Text("\(primaryUnit)")
@@ -506,7 +524,7 @@ struct WeightPickerView: View {
     ) -> String {
         let formatter = NumberFormatter()
 
-        let fractionalDigits : Int = {
+        let fractionalDigits: Int = {
             if measurementSystem != .USC && precision == .default {
                 return 1
             }
@@ -514,7 +532,8 @@ struct WeightPickerView: View {
         }()
 
         formatter.minimumFractionDigits = fractionalDigits
-        formatter.minimumIntegerDigits = measurementSystem != .USC && self.precision == .high ? 0 : 1
+        formatter.minimumIntegerDigits =
+            measurementSystem != .USC && self.precision == .high ? 0 : 1
 
         let string = formatter.string(for: value) ?? "Unknown"
 
@@ -534,7 +553,7 @@ struct WeightPickerView: View {
     ) -> String {
         let formatter = NumberFormatter()
 
-        let fractionalDigits : Int = {
+        let fractionalDigits: Int = {
             if measurementSystem != .USC && precision == .high {
                 return 2
             }
@@ -542,7 +561,8 @@ struct WeightPickerView: View {
         }()
 
         formatter.minimumFractionDigits = fractionalDigits
-        formatter.minimumIntegerDigits = measurementSystem != .USC && self.precision == .high ? 0 : 1
+        formatter.minimumIntegerDigits =
+            measurementSystem != .USC && self.precision == .high ? 0 : 1
 
         let string = formatter.string(for: value) ?? "Unknown"
 
@@ -559,7 +579,8 @@ struct WeightPickerView: View {
 
     private func standardizedWeight(_ weight: (Double, Double)) -> Double {
         if measurementSystem == .USC {
-            return convertPoundsAndOuncesToKilograms(pounds: weight.0, ounces: weight.1)
+            return convertPoundsAndOuncesToKilograms(
+                pounds: weight.0, ounces: weight.1)
         } else {
             switch precision {
             case .low, .default:
@@ -570,7 +591,6 @@ struct WeightPickerView: View {
         }
     }
 }
-
 
 @available(iOS 18.0, *)
 #Preview {
@@ -590,13 +610,15 @@ struct WeightPickerView: View {
     }
 }
 
-private extension Decimal {
+extension Decimal {
 
-    func rounded(_ scale: Int, _ roundingMode: NSDecimalNumber.RoundingMode) -> Decimal {
+    fileprivate func rounded(
+        _ scale: Int, _ roundingMode: NSDecimalNumber.RoundingMode
+    ) -> Decimal {
         var result = Decimal()
         var localCopy = self
         NSDecimalRound(&result, &localCopy, scale, roundingMode)
         return result
     }
-    
+
 }

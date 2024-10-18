@@ -30,15 +30,8 @@
 
 @import UIKit;
 
-#if TARGET_OS_IOS
 #import <ResearchKit/ORKTypes.h>
 #import <ResearchKit/ORKErrors.h>
-#endif
-
-#if TARGET_OS_WATCH || TARGET_OS_VISION
-#import <ResearchKitCore/ORKTypes.h>
-#import <ResearchKitCore/ORKErrors.h>
-#endif
 
 #import <Foundation/Foundation.h>
 #import <os/log.h>

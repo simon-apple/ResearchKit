@@ -2215,7 +2215,7 @@ ORK_CLASS_AVAILABLE
  
  An `ORKLocationAnswerFormat` object produces an `ORKLocationQuestionResult` object.
  */
-#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION
+#if ORK_FEATURE_CLLOCATIONMANAGER_AUTHORIZATION && TARGET_OS_IOS
 ORK_CLASS_AVAILABLE
 @interface ORKLocationAnswerFormat : ORKAnswerFormat
 

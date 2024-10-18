@@ -31,27 +31,32 @@
 import SwiftUI
 
 struct NavigationalLayout: View {
-    
+
     @Environment(\.dismiss) var dismiss
-    
+
     @State
     private var stepIdentifiers: [Subview.ID] = []
-    
+
     @State
     private var researchFormCompletion: ResearchFormCompletion?
-    
+
     private let steps: SubviewsCollection
     private let onResearchFormCompletion: ((ResearchFormCompletion) -> Void)?
-    
-    init(_ steps: SubviewsCollection, onResearchFormCompletion: ((ResearchFormCompletion) -> Void)?) {
+
+    init(
+        _ steps: SubviewsCollection,
+        onResearchFormCompletion: ((ResearchFormCompletion) -> Void)?
+    ) {
         self.steps = steps
         self.onResearchFormCompletion = onResearchFormCompletion
     }
-    
+
     var body: some View {
         NavigationStack(path: $stepIdentifiers) {
             if let firstStep = steps.first {
-                ResearchFormStepContentView(isLastStep: isLastStep(for: firstStep)) { completion in
+                ResearchFormStepContentView(
+                    isLastStep: isLastStep(for: firstStep)
+                ) { completion in
                     switch completion {
                     case .failed, .discarded, .terminated:
                         dismiss()
@@ -59,7 +64,8 @@ struct NavigationalLayout: View {
                         handle(formCompletion: completion, with: result)
                     case .saved:
                         if let currentStepIndex = index(for: firstStep) {
-                            moveToNextStep(relativeToCurrentIndex: currentStepIndex)
+                            moveToNextStep(
+                                relativeToCurrentIndex: currentStepIndex)
                         }
                     }
                 } content: {
@@ -68,67 +74,74 @@ struct NavigationalLayout: View {
                 .navigationTitle("1 of \(steps.count)")
                 .navigationDestination(for: Subview.ID.self) { subviewID in
                     ResearchFormStepContentView(
-                        isLastStep: isLastStep(for: subviewID)) { completion in
-                            switch completion {
-                            case .failed, .discarded, .terminated:
-                                dismiss()
-                            case .completed(let result):
-                                handle(formCompletion: completion, with: result)
-                            case .saved:
-                                if let currentStepIndex = index(for: subviewID) {
-                                    moveToNextStep(relativeToCurrentIndex: currentStepIndex)
-                                }
-                            }
-                        } content: {
+                        isLastStep: isLastStep(for: subviewID)
+                    ) { completion in
+                        switch completion {
+                        case .failed, .discarded, .terminated:
+                            dismiss()
+                        case .completed(let result):
+                            handle(formCompletion: completion, with: result)
+                        case .saved:
                             if let currentStepIndex = index(for: subviewID) {
-                                steps[currentStepIndex]
+                                moveToNextStep(
+                                    relativeToCurrentIndex: currentStepIndex)
                             }
                         }
-                        .navigationTitle(navigationTitle(for: subviewID))
+                    } content: {
+                        if let currentStepIndex = index(for: subviewID) {
+                            steps[currentStepIndex]
+                        }
+                    }
+                    .navigationTitle(navigationTitle(for: subviewID))
                 }
             }
         }
-#if os(watchOS)
-        .preference(key: ResearchFormCompletionKey.self, value: researchFormCompletion)
-#endif
+        #if os(watchOS)
+            .preference(
+                key: ResearchFormCompletionKey.self,
+                value: researchFormCompletion)
+        #endif
     }
-    
-    private func handle(formCompletion completion: ResearchFormCompletion, with result: ResearchFormResult) {
+
+    private func handle(
+        formCompletion completion: ResearchFormCompletion,
+        with result: ResearchFormResult
+    ) {
         if let onResearchFormCompletion {
-#if os(watchOS)
-            researchFormCompletion = .completed(result)
-#endif
+            #if os(watchOS)
+                researchFormCompletion = .completed(result)
+            #endif
             onResearchFormCompletion(completion)
         } else {
             dismiss()
         }
     }
-    
+
     private func moveToNextStep(relativeToCurrentIndex currentIndex: Int) {
         let nextStepIndex = currentIndex + 1
         if nextStepIndex < steps.count {
             stepIdentifiers.append(steps[nextStepIndex].id)
         }
     }
-    
+
     private func isLastStep(for subview: Subview) -> Bool {
         isLastStep(for: subview.id)
     }
-    
+
     private func isLastStep(for id: Subview.ID) -> Bool {
         steps.firstIndex(where: { $0.id == id }) == steps.count - 1
     }
-    
+
     private func index(for subview: Subview) -> Int? {
         index(for: subview.id)
     }
-    
+
     private func index(for id: Subview.ID) -> Int? {
         steps.firstIndex { step in
             step.id == id
         }
     }
-    
+
     private func navigationTitle(for id: Subview.ID) -> String {
         let navigationTitle: String
         if let index = index(for: id) {
@@ -138,17 +151,20 @@ struct NavigationalLayout: View {
         }
         return navigationTitle
     }
-    
+
 }
 
 #if os(watchOS)
-struct ResearchFormCompletionKey: PreferenceKey {
-    
-    static var defaultValue: ResearchFormCompletion? = nil
-    
-    static func reduce(value: inout ResearchFormCompletion?, nextValue: () -> ResearchFormCompletion?) {
-        value = nextValue()
+    struct ResearchFormCompletionKey: PreferenceKey {
+
+        static var defaultValue: ResearchFormCompletion? = nil
+
+        static func reduce(
+            value: inout ResearchFormCompletion?,
+            nextValue: () -> ResearchFormCompletion?
+        ) {
+            value = nextValue()
+        }
+
     }
-    
-}
 #endif
