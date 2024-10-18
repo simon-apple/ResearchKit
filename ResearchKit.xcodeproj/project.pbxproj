@@ -2783,7 +2783,6 @@
 				5D000EC92620F27100E5442A /* docs */,
 				5D000ECB2620F27100E5442A /* Project */,
 				5D000ED32620F27100E5442A /* ResearchKitTests */,
-				5D000EDD2620F27100E5442A /* ResearchKitUI */,
 				CA481E8028CBD6B7001C4D49 /* ResearchKitUI-iOS */,
 				CA481E8B28CBD9F1001C4D49 /* ResearchKitActiveTask */,
 			);
@@ -2826,13 +2825,6 @@
 				5D000ED72620F27100E5442A /* ResearchKitTests-Debug.xcconfig */,
 			);
 			path = ResearchKitTests;
-			sourceTree = "<group>";
-		};
-		5D000EDD2620F27100E5442A /* ResearchKitUI */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ResearchKitUI;
 			sourceTree = "<group>";
 		};
 		5D06632E24FEF272005D9B40 /* ResearchKitUI */ = {
@@ -6050,7 +6042,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -6059,7 +6051,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
