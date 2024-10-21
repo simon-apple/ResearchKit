@@ -51,7 +51,7 @@
 			containerPortal = 0BF86B142B4F360000E3790E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 0BF86B1C2B4F360000E3790E;
-			remoteInfo = "ResearchKitUI(Watch)";
+			remoteInfo = "";
 		};
 /* End PBXContainerItemProxy section */
 
