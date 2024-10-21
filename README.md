@@ -149,7 +149,7 @@ ResearchForm(
 
 #### Install as an embedded framework
 
-Download the project source code and drag in the *ResearchKitSwiftUI* folder. In the dialog that pops up, choose to copy files to destination and create folders, and hit the finish button. Then embed the *ResearchKitSwiftUI* framework in your app by adding it to the "Frameworks, Libraries, and Embedded Content" section for your target.
+Download the project source code and drag in the *ResearchKitSwiftUI* folder. In the dialog that pops up, choose to copy files to destination and create folders. Then hit the finish button. Finally, embed the *ResearchKitSwiftUI* framework in your app by adding it to the "Frameworks, Libraries, and Embedded Content" section for your target.
 
 # Consent <a name="consent"></a>
 
