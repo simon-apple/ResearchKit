@@ -73,22 +73,8 @@ static NSArray <ORKFormItem*> *ORKRegistrationFormItems(ORKRegistrationStepOptio
         answerFormat.autocapitalizationType = UITextAutocapitalizationTypeNone;
         answerFormat.autocorrectionType = UITextAutocorrectionTypeNo;
         answerFormat.spellCheckingType = UITextSpellCheckingTypeNo;
-        
-        if (@available(iOS 12.0, *)) {
-            answerFormat.textContentType = UITextContentTypeNewPassword;
-        } else {
-            answerFormat.textContentType = UITextContentTypePassword;
-        }
-#if RK_APPLE_INTERNAL
-        if ([[NSProcessInfo processInfo].arguments containsObject:UITestLaunchArgument]) {
-            // Workaround for disabling Password Autofill for UI tests. It needs to be disabled due to an issue
-            // where a yellow area "Automatic Strong Password cover view text" covers the entire password field
-            // during XCUITests on simulator. The view thinks that there is nothing there in password field and
-            // "proceed" step button is disabled.
-            answerFormat.textContentType = UITextContentTypeOneTimeCode;
-        }
-#endif
-        
+        answerFormat.textContentType = UITextContentTypeOneTimeCode;
+                
         ORKFormItem *item = [[ORKFormItem alloc] initWithIdentifier:ORKRegistrationFormItemIdentifierPassword
                                                                text:ORKLocalizedString(@"PASSWORD_FORM_ITEM_TITLE", nil)
                                                        answerFormat:answerFormat
