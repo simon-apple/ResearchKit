@@ -194,7 +194,6 @@
 		5192BF872AE1BA47006E43FB /* ORKFrontFacingCameraStepResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF832AE1BA47006E43FB /* ORKFrontFacingCameraStepResult.h */; platformFilter = ios; settings = {ATTRIBUTES = (Public, ); }; };
 		5192BF8A2AE1BBB0006E43FB /* ORKSecondaryTaskStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF882AE1BBB0006E43FB /* ORKSecondaryTaskStep.m */; platformFilter = ios; };
 		5192BF8B2AE1BBB0006E43FB /* ORKSecondaryTaskStep.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF892AE1BBB0006E43FB /* ORKSecondaryTaskStep.h */; platformFilter = ios; settings = {ATTRIBUTES = (Public, ); }; };
-		5192BF8C2AE1BF16006E43FB /* (null) in Headers */ = {isa = PBXBuildFile; platformFilter = ios; settings = {ATTRIBUTES = (Private, ); }; };
 		5192BF8F2AE1C051006E43FB /* ORKAgePicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF8D2AE1C051006E43FB /* ORKAgePicker.h */; };
 		5192BF902AE1C051006E43FB /* ORKAgePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5192BF8E2AE1C051006E43FB /* ORKAgePicker.m */; };
 		5192BF932AE1C2F8006E43FB /* ORKChoiceViewCell+ORKColorChoice.h in Headers */ = {isa = PBXBuildFile; fileRef = 5192BF912AE1C2F7006E43FB /* ORKChoiceViewCell+ORKColorChoice.h */; };
