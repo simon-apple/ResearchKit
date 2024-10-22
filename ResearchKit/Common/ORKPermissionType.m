@@ -67,7 +67,7 @@
 }
 
 - (void)cleanUp {
-    // left empty for subclass optional override
+    // left empty for optional subclass override
 }
 
 + (ORKHealthKitPermissionType *)healthKitPermissionTypeWithSampleTypesToWrite:(NSSet<HKSampleType *> *)sampleTypesToWrite objectTypesToRead:(NSSet<HKObjectType *> *)objectTypesToRead {
