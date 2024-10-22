@@ -66,6 +66,10 @@
     ORKThrowMethodUnavailableException();
 }
 
+- (void)cleanUp {
+    // left empty for subclass optional override
+}
+
 + (ORKHealthKitPermissionType *)healthKitPermissionTypeWithSampleTypesToWrite:(NSSet<HKSampleType *> *)sampleTypesToWrite objectTypesToRead:(NSSet<HKObjectType *> *)objectTypesToRead {
     return [[ORKHealthKitPermissionType alloc] initWithSampleTypesToWrite:sampleTypesToWrite
                                                         objectTypesToRead:objectTypesToRead];
