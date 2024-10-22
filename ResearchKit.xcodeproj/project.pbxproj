@@ -5524,8 +5524,8 @@
 						LastSwiftMigration = 1020;
 					};
 					B183A4731A8535D100C76870 = {
-                        LastSwiftMigration = 1020;
-                        ProvisioningStyle = Manual;
+						LastSwiftMigration = 1020;
+						ProvisioningStyle = Manual;
 					};
 					CA1C7A40288B0C68004DAB3A = {
 						ProvisioningStyle = Manual;
@@ -6813,7 +6813,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -6822,7 +6822,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = "Skywagon Stable";
@@ -6831,7 +6831,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -6840,7 +6840,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = "Skywagon Internal Release";
@@ -6849,7 +6849,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7JYUG8QGJ3;
+				DEVELOPMENT_TEAM = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = "Skywagon Public Release";
