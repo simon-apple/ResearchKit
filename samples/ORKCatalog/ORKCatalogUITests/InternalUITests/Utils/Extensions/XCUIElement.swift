@@ -86,7 +86,7 @@ extension XCUIElement {
             }
             swipes += 1
         }
-        XCTAssertLessThan(swipes, maxSwipes, "Exceeded maximum amount of \(maxSwipes) swipes. Element \(self) is not visible")
+        XCTAssertLessThanOrEqual(swipes, maxSwipes, "Exceeded maximum amount of \(maxSwipes) swipes. Element \(self) is not visible")
     }
     
     /**
