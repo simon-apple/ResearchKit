@@ -52,12 +52,7 @@
 #import <ResearchKitActiveTask/ORKActiveStepCustomView.h>
 
 #import <LocalAuthentication/LAContext.h>
-
-#import <LocalAuthentication/LAContext.h>
-
-#import <LocalAuthentication/LAContext.h>
-
-#import <LocalAuthentication/LAContext.h>
+#import <CoreFoundation/CFNotificationCenter.h>
 
 static const CGFloat ORKHeadphoneImageViewDimension = 36.0;
 static const CGFloat ORKHeadphoneDetectStepSpacing = 12.0;
@@ -71,6 +66,8 @@ static NSString *const ORKHeadphoneGlyphNameAirpodsGen3 = @"airpods_gen3";
 static NSString *const ORKHeadphoneGlyphNameAirpodsPro = @"airpods_pro";
 static NSString *const ORKHeadphoneGlyphNameAirpodsMax = @"airpods_max";
 static NSString *const ORKHeadphoneGlyphNameEarpods = @"earpods";
+
+static NSString *const ORKHearingTestNotificationName = @"com.apple.HearingTest.test.started";
 
 NSString * const ORKHeadphoneDetectStepViewAccessibilityIdentifier = @"ORKHeadphoneDetectStepView";
 NSString * const ORKHeadphoneTypeTextLabelAccessibilityIdentifier = @"ORKHeadphoneTypeTextLabel";
@@ -986,6 +983,11 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    CFStringRef notificationName = (__bridge CFStringRef)ORKHearingTestNotificationName;
+    // Undocumented notification that turn off Background Sounds
+    CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), notificationName, nil, nil, true);
+    
     self.stepView.navigationFooterView.optional = YES;
     self.stepView.navigationFooterView.continueEnabled = NO;
     
