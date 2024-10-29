@@ -567,6 +567,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                                  [ORKTouchAbilityPinchStep class],
                                                  [ORKTouchAbilitySwipeStep class],
                                                  [ORKTouchAbilityTapResult class],
+                                                 [ORKTouchAbilityTouchTracker class],
                                                  [ORKTouchAbilityRotationStep class],
                                                  [ORKTouchAbilityLongPressStep class],
                                                  [ORKTouchAbilityScrollStep class],
@@ -701,9 +702,9 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKTextAnswerFormat.textContentType",
                                           @"ORKColorChoice.value",
                                           @"ORKColorChoice.value",
+                                          @"ORKHealthCondition.value",
 #if RK_APPLE_INTERNAL
                                           @"ORKTextAnswerFormat.scrubbers",
-                                          @"ORKHealthCondition.value",
 #endif
                                           @"ORKTextChoice.detailTextAttributedString",
                                           @"ORKTextChoice.primaryTextAttributedString",
@@ -713,6 +714,7 @@ ORK_MAKE_TEST_INIT(ORKBLEScanPeripheralsStep, (^{ return [[ORKBLEScanPeripherals
                                           @"ORKTimeIntervalAnswerFormat.defaultInterval",
                                           @"ORKTimeIntervalAnswerFormat.maximumInterval",
                                           @"ORKTimeIntervalAnswerFormat.step",
+                                          @"ORKTouchAbilityTouchTracker.delegate",
                                           @"ORKVerificationStep.verificationViewControllerClass",
                                           @"ORKVideoCaptureStep.templateImage",
                                           @"ORKWeightAnswerFormat.useMetricSystem",

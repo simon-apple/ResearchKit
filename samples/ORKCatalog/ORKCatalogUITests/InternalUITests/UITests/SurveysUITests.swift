@@ -410,9 +410,13 @@ final class SurveysUITests: BaseUITest {
             .tap(.continueButton)
             .tap(.backButton)
             .verifyTextBoxValue(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex, expectedValue: Answers.loremIpsumOneLineText)
-            .answerSingleChoiceTextQuestion(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex)
-            .answerTextChoiceOtherQuestion(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex, text: Answers.loremIpsumOneLineText, clearIfNeeded: true)
+        if (!isRunningInXcodeCloud && !isRunningOnSimulator) {
+            // Hypothesizing that this extra tap prior to text entry is causing flakiness in Skywagon simulators. Omitting this step for those scenarios. rdar://134442269
+            formStep
+                .answerSingleChoiceTextQuestion(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex)
+        }
         formStep
+            .answerTextChoiceOtherQuestion(withId: formItemTextChoiceId, atIndex: otherTextChoiceIndex, text: Answers.loremIpsumOneLineText, clearIfNeeded: true)
             .tap(.continueButton)
             .tap(.continueButton)
   
@@ -472,6 +476,10 @@ final class SurveysUITests: BaseUITest {
         formStep
             .scrollToQuestionTitle(atIndex: 1)
         
+        // On some devices the page is loaded with the title above, but the slider is belows the visible screen. We will swipe up for these cases
+        if !app.sliders.firstMatch.visible {
+            app.sliders.firstMatch.scrollUntilVisible(direction: .up, maxSwipes: 1)
+        }
         for sliderValue in minValueSlider1...maxValueSlider1 {
             formStep.answerScaleQuestion(withId: formItemIdSlider1, sliderValue: Double(sliderValue), stepValue: 1, minValue: Double(minValueSlider1), maxValue: Double(maxValueSlider1))
         }

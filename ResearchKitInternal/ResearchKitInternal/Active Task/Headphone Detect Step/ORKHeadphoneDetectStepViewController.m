@@ -52,12 +52,7 @@
 #import <ResearchKitActiveTask/ORKActiveStepCustomView.h>
 
 #import <LocalAuthentication/LAContext.h>
-
-#import <LocalAuthentication/LAContext.h>
-
-#import <LocalAuthentication/LAContext.h>
-
-#import <LocalAuthentication/LAContext.h>
+#import <CoreFoundation/CFNotificationCenter.h>
 
 static const CGFloat ORKHeadphoneImageViewDimension = 36.0;
 static const CGFloat ORKHeadphoneDetectStepSpacing = 12.0;
@@ -71,6 +66,9 @@ static NSString *const ORKHeadphoneGlyphNameAirpodsGen3 = @"airpods_gen3";
 static NSString *const ORKHeadphoneGlyphNameAirpodsPro = @"airpods_pro";
 static NSString *const ORKHeadphoneGlyphNameAirpodsMax = @"airpods_max";
 static NSString *const ORKHeadphoneGlyphNameEarpods = @"earpods";
+
+static NSString *const ORKHearingTestNotificationName = @"com.apple.HearingTest.test.started";
+static NSString *const ORKiPhone12ProMaxModelID = @"iPhone13,4";
 
 NSString * const ORKHeadphoneDetectStepViewAccessibilityIdentifier = @"ORKHeadphoneDetectStepView";
 NSString * const ORKHeadphoneTypeTextLabelAccessibilityIdentifier = @"ORKHeadphoneTypeTextLabel";
@@ -986,6 +984,11 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    CFStringRef notificationName = (__bridge CFStringRef)ORKHearingTestNotificationName;
+    // Undocumented notification that turn off Background Sounds
+    CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), notificationName, nil, nil, true);
+    
     self.stepView.navigationFooterView.optional = YES;
     self.stepView.navigationFooterView.continueEnabled = NO;
     
@@ -1175,6 +1178,26 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
 
 @end
 
+@interface DeviceInfo : NSObject
+
++ (NSString *)model;
+
+@end
+
+#import <sys/utsname.h>
+
+@implementation DeviceInfo
+
++ (NSString *)model
+{
+    struct utsname systemInfo;
+    uname(&systemInfo);
+
+    return [NSString stringWithCString: systemInfo.machine encoding: NSUTF8StringEncoding];
+}
+
+@end
+
 @implementation UIDevice (HeadphoneDetectStepExtensions)
 
 - (BOOL)supportsFaceID {
@@ -1185,6 +1208,11 @@ typedef NS_ENUM(NSInteger, ORKHeadphoneDetected) {
         NSError *error = nil;
         result = [context canEvaluatePolicy:kLAPolicyDeviceOwnerAuthentication error:&error];
         result = result && context.biometryType == LABiometryTypeFaceID;
+        // workaround to fix rdar://136159614 ([ORKCatalog] D54p/22A3354: Enable Noise cancellation instructions are incorrect for dBHL Tone Audiometry task (Internal))
+        if ([[DeviceInfo model] isEqualToString: ORKiPhone12ProMaxModelID]) {
+            // We are sure that iPhone 12 Pro Max has Face Id, returning YES when this device is recognized.
+            result = YES;
+        }
     }
     
     return  result;

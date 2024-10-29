@@ -47,6 +47,7 @@
 #import "ORKIUtils.h"
 
 #import <ResearchKitUI/ORKTaskViewController.h>
+#import <ResearchKitInternal/ORKITaskViewController.h>
 #import <ResearchKitActiveTask/ORKEnvironmentSPLMeterStep.h>
 
 #if TARGET_OS_IOS
@@ -648,7 +649,7 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
     return nextStep;
 }
 
-- (ORKStep *)stepAfterStep:(ORKStep *)step withResult:(ORKTaskResult *)result {
+- (nullable ORKStep *)stepAfterStep:(ORKStep *)step withResult:(ORKTaskResult *)result {
     if (step == nil) {
         [self setupStraightStepAfterStepDict];
     }
@@ -661,6 +662,10 @@ static NSString *const ORKTinnitusHeadphoneRequiredStepIdentifier = @"ORKTinnitu
 
     if (!nextStep) {
         nextStep = [self apendedStepAfterStep:step];
+    }
+    
+    if ([step.identifier isEqualToString:ORKEnvironmentSPLMeterTimeoutIdentifier]) {
+        return nil;
     }
     
     if (nextStep) {

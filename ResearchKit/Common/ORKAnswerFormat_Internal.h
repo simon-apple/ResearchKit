@@ -29,8 +29,6 @@
  */
 
 
-//#import <ResearchKit/ORKDefines.h>
-
 #if ORK_FEATURE_HEALTHKIT_AUTHORIZATION
 #import <HealthKit/HealthKit.h>
 #endif
