@@ -184,4 +184,10 @@ struct AccessibilityIdentifiers {
             return "\(String(describing: self))_value"
         }
     }
+    
+    struct ResultsTab {
+        // TODO: rdar://117821622 (Add localization support for UI Tests)
+        static let noChildResults = "No child results."
+    }
+    
 }
