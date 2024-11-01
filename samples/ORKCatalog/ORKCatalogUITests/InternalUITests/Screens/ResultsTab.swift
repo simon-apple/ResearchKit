@@ -53,7 +53,7 @@ final class ResultsTab {
     @discardableResult
     func selectResultsCell(withId id: String) -> Self {
         let cellToSelect = Self.app.cells.staticTexts[id]
-        cellToSelect.scrollToVisible()
+        cellToSelect.scrollUntilVisible(maxSwipes: 20)
         wait(for: cellToSelect)
         cellToSelect.tap()
         return self
