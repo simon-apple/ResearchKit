@@ -428,6 +428,7 @@ isLastItemBeforeAddRelativeButton:(BOOL)isLastItemBeforeAddRelativeButton {
     
     [self setupSubViews];
     [self setupConstraints];
+    [self updateViewColors];
 }
 
 - (UIFont *)titleLabelFont {
