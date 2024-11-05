@@ -797,6 +797,17 @@ static const CGFloat kMargin = 25.0;
     return NO;
 }
 
+- (NSArray *)accessibilityElements {
+    NSMutableArray<UIView *> *accessibilityElements = [[NSMutableArray alloc] init];
+    if (_slider) {
+        [accessibilityElements addObject:_slider];
+    }
+    if (_dontKnowButton) {
+        [accessibilityElements addObject:_dontKnowButton];
+    }
+    return accessibilityElements;
+}
+
 - (NSInteger)accessibilityElementCount {
     return self.accessibilityElements.count;
 }
