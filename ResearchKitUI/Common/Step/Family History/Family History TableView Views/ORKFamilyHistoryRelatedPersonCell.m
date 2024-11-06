@@ -193,8 +193,6 @@ typedef void (^ORKFamilyHistoryEditDeleteViewEventHandler)(ORKFamilyHistoryEditD
     _conditionsLabel = [self _primaryLabel];
     _conditionsLabel.text = ORKLocalizedString(@"FAMILY_HISTORY_CONDITIONS", @"");
     [_backgroundView addSubview:_conditionsLabel];
-    
-    [self updateViewColors];
 }
 
 - (void)updateViewColors {
