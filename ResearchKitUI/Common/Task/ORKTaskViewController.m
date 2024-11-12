@@ -724,7 +724,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     NSMutableArray *results = [NSMutableArray new];
         
     if ([_task isKindOfClass:[ORKOrderedTask class]]) {
-        NSLog(@"--- Is ORKOrderedTask");
         ORKOrderedTask *orderedTask = (ORKOrderedTask *)_task;
         for (ORKStep *step in orderedTask.steps) {
             ORKResult *result = _managedResults[step.identifier];
