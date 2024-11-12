@@ -1503,7 +1503,6 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
             // Remove the identifier from the list
             assert([itemId isEqualToString:_managedStepIdentifiers.lastObject]);
             [_managedStepIdentifiers removeLastObject];
-            NSLog(@"--- Removed last step identifier (1)");
             
             [self showStepViewController:stepViewController goForward:NO animated:animated];
         }
