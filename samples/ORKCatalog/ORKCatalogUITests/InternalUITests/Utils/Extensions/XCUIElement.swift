@@ -255,15 +255,22 @@ class Keyboards {
     }
     
     static func tapDoneButtonOnToolbar() {
+        sleep(3)
         // There is only one button ("Done") on toolbar
         let doneButton = XCUIApplication().toolbars["Toolbar"].buttons.firstMatch
-        wait(for: doneButton)
+        // Try dismissing keyboard onboarding if the Done button is not hittable
+        if !doneButton.isHittable {
+            dismissKeyboardOnboarding()
+        }
         doneButton.tap()
     }
     
     /// Handles the keyboard onboarding interruption ("Speed up your typing by sliding your finger across the letters to compose a word"), if it exists: https://developer.apple.com/forums/thread/650826
     static func dismissKeyboardOnboarding() {
         // TODO: rdar://117821622 (Add localization support for UI Tests)
-        XCUIApplication().buttons["Continue"].tap()
+        let onboardingMessage = "Speed up your typing by sliding your finger across the letters to compose a word."
+        if (XCUIApplication().staticTexts[onboardingMessage]).visible {
+            XCUIApplication().buttons["Continue"].tap()
+        }
     }
 }

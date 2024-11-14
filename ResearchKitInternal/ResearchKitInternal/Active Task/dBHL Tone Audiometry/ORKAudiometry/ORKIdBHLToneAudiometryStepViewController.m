@@ -158,7 +158,7 @@
             }
             toneResult.samples = newSamples;
             toneResult.outputVolume = parentToneResult.outputVolume;
-            toneResult.headphoneType = parentToneResult.headphoneType;
+            toneResult.headphoneType = [self idBHLToneAudiometryStep].headphoneType;
             toneResult.tonePlaybackDuration = parentToneResult.tonePlaybackDuration;
             toneResult.postStimulusDelay = parentToneResult.postStimulusDelay;
             

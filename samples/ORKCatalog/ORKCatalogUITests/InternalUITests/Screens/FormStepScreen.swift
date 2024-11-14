@@ -123,7 +123,7 @@ final class FormStepScreen: Step {
         let id = "\(AccessibilityIdentifiers.Question.title)_\(uiIndex)"
         let title = Self.stepView.staticTexts[id].firstMatch
         if !title.visible {
-            title.scrollUntilVisible(direction: direction)
+            title.scrollUntilVisible(direction: direction, maxSwipes: 20)
         }
         return self
     }
