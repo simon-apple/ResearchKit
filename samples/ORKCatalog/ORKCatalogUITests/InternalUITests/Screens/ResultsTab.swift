@@ -53,6 +53,7 @@ final class ResultsTab {
     @discardableResult
     func selectResultsCell(withId id: String) -> Self {
         let cellToSelect = Self.app.cells.staticTexts[id]
+        cellToSelect.scrollUntilVisible(maxSwipes: 20)
         wait(for: cellToSelect)
         cellToSelect.tap()
         return self
@@ -80,6 +81,12 @@ final class ResultsTab {
         let cellToSelect = Self.app.cells.staticTexts[resultType.detailTextLabelIdentifier]
         wait(for: cellToSelect)
         XCTAssertTrue(cellToSelect.label.contains(expectedValue), "The cell label \(cellToSelect.label) does not contain \(expectedValue)")
+        return self
+    }
+    
+    @discardableResult
+    func verifyNoChildResults() -> Self {
+        XCTAssertTrue(Self.app.cells.staticTexts[AccessibilityIdentifiers.ResultsTab.noChildResults].visible, "'No child results.' expected but not found.")
         return self
     }
 }

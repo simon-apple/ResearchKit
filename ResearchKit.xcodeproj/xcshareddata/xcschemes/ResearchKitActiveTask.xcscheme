@@ -16,7 +16,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CAD08966289DD747007B2A98"
-               BuildableName = "ResearchKitActiveTask.framework"
+               BuildableName = ".framework"
                BlueprintName = "ResearchKitActiveTask"
                ReferencedContainer = "container:ResearchKit.xcodeproj">
             </BuildableReference>
@@ -51,7 +51,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CAD08966289DD747007B2A98"
-            BuildableName = "ResearchKitActiveTask.framework"
+            BuildableName = ".framework"
             BlueprintName = "ResearchKitActiveTask"
             ReferencedContainer = "container:ResearchKit.xcodeproj">
          </BuildableReference>

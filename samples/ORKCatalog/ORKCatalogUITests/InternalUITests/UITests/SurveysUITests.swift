@@ -146,58 +146,69 @@ final class SurveysUITests: BaseUITest {
             .tap(.continueButton)
     }
     
-    /// rdar://tsc/21847943 ([Surveys] Form Survey Example)
-    func testFormSurveyExample() {
-        tasksList
-            .selectTaskByName(Task.form.description)
-        
+    func answerFormSurvey(performVerifications: Bool = true) {
         let formStep = FormStepScreen(itemIds: ["appleFormItemIdentifier", "formItem03", "formItem04", "formItem01", "formItem02", "textChoiceFormItem", "imageChoiceItem", "freeTextItemIdentifier"])
         
         // This is required for results validation
         let answerIndices: [String: Int] = [formStep.itemIds[0]: 4, formStep.itemIds[5]: 5, formStep.itemIds[6]: 1] // questionFormItemId: index
-        
+        if performVerifications {
+            formStep
+                .verifyQuestionTitleExists(atIndex: 0)
+                .verifyQuestionProgressLabelExists(atIndex: 0)
+        }
         formStep
-            .verifyQuestionTitleExists(atIndex: 0)
-            .verifyQuestionProgressLabelExists(atIndex: 0)
             .answerSingleChoiceTextQuestion(withId: formStep.itemIds[0], atIndex: 2)
             .answerSingleChoiceTextQuestion(withId: formStep.itemIds[0], atIndex: 1)
             .answerSingleChoiceTextQuestion(withId: formStep.itemIds[0], atIndex: answerIndices[formStep.itemIds[0]]!)
         
+        if performVerifications {
+            formStep
+                .verifyQuestionTitleExists(atIndex: 1)
+                .verifyQuestionProgressLabelExists(atIndex: 1)
+        }
         formStep
-            .verifyQuestionTitleExists(atIndex: 1)
-            .verifyQuestionProgressLabelExists(atIndex: 1)
             .adjustQuestionSlider(withId: formStep.itemIds[1], withNormalizedPosition: 0.5)
             .adjustQuestionSlider(withId: formStep.itemIds[1], withNormalizedPosition: 1)
         
         // Section that consist of 3 questions:
+        if performVerifications {
+            formStep
+                .verifyQuestionTitleExists(atIndex: 2)
+        }
         formStep
-            .verifyQuestionTitleExists(atIndex: 2)
             .adjustQuestionSlider(withId: formStep.itemIds[2], withNormalizedPosition: 0.5)
             .adjustQuestionSlider(withId: formStep.itemIds[2], withNormalizedPosition: 1)
             .selectFormItemCell(withID: formStep.itemIds[3], atIndex: 1)
             .answerIntegerQuestion(number: 578)
             .selectFormItemCell(withID: formStep.itemIds[4], atIndex: 2)
             .answerTimeIntervalQuestion(hours: 9, minutes: 38, dismissPicker: true)
-        
+        if performVerifications {
+            formStep
+                .verifyQuestionTitleExists(atIndex: 3)
+        }
         formStep
-            .verifyQuestionTitleExists(atIndex: 3)
             .answerSingleChoiceTextQuestion(withId: formStep.itemIds[5], atIndex: 1)
             .answerSingleChoiceTextQuestion(withId: formStep.itemIds[5], atIndex: 6)
             .answerTextChoiceOtherQuestion(withId: formStep.itemIds[5], atIndex: 6, text: Answers.loremIpsumShortText)
             .answerSingleChoiceTextQuestion(withId: formStep.itemIds[5], atIndex: answerIndices[formStep.itemIds[5]]!)
-       //     app.swipeUp()
+        if performVerifications {
+            formStep
+                .verifyQuestionTitleExists(atIndex: 4)
+        }
         formStep
-            .verifyQuestionTitleExists(atIndex: 4)
-        //   .scrollToQuestionTitle(atIndex: 4)
             .answerImageChoiceQuestion(withId: formStep.itemIds[6], imageIndex: answerIndices[formStep.itemIds[6]]!)
         
+        if performVerifications {
+            formStep
+                .verifyQuestionTitleExists(atIndex: 5)
+        }
         formStep
-            .verifyQuestionTitleExists(atIndex: 5)
             .answerTextQuestionTextView(withId: formStep.itemIds[7], text: Answers.loremIpsumShortText, dismissKeyboard: true)
-        
-        formStep
             .tap(.continueButton)
-        
+    }
+    
+    func verifyFormSurvey() {
+        let formStep = FormStepScreen(itemIds: ["appleFormItemIdentifier", "formItem03", "formItem04", "formItem01", "formItem02", "textChoiceFormItem", "imageChoiceItem", "freeTextItemIdentifier"])
         let instructionStep = InstructionStepScreen()
         instructionStep
             .verify(.title)
@@ -225,6 +236,13 @@ final class SurveysUITests: BaseUITest {
         
         instructionStep
             .tap(.continueButton)
+    }
+    /// rdar://tsc/21847943 ([Surveys] Form Survey Example)
+    func testFormSurveyExample() {
+        tasksList
+            .selectTaskByName(Task.form.description)
+        answerFormSurvey()
+        verifyFormSurvey()
     }
     
     /// no tstt test case yet

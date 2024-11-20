@@ -112,6 +112,7 @@
 		CA8D8D0028B01E90000CF52F /* ResearchKitInternal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA8D8CFE28B01E85000CF52F /* ResearchKitInternal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CA9B6DF828A2BF51000A7603 /* ResearchKitActiveTask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9B6DF728A2BF51000A7603 /* ResearchKitActiveTask.framework */; };
 		CA9B6DF928A2BF64000A7603 /* ResearchKitActiveTask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA9B6DF728A2BF51000A7603 /* ResearchKitActiveTask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FE5851482CCC0E7300F95D74 /* SurveysResultsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5851472CCC0E6800F95D74 /* SurveysResultsUITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -336,6 +337,7 @@
 		CA6A0D8E288F04260048C1EF /* ResearchKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA8D8CFE28B01E85000CF52F /* ResearchKitInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA9B6DF728A2BF51000A7603 /* ResearchKitActiveTask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ResearchKitActiveTask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE5851472CCC0E6800F95D74 /* SurveysResultsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveysResultsUITests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -521,6 +523,7 @@
 		8C89CD572BCD08F000C61F8A /* ResultsUITests */ = {
 			isa = PBXGroup;
 			children = (
+				FE5851472CCC0E6800F95D74 /* SurveysResultsUITests.swift */,
 				8C89CD582BCD091100C61F8A /* SurveyQuestionsResultsUITests.swift */,
 			);
 			path = ResultsUITests;
@@ -996,6 +999,7 @@
 				8CE15F4A2C0D70A9003C1008 /* HeadphoneDetectStepScreen.swift in Sources */,
 				8C49088E2B7ECEEB00DA6E2D /* OpenAndCancelUITests.swift in Sources */,
 				8C7C54242B4F677300A2E513 /* HealthApp.swift in Sources */,
+				FE5851482CCC0E7300F95D74 /* SurveysResultsUITests.swift in Sources */,
 				8CCB03732B86AA8A00096C86 /* UITestLogger.swift in Sources */,
 				8CFF290B2AE9C051000DC99E /* XCTestCase.swift in Sources */,
 				8CFF29092AE9BEF9000DC99E /* XCUIElementQuery.swift in Sources */,
