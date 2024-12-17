@@ -86,8 +86,6 @@ static const CGFloat TopIndexOutOfBounds = 0.0;
         dbSPLAmplitudePerFrequencyFilename = @"dbSPLAmplitudePerFrequency_EARPODS";
         loudnessEQFilename = @"LoudnessEQ_EARPODS";
         volumeCurveFilename = @"volume_curve_WIRED";
-    } else {
-        NSAssert(NO, @"A valid headphone route identifier must be provided");
     }
     
     self.volumeCurve = [NSDictionary
