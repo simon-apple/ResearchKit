@@ -105,6 +105,33 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeDidChange:) name:AVSystemController_SystemVolumeDidChangeNotification object:nil];
 }
 
+- (void)removeIdentifiersAndResultsAfterIdentifier:(NSString *)identifier {
+    NSUInteger index = [self.managedStepIdentifiers indexOfObject:identifier];
+    
+    if (index != NSNotFound) {
+        NSRange rangeToKeep = NSMakeRange(0, index + 1);
+        NSArray *updatedStepIdentifiers = [self.managedStepIdentifiers subarrayWithRange:rangeToKeep];
+        NSMutableDictionary *updatedResults = [self.managedResults mutableCopy];
+        for (NSString *key in self.managedResults) {
+            if (![updatedStepIdentifiers containsObject:key]) {
+                [updatedResults removeObjectForKey:key];
+            }
+        }
+        self.managedStepIdentifiers = [updatedStepIdentifiers mutableCopy];
+        self.managedResults = updatedResults;
+    }
+}
+
+- (void)flipToPageWithIdentifier:(NSString *)identifier forward:(BOOL)forward animated:(BOOL)animated eraseForwardResults:(BOOL)eraseForwardResults {
+    ORKStep *step = [self.task stepWithIdentifier:identifier];
+    if (step) {
+        if (eraseForwardResults) {
+            [self removeIdentifiersAndResultsAfterIdentifier:identifier];
+        }
+        [self showStepViewController:[self viewControllerForStep:step] goForward:forward animated:animated];
+    }
+}
+
 - (BOOL)showSensitiveURLLearMoreStepViewControllerForStep:(ORKActiveStep *)step {
     // If they select to not allow required permissions, we need to show them to the door.
     if ([self.task isKindOfClass:[ORKNavigableOrderedTask class]] &&

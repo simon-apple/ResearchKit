@@ -67,6 +67,9 @@ ORK_EXTERN ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdenti
 // will return YES if the sensitive URL step is shown
 - (BOOL)showSensitiveURLLearMoreStepViewControllerForStep:(ORKActiveStep *)step;
 
+// Will flip to the specified page and also erase the results after this step
+- (void)flipToPageWithIdentifier:(NSString *)identifier forward:(BOOL)forward animated:(BOOL)animated eraseForwardResults:(BOOL)eraseForwardResults;
+
 @property (nonatomic, weak, nullable) id<ORKITaskViewControllerDelegate> internalDelegate;
 
 @end
