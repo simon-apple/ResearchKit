@@ -30,6 +30,7 @@
 
 #import "ORKITaskViewController.h"
 #import "ORKInternalClassMapper.h"
+#import "ORKIUtils.h"
 #import "ORKSensitiveURLLearnMoreInstructionStep.h"
 #import "ORKContext.h"
 #import "ORKSensitiveURLLearnMoreInstructionStep.h"
@@ -132,15 +133,31 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
     }
 }
 
-- (BOOL)showSensitiveURLLearMoreStepViewControllerForStep:(ORKActiveStep *)step {
+- (BOOL)didHandlePermissionDenialWithStepViewController:(ORKStepViewController *)stepViewController {
+    ORKStep *step = stepViewController.step;
+    
+    ORKActiveStep *activeStep = nil;
+    if ([step isKindOfClass:[ORKActiveStep class]]) {
+        activeStep = (ORKActiveStep *)step;
+    }
+    
+    if (activeStep && [activeStep hasAudioRecording]
+        && !_hasMicrophoneAccess && [self.task isKindOfClass:[ORKNavigableOrderedTask class]]) {
+        return [self showSensitiveURLLearnMoreStepViewControllerForStep:activeStep];
+    }
+    
+    return NO;
+}
+
+- (BOOL)showSensitiveURLLearnMoreStepViewControllerForStep:(ORKActiveStep *)step {
     // If they select to not allow required permissions, we need to show them to the door.
     if ([self.task isKindOfClass:[ORKNavigableOrderedTask class]] &&
         [step hasAudioRecording]) {
         ORKNavigableOrderedTask *navigableOrderedTask = (ORKNavigableOrderedTask *)self.task;
         
         ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore];
-        completionStep.title = ORKLocalizedString(@"CONTEXT_MICROPHONE_REQUIRED_TITLE", nil);
-        completionStep.text = ORKLocalizedString(@"CONTEXT_MICROPHONE_REQUIRED_TEXT", nil);
+        completionStep.title = ORKILocalizedString(@"CONTEXT_MICROPHONE_REQUIRED_TITLE", nil);
+        completionStep.text = ORKILocalizedString(@"CONTEXT_MICROPHONE_REQUIRED_TEXT", nil);
         completionStep.optional = NO;
         completionStep.reasonForCompletion = ORKTaskFinishReasonDiscarded;
         
@@ -153,7 +170,7 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
         
         
         ORKLearnMoreItem *learnMoreItem = [[ORKLearnMoreItem alloc]
-                                           initWithText:ORKLocalizedString(@"OPEN_MICROPHONE_SETTINGS", nil)
+                                           initWithText:ORKILocalizedString(@"OPEN_MICROPHONE_SETTINGS", nil)
                                            learnMoreInstructionStep:learnMoreInstructionStep];
         
         ORKBodyItem *settingsLinkBodyItem = [[ORKBodyItem alloc] initWithText:nil
@@ -228,7 +245,7 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
     shouldBail = shouldBail && (ORKDynamicCast(self.task, ORKNavigableOrderedTask) != nil);
     
     if (shouldBail == YES) {
-        [self showSensitiveURLLearMoreStepViewControllerForStep:activeStep];
+        [self showSensitiveURLLearnMoreStepViewControllerForStep:activeStep];
         
         if (outError != nil) {
             *outError = [NSError errorWithDomain:NSCocoaErrorDomain
