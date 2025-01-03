@@ -303,38 +303,7 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupVolumeView];
-    
-    ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
-    
-    if ([self isMaskingSound]) {
-        
-        NSError *error;
-        if (![self setupAudioEngineForMaskingSound:self.volumeCalibrationStep.maskingSoundIdentifier error:&error]) {
-            ORK_Log_Error("Error fetching audioSample: %@", error);
-        }
-        
-    } else if ([self isTinnitusSoundCalibration]) {
-        if (context.predominantFrequency > 0.0) {
-            
-#if (TARGET_IPHONE_SIMULATOR)
-            self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithHeadphoneType:ORKHeadphoneTypeIdentifierAirPodsMax];
-#else
-            self.audioGenerator = [[ORKTinnitusAudioGenerator alloc] initWithHeadphoneType:context.headphoneType];
-#endif
-        } else {
-            NSError *error;
-            NSString *noiseType = context.tinnitusIdentifier;
-            if (![self setupAudioEngineForSound:noiseType error:&error]) {
-                ORK_Log_Error("Error fetching audioSample: %@", error);
-            }
-        }
-    } else {
-        NSError *error;
-        NSString *audioFile = @"VolumeCalibration";
-        if (![self setupAudioEngineForFile:audioFile withExtension:@"wav" error:&error]) {
-            ORK_Log_Error("Error fetching audio file %@: %@", audioFile, error);
-        }
-    }
+    [self setupAudioEngine];
 
     self.contentView = [[ORKVolumeCalibrationContentView alloc] initWithTitle:[self sampleTitleForCalibrationStep]];
     self.contentView.delegate = self;
@@ -374,8 +343,6 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self setupAudioEngine];
-    
     ORKITaskViewController *internalTaskViewController = (ORKITaskViewController *)self.taskViewController;
     if (internalTaskViewController != nil && [internalTaskViewController isKindOfClass:[ORKITaskViewController class]]) {
         [internalTaskViewController saveVolume];
@@ -383,8 +350,14 @@ const NSTimeInterval ORKVolumeCalibrationFadeStep = 0.01;
         // rdar://107531448 (all internal classes should throw error if parent is ORKITaskViewController)
         // TODO: THROW IF PARENT VIEW CONTROLLER ISN'T OF TYPE ORKITaskViewController
     }
-    
-    [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:UIAccessibilityIsVoiceOverRunning() ? 0.2 : 0];
+    float volume = UIAccessibilityIsVoiceOverRunning() ? 0.2 : 0;
+    if (self.tinnitusPredefinedTaskContext) {
+        ORKTinnitusPredefinedTaskContext *context = self.tinnitusPredefinedTaskContext;
+        volume = context.userVolume;
+    }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [[getAVSystemControllerClass() sharedAVSystemController] setActiveCategoryVolumeTo:volume];
+    });
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

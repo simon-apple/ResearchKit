@@ -33,6 +33,8 @@
 #import "ORKRecorder_Private.h"
 #import "ORKHelpers_Internal.h"
 
+#import <ResearchKit/ORKActiveStep_Internal.h>
+
 #define ORKEnvironmentSPLMeterTaskDefaultThresholdValue 35.0
 #define ORKEnvironmentSPLMeterTaskMinimumSamplingInterval 1.0
 #define ORKEnvironmentSPLMeterTaskDefaultRequiredContiguousSamples 5
@@ -114,6 +116,10 @@
             && (self.thresholdValue == castObject.thresholdValue)
             && (self.samplingInterval == castObject.samplingInterval)
             && (self.requiredContiguousSamples == castObject.requiredContiguousSamples));
+}
+
+- (BOOL)hasAudioRecording {
+    return YES;
 }
 
 @end
