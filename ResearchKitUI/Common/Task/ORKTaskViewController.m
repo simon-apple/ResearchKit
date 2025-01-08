@@ -955,7 +955,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
             // Do the health request and THEN proceed.
             [self requestHealthAuthorizationWithCompletion:^{
                 
-                if ([self grantedAtLeastOnePermission] == NO && [self didHandlePermissionDenialWithStepViewController:stepViewController]) {
+                if ([self grantedAtLeastOnePermission] == NO && [self didHandlePermissionDenial]) {
                     return;
                 }
                 
@@ -1046,7 +1046,7 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
     }
 }
 
-- (BOOL)didHandlePermissionDenialWithStepViewController:(ORKStepViewController *)stepViewController {
+- (BOOL)didHandlePermissionDenial {
     // Defaults to no, but can be overridden by subclasses that wish to handle permission denial separately
     return NO;
 }

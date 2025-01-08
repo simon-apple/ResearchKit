@@ -65,7 +65,7 @@ ORK_EXTERN ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdenti
 - (void)saveVolume;
 
 // will return YES if the sensitive URL step is shown
-- (BOOL)showSensitiveURLLearnMoreStepViewControllerForStep:(ORKActiveStep *)step;
+- (BOOL)showSensitiveURLLearnMoreStepViewController;
 
 @property (nonatomic, weak, nullable) id<ORKITaskViewControllerDelegate> internalDelegate;
 

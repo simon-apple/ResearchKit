@@ -29,11 +29,14 @@
  */
 
 #import "ORKITaskViewController.h"
+
 #import "ORKInternalClassMapper.h"
 #import "ORKIUtils.h"
 #import "ORKSensitiveURLLearnMoreInstructionStep.h"
 #import "ORKContext.h"
 #import "ORKSensitiveURLLearnMoreInstructionStep.h"
+#import "ORKSpeechInNoisePredefinedTask.h"
+#import "ORKTinnitusPredefinedTask.h"
 #import "ORKCelestialSoftLink.h"
 
 #import <ResearchKitUI/ORKTaskViewController_Internal.h>
@@ -134,26 +137,35 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
     }
 }
 
-- (BOOL)didHandlePermissionDenialWithStepViewController:(ORKStepViewController *)stepViewController {
-    ORKStep *step = stepViewController.step;
+- (BOOL)didHandlePermissionDenial {
+    ORKNavigableOrderedTask *task = (ORKNavigableOrderedTask *)self.task;
     
-    ORKActiveStep *activeStep = nil;
-    if ([step isKindOfClass:[ORKActiveStep class]]) {
-        activeStep = (ORKActiveStep *)step;
-    }
-    
-    if (activeStep && [activeStep hasAudioRecording]
-        && !_hasMicrophoneAccess && [self.task isKindOfClass:[ORKNavigableOrderedTask class]]) {
-        return [self showSensitiveURLLearnMoreStepViewControllerForStep:activeStep];
+    if (task) {
+        BOOL isTaskThatRequiresMicrophoneAccess = [task isKindOfClass:[ORKSpeechInNoisePredefinedTask class]] || [task isKindOfClass:[ORKTinnitusPredefinedTask class]];
+        BOOL taskContainsStepThatRequiresMicrophoneAccess = [self _foundStepThatReqiresMicrophoneAccessInTask:task];
+        
+        if ((isTaskThatRequiresMicrophoneAccess || taskContainsStepThatRequiresMicrophoneAccess) && !_hasMicrophoneAccess) {
+            return [self showSensitiveURLLearnMoreStepViewController];
+        }
     }
     
     return NO;
 }
 
-- (BOOL)showSensitiveURLLearnMoreStepViewControllerForStep:(ORKActiveStep *)step {
+- (BOOL)_foundStepThatReqiresMicrophoneAccessInTask:(ORKNavigableOrderedTask *)task {
+    for (ORKStep *step in task.steps) {
+        if ([step isKindOfClass:[ORKActiveStep class]]) {
+            ORKActiveStep *activeStep = (ORKActiveStep *)step;
+            return [activeStep hasAudioRecording];
+        }
+    }
+    
+    return NO;
+}
+
+- (BOOL)showSensitiveURLLearnMoreStepViewController {
     // If they select to not allow required permissions, we need to show them to the door.
-    if ([self.task isKindOfClass:[ORKNavigableOrderedTask class]] &&
-        [step hasAudioRecording]) {
+    if ([self.task isKindOfClass:[ORKNavigableOrderedTask class]]) {
         ORKNavigableOrderedTask *navigableOrderedTask = (ORKNavigableOrderedTask *)self.task;
         
         ORKCompletionStep *completionStep = [[ORKCompletionStep alloc] initWithIdentifier:ORKCompletionStepIdentifierMicrophoneLearnMore];
@@ -246,7 +258,7 @@ ORKCompletionStepIdentifier const ORKEnvironmentSPLMeterTimeoutIdentifier = @"OR
     shouldBail = shouldBail && (ORKDynamicCast(self.task, ORKNavigableOrderedTask) != nil);
     
     if (shouldBail == YES) {
-        [self showSensitiveURLLearnMoreStepViewControllerForStep:activeStep];
+        [self showSensitiveURLLearnMoreStepViewController];
         
         if (outError != nil) {
             *outError = [NSError errorWithDomain:NSCocoaErrorDomain
