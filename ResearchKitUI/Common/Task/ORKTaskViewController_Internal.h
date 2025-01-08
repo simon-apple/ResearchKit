@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)flipToFirstPage;
 - (void)flipToLastPage;
 
-- (BOOL)didHandlePermissionDenialWithStepViewController:(ORKStepViewController *)stepViewController;
+- (BOOL)didHandlePermissionDenial;
 
 @end
 
