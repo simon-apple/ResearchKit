@@ -723,10 +723,17 @@ static const NSUInteger OCTAVE_CONFUSION_THRESHOLD_INDEX = 6;
     }
 }
 
+
 - (BOOL)canEnableFineTune {
     return ([_tinnitusContentView currentSelectedPosition] != ORKTinnitusSelectedPureTonePositionNone)
     && [_tinnitusContentView atLeastOneButtonIsSelected]
     && _timer == nil;
+}
+
+#pragma mark - Utilities
+- (double)randomDoubleBetween:(double)smallNumber and:(double)bigNumber {
+    double diff = bigNumber - smallNumber;
+    return (((double) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX) * diff) + smallNumber;
 }
 
 @end

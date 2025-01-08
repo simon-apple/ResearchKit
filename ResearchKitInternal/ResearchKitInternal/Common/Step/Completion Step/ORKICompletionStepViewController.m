@@ -81,12 +81,7 @@
 {
     if ([self isSpeechInNoisePredefinedTaskPractice])
     {
-        ORKITaskViewController *internalTaskViewController = (ORKITaskViewController *)self.taskViewController;
-        if (internalTaskViewController != nil && [internalTaskViewController isKindOfClass:[ORKITaskViewController class]]) {
-            [internalTaskViewController
-             flipToPageWithIdentifier:[[self speechInNoisePredefinedTaskContext] performSelector:@selector(practiceAgainStepIdentifier)]
-             forward:NO animated:YES eraseForwardResults:YES];
-        }
+        [self.taskViewController flipToPageWithIdentifier:[[self speechInNoisePredefinedTaskContext] performSelector:@selector(practiceAgainStepIdentifier)] forward:NO animated:YES];
     }
 }
 

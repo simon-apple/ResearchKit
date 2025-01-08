@@ -31,7 +31,6 @@
 
 #import "ORKVolumeCalibrationStep.h"
 
-#import <ResearchKit/ORKActiveStep_Internal.h>
 #import <ResearchKit/ORKHelpers_Internal.h>
 
 @implementation ORKVolumeCalibrationStep
@@ -77,10 +76,6 @@
 
 - (BOOL)startsFinished {
     return NO;
-}
-
-- (BOOL)hasAudioRecording {
-    return YES;
 }
 
 - (NSUInteger)hash {

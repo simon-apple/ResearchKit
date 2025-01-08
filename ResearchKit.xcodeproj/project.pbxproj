@@ -358,12 +358,6 @@
 		5EB91CC82BCE2EFD00BBF23E /* splMeter_sensitivity_offset.plist in Resources */ = {isa = PBXBuildFile; fileRef = 71F3B27F21001DEC00FB1C41 /* splMeter_sensitivity_offset.plist */; };
 		5EB91CC92BCE2F1D00BBF23E /* SentencesList.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA22F76C20C4F884006E6E11 /* SentencesList.txt */; };
 		622774402C5CF7DC00F2E741 /* retspl_dBFS_AIRPODSPROV2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6227743F2C5CF7DC00F2E741 /* retspl_dBFS_AIRPODSPROV2.plist */; };
-		622D458B2C970A5A0076ADEC /* frequency_dBSPL_AIRPODSV4E.plist in Resources */ = {isa = PBXBuildFile; fileRef = 622D45892C970A5A0076ADEC /* frequency_dBSPL_AIRPODSV4E.plist */; };
-		622D458E2C970A6A0076ADEC /* retspl_AIRPODSV4E.plist in Resources */ = {isa = PBXBuildFile; fileRef = 622D458C2C970A690076ADEC /* retspl_AIRPODSV4E.plist */; };
-		622D458F2C970A6A0076ADEC /* retspl_AIRPODSV4M.plist in Resources */ = {isa = PBXBuildFile; fileRef = 622D458D2C970A690076ADEC /* retspl_AIRPODSV4M.plist */; };
-		622D45922C970A760076ADEC /* volume_curve_AIRPODSV4E.plist in Resources */ = {isa = PBXBuildFile; fileRef = 622D45902C970A750076ADEC /* volume_curve_AIRPODSV4E.plist */; };
-		622D45932C970A760076ADEC /* volume_curve_AIRPODSV4M.plist in Resources */ = {isa = PBXBuildFile; fileRef = 622D45912C970A750076ADEC /* volume_curve_AIRPODSV4M.plist */; };
-		622D45952C970A8A0076ADEC /* frequency_dBSPL_AIRPODSV4M.plist in Resources */ = {isa = PBXBuildFile; fileRef = 622D45942C970A8A0076ADEC /* frequency_dBSPL_AIRPODSV4M.plist */; };
 		714080DB235FD14700281E04 /* ResearchKit.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 714080D9235FD14700281E04 /* ResearchKit.stringsdict */; };
 		714151D0225C4A23002CA33B /* ORKPasscodeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A92C6922444F93007547F2 /* ORKPasscodeViewControllerTests.swift */; };
 		7141EA2222EFBC0C00650145 /* ORKLoggingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7141EA2122EFBC0C00650145 /* ORKLoggingTests.m */; };
@@ -1636,12 +1630,6 @@
 		618DA04B1A93D0D600E63AA8 /* UIView+ORKAccessibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "UIView+ORKAccessibility.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		618DA04C1A93D0D600E63AA8 /* UIView+ORKAccessibility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "UIView+ORKAccessibility.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6227743F2C5CF7DC00F2E741 /* retspl_dBFS_AIRPODSPROV2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = retspl_dBFS_AIRPODSPROV2.plist; sourceTree = "<group>"; };
-		622D45892C970A5A0076ADEC /* frequency_dBSPL_AIRPODSV4E.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = frequency_dBSPL_AIRPODSV4E.plist; sourceTree = "<group>"; };
-		622D458C2C970A690076ADEC /* retspl_AIRPODSV4E.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = retspl_AIRPODSV4E.plist; sourceTree = "<group>"; };
-		622D458D2C970A690076ADEC /* retspl_AIRPODSV4M.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = retspl_AIRPODSV4M.plist; sourceTree = "<group>"; };
-		622D45902C970A750076ADEC /* volume_curve_AIRPODSV4E.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = volume_curve_AIRPODSV4E.plist; sourceTree = "<group>"; };
-		622D45912C970A750076ADEC /* volume_curve_AIRPODSV4M.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = volume_curve_AIRPODSV4M.plist; sourceTree = "<group>"; };
-		622D45942C970A8A0076ADEC /* frequency_dBSPL_AIRPODSV4M.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = frequency_dBSPL_AIRPODSV4M.plist; sourceTree = "<group>"; };
 		7118AC6020BF6A3900D7A6BB /* Sentence7.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Sentence7.wav; sourceTree = "<group>"; };
 		7118AC6120BF6A3A00D7A6BB /* Sentence4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Sentence4.wav; sourceTree = "<group>"; };
 		7118AC6220BF6A3A00D7A6BB /* Sentence6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Sentence6.wav; sourceTree = "<group>"; };
@@ -4263,11 +4251,10 @@
 		CAD08981289DDA20007B2A98 /* ORKAudiometry */ = {
 			isa = PBXGroup;
 			children = (
-				224CD4FC283540FF0029B820 /* ORKAudiometryProtocol.h */,
-				226565512847FD1D00E916FF /* ORKAudiometryStimulus.h */,
-				226565522847FD1D00E916FF /* ORKAudiometryStimulus.m */,
-				2295B21F282AF92700A5D9E0 /* ORKAudiometry.h */,
-				2295B220282AF92700A5D9E0 /* ORKAudiometry.m */,
+				5192BF7E2AE1A9BA006E43FB /* volume_curve_AIRPODSPROV2.plist */,
+				5192BF7C2AE1A87D006E43FB /* retspl_AIRPODSPROV2.plist */,
+				6227743F2C5CF7DC00F2E741 /* retspl_dBFS_AIRPODSPROV2.plist */,
+				5192BF5C2AE19036006E43FB /* frequency_dBSPL_AIRPODSPROV2.plist */,
 				71769E2F2088260B00A19914 /* ORKdBHLToneAudiometryOnboardingStepViewController.h */,
 				71769E302088260B00A19914 /* ORKdBHLToneAudiometryOnboardingStepViewController.m */,
 				716B126620A7A40400590264 /* ORKdBHLToneAudiometryAudioGenerator.h */,
@@ -4276,31 +4263,26 @@
 				71769E342088291B00A19914 /* ORKdBHLToneAudiometryContentView.m */,
 				71769E3B20884DB800A19914 /* ORKdBHLToneAudiometryStepViewController.h */,
 				71769E3C20884DB800A19914 /* ORKdBHLToneAudiometryStepViewController.m */,
+				E293655D25757CC700092A7C /* frequency_dBSPL_AIRPODSMAX.plist */,
+				E29189B823855B96001AFF0F /* frequency_dBSPL_AIRPODSPRO.plist */,
 				71B7B4D820AA91D400C5768A /* frequency_dBSPL_AIRPODS.plist */,
 				2246E5122749350200261D5A /* frequency_dBSPL_AIRPODSV3.plist */,
-				622D45892C970A5A0076ADEC /* frequency_dBSPL_AIRPODSV4E.plist */,
-				622D45942C970A8A0076ADEC /* frequency_dBSPL_AIRPODSV4M.plist */,
-				E29189B823855B96001AFF0F /* frequency_dBSPL_AIRPODSPRO.plist */,
-				5192BF5C2AE19036006E43FB /* frequency_dBSPL_AIRPODSPROV2.plist */,
-				E293655D25757CC700092A7C /* frequency_dBSPL_AIRPODSMAX.plist */,
 				713D4B1B20FE5464002BE28D /* frequency_dBSPL_EARPODS.plist */,
+				E293655F25757E6100092A7C /* retspl_AIRPODSMAX.plist */,
+				E29189BC23855BAE001AFF0F /* retspl_AIRPODSPRO.plist */,
 				71B7B4D420AA91D300C5768A /* retspl_AIRPODS.plist */,
 				2246E5132749350200261D5A /* retspl_AIRPODSV3.plist */,
-				622D458C2C970A690076ADEC /* retspl_AIRPODSV4E.plist */,
-				622D458D2C970A690076ADEC /* retspl_AIRPODSV4M.plist */,
-				E29189BC23855BAE001AFF0F /* retspl_AIRPODSPRO.plist */,
-				5192BF7C2AE1A87D006E43FB /* retspl_AIRPODSPROV2.plist */,
-				6227743F2C5CF7DC00F2E741 /* retspl_dBFS_AIRPODSPROV2.plist */,
-				E293655F25757E6100092A7C /* retspl_AIRPODSMAX.plist */,
 				713D4B1D20FE5480002BE28D /* retspl_EARPODS.plist */,
+				E293656125757E7700092A7C /* volume_curve_AIRPODSMAX.plist */,
+				E29189BA23855BA2001AFF0F /* volume_curve_AIRPODSPRO.plist */,
 				71B7B4D920AA91D400C5768A /* volume_curve_AIRPODS.plist */,
 				2246E5142749350200261D5A /* volume_curve_AIRPODSV3.plist */,
-				622D45902C970A750076ADEC /* volume_curve_AIRPODSV4E.plist */,
-				622D45912C970A750076ADEC /* volume_curve_AIRPODSV4M.plist */,
-				E29189BA23855BA2001AFF0F /* volume_curve_AIRPODSPRO.plist */,
-				5192BF7E2AE1A9BA006E43FB /* volume_curve_AIRPODSPROV2.plist */,
-				E293656125757E7700092A7C /* volume_curve_AIRPODSMAX.plist */,
 				713D4B0F20FE4702002BE28D /* volume_curve_WIRED.plist */,
+				224CD4FC283540FF0029B820 /* ORKAudiometryProtocol.h */,
+				226565512847FD1D00E916FF /* ORKAudiometryStimulus.h */,
+				226565522847FD1D00E916FF /* ORKAudiometryStimulus.m */,
+				2295B21F282AF92700A5D9E0 /* ORKAudiometry.h */,
+				2295B220282AF92700A5D9E0 /* ORKAudiometry.m */,
 			);
 			path = ORKAudiometry;
 			sourceTree = "<group>";
@@ -5672,31 +5654,25 @@
 				0BD9B6112B75992800A64EF9 /* Sentence5.wav in Resources */,
 				51BD8FD329D60FB60001D54E /* volume_curve_AIRPODSMAX.plist in Resources */,
 				5192BF7F2AE1A9BA006E43FB /* volume_curve_AIRPODSPROV2.plist in Resources */,
-				622D458B2C970A5A0076ADEC /* frequency_dBSPL_AIRPODSV4E.plist in Resources */,
 				0BD9B60F2B75992200A64EF9 /* Sentence3.wav in Resources */,
 				51BD8FCF29D60FB60001D54E /* retspl_AIRPODSV3.plist in Resources */,
 				51BD8FD129D60FB60001D54E /* retspl_AIRPODS.plist in Resources */,
-				622D458F2C970A6A0076ADEC /* retspl_AIRPODSV4M.plist in Resources */,
-				622D45932C970A760076ADEC /* volume_curve_AIRPODSV4M.plist in Resources */,
 				5192BF7D2AE1A87D006E43FB /* retspl_AIRPODSPROV2.plist in Resources */,
 				51BD8FCA29D60FB60001D54E /* frequency_dBSPL_EARPODS.plist in Resources */,
 				0BD9B60D2B75991B00A64EF9 /* Sentence1.wav in Resources */,
 				51BD8FD529D60FB60001D54E /* volume_curve_AIRPODSPRO.plist in Resources */,
 				51BD8FCD29D60FB60001D54E /* retspl_AIRPODSMAX.plist in Resources */,
-				622D45952C970A8A0076ADEC /* frequency_dBSPL_AIRPODSV4M.plist in Resources */,
 				51BD8FD629D60FB60001D54E /* retspl_AIRPODSPRO.plist in Resources */,
 				51AF1B232B69803A00D3B399 /* Window.wav in Resources */,
 				51BD8FD729D60FB60001D54E /* frequency_dBSPL_AIRPODSPRO.plist in Resources */,
 				51AF1B242B69803A00D3B399 /* Noise.wav in Resources */,
 				5192BF5D2AE19036006E43FB /* frequency_dBSPL_AIRPODSPROV2.plist in Resources */,
-				622D458E2C970A6A0076ADEC /* retspl_AIRPODSV4E.plist in Resources */,
 				0B0852782BD872EA00149963 /* PrivacyInfo.xcprivacy in Resources */,
 				51BD8FD029D60FB60001D54E /* volume_curve_AIRPODS.plist in Resources */,
 				51BD8FD429D60FB60001D54E /* volume_curve_WIRED.plist in Resources */,
 				0BD9B6132B75992F00A64EF9 /* Sentence7.wav in Resources */,
 				51BD8FD229D60FB60001D54E /* frequency_dBSPL_AIRPODSV3.plist in Resources */,
 				622774402C5CF7DC00F2E741 /* retspl_dBFS_AIRPODSPROV2.plist in Resources */,
-				622D45922C970A760076ADEC /* volume_curve_AIRPODSV4E.plist in Resources */,
 				0BD9B6102B75992500A64EF9 /* Sentence4.wav in Resources */,
 				51BD8FC929D60FB60001D54E /* frequency_dBSPL_AIRPODSMAX.plist in Resources */,
 				0BD9B60E2B75991F00A64EF9 /* Sentence2.wav in Resources */,

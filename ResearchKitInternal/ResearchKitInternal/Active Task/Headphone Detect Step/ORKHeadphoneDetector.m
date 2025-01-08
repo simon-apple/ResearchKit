@@ -279,18 +279,6 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen3]) {
                 return ORKHeadphoneTypeIdentifierAirPodsGen3;
             }
-            if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen4E]) {
-                return ORKHeadphoneTypeIdentifierAirPodsGen4E;
-            }
-            if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen4M]) {
-                return ORKHeadphoneTypeIdentifierAirPodsGen4M;
-            }
-            if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen4CHE] ) {
-                return ORKHeadphoneTypeIdentifierAirPodsGen4CHE;
-            }
-            if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsGen4CHM]) {
-                return ORKHeadphoneTypeIdentifierAirPodsGen4CHM;
-            }
             if ([modelId containsString:ORKHeadphoneVendorAndProductIdIdentifierAirPodsPro]) {
                 return ORKHeadphoneTypeIdentifierAirPodsPro;
             }
@@ -441,15 +429,11 @@ static const double LOW_BATTERY_LEVEL_THRESHOLD_VALUE = 0.1;
 
 - (BOOL)headphoneHasNoiseCancellingFeature {
     ORKHeadphoneTypeIdentifier currentHeadphone = [self getCurrentBTHeadphoneType];
-    return (currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsGen4M ||
-            currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsGen4CHM ||
-            currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsPro ||
+    return (currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsPro ||
             currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsProGen2 ||
             currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsMax ||
             currentHeadphone == ORKHeadphoneTypeIdentifierAirPodsMaxUSBC) &&
-            (_lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsGen4M ||
-             _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsGen4CHM ||
-             _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsPro ||
+            (_lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsPro ||
              _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsProGen2 ||
              _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsMax ||
              _lastDetectedDevice == ORKHeadphoneTypeIdentifierAirPodsMaxUSBC);

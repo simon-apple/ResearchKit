@@ -395,18 +395,6 @@ ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen
 /// AirPods generation 3
 ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen3;
 
-/// AirPods generation 4
-ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen4E;
-
-/// AirPods generation 4 (CH)
-ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen4CHE;
-
-/// AirPods generation 4 ANC
-ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen4M;
-
-/// AirPods generation 4 ANC (CH)
-ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsGen4CHM;
-
 /// AirPods Pro
 ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsPro;
 
@@ -415,10 +403,10 @@ ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsPro
 
 /// AirPods Max
 ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsMax;
-
+#if RK_APPLE_INTERNAL
 /// AirPods Max USBC
 ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierAirPodsMaxUSBC;
-
+#endif
 /// Lightning and Audio Jack Earpods
 ORK_EXTERN ORKHeadphoneTypeIdentifier const ORKHeadphoneTypeIdentifierEarPods;
 

@@ -42,10 +42,6 @@ NSString *const ORKSelectableHeadphoneDetectStepIdentifier = @"HeadphoneDetectSt
 static NSString *const kAirPodsGen1 = @"AirPods Gen 1";
 static NSString *const kAirPodsGen2 = @"AirPods Gen 2";
 static NSString *const kAirPodsGen3 = @"AirPods Gen 3";
-static NSString *const kAirPodsGen4E = @"AirPods Gen 4 Economic";
-static NSString *const kAirPodsGen4CHE = @"AirPods Gen 4 Economic (CH)";
-static NSString *const kAirPodsGen4M = @"AirPods Gen 4 withANC";
-static NSString *const kAirPodsGen4CHM = @"AirPods Gen 4 withANC (CH)";
 static NSString *const kAirPodsProGen1 = @"AirPods Pro Gen 1";
 static NSString *const kAirPodsProGen2 = @"AirPods Pro Gen 2";
 static NSString *const kAirPodsMax = @"AirPods Max";
@@ -71,10 +67,6 @@ static NSString *const kEarPods = @"EarPods";
     NSArray *textChoices = @[ [ORKTextChoice choiceWithText:kAirPodsGen1        value:ORKHeadphoneTypeIdentifierAirPodsGen1],
                               [ORKTextChoice choiceWithText:kAirPodsGen2        value:ORKHeadphoneTypeIdentifierAirPodsGen2],
                               [ORKTextChoice choiceWithText:kAirPodsGen3        value:ORKHeadphoneTypeIdentifierAirPodsGen3],
-                              [ORKTextChoice choiceWithText:kAirPodsGen4E        value:ORKHeadphoneTypeIdentifierAirPodsGen4E],
-                              [ORKTextChoice choiceWithText:kAirPodsGen4CHE        value:ORKHeadphoneTypeIdentifierAirPodsGen4CHE],
-                              [ORKTextChoice choiceWithText:kAirPodsGen4M        value:ORKHeadphoneTypeIdentifierAirPodsGen4M],
-                              [ORKTextChoice choiceWithText:kAirPodsGen4CHM        value:ORKHeadphoneTypeIdentifierAirPodsGen4CHM],
                               [ORKTextChoice choiceWithText:kAirPodsProGen1     value:ORKHeadphoneTypeIdentifierAirPodsPro],
                               [ORKTextChoice choiceWithText:kAirPodsProGen2     value:ORKHeadphoneTypeIdentifierAirPodsProGen2],
                               [ORKTextChoice choiceWithText:kAirPodsMax         value:ORKHeadphoneTypeIdentifierAirPodsMax],
@@ -136,10 +128,6 @@ static NSString *const kEarPods = @"EarPods";
         ORKHeadphoneTypeIdentifierAirPodsGen1:      ORKILocalizedString(@"HEADPHONE_DETECT_TEXT_AIRPODSGEN1", nil),
         ORKHeadphoneTypeIdentifierAirPodsGen2:      ORKILocalizedString(@"HEADPHONE_DETECT_TEXT_AIRPODSGEN2", nil),
         ORKHeadphoneTypeIdentifierAirPodsGen3:      ORKILocalizedString(@"HEADPHONE_DETECT_TEXT_AIRPODSGEN3", nil),
-        ORKHeadphoneTypeIdentifierAirPodsGen4E:     ORKILocalizedString(@"HEADPHONE_DETECT_TEXT_AIRPODSGEN4E", nil),
-        ORKHeadphoneTypeIdentifierAirPodsGen4CHE:   ORKILocalizedString(@"HEADPHONE_DETECT_TEXT_AIRPODSGEN4CHE", nil),
-        ORKHeadphoneTypeIdentifierAirPodsGen4M:     ORKILocalizedString(@"HEADPHONE_DETECT_TEXT_AIRPODSGEN4M", nil),
-        ORKHeadphoneTypeIdentifierAirPodsGen4CHM:   ORKILocalizedString(@"HEADPHONE_DETECT_TEXT_AIRPODSGEN4CHM", nil),
         ORKHeadphoneTypeIdentifierAirPodsPro:       ORKILocalizedString(@"HEADPHONE_DETECT_TEXT_AIRPODSPRO1", nil),
         ORKHeadphoneTypeIdentifierAirPodsProGen2:   ORKILocalizedString(@"HEADPHONE_DETECT_TEXT_AIRPODSPRO2", nil),
         ORKHeadphoneTypeIdentifierAirPodsMax:       ORKILocalizedString(@"HEADPHONE_DETECT_TEXT_AIRPODSMAX", nil),

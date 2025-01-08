@@ -64,8 +64,6 @@
 "CONTEXT_MICROPHONE_REQUIRED_TITLE" = "This Test Requires Access To The Microphone";
 "CONTEXT_MICROPHONE_REQUIRED_TEXT" = "You can take the task again when you give access.";
 "TINNITUS_ALERT_TEXT_AIRPODS" = "To resume, securely wear your AirPods, make sure they’re connected, and turn off SharePlay.";
-"TINNITUS_ALERT_TEXT_AIRPODS4E" = "To resume, securely wear your AirPods, make sure they’re connected, and turn off SharePlay.";
-"TINNITUS_ALERT_TEXT_AIRPODS4M" = "To resume, securely wear your AirPods, make sure they’re connected, and turn off SharePlay.";
 "TINNITUS_ALERT_TEXT_AIRPODSPRO" = "To resume, securely wear your AirPods Pro and make sure they’re connected. Turn on Noise Cancelling and turn off SharePlay.";
 "TINNITUS_ALERT_TEXT_AIRPODSMAX" = "To resume, securely wear your AirPods Max and make sure they’re connected. Turn on Noise Cancelling and turn off SharePlay.";
 "TINNITUS_ALERT_TEXT_EARPODS" = "To resume, securely wear your EarPods and make sure they’re connected.";
@@ -155,7 +153,6 @@
 "AIRPODSMAX_NOT_CONNECTED" = "Not Connected";
 "EARPODS_NOT_CONNECTED" = "Not Connected";
 "HEADPHONE_CONNECTED_AIRPODS" = "Connected - AirPods";
-"HEADPHONE_CONNECTED_AIRPODS4" = "Connected - AirPods";
 "HEADPHONE_CONNECTED_AIRPODSPRO" = "Connected - AirPods Pro";
 "HEADPHONE_CONNECTED_AIRPODSMAX" = "Connected - AirPods Max";
 "HEADPHONE_CONNECTED_EARPODS" = "Connected - EarPods";
@@ -166,16 +163,10 @@
 "HEADPHONE_DETECT_TEXT_AIRPODSGEN1" = "To ensure accurate results, please connect you Apple AirPods (1st generation).";
 "HEADPHONE_DETECT_TEXT_AIRPODSGEN2" = "To ensure accurate results, please connect you Apple AirPods (2nd generation).";
 "HEADPHONE_DETECT_TEXT_AIRPODSGEN3" = "To ensure accurate results, please connect you Apple AirPods (3rd generation).";
-"HEADPHONE_DETECT_TEXT_AIRPODSGEN4E" = "To ensure accurate results, please connect you Apple AirPods 4 Economic.";
-"HEADPHONE_DETECT_TEXT_AIRPODSGEN4CHE" = "To ensure accurate results, please connect you Apple AirPods 4 Economic (CH).";
-"HEADPHONE_DETECT_TEXT_AIRPODSGEN4M" = "To ensure accurate results, please connect you Apple AirPods 4 with ANC.";
-"HEADPHONE_DETECT_TEXT_AIRPODSGEN4CHM" = "To ensure accurate results, please connect you Apple AirPods 4 with ANC (CH).";
 "HEADPHONE_DETECT_TEXT_AIRPODSPRO1" = "To ensure accurate results, please connect you Apple AirPods Pro (1st generation).";
 "HEADPHONE_DETECT_TEXT_AIRPODSPRO2" = "To ensure accurate results, please connect you Apple AirPods Pro (2nd generation).";
 "HEADPHONE_DETECT_TEXT_AIRPODSMAX" = "To ensure accurate results, please connect you Apple AirPods Max.";
 "HEADPHONE_DETECT_TEXT_EARPODS" = "To ensure accurate results, please connect you Apple EarPods.";
-"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODS4M" = "Swipe down from the top-right corner of your screen to open Control Center, touch and hold the volume control, and turn on Noise Cancellation.";
-"NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_BELOW_AIRPODS4M" = "Swipe up from the bottom edge of the screen to open Control Center, touch and hold the volume control, and turn on Noise Cancellation.";
 "NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODSPRO" = "Swipe down from the top-right corner of your screen to open Control Center, touch and hold the volume control, and turn on Noise Cancellation.";
 "NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_BELOW_AIRPODSPRO" = "Swipe up from the bottom edge of the screen to open Control Center, touch and hold the volume control, and turn on Noise Cancellation.";
 "NOISE_CANCELLATION_EXPLANATION_CONTROLCENTER_ATOP_AIRPODSMAX" = "Swipe down from the top-right corner of your screen to open Control Center, touch and hold the volume control, and turn on Noise Cancellation.";
