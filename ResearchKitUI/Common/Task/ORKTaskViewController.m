@@ -723,22 +723,12 @@ static NSString *const _ChildNavigationControllerRestorationKey = @"childNavigat
 - (NSArray *)managedResultsArray {
     NSMutableArray *results = [NSMutableArray new];
         
-    if ([_task isKindOfClass:[ORKOrderedTask class]]) {
-        ORKOrderedTask *orderedTask = (ORKOrderedTask *)_task;
-        for (ORKStep *step in orderedTask.steps) {
-            ORKResult *result = _managedResults[step.identifier];
-            if (result) {
-                [results addObject:result];
-            }
-        }
-    } else {
-        [_managedStepIdentifiers enumerateObjectsUsingBlock:^(NSString *identifier, NSUInteger idx, BOOL *stop) {
-            id <NSCopying> key = identifier;
-            ORKResult *result = _managedResults[key];
-            NSAssert(result, @"Result should not be nil for identifier %@ with key %@", identifier, key);
-            [results addObject:result];
-        }];
-    }
+    [_managedStepIdentifiers enumerateObjectsUsingBlock:^(NSString *identifier, NSUInteger idx, BOOL *stop) {
+        id <NSCopying> key = identifier;
+        ORKResult *result = _managedResults[key];
+        NSAssert(result, @"Result should not be nil for identifier %@ with key %@", identifier, key);
+        [results addObject:result];
+    }];
     
     return [results copy];
 }
